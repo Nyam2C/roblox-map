@@ -17,9 +17,17 @@ jobs:
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           version: "0.11.28"
+      - name: Resolve capture.py's inline dependencies (tests/test_versions.py checks the pins cover all of them)
+        run: uv export --script src/capture.py --no-hashes --no-annotate --no-header > "$RUNNER_TEMP/capture-resolved.txt"
       - name: Tests (Hypothesis seed is the run number, so a failure can be replayed)
+        env:
+          CAPTURE_RESOLVED: ${{ runner.temp }}/capture-resolved.txt
         run: |
           echo "Hypothesis seed: ${{ github.run_number }}"
           uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ --hypothesis-seed=${{ github.run_number }}
-      - name: Dependency audit
-        run: uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r tests/requirements.txt
+      - name: Dependency audit (test requirements, then capture.py's pinned set)
+        run: |
+          uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r tests/requirements.txt
+          uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r "$RUNNER_TEMP/capture-resolved.txt" --no-deps --disable-pip
+      - name: capture.py self-check (installs the lean set and imports it; never calls Naver)
+        run: uv run src/capture.py --selftest
