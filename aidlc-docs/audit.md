@@ -570,3 +570,28 @@
 **Context**: CONSTRUCTION - U2 Functional Design, Step 6-7 gate.
 
 ---
+
+## U2 Functional Design - Approval
+**Timestamp**: 2026-10-12T20:25:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - 승인하면 U2 NFR Requirements로 넘어갑니다."
+**User Response**: "ㄱㄱ U2 승인하고 NFR 시작해"
+**Status**: Approved
+**Context**: U2 Functional Design approved. Starting U2 NFR Requirements (applied on top of the U1 and U3 decisions, performance criteria added).
+
+---
+
+## U2 NFR Requirements - Plan and Questions Issued
+**Timestamp**: 2026-10-12T20:55:00Z (approx.)
+**User Input**: "ㄱㄱ U2 승인하고 NFR 시작해" (logged above as the U2 Functional Design approval)
+**AI Response**: Read the NFR Requirements rules and the U3 NFR plan. Ran feasibility probes in Studio, limited to Workspace.MCP_Test and cleaned up afterwards (MCP_Test back to its two original parts, ServerStorage empty): the yaw convention in BR-1.4 is correct (checked on a real building), a ModuleScript Source can be written and required, a realistic 50-building chunk (3.7 KB) runs in 4.6 ms, Manual-wins and regeneration behave as designed, SpawnLocation defaults to Duration 10 so 0 must be set explicitly, and StreamingEnabled is on in this place. Created aidlc-docs/construction/plans/u2-studio-builder-nfr-requirements-plan.md with the probe results, eleven design defaults (N-U2-1 to N-U2-11, including Luau string escaping against code injection from external data) and four questions with recommendations: performance criterion, streaming, Studio backup, Luau checks in CI. Nothing remains changed in Studio. Waiting for the answers.
+**Context**: CONSTRUCTION - U2 NFR Requirements, Step 3-5 gate (questions in the plan file).
+
+---
+
+## U2 NFR Requirements - Answers Received and Artifacts Generated
+**Timestamp**: 2026-10-12T21:15:00Z (approx.)
+**User Input**: "A A A A 커밋 푸시까지"
+**AI Response**: Recorded Q1=A (walking performance: average 60 FPS or more, momentary minimum 30 FPS or more, no stall over 1 second, measured in the user's Studio play test, first cell at the end of U2 and three cells at the end of U5), Q2=A (turn StreamingEnabled off, set once by Claude at the first generation), Q3=A (the user makes one .rbxl copy before the first generation, then Version History, and copies before big changes from U5 on), Q4=A (no Luau check in CI, Studio verify and S-1 to S-6 instead). No contradictions, no follow-up questions. Generated aidlc-docs/construction/u2-studio-builder/nfr-requirements/{nfr-requirements,tech-stack-decisions}.md: scalability and part budget, performance (Python 5 s, Studio call 1 s, chunk file warning above 10 KB, frame-rate criterion), recovery runbook R-10 to R-12, security (code-injection guard for external data placed into Luau, delete scope limited to Auto/<cell>, no loadstring), reliability, maintainability (properties P2-1 to P2-9, Builder.verify), usability, Studio MCP use. Extension compliance: Security compliant or N/A with no new exceptions (SECURITY-01 at rest and SECURITY-03 central log stay as the U1 exceptions), Resiliency compliant, PBT-09 unchanged. No new dependencies. No blocking findings. Commit and push authorized by the same message. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U2 NFR Requirements, Step 7-8 gate. NFR Design for U2 is skipped as planned (patterns decided in U1).
+
+---
