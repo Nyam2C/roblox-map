@@ -32,3 +32,13 @@
 ## 다음 유닛에 미치는 영향
 - U3(Playwright)는 자기 스크립트의 인라인 의존성에 `playwright`를 고정해서 추가한다. 브라우저 바이너리 설치 절차는 U3에서 정한다.
 - U2(Studio 생성기)는 `geo.py`의 좌표 변환 함수를 재사용할 수 있다.
+
+## NFR Design에서 추가된 선택
+| 영역 | 선택 | 근거 |
+|---|---|---|
+| 로그 형식 | 파일은 JSON 한 줄(`.jsonl`), 콘솔은 사람이 읽는 요약 | Q8=B, D-N5 |
+| 설정 | `config.toml`을 표준 `tomllib`으로 읽음(Python 3.11 이상) | Q9=B, D-N8 |
+| CI | GitHub Actions(`pytest` + `pip-audit`), 쓰는 액션과 `uv` 버전은 고정 | Q2=B, D-N7 |
+| 백업 | `sqlite3` 백업 기능으로 칸 재수집 직전에 복사, 최근 5개 보관 | Q5=B, D-N6 |
+| 공용 도우미 | `src/common.py`(로깅, 설정, 환경변수, HTTP 재시도, 최상위 실행기) | D-N2 |
+
