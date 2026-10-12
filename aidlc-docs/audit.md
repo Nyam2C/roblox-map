@@ -481,3 +481,42 @@
 **Context**: Committing the U3 NFR requirements and starting U3 Code Generation Part 1 (Planning).
 
 ---
+
+## Git - Commits and Push (U3 NFR requirements)
+**Timestamp**: 2026-10-12T17:38:47Z
+**User Input**: (part of "ㄱㄱ ㄱㄱ", logged above)
+**AI Response**: Secret check clean; committed the U3 NFR requirements and the state/audit files (2 commits) and pushed main (40cd034..c1f1a53).
+**Context**: U3 NFR requirements in the repository.
+
+---
+
+## U3 Code Generation - Plan Presented
+**Timestamp**: 2026-10-12T17:38:47Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Created aidlc-docs/construction/plans/u3-street-view-capture-code-generation-plan.md: 10 numbered steps. Step 1 is a pre-check experiment (cube map face order and what heading means, checked visually, result written to a layout notes document); then config and dependencies, projection.py with tests, the panorama_source.py adapter, capture.py with tests, CI and version checks, documentation, and post-generation checks. Real Naver calls, the first-cell run, storage measurement and the visual check of crops are left to Build and Test. Approval prompt: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u3-street-view-capture-code-generation-plan.md. Ready to proceed to generation?"
+**Context**: CONSTRUCTION - U3 Code Generation Part 1, Step 6 gate.
+
+---
+## U3 Code Generation - Plan Approval
+**Timestamp**: 2026-10-13T09:00:00Z
+**AI Prompt**: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u3-street-view-capture-code-generation-plan.md. Ready to proceed to generation?" (re-asked in a new session through a question dialog because the opening message "작업 이어서 ㄱㄱ" did not name the plan gate)
+**User Response**: "승인, 진행 (Recommended)" (selected option: approve the plan as written and start at step 1)
+**Status**: Approved
+**Context**: CONSTRUCTION - U3 Code Generation Part 1 complete, starting Part 2 (Generation) at plan step 1.
+
+---
+## U3 Code Generation - Generated
+**Timestamp**: 2026-10-13T11:00:00Z
+**User Input**: (none, execution of the approved plan)
+**AI Response**: Executed the 10 plan steps. Step 1 experiment: downloaded 3 panoramas (zoom 1) and found (a) the strip is front, right, back, left, up, down; (b) the by-id heading is 180 degrees off the front face (checked by overlaying building outlines and by sign text; the nearby-endpoint heading is the front); (c) up and down face orientations by seam continuity. Created src/projection.py, src/panorama_source.py, src/capture.py, tests/test_projection.py, tests/test_capture.py, layout-notes.md and code-summary.md; modified src/db.py, src/common.py, config.toml, tests/generators.py, tests/test_db.py, tests/test_common.py, tests/test_versions.py, tests/requirements.txt, .github/workflows/ci.yml and CLAUDE.md (also corrected its stale U1 status). 148 tests pass with seeds 1, 7, 42, 2026, 99999; six deliberate code mutations were all caught by the tests. The adapter was tried once against the real Naver (nearby lookup, three metadata calls, one download, one bad id). Deviations from the plan: heading +180 and 3D-only usable panoramas; pyexiv2 stub needs ImageData; download_strip instead of download_faces; 22 pinned packages (h3 added) and requires-python >=3.13 (found by uv export: numpy 2.5.4 needs 3.12+, 3.12 pulls an unpinned typing-extensions); CI also compares the resolved set with the pins. Post-generation checks: all files compile, no secret values in files or git history, no duplicate files. Real capture of the first cell, storage measurement and the visual check of crops are left to Build and Test. Presented the completion message.
+**Context**: CONSTRUCTION - U3 Code Generation Part 2, Step 14-15 gate.
+
+---
+## U3 Code Generation - Approval
+**Timestamp**: 2026-10-13T11:30:00Z
+**AI Prompt**: "Continue to Next Stage - Approve code generation and proceed to U3 Build and Test", plus "승인하시면 커밋과 푸시도 같이 진행할지 알려 주세요."
+**User Response**: "ㄱㄱ 커밋 푸시까지"
+**Status**: Approved, commit and push authorized
+**Context**: U3 code generation is complete. Committing the U3 code, CI changes and documents, pushing main, then starting U3 Build and Test.
+
+---
