@@ -28,15 +28,14 @@
 | `fetch_street_features(cell_id: CellId) -> list[StreetFeature]` | 칸 ID → 도로·가로시설 | 도로, 보행로, 횡단보도, 그리고 OSM에 있는 나무·가로등·벤치를 받는다. 도로 폭은 정하지 않는다 |
 | `run(res: int, points: list[LatLon] \| None, cells: list[CellId] \| None) -> None` | 입력 → 없음 | 위를 순서대로 실행해 DB에 쓴다(명령줄 진입점) |
 
-## C2. 건물 조립·속성 연결기 (`register.py`)
+## C2. 건물 조립기 (`register.py`)
 
 | 메서드 | 입력 → 출력 | 목적 |
 |---|---|---|
-| `fetch_integrated(cell_id: CellId, buffer_m: float) -> list[GisBuilding]` | 칸 ID, 버퍼 → 대장 속성이 붙은 건물 도형 | GIS건물통합정보에서 가져오고 응답을 검증한다. 접근 불가면 `None`을 돌려주고 OSM만으로 조립한다 |
+| `fetch_integrated(cell_id: CellId, buffer_m: float) -> list[GisBuilding]` | 칸 ID, 버퍼 → V-World 건물 | V-World 건물통합정보를 `total`만큼 페이지를 넘겨 받고 응답을 검증한다. 일부라도 못 받으면 오류 |
 | `overlap_ratio(a: Outline, b: Outline) -> float` | 두 외곽선 → 0~1 | 겹치는 면적 ÷ 작은 쪽 면적 |
-| `assemble(osm: list[OsmBuilding], gis: list[GisBuilding] \| None) -> Assembly` | 두 목록 → 건물 목록과 속성 연결 | OSM 우선, GIS 둘 이상이 덮이면 GIS로 대체, 겹치지 않는 GIS는 독립 건물로 추가한다(U1 Business Rules 4장) |
-| `fetch_title_info(plat: PlatKey) -> RegisterRecord \| None` | 법정동코드와 번지 → 대장 | 건축HUB API로 누락이나 빈 필드를 메운다. 키는 환경변수, 호출 상한이 있다 |
-| `run(cell_id: CellId) -> None` | 칸 ID → 없음 | 가져오기, 조립, 보조 조회, DB 저장을 한다 |
+| `assemble(osm: list[OsmBuilding], gis: list[GisBuilding]) -> list[Building]` | 두 목록 → 건물 목록 | V-World 건물이 기본이고 겹치는 OSM의 이름·태그를 붙인다. 겹치지 않는 OSM 건물은 독립 건물로 남긴다(U1 Business Rules 4장) |
+| `run(cell_id: CellId) -> None` | 칸 ID → 없음 | 가져오기, 조립, DB 저장을 한다 |
 
 ## C3. 거리뷰 캡처기 (`capture.py`)
 

@@ -21,15 +21,14 @@
   - Overpass 응답은 쓰기 전에 검증한다(NFR-7)
 - **인터페이스**: 입력은 해상도와 위경도 점들(또는 칸 ID 목록), 출력은 DB의 `cells`, `osm_buildings`, `street_features`
 
-### C2. 건물 조립·속성 연결기 — `register.py`
-- **목적**: OSM과 GIS건물통합정보로 칸의 최종 건물 목록을 조립하고 건축물대장 속성(층수, 높이, 용도)을 붙인다 (Q1=C, Q7=B)
+### C2. 건물 조립기 — `register.py`
+- **목적**: V-World 건물통합정보를 기본 건물로 삼고 OSM 이름·태그를 붙여 칸의 최종 건물 목록을 조립한다 (Q1=B, 2026-10-13 재확인)
 - **책임**:
-  - 칸 범위(버퍼 포함)의 GIS건물통합정보(건물 도형 + 대장 속성)를 `gis_buildings`에 받는다
-  - 겹침 비율로 OSM과 GIS 건물을 이어 `buildings`를 조립한다: OSM 외곽선 우선, GIS 건물이 둘 이상 덮이면 GIS 외곽선으로 대체, OSM에 없는 GIS 건물은 독립 건물로 추가한다. 규칙은 U1 Business Rules 4장
-  - 건축HUB API(`getBrTitleInfo`)는 통합정보에 없는 필드나 누락 건물을 메우는 보조로만 쓴다(D-2)
-  - 응답을 검증하고 인증키는 환경변수로만 읽는다(NFR-7)
-- **인터페이스**: 입력은 칸 ID, 출력은 DB의 `gis_buildings`, `buildings`, `register_matches`
-- **전제**: GIS건물통합정보의 실제 조회 방법은 아직 확인하지 못했다. 안 되면 Q1을 다시 연다(D-1)
+  - 칸 범위(버퍼 포함)의 V-World 건물통합정보(`LT_C_BLDGINFO`: 외곽선, 지상·지하 층수, 높이, 건물명, 용도 코드, 사용승인일)를 페이지를 넘겨 `gis_buildings`에 받는다
+  - V-World 건물을 기본 외곽선으로 쓰고, 겹침 비율로 이어진 OSM 건물의 이름과 태그를 붙여 `buildings`를 만든다. V-World와 겹치지 않는 OSM 건물은 독립 건물로 남긴다. 규칙은 U1 Business Rules 4장
+  - 응답을 검증하고 인증키(`VWORLD_KEY`)는 환경변수로만 읽는다(NFR-7)
+- **인터페이스**: 입력은 칸 ID, 출력은 DB의 `gis_buildings`, `buildings`
+- **확인됨**: V-World 데이터 API로 호출이 되고 외곽선, 층수, 높이를 받는다(2026-10-13 시험). 호출이 실패하면 그 칸은 저장하지 않는다(필수 원천)
 
 ### C3. 거리뷰 캡처기 — `capture.py`
 - **목적**: 칸별로 거리뷰 360도 사진을 수집한다 (Q6=C, FR-8)
@@ -75,7 +74,7 @@
   - 스키마 생성과 마이그레이션, 칸 단위 upsert
   - 건물별 최종값을 합치는 함수(보정 > 판단 > 대장 > 기본값, 순서 세부는 Functional Design)
   - 보정 테이블은 다른 테이블 재생성과 분리해서 다룬다
-- **주요 테이블**: `cells`, `osm_buildings`, `gis_buildings`, `buildings`, `street_features`, `register_matches`, `collection_runs`, `captures`, `estimates`, `overrides` (U1 테이블 정의는 `construction/u1-data-foundation/functional-design/domain-entities.md`)
+- **주요 테이블**: `cells`, `osm_buildings`, `gis_buildings`, `buildings`, `street_features`, `collection_runs`, `captures`, `estimates`, `overrides` (U1 테이블 정의는 `construction/u1-data-foundation/functional-design/domain-entities.md`)
 - **파일 위치**: `data/map.db`(git 제외)
 
 ## Studio 쪽 구조 (Q5=A)

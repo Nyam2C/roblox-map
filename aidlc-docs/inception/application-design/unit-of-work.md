@@ -17,11 +17,11 @@ U1 데이터 기반 -> U3 거리뷰 캡처 -> U2 Studio 생성기 -> U4 판단·
 
 ### U1. 데이터 기반
 - **컴포넌트**: C7 `db.py`, C1 `cells.py`(DB 전환, 도로·가로시설 수집 추가), C2 `register.py`
-- **책임**: SQLite 스키마, OSM 건물·도로·가로시설 수집, GIS건물통합정보와 OSM 건물 매칭
-- **첫 작업**: GIS건물통합정보를 실제로 받아 매칭이 되는지 시험한다(D-1). 안 되면 Application Design Q1을 다시 연다
+- **책임**: SQLite 스키마, OSM 이름·태그와 도로·가로시설 수집, V-World 건물통합정보 수집, V-World 건물에 OSM 이름·태그 붙이기
+- **첫 작업**: V-World 건물통합정보를 페이지를 넘겨 받고 OSM 이름·태그를 붙이는 것이 첫 칸에서 되는지 확인한다(시험 호출은 2026-10-13에 성공)
 - **완료 기준**: 첫 칸의 건물, 도로, 가로시설, 대장 매칭이 DB에 있고 같은 입력으로 다시 돌려도 같은 결과가 나온다
-- **Functional Design 대상(순수 로직)**: `assign_cell`, `match`, 층수·높이 필드 정규화
-- **전제**: 인증키는 `.env`(`DATA_GO_KR_KEY`)
+- **Functional Design 대상(순수 로직)**: `assign_cell`, `assemble`, 층수·높이 필드 정규화
+- **전제**: 인증키는 `.env`(`VWORLD_KEY`)
 
 ### U3. 거리뷰 캡처
 - **컴포넌트**: C3 `capture.py`
@@ -44,7 +44,7 @@ U1 데이터 기반 -> U3 거리뷰 캡처 -> U2 Studio 생성기 -> U4 판단·
 - **책임**: 층수·높이·외관 판단과 근거 기록, 보정 관리, 보정 내보내기·복구, 사용자와 Claude의 확인 루프(S4)
 - **완료 기준**: 첫 칸 건물마다 층수·높이·외관과 근거가 있고, 사용자와 Claude가 Studio에서 같이 보고 현실 스케일에 맞는다고 확인했다. 보정은 `overrides/<칸ID>.json`에 있다
 - **Functional Design 대상**: `effective_building`(보정 > 판단 > 대장 > 기본값), `height_from_floors`, 대장과 사진이 어긋날 때의 판정
-- **의존**: U1의 `register_matches`, U3의 `captures`, U2(결과를 Studio에서 확인)
+- **의존**: U1의 `buildings`(V-World 층수·높이 포함), U3의 `captures`, U2(결과를 Studio에서 확인)
 
 ### U5. 디테일
 - **컴포넌트**: C6 확장

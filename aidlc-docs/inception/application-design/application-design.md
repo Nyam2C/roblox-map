@@ -6,7 +6,7 @@
 
 | 질문 | 답 | 반영 |
 |---|---|---|
-| Q1 건물-대장 연결 | C GIS건물통합정보 도형을 OSM 건물과 겹침 매칭 | C2 |
+| Q1 건물-대장 연결 | C였으나 V-World 시험 후 B로 단순화: V-World 건물통합정보를 기본 건물로, OSM은 이름·태그만 붙인다 | C2 |
 | Q2 코드 구조 | A 역할별 스크립트 | C1~C7 |
 | Q3 + Q7 데이터 | C SQLite 하나가 중심, `cells.py`도 DB에 쓴다 | C7 |
 | Q4 Studio 생성 | B Studio에 ModuleScript를 넣고 데이터를 넘긴다 | C6 |
@@ -14,7 +14,7 @@
 | Q6 캡처 | C 칸마다 지점을 정해 360도 파노라마를 찍고 칸별로 저장·재사용 | C3 |
 | Q8 DB 보호 | B DB는 git 제외, 보정 테이블만 JSON으로 내보내 git에 올린다 | C5 |
 
-설계 기본값(사용자가 이의를 달지 않음): D-1 통합정보가 시험에서 안 되면 Q1을 다시 연다 / D-2 건축HUB API는 보조 / D-3 Luau 모듈 소스는 저장소의 `studio/` / D-4 사진 없는 건물은 대장 값과 사용자 확인 / D-5 사진은 `captures/<칸ID>/<지점ID>/`에 칸별 저장.
+설계 기본값(사용자가 이의를 달지 않음): D-3 Luau 모듈 소스는 저장소의 `studio/` / D-4 사진 없는 건물은 V-World 층수와 사용자 확인 / D-5 사진은 `captures/<칸ID>/<지점ID>/`에 칸별 저장. (D-1은 V-World 시험으로 해결됐고 D-2 건축HUB 보조는 U1에서 제외했다)
 
 ## Functional Design으로 넘기는 테스트 속성 후보 (PBT-01 준비)
 - 좌표 변환(`to_studs`)과 역변환의 왕복이 오차 한계 안에서 같다
@@ -51,15 +51,14 @@
   - Overpass 응답은 쓰기 전에 검증한다(NFR-7)
 - **인터페이스**: 입력은 해상도와 위경도 점들(또는 칸 ID 목록), 출력은 DB의 `cells`, `osm_buildings`, `street_features`
 
-#### C2. 건물 조립·속성 연결기 — `register.py`
-- **목적**: OSM과 GIS건물통합정보로 칸의 최종 건물 목록을 조립하고 건축물대장 속성(층수, 높이, 용도)을 붙인다 (Q1=C, Q7=B)
+### C2. 건물 조립기 — `register.py`
+- **목적**: V-World 건물통합정보를 기본 건물로 삼고 OSM 이름·태그를 붙여 칸의 최종 건물 목록을 조립한다 (Q1=B, 2026-10-13 재확인)
 - **책임**:
-  - 칸 범위(버퍼 포함)의 GIS건물통합정보(건물 도형 + 대장 속성)를 `gis_buildings`에 받는다
-  - 겹침 비율로 OSM과 GIS 건물을 이어 `buildings`를 조립한다: OSM 외곽선 우선, GIS 건물이 둘 이상 덮이면 GIS 외곽선으로 대체, OSM에 없는 GIS 건물은 독립 건물로 추가한다. 규칙은 U1 Business Rules 4장
-  - 건축HUB API(`getBrTitleInfo`)는 통합정보에 없는 필드나 누락 건물을 메우는 보조로만 쓴다(D-2)
-  - 응답을 검증하고 인증키는 환경변수로만 읽는다(NFR-7)
-- **인터페이스**: 입력은 칸 ID, 출력은 DB의 `gis_buildings`, `buildings`, `register_matches`
-- **전제**: GIS건물통합정보의 실제 조회 방법은 아직 확인하지 못했다. 안 되면 Q1을 다시 연다(D-1)
+  - 칸 범위(버퍼 포함)의 V-World 건물통합정보(`LT_C_BLDGINFO`: 외곽선, 지상·지하 층수, 높이, 건물명, 용도 코드, 사용승인일)를 페이지를 넘겨 `gis_buildings`에 받는다
+  - V-World 건물을 기본 외곽선으로 쓰고, 겹침 비율로 이어진 OSM 건물의 이름과 태그를 붙여 `buildings`를 만든다. V-World와 겹치지 않는 OSM 건물은 독립 건물로 남긴다. 규칙은 U1 Business Rules 4장
+  - 응답을 검증하고 인증키(`VWORLD_KEY`)는 환경변수로만 읽는다(NFR-7)
+- **인터페이스**: 입력은 칸 ID, 출력은 DB의 `gis_buildings`, `buildings`
+- **확인됨**: V-World 데이터 API로 호출이 되고 외곽선, 층수, 높이를 받는다(2026-10-13 시험). 호출이 실패하면 그 칸은 저장하지 않는다(필수 원천)
 
 #### C3. 거리뷰 캡처기 — `capture.py`
 - **목적**: 칸별로 거리뷰 360도 사진을 수집한다 (Q6=C, FR-8)
@@ -105,7 +104,7 @@
   - 스키마 생성과 마이그레이션, 칸 단위 upsert
   - 건물별 최종값을 합치는 함수(보정 > 판단 > 대장 > 기본값, 순서 세부는 Functional Design)
   - 보정 테이블은 다른 테이블 재생성과 분리해서 다룬다
-- **주요 테이블**: `cells`, `osm_buildings`, `gis_buildings`, `buildings`, `street_features`, `register_matches`, `collection_runs`, `captures`, `estimates`, `overrides` (U1 테이블 정의는 `construction/u1-data-foundation/functional-design/domain-entities.md`)
+- **주요 테이블**: `cells`, `osm_buildings`, `gis_buildings`, `buildings`, `street_features`, `collection_runs`, `captures`, `estimates`, `overrides` (U1 테이블 정의는 `construction/u1-data-foundation/functional-design/domain-entities.md`)
 - **파일 위치**: `data/map.db`(git 제외)
 
 ### Studio 쪽 구조 (Q5=A)
@@ -160,15 +159,14 @@ Workspace
 | `fetch_street_features(cell_id: CellId) -> list[StreetFeature]` | 칸 ID → 도로·가로시설 | 도로, 보행로, 횡단보도, 그리고 OSM에 있는 나무·가로등·벤치를 받는다. 도로 폭은 정하지 않는다 |
 | `run(res: int, points: list[LatLon] \| None, cells: list[CellId] \| None) -> None` | 입력 → 없음 | 위를 순서대로 실행해 DB에 쓴다(명령줄 진입점) |
 
-### C2. 건물 조립·속성 연결기 (`register.py`)
+## C2. 건물 조립기 (`register.py`)
 
 | 메서드 | 입력 → 출력 | 목적 |
 |---|---|---|
-| `fetch_integrated(cell_id: CellId, buffer_m: float) -> list[GisBuilding]` | 칸 ID, 버퍼 → 대장 속성이 붙은 건물 도형 | GIS건물통합정보에서 가져오고 응답을 검증한다. 접근 불가면 `None`을 돌려주고 OSM만으로 조립한다 |
+| `fetch_integrated(cell_id: CellId, buffer_m: float) -> list[GisBuilding]` | 칸 ID, 버퍼 → V-World 건물 | V-World 건물통합정보를 `total`만큼 페이지를 넘겨 받고 응답을 검증한다. 일부라도 못 받으면 오류 |
 | `overlap_ratio(a: Outline, b: Outline) -> float` | 두 외곽선 → 0~1 | 겹치는 면적 ÷ 작은 쪽 면적 |
-| `assemble(osm: list[OsmBuilding], gis: list[GisBuilding] \| None) -> Assembly` | 두 목록 → 건물 목록과 속성 연결 | OSM 우선, GIS 둘 이상이 덮이면 GIS로 대체, 겹치지 않는 GIS는 독립 건물로 추가한다(U1 Business Rules 4장) |
-| `fetch_title_info(plat: PlatKey) -> RegisterRecord \| None` | 법정동코드와 번지 → 대장 | 건축HUB API로 누락이나 빈 필드를 메운다. 키는 환경변수, 호출 상한이 있다 |
-| `run(cell_id: CellId) -> None` | 칸 ID → 없음 | 가져오기, 조립, 보조 조회, DB 저장을 한다 |
+| `assemble(osm: list[OsmBuilding], gis: list[GisBuilding]) -> list[Building]` | 두 목록 → 건물 목록 | V-World 건물이 기본이고 겹치는 OSM의 이름·태그를 붙인다. 겹치지 않는 OSM 건물은 독립 건물로 남긴다(U1 Business Rules 4장) |
+| `run(cell_id: CellId) -> None` | 칸 ID → 없음 | 가져오기, 조립, DB 저장을 한다 |
 
 ### C3. 거리뷰 캡처기 (`capture.py`)
 
@@ -269,9 +267,9 @@ S5 보호는 보정이 쌓일 때마다 실행
 | 사용하는 쪽 \ 사용되는 쪽 | C7 데이터 계층 | 외부 |
 |---|---|---|
 | C1 칸 수집기 | 쓰기 (`cells`, `osm_buildings`, `street_features`) | Overpass API |
-| C2 조립·속성 연결기 | 읽기 (`osm_buildings`), 쓰기 (`gis_buildings`, `buildings`, `register_matches`) | GIS건물통합정보, 건축HUB API |
+| C2 건물 조립기 | 읽기 (`osm_buildings`), 쓰기 (`gis_buildings`, `buildings`) | V-World 건물통합정보 |
 | C3 캡처기 | 읽기 (`cells`, `buildings`), 쓰기 (`captures`) | 네이버 거리뷰 (Playwright) |
-| C4 판단 | 읽기 (`buildings`, `register_matches`, `captures`), 쓰기 (`estimates`) | 없음 (사진은 Claude가 본다) |
+| C4 판단 | 읽기 (`buildings`, `captures`), 쓰기 (`estimates`) | 없음 (사진은 Claude가 본다) |
 | C5 보정 관리자 | 읽기·쓰기 (`overrides`) | `overrides/<칸ID>.json` 파일 |
 | C6 Studio 생성기 | 읽기 (최종값 `effective_buildings`, `street_features`) | Studio MCP (Claude 경유) |
 
@@ -280,7 +278,7 @@ S5 보호는 보정이 쌓일 때마다 실행
 ```mermaid
 flowchart TD
     OVP["Overpass API"]
-    GIS["GIS건물통합정보 / 건축HUB API"]
+    GIS["V-World 건물통합정보"]
     NAV["네이버 거리뷰"]
     STU["Roblox Studio (MCP)"]
     CL["Claude 세션 (사진 판단, MCP 호출)"]
@@ -316,7 +314,7 @@ flowchart TD
 
 ```text
 Overpass -> C1 -> DB
-GIS건물통합정보/건축HUB -> C2 -> DB
+V-World 건물통합정보 -> C2 -> DB
 네이버 거리뷰 -> C3 -> DB + captures/
 captures/ -> Claude(사진 판단) -> C4 -> DB
 C5 <-> DB, C5 <-> overrides/*.json (git)
@@ -336,7 +334,7 @@ C1 -> C2 -> C3 -> C4(판단) -> C6 -> C4/C5(비교와 보정) -> C6 ...
 ```
 - C2는 C1이 쓴 `buildings`가 있어야 한다
 - C3은 `buildings`가 있어야 지점을 계획할 수 있다
-- C4는 `register_matches`와 `captures`가 있으면 더 정확하다. 없으면 판단 대기로 남는다
+- C4는 `buildings`(V-World 층수·높이 포함)와 `captures`가 있으면 더 정확하다. 없으면 판단 대기로 남는다
 - C6은 `buildings`만 있어도 박스를 만들 수 있다(층수는 기본값). 판단과 보정이 쌓일수록 정확해진다
 
 ### 순환 의존 점검

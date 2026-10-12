@@ -7,9 +7,9 @@
 | 사용하는 쪽 \ 사용되는 쪽 | C7 데이터 계층 | 외부 |
 |---|---|---|
 | C1 칸 수집기 | 쓰기 (`cells`, `osm_buildings`, `street_features`) | Overpass API |
-| C2 조립·속성 연결기 | 읽기 (`osm_buildings`), 쓰기 (`gis_buildings`, `buildings`, `register_matches`) | GIS건물통합정보, 건축HUB API |
+| C2 건물 조립기 | 읽기 (`osm_buildings`), 쓰기 (`gis_buildings`, `buildings`) | V-World 건물통합정보 |
 | C3 캡처기 | 읽기 (`cells`, `buildings`), 쓰기 (`captures`) | 네이버 거리뷰 (Playwright) |
-| C4 판단 | 읽기 (`buildings`, `register_matches`, `captures`), 쓰기 (`estimates`) | 없음 (사진은 Claude가 본다) |
+| C4 판단 | 읽기 (`buildings`, `captures`), 쓰기 (`estimates`) | 없음 (사진은 Claude가 본다) |
 | C5 보정 관리자 | 읽기·쓰기 (`overrides`) | `overrides/<칸ID>.json` 파일 |
 | C6 Studio 생성기 | 읽기 (최종값 `effective_buildings`, `street_features`) | Studio MCP (Claude 경유) |
 
@@ -18,7 +18,7 @@
 ```mermaid
 flowchart TD
     OVP["Overpass API"]
-    GIS["GIS건물통합정보 / 건축HUB API"]
+    GIS["V-World 건물통합정보"]
     NAV["네이버 거리뷰"]
     STU["Roblox Studio (MCP)"]
     CL["Claude 세션 (사진 판단, MCP 호출)"]
@@ -54,7 +54,7 @@ flowchart TD
 
 ```text
 Overpass -> C1 -> DB
-GIS건물통합정보/건축HUB -> C2 -> DB
+V-World 건물통합정보 -> C2 -> DB
 네이버 거리뷰 -> C3 -> DB + captures/
 captures/ -> Claude(사진 판단) -> C4 -> DB
 C5 <-> DB, C5 <-> overrides/*.json (git)
@@ -74,7 +74,7 @@ C1 -> C2 -> C3 -> C4(판단) -> C6 -> C4/C5(비교와 보정) -> C6 ...
 ```
 - C2는 C1이 쓴 `buildings`가 있어야 한다
 - C3은 `buildings`가 있어야 지점을 계획할 수 있다
-- C4는 `register_matches`와 `captures`가 있으면 더 정확하다. 없으면 판단 대기로 남는다
+- C4는 `buildings`(V-World 층수·높이 포함)와 `captures`가 있으면 더 정확하다. 없으면 판단 대기로 남는다
 - C6은 `buildings`만 있어도 박스를 만들 수 있다(층수는 기본값). 판단과 보정이 쌓일수록 정확해진다
 
 ## 순환 의존 점검
