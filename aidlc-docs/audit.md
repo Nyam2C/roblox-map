@@ -595,3 +595,29 @@
 **Context**: CONSTRUCTION - U2 NFR Requirements, Step 7-8 gate. NFR Design for U2 is skipped as planned (patterns decided in U1).
 
 ---
+
+## U2 NFR Requirements - Approval
+**Timestamp**: 2026-10-12T21:30:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - 승인하면 U2 Code Generation으로 넘어갑니다(NFR Design은 계획대로 건너뜁니다)."
+**User Response**: "ㄱㄱ U2 승인하고 코드 생성 시작해"
+**Status**: Approved
+**Context**: U2 NFR Requirements approved. U2 NFR Design is skipped as planned. Starting U2 Code Generation Part 1 (Planning).
+
+---
+
+## U2 Code Generation - Plan Presented
+**Timestamp**: 2026-10-12T21:45:00Z (approx.)
+**User Input**: "ㄱㄱ U2 승인하고 코드 생성 시작해" (logged above as the U2 NFR Requirements approval)
+**AI Response**: Created aidlc-docs/construction/plans/u2-studio-builder-code-generation-plan.md: 11 numbered steps. Settings and a shared height function moved from projection.py to common.py (so build_luau.py needs no numpy or pillow); layout.py in four parts (coordinates, building boxes, roads and sidewalks, ground, spawn, ordering and chunks) with its property tests P2-1 to P2-9; build_luau.py (database read, Luau text with string escaping against code injection, chunk and manifest files, run record, size warning, --selftest) with its tests; studio/Builder.luau (begin, add, finish, verify) tested only inside Workspace.MCP_Test; version-pin test, CLAUDE.md and code summary; post-generation checks. The real first-cell Studio build, the place settings changes, the scale check, the spawn proposal and the frame-rate measurement are left to Build and Test and need the user's .rbxl copy first. Approval prompt: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u2-studio-builder-code-generation-plan.md. Ready to proceed to generation?"
+**Context**: CONSTRUCTION - U2 Code Generation Part 1, Step 6 gate.
+
+---
+
+## U2 Code Generation - Plan Approval
+**Timestamp**: 2026-10-12T21:55:00Z (approx.)
+**AI Prompt**: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u2-studio-builder-code-generation-plan.md. Ready to proceed to generation?" and the question about commit and push
+**User Response**: "ㄱㄱ 계획 승인하고 커밋 푸시까지"
+**Status**: Approved, commit and push authorized (for this plan commit)
+**Context**: U2 Code Generation Part 1 complete, starting Part 2 (Generation) at plan step 1.
+
+---
