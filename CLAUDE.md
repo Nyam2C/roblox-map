@@ -8,18 +8,21 @@
 
 ## 파이프라인
 
-1. 구역 지정: 위경도 4점 → `cells.py`가 H3 칸으로 채움 (해상도 9 ≈ 변 170m, 10 ≈ 65m)
+1. 구역 지정: 위경도 4점 → `cells.py`가 H3 칸으로 채움 (해상도 9 ≈ 변 200m·넓이 0.105km², 10 ≈ 변 76m)
 2. 칸마다 OpenStreetMap 건물 외곽선·높이를 받아 `cells/<칸ID>.json`에 저장
 3. 칸 하나를 Studio에 건물 박스로 생성 (Roblox Studio MCP 서버로 Luau 실행)
-4. 눈에 띄는 건물만 네이버 거리뷰를 참고해 색, 간판, 지붕을 다듬음
+4. 칸 안 모든 건물을 네이버 거리뷰 자동 캡처(Playwright)로 높이·색·지붕 등을 판단해 다듬음 (사용자 결정, 아래 결정 사항 참고)
 5. 다음 칸으로 반복
 
 ## 결정 사항
 
-- 형태는 데이터(OSM)로, 거리뷰는 외관 참고용으로만 쓴다. 사진을 텍스처로 복사하지 않는다. 네이버지도 약관상 자동 수집이 막혀 있을 수 있으니 확인 전까지 대량 수집 금지.
-- 스킬/하네스를 새로 만들지 않는다. 필요한 건 Roblox Studio MCP 서버(https://github.com/Roblox/studio-rust-mcp-server) 하나. 설치 전 README에서 폐기·대체 여부 확인.
+- 형태는 데이터(OSM)로, 거리뷰는 외관 판단용으로만 쓴다. 사진을 텍스처로 복사하지 않는다(텍스처는 일반 재질로 현실감을 냄).
+- 거리뷰 자동 캡처: 사용자가 칸 안 모든 건물에 대해 Playwright 자동 캡처로 진행하기로 결정(2026-10-12). 네이버지도 약관은 확인하지 않고 진행하기로 사용자가 결정했다(2026-10-13). 약관 위반으로 생길 수 있는 차단 등의 위험은 사용자가 감수한다. 안전장치: 요청 속도 제한 / CAPTCHA·봇 차단이 나오면 우회하지 말고 중단 / 캡처 이미지는 로컬에만 두고 `captures/`로 git 제외(저장소가 public이고 이미지에 사람 얼굴·차량 번호가 있을 수 있음).
+- 스킬/하네스를 새로 만들지 않는다. 필요한 건 **Studio 내장 MCP 서버**(https://create.roblox.com/docs/studio/mcp) 하나. 별도 저장소(`Roblox/studio-rust-mcp-server`)는 2026-04 아카이브되었고 Roblox가 내장 서버를 권장한다.
 - Git은 스크립트와 `aidlc-docs/`만 관리한다(`main` 브랜치). 맵 원본 `.rbxl`은 바이너리라 diff가 안 되므로 `.gitignore`로 제외. 맵 백업은 Studio 클라우드 저장(Version History) + 큰 작업 전 `.rbxl` 복사본. `cells/`는 OSM에서 재생성 가능한 데이터라 제외.
 - 건물은 외곽선 전체가 아니라 단순화한 박스로 시작한다. 비정형 외곽선은 필요한 건물만 나중에.
+- 첫 대상은 부천 심원고등학교(H3 해상도 9 칸 3개). 경험과 데이터가 쌓이면 같은 H3 칸 방식으로 다른 동네로 확장한다(사용자 결정, 2026-10-12).
+- 높이: 층수는 건축물대장(건축HUB) 1순위, 거리뷰로 층수와 비율을 검증, 대장에 없거나 어긋나는 건물만 거리뷰 기하 추정. OSM 높이·층수 태그는 참고로 기록만 한다. 만든 뒤 사용자와 Claude가 같이 보고 현실 스케일에 맞는지 확인해서 보정한다(순서는 AI 추천, 거리뷰 기본으로 되돌릴 수 있음). 건축물대장 API(`getBrTitleInfo`)는 호출 확인함: 층수 `grndFlrCnt`는 쓸 만하고 높이 `heit`는 0일 수 있다. 호출은 법정동코드+번지 단위라 OSM 건물과 연결 방법은 설계에서 정한다. 심원고 건물 포함 여부는 미확인. 인증키는 `.env`(`DATA_GO_KR_KEY`, git 제외)로만 쓴다. 기본 스폰 지점은 학교 정문 앞 도로.
 
 ## 실행
 
@@ -34,19 +37,18 @@ uv run cells.py RES lat,lon lat,lon lat,lon [lat,lon ...]
 ## 현재 상태
 
 - `cells.py` 동작 확인. 서울시청 근처로 임시 테스트: 칸 3개, 건물 128개.
-- 건물 128개 중 height/building:levels 태그가 있는 것은 26개. 나머지는 기본 높이 또는 V-World 등 다른 데이터로 보완 필요(V-World 제공 범위는 미확인).
-- 실제로 만들 동네는 아직 미정. 테스트 위치는 임시다.
-- Roblox Studio 미설치(`/Applications`에 없음). 사용자가 직접 설치해야 함.
+- 건물 128개 중 height/building:levels 태그가 있는 것은 26개(서울시청 테스트 기준). OSM 태그는 부족하므로 건축물대장 층수와 거리뷰로 보완한다.
+- 서울시청 칸은 임시 테스트였다. 실제 대상은 심원고 3칸(`8930e0af13bffff`, `8930e0af123ffff`, `8930e0af12bffff`)이고 아직 데이터를 받지 않았다.
+- Roblox Studio 설치와 내장 MCP 연결 완료, 동작 확인(2026-10-12). `execute_luau`로 생성, `screen_capture`로 캡처가 된다. 열린 장소에 테스트용 `MCP_Test` 폴더가 남아 있다.
+- AI-DLC: Requirements 승인, User Stories 건너뜀, Workflow Planning 계획서(`aidlc-docs/inception/plans/execution-plan.md`) 승인 대기.
 
 ## 다음 할 일
 
-1. 사용자가 만들 동네(4점 또는 장소명) 확정
-2. Studio 설치 후 MCP 서버 연결 (`claude mcp add --transport stdio Roblox_Studio -- <rbx-studio-mcp 경로> --stdio`)
-3. `cells/*.json` 한 칸을 읽어 Studio에 건물 박스로 생성하는 Luau 작성
-4. 높이 없는 건물의 기본 높이 규칙 정하기
-5. 거리뷰가 브라우저 패널에서 실제로 열리고 이동되는지 확인
+1. 실행 계획서 승인 → Application Design → Units Generation → Construction 순서(`aidlc-state.md` 참고)
+2. `cells/*.json` 한 칸을 읽어 Studio에 건물 박스로 생성하는 Luau 작성
+3. 거리뷰가 브라우저 패널에서 실제로 열리고 이동되는지 확인(U1 다음에 바로 시험, 유닛 순서는 U1 → U3 → U2 → U4 → U5)
 
 ## 주의
 
 - MCP 서버는 열린 맵을 읽고 수정할 수 있다. 신뢰하는 클라이언트만 연결하고 큰 작업 전 백업.
-- 이 프로젝트에서 Claude는 Studio 화면을 직접 캡처하지 못한다. 외관 확인은 사용자가 Studio에서 본다.
+- 내장 MCP 서버는 `screen_capture`(뷰포트 캡처), `execute_luau`, `search_game_tree`, `start_stop_play`, `get_console_output` 등을 제공한다. `execute_luau`는 `studio_id`와 `datamodel_type`(Edit)이 필수다. 외관은 Claude가 직접 캡처해서 확인하고, 최종 판단은 사용자가 한다.

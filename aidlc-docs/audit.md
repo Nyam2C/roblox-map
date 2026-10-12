@@ -31,3 +31,211 @@
 **Context**: INCEPTION - Requirements Analysis (paused for setup, state unchanged).
 
 ---
+
+## Requirements Analysis - Answers Received
+**Timestamp**: 2026-10-12 (time not re-read)
+**User Input**: "작성함 ㄱㄱ" (answers are in aidlc-docs/inception/requirements/requirement-verification-questions.md; raw answers: Q1 A, Q2 A, Q3 "A 일단은 부천 심원고등학교", Q4 A, Q5 "C + 텍스처까지 현실감 있게", Q6 D, Q7 C, Q8 A, Q9 B, Q10 A, Q11 A, Q12 "거리뷰에서 자동차랑 거리 비율 봐서 높이 계산 ( 다른것들도 )", Q13 A, Q14 B, Q15 A, Q16 A, Q17 A, Q18 A)
+**AI Response**: Read all answers. Detected 3 contradictions (Q5 vs Q11 texture source; Q11 vs Q12 street-view scope; Q2 vs Q16-18 extension weight) and 1 ambiguity (Q3/Q4: school campus spans 3 res-9 cells). Geocoded Simwon High School via Nominatim (campus approx 175m x 150m). Found and corrected an error in an earlier AI statement: H3 res 9 edge is about 200m, not 170m (CLAUDE.md fixed; the answered question file left untouched). Searched Naver terms: street-view-specific automated-collection clause not confirmed. Created requirement-clarification-questions.md (4 questions).
+**Context**: INCEPTION - Requirements Analysis, clarification loop. Extension configuration NOT yet recorded (pending Contradiction 3). Reverse Engineering: SKIP per Q1 A.
+
+---
+
+## Requirements Analysis - Clarification Answers Received
+**Timestamp**: 2026-10-12T13:34:17Z
+**User Input**: "작성함 ㄱㄱ" (answers in requirement-clarification-questions.md; raw answers: CQ1 "B", CQ2 " A", CQ3 "A playwright를 통해 ai가 360도 캡처를 해서 그걸 통해 ㄱㄱ 걍 해 ", CQ4 " A")
+**AI Response**: Resolved all 4 items: CQ1=B (3 res-9 cells covering the campus, Q4 becomes 3 cells), CQ2=A (generic material textures, street view as reference only), CQ3=A (all buildings in the cells measured via AI-driven Playwright 360 capture, per user decision), CQ4=A (Security, Resiliency, PBT all enabled; Extension Configuration recorded in aidlc-state.md). Read RESILIENCY-02: it requires asking the RTO/RPO question before finalizing requirements, so created requirement-resiliency-questions.md (1 question). Safeguards recorded in CLAUDE.md because Naver street-view terms remain unverified: rate limiting, stop on CAPTCHA/bot blocking (no bypass), keep captures local and git-ignored (public repo), read the original terms as the first Construction task.
+**Context**: INCEPTION - Requirements Analysis, final gate before requirements.md. Full extension rule files loaded: resiliency (read relevant part), security and PBT (stage obligations scanned; full read deferred to the stages where they apply).
+
+---
+
+## Requirements Analysis - RESILIENCY-02 Answer and Requirements Generated
+**Timestamp**: 2026-10-12T13:52:07Z
+**User Input**: "작성함 ㄱㄱ" (answer in requirement-resiliency-questions.md: "A")
+**AI Response**: Recorded RTO/RPO = hours, Backup & Restore. Computed the 3 res-9 cells covering the campus (8930e0af13bffff, 8930e0af123ffff, 8930e0af12bffff). Generated aidlc-docs/inception/requirements/requirements.md (13 FR, 9 NFR, workload classification, assumptions A-1..A-6, extension compliance summary). Proposed skipping User Stories (single persona, personal map). Presenting approval prompt.
+**Context**: INCEPTION - Requirements Analysis complete; approval prompt issued, awaiting user response.
+
+---
+
+## Requirements Analysis - Interview Decisions and Approval
+**Timestamp**: 2026-10-12T14:44:36Z
+**User Input (verbatim, in order)**:
+- "지금 상황 확인"
+- "지금 스튜디오에 어시스턴트 통해서 mcp 연결 작업중"
+- "이제 해야하는 과정 설명 좀"
+- "아니 일단 mcp 제대로 되는지 확인 필요 스튜디오에 뭐 만들어봐"
+- "그럼 이제 궁금한거 내가 h6 통해서 지도 구성하라 했나?"
+- "그 지도 오픈소스"
+- "H3"
+- "그러 requirements에서 정해야하는게 뭔데"
+- "나를 인터뷰 해서 정해봐"
+- "일단 심원고를 제대로 만들거 어느정도 경험과 데이터가 쌓이면 확장 그렇기에 H3를 사용해서 계속 확장할 계획"
+- "거리뷰 추정 값 사용후 후에 확인 후 보정"
+- "거리뷰  검토해보고 내와 너가 확인해보고 현실적인 스케일이 맞는지"
+- "yes ㄱㄱ"
+**AI Response**: Verified Studio MCP connection (list_roblox_studios, get_studio_state, execute_luau created MCP_Test folder with a base and a brick box, screen_capture confirmed). Clarified that "H6" appears nowhere in the project (resolution 9 came from the prototype and question text, not an explicit user choice). Ran an interview-me session on the 4 open items. Confirmed restate (final user answer "yes ㄱㄱ"): H3 res 9 kept for later expansion; FR-9 heights = street-view estimate as default, OSM tag as reference only, reviewed together by user and Claude for realistic scale; User Stories skipped; spawn at school front gate road. Updated requirements.md (FR-1, FR-9, FR-13, A-3, A-4, decision history). Note: "OSM tag as reference only" is an AI default the user did not state explicitly.
+**Context**: INCEPTION - Requirements Analysis approved. User Stories SKIP confirmed. MCP_Test folder left in the open Studio place (not removed).
+
+---
+
+## Workflow Planning - Plan Presented
+**Timestamp**: 2026-10-12T14:44:36Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Created aidlc-docs/inception/plans/execution-plan.md. Execute: Application Design (minimal), Units Generation (minimal), Functional Design, NFR Requirements, NFR Design (minimal), Code Generation, Build and Test. Skip: User Stories, Infrastructure Design (no cloud infrastructure, backup handled in NFR Design). Updated aidlc-state.md. Awaiting approval.
+**Context**: INCEPTION - Workflow Planning, Step 9 gate. Extensions: Security N/A, Resiliency compliant, PBT N/A at this stage.
+
+---
+
+## Requirements Change - Building Register Added to FR-9
+**Timestamp**: 2026-10-12T14:55:20Z
+**User Input (verbatim)**:
+- "그럼 다른 현실적인 방법있나 건물  크기 현실적으로 하는데 방법론이라던가"
+- "건축물대장 추가해서 FR-9 고쳐줘"
+**AI Response**: Researched alternatives (building register via data.go.kr 건축HUB, GIS건물통합정보, single-image geometry, deep learning, Mapillary as imagery source). Updated requirements.md: FR-2 (collect building register), FR-9 (floors from register first, street-view verify, street-view estimate as fallback, OSM tag reference only), NFR-7 (API key via environment variable, validate register responses), A-3, A-5, new A-7 (register API fields and coverage unverified, user must apply for the key), decision history. Updated execution-plan.md, CLAUDE.md, aidlc-state.md key decisions. The register-first ordering is an AI recommendation; the user's earlier interview answer was street-view estimate as default. Mapillary noted as optional alternative imagery source, not added to requirements.
+**Context**: INCEPTION - Workflow Planning, plan revised before approval. Awaiting user approval of the execution plan.
+
+---
+
+## Requirements Update - Building Register API Key Issued
+**Timestamp**: 2026-10-12T14:58:10Z
+**User Input**: (screenshot of the data.go.kr 건축HUB 건축물대장 service info page: End Point, JSON+XML format, reference guide zip, and the issued general key; no text message)
+**AI Response**: Did not copy the key anywhere. Added `.env` to .gitignore and created `.env.example` (empty value). Updated A-7 in requirements.md (key issued, stored only in local .env, End Point recorded). Told the user to create .env locally from the clipboard so the key does not pass through chat, and asked before downloading the reference guide zip.
+**Context**: INCEPTION - Workflow Planning, plan still awaiting approval.
+
+---
+
+## Building Register API Key Check
+**Timestamp**: 2026-10-12T14:59:50Z
+**User Input**: ran in the Claude Code shell: cd /Users/taehyeonpark/Desktop/dev/roblox-map && printf 'DATA_GO_KR_KEY=%s\n' "$(pbpaste)" > .env (terminal output looked garbled)
+**AI Response**: Checked .env shape without printing the key (1 line, 96 chars, key-like, git-ignored). Made one read-only test call to getBrTitleInfo with a documentation-style sample address: resultCode 00 NORMAL SERVICE, 34 rows, fields grndFlrCnt and heit present, heit was 0 in the sample. Updated A-7 and CLAUDE.md.
+**Context**: INCEPTION - Workflow Planning, plan still awaiting approval.
+
+---
+
+## Workflow Planning - Approval
+**Timestamp**: 2026-10-12T15:00:54Z
+**AI Prompt**: "승인하고 계속: 승인하면 Application Design으로 넘어간다." (Workflow Planning Step 9 presentation, plan revised for building register)
+**User Input (verbatim)**:
+- "딥러닝 높이는 로컬에서 모델 돌려야 하나?"
+- (screenshot of the data.go.kr key page)
+- "승인 ㄱㄱ"
+**User Response**: "승인 ㄱㄱ"
+**Status**: Approved
+**Context**: Execution plan approved with 7 stages to execute. Moving to Application Design (minimal depth). Question file for design decisions created at aidlc-docs/inception/plans/application-design-plan.md.
+
+---
+
+## Application Design - Questions Issued
+**Timestamp**: 2026-10-12T15:01:20Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Created aidlc-docs/inception/plans/application-design-plan.md with a design checklist, candidate components, and 6 questions (building-to-register matching, code structure, data file layout and manual override preservation, Studio generation method, auto/manual layer structure, street-view capture method). Depth: minimal. Awaiting answers.
+**Context**: INCEPTION - Application Design, Step 6 gate.
+
+---
+
+## Application Design - Answers Received
+**Timestamp**: 2026-10-12T15:07:09Z
+**User Input (verbatim)**: "C , A, C, B, A, C(어차피 칸별로 채울거면 이게 좋을 듯 사진도 그거에 맞게 분리해서 저장 또 쓸수 있으니)"
+**AI Response**: Transcribed answers into application-design-plan.md: Q1=C, Q2=A, Q3=C, Q4=B, Q5=A, Q6=C. Detected a contradiction: Q2=A assumed scripts exchange cell JSON files, Q3=C chose SQLite. Added follow-up Questions 7 and 8 (exchange medium, DB protection). Listed 5 design defaults (D-1 to D-5) for the user to correct: reopen Q1 if GIS integrated building data does not work, keep the 건축HUB API as a supplement, keep the Luau module source in the repo, handle buildings with no photo, store photos per cell under captures/.
+**Context**: INCEPTION - Application Design, Step 8-9 (answer analysis and mandatory follow-up).
+
+---
+
+## Application Design - Follow-up Answers Received
+**Timestamp**: 2026-10-12T15:08:45Z
+**User Input (verbatim)**: "A, B"
+**AI Response**: Q7=A (SQLite DB is the exchange hub, cells.py writes to the DB, no more cells/*.json), Q8=B (DB file excluded from git, manual-override tables exported as text and committed). Contradiction between Q2=A and Q3=C resolved. Defaults D-1 to D-5 were not objected to; they are carried into the design and re-listed in the completion message. Generating the 5 design artifacts.
+**Context**: INCEPTION - Application Design, Step 10.
+
+---
+
+## Application Design - Complete, Approval Requested
+**Timestamp**: 2026-10-12T15:10:04Z
+**User Input**: (none, AI-initiated)
+**AI Response**: Generated aidlc-docs/inception/application-design/{components,component-methods,services,component-dependency,application-design}.md. 7 components (C1 cells.py, C2 register.py, C3 capture.py, C4 estimate.py, C5 overrides.py, C6 build_luau.py + studio/Builder.luau, C7 db.py/SQLite), 5 services as per-cell workflows (no orchestrator script), dependency only through the DB, no cycles. Listed PBT candidate properties for Functional Design. Extension compliance: Security (keys from environment, external responses validated, pinned dependencies) designed in; Resiliency (overrides exported to git, restore procedure in S5) designed in; PBT N/A until Functional Design. Presented completion message and asked for approval.
+**Context**: INCEPTION - Application Design, Step 12 gate.
+
+---
+
+## Application Design - Approval
+**Timestamp**: 2026-10-12T15:11:38Z
+**AI Prompt**: "승인하고 계속: 승인하면 Units Generation으로 넘어간다." (Application Design completion message)
+**User Response**: "승인 ㄱㄱ"
+**Status**: Approved
+**Context**: Application Design approved with 7 components and 5 services. Commit was not requested (user did not answer the commit question). Moving to Units Generation Part 1 (Planning).
+
+---
+
+## Units Generation - Questions Issued
+**Timestamp**: 2026-10-12T15:12:07Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Created aidlc-docs/inception/plans/unit-of-work-plan.md: checklist, draft units U1-U5 plus streetscape, category review (team and deployment categories N/A), and 4 questions (order, streetscape unit, first cell, code layout). Story map will map requirements to units because User Stories was skipped. Awaiting answers.
+**Context**: INCEPTION - Units Generation Part 1, Step 5 gate.
+
+---
+
+## Units Generation - Answers Received
+**Timestamp**: 2026-10-12T15:14:56Z
+**User Input (verbatim)**: "B(네이버 약관은 무시), A, A, B"
+**AI Response**: Transcribed answers into unit-of-work-plan.md: Q1=B (order U1 -> U3 -> U2 -> U4 -> U5), Q2=A (roads and streetscape in U1 collection and U2 generation), Q3=A (first cell 8930e0af13bffff), Q4=B (Python scripts under src/, cells.py moves; studio/, tests/, overrides/, data/ stay at root, AI default). The user decided to ignore the Naver terms of service, so the terms-check step was removed from NFR-4, A-2, the C3 design (check_terms_ack removed), services S3, execution-plan.md and CLAUDE.md. Kept: local-only captures, rate limiting, stop without bypass on CAPTCHA or bot blocking. No contradictions remain among the four answers.
+**Context**: INCEPTION - Units Generation Part 1, Step 7-8 (answer analysis, no follow-up needed). Awaiting approval to proceed to Part 2.
+
+---
+
+## Units Generation - Plan Approval
+**Timestamp**: 2026-10-12T15:18:04Z
+**AI Prompt**: "Unit of work plan complete. Review the plan in aidlc-docs/inception/plans/unit-of-work-plan.md. Ready to proceed to generation?"
+**User Response**: "승인 ㄱㄱ"
+**Status**: Approved
+**Context**: Units Generation Part 1 (Planning) complete.
+
+---
+
+## Units Generation - Artifacts Generated
+**Timestamp**: 2026-10-12T15:18:04Z
+**User Input**: (none, AI-initiated)
+**AI Response**: Generated unit-of-work.md (5 units, order U1 -> U3 -> U2 -> U4 -> U5, code layout with src/, per-unit Construction stages), unit-of-work-dependency.md (matrix, mermaid, fallback points), unit-of-work-story-map.md (FR-1..13 and NFR-1..9 mapped to units). Updated file paths in components.md and application-design.md to src/. Marked plan checklist complete and updated aidlc-state.md. Presented completion message and asked for approval.
+**Context**: INCEPTION - Units Generation Part 2, Step 16 gate.
+
+---
+
+## Units Generation - Approval
+**Timestamp**: 2026-10-12T15:22:06Z
+**AI Prompt**: "승인하고 계속: 승인하면 Construction으로 넘어간다. 첫 단계는 U1의 Functional Design이다." (Units Generation completion message)
+**User Response**: "승인 ㄱㄱ"
+**Status**: Approved
+**Context**: Inception phase complete. Commit question was asked twice and not answered, so nothing was committed. Starting CONSTRUCTION with U1 Functional Design.
+
+---
+
+## U1 Functional Design - Questions Issued
+**Timestamp**: 2026-10-12T15:26:50Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Probed OSM for the three Simwon cells (read-only, scratchpad script): only 8, 5 and 10 building ways (23 total), no tree/lamp/bench/crossing nodes, no building relations, no road width tags. Web search: GIS건물통합정보 (data.go.kr 15123970) needs a separate application (PC only), layer and attribute names unverified. Created aidlc-docs/construction/plans/u1-data-foundation-functional-design-plan.md with the findings, 7 design defaults (F-1 to F-7) and 6 questions (geometry source, matching rule, street furniture, road width, re-run semantics, error handling). The geometry source question exposes that the Application Design assumption (OSM footprints plus attributes) may drop most buildings. Awaiting answers.
+**Context**: CONSTRUCTION - U1 Functional Design, Step 4-5 gate.
+
+---
+
+## U1 Functional Design - Answers Received
+**Timestamp**: 2026-10-12T15:31:48Z
+**User Input (verbatim)**: "C A A B A A"
+**AI Response**: Transcribed answers into the plan: Q1=C (OSM footprints first, fill missing buildings from GIS integrated building data), Q2=A (50% of the smaller area, 1:1 else best overlap only), Q3=A (collect roads, sidewalks, crossings only; street furniture decided in U5), Q4=B (road width decided in U2), Q5=A (delete and re-insert raw data per cell, overrides stay on same building ID, orphans warn), Q6=A (all-or-nothing per cell). Found one ambiguity where Q1=C meets Q2=A (GIS buildings left unlinked but covered by an OSM building), added follow-up Question 7. Added defaults F-8 (proceed with OSM only until GIS access exists, re-run later) and F-9 (all-or-nothing applies to required sources only, the supplementary building-register API failing marks the building instead of failing the cell). Application Design docs (C1, C2 responsibilities, buildings table source column) will be updated when the functional design artifacts are generated.
+**Context**: CONSTRUCTION - U1 Functional Design, Step 5 (answer analysis and mandatory follow-up).
+
+---
+
+## U1 Functional Design - Follow-up Answer and Artifacts Generated
+**Timestamp**: 2026-10-12T15:37:18Z
+**User Input (verbatim)**: "B"
+**AI Response**: Q7=B recorded (an OSM building covered by two or more GIS buildings is replaced by the GIS outlines). Defaults F-1 to F-9 were not objected to and are in the design. Generated aidlc-docs/construction/u1-data-foundation/functional-design/{domain-entities,business-rules,business-logic-model}.md: entities (Cell, OsmBuilding, GisBuilding, StreetFeature, CollectionRun, Building, RegisterMatch), 9 rule groups, 9 testable properties P-1..P-9 (PBT-01), two workflows with mermaid diagrams. Changed the Application Design split: C1 writes raw OSM tables and street features, C2 now also assembles final buildings (renamed to building assembler and attribute linker). Patched components.md, component-methods.md, component-dependency.md and application-design.md accordingly. Extension compliance: PBT-01 compliant (properties listed per component), Security and Resiliency items (key from environment, response validation, transactional per-cell write, orphan reporting) designed in. Presented completion message and asked for approval.
+**Context**: CONSTRUCTION - U1 Functional Design, Step 7-8 gate.
+
+---
+
+## U1 Functional Design - Approval
+**Timestamp**: 2026-10-12T15:40:49Z
+**AI Prompt**: "Continue to Next Stage - Approve functional design and proceed to NFR Requirements" (U1 Functional Design completion message)
+**User Response**: "승인 ㄱㄱ단위별로 커밋 하고 푸시하세"
+**Status**: Approved, plus a request to commit in logical units and push
+**Context**: U1 Functional Design approved. Committing the Inception and U1 Functional Design documents in logical commits, then pushing. Next stage: U1 NFR Requirements.
+
+---
