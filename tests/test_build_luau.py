@@ -1,0 +1,272 @@
+"""U2 build_luau: Luau text and the code-injection guard (SEC2), the plan, the files, same input same text (P2-8), run records."""
+from __future__ import annotations
+
+import json
+import math
+import random
+import re
+import sys
+
+import h3
+import pytest
+from hypothesis import given, settings, strategies as st
+
+import build_luau as B
+import common
+import db
+import layout
+from generators import BASE, offset, rect, road_features
+
+CELL = "8930e0af13bffff"
+CFG = {**common.DEFAULTS, "chunk_size": 20}
+
+
+def building(i, center=None, **kw):
+    return {"building_id": f"gis:{1000 + i}", "cell_id": CELL, "source": "gis", "name": "", "floors_above": 3, "height_m": None,
+            "outline": [list(p) for p in rect(center or offset(BASE, 30 * i, 0), 20, 15)], "status": "ok", **kw}
+
+
+def row_for_db(b):
+    return {"building_id": b["building_id"], "cell_id": b["cell_id"], "source": b["source"], "outline": b["outline"],
+            "centroid": b["outline"][0], "gis_key": None, "osm_id": None, "name": b["name"], "osm_tags": None,
+            "floors_above": b["floors_above"], "floors_below": None, "height_m": b["height_m"], "usability_code": None,
+            "approval_date": None, "building_area": None, "osm_height_m": None, "osm_levels": None, "status": b["status"]}
+
+
+CENTER = h3.cell_to_latlng(CELL)  # streets are built in the cell that holds their segment's middle, so put them well inside it
+
+
+def street(fid="way:11", cls="tertiary", **tags):
+    a, b = offset(CENTER, -60, 5), offset(CENTER, 60, 5)
+    return {"feature_id": fid, "kind": "road", "highway_class": cls, "tags": tags, "geometry": [list(a), list(b)]}
+
+
+def street_row(f):
+    return {"feature_id": f["feature_id"], "cell_id": CELL, "kind": f["kind"], "highway_class": f["highway_class"],
+            "geometry": f["geometry"], "tags": f["tags"]}
+
+
+# --- Luau text -------------------------------------------------------------------------------------------
+
+@given(st.text(max_size=120))
+def test_luau_string_returns_only_safe_text_inside_plain_quotes(text):
+    try:
+        literal = B.luau_string(text)
+    except ValueError:
+        return
+    assert literal == f'"{text}"' and B.SAFE_TEXT.fullmatch(text)
+    assert all(c.isascii() and (c.isalnum() or c in ":#_.-") for c in text)
+
+
+@pytest.mark.parametrize("text", ['gis:1"] os.exit() --', "a\nb", "a\\b", "a b", "]]", "한글", "", "x" * 101, 'a"b', "a'b", "a;b", "${x}"])
+def test_luau_string_refuses_what_could_end_a_string_or_start_code(text):
+    with pytest.raises(ValueError):
+        B.luau_string(text)
+
+
+def test_dashes_inside_the_quotes_are_just_text():
+    assert B.luau_string("--x") == '"--x"'  # a comment marker cannot start a comment inside a string
+
+
+@pytest.mark.parametrize("bad", [None, 12, b"abc", ["a"]])
+def test_luau_string_refuses_non_text(bad):
+    with pytest.raises(ValueError):
+        B.luau_string(bad)
+
+
+@given(st.floats(allow_nan=False, allow_infinity=False, min_value=-1e7, max_value=1e7))
+def test_luau_number_is_plain_decimal_with_at_most_three_decimals(v):
+    text = B.luau_number(v)
+    assert re.fullmatch(r"-?\d+(\.\d{1,3})?", text) and text != "-0"
+    assert float(text) == pytest.approx(v, abs=5.1e-4)
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), -float("inf"), True, "1", None])
+def test_luau_number_refuses_what_is_not_a_finite_number(bad):
+    with pytest.raises(ValueError):
+        B.luau_number(bad)
+
+
+def test_a_building_item_becomes_a_short_table_and_checks_its_cell():
+    frame = layout.Frame.from_cfg(CFG)
+    item, _ = layout.building_item(building(0, floors_above=5), frame, CFG)
+    text = B.item_literal(item, CELL)
+    assert text.startswith('{k="building",n="gis:1000",') and 's="gis"' in text and "f=5" in text and "q=" in text and "e=" in text
+    assert "CellId" not in text and "BuildingId" not in text  # Builder takes them from the name and the cell
+    with pytest.raises(ValueError, match="does not belong"):
+        B.item_literal(item, "8930e0af123ffff")
+
+
+def test_chunk_code_starts_the_cell_in_the_first_chunk_and_finishes_it_in_the_last():
+    frame = layout.Frame.from_cfg(CFG)
+    items = [layout.building_item(building(i), frame, CFG)[0] for i in range(2)]
+    first, middle, last, only = (B.render_chunk(CELL, n, t, items) for n, t in ((1, 3), (2, 3), (3, 3), (1, 1)))
+    assert "Builder.begin(CELL)" in first and "Builder.begin" not in middle + last
+    assert "return added" in first and "return added" in middle and "return Builder.finish(CELL)" in last
+    assert "Builder.begin(CELL)" in only and "return Builder.finish(CELL)" in only
+    assert first.count('k="building"') == 2 and 'building={"Concrete",200,200,205}' in first
+
+
+# --- the plan -----------------------------------------------------------------------------------------------
+
+def every_quoted_text(files):
+    for name, text in files.items():
+        if name.endswith(".luau"):
+            yield from re.findall(r'"([^"]*)"', text)
+
+
+@settings(max_examples=60)
+@given(st.lists(st.text(max_size=30), min_size=1, max_size=6))
+def test_sec2_hostile_ids_never_reach_the_code(ids):
+    buildings = [building(i, building_id=bid) for i, bid in enumerate(ids)]
+    plan = B.plan_cell(CELL, buildings, [], CFG)
+    for text in every_quoted_text(plan.files):
+        assert B.SAFE_TEXT.fullmatch(text), text
+    for name, text in plan.files.items():
+        if name.endswith(".luau"):
+            assert "\\" not in text and text.count('"') % 2 == 0
+    built = {i.name for i in plan.items if i.kind == "building"}
+    assert built == {bid for bid in ids if B.SAFE_TEXT.fullmatch(bid)}
+    assert plan.counts["buildings_skipped"] == len(ids) - plan.counts["items_building"]
+
+
+def test_a_hostile_building_id_is_skipped_with_a_warning_and_the_others_are_built():
+    plan = B.plan_cell(CELL, [building(0), building(1, building_id='gis:2"] os.exit() --'), building(2)], [], CFG)
+    assert plan.counts["items_building"] == 2 and plan.counts["buildings_skipped"] == 1
+    assert any("not allowed in Luau code" in w for w in plan.warnings)
+    assert "os.exit" not in "".join(t for n, t in plan.files.items() if n.endswith(".luau"))  # manifest.json is data and names what it skipped
+
+
+def test_a_hostile_street_id_is_skipped_the_same_way():
+    plan = B.plan_cell(CELL, [building(0)], [street("way:1"), street('way:2"; x()', "service")], CFG)
+    assert plan.counts["items_road"] == 1 and any("way:2" in w for w in plan.warnings)
+    assert "x()" not in "".join(t for n, t in plan.files.items() if n.endswith(".luau"))
+
+
+def test_the_plan_counts_chunks_and_files_match_the_manifest():
+    buildings = [building(i) for i in range(45)]
+    plan = B.plan_cell(CELL, buildings, [street("way:1", "tertiary"), street("way:2", "residential")], CFG)
+    manifest = json.loads(plan.files["manifest.json"])
+    c = plan.counts
+    assert c["items"] == 1 + 2 + 2 + 45 and c["items_ground"] == 1 and c["items_road"] == 2 and c["items_sidewalk"] == 2
+    assert c["chunks"] == math.ceil(c["items"] / 20) and sorted(k for k in plan.files if k.endswith(".luau")) == [f"chunk-{n:03d}.luau" for n in range(1, c["chunks"] + 1)]
+    assert manifest["counts"] == c and manifest["cell_id"] == CELL
+    assert manifest["files"] == {n: len(t.encode()) for n, t in plan.files.items() if n.endswith(".luau")}
+    assert sum(len(re.findall(r'\{k="', t)) for n, t in plan.files.items() if n.endswith(".luau")) == c["items"]
+
+
+def test_items_are_written_in_the_fixed_order_across_the_chunk_files():
+    path = {**street("way:3", "footway"), "kind": "path"}
+    spot = offset(CENTER, 0, 5)
+    plan = B.plan_cell(CELL, [building(i) for i in (7, 2, 5)], [street("way:9", "tertiary"), path, street("way:1", "residential")],
+                       {**CFG, "chunk_size": 4, "spawn_lat": spot[0], "spawn_lon": spot[1]})
+    order = [m for n, t in sorted(plan.files.items()) if n.endswith(".luau") for m in re.findall(r'\{k="(\w+)",n="([^"]+)"', t)]
+    assert [k for k, _ in order] == ["ground", "road", "road", "path", "sidewalk", "sidewalk", "building", "building", "building", "spawn"]
+    assert [n for k, n in order if k == "building"] == ["gis:1002", "gis:1005", "gis:1007"] and [n for k, n in order if k == "road"] == ["way:1#0", "way:9#0"]
+
+
+def test_poor_fit_buildings_are_listed_with_name_and_ratio():
+    triangle = [list(offset(BASE, 0, 0)), list(offset(BASE, 30, 0)), list(offset(BASE, 0, 20))]
+    plan = B.plan_cell(CELL, [building(0), building(1, outline=triangle, name="L자 학교")], [], CFG)
+    poor = json.loads(plan.files["manifest.json"])["poor_fit"]
+    assert [(p["building_id"], p["name"]) for p in poor] == [("gis:1001", "L자 학교")] and poor[0]["fit_ratio"] == pytest.approx(0.5, abs=1e-3)
+    assert plan.counts["poor_fit"] == 1
+
+
+def test_buildings_that_cannot_be_boxed_are_skipped_and_counted():
+    plan = B.plan_cell(CELL, [building(0), building(1, outline=[[37.5, 126.78], [37.6, 126.8]])], [], CFG)
+    assert plan.counts["buildings_in"] == 2 and plan.counts["buildings_skipped"] == 1 and plan.counts["items_building"] == 1
+    assert any("gis:1001" in w for w in plan.warnings)
+
+
+def test_without_a_spawn_point_there_is_a_warning_and_no_spawn_with_one_there_is_a_spawn():
+    plain = B.plan_cell(CELL, [building(0)], [street()], CFG)
+    assert plain.counts["items_spawn"] == 0 and any("no spawn point" in w for w in plain.warnings)
+    spot = offset(CENTER, 0, 5)  # on the street
+    with_spawn = B.plan_cell(CELL, [building(0)], [street()], {**CFG, "spawn_lat": spot[0], "spawn_lon": spot[1], "spawn_yaw_deg": 90})
+    assert with_spawn.counts["items_spawn"] == 1 and not any("no spawn point" in w for w in with_spawn.warnings)
+    assert 'k="spawn"' in "".join(with_spawn.files.values())
+
+
+def test_a_chunk_file_over_ten_kilobytes_asks_for_a_smaller_chunk_size():
+    plan = B.plan_cell(CELL, [building(i) for i in range(150)], [], {**CFG, "chunk_size": 150})
+    assert any("lower chunk_size" in w for w in plan.warnings)
+
+
+# --- P2-8 the same input gives the same text ------------------------------------------------------------------------------
+
+@settings(max_examples=30)
+@given(st.lists(road_features(max_points=4), max_size=4, unique_by=lambda f: f["feature_id"]), st.integers(0, 10**6))
+def test_p2_8_row_order_and_repeats_do_not_change_a_single_character(features, seed):
+    buildings = [building(i, name=f"b{i}") for i in range(8)]
+    base = B.plan_cell(CELL, buildings, features, CFG)
+    b2, f2 = list(buildings), list(features)
+    rng = random.Random(seed)
+    rng.shuffle(b2), rng.shuffle(f2)
+    again = B.plan_cell(CELL, b2, f2, CFG)
+    assert again.files == base.files and B.plan_cell(CELL, buildings, features, CFG).files == base.files
+    assert not re.search(r"\d{4}-\d{2}-\d{2}T", "".join(base.files.values()))  # no timestamp is written into the files
+
+
+# --- files and database ----------------------------------------------------------------------------------------------------------
+
+def test_write_plan_writes_the_files_and_removes_chunk_files_of_an_earlier_longer_run(tmp_path):
+    long = B.plan_cell(CELL, [building(i) for i in range(45)], [], CFG)
+    B.write_plan(long, tmp_path)
+    assert len(list((tmp_path / CELL).glob("chunk-*.luau"))) == 3
+    short = B.plan_cell(CELL, [building(i) for i in range(5)], [], CFG)
+    paths = B.write_plan(short, tmp_path)
+    assert sorted(p.name for p in (tmp_path / CELL).iterdir()) == ["chunk-001.luau", "manifest.json"] and len(paths) == 2
+    assert (tmp_path / CELL / "chunk-001.luau").read_text(encoding="utf-8") == short.files["chunk-001.luau"]
+
+
+def make_db(buildings, features=()):
+    conn = db.connect(":memory:")
+    db.replace_cell_rows(conn, CELL, {"buildings": [row_for_db(b) for b in buildings], "street_features": [street_row(f) for f in features]})
+    return conn
+
+
+def test_build_cell_reads_the_database_and_ignores_other_kinds_and_not_ok_buildings(tmp_path):
+    conn = make_db([building(0), building(1, status="invalid")], [street("way:1", "tertiary"),
+                   {**street("way:2", "residential"), "kind": "crossing"}])
+    plan = B.build_cell(conn, CFG, CELL, tmp_path)
+    assert plan.counts["buildings_in"] == 1 and plan.counts["streets_in"] == 1 and plan.counts["items_sidewalk"] == 2
+    assert (tmp_path / CELL / "manifest.json").is_file()
+
+
+def test_a_cell_without_buildings_is_an_error_that_names_the_fix(tmp_path):
+    with pytest.raises(ValueError, match="register.py"):
+        B.build_cell(db.connect(":memory:"), CFG, CELL, tmp_path)
+
+
+def run_main(monkeypatch, tmp_path, argv):
+    monkeypatch.setattr(sys, "argv", ["build_luau.py", *argv])
+    monkeypatch.setattr(B, "BUILD_DIR", str(tmp_path / "build"))
+    return B.main({**CFG, "db_path": str(tmp_path / "map.db")})
+
+
+def test_main_writes_files_and_records_a_run(monkeypatch, tmp_path):
+    conn = db.connect(tmp_path / "map.db")
+    db.replace_cell_rows(conn, CELL, {"buildings": [row_for_db(building(i)) for i in range(3)], "street_features": [street_row(street())]})
+    conn.close()
+    assert run_main(monkeypatch, tmp_path, ["--cells", CELL]) == 0
+    assert (tmp_path / "build" / CELL / "chunk-001.luau").is_file()
+    conn = db.connect(tmp_path / "map.db")
+    unit, status, counts = conn.execute("SELECT unit, status, counts FROM collection_runs").fetchone()
+    assert (unit, status) == ("C6", "ok") and json.loads(counts)["items_building"] == 3
+
+
+def test_main_records_a_failed_cell_and_returns_one(monkeypatch, tmp_path):
+    db.connect(tmp_path / "map.db").close()
+    assert run_main(monkeypatch, tmp_path, ["--cells", CELL]) == 1
+    conn = db.connect(tmp_path / "map.db")
+    status, error = conn.execute("SELECT status, error FROM collection_runs").fetchone()
+    assert status == "failed" and "register.py" in error
+
+
+def test_the_command_line_rejects_bad_cell_ids_and_missing_cells(capsys):
+    for argv in (["--cells", "nothex"], []):
+        with pytest.raises(SystemExit) as e:
+            B.parse_args(argv, 9)
+        assert e.value.code == 2
+    assert B.parse_args(["--selftest"], 9).selftest and B.parse_args(["--cells", CELL], 9).cells == [CELL]

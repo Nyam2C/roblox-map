@@ -165,3 +165,29 @@ def candidates(origin: geo.LatLon = BASE, spread_m: float = 200.0, max_size: int
     one = st.builds(lambda i, dx, dy: ps.Candidate(f"p{i}", *offset(origin, dx, dy)),
                     st.integers(0, 10**6), st.floats(-spread_m, spread_m), st.floats(-spread_m, spread_m))
     return st.lists(one, max_size=max_size, unique_by=lambda c: c.pano_id)
+
+
+# --- U2 Studio builder ------------------------------------------------------------------------
+
+ROAD_CLASSES_U2 = ["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential", "service",
+                   "living_street", "road", "tertiary_link", "primary_link"]
+PATH_CLASSES_U2 = ["pedestrian", "footway", "path", "cycleway", "steps", "track"]
+
+
+@st.composite
+def road_features(draw, max_points: int = 8, spread_m: float = 250.0):
+    """A street_features row: a polyline of 2..max_points points (steps of 2 to 120 m) with class and tags, near BASE."""
+    n = draw(st.integers(2, max_points))
+    x, y = draw(st.floats(-spread_m, spread_m)), draw(st.floats(-spread_m, spread_m))
+    pts = [offset(BASE, x, y)]
+    for _ in range(n - 1):
+        step, angle = draw(st.floats(2, 120)), draw(st.floats(0, 2 * math.pi))
+        x, y = x + step * math.cos(angle), y + step * math.sin(angle)
+        pts.append(offset(BASE, x, y))
+    cls = draw(st.sampled_from(ROAD_CLASSES_U2 + PATH_CLASSES_U2))
+    tags = draw(st.fixed_dictionaries({}, optional={
+        "width": st.sampled_from(["3", "6.5", "8 m", "100", "0.2", "abc", ""]),
+        "sidewalk": st.sampled_from(["both", "left", "right", "no", "none", "separate", "yes", "BOTH", " Both "]),
+    }))
+    return {"feature_id": f"way:{draw(st.integers(1, 10**6))}", "kind": "road" if cls in ROAD_CLASSES_U2 else "path",
+            "highway_class": cls, "geometry": [list(p) for p in pts], "tags": tags}

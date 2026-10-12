@@ -13,6 +13,8 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 from PIL import Image
 
+from common import building_height_m  # noqa: F401  (moved to common.py so build_luau.py needs no numpy; U3 still uses this name)
+
 LatLon = tuple[float, float]
 EARTH_R = 6371008.8  # same value as geo.EARTH_R, copied so this module does not import shapely
 FOV_MARGIN_DEG = 20.0  # BR-4.2: room around the building's angular extent
@@ -69,15 +71,6 @@ def building_extent_deg(outline: Sequence[LatLon], pano_pos: LatLon) -> float:
         return 0.0
     gaps = [b - a for a, b in zip(bearings, bearings[1:])] + [bearings[0] + 360.0 - bearings[-1]]
     return 360.0 - max(gaps)
-
-
-def building_height_m(height_m: float | None, floors_above: int | None, cfg: Mapping[str, Any]) -> float:
-    """BR-4.3: V-World height, else floors x floor height, else the default."""
-    if height_m and height_m > 0:
-        return float(height_m)
-    if floors_above and floors_above > 0:
-        return floors_above * float(cfg["floor_height_m"])
-    return float(cfg["default_height_m"])
 
 
 def nearest_wall_m(outline: Sequence[LatLon], pano_pos: LatLon) -> float:

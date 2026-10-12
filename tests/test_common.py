@@ -159,10 +159,36 @@ def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):
                 "backup_keep = -1", 'db_path = ""', "mystery = 1",
                 "pano_limit_m = 0", "pano_max_views = 2.5", "pano_max_views = true", "max_new_panos = 0",
                 "crop_quality = 101", "fov_min_deg = 120", "pitch_max_deg = 90", "pano_pause_s = -1",
-                'captures_dir = ""'):
+                'captures_dir = ""', "studs_per_m = 0", "chunk_size = 0", "chunk_size = 2.5", "poor_fit_ratio = 0",
+                "sidewalk_width_m = 0", "origin_lat = 91", "ground_margin_m = -1", "spawn_lat = 37.5",
+                "spawn_lon = 126.8", "spawn_lat = 95\nspawn_lon = 126.8", "[road_widths_m]\ntertiary = 0",
+                '[road_widths_m]\ntertiary = "wide"'):
         p.write_text(bad + "\n", encoding="utf-8")
         with pytest.raises(ValueError):
             common.load_config(p)
+
+
+def test_a_partial_road_width_table_only_overrides_the_classes_it_names(tmp_path):
+    p = tmp_path / "c.toml"
+    p.write_text("[road_widths_m]\ntertiary = 12\n", encoding="utf-8")
+    widths = common.load_config(p)["road_widths_m"]
+    assert widths["tertiary"] == 12 and widths["residential"] == common.DEFAULTS["road_widths_m"]["residential"]
+    assert common.DEFAULTS["road_widths_m"]["tertiary"] == 10  # the shared defaults are never changed
+
+
+def test_spawn_point_is_optional_but_comes_as_a_pair(tmp_path):
+    p = tmp_path / "c.toml"
+    assert common.load_config(p)["spawn_lat"] is None
+    p.write_text("spawn_lat = 37.5044\nspawn_lon = 126.7794\nspawn_yaw_deg = 90\n", encoding="utf-8")
+    cfg = common.load_config(p)
+    assert (cfg["spawn_lat"], cfg["spawn_lon"], cfg["spawn_yaw_deg"]) == (37.5044, 126.7794, 90)
+
+
+def test_building_height_follows_the_priority_vworld_floors_default():
+    cfg = common.DEFAULTS
+    assert common.building_height_m(12.5, 4, cfg) == 12.5
+    assert common.building_height_m(None, 5, cfg) == 5 * cfg["floor_height_m"]
+    assert common.building_height_m(0, 0, cfg) == cfg["default_height_m"]
 
 
 def test_resolve_makes_relative_paths_relative_to_the_repository_root():

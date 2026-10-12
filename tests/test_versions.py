@@ -39,7 +39,7 @@ SCRIPTS = sorted(p for p in (ROOT / "src").glob("*.py") if "# /// script" in p.r
 
 
 def test_there_are_scripts_with_inline_metadata():
-    assert {p.name for p in SCRIPTS} >= {"cells.py", "register.py", "capture.py"}
+    assert {p.name for p in SCRIPTS} >= {"cells.py", "register.py", "capture.py", "build_luau.py"}
 
 
 @pytest.mark.parametrize("script", SCRIPTS, ids=lambda p: p.name)
@@ -93,3 +93,14 @@ def test_capture_pins_cover_the_whole_resolved_set():
                 if (m := re.match(r"^[A-Za-z0-9_.-]+==[^\s;]+", line))}
     pinned = {_name(d): d.split("==")[1] for d in _inline_deps(CAPTURE)}
     assert resolved == pinned
+
+
+# --- U2: the Studio module never runs received text as code (SEC2) ---------------------------------------------
+
+def test_builder_luau_has_no_way_to_run_text_as_code_or_reach_the_network():
+    source = (ROOT / "studio" / "Builder.luau").read_text(encoding="utf-8")
+    code = re.sub(r"(?s)--\[\[.*?\]\]", "", source)  # the header comment names what is not used
+    code = re.sub(r"--[^\n]*", "", code)
+    for forbidden in ("loadstring", "HttpService", "RequestAsync", "GetAsync", "PostAsync", "getfenv", "setfenv"):
+        assert forbidden not in code, forbidden
+    assert code.count(":Destroy()") == 1 and "old:Destroy()" in code  # the only thing it ever destroys is the old Auto/<cell id>
