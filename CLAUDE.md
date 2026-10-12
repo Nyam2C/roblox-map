@@ -52,15 +52,15 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 - U1(데이터 기반)은 끝났다. 첫 칸 `8930e0af13bffff`는 수집과 조립이 끝나 `data/map.db`에 건물 122개가 있다. 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)은 아직 데이터를 받지 않았다.
 - OSM 태그는 부족하므로(서울시청 시험에서 건물 128개 중 높이·층수 태그 26개) V-World 건물통합정보의 층수와 거리뷰로 보완한다.
-- U3 코드(`src/projection.py`, `panorama_source.py`, `capture.py`)를 만들었다(2026-10-13). 테스트는 전체 148개. 실제 네이버로 칸을 도는 본 실행은 아직 안 했고 Build and Test에서 첫 칸부터 한다.
+- U3 코드(`src/projection.py`, `panorama_source.py`, `capture.py`)를 만들고 첫 칸을 실제로 돌렸다(2026-10-13). 테스트 152개. 첫 칸 결과: 건물 122개에 파노라마 226장과 크롭 363개(384 MB), 사진 없는 건물 0, 차단·재시도·실패 0, 약 13분(3번에 나눠서). 크롭의 32%가 지붕을 놓쳐서 위쪽 각도·시야각 규칙을 벽 기준으로 바꿨다(지붕과 지면이 다 들어오는 크롭 66% → 86%).
 - 큐브 맵 규칙(`aidlc-docs/construction/u3-street-view-capture/code/layout-notes.md`): 면 순서 앞·오른쪽·뒤·왼쪽·위·아래, 앞면이 보는 방위각 = ID 조회 `heading` + 180°(설계의 가정과 180° 다르다. 파노라마 3장에서 외곽선을 겹쳐 확인).
 - 파이썬 3.13 이상이 필요하다(`capture.py`가 `numpy` 2.5.4를 쓴다). `uv`가 알아서 받는다.
 - Roblox Studio 설치와 내장 MCP 연결 완료, 동작 확인(2026-10-12). `execute_luau`로 생성, `screen_capture`로 캡처가 된다. 열린 장소에 테스트용 `MCP_Test` 폴더가 남아 있다.
-- AI-DLC: Inception 완료, U1 완료, U3 Functional Design·NFR Requirements 승인, U3 Code Generation 생성 완료(승인 대기). 다음은 U3 Build and Test.
+- AI-DLC: Inception 완료, U1 완료, U3 Functional Design·NFR Requirements·Code Generation 승인, U3 Build and Test 완료(승인 대기). 다음은 U2.
 
 ## 다음 할 일
 
-1. U3 코드 승인 → Build and Test(테스트 실행, 첫 칸 `8930e0af13bffff` 실제 캡처, 크롭 몇 장 눈으로 확인, 저장량과 건너뛴 후보 수 측정)
+1. U3 Build and Test 승인
 2. U2 Studio 생성기 → U4 판단·보정 → U5 디테일 (`aidlc-state.md` 참고)
 3. U4 완료 때 복구 연습(DB를 지우고 S1 재실행, `overrides` 불러오기)
 

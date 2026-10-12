@@ -6,7 +6,7 @@
 
 | 파일 | 내용 |
 |---|---|
-| `src/projection.py` (신규) | 순수 함수. `distance_m`, `bearing_deg`, `yaw_deg`, `building_extent_deg`, `building_height_m`, `crop_params`, `split_faces`, `render_crop`. `numpy`와 `pillow`만 쓴다 |
+| `src/projection.py` (신규) | 순수 함수. `distance_m`, `bearing_deg`, `yaw_deg`, `building_extent_deg`, `nearest_wall_m`, `building_height_m`, `crop_params`, `split_faces`, `render_crop`. `numpy`와 `pillow`만 쓴다 |
 | `src/panorama_source.py` (신규) | 어댑터. `PanoramaSource`(`find_nearby`, `get_metadata`, `download_strip`), `classify`, 오류 4종(`BlockedError`, `TransientError`, `SourceError`, `SourceUnavailable`), `Candidate`, `PanoMeta`. 네이버와 말하는 유일한 곳 |
 | `src/capture.py` (신규) | C3. `safe_name`, `pano_file`, `crop_file`, `select_panoramas`, `view_params`, `Capture`(`run_cell`), `parse_args`, `main`. `--cells`, `--replan`, `--selftest` |
 | `tests/test_projection.py` (신규) | P3-1, P3-2, P3-4, P3-5 (16개) |
@@ -27,7 +27,7 @@
 
 ## 테스트
 
-전체 148개(U1 93개 + 55개). 시드 1, 7, 42, 2026, 99999에서 모두 통과했다. 본 실행은 Build and Test에서 한다.
+전체 152개(U1 93개 + 59개). 시드 1, 7, 42, 2026, 99999에서 모두 통과했다(Build and Test에서 위쪽 각도 규칙을 바꾸며 4개를 더했다).
 
 | 속성 | 파일 |
 |---|---|
@@ -51,13 +51,14 @@ P3-5는 면마다 색이 다른 합성 큐브 맵으로 옆 4면과 위·아래 
 9. **상한은 내려받기 시도 횟수 기준.** 실패한 시도도 센다(네이버 호출이기 때문). 상한에 닿으면 실행 전체를 멈춘다. 계획 단계(후보 조회)는 상한과 무관하다.
 10. **메타데이터 확인 결과는 실행 안에서만 재사용.** 고른 파노라마의 행만 `captures`에 `found`로 저장한다. 쓸 수 없다고 한 파노라마는 다음 실행에서 다시 조회한다.
 11. **`tests/generators.py`의 후보 목록 생성기**는 `Candidate`가 생긴 뒤에 추가했다(계획 단계 4의 항목 중 일부를 7 직전에 한 셈).
+12. **크롭 규칙 변경(Build and Test, 사용자 요청 2026-10-13).** BR-4.3이 위쪽 각도를 중심점 거리로 계산해서 첫 칸 크롭의 32%가 지붕을 놓쳤다. `projection.nearest_wall_m`(가장 가까운 벽까지 거리)을 더하고 `crop_params(extent, wall_m, height, cfg)`가 지붕과 지면선이 세로 시야에 들어오게 위쪽 각도와 시야각을 정한다. `capture.view_params`가 벽 거리를 계산해 넘긴다. 저장하는 `distance_m`은 그대로 중심점 거리다(U4가 읽는다). 설계 문서의 BR-4.3과 P3-4를 고쳤고, 효과는 `build-and-test-summary.md`에 있다.
 
 ## 알려진 한계
 
 - 촬영일 시간대: 네이버가 준 값 그대로 저장한다(시간대 표시 없음). 설계 문서의 "UTC"는 확인하지 못했다.
 - 가까운 큰 건물은 각도 범위가 시야각 상한 100°를 넘어 건물 전체가 한 장에 안 들어온다(BR-4.2 그대로). 방위각이 다른 파노라마를 최대 3장 쓰는 설계가 보완한다.
 - 후보 조회는 건물마다 한 번이라 호출이 많다(칸당 건물 약 120개 → 조회 120회 + 메타데이터 + 내려받기). 호출 간격 1초 때문에 첫 칸은 계획만 몇 분 걸린다.
-- 어댑터 쪽 `get_metadata`가 쓸 수 없다고 하는 이유(최신 아님, 3D 아님 등)는 따로 세지 않는다.
+- 쓸 수 없다고 건너뛴 후보 수는 `panos_skipped`로 센다(Build and Test에서 추가). 이유(최신 아님, 3D 아님 등)별로는 나누지 않는다.
 
 ## 아직 안 한 것 (Build and Test)
 

@@ -18,3 +18,22 @@ CI가 푸시마다 같은 명령을 돌린다. 결과 (2026-10-13): **No known v
 
 ## 해당 없음
 인증·인가, 웹 보안 헤더, 침투 시험은 해당 없다(로컬 단일 사용자 도구).
+
+## U3 거리뷰 캡처 (2026-10-13)
+
+### 의존성 취약점
+```bash
+uv export --script src/capture.py --no-hashes --no-annotate --no-header > /tmp/capture-resolved.txt
+uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r /tmp/capture-resolved.txt --no-deps --disable-pip
+```
+CI가 푸시마다 같은 명령을 돌린다. 결과: **No known vulnerabilities found**(22개). GitHub Actions도 통과했다(`e752591`).
+
+### 비밀값과 사진
+- 이 유닛은 키나 로그인 정보를 쓰지 않는다. `.env` 값을 `git ls-files -co --exclude-standard`의 모든 파일과 커밋 이력에서 검색했다: 없음.
+- 캡처 로그 `data/logs/capture-*.jsonl`과 `captures/*/*/meta.json` 227개: 비밀값 없음.
+- 사진(`captures/`)은 `.gitignore`에 있고(`git check-ignore`로 확인) 이 Mac 밖으로 나가지 않는다. 네이버가 얼굴을 흐리게 처리한 것을 확인했다.
+
+### 입력 검증과 안전
+- 네이버 응답: 위치 범위와 거리(1 km), ID 형식, 이미지 크기와 형식을 확인하고 어긋나면 버린다(`test_capture.py`). 응답 형식 이상과 403/429는 우회하지 않고 멈춘다(P3-7).
+- Pillow의 큰 이미지 방지 한도를 명시했다(8 MP). 파일 이름은 안전한 문자만 쓰고 저장 경로가 `captures/` 밖으로 나가지 못한다(P3-8, `../` 시험 포함).
+- 한계: `streetlevel`이 해석하는 내부 통신 응답은 라이브러리에 의존한다(위험으로 기록, 버전 고정).

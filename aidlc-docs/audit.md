@@ -498,7 +498,7 @@
 
 ---
 ## U3 Code Generation - Plan Approval
-**Timestamp**: 2026-10-13T09:00:00Z
+**Timestamp**: 2026-10-12T17:45:00Z (approx.)
 **AI Prompt**: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u3-street-view-capture-code-generation-plan.md. Ready to proceed to generation?" (re-asked in a new session through a question dialog because the opening message "작업 이어서 ㄱㄱ" did not name the plan gate)
 **User Response**: "승인, 진행 (Recommended)" (selected option: approve the plan as written and start at step 1)
 **Status**: Approved
@@ -506,17 +506,42 @@
 
 ---
 ## U3 Code Generation - Generated
-**Timestamp**: 2026-10-13T11:00:00Z
+**Timestamp**: 2026-10-12T18:08:00Z (approx.)
 **User Input**: (none, execution of the approved plan)
 **AI Response**: Executed the 10 plan steps. Step 1 experiment: downloaded 3 panoramas (zoom 1) and found (a) the strip is front, right, back, left, up, down; (b) the by-id heading is 180 degrees off the front face (checked by overlaying building outlines and by sign text; the nearby-endpoint heading is the front); (c) up and down face orientations by seam continuity. Created src/projection.py, src/panorama_source.py, src/capture.py, tests/test_projection.py, tests/test_capture.py, layout-notes.md and code-summary.md; modified src/db.py, src/common.py, config.toml, tests/generators.py, tests/test_db.py, tests/test_common.py, tests/test_versions.py, tests/requirements.txt, .github/workflows/ci.yml and CLAUDE.md (also corrected its stale U1 status). 148 tests pass with seeds 1, 7, 42, 2026, 99999; six deliberate code mutations were all caught by the tests. The adapter was tried once against the real Naver (nearby lookup, three metadata calls, one download, one bad id). Deviations from the plan: heading +180 and 3D-only usable panoramas; pyexiv2 stub needs ImageData; download_strip instead of download_faces; 22 pinned packages (h3 added) and requires-python >=3.13 (found by uv export: numpy 2.5.4 needs 3.12+, 3.12 pulls an unpinned typing-extensions); CI also compares the resolved set with the pins. Post-generation checks: all files compile, no secret values in files or git history, no duplicate files. Real capture of the first cell, storage measurement and the visual check of crops are left to Build and Test. Presented the completion message.
 **Context**: CONSTRUCTION - U3 Code Generation Part 2, Step 14-15 gate.
 
 ---
 ## U3 Code Generation - Approval
-**Timestamp**: 2026-10-13T11:30:00Z
+**Timestamp**: 2026-10-12T18:09:00Z
 **AI Prompt**: "Continue to Next Stage - Approve code generation and proceed to U3 Build and Test", plus "승인하시면 커밋과 푸시도 같이 진행할지 알려 주세요."
 **User Response**: "ㄱㄱ 커밋 푸시까지"
 **Status**: Approved, commit and push authorized
 **Context**: U3 code generation is complete. Committing the U3 code, CI changes and documents, pushing main, then starting U3 Build and Test.
+
+---
+## U3 Build and Test - First Cell Run Requested
+**Timestamp**: 2026-10-12T18:10:50Z
+**AI Prompt**: "CI 결과부터 보고 바로 시작할까요, 아니면 CI 결과만 먼저 확인하고 멈출까요?" (after CI passed on e752591)
+**User Response**: "ㄱㄱ 첫 칸 돌려"
+**Status**: Approved to start U3 Build and Test with the real first-cell run (8930e0af13bffff)
+**Context**: Running `uv run src/capture.py --cells 8930e0af13bffff` against Naver. Stops without working around any block signal.
+
+---
+
+## Build and Test Stage (U3)
+**Timestamp**: 2026-10-12T18:50:00Z (approx.)
+**User Input**: "ㄱㄱ 첫 칸 돌려", then "나도 일부 사진 보여줭", then "끝나면 결과 알려줘" (the first-cell run, a request to see some photos, a request for the result when done)
+**AI Response**: Ran `capture.py --cells 8930e0af13bffff` three times until stopped_reason=done (cap stops are normal), then a fourth time to confirm no network calls. First cell: 122 buildings, 226 panoramas, 363 crops, 384 MB, no block signals, no retries, no failures, about 13 minutes. Sent 5 crops to the user and checked 32 random ones plus 5 named buildings by eye. Measured that 32% of the crops cut off the roof (117 of 122 buildings still have at least one view with the roof in frame); left the pitch rule unchanged and asked the user to decide. Sampled 38 nearby panoramas: all usable. Added a small `panos_skipped` counter with a test. Appended the U3 results to the five Build and Test instruction documents and the summary. 148 tests pass (seeds 7 values), no secrets in 227 log and metadata files or in git. Presented the completion message and asked for approval and about commit and push.
+**Context**: CONSTRUCTION - U3 Build and Test, approval gate.
+
+---
+
+## U3 Build and Test - Change Request (crop rule) and Commit Authorization
+**Timestamp**: 2026-10-12T19:05:00Z (approx.)
+**AI Prompt**: Build and Test completion message with "Request Changes - 지붕 잘림을 지금 고치거나 다른 부분을 수정합니다." and the question about commit and push; the open decision was whether to change the pitch rule now.
+**User Response**: "ㄱㄱ 지붕 고치고 커밋 푸시까지"
+**Status**: Change requested (fix the roof cut now), commit and push authorized. The U3 Build and Test approval itself is still open (the user chose the change request, not the approve option).
+**Context**: Changed BR-4.3: pitch and field of view now come from the nearest wall, so the roof and the ground line fit in the vertical view. Compared three rules on all 363 views offline first (full-frame crops: old rule 241 = 66%, pitch only 278 = 77%, pitch plus wider view 312 = 86%) and implemented the last. Added nearest_wall_m, changed crop_params and view_params, four new tests (all three deliberate breaks of the new rule were caught), updated the design rule BR-4.3 and P3-4, the code summary and the Build and Test documents. Re-ran capture on the first cell: 360 crops remade in 73 s with no Naver calls, 312 of 363 views (86%) and 121 of 122 buildings with a full view. 152 tests pass.
 
 ---

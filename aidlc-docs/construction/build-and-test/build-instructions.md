@@ -39,3 +39,25 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ --
 ### Overpass가 504를 계속 낸다
 - **원인**: 공개 서버가 바쁘다.
 - **해결**: 코드가 10초, 30초, 60초 간격으로 재시도한다. 그래도 실패하면 그 칸은 이전 상태로 남고 `collection_runs`에 실패 이유가 기록된다. 시간을 두고 다시 실행한다. 첫 칸 실제 실행에서는 504가 세 번 나고 네 번째에 성공했다.
+
+## U3 거리뷰 캡처 (2026-10-13)
+
+### Prerequisites
+- **Python**: `capture.py`는 3.13 이상이다(`numpy` 2.5.4가 3.12 이상을 요구하고, 3.12는 고정 없는 `typing-extensions`를 끌어온다). `uv`가 알아서 받는다.
+- **의존성**: `capture.py` 인라인에 22개 전부 정확한 버전으로 고정(`streetlevel` 0.12.12 + 전이 의존성 20개 + `h3`). `[tool.uv] exclude-dependencies`로 `torch` 등 8개를 뺀다. 설치는 `uv run`이 처음 실행할 때 자동으로 한다(시스템 패키지 설치 불필요).
+- **환경변수**: 없다(비밀값을 쓰지 않는다).
+- **시스템**: 디스크는 칸당 약 400 MB(파노라마 약 320 MB, 크롭 약 65 MB), 네이버(`map.naver.com`, `panorama.map.naver.com`, `panorama.pstatic.net`)로 HTTPS 접속.
+
+### 검증
+```bash
+python3 -m py_compile src/*.py tests/*.py
+uv run src/capture.py --selftest        # 라이브러리 import만 확인, 네트워크 없음
+uv export --script src/capture.py --no-hashes --no-annotate --no-header   # 22개가 인라인 고정과 같은지
+```
+- **기대 출력**: 컴파일 오류 없음, `selftest ok: streetlevel, numpy, pillow and h3 import`, `Resolved 22 packages`, `152 tests collected`.
+
+### Troubleshooting
+- **`streetlevel is not installed`**: `python src/capture.py`로 직접 돌렸을 때 나온다. `uv run src/capture.py ...`로 돌린다.
+- **`uv export`가 `numpy`를 풀지 못한다**: `requires-python`이 3.13 미만이 됐을 때 나온다. 인라인 헤더의 `requires-python = ">=3.13"`을 되돌리지 않는다.
+- **`stopped (cap)`**: 실행당 새 파노라마 100장 상한에 닿은 것이고 오류가 아니다. 같은 명령을 다시 돌리면 이어간다.
+- **`stopped (blocked)` 또는 `(failures)`**: 네이버가 막았거나 같은 실패가 연속 3번 났다. 우회하지 않는다. 시간을 두고 다시 돌리고, 계속되면 사용자와 방법을 다시 정한다(런북 R-8).
