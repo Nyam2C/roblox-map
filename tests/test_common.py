@@ -148,7 +148,10 @@ def test_pause_after_success_and_https_only_and_json_only():
 # --- config --------------------------------------------------------------------------
 
 def test_default_config_file_matches_the_defaults_in_code():
-    assert common.load_config() == common.DEFAULTS
+    cfg = dict(common.load_config())
+    assert cfg.pop("school_polygons")  # the file holds this project's school parcel; the code default is empty
+    assert cfg == {k: v for k, v in common.DEFAULTS.items() if k != "school_polygons"}
+    assert common.DEFAULTS["school_polygons"] == []
 
 
 def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):

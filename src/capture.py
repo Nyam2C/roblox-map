@@ -16,6 +16,7 @@
 Usage:
   uv run src/capture.py --cells 8930e0af13bffff [...]            # plan, download and crop what is missing
   uv run src/capture.py --cells 8930e0af13bffff --replan         # forget the cell's building views and start over
+  uv run src/capture.py --cells 8930e0af13bffff --replan-school  # start over for the school buildings only (face-based pictures)
   uv run src/capture.py --selftest                               # import check only, no network (used by CI)
 
 Needs buildings in data/map.db first (cells.py, register.py). Pictures go to captures/ (git-ignored, they
@@ -46,8 +47,10 @@ import projection
 
 PANO_QUALITY = 90  # JPEG quality of the stored panorama strip
 STREAK_LIMIT = 3  # BR-5.2: this many failures of one kind in a row stop the run
+SCHOOL_BLOCK_HEIGHT_M = 6.0  # BR-2.7: a school building must be at least this tall to hide a wall behind it
+PROBE_DISTANCES_M = (40.0, 80.0)  # BR-2.7: lookups this far in front of a face
 LatLon = tuple[float, float]
-COUNT_KEYS = ("buildings", "planned", "no_photo", "panos_found", "panos_skipped", "new_downloads", "panos_reused", "crops",
+COUNT_KEYS = ("buildings", "school_buildings", "face_views", "planned", "no_photo", "panos_found", "panos_skipped", "new_downloads", "panos_reused", "crops",
               "crops_kept", "failures", "bytes")
 
 
@@ -148,6 +151,61 @@ def view_params(building: Mapping[str, Any], pano: Mapping[str, Any], cfg: Mappi
             "fov_deg": fov, "pitch_deg": pitch}
 
 
+def select_faces(outline: Sequence[LatLon], faces: Sequence[projection.Face], cands: Sequence[ps.Candidate],
+                 blockers: Sequence[Sequence[LatLon]], *, limit_m: float, max_angle_deg: float, max_views: int,
+                 usable: Callable[[str], bool]) -> list[tuple[projection.Face, Pick]]:
+    """One panorama per face for the longest `max_views` faces of a school building (BR-2.7, P3-9).
+
+    A candidate must be within `limit_m` of the face's aim point and within `max_angle_deg` of the face's outward
+    direction, with no other building and not the building itself in the way. The cheapest wins:
+    distance + 0.6 x degrees off the outward direction (ties by id). A panorama is used for one face only.
+    Faces without a candidate get no picture. The result does not depend on the order of `cands`.
+    """
+    used: set[str] = set()
+    out: list[tuple[projection.Face, Pick]] = []
+    for face in sorted(faces, key=lambda f: (-f.length_m, f.azimuth_deg))[:max_views]:
+        scored = []
+        for c in {c.pano_id: c for c in cands}.values():
+            pos = (c.lat, c.lon)
+            distance = projection.distance_m(pos, face.target)
+            if not 1.0 <= distance <= limit_m:
+                continue
+            off = projection.angle_gap_deg(projection.bearing_deg(face.target, pos), face.azimuth_deg)
+            if off <= max_angle_deg:
+                scored.append((distance + 0.6 * off, c.pano_id, c, distance))
+        for _, pano_id, c, distance in sorted(scored, key=lambda t: (t[0], t[1])):
+            pos = (c.lat, c.lon)
+            if (pano_id in used or projection.line_blocked(pos, face.target, outline)
+                    or any(projection.line_blocked(pos, face.target, poly) for poly in blockers)
+                    or not usable(pano_id)):
+                continue
+            used.add(pano_id)
+            out.append((face, Pick(pano_id, c.lat, c.lon, distance, projection.bearing_deg(pos, face.target))))
+            break
+    return out
+
+
+def face_view_params(building: Mapping[str, Any], pano: Mapping[str, Any], target: LatLon, cfg: Mapping[str, Any]) -> dict[str, float]:
+    """Like view_params, but aimed at one face of the building: the picture is centred on `target` and sized to
+    the face's longest edge (BR-4.7). If the face cannot be found again (outline or setting changed) the aim point
+    alone is used."""
+    pos = (pano["lat"], pano["lon"])
+    outline = [tuple(p) for p in building["outline"]]
+    edge = None
+    for f in projection.building_faces(outline, cfg["school_face_min_m"]):
+        if projection.distance_m(f.target, target) < 0.5:
+            edge = [f.a, f.b]
+            break
+    distance = projection.distance_m(pos, target)
+    bearing = projection.bearing_deg(pos, target)
+    extent = projection.building_extent_deg(edge, pos) if edge else 0.0
+    wall = projection.nearest_wall_m(edge, pos) if edge else distance
+    height = projection.building_height_m(building["height_m"], building["floors_above"], cfg)
+    fov, pitch = projection.crop_params(extent, wall, height, cfg)
+    return {"distance_m": distance, "bearing_deg": bearing, "yaw_deg": projection.yaw_deg(bearing, pano["heading_deg"]),
+            "fov_deg": fov, "pitch_deg": pitch}
+
+
 # --- the run ------------------------------------------------------------------------------------------------
 
 class Stop(Exception):
@@ -169,6 +227,9 @@ class Capture:
         self.new_downloads = 0  # download attempts over the whole run, against max_new_panos
         self.streak, self.streak_kind = 0, None
         self.counts: dict[str, Any] = {}
+        self.school_polys = [[tuple(p) for p in poly] for poly in cfg["school_polygons"]]
+        self.neighbor_buildings: list[dict[str, Any]] = []  # may stand in the way of a view (BR-2.7)
+        self.nearby_cache: dict[tuple[float, float], list[ps.Candidate]] = {}
 
     # failures ---------------------------------------------------------------------------------------------
     def _fail(self, kind: str, message: str, cell_id: str) -> None:
@@ -183,15 +244,23 @@ class Capture:
         self.streak, self.streak_kind = 0, None
 
     # one cell -----------------------------------------------------------------------------------------------
-    def run_cell(self, cell_id: str, replan: bool = False) -> dict[str, Any]:
+    def run_cell(self, cell_id: str, replan: bool = False, replan_school: bool = False) -> dict[str, Any]:
         self.counts = counts = {**dict.fromkeys(COUNT_KEYS, 0), "stopped_reason": "done"}
         buildings = [b for b in db.rows_in_cells(self.conn, "buildings", [cell_id]) if b["status"] == "ok"]
         if not buildings:
             raise ValueError("no buildings stored for this cell: run register.py first")
         counts["buildings"] = len(buildings)
-        if replan:
+        self.neighbor_buildings = [b for b in db.rows_in_cells(self.conn, "buildings", sorted(h3.grid_disk(cell_id, 1)))
+                                   if b["status"] == "ok"]
+        school = sorted(b["building_id"] for b in buildings if self._is_school(b))
+        counts["school_buildings"] = len(school)
+        if replan or (replan_school and school):
             db.backup(self.conn, common.resolve(self.cfg["backup_dir"]), self.cfg["backup_keep"])
+        if replan:
             for rel in db.delete_views_for_cell(self.conn, cell_id):
+                _inside(self.root, rel).unlink(missing_ok=True)
+        elif replan_school:  # BR-6.2: only the school buildings start over
+            for rel in db.delete_views_for_buildings(self.conn, school):
                 _inside(self.root, rel).unlink(missing_ok=True)
         rejected_before = self.source.rejected
         try:
@@ -203,6 +272,22 @@ class Capture:
         finally:
             counts["failures"] += self.source.rejected - rejected_before  # BR-5.4: discarded replies count as failures
         return counts
+
+    def _is_school(self, b: Mapping[str, Any]) -> bool:
+        return any(projection.point_in_polygon(tuple(b["centroid"]), poly) for poly in self.school_polys)
+
+    def _blocking_outlines(self, b: Mapping[str, Any]) -> list[list[LatLon]]:
+        """Outlines of the other buildings that can hide a wall of `b`. A school building of unknown or low height
+        (a walkway, a shed) is not tall enough to hide anything."""
+        out = []
+        for other in self.neighbor_buildings:
+            if other["building_id"] == b["building_id"]:
+                continue
+            low = not (other["height_m"] and other["height_m"] >= SCHOOL_BLOCK_HEIGHT_M)
+            if low and self._is_school(other):
+                continue
+            out.append([tuple(p) for p in other["outline"]])
+        return out
 
     def _plan(self, cell_id: str, buildings: Sequence[Mapping[str, Any]]) -> None:
         """Buildings without any view row get their panoramas chosen and stored as `planned` (BR-1.2)."""
@@ -224,45 +309,93 @@ class Capture:
         else:
             self._ok()
 
-    def _plan_building(self, b: Mapping[str, Any]) -> None:
-        origin: LatLon = tuple(b["centroid"])
-        cands = self.source.find_nearby(*origin)
-
-        def usable(pano_id: str) -> bool:
-            if pano_id in self.unusable:
-                return False
-            if pano_id in self.panos:
-                return True
-            meta = self.source.get_metadata(pano_id)
-            if meta is None:
-                self.unusable.add(pano_id)
-                self.counts["panos_skipped"] += 1
-                return False
-            self.panos[pano_id] = {
-                "pano_id": pano_id, "cell_id": h3.latlng_to_cell(meta.lat, meta.lon, self.cfg["h3_res"]),
-                "lat": meta.lat, "lon": meta.lon, "heading_deg": meta.heading_deg, "captured_at": meta.captured_at,
-                "is_latest": 1 if meta.is_latest else 0, "zoom": None, "width": None, "height": None,
-                "file_path": None, "status": "found", "downloaded_at": None}
-            self.counts["panos_found"] += 1
+    def _usable(self, pano_id: str) -> bool:
+        """BR-2.5: metadata check, remembered per panorama."""
+        if pano_id in self.unusable:
+            return False
+        if pano_id in self.panos:
             return True
+        meta = self.source.get_metadata(pano_id)
+        if meta is None:
+            self.unusable.add(pano_id)
+            self.counts["panos_skipped"] += 1
+            return False
+        self.panos[pano_id] = {
+            "pano_id": pano_id, "cell_id": h3.latlng_to_cell(meta.lat, meta.lon, self.cfg["h3_res"]),
+            "lat": meta.lat, "lon": meta.lon, "heading_deg": meta.heading_deg, "captured_at": meta.captured_at,
+            "is_latest": 1 if meta.is_latest else 0, "zoom": None, "width": None, "height": None,
+            "file_path": None, "status": "found", "downloaded_at": None}
+        self.counts["panos_found"] += 1
+        return True
 
-        picks = select_panoramas(cands, origin, limit_m=self.cfg["pano_limit_m"],
-                                 separation_deg=self.cfg["pano_separation_deg"], max_views=self.cfg["pano_max_views"],
-                                 usable=usable)
-        if picks:
-            views = [{"building_id": b["building_id"], "rank": rank, "pano_id": p.pano_id,
-                      **view_params(b, self.panos[p.pano_id], self.cfg), "crop_path": None, "status": "planned"}
-                     for rank, p in enumerate(picks, 1)]
-        else:  # one row, so the next run does not look this building up again (BR-2.6)
-            views = [{"building_id": b["building_id"], "rank": 1, "pano_id": None, "distance_m": None,
-                      "bearing_deg": None, "yaw_deg": None, "fov_deg": None, "pitch_deg": None, "crop_path": None,
-                      "status": "no_photo"}]
-            self.counts["no_photo"] += 1
+    def _store_plan(self, picks: Sequence[Pick], views: list[dict[str, Any]]) -> None:
         new = [self.panos[p.pano_id] for p in picks if p.pano_id not in self.persisted]
         db.upsert_captures(self.conn, new)
         self.persisted.update(r["pano_id"] for r in new)
         db.upsert_building_views(self.conn, views)
         self.counts["planned"] += len(picks)
+
+    def _plan_building(self, b: Mapping[str, Any]) -> None:
+        if self._is_school(b) and self._plan_school_building(b):
+            return
+        origin: LatLon = tuple(b["centroid"])
+        cands = self.source.find_nearby(*origin)
+        picks = select_panoramas(cands, origin, limit_m=self.cfg["pano_limit_m"],
+                                 separation_deg=self.cfg["pano_separation_deg"], max_views=self.cfg["pano_max_views"],
+                                 usable=self._usable)
+        no_face = {"face_deg": None, "target_lat": None, "target_lon": None}
+        if picks:
+            views = [{"building_id": b["building_id"], "rank": rank, "pano_id": p.pano_id,
+                      **view_params(b, self.panos[p.pano_id], self.cfg), "crop_path": None, "status": "planned", **no_face}
+                     for rank, p in enumerate(picks, 1)]
+        else:  # one row, so the next run does not look this building up again (BR-2.6)
+            views = [{"building_id": b["building_id"], "rank": 1, "pano_id": None, "distance_m": None,
+                      "bearing_deg": None, "yaw_deg": None, "fov_deg": None, "pitch_deg": None, "crop_path": None,
+                      "status": "no_photo", **no_face}]
+            self.counts["no_photo"] += 1
+        self._store_plan(picks, views)
+
+    def _probe_points(self, b: Mapping[str, Any], faces: Sequence[projection.Face]) -> list[LatLon]:
+        """Where to ask Naver for panoramas. A lookup returns the panoramas around the *nearest* one, so a wall on the
+        far side of the building from the nearest road needs a lookup out in front of it: the face's aim point and
+        two points in front of the wall (BR-2.7)."""
+        points: list[LatLon] = [tuple(b["centroid"])]
+        for f in faces:
+            points.append(f.target)
+            points += [projection.point_toward(f.target, f.azimuth_deg, m) for m in PROBE_DISTANCES_M]
+        return points
+
+    def _nearby(self, origin: LatLon) -> list[ps.Candidate]:
+        key = (round(origin[0], 5), round(origin[1], 5))  # about one meter: neighbouring faces share lookups
+        if key not in self.nearby_cache:
+            self.nearby_cache[key] = self.source.find_nearby(*origin)
+        return self.nearby_cache[key]
+
+    def _plan_school_building(self, b: Mapping[str, Any]) -> bool:
+        """BR-2.7: one picture per face. False if no face got a panorama; the nearest-first rule then plans the building."""
+        outline = [tuple(p) for p in b["outline"]]
+        faces = projection.building_faces(outline, self.cfg["school_face_min_m"])
+        wanted = sorted(faces, key=lambda f: (-f.length_m, f.azimuth_deg))[:self.cfg["school_max_views"]]
+        if not wanted:
+            return False
+        cands: dict[str, ps.Candidate] = {}
+        for origin in self._probe_points(b, wanted):
+            for c in self._nearby(origin):
+                cands[c.pano_id] = c
+        chosen = select_faces(outline, faces, list(cands.values()), self._blocking_outlines(b),
+                              limit_m=self.cfg["pano_limit_m"], max_angle_deg=self.cfg["school_face_max_deg"],
+                              max_views=self.cfg["school_max_views"], usable=self._usable)
+        if not chosen:
+            common.log(logging.WARNING, f"{b['building_id']}: no face has a panorama in view, using nearest-first",
+                       b["cell_id"])
+            return False
+        views = [{"building_id": b["building_id"], "rank": rank, "pano_id": p.pano_id,
+                  **face_view_params(b, self.panos[p.pano_id], face.target, self.cfg), "crop_path": None,
+                  "status": "planned", "face_deg": face.azimuth_deg, "target_lat": face.target[0],
+                  "target_lon": face.target[1]} for rank, (face, p) in enumerate(chosen, 1)]
+        self._store_plan([p for _, p in chosen], views)
+        self.counts["face_views"] += len(views)
+        return True
 
     def _fulfil(self, cell_id: str, buildings: Sequence[Mapping[str, Any]]) -> None:
         by_id = {b["building_id"]: b for b in buildings}
@@ -278,7 +411,10 @@ class Capture:
         pano = self.panos.get(v["pano_id"])
         if pano is None or v["pano_id"] in self.failed_panos:
             return
-        params = view_params(b, pano, self.cfg)
+        if v.get("target_lat") is not None:  # a face view (BR-4.7): aim at the face, not at the building center
+            params = face_view_params(b, pano, (v["target_lat"], v["target_lon"]), self.cfg)
+        else:
+            params = view_params(b, pano, self.cfg)
         rel = crop_file(b["cell_id"], b["building_id"], v["pano_id"])
         if (v["status"] == "cropped" and v["crop_path"] == rel and _inside(self.root, rel).is_file()
                 and all(math.isclose(v[k], params[k], abs_tol=1e-6) for k in params)):
@@ -344,6 +480,8 @@ def parse_args(argv: Sequence[str], res: int) -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="capture.py", description=__doc__.split("\n")[0])
     parser.add_argument("--cells", nargs="+", metavar="ID", help="H3 cell IDs to process")
     parser.add_argument("--replan", action="store_true", help="forget the cells' building views and plan again")
+    parser.add_argument("--replan-school", action="store_true",
+                        help="forget the views of the school buildings only and plan them again, face by face")
     parser.add_argument("--selftest", action="store_true", help="check that the libraries import; no network")
     ns = parser.parse_args(list(argv))
     if ns.selftest:
@@ -372,7 +510,7 @@ def main(cfg: dict[str, Any]) -> int:
     for cell_id in args.cells:
         started = common.now_iso()
         try:
-            counts = capture.run_cell(cell_id, args.replan)
+            counts = capture.run_cell(cell_id, args.replan, args.replan_school)
             db.record_run(conn, cell_id=cell_id, unit="C3", started_at=started, finished_at=common.now_iso(),
                           status="ok", counts=counts)
             common.log(logging.INFO, "cell done", cell_id, **counts)

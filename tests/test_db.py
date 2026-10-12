@@ -138,7 +138,8 @@ def test_foreign_keys_pragma_is_on():
 
 def _view(building_id, rank=1, pano_id="p1", status="planned", crop_path=None):
     return {"building_id": building_id, "rank": rank, "pano_id": pano_id, "distance_m": 12.5, "bearing_deg": 90.0,
-            "yaw_deg": -30.0, "fov_deg": 60.0, "pitch_deg": 5.0, "crop_path": crop_path, "status": status}
+            "yaw_deg": -30.0, "fov_deg": 60.0, "pitch_deg": 5.0, "crop_path": crop_path, "status": status,
+            "face_deg": None, "target_lat": None, "target_lon": None}
 
 
 def _capture(pano_id, **kw):

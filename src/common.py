@@ -50,6 +50,10 @@ DEFAULTS: dict[str, Any] = {
     "camera_height_m": 2.5,
     "floor_height_m": 3.4,
     "default_height_m": 10,
+    "school_polygons": [],
+    "school_max_views": 6,
+    "school_face_min_m": 8,
+    "school_face_max_deg": 60,
 }
 
 # U3 key -> (min, max, must be an integer)
@@ -58,7 +62,8 @@ RANGES: dict[str, tuple[float, float, bool]] = {
     "max_new_panos": (1, 10_000, True), "crop_width": (64, 4096, True), "crop_height": (64, 4096, True),
     "crop_quality": (1, 100, True), "fov_min_deg": (1, 179, False), "fov_max_deg": (1, 179, False),
     "pitch_max_deg": (0, 89, False), "camera_height_m": (0, 100, False), "floor_height_m": (0.5, 20, False),
-    "default_height_m": (0.5, 500, False),
+    "default_height_m": (0.5, 500, False), "school_max_views": (1, 12, True), "school_face_min_m": (1, 100, False),
+    "school_face_max_deg": (5, 89, False),
 }
 
 RETRY_CODES = {429, 502, 504}
@@ -109,6 +114,12 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         ok = (isinstance(v, int) and not isinstance(v, bool)) if integer else _is_number(v)
         if not (ok and lo <= v <= hi):
             errors.append(f"{k} must be {'an integer' if integer else 'a number'} from {lo} to {hi}")
+    polys = cfg["school_polygons"]
+    if not (isinstance(polys, list) and all(
+            isinstance(poly, list) and len(poly) >= 3 and all(
+                isinstance(p, list) and len(p) == 2 and all(_is_number(x) for x in p)
+                and -90 <= p[0] <= 90 and -180 <= p[1] <= 180 for p in poly) for poly in polys)):
+        errors.append("school_polygons must be a list of polygons, each with at least 3 [lat, lon] points")
     if not errors and cfg["fov_min_deg"] > cfg["fov_max_deg"]:
         errors.append("fov_min_deg must not exceed fov_max_deg")
     if errors:

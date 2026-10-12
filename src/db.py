@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS captures (
 CREATE TABLE IF NOT EXISTS building_views (
     building_id TEXT NOT NULL, rank INTEGER NOT NULL, pano_id TEXT, distance_m REAL, bearing_deg REAL,
     yaw_deg REAL, fov_deg REAL, pitch_deg REAL, crop_path TEXT, status TEXT NOT NULL,
+    face_deg REAL, target_lat REAL, target_lon REAL,
     PRIMARY KEY (building_id, rank));
 CREATE INDEX IF NOT EXISTS idx_osm_buildings_cell ON osm_buildings(cell_id);
 CREATE INDEX IF NOT EXISTS idx_gis_buildings_cell ON gis_buildings(cell_id);
@@ -80,6 +81,10 @@ def connect(path: str | Path) -> sqlite3.Connection:
     conn = sqlite3.connect(p)
     conn.execute("PRAGMA foreign_keys = ON")
     conn.executescript(SCHEMA)
+    have = {r[1] for r in conn.execute("PRAGMA table_info(building_views)")}
+    for column in ("face_deg", "target_lat", "target_lon"):  # added for the school faces (BR-2.7); older databases lack them
+        if column not in have:
+            conn.execute(f"ALTER TABLE building_views ADD COLUMN {column} REAL")
     conn.commit()
     return conn
 
@@ -209,7 +214,7 @@ def record_run(conn: sqlite3.Connection, *, cell_id: str | None, unit: str, star
 CAPTURE_COLUMNS = ("pano_id", "cell_id", "lat", "lon", "heading_deg", "captured_at", "is_latest", "zoom",
                    "width", "height", "file_path", "status", "downloaded_at")
 VIEW_COLUMNS = ("building_id", "rank", "pano_id", "distance_m", "bearing_deg", "yaw_deg", "fov_deg",
-                "pitch_deg", "crop_path", "status")
+                "pitch_deg", "crop_path", "status", "face_deg", "target_lat", "target_lon")
 
 
 def _upsert(conn: sqlite3.Connection, table: str, columns: Sequence[str], rows: Iterable[Mapping[str, Any]]) -> int:
@@ -253,6 +258,19 @@ def delete_views_for_cell(conn: sqlite3.Connection, cell_id: str) -> list[str]:
     paths = [v["crop_path"] for v in views_for_cell(conn, cell_id) if v["crop_path"]]
     with conn:
         conn.execute(f"DELETE FROM building_views WHERE {_CELL_VIEWS}", (cell_id,))
+    return paths
+
+
+def delete_views_for_buildings(conn: sqlite3.Connection, building_ids: Sequence[str]) -> list[str]:
+    """--replan-school: delete the views of these buildings only and return their crop paths."""
+    ids = list(building_ids)
+    if not ids:
+        return []
+    marks = ", ".join("?" for _ in ids)
+    paths = [r[0] for r in conn.execute(
+        f"SELECT crop_path FROM building_views WHERE crop_path IS NOT NULL AND building_id IN ({marks})", ids)]
+    with conn:
+        conn.execute(f"DELETE FROM building_views WHERE building_id IN ({marks})", ids)
     return paths
 
 
