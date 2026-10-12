@@ -8,8 +8,8 @@
 
 ## 파이프라인
 
-1. 구역 지정: 위경도 4점 → `cells.py`가 H3 칸으로 채움 (해상도 9 ≈ 변 200m·넓이 0.105km², 10 ≈ 변 76m)
-2. 칸마다 OpenStreetMap 건물 외곽선·높이를 받아 `cells/<칸ID>.json`에 저장
+1. 구역 지정: 위경도 4점 또는 칸 ID → `src/cells.py`가 H3 칸으로 채움 (해상도 9 ≈ 변 200m·넓이 0.105km², 10 ≈ 변 76m)
+2. 칸마다 V-World 건물통합정보(외곽선·층수·높이)와 OSM(이름·태그, 도로·가로시설)을 받아 `data/map.db`(SQLite)에 저장, `src/register.py`가 건물을 조립
 3. 칸 하나를 Studio에 건물 박스로 생성 (Roblox Studio MCP 서버로 Luau 실행)
 4. 칸 안 모든 건물을 네이버 거리뷰 자동 캡처(Playwright)로 높이·색·지붕 등을 판단해 다듬음 (사용자 결정, 아래 결정 사항 참고)
 5. 다음 칸으로 반복
@@ -27,26 +27,34 @@
 ## 실행
 
 ```bash
-uv run cells.py RES lat,lon lat,lon lat,lon [lat,lon ...]
-# 예: uv run cells.py 9 37.5643,126.9754 37.5643,126.9804 37.5683,126.9804 37.5683,126.9754
+# 1) OSM 수집 (건물 이름·태그, 도로, 가로시설). 칸 ID를 직접 줄 수도 있다
+uv run --env-file .env src/cells.py --cells 8930e0af13bffff 8930e0af123ffff 8930e0af12bffff
+# uv run --env-file .env src/cells.py 9 lat,lon lat,lon lat,lon [lat,lon ...]   (점으로 채울 때)
+
+# 2) V-World 건물 수집과 조립 (.env에 VWORLD_KEY 필요)
+uv run --env-file .env src/register.py --cells 8930e0af13bffff     # 또는 --all
+
+# 테스트 (속성 기반 테스트 포함)
+uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 ```
 
-- Overpass 공개 서버가 504/429를 자주 내서 재시도가 들어 있음(10s, 30s, 60s). 큰 영역은 느리다.
-- 건물은 중심점이 속한 칸에만 저장되므로 칸 사이 중복이 없다.
+- 설정 값(겹침 기준, 버퍼, 호출 간격 등)은 `config.toml`, 비밀값은 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외).
+- Overpass와 V-World는 429/502/504와 시간 초과에서 재시도한다(10s, 30s, 60s). 칸 하나가 실패해도 이전 데이터는 유지된다.
+- 건물은 자기 중심점이 속한 칸에만 저장되므로 칸 사이 중복이 없다. DB는 `data/map.db`, 로그는 `data/logs/*.jsonl`, 칸 재수집 직전 백업은 `data/backups/`(모두 git 제외).
 
 ## 현재 상태
 
-- `cells.py` 동작 확인. 서울시청 근처로 임시 테스트: 칸 3개, 건물 128개.
+- U1 코드(`src/geo.py`, `db.py`, `common.py`, `cells.py`, `register.py`)와 테스트 93개를 만들었다(2026-10-13). 실제 칸 수집은 Build and Test에서 첫 칸부터 한다.
 - 건물 128개 중 height/building:levels 태그가 있는 것은 26개(서울시청 테스트 기준). OSM 태그는 부족하므로 V-World 건물통합정보의 층수와 거리뷰로 보완한다.
 - 서울시청 칸은 임시 테스트였다. 실제 대상은 심원고 3칸(`8930e0af13bffff`, `8930e0af123ffff`, `8930e0af12bffff`)이고 아직 데이터를 받지 않았다.
 - Roblox Studio 설치와 내장 MCP 연결 완료, 동작 확인(2026-10-12). `execute_luau`로 생성, `screen_capture`로 캡처가 된다. 열린 장소에 테스트용 `MCP_Test` 폴더가 남아 있다.
-- AI-DLC: Requirements 승인, User Stories 건너뜀, Workflow Planning 계획서(`aidlc-docs/inception/plans/execution-plan.md`) 승인 대기.
+- AI-DLC: Inception 완료, U1 Functional Design, NFR Requirements, NFR Design 승인, U1 Code Generation 생성 완료(승인 대기). 다음은 Build and Test.
 
 ## 다음 할 일
 
-1. 실행 계획서 승인 → Application Design → Units Generation → Construction 순서(`aidlc-state.md` 참고)
-2. `cells/*.json` 한 칸을 읽어 Studio에 건물 박스로 생성하는 Luau 작성
-3. 거리뷰가 브라우저 패널에서 실제로 열리고 이동되는지 확인(U1 다음에 바로 시험, 유닛 순서는 U1 → U3 → U2 → U4 → U5)
+1. U1 코드 승인 → Build and Test(테스트 실행, 첫 칸 `8930e0af13bffff` 실제 수집과 조립)
+2. U3 거리뷰 캡처(Playwright로 열리고 이동되는지 먼저 시험) → U2 Studio 생성기 → U4 판단·보정 → U5 디테일 (`aidlc-state.md` 참고)
+3. U4 완료 때 복구 연습(DB를 지우고 S1 재실행, `overrides` 불러오기)
 
 ## 주의
 
