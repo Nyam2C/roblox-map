@@ -6,3 +6,7 @@ cells/
 # Roblox place files are binary, version them in Studio cloud history
 *.rbxl
 *.rbxlx
+# street-view captures stay local (public repo, may contain faces/plates)
+captures/
+# API keys (data.go.kr 등)
+.env
