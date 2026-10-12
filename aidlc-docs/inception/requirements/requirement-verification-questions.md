@@ -20,7 +20,7 @@ C) 규칙대로 전체 산출물(아키텍처, 컴포넌트, 의존성 등)을 �
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 2
 이 맵의 **최종 용도**는 무엇인가요?
@@ -35,7 +35,7 @@ D) 아직 모름. 먼저 비공개로 만들고 나중에 결정
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 3
 **만들 동네**가 정해졌나요?
@@ -48,7 +48,7 @@ C) 정하지 못했다. 고르는 기준을 제안해 주세요
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A 일단은 부천 심원고등학교
 
 ## Question 4
 **1차 목표 규모**는 어디까지인가요? (H3 해상도 9 기준 칸 하나는 변 약 170m)
@@ -63,7 +63,7 @@ D) 미정. 칸 1개로 시험해 보고 결정
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 5
 **건물 충실도**는 어디까지 목표인가요? (아래 단계는 위에서 아래로 누적됩니다)
@@ -78,7 +78,7 @@ D) C + 일부 건물 내부 입장 가능
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: C + 텍스처까지 현실감 있게
 
 ## Question 6
 **스케일**은 어떻게 할까요? (Roblox에서 1m는 약 3.6 stud입니다. 실제 크기로 만들면 걷는 시간이 현실과 같아집니다)
@@ -93,7 +93,7 @@ D) 미정. 칸 1개를 1:1로 만들어 보고 결정
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: D
 
 ## Question 7
 **지형과 도로 등 건물 외의 요소**는 1차에 어디까지 넣나요? (아래 단계는 누적됩니다)
@@ -108,7 +108,7 @@ D) C + 실제 고저차와 하천, 공원 녹지
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: C
 
 ## Question 8
 **롤플레이 기능**은 1차(v1)에서 어디까지인가요?
@@ -123,7 +123,7 @@ D) 맵을 완성한 뒤 별도 단계에서 결정
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ---
 
@@ -142,7 +142,7 @@ D) 간판 텍스트 없이 만든다
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: B
 
 ## Question 10
 실제 사람이 사는 **주거 건물**은 어떻게 다루나요?
@@ -155,7 +155,7 @@ C) 외형은 재현하되 번지 같은 식별 정보와 세부 디테일은 제
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 11
 **네이버 거리뷰**를 어떻게 활용하나요? 네이버지도 약관이 자동 수집을 막고 있을 가능성이 있고, 저는 아직 약관을 확인하지 않았습니다. 이미지를 텍스처로 복사하는 용도는 제외합니다.
@@ -170,7 +170,7 @@ D) 약관을 먼저 확인한 뒤 결정
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 12
 OSM에 **높이 정보가 없는 건물**(지금 테스트 기준 약 80%)은 어떻게 처리하나요?
@@ -185,7 +185,7 @@ D) 거리뷰나 사진으로 건물마다 수작업 확인 (소규모 구역에�
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: 거리뷰에서 자동차랑 거리 비율 봐서 높이 계산 ( 다른것들도 )
 
 ---
 
@@ -204,7 +204,7 @@ D) 미정
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 14
 **위치 정확도**는 어느 정도여야 하나요? (OSM 데이터 자체의 오차가 있습니다)
@@ -217,7 +217,7 @@ C) 정밀하게. 1m 내외
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: B
 
 ## Question 15
 자동 생성한 건물을 **수작업으로 다듬은 뒤 재생성**하면 충돌이 생깁니다. 정책을 정해 주세요.
@@ -230,7 +230,7 @@ C) 칸 전체를 재생성 가능하게 두고, 수작업은 버려도 됨
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ---
 
@@ -245,7 +245,7 @@ B) 아니오. 모든 SECURITY 규칙을 건너뜀 (PoC, 프로토타입, 실험 
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 17
 **복원력(Resiliency) 기본 규칙**을 적용할까요? AWS Well-Architected의 신뢰성 원칙에서 가져온 설계 시점의 권고 사항이며, 적용해도 프로덕션 준비 완료를 보장하지는 않습니다.
@@ -256,7 +256,7 @@ B) 아니오. 건너뜀 (PoC, 프로토타입, 실험 프로젝트에 적합)
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 18
 **속성 기반 테스트(PBT) 규칙**을 적용할까요?
@@ -269,4 +269,4 @@ C) 아니오. 모두 건너뜀 (단순 CRUD, UI 전용, 로직이 거의 없는 
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
