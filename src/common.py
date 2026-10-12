@@ -1,4 +1,4 @@
-"""Shared infrastructure for the U1 scripts: config, secrets, logging, retrying HTTP GET, CLI runner.
+"""Shared infrastructure for the U1 and U3 scripts: config, secrets, logging, retrying HTTP GET, CLI runner.
 
 Standard library only. Design: aidlc-docs/construction/u1-data-foundation/nfr-design/
 """
@@ -34,6 +34,31 @@ DEFAULTS: dict[str, Any] = {
     "log_dir": "data/logs",
     "backup_dir": "data/backups",
     "backup_keep": 5,
+    # U3 street-view capture
+    "captures_dir": "captures",
+    "pano_limit_m": 120,
+    "pano_separation_deg": 60,
+    "pano_max_views": 3,
+    "pano_pause_s": 1,
+    "max_new_panos": 100,
+    "crop_width": 1024,
+    "crop_height": 768,
+    "crop_quality": 85,
+    "fov_min_deg": 60,
+    "fov_max_deg": 100,
+    "pitch_max_deg": 40,
+    "camera_height_m": 2.5,
+    "floor_height_m": 3.4,
+    "default_height_m": 10,
+}
+
+# U3 key -> (min, max, must be an integer)
+RANGES: dict[str, tuple[float, float, bool]] = {
+    "pano_limit_m": (1, 1000, False), "pano_separation_deg": (0, 180, False), "pano_max_views": (1, 6, True),
+    "max_new_panos": (1, 10_000, True), "crop_width": (64, 4096, True), "crop_height": (64, 4096, True),
+    "crop_quality": (1, 100, True), "fov_min_deg": (1, 179, False), "fov_max_deg": (1, 179, False),
+    "pitch_max_deg": (0, 89, False), "camera_height_m": (0, 100, False), "floor_height_m": (0.5, 20, False),
+    "default_height_m": (0.5, 500, False),
 }
 
 RETRY_CODES = {429, 502, 504}
@@ -64,7 +89,7 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         errors.append("overlap_threshold must be in (0, 1]")
     if not (_is_number(cfg["buffer_m"]) and 0 < cfg["buffer_m"] <= 2000):
         errors.append("buffer_m must be in (0, 2000]")
-    for k in ("overpass_pause_s", "vworld_pause_s"):
+    for k in ("overpass_pause_s", "vworld_pause_s", "pano_pause_s"):
         if not (_is_number(cfg[k]) and cfg[k] >= 0):
             errors.append(f"{k} must be a number >= 0")
     size = cfg["vworld_page_size"]
@@ -73,12 +98,19 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
     waits = cfg["retry_waits_s"]
     if not (isinstance(waits, list) and all(_is_number(w) and w >= 0 for w in waits)):
         errors.append("retry_waits_s must be a list of numbers >= 0")
-    for k in ("db_path", "log_dir", "backup_dir"):
+    for k in ("db_path", "log_dir", "backup_dir", "captures_dir"):
         if not (isinstance(cfg[k], str) and cfg[k].strip()):
             errors.append(f"{k} must be a non-empty string")
     keep = cfg["backup_keep"]
     if not (isinstance(keep, int) and not isinstance(keep, bool) and keep >= 0):
         errors.append("backup_keep must be an integer >= 0")
+    for k, (lo, hi, integer) in RANGES.items():
+        v = cfg[k]
+        ok = (isinstance(v, int) and not isinstance(v, bool)) if integer else _is_number(v)
+        if not (ok and lo <= v <= hi):
+            errors.append(f"{k} must be {'an integer' if integer else 'a number'} from {lo} to {hi}")
+    if not errors and cfg["fov_min_deg"] > cfg["fov_max_deg"]:
+        errors.append("fov_min_deg must not exceed fov_max_deg")
     if errors:
         raise ValueError("config: " + "; ".join(errors))
     return cfg

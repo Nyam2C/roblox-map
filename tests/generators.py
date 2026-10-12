@@ -11,6 +11,7 @@ import h3
 from hypothesis import strategies as st
 
 import geo
+import panorama_source as ps
 
 RES = 9
 BASE: geo.LatLon = h3.cell_to_boundary("8930e0af13bffff")[0]
@@ -140,3 +141,27 @@ def scenarios(draw, max_gis: int = 8, max_osm: int = 6, allow_invalid: bool = Tr
         for i, ol in enumerate(osm_outlines)
     ]
     return osm, gis
+
+
+# --- U3 street view ------------------------------------------------------------------
+
+def positions(spread_m: float = 300.0):
+    """A point within spread_m meters of BASE."""
+    return st.builds(lambda dx, dy: offset(BASE, dx, dy), st.floats(-spread_m, spread_m), st.floats(-spread_m, spread_m))
+
+
+def position_pairs(spread_m: float = 300.0):
+    return st.tuples(positions(spread_m), positions(spread_m))
+
+
+compass_degrees = st.floats(0.0, 360.0, exclude_max=True)  # headings and bearings
+extents_deg = st.floats(0.0, 200.0)
+distances_m = st.floats(0.0, 150.0)
+heights_m = st.floats(0.5, 200.0)
+
+
+def candidates(origin: geo.LatLon = BASE, spread_m: float = 200.0, max_size: int = 25):
+    """Panorama candidates around `origin` with unique ids (BR-2.1)."""
+    one = st.builds(lambda i, dx, dy: ps.Candidate(f"p{i}", *offset(origin, dx, dy)),
+                    st.integers(0, 10**6), st.floats(-spread_m, spread_m), st.floats(-spread_m, spread_m))
+    return st.lists(one, max_size=max_size, unique_by=lambda c: c.pano_id)

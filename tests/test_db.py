@@ -132,3 +132,64 @@ def test_record_run_stores_counts_and_error(tmp_path):
 
 def test_foreign_keys_pragma_is_on():
     assert db.connect(":memory:").execute("PRAGMA foreign_keys").fetchone() == (1,)
+
+
+# --- U3: captures and building_views ---------------------------------------------------------------
+
+def _view(building_id, rank=1, pano_id="p1", status="planned", crop_path=None):
+    return {"building_id": building_id, "rank": rank, "pano_id": pano_id, "distance_m": 12.5, "bearing_deg": 90.0,
+            "yaw_deg": -30.0, "fov_deg": 60.0, "pitch_deg": 5.0, "crop_path": crop_path, "status": status}
+
+
+def _capture(pano_id, **kw):
+    return {"pano_id": pano_id, "cell_id": "8930e0af13bffff", "lat": 37.5, "lon": 126.77, "heading_deg": 10.0,
+            "captured_at": "2026-05-27T14:28:00", "is_latest": 1, "zoom": None, "width": None, "height": None,
+            "file_path": None, "status": "found", "downloaded_at": None, **kw}
+
+
+def test_views_and_captures_are_replaced_by_key_and_wrong_columns_are_rejected():
+    conn = db.connect(":memory:")
+    db.upsert_captures(conn, [_capture("p1"), _capture("p2")])
+    db.upsert_captures(conn, [_capture("p1", status="downloaded", file_path="c/p1/zoom1.jpg")])
+    assert [(c["pano_id"], c["status"]) for c in db.all_captures(conn)] == [("p1", "downloaded"), ("p2", "found")]
+    with conn:
+        conn.execute("INSERT INTO buildings (building_id, cell_id, source, outline, centroid, status) "
+                     "VALUES ('gis:1', 'c1', 'gis', '[]', '[0,0]', 'ok')")
+    db.upsert_building_views(conn, [_view("gis:1"), _view("gis:1", rank=2, pano_id="p2")])
+    db.upsert_building_views(conn, [_view("gis:1", status="cropped", crop_path="c1/crops/x.jpg")])
+    assert [(v["rank"], v["status"]) for v in db.views_for_cell(conn, "c1")] == [(1, "cropped"), (2, "planned")]
+    with pytest.raises(ValueError):
+        db.upsert_building_views(conn, [{"building_id": "gis:1"}])
+
+
+@settings(max_examples=25, deadline=None)
+@given(scenarios(allow_invalid=False))
+def test_deleting_a_cells_views_leaves_other_cells_views_u1_tables_and_overrides_alone(sc):
+    osm, gis = sc
+    cells = sorted({b.cell_id for b in (*osm, *gis)}) or ["8930e0af13bffff"]
+    conn = db.connect(":memory:")
+    for c in cells:
+        db.replace_cell_rows(conn, c, _tables_for(c, osm, gis))
+    owned = {c: [b["building_id"] for b in db.rows_in_cells(conn, "buildings", [c])] for c in cells}
+    _make_overrides(conn, [i for ids in owned.values() for i in ids])
+    db.upsert_building_views(conn, [_view(i, crop_path=f"{c}/crops/{i}.jpg") for c, ids in owned.items() for i in ids]
+                             + [_view(i, rank=2) for ids in owned.values() for i in ids])
+    before, overrides = _snapshot(conn), conn.execute("SELECT * FROM overrides ORDER BY building_id").fetchall()
+    target = cells[0]
+    removed = db.delete_views_for_cell(conn, target)
+    assert sorted(removed) == sorted(f"{target}/crops/{i}.jpg" for i in owned[target])
+    assert db.views_for_cell(conn, target) == []
+    for c in cells[1:]:
+        assert len(db.views_for_cell(conn, c)) == 2 * len(owned[c])
+    assert _snapshot(conn) == before
+    assert conn.execute("SELECT * FROM overrides ORDER BY building_id").fetchall() == overrides
+
+
+def test_orphan_views_are_listed_and_nothing_is_deleted():
+    conn = db.connect(":memory:")
+    with conn:
+        conn.execute("INSERT INTO buildings (building_id, cell_id, source, outline, centroid, status) "
+                     "VALUES ('gis:1', 'c1', 'gis', '[]', '[0,0]', 'ok')")
+    db.upsert_building_views(conn, [_view("gis:1"), _view("gis:2"), _view("osm:9", pano_id=None, status="no_photo")])
+    assert db.orphan_views(conn) == ["gis:2", "osm:9"]
+    assert conn.execute("SELECT COUNT(*) FROM building_views").fetchone()[0] == 3

@@ -156,7 +156,10 @@ def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):
     p.write_text("buffer_m = 200\n", encoding="utf-8")
     assert common.load_config(p)["buffer_m"] == 200 and common.load_config(p)["h3_res"] == 9
     for bad in ("h3_res = 99", "overlap_threshold = 0", "vworld_page_size = 5000", "retry_waits_s = [-1]",
-                "backup_keep = -1", 'db_path = ""', "mystery = 1"):
+                "backup_keep = -1", 'db_path = ""', "mystery = 1",
+                "pano_limit_m = 0", "pano_max_views = 2.5", "pano_max_views = true", "max_new_panos = 0",
+                "crop_quality = 101", "fov_min_deg = 120", "pitch_max_deg = 90", "pano_pause_s = -1",
+                'captures_dir = ""'):
         p.write_text(bad + "\n", encoding="utf-8")
         with pytest.raises(ValueError):
             common.load_config(p)

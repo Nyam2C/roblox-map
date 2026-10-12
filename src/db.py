@@ -1,7 +1,7 @@
-"""SQLite data layer for U1 (C7): schema, per-cell replacement, orphan report, backup, run log.
+"""SQLite data layer for U1 (C7) and U3: schema, per-cell replacement, orphan report, backup, run log.
 
-Only U1 tables are created here. `overrides` and `estimates` belong to U4; this module never
-writes them and reads them only to report orphans.
+U1 tables plus U3's `captures` and `building_views`. `overrides` and `estimates` belong to U4; this
+module never writes them and reads them only to report orphans. U3 only reads U1's `buildings`.
 """
 from __future__ import annotations
 
@@ -56,6 +56,14 @@ CREATE TABLE IF NOT EXISTS street_features (
 CREATE TABLE IF NOT EXISTS collection_runs (
     id INTEGER PRIMARY KEY AUTOINCREMENT, cell_id TEXT, unit TEXT NOT NULL, started_at TEXT NOT NULL,
     finished_at TEXT, status TEXT NOT NULL, source_stamp TEXT, counts TEXT, error TEXT);
+CREATE TABLE IF NOT EXISTS captures (
+    pano_id TEXT PRIMARY KEY, cell_id TEXT NOT NULL, lat REAL NOT NULL, lon REAL NOT NULL, heading_deg REAL,
+    captured_at TEXT, is_latest INTEGER, zoom INTEGER, width INTEGER, height INTEGER, file_path TEXT,
+    status TEXT NOT NULL, downloaded_at TEXT);
+CREATE TABLE IF NOT EXISTS building_views (
+    building_id TEXT NOT NULL, rank INTEGER NOT NULL, pano_id TEXT, distance_m REAL, bearing_deg REAL,
+    yaw_deg REAL, fov_deg REAL, pitch_deg REAL, crop_path TEXT, status TEXT NOT NULL,
+    PRIMARY KEY (building_id, rank));
 CREATE INDEX IF NOT EXISTS idx_osm_buildings_cell ON osm_buildings(cell_id);
 CREATE INDEX IF NOT EXISTS idx_gis_buildings_cell ON gis_buildings(cell_id);
 CREATE INDEX IF NOT EXISTS idx_buildings_cell ON buildings(cell_id);
@@ -194,3 +202,62 @@ def record_run(conn: sqlite3.Connection, *, cell_id: str | None, unit: str, star
             (cell_id, unit, started_at, finished_at, status, source_stamp,
              _encode("counts", dict(counts) if counts is not None else None), error))
     return int(cur.lastrowid)
+
+
+# --- U3: street-view captures ---------------------------------------------------------------------
+
+CAPTURE_COLUMNS = ("pano_id", "cell_id", "lat", "lon", "heading_deg", "captured_at", "is_latest", "zoom",
+                   "width", "height", "file_path", "status", "downloaded_at")
+VIEW_COLUMNS = ("building_id", "rank", "pano_id", "distance_m", "bearing_deg", "yaw_deg", "fov_deg",
+                "pitch_deg", "crop_path", "status")
+
+
+def _upsert(conn: sqlite3.Connection, table: str, columns: Sequence[str], rows: Iterable[Mapping[str, Any]]) -> int:
+    rows = list(rows)
+    for row in rows:
+        if set(row) != set(columns):
+            raise ValueError(f"{table}: row columns {sorted(row)} do not match {sorted(columns)}")
+    sql = f"INSERT OR REPLACE INTO {table} ({', '.join(columns)}) VALUES ({', '.join('?' for _ in columns)})"
+    with conn:
+        for row in rows:
+            conn.execute(sql, [row[c] for c in columns])
+    return len(rows)
+
+
+def upsert_captures(conn: sqlite3.Connection, rows: Iterable[Mapping[str, Any]]) -> int:
+    return _upsert(conn, "captures", CAPTURE_COLUMNS, rows)
+
+
+def upsert_building_views(conn: sqlite3.Connection, rows: Iterable[Mapping[str, Any]]) -> int:
+    return _upsert(conn, "building_views", VIEW_COLUMNS, rows)
+
+
+def all_captures(conn: sqlite3.Connection) -> list[dict[str, Any]]:
+    cur = conn.execute(f"SELECT {', '.join(CAPTURE_COLUMNS)} FROM captures ORDER BY pano_id")
+    return [dict(zip(CAPTURE_COLUMNS, r)) for r in cur.fetchall()]
+
+
+_CELL_VIEWS = "building_id IN (SELECT building_id FROM buildings WHERE cell_id = ?)"
+
+
+def views_for_cell(conn: sqlite3.Connection, cell_id: str) -> list[dict[str, Any]]:
+    """building_views rows of the buildings that belong to this cell, ordered by building and rank."""
+    cur = conn.execute(
+        f"SELECT {', '.join(VIEW_COLUMNS)} FROM building_views WHERE {_CELL_VIEWS} ORDER BY building_id, rank",
+        (cell_id,))
+    return [dict(zip(VIEW_COLUMNS, r)) for r in cur.fetchall()]
+
+
+def delete_views_for_cell(conn: sqlite3.Connection, cell_id: str) -> list[str]:
+    """--replan (BR-6.2): delete this cell's building_views and return their crop paths. Nothing else is touched."""
+    paths = [v["crop_path"] for v in views_for_cell(conn, cell_id) if v["crop_path"]]
+    with conn:
+        conn.execute(f"DELETE FROM building_views WHERE {_CELL_VIEWS}", (cell_id,))
+    return paths
+
+
+def orphan_views(conn: sqlite3.Connection) -> list[str]:
+    """building_ids that have building_views but no longer exist in buildings (BR-6.3). Nothing is deleted."""
+    cur = conn.execute("SELECT DISTINCT building_id FROM building_views "
+                       "WHERE building_id NOT IN (SELECT building_id FROM buildings) ORDER BY building_id")
+    return [r[0] for r in cur.fetchall()]

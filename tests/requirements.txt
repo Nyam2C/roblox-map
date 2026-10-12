@@ -3,3 +3,5 @@ h3==4.5.0
 shapely==2.2.0
 pytest==9.1.1
 hypothesis==6.169.0
+numpy==2.5.4
+pillow==12.3.0

@@ -10,3 +10,20 @@ db_path = "data/map.db"
 log_dir = "data/logs"
 backup_dir = "data/backups"
 backup_keep = 5
+
+# U3 거리뷰 캡처
+captures_dir = "captures"    # 사진 폴더(git 제외). 사람 얼굴과 번호판이 찍힐 수 있다
+pano_limit_m = 120           # 건물 중심점에서 이 거리 안의 파노라마만 쓴다 (BR-2.2)
+pano_separation_deg = 60     # 고른 파노라마끼리 방위각 차이가 이 값 이상이어야 한다 (BR-2.4)
+pano_max_views = 3           # 건물 하나에 쓰는 파노라마 최대 장수
+pano_pause_s = 1             # 네이버 호출 사이 최소 대기(초). 더 줄이지 않는다 (BR-3.3)
+max_new_panos = 100          # 한 실행에서 새로 내려받는 파노라마 상한 (BR-3.4)
+crop_width = 1024            # 건물 크롭 크기와 JPEG 품질 (BR-4.4)
+crop_height = 768
+crop_quality = 85
+fov_min_deg = 60             # 크롭 시야각 범위 (BR-4.2)
+fov_max_deg = 100
+pitch_max_deg = 40           # 크롭 위쪽 각도 상한 (BR-4.3)
+camera_height_m = 2.5        # 거리뷰 카메라 높이 가정 (BR-4.3)
+floor_height_m = 3.4         # 층수 -> 높이 환산 (BR-4.3)
+default_height_m = 10        # 층수도 높이도 없을 때 (BR-4.3)
