@@ -1,0 +1,142 @@
+"""Shared Hypothesis generators for domain objects (PBT-07).
+
+Everything is placed around a vertex shared by three H3 cells near Simwon High School, so
+generated buildings straddle several cells and exercise the cell-assignment rules.
+"""
+from __future__ import annotations
+
+import math
+
+import h3
+from hypothesis import strategies as st
+
+import geo
+
+RES = 9
+BASE: geo.LatLon = h3.cell_to_boundary("8930e0af13bffff")[0]
+M_PER_DEG_LAT = 111_320.0
+
+
+def offset(point: geo.LatLon, dx_m: float, dy_m: float) -> geo.LatLon:
+    """Move a point by meters east (dx) and north (dy)."""
+    lat, lon = point
+    return (lat + dy_m / M_PER_DEG_LAT, lon + dx_m / (M_PER_DEG_LAT * math.cos(math.radians(lat))))
+
+
+def rect(center: geo.LatLon, w_m: float, h_m: float) -> geo.Outline:
+    return tuple(
+        offset(center, sx * w_m / 2, sy * h_m / 2)
+        for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))
+    )
+
+
+@st.composite
+def star_outlines(draw, around: geo.LatLon = BASE, spread_m: float = 300.0,
+                  min_r: float = 8.0, max_r: float = 40.0) -> geo.Outline:
+    """A simple (never self-intersecting) polygon: star-shaped around its center."""
+    cx = draw(st.floats(-spread_m, spread_m))
+    cy = draw(st.floats(-spread_m, spread_m))
+    n = draw(st.integers(3, 8))
+    r = draw(st.floats(min_r, max_r))
+    pts = []
+    for i in range(n):
+        jitter = draw(st.floats(-0.25, 0.25)) * (2 * math.pi / n)
+        radius = r * draw(st.floats(0.6, 1.0))
+        a = 2 * math.pi * i / n + jitter
+        pts.append(offset(around, cx + radius * math.cos(a), cy + radius * math.sin(a)))
+    return tuple(pts)
+
+
+@st.composite
+def convex_outlines(draw, around: geo.LatLon = BASE, spread_m: float = 300.0,
+                    min_r: float = 8.0, max_r: float = 40.0) -> geo.Outline:
+    """A convex polygon: points on a circle (the centroid must then lie inside it)."""
+    cx = draw(st.floats(-spread_m, spread_m))
+    cy = draw(st.floats(-spread_m, spread_m))
+    n = draw(st.integers(3, 8))
+    r = draw(st.floats(min_r, max_r))
+    return tuple(
+        offset(around, cx + r * math.cos(2 * math.pi * i / n), cy + r * math.sin(2 * math.pi * i / n))
+        for i in range(n)
+    )
+
+
+@st.composite
+def bowtie_outlines(draw) -> geo.Outline:
+    """A self-intersecting outline (an hourglass)."""
+    c = draw(star_outlines())[0]
+    w = draw(st.floats(5, 30))
+    return (offset(c, 0, 0), offset(c, w, w), offset(c, w, 0), offset(c, 0, w))
+
+
+def height_strings(allow_none: bool = True):
+    options = [
+        st.sampled_from(["", "0", "-3", "abc", "12 m", "  7 m ", "12", "12.5", "18.15", "NaN", "1e3"]),
+        st.integers(1, 200).map(str),
+        st.floats(0.1, 200, allow_nan=False).map(lambda v: f"{v:.2f}"),
+    ]
+    return st.one_of(st.none(), *options) if allow_none else st.one_of(*options)
+
+
+def level_strings(allow_none: bool = True):
+    options = [
+        st.sampled_from(["", "0", "-1", "abc", "5.0", " 7 ", "3"]),
+        st.integers(1, 60).map(str),
+    ]
+    return st.one_of(st.none(), *options) if allow_none else st.one_of(*options)
+
+
+def osm_tags():
+    return st.fixed_dictionaries(
+        {},
+        optional={
+            "name": st.sampled_from(["심원고등학교", "로얄프라자", "한신빌라"]),
+            "name:ko": st.sampled_from(["심원고", "한신빌라(한글)"]),
+            "height": height_strings(allow_none=False),
+            "building:levels": level_strings(allow_none=False),
+            "roof:shape": st.sampled_from(["flat", "gabled", "hipped"]),
+        },
+    )
+
+
+def vworld_props():
+    return st.fixed_dictionaries(
+        {},
+        optional={
+            "bld_nm": st.sampled_from(["", "부흥중학교", "중동대림아파트"]),
+            "grnd_flr": level_strings(allow_none=False),
+            "ugrnd_flr": st.sampled_from(["", "0", "1", "2", "x"]),
+            "height": height_strings(allow_none=False),
+            "usability": st.sampled_from(["10000", "02000", ""]),
+            "useapr_day": st.sampled_from(["19950901", "20010203", ""]),
+            "archarea": st.one_of(st.floats(1, 5000, allow_nan=False), st.sampled_from(["", "x", "2014.47"])),
+        },
+    )
+
+
+@st.composite
+def scenarios(draw, max_gis: int = 8, max_osm: int = 6, allow_invalid: bool = True):
+    """(osm_buildings, gis_buildings): some OSM outlines are near-copies of V-World ones."""
+    n_gis = draw(st.integers(0, max_gis))
+    gis_outlines = [draw(star_outlines()) for _ in range(n_gis)]
+    if allow_invalid and draw(st.booleans()):
+        gis_outlines.append(draw(bowtie_outlines()))
+    gis = [
+        geo.new_gis_building(f"{1000 + i}", ol, draw(vworld_props()), RES)
+        for i, ol in enumerate(gis_outlines)
+    ]
+    osm_outlines = []
+    for _ in range(draw(st.integers(0, max_osm))):
+        if gis_outlines and draw(st.booleans()):
+            base = draw(st.sampled_from(gis_outlines))
+            dx, dy = draw(st.floats(-6, 6)), draw(st.floats(-6, 6))
+            osm_outlines.append(tuple(offset(p, dx, dy) for p in base))
+        else:
+            osm_outlines.append(draw(star_outlines()))
+    if allow_invalid and draw(st.booleans()):
+        osm_outlines.append(draw(bowtie_outlines()))
+    osm = [
+        geo.new_osm_building(5000 + i, ol, draw(osm_tags()), RES)
+        for i, ol in enumerate(osm_outlines)
+    ]
+    return osm, gis

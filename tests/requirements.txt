@@ -1,0 +1,5 @@
+# 테스트 환경. 스크립트 인라인 의존성(src/*.py)과 같은 버전을 쓴다(tests/test_versions.py가 확인).
+h3==4.5.0
+shapely==2.2.0
+pytest==9.1.1
+hypothesis==6.169.0
