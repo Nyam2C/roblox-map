@@ -298,3 +298,53 @@
 **Context**: The two documented Security exceptions (encryption at rest, central log service) were part of the NFR completion message that the user approved; they were acknowledged by the approval. Moving to U1 NFR Design.
 
 ---
+
+## Git - Commits and Push (V-World revision)
+**Timestamp**: 2026-10-12T16:13:52Z
+**User Input**: (part of "승인 ㄱㄱ 커밋 푸시도 ㄱㄱ", logged above)
+**AI Response**: Re-ran the secret check (both keys absent from non-ignored files, .env ignored). Created 5 commits (5d6eb43 .env.example, 52379c9 U1 NFR requirements, 85f67aa U1 functional design rewrite, 4995049 application design/units/requirements alignment, aaeef81 CLAUDE.md/state/audit) and pushed main (800445f..aaeef81).
+**Context**: Repository in sync with the approved U1 Functional Design and NFR Requirements.
+
+---
+
+## U1 NFR Design - Questions Issued
+**Timestamp**: 2026-10-12T16:13:52Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Read nfr-design.md and the Resiliency rules RESILIENCY-03, 04, 11-15 whose decisions the extension reserves for the user. Created aidlc-docs/construction/plans/u1-data-foundation-nfr-design-plan.md: category review (scalability and performance patterns not applicable), defaults D-N1..D-N4 (pattern names, shared src/common.py, no queues or caches, run record plus log file as correlation key) and 9 questions (change management, CI/CD, rollback, deployment style, backup, resiliency testing, incident response, log format, config location). Awaiting answers.
+**Context**: CONSTRUCTION - U1 NFR Design, Step 4-5 gate.
+
+---
+
+## U1 NFR Design - Answers Received and Artifacts Generated
+**Timestamp**: 2026-10-12T16:18:33Z
+**User Input (verbatim)**: "A B A A B A A B B"
+**AI Response**: Recorded Q1=A (Git commits and AI-DLC approvals as change management), Q2=B (GitHub Actions running pytest and pip-audit), Q3=A (Git revert plus rebuild and overrides import), Q4=A (direct, no deployment step), Q5=B (automatic DB backup before re-collection), Q6=A (document scenarios and run one recovery drill at U4 completion), Q7=A (no separate incident process), Q8=B (JSON log lines), Q9=B (config.toml). No contradictions. Added defaults D-N5 (console readable summary, file JSON), D-N6 (backup before re-collection via sqlite backup, keep 5), D-N7 (CI details, fixed Hypothesis seed per run, no secrets), D-N8 (tomllib, Python 3.11+). Generated aidlc-docs/construction/u1-data-foundation/nfr-design/{nfr-design-patterns,logical-components}.md and appended NFR Design choices to tech-stack-decisions.md. Extension compliance: Security unchanged (two documented exceptions), Resiliency compliant except RESILIENCY-15 recorded as a user-chosen exception needing acknowledgment (no separate incident process; run records, logs and Git history stand in for post-incident analysis), PBT-08 CI integration satisfied by the GitHub Actions design. No blocking findings. Presented completion message and asked for approval.
+**Context**: CONSTRUCTION - U1 NFR Design, Step 7-8 gate.
+
+---
+
+## U1 NFR Design - Approval
+**Timestamp**: 2026-10-12T16:21:41Z
+**AI Prompt**: "Continue to Next Stage - 승인하면 Code Generation으로 넘어간다." (U1 NFR Design completion message), including the RESILIENCY-15 user-chosen exception
+**User Response**: "승인 ㄱㄱ"
+**Status**: Approved. The RESILIENCY-15 exception (no separate incident process, Q7=A) is acknowledged by the approval. Commit and push were not requested this time, so nothing was committed.
+**Context**: Starting U1 Code Generation Part 1 (Planning).
+
+---
+
+## U1 Code Generation - Plan Presented
+**Timestamp**: 2026-10-12T16:22:44Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Read code-generation.md and probed one more V-World fact (the building layer has no key property; each feature has an id such as LT_C_BLDGINFO.11172810, used as gis_key; page info is in response.page). Created aidlc-docs/construction/plans/u1-data-foundation-code-generation-plan.md: 14 numbered steps (dependency versions, setup, geo.py with tests, db.py with tests, common.py with tests, cells.py move and rewrite, register.py, response fixtures and parsing tests, CI and version-match test, docs, post-generation checks), traceability to FR/NFR/BR/properties. Real test execution and the first-cell collection run are left to Build and Test. Approval prompt: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u1-data-foundation-code-generation-plan.md. Ready to proceed to generation?"
+**Context**: CONSTRUCTION - U1 Code Generation Part 1, Step 6 gate.
+
+---
+
+## U1 Code Generation - Plan Approval
+**Timestamp**: 2026-10-12T16:25:37Z
+**AI Prompt**: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u1-data-foundation-code-generation-plan.md. Ready to proceed to generation?"
+**User Response**: "커밋하고 진행 ㄱㄱ"
+**Status**: Approved, plus a request to commit the pending documents first (push was not requested)
+**Context**: U1 Code Generation Part 1 (Planning) complete. Committing the NFR Design and code generation plan documents locally, then starting generation at step 1.
+
+---
