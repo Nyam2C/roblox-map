@@ -621,3 +621,20 @@
 **Context**: U2 Code Generation Part 1 complete, starting Part 2 (Generation) at plan step 1.
 
 ---
+
+## U2 Code Generation - Generated
+**Timestamp**: 2026-10-12T23:00:00Z (approx.)
+**User Input**: (none, execution of the approved plan)
+**AI Response**: Executed the 11 plan steps. Created src/layout.py (world frame, building boxes by minimum-area rotated rectangle, road, path and sidewalk pieces with the owner-cell rule by segment midpoint, ground slab, spawn, ordering and chunks), src/build_luau.py (database read, Luau text with a character whitelist against code injection, chunk and manifest files, run record, size warning, --selftest), studio/Builder.luau (begin, add, finish, verify), tests/test_layout.py (48) and tests/test_build_luau.py (43), code-summary.md; modified common.py (U2 settings, building_height_m moved here), projection.py (re-exports it), config.toml, tests/generators.py, tests/test_common.py, tests/test_versions.py, CLAUDE.md and the BR-2.2 design rule (triangles have several equally good boxes, found by a property test). 248 tests pass with seeds 1, 7, 42, 2026 and 99999; 12 deliberate code breaks (5 in layout, 5 in build_luau, 2 in Builder.luau) were all caught, one of them only after adding an item-order test. Real first-cell run of build_luau.py (read only): 162 items (ground 1, road 29, path 2, sidewalk 8, building 122), 4 chunk files of 1.9 to 6.6 KB, 9 poor-fit buildings, matching the earlier estimate. Studio sandbox test inside Workspace.MCP_Test only: the generated chunk files ran as they are, 19 parts made plus 1 skipped for Manual (matching the manifest of 20), verify reported no problem, read-back positions, sizes and rotation axes matched, spawn properties correct, regeneration gave the same result, other cell folders and Manual were kept, bad cell ids, unknown kinds and add before begin were refused; all test objects were removed and MCP_Test is back to its two original parts. Deviations from the plan: shorter chunk keys with one look table per chunk, counters kept in folder attributes, spawn_item signature, building_height_m moved to common.py. Post-generation checks: everything compiles, no secrets in files, no duplicate files. The real first-cell Studio build, place settings changes, scale check, spawn proposal and frame-rate measurement are left to Build and Test and need the user's .rbxl copy first. Presented the completion message.
+**Context**: CONSTRUCTION - U2 Code Generation Part 2, Step 14-15 gate.
+
+---
+
+## U2 Code Generation - Approval
+**Timestamp**: 2026-10-12T23:15:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - 승인하면 U2 Build and Test로 넘어갑니다." and the question about commit and push
+**User Response**: "ㄱㄱ U2 승인하고 빌드앤테스트 시작해 커밋 푸시까지"
+**Status**: Approved, commit and push authorized
+**Context**: U2 Code Generation approved. Committing the U2 code and documents, then starting U2 Build and Test. The place settings changes and the first-cell Studio build wait for the user's confirmation that the .rbxl copy exists (NFR A2).
+
+---
