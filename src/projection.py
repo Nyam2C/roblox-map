@@ -2,7 +2,8 @@
 
 Needs only numpy and pillow (no shapely, so it stays out of geo.py). Cube-map layout and the meaning of
 heading were checked by eye: aidlc-docs/construction/u3-street-view-capture/code/layout-notes.md
-Rules: aidlc-docs/construction/u3-street-view-capture/functional-design/business-rules.md (BR-2.2, 2.3, 4.1-4.3)
+Rules: aidlc-docs/construction/u3-street-view-capture/functional-design/business-rules.md (BR-2.2, 2.3, 4.1-4.3;
+BR-4.3 was changed in Build and Test, see build-and-test-summary.md)
 """
 from __future__ import annotations
 
@@ -15,6 +16,8 @@ from PIL import Image
 LatLon = tuple[float, float]
 EARTH_R = 6371008.8  # same value as geo.EARTH_R, copied so this module does not import shapely
 FOV_MARGIN_DEG = 20.0  # BR-4.2: room around the building's angular extent
+VERTICAL_MARGIN_DEG = 8.0  # BR-4.3: spare view above the roof and below the ground line, together
+MIN_WALL_M = 1.0  # a panorama closer than this to a wall is treated as 1 m away
 
 # Face order in the 6144x1024 strip: front, right, back, left, up, down. Each row is
 # (normal, image-right, image-up) in x=right, y=up, z=forward. Up and down were fixed by seam continuity.
@@ -77,11 +80,33 @@ def building_height_m(height_m: float | None, floors_above: int | None, cfg: Map
     return float(cfg["default_height_m"])
 
 
-def crop_params(extent_deg: float, distance: float, height_m: float, cfg: Mapping[str, Any]) -> tuple[float, float]:
-    """(fov_deg, pitch_deg) for one building (BR-4.2, BR-4.3)."""
-    fov = min(float(cfg["fov_max_deg"]), max(float(cfg["fov_min_deg"]), extent_deg + FOV_MARGIN_DEG))
-    pitch = math.degrees(math.atan2(height_m / 2 - float(cfg["camera_height_m"]), distance))
-    return fov, min(float(cfg["pitch_max_deg"]), max(0.0, pitch))
+def nearest_wall_m(outline: Sequence[LatLon], pano_pos: LatLon) -> float:
+    """Distance from the panorama to the nearest edge of the outline (flat approximation)."""
+    pts = [_offset_m(pano_pos, p) for p in outline]
+    best = math.inf
+    for (x1, y1), (x2, y2) in zip(pts, pts[1:] + pts[:1]):
+        dx, dy = x2 - x1, y2 - y1
+        length2 = dx * dx + dy * dy
+        t = 0.0 if length2 == 0 else max(0.0, min(1.0, -(x1 * dx + y1 * dy) / length2))
+        best = min(best, math.hypot(x1 + t * dx, y1 + t * dy))
+    return best
+
+
+def crop_params(extent_deg: float, wall_m: float, height_m: float, cfg: Mapping[str, Any]) -> tuple[float, float]:
+    """(fov_deg, pitch_deg) for one building (BR-4.2, BR-4.3).
+
+    Seen from the nearest wall, the roof is `up` degrees above the horizon and the ground line `down` degrees below
+    it. The view is aimed at the middle of that span and widened until it fits (up to the fov limit), so close
+    buildings keep their roof and their ground floor in frame.
+    """
+    wall = max(wall_m, MIN_WALL_M)
+    camera = float(cfg["camera_height_m"])
+    up, down = math.degrees(math.atan2(height_m - camera, wall)), math.degrees(math.atan2(camera, wall))
+    aspect = cfg["crop_height"] / cfg["crop_width"]
+    half_span = min((up + down + VERTICAL_MARGIN_DEG) / 2, 89.0)
+    fov_for_height = 2 * math.degrees(math.atan(math.tan(math.radians(half_span)) / aspect))
+    fov = min(float(cfg["fov_max_deg"]), max(float(cfg["fov_min_deg"]), extent_deg + FOV_MARGIN_DEG, fov_for_height))
+    return fov, min(float(cfg["pitch_max_deg"]), max(0.0, (up - down) / 2))
 
 
 def split_faces(strip: Image.Image) -> np.ndarray:

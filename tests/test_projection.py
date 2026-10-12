@@ -95,6 +95,27 @@ def test_extent_of_a_building_ahead_matches_its_width():
     assert P.building_extent_deg([BASE], BASE) == 0.0
 
 
+@given(convex_outlines(spread_m=200), positions(200))
+def test_nearest_wall_is_never_negative_or_farther_than_a_corner(outline, pano):
+    assert 0 <= P.nearest_wall_m(outline, pano) <= min(P.distance_m(pano, v) for v in outline) + 1e-6
+
+
+def test_nearest_wall_of_a_known_building_is_the_facade_not_the_center():
+    outline = [offset(BASE, -10, 20), offset(BASE, 10, 20), offset(BASE, 10, 40), offset(BASE, -10, 40)]
+    assert P.nearest_wall_m(outline, BASE) == pytest.approx(20, rel=3e-3)  # the center is 30 m away
+    assert P.nearest_wall_m(outline, offset(BASE, 0, 30)) == pytest.approx(10, rel=3e-3)  # inside: nearest edge
+
+
+@given(extents_deg, st.floats(1, 150), st.floats(5, 200))
+def test_roof_and_ground_line_stay_in_frame_whenever_the_widest_view_can_hold_them(extent, wall, height):
+    fov, pitch = P.crop_params(extent, wall, height, CFG)
+    camera, aspect = CFG["camera_height_m"], CFG["crop_height"] / CFG["crop_width"]
+    up, down = math.degrees(math.atan2(height - camera, wall)), math.degrees(math.atan2(camera, wall))
+    vertical = lambda f: 2 * math.degrees(math.atan(math.tan(math.radians(f) / 2) * aspect))
+    assume(up + down + P.VERTICAL_MARGIN_DEG <= vertical(CFG["fov_max_deg"]))
+    assert up <= pitch + vertical(fov) / 2 and -down >= pitch - vertical(fov) / 2
+
+
 # --- P3-5 cube-map crop ----------------------------------------------------------------------------
 
 N = 256

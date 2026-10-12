@@ -47,7 +47,7 @@ import projection
 PANO_QUALITY = 90  # JPEG quality of the stored panorama strip
 STREAK_LIMIT = 3  # BR-5.2: this many failures of one kind in a row stop the run
 LatLon = tuple[float, float]
-COUNT_KEYS = ("buildings", "planned", "no_photo", "panos_found", "new_downloads", "panos_reused", "crops",
+COUNT_KEYS = ("buildings", "planned", "no_photo", "panos_found", "panos_skipped", "new_downloads", "panos_reused", "crops",
               "crops_kept", "failures", "bytes")
 
 
@@ -142,7 +142,8 @@ def view_params(building: Mapping[str, Any], pano: Mapping[str, Any], cfg: Mappi
     bearing = projection.bearing_deg(pos, center)
     extent = projection.building_extent_deg([tuple(p) for p in building["outline"]], pos)
     height = projection.building_height_m(building["height_m"], building["floors_above"], cfg)
-    fov, pitch = projection.crop_params(extent, distance, height, cfg)
+    wall = projection.nearest_wall_m([tuple(p) for p in building["outline"]], pos)
+    fov, pitch = projection.crop_params(extent, wall, height, cfg)
     return {"distance_m": distance, "bearing_deg": bearing, "yaw_deg": projection.yaw_deg(bearing, pano["heading_deg"]),
             "fov_deg": fov, "pitch_deg": pitch}
 
@@ -235,6 +236,7 @@ class Capture:
             meta = self.source.get_metadata(pano_id)
             if meta is None:
                 self.unusable.add(pano_id)
+                self.counts["panos_skipped"] += 1
                 return False
             self.panos[pano_id] = {
                 "pano_id": pano_id, "cell_id": h3.latlng_to_cell(meta.lat, meta.lon, self.cfg["h3_res"]),

@@ -4,6 +4,7 @@ and synthetic images stand in."""
 from __future__ import annotations
 
 import itertools
+import math
 import random
 import re
 import zlib
@@ -146,6 +147,18 @@ def snapshot(conn, root: Path):
     return views, caps, files
 
 
+def test_view_params_aim_by_the_nearest_wall_so_a_close_building_keeps_its_roof_and_ground():
+    # 4 floors (13.6 m), the facade 8 m from the panorama and the center 28 m away
+    outline = [offset(BASE, -10, 8), offset(BASE, 10, 8), offset(BASE, 10, 48), offset(BASE, -10, 48)]
+    building = {**building_row(0, offset(BASE, 0, 28)), "outline": [list(p) for p in outline], "floors_above": 4}
+    v = capture.view_params(building, {"lat": BASE[0], "lon": BASE[1], "heading_deg": 0.0}, common.DEFAULTS)
+    up, down = math.degrees(math.atan2(13.6 - 2.5, 8)), math.degrees(math.atan2(2.5, 8))
+    half = math.degrees(math.atan(math.tan(math.radians(v["fov_deg"]) / 2) * 0.75))
+    assert v["distance_m"] == pytest.approx(28, rel=3e-3)  # still the center distance (U4 reads it)
+    assert up <= v["pitch_deg"] + half and -down >= v["pitch_deg"] - half
+    assert v["pitch_deg"] > math.degrees(math.atan2(13.6 / 2 - 2.5, 28))  # the center-distance rule aimed lower and cut the roof
+
+
 # --- P3-6 cap and resume --------------------------------------------------------------------------------------------------
 
 @settings(max_examples=15, deadline=None)
@@ -178,7 +191,8 @@ def test_p3_6_capped_runs_resume_to_the_same_result_as_one_unlimited_run(tmp_pat
 
 def test_a_shared_panorama_is_downloaded_once(tmp_path):
     conn, source = make_db(4), FakeSource(world())
-    run_once(conn, make_cfg(tmp_path), source, tmp_path / "c")
+    counts, _ = run_once(conn, make_cfg(tmp_path), source, tmp_path / "c")
+    assert counts["panos_skipped"] == 1  # the one panorama the metadata check rejects ("old1"), counted once for the run
     assert len(source.downloads) == len(set(source.downloads)) < sum(1 for v in db.views_for_cell(conn, CELL))
 
 
