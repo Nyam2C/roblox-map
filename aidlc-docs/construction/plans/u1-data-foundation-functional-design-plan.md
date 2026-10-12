@@ -156,3 +156,4 @@ X) Other (please describe after [Answer]: tag below)
 | F-8 | GIS건물통합정보에 접근하기 전에는 OSM만으로 진행한다(Q1=C의 일부). 접근이 가능해지면 같은 칸에 U1을 다시 돌려 합친다(Q5=A 재수집 규칙이 이를 지원한다) | 활용신청이 끝났는지 아직 모른다. 막혀서 멈추는 걸 피한다 |
 | F-9 | Q6=A(칸 단위로 전부 성공해야 저장)는 **필수 원천**(OSM, GIS건물통합정보)에만 적용한다. 보조 원천인 건축HUB API가 실패하면 칸은 저장하되 해당 건물에 `supplement_missing`을 표시한다 | 보조 조회 때문에 칸 전체가 막히지 않게 하려는 것이다. Q6 답변에 없던 해석이다 |
 
+> **2026-10-13 갱신:** V-World 시험 후 재확인(`u1-data-foundation-vworld-clarification-questions.md`, Q1=B, Q2=B)으로 이 계획의 Q1(OSM 우선), Q7(대체), F-7·F-8·F-9(건축HUB 보조, OSM 대체 경로)는 폐기·변경됐다. 최신 규칙은 `construction/u1-data-foundation/functional-design/`의 문서가 기준이다.

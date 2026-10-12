@@ -1,16 +1,17 @@
 # U1 데이터 기반 — Business Logic Model
 
-## 책임 나누기 (Application Design 수정)
+V-World 시험 결과와 재확인 답변(Q1=B, Q2=B)을 반영해 다시 썼다.
 
-Q1=C와 Q7=B로 건물 조립이 필요해져서 C1과 C2의 경계를 이렇게 정한다.
+## 책임 나누기
 
 | 컴포넌트 | 하는 일 | 쓰는 테이블 |
 |---|---|---|
-| C1 `cells.py` | 칸 지정, OSM 건물 원천 수집, 도로·가로시설 수집 | `cells`, `osm_buildings`, `street_features` |
-| C2 `register.py` | GIS건물통합정보 수집, **건물 조립**(매칭과 대체), 건축HUB 보조 조회 | `gis_buildings`, `buildings`, `register_matches` |
+| C1 `cells.py` | 칸 지정, OSM 건물(이름·태그용)과 도로·가로시설 수집 | `cells`, `osm_buildings`, `street_features` |
+| C2 `register.py` | V-World 건물통합정보 수집, **건물 조립**(V-World 기본 + OSM 이름·태그) | `gis_buildings`, `buildings` |
 | C7 `db.py` | 스키마, 칸 단위 트랜잭션, 고아 보고 | 모든 테이블, `collection_runs` |
 
-- 서비스 S1은 항상 C1 → C2 순서로 실행한다. C2는 언제나 그 시점의 원천 테이블 전체에서 `buildings`를 다시 만든다(원천이 최신이 아니면 `buildings`도 낡은 채로 남으므로 S1을 한 묶음으로 돌린다).
+- 파일 이름 `register.py`는 그대로 둔다(예전 설계의 흔적이지만 이름 변경 비용이 더 크다).
+- 서비스 S1은 항상 C1 → C2 순서로 실행한다. C2는 그 시점의 원천 테이블 전체에서 `buildings`를 다시 만든다.
 
 ## 흐름 1. 칸 수집 (C1)
 
@@ -26,55 +27,54 @@ flowchart TD
     H --> I["실행 기록 저장"]
 ```
 
-## 흐름 2. 건물 조립과 속성 연결 (C2)
+## 흐름 2. 건물 조립 (C2)
 
 ```mermaid
 flowchart TD
     A["칸 ID"] --> B["그 칸과 버퍼 안의 osm_buildings 읽기"]
-    B --> C["GIS건물통합정보 조회 (버퍼 포함)"]
-    C --> D{"GIS 접근 가능하고 응답 검증 통과?"}
-    D -- "접근 불가 (F-8)" --> N["OSM만으로 buildings 조립 (BR-4.10)"]
-    D -- "검증 실패" --> E["이전 상태 유지, 실패 기록 (BR-7.1)"]
+    B --> C["V-World 건물통합정보 조회, total만큼 페이지 넘김 (BR-7.2)"]
+    C --> D{"호출 성공하고 응답 검증 통과? (BR-7.3, 7.4)"}
+    D -- "아니오" --> E["이전 상태 유지, 실패 기록 (BR-7.1)"]
     D -- "예" --> F["유효성, 값 정규화, 칸 배정 (BR-2, 3, 5)"]
-    F --> G["겹침 비율 계산 (BR-4.1, 4.2)"]
-    G --> H["GIS 건물 소유 결정 (BR-4.3)"]
-    H --> I["OSM 건물별 처리: 유지, 속성 연결, 또는 GIS 외곽선으로 대체 (BR-4.4)"]
-    I --> J["겹치지 않는 GIS 건물을 독립 건물로 추가 (BR-4.5)"]
-    N --> K
+    F --> G["V-World 건물을 기본 건물로 (BR-4.3)"]
+    G --> H["OSM 건물과 겹침 비율 계산, 짝 결정 (BR-4.1, 4.2, 4.4)"]
+    H --> I["짝이 있는 OSM의 이름·태그를 V-World 건물에 붙임 (BR-4.4)"]
+    I --> J["겹치지 않는 OSM 건물을 독립 건물로 추가, 덮인 OSM 건물은 버림 (BR-4.5, 4.6)"]
     J --> K["자기 중심점의 칸으로 확정 (BR-4.8)"]
-    K --> L["건축HUB 보조 조회 (상한, 실패해도 칸은 저장) (BR-5.5, 5.6)"]
-    L --> M["한 트랜잭션: buildings와 register_matches 교체, 고아 보고, 실행 기록"]
+    K --> L["한 트랜잭션: buildings 교체, 고아 보고, 실행 기록"]
 ```
 
-## 건물 조립 예시 (BR-4.4)
+## 건물 조립 예시
 
 ```text
-OSM o 하나가 GIS 가, 나를 덮는다 (겹침 0.5 이상):
-  G(o) = {가, 나}  ->  o를 버리고 가, 나를 각각 건물로 만든다 (replaces_osm_id = o)
-                        o의 이름·태그는 o와 더 많이 겹치는 쪽에 붙인다
+V-World 건물 가가 있고 그것과 겹치는 OSM 건물 o가 있다 (겹침 0.5 이상):
+  결과: 건물 하나, 외곽선과 층수는 V-World(가), 이름과 지붕 같은 태그는 OSM(o)에서 붙임
 
-OSM o 하나가 GIS 가 하나와 겹친다:
-  G(o) = {가}      ->  o의 외곽선을 쓰고 가의 층수 등 속성을 붙인다
+OSM 건물 o가 V-World 건물 가, 나 둘과 겹친다:
+  o는 더 많이 겹치는 쪽(예: 가) 하나의 짝이 된다. 나는 OSM 정보 없이 V-World 건물 그대로.
 
-OSM에 없는 GIS 건물 다:
-  어떤 o와도 겹치지 않음 -> 다를 독립 건물로 추가 (OSM에 없는 건물을 채움)
+OSM 건물 o가 V-World의 어떤 건물과도 안 겹친다:
+  결과: 독립 건물(source=osm). V-World에 없는 새 건물을 잃지 않는다.
+
+OSM 건물 o가 V-World 건물 가와 겹치지만 가의 짝은 다른 OSM 건물 o2다:
+  o는 버린다(덮인 건물). 박스가 겹치는 것을 막는다.
 ```
 
 ## 데이터 흐름 요약
 
 ```text
-OSM -> osm_buildings, street_features -+
-GIS건물통합정보 -> gis_buildings -------+-> 조립 -> buildings, register_matches -> U2, U3, U4
-건축HUB(보조) ---------------------------+
+OSM ---------------> osm_buildings, street_features --+
+V-World 건물통합정보 -> gis_buildings -----------------+-> 조립 -> buildings -> U2, U3, U4
 ```
 
 ## 다른 유닛과의 약속
-- U2는 `buildings`(외곽선)와 `street_features`를 읽는다. 도로 폭은 U2가 정한다(Q4=B).
+- U2는 `buildings`(외곽선)와 `street_features`를 읽는다. 도로 폭은 U2가 정한다.
 - U3은 `buildings`의 중심점을 보고 캡처 지점을 계획한다.
-- U4는 `register_matches`, `osm_buildings`의 정규화된 값(`height_m`, `levels`)을 출처별로 읽고 합치는 규칙을 정한다(BR-5.4).
+- U4는 `buildings`의 V-World 층수·높이와 OSM 참고값(`osm_height_m`, `osm_levels`)을 출처별로 읽고 합치는 규칙을 정한다(BR-5.4).
 - `status=invalid`인 건물은 모든 유닛이 건너뛴다.
+- U1이 건축HUB API를 쓰지 않으므로 `register_matches` 테이블은 없다. 대장 속성은 `buildings`에 있다.
 
-## 아직 모르는 것 (코드 생성에서 확인)
-- GIS건물통합정보의 레이어, 필드 이름, 응답 형식. 활용신청 후 확인한다(신청 전에는 BR-4.10으로 진행).
-- 건축HUB 하루 호출 한도(BR-5.6의 상한 값을 정하는 근거).
+## 확인된 것과 아직 모르는 것
+- 확인됨(2026-10-13 시험): V-World 호출 성공, `domain` 파라미터 불필요, 한 번에 최대 1000건, 외곽선과 층수·높이 제공. 칸 소유 건물이 대략 85~203개이고 층수는 88~93%, 높이는 45~62%가 값을 가진다.
+- 모름: 한 건물이 여러 폴리곤인 MultiPolygon이 얼마나 흔한지, 건물 고유 키 필드의 이름(`gis_key`가 될 필드), 응답에 기준 시점이 있는지. 코드 생성에서 확인한다.
 - 겹침 기준 0.5와 버퍼 150 m는 시험값이다. 첫 칸 결과를 보고 조정한다.
