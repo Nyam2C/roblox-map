@@ -399,3 +399,52 @@
 **Context**: U1 data foundation is complete. Committing the console-log fix and the Build and Test documents, then starting U3 Functional Design.
 
 ---
+
+## Git - Commits and Push (U1 build and test)
+**Timestamp**: 2026-10-12T17:11:51Z
+**User Input**: (part of "승인 ㄱㄱ 커밋 푸시도 ㄱㄱ", logged above)
+**AI Response**: Secret check clean; committed the console-log fix, the build and test documents and the state/audit files (3 commits) and pushed main (87daf43..5e08c24).
+**Context**: U1 complete in the repository.
+
+---
+
+## U3 Functional Design - Feasibility Probe and Questions Issued
+**Timestamp**: 2026-10-12T17:11:51Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Before designing, probed capture options read-only. Searched for a Naver street-view URL scheme (none documented). Found and tried the open-source streetlevel library (0.12.12, Naver module) in an ephemeral environment under the scratchpad: 42 packages installed (including torch and scipy); import failed because pyexiv2 needs a missing Homebrew library (inih), worked around only for the probe by stubbing the module. Lookups at 3 points near the campus found panoramas 2-14 m away, recent (2026-05-27), with heading and neighbors; zoom 1 gives a 6144x1024 strip of about 1.3 MB in 0.8 s; zoom 2 needs another lookup and was not measured. Playwright was not tested (its browser download of about 150 MB needs the user's permission). Nothing from the probe was stored in the repository (one low-resolution image in the scratchpad). Created aidlc-docs/construction/plans/u3-street-view-capture-functional-design-plan.md with the findings, defaults D-U3-1..D-U3-8 and 5 questions (capture method, panoramas per building, distance limit, resolution, who makes crops). The capture-method question reopens the earlier Playwright decision because the probe found a browserless route.
+**Context**: CONSTRUCTION - U3 Functional Design, Step 4-5 gate.
+
+---
+
+## U3 Functional Design - Answers Received
+**Timestamp**: 2026-10-12T17:14:00Z
+**User Input (verbatim)**: "C B C A A"
+**AI Response**: Recorded Q1=C (streetlevel as the default, Playwright when blocked), Q2=B (up to 3 panoramas per building from different directions), Q3=C (120 m), Q4=A (zoom 1, 6144x1024 strip), Q5=A (U3 also produces per-building crops). Found an ambiguity with a safety consequence in Q1=C: "blocked" can mean technical breakage or a block by the service; switching to a different automated route after a block would be bypassing it, which stays off (stop without bypass). Added follow-up Question 6 (build only the streetlevel route now vs also the Playwright fallback, switching only on technical breakage). Added defaults D-U3-9 (different directions = 60 degrees apart as seen from the building, greedy nearest first), D-U3-10 (crop 60 degrees, 1024x768, widen up to 100, pitch from building height, camera 2.5 m), D-U3-11 (storage estimate and 100-per-run cap mean several runs per cell), D-U3-12 (pyexiv2 handling left to NFR Requirements).
+**Context**: CONSTRUCTION - U3 Functional Design, Step 5 (answer analysis and mandatory follow-up).
+
+---
+
+## U3 Functional Design - Follow-up Answer and Artifacts Generated
+**Timestamp**: 2026-10-12T17:18:36Z
+**User Input (verbatim)**: "A"
+**AI Response**: Q6=A recorded (build only the streetlevel route; Playwright becomes a new task if the library breaks technically; a block by the service stops the run and never switches method). Before writing rules, probed the neighbor data read-only: the neighbors list carries position and id for each panorama (113 street neighbors within 120 m of the cell center, about 17 m apart) but heading and date are empty, so selection uses positions and full metadata is fetched only for chosen panoramas. Generated aidlc-docs/construction/u3-street-view-capture/functional-design/{domain-entities,business-rules,business-logic-model}.md: entities Panorama (captures) and BuildingView (building_views, includes no_photo rows), selection and crop rules, caps and resume, block handling, 8 testable properties P3-1..P3-8, flow diagram. Patched Application Design (C3, S3), unit of work (U3), requirements (FR-8, NFR-7), CLAUDE.md, tech-stack-decisions and the build-and-test summary so they say streetlevel instead of Playwright. Extension compliance: PBT-01 compliant (properties listed), Security and Resiliency decisions for U3 are carried to U3 NFR Requirements and NFR Design. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U3 Functional Design, Step 7-8 gate.
+
+---
+
+## U3 Functional Design - Follow-up Answer and Artifacts Generated
+**Timestamp**: 2026-10-12T17:19:23Z
+**User Input (verbatim)**: "A"
+**AI Response**: Q6=A recorded (build only the streetlevel route; Playwright becomes a new task if the library breaks technically; a block by the service stops the run and never switches method). Before writing the rules, probed the neighbor data read-only: the neighbors list carries position and id for each panorama (113 street neighbors within 120 m of the cell center, about 17 m apart) but heading and date are empty, so selection uses positions and full metadata is fetched only for chosen panoramas. Generated aidlc-docs/construction/u3-street-view-capture/functional-design/{domain-entities,business-rules,business-logic-model}.md: entities Panorama (captures) and BuildingView (building_views, includes no_photo rows), selection and crop rules, caps and resume, block handling, 8 testable properties P3-1..P3-8, flow diagram. Patched Application Design (C3, S3), unit of work (U3), requirements (FR-8, NFR-7), CLAUDE.md, tech-stack-decisions and the build-and-test summary so they say streetlevel instead of Playwright (a first scripted patch stopped half way on a heading mismatch and was finished by a second one). Extension compliance: PBT-01 compliant (properties listed); Security and Resiliency decisions for U3 go to U3 NFR Requirements and NFR Design. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U3 Functional Design, Step 7-8 gate.
+
+---
+
+## U3 Functional Design - Approval
+**Timestamp**: 2026-10-12T17:20:51Z
+**AI Prompt**: "Continue to Next Stage - 승인하면 NFR Requirements로 넘어간다." (U3 Functional Design completion message), plus the question about committing and pushing
+**User Response**: "승인 ㄱㄱ 커밋 푸시도 ㄱㄱ"
+**Status**: Approved, commit and push authorized
+**Context**: Committing the U3 functional design and the documents aligned to the streetlevel decision, then starting U3 NFR Requirements.
+
+---
