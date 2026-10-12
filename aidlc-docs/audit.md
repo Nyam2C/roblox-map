@@ -239,3 +239,62 @@
 **Context**: U1 Functional Design approved. Committing the Inception and U1 Functional Design documents in logical commits, then pushing. Next stage: U1 NFR Requirements.
 
 ---
+
+## Git - Commits and Push
+**Timestamp**: 2026-10-12T15:42:12Z
+**User Input**: (part of "승인 ㄱㄱ단위별로 커밋 하고 푸시하세", logged above)
+**AI Response**: Checked the remote (origin, GitHub Nyam2C/roblox-map), confirmed the data.go.kr key is not in any non-ignored file and .env is ignored. Created 7 logical commits (ec56090 chore ignore/env example, c15127e requirements, 079a779 execution plan, 75b97d7 application design, 8afc1bf units of work, ca3316e U1 functional design, 800445f CLAUDE.md/state/audit) and pushed main (c8b2cd6..800445f). The audit and state files in this commit were committed before the NFR Requirements entries below.
+**Context**: Inception and U1 Functional Design preserved in the repository.
+
+---
+
+## U1 NFR Requirements - Questions Issued
+**Timestamp**: 2026-10-12T15:42:12Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Read nfr-requirements.md, Security rules (SECURITY-01, 03, 05, 09, 10, 12, 13, 14, 15 reviewed against a local Python CLI tool) and PBT-09. Created aidlc-docs/construction/plans/u1-data-foundation-nfr-requirements-plan.md with already-fixed items, 7 defaults (N-1..N-7) and 7 questions (geometry library, test tools, HTTP client, dependency management and vulnerability scanning, logging, near-term scale, GIS application status). Awaiting answers.
+**Context**: CONSTRUCTION - U1 NFR Requirements, Step 4-5 gate.
+
+---
+
+## U1 NFR Requirements - Answers Received and Artifacts Generated
+**Timestamp**: 2026-10-12T15:47:42Z
+**User Input (verbatim)**: "A A A A A A B"
+**AI Response**: Recorded Q1=A (shapely), Q2=A (pytest + Hypothesis), Q3=A (urllib), Q4=A (inline PEP 723 pins, pip-audit by hand), Q5=A (console and file logging), Q6=A (3 cells), Q7=B (GIS integrated building data not yet applied for; user will apply before code generation). Answers are clear letter choices and consistent. Filled the gap between Q2 and Q4 with defaults N-8 (test dependencies in tests/requirements.txt, version-match test), N-9 (shared pure functions in src/geo.py) and N-10 (building register call cap 100 per run). Generated aidlc-docs/construction/u1-data-foundation/nfr-requirements/{nfr-requirements,tech-stack-decisions}.md. Extension compliance: Security 15 rules assessed (compliant or N/A, two documented exceptions: encryption at rest, central log service, both need user acknowledgment), Resiliency (RESILIENCY-03/04/14/15 questions deferred to NFR Design as the rules require user decisions), PBT-09 satisfied. No blocking findings. Presented completion message and asked for approval.
+**Context**: CONSTRUCTION - U1 NFR Requirements, Step 7-8 gate.
+
+---
+
+## Model Question and V-World Key Screenshot
+**Timestamp**: 2026-10-12T15:59:17Z
+**User Input (verbatim)**:
+- "모델은 뭘로하는게 좋냐?"
+- (screenshot of the 인증키 관리 page: one 개발키 named "로볼록스 맵", issued 2026-10-13, expires 2027-04-13; no text message)
+**AI Response**: Answered the model question for Claude models: keep the current model for documents and Studio MCP work, consider a larger model for U1 code and for U4 photo judgement, and choose the photo judgement model by testing against building register floor counts. For the screenshot: read it as a V-World development key (not the data.go.kr key), did not copy the key anywhere, added VWORLD_KEY to .env.example, updated the NFR requirements document (SEC1, R5, X1) and the plan note on Q7. Asked the user to put the key in .env from the clipboard so the test call can be made. The screenshot also showed an unrelated browser tooltip (another project's Jira board title and URL); it was ignored.
+**Context**: CONSTRUCTION - U1 NFR Requirements, approval still pending.
+
+---
+
+## V-World Test Call
+**Timestamp**: 2026-10-12T16:02:45Z
+**User Input (verbatim)**: "키 넣었음 시험 호출 ㄱㄱ"
+**AI Response**: First test failed with INVALID_KEY; the cause was a leading space in the clipboard text that ended up inside the .env value (length 37 instead of 36). Fixed .env whitespace (no key printed). Retest succeeded without the domain parameter. Layers checked for a bbox around the campus: LT_C_BLDGINFO (footprint, grnd_flr, ugrnd_flr, height, bld_nm, usability, useapr_day, archarea; no parcel number), LT_C_SPBD (gro_flo_co), LP_PA_CBND_BUBUN (PNU). Per cell with a 150 m buffer: 554, 1090 (one page capped at 1000) and 718 buildings; rough cell-owned counts 121, 203, 85 versus 8, 5, 10 in OSM; floors present in 88-93%, height in 45-62%. Updated the NFR requirements document, the functional design logic model (unknowns section) and A-7. Created u1-data-foundation-vworld-clarification-questions.md with 2 questions (OSM-first geometry rule vs GIS-first simplification, keep or drop the building register supplement). Because the approved functional design depends on these, NFR Requirements approval and the functional design are on hold for these answers.
+**Context**: CONSTRUCTION - U1, revisiting Functional Design assumptions after real data.
+
+---
+
+## U1 Revision After V-World Test - Answers and 3D Question
+**Timestamp**: 2026-10-12T16:08:48Z
+**User Input (verbatim)**: "B B\n[Request interrupted by user]\nB B + 그리고 보니까 3d 모형 api 이런것도 있던데 그런거는 도움 안됨?"
+**AI Response**: Recorded Q1=B (V-World footprints are the base, OSM only adds names and tags) and Q2=B (drop the building register supplement from U1). Rewrote the U1 functional design documents (domain-entities, business-rules, business-logic-model): the OSM-first rule, replacement rule (old Q7), building register lookup, supplement_missing, register_matches table and the OSM-only fallback were removed; added rules for MultiPolygon, paging completeness and key whitespace, and property P-10. Patched Application Design documents, unit documents, requirements (FR-2, FR-9, A-7), NFR requirements and CLAUDE.md. Researched 3D data: the national 3D building model (about 19 million buildings, level 1, height-only boxes) is restricted and needs an application to the Geospatial Information Institute; V-World contest 3D models are shown in its map service, download format unconfirmed; Google Photorealistic 3D Tiles terms appear to forbid extracting or exporting content. Answered that 3D model APIs do not help this project. Because the functional design and the NFR requirements changed, both need re-approval.
+**Context**: CONSTRUCTION - U1 revision gate. N-10 dropped; Q7 (GIS application) superseded by the V-World key.
+
+---
+
+## U1 Functional Design Revision and NFR Requirements - Approval
+**Timestamp**: 2026-10-12T16:12:42Z
+**AI Prompt**: "Continue to Next Stage - 승인하면 NFR Design으로 넘어간다." (revised functional design and NFR requirements), plus "승인할 때 지금까지의 변경을 단위별로 커밋하고 푸시하면 되는지도 알려 줘."
+**User Response**: "승인 ㄱㄱ 커밋 푸시도 ㄱㄱ"
+**Status**: Approved (U1 Functional Design revision and U1 NFR Requirements), commit and push authorized
+**Context**: The two documented Security exceptions (encryption at rest, central log service) were part of the NFR completion message that the user approved; they were acknowledged by the approval. Moving to U1 NFR Design.
+
+---
