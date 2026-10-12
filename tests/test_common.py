@@ -64,6 +64,7 @@ def test_logging_writes_json_lines_and_a_readable_console_line_without_secrets(t
     assert entry["cell_id"] == "8930e0af13bffff" and entry["script"] == "demo" and entry["extra"] == {"count": 3}
     assert KEY not in file.read_text(encoding="utf-8") and KEY not in stream.getvalue()
     assert "INFO [8930e0af13bffff]" in stream.getvalue()
+    assert "count=3" in stream.getvalue()  # counts show on the console, not only in the file
 
 
 def test_setup_logging_twice_does_not_duplicate_handlers(tmp_path):

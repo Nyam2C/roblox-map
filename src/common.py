@@ -146,7 +146,9 @@ class _ConsoleFormatter(logging.Formatter):
         t = datetime.fromtimestamp(record.created).strftime("%H:%M:%S")
         cell = getattr(record, "cell_id", None)
         where = f" [{cell}]" if cell else ""
-        return mask(f"{t} {record.levelname}{where} {record.getMessage()}")
+        fields = getattr(record, "fields", None)
+        tail = " " + " ".join(f"{k}={v}" for k, v in fields.items()) if fields else ""
+        return mask(f"{t} {record.levelname}{where} {record.getMessage()}{tail}")
 
 
 def setup_logging(script: str, log_dir: str | Path, console_stream: Any = None) -> logging.Logger:
