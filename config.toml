@@ -1,0 +1,12 @@
+# 조정값. 비밀값은 여기에 두지 않는다(.env에만 둔다).
+h3_res = 9
+overlap_threshold = 0.5      # 두 외곽선을 같은 건물로 보는 겹침 비율 (BR-4.2)
+buffer_m = 150               # 칸 경계 밖으로 넓혀 받는 거리(m) (BR-4.9). 가장 큰 건물보다 커야 한다
+overpass_pause_s = 1         # Overpass 호출 사이 대기(초)
+vworld_pause_s = 0.5         # V-World 호출 사이 대기(초)
+vworld_page_size = 1000      # V-World 한 번에 받는 건수 (최대 1000)
+retry_waits_s = [10, 30, 60] # 429/502/504/시간 초과일 때 재시도 대기(초)
+db_path = "data/map.db"
+log_dir = "data/logs"
+backup_dir = "data/backups"
+backup_keep = 5
