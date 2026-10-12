@@ -545,3 +545,28 @@
 **Context**: Changed BR-4.3: pitch and field of view now come from the nearest wall, so the roof and the ground line fit in the vertical view. Compared three rules on all 363 views offline first (full-frame crops: old rule 241 = 66%, pitch only 278 = 77%, pitch plus wider view 312 = 86%) and implemented the last. Added nearest_wall_m, changed crop_params and view_params, four new tests (all three deliberate breaks of the new rule were caught), updated the design rule BR-4.3 and P3-4, the code summary and the Build and Test documents. Re-ran capture on the first cell: 360 crops remade in 73 s with no Naver calls, 312 of 363 views (86%) and 121 of 122 buildings with a full view. 152 tests pass.
 
 ---
+
+## U3 Build and Test - Approval
+**Timestamp**: 2026-10-12T19:20:00Z (approx.)
+**AI Prompt**: "U3 승인과 U2 시작을 같이 진행할까요?" (after the crop rule fix, commit and push)
+**User Response**: "ㄱㄱ U3 승인하고 U2 시작해"
+**Status**: Approved. U3 is complete. Starting U2 (Studio builder) at Functional Design.
+**Context**: U3 street-view capture is complete (code, Build and Test, first cell captured, roof fix). Next unit in the order U1 -> U3 -> U2 -> U4 -> U5.
+
+---
+
+## U2 Functional Design - Plan and Questions Issued
+**Timestamp**: 2026-10-12T19:40:00Z (approx.)
+**User Input**: "ㄱㄱ U3 승인하고 U2 시작해" (logged above as the U3 approval)
+**AI Response**: Read the unit definition (C6 build_luau.py + studio/Builder.luau), the requirements (FR-3, FR-4, FR-10 to FR-13) and the application design. Checked the Studio MCP connection read-only (one open place with the default Baseplate, SpawnLocation and the MCP_Test folder) and the first cell data: 122 buildings (98 fit a rotated rectangle at 0.9 or better, 9 below 0.8 and mostly school buildings), 19 road features with no width tags, no street furniture in OSM, and the three target cells share one vertex. Created aidlc-docs/construction/plans/u2-studio-builder-functional-design-plan.md with a checklist, the facts, ten design defaults (D-U2-1 to D-U2-10) and seven questions with recommendations: world origin, building shape, ground and road representation, sidewalks, street furniture, spawn point, existing template objects. Nothing was changed in Studio. Waiting for the answers.
+**Context**: CONSTRUCTION - U2 Functional Design, Step 3-5 gate (questions in the plan file).
+
+---
+
+## U2 Functional Design - Answers Received and Artifacts Generated
+**Timestamp**: 2026-10-12T20:10:00Z (approx.)
+**User Input**: "A A A B A B B 커밋 푸시까지"
+**AI Response**: Recorded Q1=A (world origin at the vertex shared by the three cells), Q2=A (one box per building, poor fits listed for U5), Q3=A (ground and roads as Parts), Q4=B (sidewalks on big roads, OSM sidewalk tags first), Q5=A (street furniture left to U5), Q6=B (spawn point proposed by Claude and confirmed together in Studio), Q7=B (turn off the template Baseplate and SpawnLocation, do not delete). No ambiguous answers, no follow-up questions. Generated aidlc-docs/construction/u2-studio-builder/functional-design/{domain-entities,business-rules,business-logic-model}.md: world frame and axes, building box rule (minimum-area rotated rectangle, fit ratio, height rule shared with U3), road and sidewalk pieces with the owner-cell rule by segment midpoint (U1 stores a road in every cell it touches), ground slab per cell, spawn rule, Auto/Manual regeneration rules with a BuildComplete marker, chunking and output files (data/build/<cell>/chunk-NNN.luau and manifest.json), Studio-side checks S-1 to S-6 and nine testable properties P2-1 to P2-9. Counted the expected first-cell items from real data: about 163 (122 buildings, 29 road, 2 path, 8 sidewalk pieces, 1 ground, 1 spawn) in 4 chunks. Corrected an earlier estimate of "hundreds" in the process. Open items for code generation: Studio MCP call size limits, whether the ModuleScript source can be written through execute_luau, the yaw sign, the spawn point, the scale check. Commit and push authorized by the same message. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U2 Functional Design, Step 6-7 gate.
+
+---
