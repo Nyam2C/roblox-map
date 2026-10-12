@@ -365,3 +365,37 @@
 **Context**: Committing U1 code and documents in logical commits and pushing main, then starting U1 Build and Test.
 
 ---
+
+## Git - Commits and Push (U1 code)
+**Timestamp**: 2026-10-12T17:07:10Z
+**User Input**: (part of "승인 ㄱㄱ 커밋 푸시도 ㄱㄱ", logged above)
+**AI Response**: Re-checked for secrets (none in files, .env ignored), unstaged and created 6 commits (e05055b geo, a95494c db, dee578a common, dce26c9 cells and register, 0b0a5c7 CI, 87daf43 docs) and pushed main (aaeef81..87daf43). The first GitHub Actions run succeeded in 32 seconds.
+**Context**: U1 code in the repository.
+
+---
+
+## Build and Test Stage (U1)
+**Timestamp**: 2026-10-12T17:07:10Z
+**Build Status**: Success (py_compile, 93 tests collected)
+**Test Status**: Pass (93 of 93 with seed 20261013 and six other seeds, pip-audit clean, first GitHub Actions run green)
+**Real run**: first cell 8930e0af13bffff collected and assembled with the live services: 122 owned buildings (all V-World outlines), floors known for 87% and height for 83%, 59 valid nearby OSM buildings all overlapping V-World at 0.5 or more, 18 road and path features, re-run gives an identical database digest, no key in logs or files. cells.py took about 131 s (three Overpass 504 retries), register.py about 4 s.
+**Fix made during this stage**: console log lines now show the counts (src/common.py and a test); not yet committed.
+**Files Generated**:
+- aidlc-docs/construction/build-and-test/build-instructions.md
+- aidlc-docs/construction/build-and-test/unit-test-instructions.md
+- aidlc-docs/construction/build-and-test/integration-test-instructions.md
+- aidlc-docs/construction/build-and-test/performance-test-instructions.md
+- aidlc-docs/construction/build-and-test/security-test-instructions.md
+- aidlc-docs/construction/build-and-test/build-and-test-summary.md
+**Context**: Presented the Build and Test completion message and asked for approval. No contract or e2e instructions: not applicable at this stage.
+
+---
+
+## U1 Build and Test - Approval
+**Timestamp**: 2026-10-12T17:08:22Z
+**AI Prompt**: "Approve & Continue - 승인하면 U1이 끝나고 U3 거리뷰 캡처로 넘어간다." (U1 Build and Test completion message), plus the question about committing and pushing
+**User Response**: "승인 ㄱㄱ 커밋 푸시도 ㄱㄱ"
+**Status**: Approved, commit and push authorized
+**Context**: U1 data foundation is complete. Committing the console-log fix and the Build and Test documents, then starting U3 Functional Design.
+
+---
