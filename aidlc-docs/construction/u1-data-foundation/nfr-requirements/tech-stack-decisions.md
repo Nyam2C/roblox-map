@@ -30,7 +30,7 @@
 - `pyproject.toml`, `uv.lock`: Q4=A를 따랐다. 의존성이 스크립트마다 흩어지는 비용은 `tests/requirements.txt` 일치 검사로 줄인다.
 
 ## 다음 유닛에 미치는 영향
-- U3(Playwright)는 자기 스크립트의 인라인 의존성에 `playwright`를 고정해서 추가한다. 브라우저 바이너리 설치 절차는 U3에서 정한다.
+- U3(거리뷰 캡처)는 `streetlevel` 라이브러리를 쓴다(U3 Functional Design Q1=C). 의존성이 무거워서(`torch` 포함 42개) 설치와 `pyexiv2` 문제는 U3 NFR Requirements에서 정한다.
 - U2(Studio 생성기)는 `geo.py`의 좌표 변환 함수를 재사용할 수 있다.
 
 ## NFR Design에서 추가된 선택

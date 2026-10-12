@@ -41,9 +41,12 @@
 
 | 메서드 | 입력 → 출력 | 목적 |
 |---|---|---|
-| `plan_points(cell_id: CellId) -> list[CapturePoint]` | 칸 ID → 캡처 지점 | 칸마다 지점을 몇 곳 정한다 |
-| `capture_point(point: CapturePoint) -> list[Path]` | 지점 → 사진 경로 | 360도 사진을 저장한다. 속도를 제한하고 CAPTCHA·차단이 나오면 `BlockedError`를 내고 중단한다 |
-| `run(cell_id: CellId) -> None` | 칸 ID → 없음 | 지점 계획, 캡처, `captures` 기록을 순서대로 한다 |
+| `candidates(building: Building, limit_m: float) -> list[Candidate]` | 건물, 거리 제한 → 후보 | 건물 근처 파노라마와 이웃 중 거리 제한 안의 차량 파노라마를 후보(ID, 위치, 거리, 방위각)로 만든다 |
+| `select_panoramas(cands: list[Candidate], separation_deg: float, max_views: int, usable: Callable[[str], bool]) -> list[Candidate]` | 후보 → 고른 것 | 가까운 순으로 방위각이 `separation_deg` 이상 다른 것을 최대 `max_views`장 고른다. `usable`은 ID로 확인한 메타데이터(최신, 해상도) |
+| `crop_params(yaw_deg, building_extent_deg, height_m, distance_m) -> CropParams` | 방향, 각도 범위, 높이, 거리 → 시야각과 위쪽 각도 | 시야각 60°~100°, 위쪽 각도 0°~40° |
+| `render_crop(faces, params) -> Image` | 파노라마 면들, 크롭 값 → 1024×768 이미지 | 큐브 맵에서 직선 투영 크롭을 만든다 |
+| `download_panorama(pano_id) -> Path` | 파노라마 ID → 파일 | zoom 1 이미지를 저장한다(이미 있으면 건너뜀). 차단 신호는 `BlockedError`로 멈춘다 |
+| `run(cell_id: CellId, replan: bool) -> None` | 칸 ID → 없음 | 계획, 내려받기, 크롭, DB 기록을 한다. 상한에 닿으면 멈추고 다음 실행에서 이어간다 |
 
 ## C4. 높이·외관 판단 (`estimate.py`)
 

@@ -70,4 +70,4 @@
 - **Ready for Operations**: 해당 없음(아직 U3, U2, U4, U5가 남았다)
 
 ## Next Steps
-U1의 Build and Test가 끝났다. 승인하면 U3 거리뷰 캡처를 시작한다. 첫 일은 Playwright로 거리뷰가 열리고 이동되는지 시험하는 것이다.
+U1의 Build and Test가 끝났다. 승인하면 U3 거리뷰 캡처를 시작한다. 첫 일은 거리뷰 파노라마를 받는 방식(`streetlevel`)을 확정하고 큐브 맵 방향을 확인하는 것이다.

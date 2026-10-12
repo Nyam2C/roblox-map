@@ -61,14 +61,15 @@
 - **확인됨**: V-World 데이터 API로 호출이 되고 외곽선, 층수, 높이를 받는다(2026-10-13 시험). 호출이 실패하면 그 칸은 저장하지 않는다(필수 원천)
 
 #### C3. 거리뷰 캡처기 — `capture.py`
-- **목적**: 칸별로 거리뷰 360도 사진을 수집한다 (Q6=C, FR-8)
+- **목적**: 건물마다 근처 거리뷰 파노라마를 받아 건물 방향 크롭을 만든다 (Q6=C, FR-8, U3 Functional Design)
 - **책임**:
-  - 칸마다 캡처 지점을 몇 곳 정한다
-  - 지점마다 360도 사진을 `captures/<칸ID>/<지점ID>/`에 저장한다(git 제외, D-5)
-  - 요청 속도를 제한하고 CAPTCHA·봇 차단이 나오면 우회하지 않고 즉시 중단한다(NFR-5)
-  - 지점 위치, 방향, 파일 경로를 DB의 `captures`에 기록한다
-- **인터페이스**: 입력은 칸 ID, 출력은 사진 파일과 `captures` 레코드
-- **한계**: 도로에서 안 보이는 부지 안쪽 건물은 사진이 없을 수 있다(D-4)
+  - 건물 중심점 근처의 파노라마를 `streetlevel` 라이브러리로 찾고, 가까운 순으로 방위각이 60° 이상 다른 것을 최대 3장 고른다(거리 제한 120 m)
+  - 파노라마(zoom 1)를 한 번만 받아 `captures/<파노라마 위치의 칸 ID>/<파노라마 ID>/`에 저장한다(git 제외, 재사용)
+  - 건물 방향을 향한 크롭(1024×768)을 `captures/<건물 칸 ID>/crops/`에 만든다
+  - 호출 간격 1초, 실행당 새 다운로드 100장 상한. 차단 신호가 나오면 다른 방식으로 바꾸지 않고 즉시 멈춘다(NFR-5)
+  - 파노라마는 `captures`, 건물과의 짝과 크롭은 `building_views`에 기록한다
+- **인터페이스**: 입력은 칸 ID(또는 `--replan`), 출력은 이미지 파일과 `captures`, `building_views` 레코드
+- **한계**: 거리 제한 안에 파노라마가 없는 건물은 `no_photo`다(D-4). 네이버 내부 통신을 쓰는 라이브러리라 바뀌면 깨질 수 있다(그때 Playwright는 새 작업)
 
 #### C4. 높이·외관 판단 — `estimate.py`
 - **목적**: 건물별 층수, 높이, 외관 속성과 그 근거를 정한다 (FR-8, FR-9)
@@ -172,9 +173,12 @@ Workspace
 
 | 메서드 | 입력 → 출력 | 목적 |
 |---|---|---|
-| `plan_points(cell_id: CellId) -> list[CapturePoint]` | 칸 ID → 캡처 지점 | 칸마다 지점을 몇 곳 정한다 |
-| `capture_point(point: CapturePoint) -> list[Path]` | 지점 → 사진 경로 | 360도 사진을 저장한다. 속도를 제한하고 CAPTCHA·차단이 나오면 `BlockedError`를 내고 중단한다 |
-| `run(cell_id: CellId) -> None` | 칸 ID → 없음 | 지점 계획, 캡처, `captures` 기록을 순서대로 한다 |
+| `candidates(building: Building, limit_m: float) -> list[Candidate]` | 건물, 거리 제한 → 후보 | 건물 근처 파노라마와 이웃 중 거리 제한 안의 차량 파노라마를 후보(ID, 위치, 거리, 방위각)로 만든다 |
+| `select_panoramas(cands: list[Candidate], separation_deg: float, max_views: int, usable: Callable[[str], bool]) -> list[Candidate]` | 후보 → 고른 것 | 가까운 순으로 방위각이 `separation_deg` 이상 다른 것을 최대 `max_views`장 고른다. `usable`은 ID로 확인한 메타데이터(최신, 해상도) |
+| `crop_params(yaw_deg, building_extent_deg, height_m, distance_m) -> CropParams` | 방향, 각도 범위, 높이, 거리 → 시야각과 위쪽 각도 | 시야각 60°~100°, 위쪽 각도 0°~40° |
+| `render_crop(faces, params) -> Image` | 파노라마 면들, 크롭 값 → 1024×768 이미지 | 큐브 맵에서 직선 투영 크롭을 만든다 |
+| `download_panorama(pano_id) -> Path` | 파노라마 ID → 파일 | zoom 1 이미지를 저장한다(이미 있으면 건너뜀). 차단 신호는 `BlockedError`로 멈춘다 |
+| `run(cell_id: CellId, replan: bool) -> None` | 칸 ID → 없음 | 계획, 내려받기, 크롭, DB 기록을 한다. 상한에 닿으면 멈추고 다음 실행에서 이어간다 |
 
 ### C4. 높이·외관 판단 (`estimate.py`)
 
@@ -223,10 +227,10 @@ Workspace
 - **주의**: `execute_luau`는 실행 중 Studio가 멈추므로 덩어리를 작게 나눈다. 큰 작업 전에는 `.rbxl` 복사본을 만든다(NFR-6)
 
 #### S3. 사진 수집
-- **책임**: 칸별 거리뷰 360도 사진 수집
-- **순서**: `capture.py`
-- **결과**: `captures/<칸ID>/<지점ID>/`에 사진, DB에 `captures` 기록
-- **정지 조건**: CAPTCHA나 봇 차단이 나오면 우회하지 않고 즉시 멈춘다. 이후 진행은 사용자 판단
+- **책임**: 건물별 거리뷰 파노라마 선택, 내려받기, 건물 방향 크롭
+- **순서**: `capture.py` (U1의 `buildings`가 있어야 한다)
+- **결과**: `captures/<칸ID>/<파노라마ID>/`에 파노라마, `captures/<칸ID>/crops/`에 크롭, DB에 `captures`와 `building_views`
+- **정지 조건**: 차단 신호(403, 429가 계속됨, 응답 형식 이상, 연속 3번 실패)가 나오면 다른 방식으로 바꾸지 않고 즉시 멈춘다. 새 다운로드가 실행당 100장에 닿아도 멈추고 다음 실행에서 이어간다
 
 #### S4. 판단·보정 루프
 - **책임**: 높이와 외관을 정하고 사용자와 Claude가 같이 확인해서 보정한다
@@ -268,7 +272,7 @@ S5 보호는 보정이 쌓일 때마다 실행
 |---|---|---|
 | C1 칸 수집기 | 쓰기 (`cells`, `osm_buildings`, `street_features`) | Overpass API |
 | C2 건물 조립기 | 읽기 (`osm_buildings`), 쓰기 (`gis_buildings`, `buildings`) | V-World 건물통합정보 |
-| C3 캡처기 | 읽기 (`cells`, `buildings`), 쓰기 (`captures`) | 네이버 거리뷰 (Playwright) |
+| C3 캡처기 | 읽기 (`cells`, `buildings`), 쓰기 (`captures`, `building_views`) | 네이버 거리뷰 (`streetlevel` 라이브러리) |
 | C4 판단 | 읽기 (`buildings`, `captures`), 쓰기 (`estimates`) | 없음 (사진은 Claude가 본다) |
 | C5 보정 관리자 | 읽기·쓰기 (`overrides`) | `overrides/<칸ID>.json` 파일 |
 | C6 Studio 생성기 | 읽기 (최종값 `effective_buildings`, `street_features`) | Studio MCP (Claude 경유) |
