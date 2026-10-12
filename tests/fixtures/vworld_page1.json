@@ -1,0 +1,129 @@
+{
+ "response": {
+  "service": {
+   "name": "data",
+   "version": "2.0",
+   "operation": "GetFeature",
+   "time": "24(ms)"
+  },
+  "status": "OK",
+  "record": {
+   "total": "37",
+   "current": "2"
+  },
+  "page": {
+   "total": "19",
+   "current": "1",
+   "size": "2"
+  },
+  "result": {
+   "featureCollection": {
+    "type": "FeatureCollection",
+    "bbox": [
+     126.77769971975572,
+     37.504015187355556,
+     126.77785373432086,
+     37.504244443933274
+    ],
+    "features": [
+     {
+      "type": "Feature",
+      "geometry": {
+       "type": "MultiPolygon",
+       "coordinates": [
+        [
+         [
+          [
+           126.77782809815993,
+           37.504103697477326
+          ],
+          [
+           126.77781104744177,
+           37.50401518735555
+          ],
+          [
+           126.77769971975572,
+           37.504029482529745
+          ],
+          [
+           126.77770919412048,
+           37.504117617915554
+          ],
+          [
+           126.77782809815993,
+           37.504103697477326
+          ]
+         ]
+        ]
+       ]
+      },
+      "properties": {
+       "bld_nm": "",
+       "dong_nm": "",
+       "usability": "01000",
+       "grnd_flr": "3",
+       "ugrnd_flr": "0",
+       "archarea": "88.75",
+       "height": "9.7",
+       "vl_rat": "140.27",
+       "bc_rat": "49.19",
+       "totalarea": "253.05",
+       "platarea": "180.4",
+       "useapr_day": "19960704",
+       "strct_cd": "21"
+      },
+      "id": "LT_C_BLDGINFO.11172810"
+     },
+     {
+      "type": "Feature",
+      "geometry": {
+       "type": "MultiPolygon",
+       "coordinates": [
+        [
+         [
+          [
+           126.77785373432086,
+           37.504229615195165
+          ],
+          [
+           126.77783621533031,
+           37.504150204254614
+          ],
+          [
+           126.77772330493751,
+           37.50416422615481
+          ],
+          [
+           126.77773867260109,
+           37.504244443933274
+          ],
+          [
+           126.77785373432086,
+           37.504229615195165
+          ]
+         ]
+        ]
+       ]
+      },
+      "properties": {
+       "bld_nm": "",
+       "dong_nm": "",
+       "usability": "01000",
+       "grnd_flr": "3",
+       "ugrnd_flr": "0",
+       "archarea": "90.16",
+       "height": "9.75",
+       "vl_rat": "144.87",
+       "bc_rat": "48.29",
+       "totalarea": "270.48",
+       "platarea": "186.7",
+       "useapr_day": "19970702",
+       "strct_cd": "21"
+      },
+      "id": "LT_C_BLDGINFO.11177607"
+     }
+    ]
+   }
+  }
+ }
+}

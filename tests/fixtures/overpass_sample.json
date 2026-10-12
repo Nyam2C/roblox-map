@@ -1,0 +1,378 @@
+{
+ "version": 0.6,
+ "generator": "Overpass API 0.7.62.11 87bfad18",
+ "osm3s": {
+  "timestamp_osm_base": "2026-10-12T16:32:26Z",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+ },
+ "elements": [
+  {
+   "type": "way",
+   "id": 222838545,
+   "bounds": {
+    "minlat": 37.5052489,
+    "minlon": 126.7744973,
+    "maxlat": 37.5054351,
+    "maxlon": 126.775156
+   },
+   "geometry": [
+    {
+     "lat": 37.5054351,
+     "lon": 126.7745189
+    },
+    {
+     "lat": 37.5053567,
+     "lon": 126.775156
+    },
+    {
+     "lat": 37.5052489,
+     "lon": 126.7751386
+    },
+    {
+     "lat": 37.5053314,
+     "lon": 126.7744973
+    },
+    {
+     "lat": 37.5054351,
+     "lon": 126.7745189
+    }
+   ],
+   "tags": {
+    "addr:city": "부천시",
+    "addr:district": "원미구",
+    "addr:province": "경기도",
+    "addr:subdistrict": "중동",
+    "building": "apartments",
+    "building:flats": "56",
+    "building:levels": "15",
+    "height": "41",
+    "name": "601",
+    "start_date": "1993"
+   }
+  },
+  {
+   "type": "way",
+   "id": 222838546,
+   "bounds": {
+    "minlat": 37.5046794,
+    "minlon": 126.7745681,
+    "maxlat": 37.5049166,
+    "maxlon": 126.7747222
+   },
+   "geometry": [
+    {
+     "lat": 37.5049166,
+     "lon": 126.7746181
+    },
+    {
+     "lat": 37.5049019,
+     "lon": 126.7747222
+    },
+    {
+     "lat": 37.5046794,
+     "lon": 126.7746722
+    },
+    {
+     "lat": 37.5046941,
+     "lon": 126.7745681
+    },
+    {
+     "lat": 37.5049166,
+     "lon": 126.7746181
+    }
+   ],
+   "tags": {
+    "addr:city": "부천시",
+    "addr:district": "원미구",
+    "addr:province": "경기도",
+    "addr:subdistrict": "중동",
+    "building": "apartments",
+    "building:flats": "30",
+    "building:levels": "15",
+    "height": "41",
+    "name": "607",
+    "start_date": "1993"
+   }
+  },
+  {
+   "type": "way",
+   "id": 222838547,
+   "bounds": {
+    "minlat": 37.5042824,
+    "minlon": 126.7744899,
+    "maxlat": 37.5045234,
+    "maxlon": 126.7746416
+   },
+   "geometry": [
+    {
+     "lat": 37.5045234,
+     "lon": 126.7745372
+    },
+    {
+     "lat": 37.5042961,
+     "lon": 126.7744899
+    },
+    {
+     "lat": 37.5042824,
+     "lon": 126.7745943
+    },
+    {
+     "lat": 37.5045097,
+     "lon": 126.7746416
+    },
+    {
+     "lat": 37.5045234,
+     "lon": 126.7745372
+    }
+   ],
+   "tags": {
+    "addr:city": "부천시",
+    "addr:district": "원미구",
+    "addr:province": "경기도",
+    "addr:subdistrict": "중동",
+    "building": "apartments",
+    "building:flats": "30",
+    "building:levels": "15",
+    "height": "41",
+    "name": "608",
+    "start_date": "1993"
+   }
+  },
+  {
+   "type": "way",
+   "id": 219848661,
+   "bounds": {
+    "minlat": 37.5045005,
+    "minlon": 126.7770766,
+    "maxlat": 37.506466,
+    "maxlon": 126.7803024
+   },
+   "geometry": [
+    {
+     "lat": 37.5045005,
+     "lon": 126.7803024
+    },
+    {
+     "lat": 37.5047092,
+     "lon": 126.7799535
+    },
+    {
+     "lat": 37.5054664,
+     "lon": 126.7786874
+    },
+    {
+     "lat": 37.5055166,
+     "lon": 126.7786034
+    },
+    {
+     "lat": 37.505987,
+     "lon": 126.777817
+    },
+    {
+     "lat": 37.5060797,
+     "lon": 126.7776687
+    },
+    {
+     "lat": 37.5063229,
+     "lon": 126.777296
+    },
+    {
+     "lat": 37.506466,
+     "lon": 126.7770766
+    }
+   ],
+   "tags": {
+    "cycleway": "no",
+    "foot": "yes",
+    "highway": "residential",
+    "name": "계남로",
+    "name:en": "Gyenam-ro",
+    "name:ko": "계남로",
+    "oneway": "no",
+    "sidewalk": "both",
+    "surface": "asphalt"
+   }
+  },
+  {
+   "type": "way",
+   "id": 219848704,
+   "bounds": {
+    "minlat": 37.5039831,
+    "minlon": 126.7747676,
+    "maxlat": 37.5049428,
+    "maxlon": 126.77572
+   },
+   "geometry": [
+    {
+     "lat": 37.50485,
+     "lon": 126.77572
+    },
+    {
+     "lat": 37.5049428,
+     "lon": 126.7749735
+    },
+    {
+     "lat": 37.5039831,
+     "lon": 126.7747676
+    }
+   ],
+   "tags": {
+    "highway": "residential",
+    "noname": "yes",
+    "oneway": "no",
+    "surface": "asphalt"
+   }
+  },
+  {
+   "type": "way",
+   "id": 219848812,
+   "bounds": {
+    "minlat": 37.5039831,
+    "minlon": 126.7692706,
+    "maxlat": 37.5046926,
+    "maxlon": 126.7747676
+   },
+   "geometry": [
+    {
+     "lat": 37.5039831,
+     "lon": 126.7747676
+    },
+    {
+     "lat": 37.5042332,
+     "lon": 126.7728344
+    },
+    {
+     "lat": 37.5042959,
+     "lon": 126.7723479
+    },
+    {
+     "lat": 37.5044463,
+     "lon": 126.7711813
+    },
+    {
+     "lat": 37.5045021,
+     "lon": 126.7707481
+    },
+    {
+     "lat": 37.5046926,
+     "lon": 126.7692706
+    }
+   ],
+   "tags": {
+    "highway": "residential",
+    "name": "중동로280번길",
+    "name:en": "Jungdong-ro 280beon-gil",
+    "name:ko": "중동로280번길",
+    "oneway": "no",
+    "surface": "asphalt"
+   }
+  },
+  {
+   "type": "way",
+   "id": 219863459,
+   "bounds": {
+    "minlat": 37.5005832,
+    "minlon": 126.7740545,
+    "maxlat": 37.5031056,
+    "maxlon": 126.77458
+   },
+   "geometry": [
+    {
+     "lat": 37.5031056,
+     "lon": 126.77458
+    },
+    {
+     "lat": 37.5023511,
+     "lon": 126.7744318
+    },
+    {
+     "lat": 37.5020495,
+     "lon": 126.7743675
+    },
+    {
+     "lat": 37.5017451,
+     "lon": 126.7743025
+    },
+    {
+     "lat": 37.5011153,
+     "lon": 126.7741681
+    },
+    {
+     "lat": 37.5005832,
+     "lon": 126.7740545
+    }
+   ],
+   "tags": {
+    "highway": "residential",
+    "name": "길주로290번길",
+    "name:en": "Gilju-ro 290beon-gil",
+    "name:ko": "길주로290번길",
+    "oneway": "no"
+   }
+  },
+  {
+   "type": "way",
+   "id": 219864681,
+   "bounds": {
+    "minlat": 37.5054777,
+    "minlon": 126.7636299,
+    "maxlat": 37.5070237,
+    "maxlon": 126.7755723
+   },
+   "geometry": [
+    {
+     "lat": 37.5054777,
+     "lon": 126.7755723
+    },
+    {
+     "lat": 37.5055216,
+     "lon": 126.7751614
+    },
+    {
+     "lat": 37.5057301,
+     "lon": 126.773595
+    },
+    {
+     "lat": 37.5058528,
+     "lon": 126.7726454
+    },
+    {
+     "lat": 37.5058791,
+     "lon": 126.7724416
+    },
+    {
+     "lat": 37.5059544,
+     "lon": 126.7718403
+    },
+    {
+     "lat": 37.5062574,
+     "lon": 126.7693932
+    },
+    {
+     "lat": 37.5064025,
+     "lon": 126.768311
+    },
+    {
+     "lat": 37.5066121,
+     "lon": 126.7667981
+    },
+    {
+     "lat": 37.5068425,
+     "lon": 126.7650002
+    },
+    {
+     "lat": 37.5070237,
+     "lon": 126.7636299
+    }
+   ],
+   "tags": {
+    "highway": "pedestrian",
+    "lit": "yes",
+    "noname": "yes",
+    "oneway": "no",
+    "surface": "paving_stones"
+   }
+  }
+ ],
+ "_note": "Trimmed real Overpass response for cell 8930e0af13bffff (2026-10-13), tests/test_parse.py adds nodes by hand."
+}
