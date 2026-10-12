@@ -10,3 +10,5 @@ cells/
 captures/
 # API keys (data.go.kr 등)
 .env
+# local database, logs and backups
+data/
