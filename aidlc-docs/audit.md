@@ -448,3 +448,36 @@
 **Context**: Committing the U3 functional design and the documents aligned to the streetlevel decision, then starting U3 NFR Requirements.
 
 ---
+
+## Git - Commits and Push (U3 functional design)
+**Timestamp**: 2026-10-12T17:23:45Z
+**User Input**: (part of "승인 ㄱㄱ 커밋 푸시도 ㄱㄱ", logged above)
+**AI Response**: Secret check clean; committed the U3 functional design, the documents aligned to the streetlevel decision, and the state/audit files (3 commits) and pushed main (5e08c24..40cd034).
+**Context**: U3 functional design in the repository.
+
+---
+
+## U3 NFR Requirements - Dependency Probe and Questions Issued
+**Timestamp**: 2026-10-12T17:23:45Z
+**User Input**: (none, AI-initiated stage)
+**AI Response**: Read streetlevel 0.12.12's declared dependencies (MIT license, 16 requirements incl. pyequilib, pyexiv2, scipy, pytest). In a scratchpad environment, installed it with --no-deps and added only the modules the Naver code actually needs: 21 packages, no torch; panorama lookup and the zoom 1 download both worked on Python 3.14; pip-audit on that set reported no known vulnerabilities. Then verified the same through a script with inline [tool.uv] exclude-dependencies plus an empty pyexiv2 module put in sys.modules before the import (21 packages installed, lookup worked). Checked free disk (about 608 GB) and the Finder iCloud desktop sync flag (0, so probably off). Created aidlc-docs/construction/plans/u3-street-view-capture-nfr-requirements-plan.md with the findings, already-fixed items, defaults N-U3-1..N-U3-8 and 4 questions (dependency approach, pin scope, CI and tests, storage cap). Nothing from the probes was stored in the repository.
+**Context**: CONSTRUCTION - U3 NFR Requirements, Step 4-5 gate.
+
+---
+
+## U3 NFR Requirements - Answers Received and Artifacts Generated
+**Timestamp**: 2026-10-12T17:35:29Z
+**User Input (verbatim)**: "A A B A"
+**AI Response**: Recorded Q1=A (lean install: exclude-dependencies plus an empty pyexiv2 module), Q2=A (pin all 21 packages), Q3=B (CI installs the lean set for an import-only self-check and runs pip-audit on it; CI never calls Naver), Q4=A (no storage cap, measure and report). No contradictions. Added defaults N-U3-9 (capture.py --selftest as the CI entry point, no network) and N-U3-10 (pip-audit input taken from the script's inline dependencies). Generated aidlc-docs/construction/u3-street-view-capture/nfr-requirements/{nfr-requirements,tech-stack-decisions}.md. Extension compliance: Security compliant or N/A with no new exceptions (SECURITY-01 at rest and SECURITY-03 central log stay as the U1 exceptions; image validation and a third-party private-protocol library recorded as a risk), Resiliency compliant (captures/ not backed up, recorded under RESILIENCY-12 as re-downloadable, runbook R-7 to R-9 added), PBT-09 unchanged. No blocking findings. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U3 NFR Requirements, Step 7-8 gate. NFR Design for U3 is skipped as planned (patterns decided in U1).
+
+---
+
+## U3 NFR Requirements - Approval
+**Timestamp**: 2026-10-12T17:38:08Z
+**AI Prompt**: "Continue to Next Stage - 승인하면 Code Generation으로 넘어간다." (U3 NFR Requirements completion message), plus the question about committing and pushing
+**User Response**: "ㄱㄱ ㄱㄱ" (read as one go-ahead for the approval and one for the commit and push, the same pair the previous gates used)
+**Status**: Approved, commit and push authorized
+**Context**: Committing the U3 NFR requirements and starting U3 Code Generation Part 1 (Planning).
+
+---
