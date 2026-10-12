@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+.venv/
+# generated from OSM, regenerate with cells.py
+cells/
+# Roblox place files are binary, version them in Studio cloud history
+*.rbxl
+*.rbxlx
