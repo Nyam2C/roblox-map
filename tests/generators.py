@@ -10,7 +10,9 @@ import math
 import h3
 from hypothesis import strategies as st
 
+import common
 import geo
+import judgement as J
 import panorama_source as ps
 
 RES = 9
@@ -191,3 +193,58 @@ def road_features(draw, max_points: int = 8, spread_m: float = 250.0):
     }))
     return {"feature_id": f"way:{draw(st.integers(1, 10**6))}", "kind": "road" if cls in ROAD_CLASSES_U2 else "path",
             "highway_class": cls, "geometry": [list(p) for p in pts], "tags": tags}
+
+
+# --- U4 judgement and corrections ---------------------------------------------------------------------
+
+COLOR_NAMES = sorted(common.DEFAULTS["wall_colors"]) + [J.OTHER_COLOR]
+TIMES = st.builds("2026-10-{:02d}T{:02d}:{:02d}:{:02d}+00:00".format, st.integers(1, 28), st.integers(0, 23), st.integers(0, 59),
+                  st.integers(0, 59))
+REASONS = st.text(alphabet=st.characters(min_codepoint=33, max_codepoint=0x2FFF, blacklist_categories=("Cc", "Cs")),
+                  min_size=1, max_size=60).filter(lambda t: t == t.strip())  # no space at the ends: the stored reason is trimmed
+
+
+@st.composite
+def register_buildings(draw, building_id: str = "gis:1"):
+    """A buildings row as far as U4 reads it: register floors and height (missing, zero or real) and OSM reference values."""
+    return {"building_id": building_id,
+            "floors_above": draw(st.one_of(st.none(), st.just(0), st.integers(1, 30))),
+            "height_m": draw(st.one_of(st.none(), st.just(0.0), st.floats(2, 120).map(lambda x: round(x, 1)))),
+            "osm_height_m": draw(st.one_of(st.none(), st.floats(2, 100).map(lambda x: round(x, 1)))),
+            "osm_levels": draw(st.one_of(st.none(), st.integers(1, 20)))}
+
+
+@st.composite
+def judgements(draw, building_id: str = "gis:1", ranks=(1, 2, 3)):
+    """A valid judgement (what `record` takes): floors or a geometry height, confidence, color, roof, views, note."""
+    floors = draw(st.one_of(st.none(), st.integers(1, 30)))
+    height = draw(st.one_of(st.none(), st.floats(2, 200))) if floors is None else None
+    counted = floors is not None or height is not None
+    return {"building_id": building_id, "floors_seen": floors, "height_est_m": height,
+            "confidence": draw(st.sampled_from(J.CONFIDENCES)) if counted else draw(st.one_of(st.none(), st.sampled_from(J.CONFIDENCES))),
+            "wall_color": draw(st.one_of(st.none(), st.sampled_from(COLOR_NAMES))),
+            "roof_shape": draw(st.one_of(st.none(), st.sampled_from(J.ROOF_SHAPES))),
+            "views_used": draw(st.lists(st.sampled_from(ranks), min_size=1, max_size=len(ranks), unique=True)),
+            "note": draw(st.one_of(st.none(), st.text(alphabet="abc def.", max_size=40)))}
+
+
+@st.composite
+def override_pairs(draw):
+    """(field, valid value) of one correction."""
+    field = draw(st.sampled_from(J.FIELDS))
+    value = {"floors_above": st.integers(1, 100), "height_m": st.floats(2, 500), "wall_color": st.sampled_from(COLOR_NAMES),
+             "roof_shape": st.sampled_from(J.ROOF_SHAPES)}[field]
+    return field, draw(value)
+
+
+@st.composite
+def override_sets(draw):
+    """{field: value} for one building, at most one value per field."""
+    pairs = draw(st.lists(override_pairs(), max_size=4))
+    return dict(pairs)
+
+
+@st.composite
+def building_cases(draw, building_id: str = "gis:1"):
+    """(buildings row, judgement or None, overrides dict) for one building."""
+    return (draw(register_buildings(building_id)), draw(st.one_of(st.none(), judgements(building_id))), draw(override_sets()))

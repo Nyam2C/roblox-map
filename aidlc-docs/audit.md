@@ -742,3 +742,20 @@
 **Context**: U4 Code Generation Part 1 complete. Committing and pushing the plan, then starting Part 2 (Generation) at plan step 1.
 
 ---
+
+## U4 Code Generation - Generated
+**Timestamp**: 2026-10-13T13:45:00Z (approx.)
+**User Input**: (none, execution of the approved plan)
+**AI Response**: Executed the 12 plan steps. Created src/judgement.py (validation, final value with the floors table, height rules, appearance, review flags, export format), src/review.py (blind item, judging order, review batches, camera values, field-of-view conversion, capture crop box, agreement), src/estimate.py (pending with sheet images, record, report, plan, compose), src/overrides.py (set, unset, list, export, import), tests/test_judgement.py, test_review.py, test_u4_db.py, test_estimate.py, test_overrides.py and code-summary.md; modified db.py (estimates and overrides tables and functions, export and import), common.py and config.toml (U4 settings, wall color table), layout.py, build_luau.py and studio/Builder.luau (final values, wall colors, attributes HeightBasis, FloorsBasis, WallColor, Review), tests/generators.py, test_common.py, test_db.py (the stand-in overrides table replaced by the real one), test_layout.py, test_build_luau.py, test_versions.py and CLAUDE.md. 412 tests pass with seeds 1, 7, 42, 2026 and 99999; 12 deliberate code breaks were all caught; both new scripts pass --selftest. Studio test inside Workspace.MCP_Test only (NewBuilder module of 7,405 bytes equal to the file, synthetic cell run as generated except the require line and the scratch root): wall colors, attributes, verify, same result after regeneration and Manual wins all as designed; test objects removed, MCP_Test back to its two original parts, real Auto cell (169) and Manual (0) unchanged, ServerStorage/MapBuilder untouched. Real first-cell read-only checks kept the blind judgement: 121 of 122 buildings have the same height as the old rule and one has an out-of-band register height (floors x 3.4 m, flagged height_out_of_range), chunk files 6.0/9.4/9.4/2.7 KB, pending listed 3 items without register or OSM numbers (the sheet images were not opened), report and plan were not run on the real database. Deviations: Review separator "-", overrides_dir setting, header strip on pair images, compose subcommand, two pure modules, P4-10 order exception (all announced in the plan); Pillow pixel limit as an explicit size check instead of the global MAX_IMAGE_PIXELS (the global clashed with capture.py's setting in one process); unset_override returns the cell id; the plan leaves out buildings without a crop. Real MapBuilder in ServerStorage still holds the old Builder and must be updated in Build and Test. Presented the completion message.
+**Context**: CONSTRUCTION - U4 Code Generation Part 2, Step 14-15 gate.
+
+---
+
+## U4 Code Generation - Approval
+**Timestamp**: 2026-10-13T14:10:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - Approve code generation and proceed to U4 Build and Test" and the question about commit and push. In between the user asked why 10 KB is the chunk file warning line; answered that it is a rule of thumb from the U2 NFR stage (about three times the 3.7 KB that was tested), not a measured limit, and recommended measuring with the real 9.4 KB chunks in Build and Test.
+**User Response**: "ㄱㄱ 승인하고 커밋 푸시까지"
+**Status**: Approved, commit and push authorized (for this commit)
+**Context**: U4 Code Generation approved. Committing and pushing the code, tests and documents, then starting U4 Build and Test.
+
+---

@@ -1,8 +1,10 @@
 """Dependency pins: scripts and tests use the same exact versions, and CI is pinned (N-8, SECURITY-10)."""
 from __future__ import annotations
 
+import ast
 import os
 import re
+import sys
 import tomllib
 from pathlib import Path
 
@@ -39,7 +41,7 @@ SCRIPTS = sorted(p for p in (ROOT / "src").glob("*.py") if "# /// script" in p.r
 
 
 def test_there_are_scripts_with_inline_metadata():
-    assert {p.name for p in SCRIPTS} >= {"cells.py", "register.py", "capture.py", "build_luau.py"}
+    assert {p.name for p in SCRIPTS} >= {"cells.py", "register.py", "capture.py", "build_luau.py", "estimate.py", "overrides.py"}
 
 
 @pytest.mark.parametrize("script", SCRIPTS, ids=lambda p: p.name)
@@ -104,3 +106,31 @@ def test_builder_luau_has_no_way_to_run_text_as_code_or_reach_the_network():
     for forbidden in ("loadstring", "HttpService", "RequestAsync", "GetAsync", "PostAsync", "getfenv", "setfenv"):
         assert forbidden not in code, forbidden
     assert code.count(":Destroy()") == 1 and "old:Destroy()" in code  # the only thing it ever destroys is the old Auto/<cell id>
+
+
+# --- U4: estimate.py stays light, overrides.py needs nothing from outside (N-U4-1) --------------------------------
+
+def _imports(path: Path) -> set[str]:
+    out = set()
+    for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
+        if isinstance(node, ast.Import):
+            out |= {a.name.split(".")[0] for a in node.names}
+        elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
+            out.add(node.module.split(".")[0])
+    return out
+
+
+LOCAL = {p.stem for p in (ROOT / "src").glob("*.py")}
+
+
+def test_estimate_pins_only_pillow_h3_and_shapely_and_does_not_pull_in_numpy_through_projection():
+    meta = _inline_meta(ROOT / "src" / "estimate.py")
+    assert {_name(d) for d in meta["dependencies"]} == {"pillow", "h3", "shapely"} and all(PIN.match(d) for d in meta["dependencies"])
+    assert "projection" not in _imports(ROOT / "src" / "estimate.py") | _imports(ROOT / "src" / "review.py")
+
+
+def test_overrides_runs_on_the_standard_library_and_our_own_modules_alone():
+    assert _inline_meta(ROOT / "src" / "overrides.py")["dependencies"] == []
+    for name in ("overrides", "db", "common", "judgement"):  # everything overrides.py imports, transitively
+        outside = _imports(ROOT / "src" / f"{name}.py") - set(sys.stdlib_module_names) - LOCAL
+        assert not outside, f"{name}.py imports {sorted(outside)}"

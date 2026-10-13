@@ -14,6 +14,7 @@ from shapely.geometry import MultiPoint, Polygon
 
 import common
 import geo
+import judgement
 
 LatLon = tuple[float, float]
 EARTH_R = 6371008.8  # same value as geo.EARTH_R and projection.EARTH_R
@@ -103,8 +104,9 @@ class Item:
 
 
 def _item(kind: str, name: str, group: str, seq: int, center: tuple[float, float, float], size: tuple[float, float, float],
-          yaw: float, attrs: Mapping[str, Any] | None = None) -> Item:
-    material, color = LOOKS[kind]
+          yaw: float, attrs: Mapping[str, Any] | None = None, color: tuple[int, int, int] | None = None) -> Item:
+    material, default_color = LOOKS[kind]
+    color = color or default_color
     return Item(kind, name, group, seq, fmt(center[0]), fmt(center[1]), fmt(center[2]), fmt(size[0]), fmt(size[1]), fmt(size[2]),
                 fmt(yaw), material, color, dict(attrs or {}))
 
@@ -150,8 +152,13 @@ def outline_to_box(outline: Sequence[LatLon], frame: Frame) -> Box | None:
     return Box(rect.centroid.x, rect.centroid.y, width, depth, _yaw_of(*long_), min(1.0, area / rect.area))
 
 
-def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, Any]) -> tuple[Item | None, str | None]:
-    """(item, None) for a good building, (None, reason) for one that is skipped (BR-2.9)."""
+def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, Any],
+                  eff: judgement.EffectiveBuilding | None = None) -> tuple[Item | None, str | None]:
+    """(item, None) for a good building, (None, reason) for one that is skipped (BR-2.9).
+
+    With `eff` (the final value of the building, U4) the height, floors and wall color come from it and the part gets the attributes
+    HeightBasis, FloorsBasis, WallColor and Review (BR-9). Without it the old U2 rules apply.
+    """
     bid = str(building["building_id"])
     outline = building["outline"]
     if not (isinstance(outline, (list, tuple)) and len(outline) >= 3
@@ -161,14 +168,23 @@ def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, A
     if box is None:
         return None, f"{bid}: outline has no area"
     s = frame.studs_per_m
-    height_m = common.building_height_m(building.get("height_m"), building.get("floors_above"), cfg)
+    if eff is None:
+        height_m, floors, color = common.building_height_m(building.get("height_m"), building.get("floors_above"), cfg), building.get("floors_above"), None
+    else:
+        height_m, floors, color = eff.height_m, eff.floors_above, judgement.wall_rgb(eff.wall_color, cfg)
     sy = height_m * s
     attrs: dict[str, Any] = {"BuildingId": bid, "CellId": str(building["cell_id"]), "Source": str(building["source"]),
                              "HeightM": fmt(height_m), "FitRatio": fmt(box.fit_ratio)}
-    if building.get("floors_above"):
-        attrs["Floors"] = int(building["floors_above"])
+    if floors:
+        attrs["Floors"] = int(floors)
+    if eff is not None:
+        attrs["HeightBasis"], attrs["WallColor"] = eff.height_basis, eff.wall_color
+        if eff.floors_basis:
+            attrs["FloorsBasis"] = eff.floors_basis
+        if eff.flags:
+            attrs["Review"] = "-".join(eff.flags)  # not a comma: Luau text may only hold the characters in build_luau.SAFE_TEXT
     item = _item("building", bid, bid, 0, (box.cx_m * s, sy / 2, -box.cy_m * s),
-                 (max(box.width_m * s, 1.0), sy, max(box.depth_m * s, 1.0)), box.yaw_deg, attrs)
+                 (max(box.width_m * s, 1.0), sy, max(box.depth_m * s, 1.0)), box.yaw_deg, attrs, color)
     return item, None
 
 

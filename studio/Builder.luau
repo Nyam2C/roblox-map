@@ -8,7 +8,8 @@
 	Layout:   Workspace/Auto/<cell id>/{Ground, Roads, Paths, Sidewalks, Buildings, Spawn}    rebuilt on every run
 	          Workspace/Manual                                                                  never changed, only read
 	Item keys: k kind, n name, x y z center, w h d size along the part's own X, Y, Z, r yaw in degrees (counterclockwise from
-	          east, seen from above), and for buildings s source, e height in m, q fit ratio, f floors.
+	          east, seen from above), and for buildings s source, e height in m, q fit ratio, f floors,
+	          and from U4 b height basis, a floors basis, c wall color name (its RGB is in looks.walls), v review flags.
 	Rules:    aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md (BR-2.8, BR-6, BR-7.5)
 ]]
 
@@ -84,7 +85,8 @@ function Builder.begin(cellId, root)
 	cell.Parent = auto
 end
 
--- Makes the parts of one chunk. looks[kind] = {material name, r, g, b}. Returns what this chunk made and skipped.
+-- Makes the parts of one chunk. looks[kind] = {material name, r, g, b}; looks.walls[color name] = {r, g, b} for buildings that
+-- have a wall color. Returns what this chunk made and skipped.
 function Builder.add(cellId, items, looks, root)
 	checkCell(cellId)
 	local cell = cellFolder(cellId, root)
@@ -107,7 +109,12 @@ function Builder.add(cellId, items, looks, root)
 			part.Size = Vector3.new(it.w, it.h, it.d)
 			part.CFrame = CFrame.new(it.x, it.y, it.z) * CFrame.Angles(0, math.rad(it.r), 0)
 			part.Material = Enum.Material[look[1]]
-			part.Color = Color3.fromRGB(look[2], look[3], look[4])
+			local wall = it.c and looks.walls and looks.walls[it.c]
+			if wall then
+				part.Color = Color3.fromRGB(wall[1], wall[2], wall[3])
+			else
+				part.Color = Color3.fromRGB(look[2], look[3], look[4])
+			end
 			if it.k == "building" then
 				part:SetAttribute("BuildingId", it.n)
 				part:SetAttribute("CellId", cellId)
@@ -116,6 +123,11 @@ function Builder.add(cellId, items, looks, root)
 				part:SetAttribute("FitRatio", it.q)
 				if it.f then
 					part:SetAttribute("Floors", it.f)
+				end
+				for key, attr in pairs({ b = "HeightBasis", a = "FloorsBasis", c = "WallColor", v = "Review" }) do
+					if it[key] ~= nil then
+						part:SetAttribute(attr, it[key])
+					end
 				end
 			elseif it.k == "spawn" then
 				part.Transparency = 1

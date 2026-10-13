@@ -29,8 +29,8 @@ def _snapshot(conn):
 
 def _make_overrides(conn, ids):
     with conn:
-        conn.execute("CREATE TABLE IF NOT EXISTS overrides (building_id TEXT, field TEXT, value TEXT, reason TEXT)")
-        conn.executemany("INSERT INTO overrides VALUES (?, 'height_m', '10', 'test')", [(i,) for i in ids])
+        conn.executemany("INSERT INTO overrides (building_id, field, value, cell_id, reason, set_at) "
+                         "VALUES (?, 'height_m', '10', 'c', 'test', '2026-10-13T00:00:00+00:00')", [(i,) for i in ids])
 
 
 @settings(max_examples=25, deadline=None)

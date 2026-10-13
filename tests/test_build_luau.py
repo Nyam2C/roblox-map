@@ -14,6 +14,7 @@ from hypothesis import given, settings, strategies as st
 import build_luau as B
 import common
 import db
+import judgement
 import layout
 from generators import BASE, offset, rect, road_features
 
@@ -270,3 +271,81 @@ def test_the_command_line_rejects_bad_cell_ids_and_missing_cells(capsys):
             B.parse_args(argv, 9)
         assert e.value.code == 2
     assert B.parse_args(["--selftest"], 9).selftest and B.parse_args(["--cells", CELL], 9).cells == [CELL]
+
+
+# --- U4: final values reach the Luau text (BR-9) ------------------------------------------------------------------------------
+
+def judged(bid, **kw):
+    return {"building_id": bid, "floors_seen": 4, "confidence": "high", "height_est_m": None, "wall_color": "cream", "roof_shape": "gable",
+            "views_used": [1], "note": None, **kw}
+
+
+def test_u4_without_judgements_the_height_and_color_are_what_u2_made_before():
+    frame = layout.Frame.from_cfg(CFG)
+    for floors, height in ((3, None), (3, 10.2), (None, 12.0), (None, None), (5, 17.0)):
+        b = building(0, floors_above=floors, height_m=height)
+        old, _ = layout.building_item(b, frame, CFG)
+        new, _ = layout.building_item(b, frame, CFG, judgement.effective_building(b, None, None, CFG))
+        assert (new.sy, new.color, new.attrs["HeightM"]) == (old.sy, old.color, old.attrs["HeightM"]) and new.color == (200, 200, 205)
+        assert new.attrs.get("Floors") == old.attrs.get("Floors") and new.attrs["Review"] == ("default_height-unjudged" if not floors and not height else "unjudged")
+
+
+def test_u4_a_judgement_and_a_correction_change_height_color_and_attributes():
+    b = building(0, floors_above=3, height_m=10.2)
+    plan = B.plan_cell(CELL, [b], [], CFG, {b["building_id"]: judged(b["building_id"], floors_seen=4)},
+                       {b["building_id"]: {"wall_color": "blue"}})
+    (item,) = [i for i in plan.items if i.kind == "building"]
+    assert item.attrs["HeightBasis"] == "from_floors" and item.attrs["FloorsBasis"] == "photo_count" and item.attrs["Floors"] == 4
+    assert item.attrs["HeightM"] == pytest.approx(4 * 3.4, abs=1e-3) and item.attrs["WallColor"] == "blue" and item.attrs["Review"] == "changed"
+    assert item.color == tuple(CFG["wall_colors"]["blue"])
+    text = "".join(t for n, t in plan.files.items() if n.endswith(".luau"))
+    assert 'b="from_floors"' in text and 'a="photo_count"' in text and 'c="blue"' in text and 'v="changed"' in text
+    assert 'walls={["blue"]={110,140,180}}' in text
+    assert plan.counts["judged"] == 1 and plan.counts["flagged"] == 1
+
+
+def test_u4_the_colors_of_a_chunk_are_sent_once_for_that_chunk_only():
+    bs = [building(i) for i in range(3)]
+    ests = {bs[0]["building_id"]: judged(bs[0]["building_id"], wall_color="pink"), bs[1]["building_id"]: judged(bs[1]["building_id"], wall_color="pink")}
+    plan = B.plan_cell(CELL, bs, [], {**CFG, "chunk_size": 2}, ests)
+    texts = [t for n, t in sorted(plan.files.items()) if n.endswith(".luau")]
+    assert [t.count('["pink"]') for t in texts] == [1, 1]  # gis:1000 is in the first chunk, gis:1001 in the second; each sends its color once
+    assert all(t.count("walls=") == 1 for t in texts)
+    plan = B.plan_cell(CELL, bs[2:], [], CFG)  # a chunk of buildings without a judgement still gets a table: light_gray is their color
+    assert 'walls={["light_gray"]={200,200,205}}' in "".join(plan.files.values())
+
+
+def test_u4_a_hostile_text_from_the_judgement_never_reaches_the_code():
+    b = building(0)
+    bad = judged(b["building_id"], wall_color='x"]] os.exit() --')  # cannot come through record, but plan_cell must not trust it either
+    plan = B.plan_cell(CELL, [b, building(1)], [], CFG, {b["building_id"]: bad})
+    assert plan.counts["items_building"] == 1 and plan.counts["buildings_skipped"] == 1
+    assert any("not allowed in Luau code" in w for w in plan.warnings)
+    assert "os.exit" not in "".join(t for n, t in plan.files.items() if n.endswith(".luau"))
+
+
+@settings(max_examples=25)
+@given(st.randoms(use_true_random=False), st.integers(1, 4))
+def test_u4_p2_8_same_text_whatever_the_order_of_buildings_judgements_and_corrections(rnd, n):
+    bs = [building(i, floors_above=2 + i) for i in range(6)]
+    ests = {b["building_id"]: judged(b["building_id"], floors_seen=3 + (i % n), wall_color=["cream", "pink", None][i % 3]) for i, b in enumerate(bs[:4])}
+    ovs = {bs[1]["building_id"]: {"height_m": 21.5}, bs[5]["building_id"]: {"wall_color": "green", "floors_above": 9}}
+    first = B.plan_cell(CELL, bs, [], CFG, ests, ovs)
+    shuffled = list(bs)
+    rnd.shuffle(shuffled)
+    again = B.plan_cell(CELL, shuffled, [], CFG, dict(rnd.sample(sorted(ests.items()), len(ests))), dict(rnd.sample(sorted(ovs.items()), len(ovs))))
+    assert first.files == again.files
+
+
+def test_u4_build_cell_reads_judgements_and_corrections_from_the_database(tmp_path):
+    conn = db.connect(":memory:")
+    db.replace_cell_rows(conn, CELL, {"buildings": [row_for_db(building(i)) for i in range(2)]})
+    db.upsert_building_views(conn, [{"building_id": "gis:1000", "rank": 1, "pano_id": None, "distance_m": 1.0, "bearing_deg": 0.0, "yaw_deg": 0.0,
+                                     "fov_deg": 90.0, "pitch_deg": 0.0, "crop_path": "x.jpg", "status": "cropped", "face_deg": None,
+                                     "target_lat": None, "target_lon": None}])
+    db.record_judgements(conn, CFG, [judged("gis:1000", floors_seen=5, views_used=[1])], "2026-10-13T00:00:00+00:00")
+    db.set_override(conn, CFG, "gis:1001", "height_m", 30.0, "checked", "2026-10-13T00:00:00+00:00")
+    plan = B.build_cell(conn, CFG, CELL, tmp_path)
+    heights = {i.name: i.attrs["HeightM"] for i in plan.items if i.kind == "building"}
+    assert heights == {"gis:1000": pytest.approx(17.0), "gis:1001": 30.0}
+    assert plan.counts["judged"] == 1 and (tmp_path / CELL / "manifest.json").is_file()

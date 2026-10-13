@@ -71,6 +71,20 @@ DEFAULTS: dict[str, Any] = {
     "spawn_lat": None,  # unset = no spawn is built (decided together in Studio)
     "spawn_lon": None,
     "spawn_yaw_deg": 0,
+    # U4 judgement and corrections
+    "floor_height_min_m": 2.5,  # a register height counts only inside this band per floor (BR-4.1)
+    "floor_height_max_m": 5.0,
+    "review_batch_size": 12,
+    "sheet_tile_w": 512,
+    "sheet_tile_h": 384,
+    "sheet_jpeg_quality": 85,
+    "overrides_dir": "overrides",
+    "blind_broken": ["gis:11081057"],  # buildings whose photo and height were seen before judging; left out of the agreement rate
+    "wall_colors": {
+        "white": [236, 236, 232], "cream": [236, 224, 190], "beige": [214, 192, 156], "yellow": [232, 205, 110],
+        "orange": [214, 140, 80], "red_brick": [170, 90, 70], "brown": [125, 92, 70], "pink": [225, 170, 170],
+        "light_gray": [200, 200, 205], "dark_gray": [110, 112, 118], "green": [120, 150, 110], "blue": [110, 140, 180],
+    },
 }
 
 # U3 and U2 key -> (min, max, must be an integer)
@@ -84,6 +98,8 @@ RANGES: dict[str, tuple[float, float, bool]] = {
     "origin_lat": (-90, 90, False), "origin_lon": (-180, 180, False), "studs_per_m": (0.1, 100, False),
     "poor_fit_ratio": (0.01, 1, False), "ground_margin_m": (0, 500, False), "sidewalk_width_m": (0.5, 10, False),
     "chunk_size": (1, 1000, True), "spawn_yaw_deg": (-360, 360, False),
+    "floor_height_min_m": (0.5, 20, False), "floor_height_max_m": (0.5, 50, False), "review_batch_size": (1, 100, True),
+    "sheet_tile_w": (64, 2048, True), "sheet_tile_h": (64, 2048, True), "sheet_jpeg_quality": (1, 100, True),
 }
 
 RETRY_CODES = {429, 502, 504}
@@ -109,6 +125,8 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         cfg.update(data)
         if isinstance(data.get("road_widths_m"), dict):  # a partial table only overrides the classes it names
             cfg["road_widths_m"] = {**DEFAULTS["road_widths_m"], **data["road_widths_m"]}
+        if isinstance(data.get("wall_colors"), dict):  # same for the color table
+            cfg["wall_colors"] = {**DEFAULTS["wall_colors"], **data["wall_colors"]}
     errors = []
     if not (isinstance(cfg["h3_res"], int) and not isinstance(cfg["h3_res"], bool) and 0 <= cfg["h3_res"] <= 15):
         errors.append("h3_res must be an integer from 0 to 15")
@@ -125,7 +143,7 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
     waits = cfg["retry_waits_s"]
     if not (isinstance(waits, list) and all(_is_number(w) and w >= 0 for w in waits)):
         errors.append("retry_waits_s must be a list of numbers >= 0")
-    for k in ("db_path", "log_dir", "backup_dir", "captures_dir"):
+    for k in ("db_path", "log_dir", "backup_dir", "captures_dir", "overrides_dir"):
         if not (isinstance(cfg[k], str) and cfg[k].strip()):
             errors.append(f"{k} must be a non-empty string")
     keep = cfg["backup_keep"]
@@ -144,6 +162,16 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         errors.append("school_polygons must be a list of polygons, each with at least 3 [lat, lon] points")
     if not errors and cfg["fov_min_deg"] > cfg["fov_max_deg"]:
         errors.append("fov_min_deg must not exceed fov_max_deg")
+    if not errors and cfg["floor_height_min_m"] >= cfg["floor_height_max_m"]:
+        errors.append("floor_height_min_m must be below floor_height_max_m")
+    broken = cfg["blind_broken"]
+    if not (isinstance(broken, list) and all(isinstance(b, str) and b.strip() for b in broken)):
+        errors.append("blind_broken must be a list of building ids")
+    colors = cfg["wall_colors"]
+    if not (isinstance(colors, dict) and "light_gray" in colors and all(
+            isinstance(k, str) and re.fullmatch(r"[a-z_]{1,20}", k) and isinstance(v, list) and len(v) == 3
+            and all(isinstance(c, int) and not isinstance(c, bool) and 0 <= c <= 255 for c in v) for k, v in colors.items())):
+        errors.append("wall_colors must be a table of [r, g, b] (0 to 255) with lowercase names and a light_gray entry")
     widths = cfg["road_widths_m"]
     if not (isinstance(widths, dict) and all(isinstance(k, str) and _is_number(v) and 0.5 <= v <= 50 for k, v in widths.items())):
         errors.append("road_widths_m must be a table of numbers from 0.5 to 50")

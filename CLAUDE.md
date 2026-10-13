@@ -44,6 +44,18 @@ uv run src/capture.py --cells 8930e0af13bffff
 uv run src/build_luau.py --cells 8930e0af13bffff
 # uv run src/build_luau.py --selftest                       (import만 확인)
 
+# 5) 높이·외관 판단(U4). 눈가림: 판단하기 전에는 report, plan을 돌리지 않는다. 사진은 Claude가 묶음 이미지로 본다
+uv run src/estimate.py pending --cells 8930e0af13bffff            # 판단할 건물 10개(--limit)와 묶음 이미지, 대장·OSM 숫자 없음
+uv run src/estimate.py record --file judgements.json              # 판단 기록(여러 건 한 번에, 하나라도 틀리면 전부 거부)
+uv run src/estimate.py report --cells 8930e0af13bffff             # 판단이 끝난 뒤: 상태, 사진-대장 일치율, 확인 목록
+uv run src/estimate.py plan --cells 8930e0af13bffff               # 비교 쌍의 Studio 카메라 값 -> data/build/<칸ID>/review.json
+uv run src/estimate.py compose --cells 8930e0af13bffff --captures captures.json   # Studio 캡처 + 크롭 -> captures/<칸ID>/review/
+
+# 6) 보정(사용자와 같이 보고 정한 값, 사유 필수). set과 unset은 overrides/<칸ID>.json(git 포함)을 바로 다시 쓴다
+uv run src/overrides.py set --building gis:11081057 --field floors_above --value 4 --reason "누가 무엇을 보고 정했는지"
+# uv run src/overrides.py unset|list|export|import ...      (import는 복구용: 보정과 판단이 같이 돌아온다)
+# uv run src/estimate.py --selftest, uv run src/overrides.py --selftest   (import만 확인)
+
 # 테스트 (속성 기반 테스트 포함)
 uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 ```
@@ -53,6 +65,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 - `build_luau.py`는 칸의 건물과 도로로 `data/build/<칸ID>/chunk-NNN.luau`(항목 50개씩)와 `manifest.json`을 만든다. 모든 좌표·박스 계산은 Python(`layout.py`), `studio/Builder.luau`는 부품만 만든다. 건물은 최소 면적 회전 직사각형 박스 1개(맞춤 0.8 미만은 manifest의 `poor_fit`), 원점은 세 칸이 만나는 꼭짓점, 스케일 3.6 stud/m(첫 칸을 만든 뒤 확정). Studio 쪽은 `Workspace/Auto/<칸ID>`만 비우고 다시 만들고 `Workspace/Manual`은 읽기만 한다. 스폰은 `config.toml`의 `spawn_lat`, `spawn_lon`, `spawn_yaw_deg`를 정하면 만들어진다.
 - 학교 건물(`config.toml`의 `school_polygons` 필지 안, 지금은 심원고 필지)은 가까운 순이 아니라 **면마다 파노라마 하나**(최대 6면, 가림 없는 것)를 골라 면의 가운데를 향한 크롭을 만든다. 첫 칸의 학교 건물 8동에 면 사진 22장(본관은 남·북·동·서 네 면). 나무와 차량은 가림으로 판단하지 않아서 서쪽 면 같은 곳은 약하다. 자세한 내용은 `aidlc-docs/construction/u3-street-view-capture/code/school-faces-change.md`.
 - `capture.py`는 건물마다 파노라마를 최대 3장(120 m 안, 방위각 60° 이상 차이) 골라 `captures/`에 저장하고 건물 방향 크롭(1024×768)을 만든다. 호출 간격 1초, 실행당 새 파노라마 100장 상한. 403/429가 재시도 뒤에도 계속되거나 응답 형식이 이상하면 우회하지 않고 멈춘다(`collection_runs`의 `stopped_reason`). `captures/`는 git 제외.
+- U4(`judgement.py`, `review.py`, `estimate.py`, `overrides.py`): 층수·높이·벽 색·지붕 모양의 최종값은 **보정 > 사진 판단 > 대장 > 기본값**이다(OSM 값은 참고만). 사진 판단은 Claude가 묶음 이미지(`captures/<칸ID>/sheets/`)를 대장·OSM 숫자 없이(**눈가림**) 보고 `estimates`에 기록하고 대장과의 비교는 `report`가 한다. 사진이 대장과 다르면 확신 high일 때만 사진 값, 그 밖은 대장 유지와 확인 목록. 대장 높이는 층수가 같고 층당 2.5~5 m일 때만 쓰고 아니면 층수 × 3.4 m. 판단과 보정은 `overrides/<칸ID>.json`(git 포함)으로 즉시 내보낸다. 그 파일에 올라가는 `note`와 `reason`에는 사람·번호판·상호 같은 개인 정보를 쓰지 않는다. `build_luau.py`가 최종값을 읽어 건물 부품에 높이·벽 색을 반영하고 속성 `HeightBasis`, `FloorsBasis`, `WallColor`, `Review`(사유를 `-`로 이음)를 단다. 비교 쌍은 Studio 카메라를 크롭 위치에 두고 캡처한다: **`screen_capture`에 항상 `camera_position`과 `look_at_position`을 준다**(인자 없으면 다른 시점이 찍힌다), 세로 시야각 83.58°, Studio 창은 4:3보다 넓게. 설계와 규칙은 `aidlc-docs/construction/u4-judgement-corrections/`.
 - 건물은 자기 중심점이 속한 칸에만 저장되므로 칸 사이 중복이 없다. DB는 `data/map.db`, 로그는 `data/logs/*.jsonl`, 칸 재수집 직전 백업은 `data/backups/`(모두 git 제외).
 
 ## 현재 상태
@@ -65,12 +78,13 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 - 큐브 맵 규칙(`aidlc-docs/construction/u3-street-view-capture/code/layout-notes.md`): 면 순서 앞·오른쪽·뒤·왼쪽·위·아래, 앞면이 보는 방위각 = ID 조회 `heading` + 180°(설계의 가정과 180° 다르다. 파노라마 3장에서 외곽선을 겹쳐 확인).
 - 파이썬 3.13 이상이 필요하다(`capture.py`가 `numpy` 2.5.4를 쓴다). `uv`가 알아서 받는다.
 - Roblox Studio 설치와 내장 MCP 연결 완료, 동작 확인(2026-10-12). `execute_luau`로 생성, `screen_capture`로 캡처가 된다. 열린 장소에 테스트용 `MCP_Test` 폴더가 남아 있다.
-- AI-DLC: Inception 완료, U1 완료, U3 Functional Design·NFR Requirements·Code Generation 승인, U3 완료(Build and Test 승인). U2 Studio 생성기는 Functional Design·NFR Requirements·Code Generation 계획 승인, Code Generation·Build and Test 승인으로 완료. 다음은 U4(사용자가 시작하라고 하면).
+- U4 코드(`src/judgement.py`, `review.py`, `estimate.py`, `overrides.py`와 `db.py`의 `estimates`·`overrides`, U2의 `layout.py`·`build_luau.py`·`studio/Builder.luau` 변경)를 만들었다(2026-10-13). 테스트 412개(속성 P4-1~16 포함, 시드 5개로 확인), 일부러 코드를 망가뜨린 12가지를 모두 테스트가 잡았다. Studio 시험은 `MCP_Test` 안에서만 했다(새 Builder의 벽 색, 속성, 재생성, 수작업 우선). 첫 칸 읽기 전용 확인: 건물 122개 중 121개는 예전과 같은 높이, 1개는 층당 높이가 범위 밖이라 층수 × 3.4 m(`height_out_of_range`). 덩어리 파일 4개(6.0/9.4/9.4/2.7 KB, 10 KB 경고선 가까이). 아직 판단한 건물은 없다. 진짜 `ServerStorage/MapBuilder`는 예전 Builder 그대로라 Build and Test에서 갱신해야 한다.
+- AI-DLC: Inception 완료, U1 완료, U3 Functional Design·NFR Requirements·Code Generation 승인, U3 완료(Build and Test 승인). U2 Studio 생성기는 Functional Design·NFR Requirements·Code Generation 계획 승인, Code Generation·Build and Test 승인으로 완료. U4 Functional Design·NFR Requirements·Code Generation 계획 승인, Code Generation 생성 완료(승인 대기). 다음은 U4 Build and Test.
 
 ## 다음 할 일
 
-1. U4 판단·보정 → U5 디테일(학교 건물 수작업, 가로시설, 교차로) (`aidlc-state.md` 참고)
-2. U4 완료 때 복구 연습(DB를 지우고 S1 재실행, `overrides` 불러오기)
+1. U4 Build and Test: 첫 칸 122개를 눈가림으로 판단 → `report` → `MapBuilder` 갱신과 칸 다시 만들기 → 비교 쌍을 12개씩 같이 확인하고 보정 → 복구 연습. 그 뒤 U5 디테일(학교 건물 수작업, 가로시설, 교차로) (`aidlc-state.md` 참고)
+2. U4 완료 때 복구 연습(DB를 복사해 두고 새 DB에 S1 재실행, `overrides.py import`, 최종값이 같은지 확인)
 
 ## 주의
 

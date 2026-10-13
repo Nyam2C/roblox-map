@@ -13,6 +13,7 @@ from hypothesis import assume, given, settings, strategies as st
 from shapely.geometry import Polygon
 
 import common
+import judgement
 import layout
 import projection
 from generators import BASE, convex_outlines, offset, rect, road_features, star_outlines
@@ -416,3 +417,25 @@ def test_spawn_off_the_road_is_built_with_a_warning():
     cfg = {**CFG, "spawn_lat": off[0], "spawn_lon": off[1]}
     item, warnings = layout.spawn_item(h3.latlng_to_cell(*off, RES), FRAME, cfg, pieces)
     assert item is not None and warnings == ["spawn point is not on a road or path"]
+
+
+# --- U4: a building item from its final value (BR-9) ----------------------------------------------------------------------------
+
+def test_u4_a_building_item_takes_height_floors_color_and_attributes_from_the_final_value():
+    b = {**row(rect(BASE, 20, 12)), "building_id": "gis:1", "cell_id": "8930e0af13bffff", "source": "gis", "floors_above": 3, "height_m": 10.2}
+    est = {"floors_seen": 4, "confidence": "high", "height_est_m": None, "wall_color": "red_brick", "roof_shape": None}
+    eff = judgement.effective_building(b, est, None, CFG)
+    item, _ = layout.building_item(b, FRAME, CFG, eff)
+    assert item.sy == pytest.approx(4 * 3.4 * 3.6, abs=1e-3) and item.cy == pytest.approx(item.sy / 2, abs=1e-3)
+    assert item.color == tuple(CFG["wall_colors"]["red_brick"]) and item.material == "Concrete"
+    assert item.attrs["Floors"] == 4 and item.attrs["HeightBasis"] == "from_floors" and item.attrs["FloorsBasis"] == "photo_count"
+    assert item.attrs["WallColor"] == "red_brick" and item.attrs["Review"] == "changed"
+    old, _ = layout.building_item(b, FRAME, CFG)
+    assert old.color == (200, 200, 205) and "WallColor" not in old.attrs and old.attrs["HeightM"] == 10.2  # without eff: U2 as before
+
+
+def test_u4_an_other_color_is_painted_light_gray_but_keeps_its_name():
+    b = {**row(rect(BASE, 20, 12)), "building_id": "gis:1", "cell_id": "8930e0af13bffff", "source": "gis", "floors_above": 3, "height_m": None}
+    eff = judgement.effective_building(b, None, {"wall_color": "other"}, CFG)
+    item, _ = layout.building_item(b, FRAME, CFG, eff)
+    assert item.color == (200, 200, 205) and item.attrs["WallColor"] == "other"

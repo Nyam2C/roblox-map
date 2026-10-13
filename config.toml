@@ -55,6 +55,16 @@ spawn_lat = 37.504483         # 스폰 점: 심원고 본관에 가장 가까운
 spawn_lon = 126.77861
 spawn_yaw_deg = -62.0         # 캐릭터가 본관(북동쪽)을 보도록. 값이 없으면 스폰을 만들지 않는다
 
+# U4 판단·보정
+floor_height_min_m = 2.5      # 대장 높이는 층당 이 범위 안일 때만 쓴다 (BR-4.1)
+floor_height_max_m = 5.0
+review_batch_size = 12        # 비교 쌍을 한 번에 같이 보는 개수 (BR-7.2)
+sheet_tile_w = 512            # 눈가림 묶음 이미지의 칸 크기와 JPEG 품질 (BR-1.4)
+sheet_tile_h = 384
+sheet_jpeg_quality = 85
+overrides_dir = "overrides"   # 보정과 판단 내보내기 파일(git 포함) (BR-8.3)
+blind_broken = ["gis:11081057"]  # 판단 전에 사진과 높이를 본 건물. 사진-대장 일치율에서 뺀다 (N-U4-9)
+
 [road_widths_m]               # 도로 종류별 폭(m). OSM width 태그가 있으면 그것이 우선이다 (BR-3.4)
 motorway = 14
 trunk = 14
@@ -75,3 +85,17 @@ steps = 2
 corridor = 2
 bridleway = 2
 track = 3
+
+[wall_colors]                 # 벽 색 이름 -> [r, g, b]. 이 이름만 판단·보정에 쓸 수 있다 (기능 설계 Palette)
+white = [236, 236, 232]
+cream = [236, 224, 190]
+beige = [214, 192, 156]
+yellow = [232, 205, 110]
+orange = [214, 140, 80]
+red_brick = [170, 90, 70]
+brown = [125, 92, 70]
+pink = [225, 170, 170]
+light_gray = [200, 200, 205]
+dark_gray = [110, 112, 118]
+green = [120, 150, 110]
+blue = [110, 140, 180]

@@ -1,16 +1,19 @@
-"""SQLite data layer for U1 (C7) and U3: schema, per-cell replacement, orphan report, backup, run log.
+"""SQLite data layer (C7) for U1, U3 and U4: schema, per-cell replacement, orphan report, backup, run log.
 
-U1 tables plus U3's `captures` and `building_views`. `overrides` and `estimates` belong to U4; this
-module never writes them and reads them only to report orphans. U3 only reads U1's `buildings`.
+U1 tables, U3's `captures` and `building_views`, and U4's `estimates` (photo judgements) and `overrides` (corrections).
+Only the U4 functions below write `estimates` and `overrides`; `replace_cell_rows` never touches them (U1 BR-6.2).
 """
 from __future__ import annotations
 
 import dataclasses
 import json
+import os
 import sqlite3
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
+
+import judgement
 
 JSON_COLUMNS = {"outline", "centroid", "tags", "osm_tags", "boundary", "geometry", "counts"}
 BOOL_COLUMNS = {"valid"}
@@ -65,6 +68,14 @@ CREATE TABLE IF NOT EXISTS building_views (
     yaw_deg REAL, fov_deg REAL, pitch_deg REAL, crop_path TEXT, status TEXT NOT NULL,
     face_deg REAL, target_lat REAL, target_lon REAL,
     PRIMARY KEY (building_id, rank));
+CREATE TABLE IF NOT EXISTS estimates (
+    building_id TEXT PRIMARY KEY, cell_id TEXT NOT NULL, floors_seen INTEGER, confidence TEXT, height_est_m REAL,
+    wall_color TEXT, roof_shape TEXT, views_used TEXT NOT NULL, note TEXT, judged_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS overrides (
+    building_id TEXT NOT NULL, field TEXT NOT NULL, value TEXT NOT NULL, cell_id TEXT NOT NULL, reason TEXT NOT NULL,
+    set_at TEXT NOT NULL, PRIMARY KEY (building_id, field));
+CREATE INDEX IF NOT EXISTS idx_estimates_cell ON estimates(cell_id);
+CREATE INDEX IF NOT EXISTS idx_overrides_cell ON overrides(cell_id);
 CREATE INDEX IF NOT EXISTS idx_osm_buildings_cell ON osm_buildings(cell_id);
 CREATE INDEX IF NOT EXISTS idx_gis_buildings_cell ON gis_buildings(cell_id);
 CREATE INDEX IF NOT EXISTS idx_buildings_cell ON buildings(cell_id);
@@ -279,3 +290,160 @@ def orphan_views(conn: sqlite3.Connection) -> list[str]:
     cur = conn.execute("SELECT DISTINCT building_id FROM building_views "
                        "WHERE building_id NOT IN (SELECT building_id FROM buildings) ORDER BY building_id")
     return [r[0] for r in cur.fetchall()]
+
+
+# --- U4: photo judgements and corrections ---------------------------------------------------------------
+
+ESTIMATE_DATA = judgement.JUDGEMENT_KEYS  # the columns that make a judgement what it is (no time)
+
+
+def _estimate_dict(row: Sequence[Any]) -> dict[str, Any]:
+    d = dict(zip(judgement.ESTIMATE_KEYS, row))
+    d["views_used"] = json.loads(d["views_used"])
+    return d
+
+
+def _estimate_select(where: str) -> str:
+    return f"SELECT {', '.join(judgement.ESTIMATE_KEYS)} FROM estimates {where} ORDER BY building_id"
+
+
+def building_cell(conn: sqlite3.Connection, building_id: str) -> str | None:
+    row = conn.execute("SELECT cell_id FROM buildings WHERE building_id = ?", (building_id,)).fetchone()
+    return row[0] if row else None
+
+
+def record_judgements(conn: sqlite3.Connection, cfg: Mapping[str, Any], judgements: Sequence[Mapping[str, Any]], now: str) -> int:
+    """Store photo judgements, all or none (BR-2.2). A judgement that equals the stored one changes nothing, not even its time."""
+    rows: list[tuple[str, dict[str, Any]]] = []
+    seen: set[str] = set()
+    for j in judgements:
+        bid = j.get("building_id") if isinstance(j, Mapping) else None
+        found = conn.execute("SELECT cell_id, status FROM buildings WHERE building_id = ?", (bid,)).fetchone() \
+            if judgement.is_building_id(bid) else None
+        if found is None or found[1] != "ok":
+            raise ValueError(f"{str(bid)[:40]}: not a building with status ok in this database")
+        if bid in seen:
+            raise ValueError(f"{bid}: appears twice in one call")
+        seen.add(bid)
+        ranks = {r[0] for r in conn.execute(
+            "SELECT rank FROM building_views WHERE building_id = ? AND status = 'cropped'", (bid,))}
+        rows.append((found[0], judgement.validate_judgement(j, cfg, ranks)))
+    with conn:
+        for cell_id, row in rows:
+            old = conn.execute(_estimate_select("WHERE building_id = ?"), (row["building_id"],)).fetchone()
+            if old is not None:
+                old_d = _estimate_dict(old)
+                if {k: old_d[k] for k in ESTIMATE_DATA} == row:
+                    continue
+            conn.execute(
+                "INSERT OR REPLACE INTO estimates (building_id, cell_id, floors_seen, confidence, height_est_m, wall_color, "
+                "roof_shape, views_used, note, judged_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (row["building_id"], cell_id, row["floors_seen"], row["confidence"], row["height_est_m"], row["wall_color"],
+                 row["roof_shape"], json.dumps(row["views_used"]), row["note"], now))
+    return len(rows)
+
+
+def set_override(conn: sqlite3.Connection, cfg: Mapping[str, Any], building_id: str, field: str, value: Any, reason: Any,
+                 now: str) -> bool:
+    """Store one correction (BR-6.3). True when something changed; the same value and reason again changes nothing."""
+    value, reason = judgement.validate_override(field, value, reason, cfg)
+    cell_id = building_cell(conn, building_id) if judgement.is_building_id(building_id) else None
+    if cell_id is None:
+        raise ValueError(f"{str(building_id)[:40]}: not a building in this database")
+    encoded = json.dumps(value)
+    old = conn.execute("SELECT value, reason FROM overrides WHERE building_id = ? AND field = ?", (building_id, field)).fetchone()
+    if old == (encoded, reason):
+        return False
+    with conn:
+        conn.execute("INSERT OR REPLACE INTO overrides (building_id, field, value, cell_id, reason, set_at) VALUES (?, ?, ?, ?, ?, ?)",
+                     (building_id, field, encoded, cell_id, reason, now))
+    return True
+
+
+def unset_override(conn: sqlite3.Connection, building_id: str, field: str) -> str | None:
+    """Remove one correction (BR-6.4). Returns the cell it belonged to, or None when there was none."""
+    row = conn.execute("SELECT cell_id FROM overrides WHERE building_id = ? AND field = ?", (building_id, field)).fetchone()
+    if row is None:
+        return None
+    with conn:
+        conn.execute("DELETE FROM overrides WHERE building_id = ? AND field = ?", (building_id, field))
+    return row[0]
+
+
+def estimates_in_cell(conn: sqlite3.Connection, cell_id: str) -> list[dict[str, Any]]:
+    return [_estimate_dict(r) for r in conn.execute(_estimate_select("WHERE cell_id = ?"), (cell_id,))]
+
+
+def overrides_in_cell(conn: sqlite3.Connection, cell_id: str) -> list[dict[str, Any]]:
+    cur = conn.execute(f"SELECT {', '.join(judgement.OVERRIDE_KEYS)} FROM overrides WHERE cell_id = ? ORDER BY building_id, field", (cell_id,))
+    out = []
+    for r in cur.fetchall():
+        d = dict(zip(judgement.OVERRIDE_KEYS, r))
+        d["value"] = json.loads(d["value"])
+        out.append(d)
+    return out
+
+
+def overrides_by_building(conn: sqlite3.Connection, cell_id: str) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for o in overrides_in_cell(conn, cell_id):
+        out.setdefault(o["building_id"], {})[o["field"]] = o["value"]
+    return out
+
+
+def views_with_heading(conn: sqlite3.Connection, cell_id: str) -> list[dict[str, Any]]:
+    """building_views of this cell's buildings with the panorama they use (position and front heading), by building and rank."""
+    cols = ("building_id", "rank", "pano_id", "yaw_deg", "fov_deg", "pitch_deg", "crop_path", "status", "face_deg")
+    cur = conn.execute(
+        f"SELECT {', '.join('v.' + c for c in cols)}, c.heading_deg, c.lat, c.lon FROM building_views v "
+        f"LEFT JOIN captures c ON c.pano_id = v.pano_id WHERE {_CELL_VIEWS.replace('building_id IN', 'v.building_id IN')} "
+        "ORDER BY v.building_id, v.rank", (cell_id,))
+    return [dict(zip(cols + ("heading_deg", "pano_lat", "pano_lon"), r)) for r in cur.fetchall()]
+
+
+def effective_buildings(conn: sqlite3.Connection, cfg: Mapping[str, Any], cell_id: str) -> list[judgement.EffectiveBuilding]:
+    """The final value of every building of the cell that has status ok, by building id (override > photo > register > default)."""
+    estimates = {e["building_id"]: e for e in estimates_in_cell(conn, cell_id)}
+    overrides = overrides_by_building(conn, cell_id)
+    return [judgement.effective_building(b, estimates.get(b["building_id"]), overrides.get(b["building_id"]), cfg)
+            for b in rows_in_cells(conn, "buildings", [cell_id]) if b["status"] == "ok"]
+
+
+def export_cell(conn: sqlite3.Connection, cell_id: str, directory: str | Path) -> Path | None:
+    """Write overrides/<cell>.json (BR-8.3). No file is made for a cell with nothing to keep; an old file is rewritten empty."""
+    if not judgement.CELL_RE.fullmatch(cell_id):
+        raise ValueError(f"not an H3 cell id: {cell_id[:40]!r}")
+    overrides, estimates = overrides_in_cell(conn, cell_id), estimates_in_cell(conn, cell_id)
+    path = Path(directory) / f"{cell_id}.json"
+    if not overrides and not estimates and not path.exists():
+        return None
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(judgement.export_payload(cell_id, overrides, estimates), encoding="utf-8")
+    os.replace(tmp, path)  # a half-written file never replaces a good one (BR-8.4)
+    return path
+
+
+def import_file(conn: sqlite3.Connection, cfg: Mapping[str, Any], path: str | Path) -> dict[str, Any]:
+    """Load an export file into the database (BR-8.5): checked completely first, then written in one transaction.
+
+    Rows are written by (building, field) and by building; rows the file does not mention stay. Rows of buildings that are
+    not in the database are loaded too and reported as orphans.
+    """
+    p = Path(path)
+    if p.stat().st_size > judgement.MAX_EXPORT_BYTES:
+        raise ValueError("export file is too large")
+    cell_id, overrides, estimates = judgement.parse_export(p.read_text(encoding="utf-8"), cfg)
+    with conn:
+        for o in overrides:
+            conn.execute("INSERT OR REPLACE INTO overrides (building_id, field, value, cell_id, reason, set_at) VALUES (?, ?, ?, ?, ?, ?)",
+                         (o["building_id"], o["field"], json.dumps(o["value"]), cell_id, o["reason"], o["set_at"]))
+        for e in estimates:
+            conn.execute(
+                "INSERT OR REPLACE INTO estimates (building_id, cell_id, floors_seen, confidence, height_est_m, wall_color, "
+                "roof_shape, views_used, note, judged_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (e["building_id"], cell_id, e["floors_seen"], e["confidence"], e["height_est_m"], e["wall_color"],
+                 e["roof_shape"], json.dumps(e["views_used"]), e["note"], e["judged_at"]))
+    ids = {o["building_id"] for o in overrides} | {e["building_id"] for e in estimates}
+    return {"cell_id": cell_id, "overrides": len(overrides), "estimates": len(estimates),
+            "orphans": [(t, b) for t, b in orphans(conn) if b in ids]}

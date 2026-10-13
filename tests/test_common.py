@@ -167,7 +167,9 @@ def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):
                 'captures_dir = ""', "studs_per_m = 0", "chunk_size = 0", "chunk_size = 2.5", "poor_fit_ratio = 0",
                 "sidewalk_width_m = 0", "origin_lat = 91", "ground_margin_m = -1", "spawn_lat = 37.5",
                 "spawn_lon = 126.8", "spawn_lat = 95\nspawn_lon = 126.8", "[road_widths_m]\ntertiary = 0",
-                '[road_widths_m]\ntertiary = "wide"'):
+                '[road_widths_m]\ntertiary = "wide"',
+                "floor_height_min_m = 6", "floor_height_min_m = 5\nfloor_height_max_m = 5", "review_batch_size = 0",
+                "sheet_tile_w = 10", "sheet_jpeg_quality = 101", 'overrides_dir = ""', "blind_broken = [1]", 'blind_broken = [""]'):
         p.write_text(bad + "\n", encoding="utf-8")
         with pytest.raises(ValueError):
             common.load_config(p)
@@ -187,6 +189,20 @@ def test_spawn_point_is_optional_but_comes_as_a_pair(tmp_path):
     p.write_text("spawn_lat = 37.5044\nspawn_lon = 126.7794\nspawn_yaw_deg = 90\n", encoding="utf-8")
     cfg = common.load_config(p)
     assert (cfg["spawn_lat"], cfg["spawn_lon"], cfg["spawn_yaw_deg"]) == (37.5044, 126.7794, 90)
+
+
+def test_wall_color_table_is_merged_by_name_and_checked(tmp_path):
+    p = tmp_path / "c.toml"
+    p.write_text("[wall_colors]\ncream = [1, 2, 3]\nmint = [150, 220, 190]\n", encoding="utf-8")
+    colors = common.load_config(p)["wall_colors"]
+    assert colors["cream"] == [1, 2, 3] and colors["mint"] == [150, 220, 190]
+    assert colors["light_gray"] == common.DEFAULTS["wall_colors"]["light_gray"]
+    assert common.DEFAULTS["wall_colors"]["cream"] == [236, 224, 190]  # the shared defaults are never changed
+    for bad in ("white = [256, 0, 0]", "white = [1, 2]", 'white = "red"', "white = [1.5, 2, 3]", "Bad = [1, 2, 3]",
+                "white = [true, 2, 3]", "bad-name = [1, 2, 3]"):
+        p.write_text("[wall_colors]\n" + bad + "\n", encoding="utf-8")
+        with pytest.raises(ValueError):
+            common.load_config(p)
 
 
 def test_building_height_follows_the_priority_vworld_floors_default():
