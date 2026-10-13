@@ -1144,3 +1144,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: Architecture, before U7.
 
 ---
+
+## Scale Decisions - Questions
+**Timestamp**: 2026-10-13T15:37:33Z
+**User Request**: Asked whether a whole-Bucheon map has limits and whether optimisation solves it, then "이런 사항은 지금 정해야겠네?"
+**AI Response**: Estimated Bucheon (about 500 cells, 50k-70k buildings, 4M+ parts the current way, about 120k panoramas and 200M judgement tokens from the measured three cells): Roblox limits are solvable (building meshes, places per district, streaming); the data side (street view, judgement cost, mesh upload moderation) is the real limit, so detail tiers. Only the decisions that are expensive to change later go first: aidlc-docs/inception/requirements/scale-decisions-questions.md (target scale, tiers, per-region origin and places, mesh path and an early upload test, target devices, multi-session rule). U7 waits for these answers.
+**Context**: INCEPTION - scale decisions before U7.
+
+---
