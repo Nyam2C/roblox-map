@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 
 import layout
-import layout_details as LD
+import streets as ST
 import trees as T
 import build_luau as B
 from test_build_luau import CELL, CFG, building, street
@@ -43,8 +43,8 @@ def test_crowns_are_packed_along_the_strip_where_a_trunk_may_stand_and_nowhere_e
 
 def test_a_tree_is_a_trunk_and_three_balls_scaled_by_the_crown_diameter_and_repeatable():
     frame = layout.Frame.from_cfg(CFG)
-    items = LD.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
-    assert len(items) == 12 and items == LD.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
+    items = ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
+    assert len(items) == 12 and items == ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
     assert [i.name for i in items[:4]] == ["sat#0#tree", "sat#0#crowna", "sat#0#crownb", "sat#0#crownc"]
     trunk = items[0]
     assert trunk.shape == "Cylinder" and trunk.cx == pytest.approx(-100.0, abs=0.01) and trunk.cz == pytest.approx(50.0, abs=0.01)
@@ -55,7 +55,7 @@ def test_a_tree_is_a_trunk_and_three_balls_scaled_by_the_crown_diameter_and_repe
     # the 3 m and the 20 m crowns are limited to the scale range 0.55 .. 1.1
     assert max(b.sx for b in items[5:8]) < main.sx < max(b.sx for b in items[9:12])
     assert max(b.sx for b in items[9:12]) / max(b.sx for b in items[5:8]) == pytest.approx(1.1 / 0.55, rel=0.01)
-    assert len({i.color_name for i in LD.tree_items(frame, [[i * 10.0, 0.0, 7.0] for i in range(40)]) if "#crown" in i.name}) > 1
+    assert len({i.color_name for i in ST.tree_items(frame, [[i * 10.0, 0.0, 7.0] for i in range(40)]) if "#crown" in i.name}) > 1
 
 
 def test_a_file_of_satellite_trees_replaces_the_rule_based_street_trees():
@@ -71,12 +71,12 @@ def test_a_file_of_satellite_trees_replaces_the_rule_based_street_trees():
 
 
 def test_load_trees_reads_the_rows_and_a_missing_file_means_the_rule_stays(tmp_path):
-    assert LD.load_trees(tmp_path / "none.json") is None
-    path = T.write_trees("8930e0af13bffff", [[1.0, 2.0, 6.5], [3.0, 4.0, 5.0]], tmp_path)
-    assert LD.load_trees(path) == [[1.0, 2.0, 6.5], [3.0, 4.0, 5.0]]
+    assert ST.load_trees(tmp_path / "none.json") is None
+    path = T.write_trees("8930e0af13bffff", [[1.0, 2.0, 6.5], [3.0, 4.0, 5.0]], tmp_path / "cells" / "x" / "trees.json")
+    assert ST.load_trees(path) == [[1.0, 2.0, 6.5], [3.0, 4.0, 5.0]]
     bad = tmp_path / "bad.json"
     bad.write_text(json.dumps({"trees": [[1, 2, 3], [1, 2], [1, 2, 4.0]]}))
-    assert LD.load_trees(bad) == [[1.0, 2.0, 3.0], [1.0, 2.0, 4.0]]
+    assert ST.load_trees(bad) == [[1.0, 2.0, 3.0], [1.0, 2.0, 4.0]]
 
 
 def test_georef_round_trip():

@@ -1,0 +1,59 @@
+{
+ "cells": {
+  "8930e0af123ffff": {
+   "counts": {
+    "landmarks": [
+     "school:심원고등학교"
+    ],
+    "pois": 7,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.921,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: school:심원고등학교",
+   "tier": 1
+  },
+  "8930e0af12bffff": {
+   "counts": {
+    "landmarks": [
+     "school:심원고등학교",
+     "school:옥산초등학교"
+    ],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.513,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: school:심원고등학교, school:옥산초등학교",
+   "tier": 1
+  },
+  "8930e0af13bffff": {
+   "counts": {
+    "landmarks": [
+     "community_centre:중3동 주민센터",
+     "park:옥산공원",
+     "school:부천부흥중학교",
+     "school:심원고등학교"
+    ],
+    "pois": 6,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.413,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: community_centre:중3동 주민센터, park:옥산공원, school:부천부흥중학교, school:심원고등학교",
+   "tier": 1
+  }
+ }
+}

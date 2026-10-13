@@ -8,6 +8,7 @@ import pytest
 from PIL import Image
 
 import common
+from conftest import one_region
 import db
 import estimate as E
 import layout
@@ -20,7 +21,7 @@ HEIGHT_MARK, FLOORS_MARK = 987.65, 77  # register numbers that must never show u
 @pytest.fixture
 def world(tmp_path):
     """A cell with five buildings and crop files: 1 has no register data, 2 and 3 are normal, 4 is a school building, 5 has no photos."""
-    cfg = {**common.DEFAULTS, "captures_dir": str(tmp_path / "captures"), "overrides_dir": str(tmp_path / "overrides"),
+    cfg = {**common.DEFAULTS, "captures_dir": str(tmp_path / "captures"), **one_region(tmp_path, CELL),
            "db_path": str(tmp_path / "map.db"), "log_dir": str(tmp_path / "logs"), "review_batch_size": 2}
     conn = db.connect(":memory:")
     rows = [brow(1, floors=None, height=None), brow(2, floors=FLOORS_MARK, height=HEIGHT_MARK), brow(3, floors=3, height=10.2),
@@ -122,7 +123,7 @@ def good(bid="gis:2", **kw):
 def test_record_stores_and_refreshes_the_export_file_and_one_bad_judgement_stops_all(world):
     conn, cfg, tmp = world
     assert E.record(conn, cfg, [good("gis:2"), good("gis:3", views_used=[1])]) == 2
-    data = json.loads((tmp / "overrides" / f"{CELL}.json").read_text(encoding="utf-8"))
+    data = json.loads((tmp / "regions" / "r" / "cells" / CELL / "overrides.json").read_text(encoding="utf-8"))
     assert [e["building_id"] for e in data["estimates"]] == ["gis:2", "gis:3"]
     with pytest.raises(ValueError):
         E.record(conn, cfg, [good("gis:1"), good("gis:3", floors_seen=0)])

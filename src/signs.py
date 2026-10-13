@@ -8,7 +8,7 @@ Usage:
   uv run src/signs.py plan --cells 8930e0af13bffff                                   # targets -> data/build/<cell>/signs-plan.json
   uv run --env-file .env src/signs.py generate --cells 8930e0af13bffff [--limit 200] [--workers 4]
                                                                                      # missing images -> assets/signs/<key>.png
-  uv run src/signs.py record --cells 8930e0af13bffff --file upload.json              # {url or path: "rbxassetid://N"} -> signs/<cell>.json
+  uv run src/signs.py record --cells 8930e0af13bffff --file upload.json              # {url or path: "rbxassetid://N"} -> regions/<region>/cells/<cell>/signs.json
   uv run src/signs.py status --cells 8930e0af13bffff
   uv run src/signs.py --selftest                                                     # import check only
 
@@ -303,12 +303,12 @@ def key_of_path(path: str) -> str:
     return name
 
 
-def record(cell_id: str, mapping: Mapping[str, Any], targets: Sequence[Mapping[str, Any]], signs_dir: Path, now: str) -> tuple[Path, int]:
-    """Merge {image path or url: asset id} into signs/<cell>.json for the keys of this cell's plan. Unknown keys refuse the call."""
+def record(cell_id: str, mapping: Mapping[str, Any], targets: Sequence[Mapping[str, Any]], path: Path, now: str) -> tuple[Path, int]:
+    """Merge {image path or url: asset id} into the cell's signs.json for the keys of this cell's plan. Unknown keys refuse the call."""
     by_key = {t["key"]: t for t in targets}
     rows: dict[str, dict[str, Any]] = {}
-    for path, value in mapping.items():
-        key = key_of_path(str(path))
+    for name, value in mapping.items():
+        key = key_of_path(str(name))
         if key not in by_key:
             raise ValueError(f"{key} is not in the sign plan of {cell_id}")
         t = by_key[key]
@@ -316,8 +316,7 @@ def record(cell_id: str, mapping: Mapping[str, Any], targets: Sequence[Mapping[s
                      "aspect": t["aspect"], "recorded_at": now}
     if not rows:
         raise ValueError("nothing to record")
-    signs_dir.mkdir(parents=True, exist_ok=True)
-    path = signs_dir / f"{cell_id}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
     existing: dict[str, Any] = {}
     if path.exists():
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -382,12 +381,11 @@ def run_command(conn, cfg: Mapping[str, Any], args: argparse.Namespace, client: 
     import build_luau
     root = common.resolve(build_luau.BUILD_DIR)
     cache = common.resolve(cfg["assets_dir"])
-    signs_dir = common.resolve(cfg["signs_dir"])
     if args.command == "plan":
         total = 0
         for cell in args.cells:
             buildings, features, estimates, overrides, details = build_luau.load_cell_inputs(conn, cell)
-            plan = build_luau.plan_cell(cell, buildings, features, cfg, estimates, overrides, details)
+            plan = build_luau.plan_cell(cell, buildings, features, common.cell_config(cfg, cell), estimates, overrides, details)
             targets = targets_of(plan.items)
             path = write_plan_file(root, cell, targets)
             total += len(targets)
@@ -404,14 +402,14 @@ def run_command(conn, cfg: Mapping[str, Any], args: argparse.Namespace, client: 
         return counts
     if args.command == "record":
         cell = args.cells[0]
-        path, n = record(cell, read_mapping(args.file), read_plan_file(root, cell), signs_dir, common.now_iso())
+        path, n = record(cell, read_mapping(args.file), read_plan_file(root, cell), common.cell_file(cfg, cell, "signs"), common.now_iso())
         print(f"{cell}: recorded {n} asset ids -> {path}")
         return {"recorded": n}
     total_t = total_c = total_r = 0
     for cell in args.cells:
         targets = read_plan_file(root, cell)
         cached = sum(1 for t in targets if (cache / f"{t['key']}.png").exists())
-        recorded = len(build_luau.load_sign_assets(signs_dir / f"{cell}.json"))
+        recorded = len(build_luau.load_sign_assets(common.cell_file(cfg, cell, "signs")))
         print(f"{cell}: {len(targets)} looks, {cached} images in the cache, {recorded} asset ids recorded")
         total_t, total_c, total_r = total_t + len(targets), total_c + cached, total_r + recorded
     return {"targets": total_t, "cached": total_c, "recorded": total_r}

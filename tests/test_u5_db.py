@@ -77,15 +77,15 @@ def test_p5_16_recording_the_same_rows_twice_is_the_same_as_once(rows):
 def test_export_writes_one_sorted_file_and_import_into_a_fresh_database_gives_the_same_rows(tmp_path):
     conn = make_db()
     db.record_details(conn, [row("gis:2", note=None), row("gis:1")], T0)
-    assert db.export_details(conn, OTHER, tmp_path) is None
-    path = db.export_details(conn, CELL, tmp_path)
+    assert db.export_details(conn, OTHER, tmp_path / f"{OTHER}.json") is None
+    path = db.export_details(conn, CELL, tmp_path / f"{CELL}.json")
     data = json.loads(path.read_text(encoding="utf-8"))
     assert [d["building_id"] for d in data["details"]] == ["gis:1", "gis:2"] and data["version"] == 1 and list(data) == sorted(data)
     fresh = make_db()
     result = db.import_details(fresh, path)
     assert result == {"cell_id": CELL, "details": 2, "orphans": []}
     assert db.details_in_cell(fresh, CELL) == db.details_in_cell(conn, CELL)
-    assert db.export_details(fresh, CELL, tmp_path / "again").read_text(encoding="utf-8") == path.read_text(encoding="utf-8")
+    assert db.export_details(fresh, CELL, tmp_path / "again" / f"{CELL}.json").read_text(encoding="utf-8") == path.read_text(encoding="utf-8")
 
 
 def test_import_keeps_unknown_buildings_as_orphans_and_the_orphan_report_sees_them(tmp_path):

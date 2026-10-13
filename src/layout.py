@@ -1,6 +1,6 @@
 """U2 pure functions: world frame, building boxes, road, sidewalk, ground and spawn items, ordering and chunks.
 
-No input or output. Everything the Studio builder needs is computed here, in Python (BR-7.5); studio/Builder.luau only
+No input or output. Everything the Studio builder needs is computed here, in Python (BR-7.5); studio/ServerStorage/MapBuilder.luau only
 turns the items into parts. Rules: aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md.
 U5 (details) adds the item fields owner, shape, color_name, text, ink, faces, reflectance, shadow, collide, four kinds and the
 sidewalk amendments (U5 BR-11.13, BR-11.14, BR-14.1); its geometry lives in layout_details.py.

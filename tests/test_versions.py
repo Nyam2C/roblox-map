@@ -100,7 +100,7 @@ def test_capture_pins_cover_the_whole_resolved_set():
 # --- U2: the Studio module never runs received text as code (SEC2) ---------------------------------------------
 
 def test_builder_luau_has_no_way_to_run_text_as_code_or_reach_the_network():
-    source = (ROOT / "studio" / "Builder.luau").read_text(encoding="utf-8")
+    source = (ROOT / "studio" / "ServerStorage" / "MapBuilder.luau").read_text(encoding="utf-8")
     code = re.sub(r"(?s)--\[\[.*?\]\]", "", source)  # the header comment names what is not used
     code = re.sub(r"--[^\n]*", "", code)
     for forbidden in ("loadstring", "HttpService", "RequestAsync", "GetAsync", "PostAsync", "getfenv", "setfenv"):

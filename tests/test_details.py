@@ -9,12 +9,13 @@ import pytest
 import common
 import db
 import details as Dt
+from conftest import one_region
 from test_u4_db import CELL, brow
 
 
 @pytest.fixture
 def world(tmp_path):
-    cfg = {**common.DEFAULTS, "db_path": str(tmp_path / "map.db"), "details_dir": str(tmp_path / "details"), "log_dir": str(tmp_path / "logs"),
+    cfg = {**common.DEFAULTS, "db_path": str(tmp_path / "map.db"), **one_region(tmp_path, CELL), "log_dir": str(tmp_path / "logs"),
            "captures_dir": "captures"}
     conn = db.connect(cfg["db_path"])
     db.replace_cell_rows(conn, CELL, {"buildings": [brow(1), brow(2, floors=4, height=13.6)]})
@@ -37,7 +38,7 @@ def test_pending_record_list_export_and_import_through_the_command_line(world, m
     (tmp / "d.json").write_text(json.dumps(rows), encoding="utf-8")
     assert run_main(monkeypatch, cfg, "record", "--file", str(tmp / "d.json")) == 0
     assert "recorded 1" in capsys.readouterr().out
-    file = tmp / "details" / f"{CELL}.json"
+    file = tmp / "regions" / "r" / "cells" / CELL / "details.json"
     assert json.loads(file.read_text(encoding="utf-8"))["details"][0]["finish"] == "brick"
     assert run_main(monkeypatch, cfg, "pending", "--cells", CELL) == 0
     out = capsys.readouterr().out

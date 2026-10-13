@@ -207,13 +207,13 @@ def fill(conn):
 
 def test_export_writes_one_sorted_file_per_cell_and_no_file_for_an_empty_cell(tmp_path):
     conn = make_db()
-    assert db.export_cell(conn, CELL, tmp_path) is None and list(tmp_path.iterdir()) == []
+    assert db.export_cell(conn, CELL, tmp_path / f"{CELL}.json") is None and list(tmp_path.iterdir()) == []
     fill(conn)
-    path = db.export_cell(conn, CELL, tmp_path)
+    path = db.export_cell(conn, CELL, tmp_path / f"{CELL}.json")
     assert path == tmp_path / f"{CELL}.json"
     data = json.loads(path.read_text(encoding="utf-8"))
     assert [o["building_id"] for o in data["overrides"]] == ["gis:1", "gis:3"] and [e["building_id"] for e in data["estimates"]] == ["gis:1", "gis:2"]
-    assert db.export_cell(conn, CELL, tmp_path) == path and path.read_text(encoding="utf-8") == J.export_payload(
+    assert db.export_cell(conn, CELL, tmp_path / f"{CELL}.json") == path and path.read_text(encoding="utf-8") == J.export_payload(
         CELL, db.overrides_in_cell(conn, CELL), db.estimates_in_cell(conn, CELL))
     assert not list(tmp_path.glob("*.tmp"))
 
@@ -221,12 +221,12 @@ def test_export_writes_one_sorted_file_per_cell_and_no_file_for_an_empty_cell(tm
 def test_an_old_file_is_rewritten_empty_when_everything_was_removed(tmp_path):
     conn = make_db()
     fill(conn)
-    db.export_cell(conn, CELL, tmp_path)
+    db.export_cell(conn, CELL, tmp_path / f"{CELL}.json")
     for b, f in (("gis:1", "floors_above"), ("gis:3", "wall_color")):
         db.unset_override(conn, b, f)
     with conn:
         conn.execute("DELETE FROM estimates")
-    db.export_cell(conn, CELL, tmp_path)
+    db.export_cell(conn, CELL, tmp_path / f"{CELL}.json")
     data = json.loads((tmp_path / f"{CELL}.json").read_text(encoding="utf-8"))
     assert (data["overrides"], data["estimates"]) == ([], [])
 
@@ -239,7 +239,7 @@ def test_export_refuses_a_cell_id_that_could_leave_the_folder(tmp_path):
 def test_a_failed_file_swap_keeps_the_old_file_and_the_database_change(tmp_path, monkeypatch):
     conn = make_db()
     fill(conn)
-    path = db.export_cell(conn, CELL, tmp_path)
+    path = db.export_cell(conn, CELL, tmp_path / f"{CELL}.json")
     old = path.read_text(encoding="utf-8")
     db.set_override(conn, CFG, "gis:2", "roof_shape", "gable", "seen", T1)
 
@@ -247,7 +247,7 @@ def test_a_failed_file_swap_keeps_the_old_file_and_the_database_change(tmp_path,
         raise OSError("disk full")
     monkeypatch.setattr(os, "replace", boom)
     with pytest.raises(OSError):
-        db.export_cell(conn, CELL, tmp_path)
+        db.export_cell(conn, CELL, tmp_path / f"{CELL}.json")
     assert path.read_text(encoding="utf-8") == old  # no half-written file
     assert any(o["field"] == "roof_shape" for o in db.overrides_in_cell(conn, CELL))  # the database change stays
 
@@ -255,14 +255,14 @@ def test_a_failed_file_swap_keeps_the_old_file_and_the_database_change(tmp_path,
 def test_p4_7_an_export_loaded_into_a_fresh_database_gives_the_same_rows_and_the_same_file(tmp_path):
     conn = make_db()
     fill(conn)
-    path = db.export_cell(conn, CELL, tmp_path / "a")
+    path = db.export_cell(conn, CELL, tmp_path / "a" / f"{CELL}.json")
     fresh = make_db()
     result = db.import_file(fresh, CFG, path)
     assert (result["cell_id"], result["overrides"], result["estimates"], result["orphans"]) == (CELL, 2, 2, [])
     assert db.estimates_in_cell(fresh, CELL) == db.estimates_in_cell(conn, CELL)
     assert db.overrides_in_cell(fresh, CELL) == db.overrides_in_cell(conn, CELL)
     assert [e for e in final(fresh)] == [e for e in final(conn)]  # the recovery drill gives the same final values
-    again = db.export_cell(fresh, CELL, tmp_path / "b")
+    again = db.export_cell(fresh, CELL, tmp_path / "b" / f"{CELL}.json")
     assert again.read_text(encoding="utf-8") == path.read_text(encoding="utf-8")
 
 
@@ -274,7 +274,7 @@ def test_p4_7_the_round_trip_holds_for_any_content(js, ov, reason, tmp_path_fact
     for field, value in ov.items():
         db.set_override(conn, CFG, "gis:1", field, value, reason, T1)
     folder = tmp_path_factory.mktemp("rt")
-    path = db.export_cell(conn, CELL, folder)
+    path = db.export_cell(conn, CELL, folder / f"{CELL}.json")
     fresh = make_db()
     if path is None:
         assert not js and not ov
@@ -288,7 +288,7 @@ def test_import_loads_rows_of_unknown_buildings_as_orphans_and_keeps_rows_the_fi
     conn = make_db()
     db.set_override(conn, CFG, "gis:1", "floors_above", 4, "seen", T0)
     db.set_override(conn, CFG, "gis:2", "floors_above", 5, "seen", T0)
-    path = db.export_cell(conn, CELL, tmp_path)
+    path = db.export_cell(conn, CELL, tmp_path / f"{CELL}.json")
     data = json.loads(path.read_text(encoding="utf-8"))
     data["overrides"] = [o for o in data["overrides"] if o["building_id"] == "gis:1"] + [
         {"building_id": "gis:777", "field": "wall_color", "value": "pink", "reason": "kept", "set_at": T1}]

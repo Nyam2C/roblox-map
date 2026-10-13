@@ -77,7 +77,7 @@ def validate_detail(row: Mapping[str, Any]) -> dict[str, Any]:
 # --- the export file (BR-7.5) --------------------------------------------------------------------------------
 
 def export_details_payload(cell_id: str, rows: Sequence[Mapping[str, Any]]) -> str:
-    """The text of details/<cell>.json: rows by building id, keys sorted, the same text whatever the input order."""
+    """The text of a details.json: rows by building id, keys sorted, the same text whatever the input order."""
     data = {"version": EXPORT_VERSION, "cell_id": cell_id,
             "details": sorted(({k: r[k] for k in DETAIL_KEYS} for r in rows), key=lambda r: r["building_id"])}
     return json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n"

@@ -231,7 +231,7 @@ def wall_rgb(key: str, cfg: Mapping[str, Any]) -> tuple[int, int, int]:
 # --- the export file (BR-8.3, BR-8.5) ----------------------------------------------------------------------
 
 def export_payload(cell_id: str, overrides: Sequence[Mapping[str, Any]], estimates: Sequence[Mapping[str, Any]]) -> str:
-    """The text of overrides/<cell>.json: same rows, same text, whatever the order they come in."""
+    """The text of an overrides.json: same rows, same text, whatever the order they come in."""
     data = {
         "version": EXPORT_VERSION, "cell_id": cell_id,
         "overrides": sorted(({k: o[k] for k in OVERRIDE_KEYS} for o in overrides), key=lambda o: (o["building_id"], o["field"])),

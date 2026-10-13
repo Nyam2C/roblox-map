@@ -10,8 +10,8 @@
 
 ```
 원본               중간 저장소          사람·Claude 판단         생성 규칙              엔진 반영             게임
-OSM, V-World  →   data/map.db    →   overrides/ details/  →  src/layout*.py    →   build_luau.py    →   Studio Workspace
-거리뷰, 위성        (SQLite, 로컬)       trees/ signs/ (git)      (Python, 테스트)       Luau 덩어리 파일        + 게임 스크립트
+OSM, V-World  →   data/map.db    →   regions/<구역>/      →  src/layout*.py    →   build_luau.py    →   Studio Workspace
+거리뷰, 위성        (SQLite, 로컬)       cells/<칸>/*.json (git)  streets.py (테스트)    덩어리·chunks.json     + 게임 스크립트
 ```
 
 | 층 | 무엇을 하나 | 바뀌면 |
@@ -44,28 +44,25 @@ OSM, V-World  →   data/map.db    →   overrides/ details/  →  src/layout*.p
 | 단위 | 지금 | 커질 때 |
 |---|---|---|
 | 칸(H3 해상도 9, 변 약 200 m) | 데이터·생성·검토의 단위. 건물은 중심점이 속한 칸에만 | 그대로 |
-| 동네(여러 칸) | 하나(심원고 주변 3칸). 원점·학교 필지·스폰·이름별 차로 수가 `config.toml`에 한 동네 기준 | 두 번째 동네부터 `regions/<동네>/`(설정, 손작업, 판단 파일)로 나눈다 |
+| 구역(여러 칸) | `regions/bucheon-dodang/`(심원고 주변 3칸, U7 B). `region.toml`(칸 목록, 학교 필지, 스폰, 이름별 차로 수), `tiers.json`(등급), `cells/<칸>/`(판단 파일). 원점·치수는 `config.toml` 공통 | 커지면 행정동 경계로 구역을 더한다 |
 | 장소(.rbxl) | 하나 | 동네가 여럿이거나 장소당 부품이 편집 한계에 가까우면 동네별 장소로 나누고 TeleportService로 잇는다 |
 
 ## 4. 폴더와 Studio 위치
 
-지금
+지금(U7 B, 2026-10-14)
 
 | 저장소 | 역할 | Studio 위치 |
 |---|---|---|
-| `src/` | Python 파이프라인(수집, 판단, 생성) | – |
+| `src/` | Python 파이프라인(수집, 등급 `tiers.py`, 판단, 생성, 위성 `satellite.py`, 가로 `streets.py`) | – |
 | `tests/` | pytest, 속성 기반 테스트 | – |
-| `studio/Builder.luau` | 부품 생성기 | `ServerStorage/MapBuilder` |
-| `studio/Manual*.luau` | 칸 전용 손작업 | `Workspace/Manual` (한 번 실행) |
-| `studio/*.client.luau`, `*.server.luau` | 게임 스크립트(U6) | `StarterPlayerScripts`, `ServerScriptService` |
-| `details/ overrides/ signs/ trees/` | 칸별 판단 값(git) | – |
+| `studio/ServerStorage/MapBuilder.luau` | 부품 생성기 | `ServerStorage/MapBuilder` |
+| `studio/manual/<구역>/*.luau` | 구역 전용 손작업 | `Workspace/Manual` (한 번 실행) |
+| `studio/ServerScriptService/`, `studio/StarterPlayerScripts/` | 게임 스크립트(U6, 엘리베이터) | 같은 이름 |
+| `regions/<구역>/` | 구역 설정, 등급, 칸별 판단 값(git) | – |
 | `data/ captures/ assets/` | 로컬 원본·캐시·결과 | – |
 | `aidlc-docs/` | 요구·설계·계획·기록 | – |
 
-목표(U7과 같이 하는 정리)
-- `studio/`를 Studio 위치대로 나눈다: `studio/builder/`(ServerStorage), `studio/manual/`(Workspace/Manual), `studio/server/`(ServerScriptService), `studio/client/`(StarterPlayerScripts), `studio/shared/`(ReplicatedStorage). 실무에서 쓰는 **Rojo** 도구의 폴더 규칙과 같은 모양이라, 나중에 Rojo로 파일 → Studio 자동 반영을 붙일 수 있다.
-- 지금 세션 임시 스크립트로만 돌던 단계(`chunks.json` 만들기, 칸 위성 모자이크, 위성·Studio 겹쳐 보기)를 `src/`로 옮긴다. 칸 추가 절차가 저장소만으로 돌아야 한다.
-- `layout_details.py`(1,242줄)에서 가로·나무를 `streets.py`로, 내부는 새 `interiors.py`로.
+`studio/` 폴더 이름은 Studio 위치 그대로라 나중에 **Rojo**(파일 → Studio 자동 반영)를 붙일 수 있다. U6 스크립트(`studio/*.client.luau`, `*.server.luau`)는 U6이 커밋될 때 위치 폴더로 옮긴다. 내부는 새 `interiors.py`로.
 
 ## 5. 성능 예산 (숫자로 정하고 잰다)
 

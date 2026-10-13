@@ -8,7 +8,7 @@ Usage:
   uv run src/overrides.py set --building gis:11081057 --field floors_above --value 4 --reason "user and Claude counted 4 floors on the photo"
   uv run src/overrides.py unset --building gis:11081057 --field floors_above
   uv run src/overrides.py list --cells 8930e0af13bffff
-  uv run src/overrides.py export --cells 8930e0af13bffff       # rewrites overrides/<cell>.json (set and unset do this by themselves)
+  uv run src/overrides.py export --cells 8930e0af13bffff       # rewrites regions/<region>/cells/<cell>/overrides.json (set and unset do this by themselves)
   uv run src/overrides.py import --file overrides/8930e0af13bffff.json   # recovery: corrections and judgements back into the database
   uv run src/overrides.py --selftest                           # import check only
 
@@ -54,7 +54,7 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     u = sub.add_parser("unset", help="remove a correction")
     u.add_argument("--building", required=True, metavar="ID")
     u.add_argument("--field", required=True, choices=judgement.FIELDS)
-    for name, text in (("list", "show the corrections of cells"), ("export", "rewrite overrides/<cell>.json")):
+    for name, text in (("list", "show the corrections of cells"), ("export", "rewrite regions/<region>/cells/<cell>/overrides.json")):
         c = sub.add_parser(name, help=text)
         c.add_argument("--cells", nargs="+", required=True, type=cell_arg, metavar="ID")
     i = sub.add_parser("import", help="load an export file into the database")
@@ -67,11 +67,10 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
 
 def run_command(conn, cfg: dict[str, Any], args: argparse.Namespace) -> dict[str, int]:
     """Do one command. Returns the counts for the run record. A refused call raises ValueError and changes nothing."""
-    out = common.resolve(cfg["overrides_dir"])
     if args.command == "set":
         changed = db.set_override(conn, cfg, args.building, args.field, args.value, args.reason, common.now_iso())
         cell = db.building_cell(conn, args.building)
-        path = db.export_cell(conn, cell, out)
+        path = db.export_cell(conn, cell, common.cell_file(cfg, cell, "overrides"))
         print(f"{'set' if changed else 'unchanged'}: {args.building} {args.field} (file {path})")
         return {"set": int(changed)}
     if args.command == "unset":
@@ -79,7 +78,7 @@ def run_command(conn, cfg: dict[str, Any], args: argparse.Namespace) -> dict[str
         if cell is None:
             print(f"nothing to remove: {args.building} {args.field}")
             return {"unset": 0}
-        print(f"removed: {args.building} {args.field} (file {db.export_cell(conn, cell, out)})")
+        print(f"removed: {args.building} {args.field} (file {db.export_cell(conn, cell, common.cell_file(cfg, cell, 'overrides'))})")
         return {"unset": 1}
     if args.command == "list":
         total = 0
@@ -93,7 +92,7 @@ def run_command(conn, cfg: dict[str, Any], args: argparse.Namespace) -> dict[str
     if args.command == "export":
         written = 0
         for cell in args.cells:
-            path = db.export_cell(conn, cell, out)
+            path = db.export_cell(conn, cell, common.cell_file(cfg, cell, "overrides"))
             written += path is not None
             print(f"{cell}: {path if path else 'nothing to export'}")
         return {"files": written}

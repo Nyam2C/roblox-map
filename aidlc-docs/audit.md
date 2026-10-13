@@ -1254,3 +1254,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 approved.
 
 ---
+
+## U7 Step 2: Structure and Tiers
+**Timestamp**: 2026-10-13T17:54:44Z
+**User Request**: "U7 단계 2 진행해. 인지부터."
+**AI Response**: Ran cycle-recognize and cycle-memory, then plan step 2. B: region keys (school_polygons, spawn_*, road_lanes_by_name) moved from config.toml to regions/bucheon-dodang/region.toml (with the cells list; name 도당동 from OSM via Nominatim: two cell centres in 도당동, one in 약대동), per-cell files moved with git mv to regions/bucheon-dodang/cells/<cell>/{details,overrides,signs,trees}.json, common.cell_config/cell_file; studio/Builder.luau -> studio/ServerStorage/MapBuilder.luau, studio/Manual*.luau -> studio/manual/bucheon-dodang/; build_luau.py writes chunks.json itself; the skill scripts became src/satellite.py (cell, compare); streets and satellite trees split from layout_details.py into src/streets.py. G: src/tiers.py (Overpass per cell; landmark areas count when 10 % of them lie in the cell; OSM building counts not used since OSM has 5 to 12 per cell here) -> regions/bucheon-dodang/tiers.json: all three cells tier 1 (cell 2 only through 22 % of the 심원고 parcel). Tests 636 passed on 5 seeds; chunk files, chunks.json and manifests of all three cells byte-identical before and after (P7-12); DB backup data/backups/map-before-u7-step2.db. A first test run before the tests had their own region folder overwrote the real overrides.json of the first cell; restored from the index and guarded by an autouse fixture. U6 files left uncommitted (src/minimap.py got three path lines so it still runs). Skills cycle-build, cycle-verify, cycle-recognize, cycle-record and judge-prompt updated to the new paths and the tier step; 2nd-tier defaults deferred to the first tier-2 cell.
+**Context**: CONSTRUCTION - U7 step 2.
+
+---

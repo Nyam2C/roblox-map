@@ -505,7 +505,8 @@ def main(cfg: dict[str, Any]) -> int:
         print("selftest ok: streetlevel, numpy, pillow and h3 import")
         return 0
     conn = db.connect(common.resolve(cfg["db_path"]))
-    capture = Capture(conn, cfg, source)
+    polys = [p for c in args.cells for p in common.cell_config(cfg, c)["school_polygons"]]  # school parcels of the cells' regions
+    capture = Capture(conn, {**cfg, "school_polygons": [p for i, p in enumerate(polys) if p not in polys[:i]]}, source)
     failed = 0
     for cell_id in args.cells:
         started = common.now_iso()

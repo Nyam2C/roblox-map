@@ -231,7 +231,7 @@ part(gd, "HoopPost", F * CFrame.new(190, 5.5, -50), Vector3.new(0.5, 11.0, 0.5),
 part(gd, "Backboard", F * CFrame.new(187.5, 10.6, -50), Vector3.new(0.2, 3.8, 6.5), Enum.Material.SmoothPlastic, {245, 245, 245}, { CanCollide = false })
 part(gd, "Hoop", F * CFrame.new(185.5, 9.2, -50), Vector3.new(1.6, 0.2, 1.6), Enum.Material.Metal, {220, 90, 40}, { Shape = Enum.PartType.Cylinder, CanCollide = false })
 
--- the park west of the parcel (옥산공원) is Manual/Park now: studio/ManualPark.luau, ground read off the satellite photo
+-- the park west of the parcel (옥산공원) is Manual/Park now: studio/manual/bucheon-dodang/Park.luau, ground read off the satellite photo
 -- gis:11215391: the open steel pergola along the south fence of the ground (street view of gis:11215391 #2 N and gis:15358826 #2 NW),
 -- not the solid box the data gives; BuildingId makes the Auto box step aside
 local pg = folder("Pergola")

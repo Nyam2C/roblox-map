@@ -149,11 +149,36 @@ def test_pause_after_success_and_https_only_and_json_only():
 
 def test_default_config_file_matches_the_defaults_in_code():
     cfg = common.load_config()
-    spawn = {k: cfg.pop(k) for k in ("spawn_lat", "spawn_lon", "spawn_yaw_deg")}  # the chosen spawn point lives only in the file
-    assert cfg.pop("school_polygons")  # the file holds this project's school parcel; the code default is empty
-    assert cfg == {k: v for k, v in common.DEFAULTS.items() if not k.startswith("spawn_") and k != "school_polygons"}
-    assert (spawn["spawn_lat"] is None) == (spawn["spawn_lon"] is None)
-    assert common.DEFAULTS["school_polygons"] == []
+    assert cfg.pop("regions_dir") == "regions"  # DEFAULTS' value is moved out of the repository for tests (conftest)
+    assert cfg == {k: v for k, v in common.DEFAULTS.items() if k != "regions_dir"}
+    assert common.DEFAULTS["school_polygons"] == [] and common.DEFAULTS["spawn_lat"] is None  # region keys live in region.toml
+
+
+def test_the_three_cells_get_the_first_region_keys():
+    cfg = common.load_config()
+    for cell in ("8930e0af13bffff", "8930e0af123ffff", "8930e0af12bffff"):
+        c = common.cell_config(cfg, cell)
+        assert c["region"] == "bucheon-dodang" and len(c["school_polygons"]) == 1 and c["road_lanes_by_name"] == {"길주로": 10}
+        assert c["spawn_lat"] is not None and common.cell_file(cfg, cell, "details").parts[-4:] == ("bucheon-dodang", "cells", cell, "details.json")
+
+
+def _regions(tmp_path, *tables):
+    for n, text in enumerate(tables):
+        (tmp_path / f"r{n}").mkdir()
+        (tmp_path / f"r{n}" / "region.toml").write_text(text, encoding="utf-8")
+    return {**common.DEFAULTS, "regions_dir": str(tmp_path)}
+
+
+def test_a_cell_must_be_in_exactly_one_region_and_region_keys_are_checked(tmp_path):
+    cfg = _regions(tmp_path, 'cells = ["a"]\nspawn_lat = 37.5\nspawn_lon = 126.8\nspawn_yaw_deg = 90\n', 'cells = ["b", "c"]\n',
+                   'cells = ["c"]\n', 'cells = ["d"]\nspawn_lat = 37.5\n', 'cells = ["e"]\nbuffer_m = 9\n',
+                   'cells = ["f"]\n[road_lanes_by_name]\n"x" = 0\n')
+    a = common.cell_config(cfg, "a")
+    assert (a["spawn_lat"], a["spawn_lon"], a["spawn_yaw_deg"], a["region"]) == (37.5, 126.8, 90, "r0")
+    assert common.cell_config(cfg, "b")["spawn_lat"] is None and common.cell_config(cfg, "b")["cell_dir"] == str(tmp_path / "r1" / "cells" / "b")
+    for cell in ("c", "zz", "d", "e", "f"):  # two regions, none, unpaired spawn, a key that is not a region key, bad lanes
+        with pytest.raises(ValueError):
+            common.cell_config(cfg, cell)
 
 
 def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):
@@ -169,9 +194,9 @@ def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):
                 "spawn_lon = 126.8", "spawn_lat = 95\nspawn_lon = 126.8", "[road_widths_m]\ntertiary = 0",
                 '[road_widths_m]\ntertiary = "wide"',
                 "floor_height_min_m = 6", "floor_height_min_m = 5\nfloor_height_max_m = 5", "review_batch_size = 0",
-                "sheet_tile_w = 10", "sheet_jpeg_quality = 101", 'overrides_dir = ""', "blind_broken = [1]", 'blind_broken = [""]',
+                "sheet_tile_w = 10", "sheet_jpeg_quality = 101", 'regions_dir = ""', "blind_broken = [1]", 'blind_broken = [""]',
                 "pole_spacing_m = -1", "lamp_spacing_m = 201", "tree_spacing_m = 51", "car_spacing_m = -0.5", "school_zone_m = 301",
-                "roof_pitch_deg = 4", 'window_faces = "side"', 'details_dir = ""'):
+                "roof_pitch_deg = 4", 'window_faces = "side"', 'assets_dir = ""'):
         p.write_text(bad + "\n", encoding="utf-8")
         with pytest.raises(ValueError):
             common.load_config(p)
@@ -185,12 +210,13 @@ def test_a_partial_road_width_table_only_overrides_the_classes_it_names(tmp_path
     assert common.DEFAULTS["road_widths_m"]["tertiary"] == 10  # the shared defaults are never changed
 
 
-def test_spawn_point_is_optional_but_comes_as_a_pair(tmp_path):
+def test_region_keys_are_refused_in_the_config_file(tmp_path):
     p = tmp_path / "c.toml"
     assert common.load_config(p)["spawn_lat"] is None
-    p.write_text("spawn_lat = 37.5044\nspawn_lon = 126.7794\nspawn_yaw_deg = 90\n", encoding="utf-8")
-    cfg = common.load_config(p)
-    assert (cfg["spawn_lat"], cfg["spawn_lon"], cfg["spawn_yaw_deg"]) == (37.5044, 126.7794, 90)
+    for text in ("spawn_lat = 37.5044\nspawn_lon = 126.7794\n", "school_polygons = []\n", '[road_lanes_by_name]\n"x" = 2\n'):
+        p.write_text(text, encoding="utf-8")
+        with pytest.raises(ValueError, match="region.toml"):
+            common.load_config(p)
 
 
 def test_wall_color_table_is_merged_by_name_and_checked(tmp_path):

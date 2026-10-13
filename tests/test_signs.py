@@ -11,6 +11,7 @@ from PIL import Image
 
 import build_luau as B
 import common
+from conftest import one_region
 import db
 import details_rules as R
 import signs as Sg
@@ -306,19 +307,19 @@ def test_the_api_client_parses_b64_and_refuses_other_shapes(monkeypatch):
 def test_record_merges_asset_ids_by_key_and_refuses_unknown_keys_and_bad_ids(tmp_path):
     targets = Sg.targets_of([sign_item(), sign_item(name="gis:1#sgf1-0", text="다솜피아노학원", sx=36, sy=2.88)])
     k1, k2 = targets[0]["key"], targets[1]["key"]
-    path, n = Sg.record(CELL, {f"http://127.0.0.1:8765/{k1}.png": "rbxassetid://123"}, targets, tmp_path / "signs", "2026-10-13T00:00:00+00:00")
-    assert n == 1 and path.name == f"{CELL}.json"
-    path, n = Sg.record(CELL, {f"{k2}.png": 456}, targets, tmp_path / "signs", "2026-10-13T00:00:01+00:00")
+    path, n = Sg.record(CELL, {f"http://127.0.0.1:8765/{k1}.png": "rbxassetid://123"}, targets, tmp_path / "signs.json", "2026-10-13T00:00:00+00:00")
+    assert n == 1 and path.name == "signs.json"
+    path, n = Sg.record(CELL, {f"{k2}.png": 456}, targets, tmp_path / "signs.json", "2026-10-13T00:00:01+00:00")
     data = json.loads(path.read_text())
     assert set(data["signs"]) == {k1, k2} and data["signs"][k1]["asset_id"] == 123 and data["signs"][k2]["asset_id"] == 456
     assert data["signs"][k2]["text"] == "다솜피아노학원" and data["version"] == R.SIGN_IMAGE_KEY_VERSION
     assert B.load_sign_assets(path) == {k1: 123, k2: 456}
     with pytest.raises(ValueError):
-        Sg.record(CELL, {"0123456789abcdef.png": 1}, targets, tmp_path / "signs", "t")
+        Sg.record(CELL, {"0123456789abcdef.png": 1}, targets, tmp_path / "signs.json", "t")
     with pytest.raises(ValueError):
-        Sg.record(CELL, {f"{k1}.png": "rbxassetid://abc"}, targets, tmp_path / "signs", "t")
+        Sg.record(CELL, {f"{k1}.png": "rbxassetid://abc"}, targets, tmp_path / "signs.json", "t")
     with pytest.raises(ValueError):
-        Sg.record(CELL, {}, targets, tmp_path / "signs", "t")
+        Sg.record(CELL, {}, targets, tmp_path / "signs.json", "t")
 
 
 def test_load_sign_assets_refuses_a_bad_file_and_takes_no_file_as_empty(tmp_path):
@@ -356,7 +357,7 @@ def test_the_literal_carries_im_only_for_a_mapped_sign_and_keeps_the_text():
 
 @pytest.fixture
 def world(tmp_path):
-    cfg = {**common.DEFAULTS, "db_path": str(tmp_path / "map.db"), "signs_dir": str(tmp_path / "signs"), "assets_dir": str(tmp_path / "assets"),
+    cfg = {**common.DEFAULTS, "db_path": str(tmp_path / "map.db"), **one_region(tmp_path, CELL), "assets_dir": str(tmp_path / "assets"),
            "log_dir": str(tmp_path / "logs")}
     conn = db.connect(cfg["db_path"])
     row = {**brow(1, floors=5, height=17.0), "usability_code": "14000", "building_area": 400.0}
@@ -383,7 +384,7 @@ def test_plan_status_and_record_through_the_command_line(world, monkeypatch, cap
         (tmp / "up.json").write_text(json.dumps({f"{targets[0]['key']}.png": "rbxassetid://42"}))
         assert run_main(monkeypatch, cfg, "record", "--cells", CELL, "--file", str(tmp / "up.json")) == 0
         assert "recorded 1" in capsys.readouterr().out
-        assert B.load_sign_assets(tmp / "signs" / f"{CELL}.json") == {targets[0]["key"]: 42}
+        assert B.load_sign_assets(tmp / "regions" / "r" / "cells" / CELL / "signs.json") == {targets[0]["key"]: 42}
 
 
 def test_generate_refuses_without_the_environment(world, monkeypatch, capsys):

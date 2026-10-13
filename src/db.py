@@ -415,12 +415,12 @@ def effective_buildings(conn: sqlite3.Connection, cfg: Mapping[str, Any], cell_i
             for b in rows_in_cells(conn, "buildings", [cell_id]) if b["status"] == "ok"]
 
 
-def export_cell(conn: sqlite3.Connection, cell_id: str, directory: str | Path) -> Path | None:
-    """Write overrides/<cell>.json (BR-8.3). No file is made for a cell with nothing to keep; an old file is rewritten empty."""
+def export_cell(conn: sqlite3.Connection, cell_id: str, path: str | Path) -> Path | None:
+    """Write the cell's overrides.json (BR-8.3, common.cell_file). No file is made for a cell with nothing to keep; an old file is rewritten empty."""
     if not judgement.CELL_RE.fullmatch(cell_id):
         raise ValueError(f"not an H3 cell id: {cell_id[:40]!r}")
     overrides, estimates = overrides_in_cell(conn, cell_id), estimates_in_cell(conn, cell_id)
-    path = Path(directory) / f"{cell_id}.json"
+    path = Path(path)
     if not overrides and not estimates and not path.exists():
         return None
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -497,12 +497,12 @@ def details_by_building(conn: sqlite3.Connection, cell_id: str) -> dict[str, dic
     return {d["building_id"]: d for d in details_in_cell(conn, cell_id)}
 
 
-def export_details(conn: sqlite3.Connection, cell_id: str, directory: str | Path) -> Path | None:
-    """Write details/<cell>.json (BR-7.5). No file for a cell with no rows unless an old file exists (then it is rewritten empty)."""
+def export_details(conn: sqlite3.Connection, cell_id: str, path: str | Path) -> Path | None:
+    """Write the cell's details.json (BR-7.5, common.cell_file). No file for a cell with no rows unless an old file exists (then it is rewritten empty)."""
     if not details_rules.CELL_RE.fullmatch(cell_id):
         raise ValueError(f"not an H3 cell id: {cell_id[:40]!r}")
     rows = details_in_cell(conn, cell_id)
-    path = Path(directory) / f"{cell_id}.json"
+    path = Path(path)
     if not rows and not path.exists():
         return None
     path.parent.mkdir(parents=True, exist_ok=True)

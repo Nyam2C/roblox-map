@@ -20,7 +20,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 ## 3. 위성 겹쳐 보기 (모든 칸)
 1. 칸 중심 위 높이 650에서 바로 아래로 `screen_capture`(`camera_position = {x, 650, z}`, `look_at_position = {x, 0, z - 1}`). 70° 시야각, 1631 × 882 창이면 0.974 px/stud.
 2. ```bash
-   uv run --env-file .env --with h3 --with shapely --with pillow python .claude/skills/cycle-verify/scripts/satellite_compare.py <캡처.jpg> <x> <z> 0.974 data/compare/<칸>
+   uv run --env-file .env src/satellite.py compare <캡처.jpg> <x> <z> 0.974 data/compare/<칸>
    ```
 3. `<칸>_side_by_side.jpg`, `<칸>_blend.jpg`를 보고 확인: 큰길 폭, 건물 위치·모양, 데이터에 없는 시설(운동장, 체육관, 주차장), 건물로 잘못 잡힌 시설, 나무 띠, 높은 건물은 원근으로 커 보인다는 점.
 4. 사용자에게 겹친 그림을 보낸다(`SendUserFile`).

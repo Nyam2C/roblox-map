@@ -7,6 +7,7 @@ import sys
 import pytest
 
 import common
+from conftest import one_region
 import db
 import overrides as O
 from test_u4_db import CELL, brow
@@ -14,7 +15,7 @@ from test_u4_db import CELL, brow
 
 @pytest.fixture
 def world(tmp_path):
-    cfg = {**common.DEFAULTS, "db_path": str(tmp_path / "map.db"), "overrides_dir": str(tmp_path / "overrides"), "log_dir": str(tmp_path / "logs")}
+    cfg = {**common.DEFAULTS, "db_path": str(tmp_path / "map.db"), **one_region(tmp_path, CELL), "log_dir": str(tmp_path / "logs")}
     conn = db.connect(cfg["db_path"])
     db.replace_cell_rows(conn, CELL, {"buildings": [brow(1), brow(2, floors=4, height=13.6)]})
     conn.close()
@@ -34,7 +35,7 @@ def test_set_unset_list_and_export_through_the_command_line(world, monkeypatch, 
     cfg, tmp = world
     assert run_main(monkeypatch, cfg, "set", "--building", "gis:1", "--field", "floors_above", "--value", "5", "--reason", "user and Claude counted 5") == 0
     assert "set: gis:1 floors_above" in capsys.readouterr().out
-    file = tmp / "overrides" / f"{CELL}.json"
+    file = tmp / "regions" / "r" / "cells" / CELL / "overrides.json"
     assert json.loads(file.read_text(encoding="utf-8"))["overrides"][0]["value"] == 5
     assert run_main(monkeypatch, cfg, "set", "--building", "gis:1", "--field", "floors_above", "--value", "5", "--reason", "user and Claude counted 5") == 0
     assert "unchanged" in capsys.readouterr().out
@@ -59,7 +60,7 @@ def test_the_recovery_drill_a_new_database_plus_the_export_gives_the_same_final_
         assert run_main(monkeypatch, cfg, "set", "--building", args[0], "--field", args[1], "--value", args[2], "--reason", "checked on Studio") == 0
     capsys.readouterr()
     before = db.effective_buildings(db.connect(cfg["db_path"]), cfg, CELL)
-    export = tmp / "overrides" / f"{CELL}.json"
+    export = tmp / "regions" / "r" / "cells" / CELL / "overrides.json"
     # the database is lost: a new one gets the buildings again (S1) and the file is imported
     fresh_cfg = {**cfg, "db_path": str(tmp / "new.db")}
     fresh = db.connect(fresh_cfg["db_path"])
@@ -90,7 +91,7 @@ def test_a_refused_call_says_why_exits_with_one_and_changes_nothing(world, monke
     cfg, tmp = world
     assert run_main(monkeypatch, cfg, *argv) == 1
     assert "refused" in capsys.readouterr().err
-    assert db.overrides_in_cell(db.connect(cfg["db_path"]), CELL) == [] and not (tmp / "overrides").exists()
+    assert db.overrides_in_cell(db.connect(cfg["db_path"]), CELL) == [] and not (tmp / "regions" / "r" / "cells").exists()
 
 
 def test_bad_arguments_are_usage_errors(world, monkeypatch):

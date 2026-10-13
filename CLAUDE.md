@@ -38,18 +38,19 @@
 - 최종 목표는 부천 전체(사용자 결정, 2026-10-14). 좌표 원점은 지금 하나를 부천 전체에 쓴다. 칸은 상세도 1·2·3급으로 나누고 등급은 OSM으로 자동 분류해 필요한 칸만 고친다. 장소는 커지면 행정동 경계로 나눈다. 수작업 장소는 Claude가 기준(OSM 랜드마크, 위성에만 있는 시설, 잘못 잡힌 건물, 거리뷰와 크게 다른 곳)으로 고르고 칸당 상한을 두며, 반복되는 것은 자동 키트로 만든다. 사용자는 결과만 확인한다. 공개 전에 OSM 출처 표시와 V-World 이용 조건 확인. 기준 기기는 PC. 질문과 답: `aidlc-docs/inception/requirements/scale-decisions-questions.md`.
 - 높이: 층수는 V-World 건물통합정보(건축물대장 계열 속성) 1순위, 거리뷰로 층수와 비율을 검증, 값이 없거나 어긋나는 건물만 거리뷰 기하 추정. OSM 높이·층수 태그는 참고로 기록만 한다. 만든 뒤 사용자와 Claude가 같이 보고 현실 스케일에 맞는지 확인해서 보정한다(순서는 AI 추천, 거리뷰 기본으로 되돌릴 수 있음). 건물 외곽선과 층수·높이는 V-World 건물통합정보(`LT_C_BLDGINFO`, 개발키 `VWORLD_KEY`, 만료 2027-04-13)로 받는다(2026-10-13 시험: 심원고 3칸 건물 약 85~203개/칸, 층수 88~93%, 높이 45~62%, OSM은 5~10개/칸). 건축HUB API는 호출만 확인했고 U1에서는 쓰지 않는다. 인증키는 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외)로만 쓴다.
 - 주차 차량은 만들지 않는다(사용자 결정, 2026-10-13). `config.toml`의 `car_spacing_m = 0`이고, 상자 두 개짜리 차가 어색해서 껐다. 나중에 넣는다면 메시 하나를 복제하는 방식이고 걷기 FPS를 잰 뒤에 한다.
-- 나무는 위성 사진에서 읽는다(사용자 결정, 2026-10-13). `src/trees.py`가 V-World 위성 z19의 수관을 찾아 `trees/<칸ID>.json`에 쓰고(첫 칸 371그루), `build_luau.py`가 그 파일이 있으면 규칙 가로수(7 m 간격) 대신 그 나무를 만든다. 옥산공원은 `studio/ManualPark.luau`(Manual/Park, 위성 색으로 가른 흙·자갈·모래 바닥)이고 나무는 Auto의 위성 나무가 맡는다. 다른 칸은 위성 타일을 받고 `.json`(`tile_x0`, `tile_y0`)을 써 두면 같은 방법으로 된다.
+- 나무는 위성 사진에서 읽는다(사용자 결정, 2026-10-13). `src/trees.py`가 V-World 위성 z19의 수관을 찾아 `regions/<구역>/cells/<칸>/trees.json`에 쓰고(첫 칸 371그루), `build_luau.py`가 그 파일이 있으면 규칙 가로수(7 m 간격) 대신 그 나무를 만든다. 옥산공원은 `studio/manual/bucheon-dodang/Park.luau`(Manual/Park, 위성 색으로 가른 흙·자갈·모래 바닥)이고 나무는 Auto의 위성 나무가 맡는다. 다른 칸은 위성 타일을 받고 `.json`(`tile_x0`, `tile_y0`)을 써 두면 같은 방법으로 된다.
 
 ## 칸 추가 절차 (확장할 때 이 순서 그대로, 2026-10-14)
 
 칸 하나(또는 다른 동네의 새 칸)를 만들 때. 실행 순서와 명령은 `cycle-build`·`cycle-verify` 스킬에 있고, 아래는 요약이다.
 
+0. 구역·등급: 칸을 `regions/<구역>/region.toml`의 `cells`에 넣고 `tiers.py classify --cells <칸>`(1급만 거리뷰·판단)
 1. 수집: `cells.py --cells <칸>` → `register.py --cells <칸>`
 2. 거리뷰: `capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(100장 상한)
 3. 판단(눈가림): `estimate.py pending`(200개씩) → 사진만 보고 U4 판단과 U5 세부 판단을 같이 기록(`estimate.py record`, `details.py record`). 서브에이전트에 나눌 때도 DB·overrides·details는 읽지 않게 한다. `report`의 확신 high 불일치는 사진을 다시 보고 틀린 판단이면 `overrides.py set`으로 대장 유지
-4. 위성 나무: 칸의 V-World z19 모자이크(`data/satellite/<칸>-z19.jpg`와 `.json`) → `trees.py --cells <칸>`
+4. 위성 나무: `satellite.py cell <칸>`(V-World z19 모자이크 `data/satellite/<칸>-z19.jpg`와 `.json`) → `trees.py --cells <칸>`
 5. 생성: `build_luau.py --cells <칸>` → `data/build/<칸>/chunks.json`(덩어리 파일을 데이터로 바꾼 것)을 127.0.0.1에서 받아 `Builder.begin/add/finish/verify`(검증 키는 `items_<kind>`), `HttpEnabled`는 받는 동안만
-6. 위성 겹쳐 보기: Studio 수직 캡처(높이 650, 0.974 px/stud)와 위성을 같은 격자로 겹쳐 데이터에 없는 시설(운동장, 체육관, 큰길 폭)과 잘못 잡힌 건물을 찾는다
+6. 위성 겹쳐 보기: Studio 수직 캡처(높이 650, 0.974 px/stud)와 위성을 `satellite.py compare`로 같은 격자에 겹쳐 데이터에 없는 시설(운동장, 체육관, 큰길 폭)과 잘못 잡힌 건물을 찾는다
 7. 거리뷰 대조: `estimate.py plan` → 같은 카메라로 `screen_capture`(세로 시야각 83.58, 하나씩) → `compose`. 여러 건물에 공통인 문제는 규칙(`details_rules`, `layout_details`)으로 고치고 테스트, 한 건물만의 문제는 보정이나 Manual
 8. 특별한 곳(학교, 공원 등)만 Manual 스크립트. 끝나면 걷기 FPS(Studio 창 앞)
 
@@ -71,7 +72,13 @@ uv run src/capture.py --cells 8930e0af13bffff
 # uv run src/capture.py --cells 8930e0af13bffff --replan-school   (학교 건물만 지우고 면 기준으로 다시 계획)
 # uv run src/capture.py --selftest                          (라이브러리 import만 확인, 네트워크 없음. CI가 쓴다)
 
-# 3.5) 위성 사진에서 나무 위치 읽기 (비밀값·네트워크 없음, data/satellite/<칸ID>-z19.jpg와 .json이 있어야 한다). 결과 trees/<칸ID>.json은 git에 넣고,
+# 0) 구역과 등급(U7). 칸이 regions/<구역>/region.toml의 cells에 있어야 한다. Overpass 한 번 -> regions/<구역>/tiers.json (git 포함)
+uv run src/tiers.py classify --cells 8930e0af13bffff        # set --cell <칸> --tier N --reason "..."로 손으로 고친 값은 다시 분류해도 유지, list로 보기
+
+# 3.4) 칸의 위성 모자이크 (VWORLD_KEY) -> data/satellite/<칸ID>-z19.jpg와 .json. 겹쳐 보기는 satellite.py compare <캡처> <x> <z> 0.974 [출력]
+uv run --env-file .env src/satellite.py cell 8930e0af13bffff
+
+# 3.5) 위성 사진에서 나무 위치 읽기 (비밀값·네트워크 없음, data/satellite/<칸ID>-z19.jpg와 .json이 있어야 한다). 결과 regions/<구역>/cells/<칸>/trees.json은 git에 넣고,
 #      있으면 build_luau.py가 규칙 가로수 대신 이 나무를 만든다 (첫 칸 371그루)
 uv run src/trees.py --cells 8930e0af13bffff
 
@@ -88,17 +95,17 @@ uv run src/estimate.py compose --cells 8930e0af13bffff --captures captures.json 
 
 # 5b) 세부 판단(U5). Claude가 묶음 이미지를 보고 7개 필드(마감, 1층 용도, 계단실, 돌출창, 발코니, 지붕 색, 옥상)를 기록한다
 uv run src/details.py pending --cells 8930e0af13bffff --limit 10        # 세부 행이 없는 건물과 묶음 이미지 경로
-uv run src/details.py record --file details.json                        # 기록(여러 건 한 번에, 하나라도 틀리면 전부 거부) -> details/<칸ID>.json(git 포함)
+uv run src/details.py record --file details.json                        # 기록(여러 건 한 번에, 하나라도 틀리면 전부 거부) -> regions/<구역>/cells/<칸>/details.json(git 포함)
 # uv run src/details.py list|export|import ...                           (import는 복구용)
 
 # 5c) 간판 이미지(U5 확장, 2026-10-13). 띠간판·층별 간판만 이미지, 나머지는 글자. 키는 .env의 OPENAI_API_KEY, OPENAI_BASE_URL
 uv run src/signs.py plan --cells 8930e0af13bffff                                    # 간판 모양 목록 -> data/build/<칸ID>/signs-plan.json
 uv run --env-file .env src/signs.py generate --cells 8930e0af13bffff --workers 4     # 없는 이미지만 생성 -> assets/signs/<key>.png (raw는 재사용)
 # Claude가 assets/signs를 127.0.0.1에서 서빙하고 Studio MCP upload_image로 올린 뒤:
-uv run src/signs.py record --cells 8930e0af13bffff --file upload.json               # {url: "rbxassetid://N"} -> signs/<칸ID>.json(git 포함)
-# uv run src/signs.py status --cells ...   그 뒤 build_luau.py가 im=<자산ID>를 붙인다. signs/<칸ID>.json이 없으면 글자 간판
+uv run src/signs.py record --cells 8930e0af13bffff --file upload.json               # {url: "rbxassetid://N"} -> regions/<구역>/cells/<칸>/signs.json(git 포함)
+# uv run src/signs.py status --cells ...   그 뒤 build_luau.py가 im=<자산ID>를 붙인다. signs.json이 없으면 글자 간판
 
-# 6) 보정(사용자와 같이 보고 정한 값, 사유 필수). set과 unset은 overrides/<칸ID>.json(git 포함)을 바로 다시 쓴다
+# 6) 보정(사용자와 같이 보고 정한 값, 사유 필수). set과 unset은 regions/<구역>/cells/<칸>/overrides.json(git 포함)을 바로 다시 쓴다
 uv run src/overrides.py set --building gis:11081057 --field floors_above --value 4 --reason "누가 무엇을 보고 정했는지"
 # uv run src/overrides.py unset|list|export|import ...      (import는 복구용: 보정과 판단이 같이 돌아온다)
 # uv run src/estimate.py --selftest, uv run src/overrides.py --selftest   (import만 확인)
@@ -111,9 +118,9 @@ uv run src/minimap.py --cells 8930e0af13bffff 8930e0af12bffff
 uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 ```
 
-- 설정 값(겹침 기준, 버퍼, 호출 간격 등)은 `config.toml`, 비밀값은 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외).
+- 설정 값(겹침 기준, 버퍼, 호출 간격, 원점 등 공통)은 `config.toml`, 구역 설정(학교 필지 `school_polygons`, 스폰 `spawn_*`, 이름별 차로 수 `road_lanes_by_name`, 칸 목록 `cells`)은 `regions/<구역>/region.toml`(U7 B, 지금 구역 하나 `bucheon-dodang`), 칸별 판단 파일(details, overrides, signs, trees)은 `regions/<구역>/cells/<칸>/<종류>.json`(git 포함), Studio 소스는 위치별로 `studio/ServerStorage/MapBuilder.luau`(Builder)와 `studio/manual/<구역>/{School,Buheung,Park}.luau`(수작업). 아래 기록에 나오는 예전 경로(`overrides/<칸ID>.json`, `details/`, `signs/`, `trees/`, `studio/Builder.luau`, `studio/Manual*.luau`, `config.toml`의 학교 필지·스폰)는 2026-10-14에 이렇게 옮겨졌다. 비밀값은 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외).
 - Overpass와 V-World는 429/502/504와 시간 초과에서 재시도한다(10s, 30s, 60s). 칸 하나가 실패해도 이전 데이터는 유지된다.
-- `build_luau.py`는 칸의 건물과 도로로 `data/build/<칸ID>/chunk-NNN.luau`(항목 50개씩)와 `manifest.json`을 만든다. 모든 좌표·박스 계산은 Python(`layout.py`), `studio/Builder.luau`는 부품만 만든다. 건물은 최소 면적 회전 직사각형 박스 1개(맞춤 0.8 미만은 manifest의 `poor_fit`), 원점은 세 칸이 만나는 꼭짓점, 스케일 3.6 stud/m(첫 칸을 만든 뒤 확정). Studio 쪽은 `Workspace/Auto/<칸ID>`만 비우고 다시 만들고 `Workspace/Manual`은 읽기만 한다. 스폰은 `config.toml`의 `spawn_lat`, `spawn_lon`, `spawn_yaw_deg`를 정하면 만들어진다.
+- `build_luau.py`는 칸의 건물과 도로로 `data/build/<칸ID>/chunk-NNN.luau`(항목 70개씩), Studio가 받는 `chunks.json`(덩어리 파일을 데이터로), `manifest.json`을 만든다. 가로·나무 계산은 `streets.py`(U7 B에서 `layout_details.py`에서 떼어 냄). 모든 좌표·박스 계산은 Python(`layout.py`), `studio/Builder.luau`는 부품만 만든다. 건물은 최소 면적 회전 직사각형 박스 1개(맞춤 0.8 미만은 manifest의 `poor_fit`), 원점은 세 칸이 만나는 꼭짓점, 스케일 3.6 stud/m(첫 칸을 만든 뒤 확정). Studio 쪽은 `Workspace/Auto/<칸ID>`만 비우고 다시 만들고 `Workspace/Manual`은 읽기만 한다. 스폰은 `config.toml`의 `spawn_lat`, `spawn_lon`, `spawn_yaw_deg`를 정하면 만들어진다.
 - 학교 건물(`config.toml`의 `school_polygons` 필지 안, 지금은 심원고 필지)은 가까운 순이 아니라 **면마다 파노라마 하나**(최대 6면, 가림 없는 것)를 골라 면의 가운데를 향한 크롭을 만든다. 첫 칸의 학교 건물 8동에 면 사진 22장(본관은 남·북·동·서 네 면). 나무와 차량은 가림으로 판단하지 않아서 서쪽 면 같은 곳은 약하다. 자세한 내용은 `aidlc-docs/construction/u3-street-view-capture/code/school-faces-change.md`.
 - `capture.py`는 건물마다 파노라마를 최대 3장(120 m 안, 방위각 60° 이상 차이) 골라 `captures/`에 저장하고 건물 방향 크롭(1024×768)을 만든다. 호출 간격 1초, 실행당 새 파노라마 100장 상한. 403/429가 재시도 뒤에도 계속되거나 응답 형식이 이상하면 우회하지 않고 멈춘다(`collection_runs`의 `stopped_reason`). `captures/`는 git 제외.
 - U4(`judgement.py`, `review.py`, `estimate.py`, `overrides.py`): 층수·높이·벽 색·지붕 모양의 최종값은 **보정 > 사진 판단 > 대장 > 기본값**이다(OSM 값은 참고만). 사진 판단은 Claude가 묶음 이미지(`captures/<칸ID>/sheets/`)를 대장·OSM 숫자 없이(**눈가림**) 보고 `estimates`에 기록하고 대장과의 비교는 `report`가 한다. 사진이 대장과 다르면 확신 high일 때만 사진 값, 그 밖은 대장 유지와 확인 목록. 대장 높이는 층수가 같고 층당 2.5~5 m일 때만 쓰고 아니면 층수 × 3.4 m. 판단과 보정은 `overrides/<칸ID>.json`(git 포함)으로 즉시 내보낸다. 그 파일에 올라가는 `note`와 `reason`에는 사람·번호판·상호 같은 개인 정보를 쓰지 않는다. `build_luau.py`가 최종값을 읽어 건물 부품에 높이·벽 색을 반영하고 속성 `HeightBasis`, `FloorsBasis`, `WallColor`, `Review`(사유를 `-`로 이음)를 단다. 비교 쌍은 Studio 카메라를 크롭 위치에 두고 캡처한다: **`screen_capture`에 항상 `camera_position`과 `look_at_position`을 준다**(인자 없으면 다른 시점이 찍힌다), 세로 시야각 83.58°, Studio 창은 4:3보다 넓게. 설계와 규칙은 `aidlc-docs/construction/u4-judgement-corrections/`.
@@ -121,7 +128,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 - **Roblox 업로드 검수(2026-10-13)**: 간판 이미지 37장을 올리던 중 Roblox가 `403 User is moderated`를 냈다. 즉시 멈췄고(재시도·우회 없음) 36장만 기록했다. 원인으로 의심되는 것은 맥주잔 아이콘이 든 "호프" 간판(술은 Roblox 정책 위반)이라 이름 풀에서 "호프"를 빼고 아이콘을 지웠다(가드 테스트 있음). 나머지 108장은 **사용자가 Roblox 계정의 검수 안내를 확인·해결한 뒤**에만 다시 올린다. 업로드 전에는 간판 글자·아이콘에 술·담배·도박 어휘가 없는지 본다.
 - 학교 수작업 v4(2026-10-13): `studio/ManualSchool.luau`는 U3 거리뷰 크롭과 사용자가 준 사진 3장으로 다시 만들었다(운동장 쪽 남동 긴 동 `#b3`에 현관 캐노피·계단·교명판·시계, 색 창틀, 크림색 동쪽 끝벽에 파란 "심원고등학교" 글자와 벽돌 모서리, 짙은 지붕 띠, 북쪽 계단탑; 북서 큰 동 `#b0`에 붉은 지붕; 적벽돌 동 `gis:11185281`에 아치 유리창·발코니 스택·짙은 박공; 초록 차양 스탠드, 농구장 철망, 화분 소나무, 흰 잎무늬 울타리(도로 쪽)와 초록 막대 울타리(서쪽), 화강암 교문 기둥과 접이식 문, 서쪽 소공원). 1,093부품. 학교 archetype의 창은 리본 대신 교실 격자(1.8×1.5 m, 2.4 m 간격)다. 본관 동쪽 끝 글자 같은 큰 글씨는 `SurfaceGui.PixelsPerStud`를 10 정도로 낮춰야 보인다(TextSize 상한 100 px). 캡처는 만든 직후에는 SurfaceGui가 비어 보이니 1분 뒤 다시 찍는다.
 - 학교 v5·부흥중 v2(2026-10-13): V-World 위성 z19를 Studio 수직 캡처(높이 650에서 0.974 px/stud)에 맞춰 겹쳐 보고(`data/compare/`, 위치 오차 1~2 m) 고쳤다. 운동장은 건물처럼 10° 돌아간 397×192 stud, 초록 철망은 축구장을 감싸는 320×150. `gis:11215390`(U4에서 4층으로 본 것)은 실제로 운동장 북쪽 청록 스탠드 차양이라 `Shelters`가 그 `BuildingId`를 가진다. `gis:11215391`은 철골 퍼걸러, `gis:11215393`은 열린 쉼터. 빨간 박공은 체육관 크기(약 40×28 m)만. 부흥중은 계남로 울타리·정문, 청록 지붕과 태양광, 데이터에 없는 운동장·농구장·체육관(높이 추정)·통로. **Auto 평지붕 위에는 `#cap`(높이 2.88, `CanQuery=false`)이 있어 박스 윗면에 얹은 부품은 가려진다. 지붕을 얹을 때는 cap 위(박스 윗면 + 2.16)에.** 캡처하면 편집 카메라가 `Scriptable`로 바뀌니 끝나면 `Fixed`로 되돌린다.
-- **간판 이미지 재사용(사용자 결정, 2026-10-14)**: 새 칸은 간판 이미지를 새로 만들지 않고 이미 올린 이미지(첫 칸 145장, `signs/8930e0af13bffff.json`)를 재사용한다. 새 이미지는 정말 큰 랜드마크(큰 상가 건물 대표 간판, 역, 대형 시설 등)만, 정말 필요할 때 칸당 2장까지. 올리기 전 검수 어휘 점검은 그대로. 재사용 방법(같은 종류·비율·색의 기존 이미지를 건물마다 고정으로 고르고 간판 글자도 그 이미지 글자로 맞춤)은 U7 K.
+- **간판 이미지 재사용(사용자 결정, 2026-10-14)**: 새 칸은 간판 이미지를 새로 만들지 않고 이미 올린 이미지(첫 칸 145장, `regions/bucheon-dodang/cells/8930e0af13bffff/signs.json`)를 재사용한다. 새 이미지는 정말 큰 랜드마크(큰 상가 건물 대표 간판, 역, 대형 시설 등)만, 정말 필요할 때 칸당 2장까지. 올리기 전 검수 어휘 점검은 그대로. 재사용 방법(같은 종류·비율·색의 기존 이미지를 건물마다 고정으로 고르고 간판 글자도 그 이미지 글자로 맞춤)은 U7 K.
 - 간판 이미지(U5 확장, `src/signs.py`): 사용자 결정(2026-10-13)으로 띠간판·층별 간판은 Azure OpenAI 이미지 생성(배포 `gpt-image-2.5-sunburst`, `.env`의 `OPENAI_API_KEY`·`OPENAI_BASE_URL`)으로 만든 그림을 Roblox에 올려 `ImageLabel`로 보여 준다. "외부 자산 없음" 결정은 간판 이미지에 한해 풀었다. 열쇠 = sha1(글자|종류|판 색|글자 색|비율 묶음)[:16], 캐시 `assets/signs/`(git 제외, raw 포함), 자산 ID는 `signs/<칸ID>.json`(git 포함)으로 고정되어 덩어리 파일이 결정적이다. 프롬프트에는 가상 이름만 들어간다. 규칙 SI-1~9: `aidlc-docs/construction/u5-details/sign-images/plan.md`.
 - 건물은 자기 중심점이 속한 칸에만 저장되므로 칸 사이 중복이 없다. DB는 `data/map.db`, 로그는 `data/logs/*.jsonl`, 칸 재수집 직전 백업은 `data/backups/`(모두 git 제외).
 
@@ -144,8 +151,8 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 U7 = 기반 세팅(사용자 결정 2026-10-14: "u7에서 모든걸 세팅하고 여기서 구축한 사이클로 계속 반복"). 계획 `aidlc-docs/construction/plans/u7-real-shapes-interiors-plan.md`, 구조·최적화 `aidlc-docs/architecture.md`.
 
-1. 사용자: Studio를 Roblox에 저장하고 `Lighting.LightingStyle`을 `Realistic`으로, `.rbxl` 복사본
-2. U7(계획 승인 2026-10-14): 계획서 5절 순서대로. 다음은 단계 2(B 구조, G 등급), 새 세션에서 `cycle-recognize`부터
+1. 사용자: Studio를 Roblox에 저장, `.rbxl` 복사본(`LightingStyle`은 `Realistic` 확인됨, 2026-10-14)
+2. U7(계획 승인 2026-10-14): 계획서 5절 순서대로. 단계 2(B 구조, G 등급) 끝(2026-10-14). 다음은 단계 3(D 내부·E 성능 Functional Design: 치수·꾸러미 확정, **사용자 확인**), 새 세션에서 `cycle-recognize`부터
 3. 1·3번 칸을 사이클로 다시 만들고, 2번 칸을 사이클의 첫 실전으로. 그 뒤로는 칸·구역마다 같은 사이클
 4. 간판 이미지는 멈춤 상태(새 13장 캐시, 업로드 없음). 사이클에 넣을지는 U7에서
 

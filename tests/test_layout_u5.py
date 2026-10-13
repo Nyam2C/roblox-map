@@ -18,6 +18,7 @@ import details_rules as R
 import judgement as J
 import layout
 import layout_details as LD
+import streets as ST
 from generators import BASE, body_cases, offset, rect, star_outlines
 
 CFG = {**common.DEFAULTS, "car_spacing_m": 8}  # cars are off by default (2026-10-13); the generator still makes them when asked
@@ -438,9 +439,9 @@ def test_signs_carry_text_colors_faces_and_distances_and_a_bad_name_removes_them
 # --- P5-11 street slots, P5-12 junctions, P5-13 sidewalk pieces ----------------------------------------------------------------------------
 
 def props_of(features, cfg=CFG):
-    streets = LD.streets_of(features, FRAME, CELL, RES, cfg)
-    jcts = LD.junctions(streets, FRAME, CELL, RES, cfg)
-    return LD.street_items(streets, jcts, FRAME, cfg), jcts
+    streets = ST.streets_of(features, FRAME, CELL, RES, cfg)
+    jcts = ST.junctions(streets, FRAME, CELL, RES, cfg)
+    return ST.street_items(streets, jcts, FRAME, cfg), jcts
 
 
 def count(items, word):

@@ -168,7 +168,7 @@ def record(conn, cfg: Mapping[str, Any], judgements: Sequence[Mapping[str, Any]]
     count = db.record_judgements(conn, cfg, judgements, common.now_iso())
     cells = {db.building_cell(conn, j["building_id"]) for j in judgements}
     for cell in sorted(c for c in cells if c):
-        db.export_cell(conn, cell, common.resolve(cfg["overrides_dir"]))
+        db.export_cell(conn, cell, common.cell_file(cfg, cell, "overrides"))
     return count
 
 

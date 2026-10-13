@@ -368,17 +368,18 @@ def test_deleting_views_for_some_buildings_only_returns_their_crop_paths():
 
 def test_the_school_settings_are_checked(tmp_path):
     p = tmp_path / "c.toml"
-    for bad in ("school_polygons = [[[37.5, 126.7], [37.5, 126.8]]]", "school_polygons = [[[137.5, 126.7], [37.5, 126.8], [37.4, 126.8]]]",
-                "school_polygons = 5", "school_max_views = 0", "school_face_min_m = 0", "school_face_max_deg = 95"):
+    for bad in ("school_max_views = 0", "school_face_min_m = 0", "school_face_max_deg = 95"):
         p.write_text(bad + "\n", encoding="utf-8")
         with pytest.raises(ValueError):
             common.load_config(p)
-    p.write_text("school_polygons = [[[37.5, 126.7], [37.5, 126.8], [37.6, 126.8]]]\n", encoding="utf-8")
-    assert len(common.load_config(p)["school_polygons"]) == 1
+    for polys in ([[[37.5, 126.7], [37.5, 126.8]]], [[[137.5, 126.7], [37.5, 126.8], [37.4, 126.8]]], 5):  # region.toml keys
+        with pytest.raises(ValueError):
+            common.check_config({**common.DEFAULTS, "school_polygons": polys})
+    common.check_config({**common.DEFAULTS, "school_polygons": [[[37.5, 126.7], [37.5, 126.8], [37.6, 126.8]]]})
 
 
 def test_the_configured_school_polygon_holds_the_high_school_and_not_its_neighbours():
-    polygon = [tuple(p) for p in common.load_config()["school_polygons"][0]]
+    polygon = [tuple(p) for p in common.cell_config(common.load_config(), "8930e0af13bffff")["school_polygons"][0]]
     assert projection.point_in_polygon((37.50469, 126.77911), polygon)      # the main building
     assert projection.point_in_polygon((37.50413, 126.77866), polygon)      # the west wing
     assert not projection.point_in_polygon((37.50542, 126.77778), polygon)  # the middle school next door

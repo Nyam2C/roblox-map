@@ -1,6 +1,6 @@
 --[[
 	MapBuilder: builds one cell of the map in Studio from the chunk files that src/build_luau.py writes.
-	Source of truth is studio/Builder.luau in the repository; Claude puts it here through the Studio MCP
+	Source of truth is studio/ServerStorage/MapBuilder.luau in the repository; Claude puts it here through the Studio MCP
 	(replace the module instance: new ModuleScript with the Source, Destroy the old one, because require caches per instance).
 
 	It does no geometry. Every position, size and angle arrives computed (see layout.py and layout_details.py); this module

@@ -9,7 +9,7 @@ crops (labelled `#1 N`, `#2 SW` ... = rank and camera direction; the target buil
 two records for that building.
 
 ## Blind rule (important)
-Do NOT read `data/map.db`, `overrides/`, `details/`, `data/build/`, any log, or any other file than your list file and the sheet images.
+Do NOT read `data/map.db`, `regions/`, `data/build/`, any log, or any other file than your list file and the sheet images.
 Do not run sqlite or the project's scripts. The point is an independent count from the photos only.
 
 ## Record 1: `judgement` (U4)

@@ -5,10 +5,10 @@
 """C6: turn one cell's buildings and streets into Luau chunk files for the Studio builder.
 
 Usage:
-  uv run src/build_luau.py --cells 8930e0af13bffff [...]    # writes data/build/<cell>/chunk-NNN.luau and manifest.json
+  uv run src/build_luau.py --cells 8930e0af13bffff [...]    # writes data/build/<cell>/chunk-NNN.luau, chunks.json and manifest.json
   uv run src/build_luau.py --selftest                       # import check only
 
-Claude runs the chunk files in Studio through the Studio MCP (execute_luau); see studio/Builder.luau.
+Studio fetches chunks.json (the chunk files as data) through the Studio MCP (execute_luau); see studio/ServerStorage/MapBuilder.luau.
 All geometry is computed in layout.py. Text that goes into Luau code is limited to a safe character set (SEC2).
 Rules: aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md
 """
@@ -32,6 +32,7 @@ import details_rules
 import judgement
 import layout
 import layout_details
+import streets
 
 BUILD_DIR = "data/build"
 CHUNK_WARN_BYTES = 15_000  # U2 NFR P3, raised in U5 (BR-14.6): a bigger chunk file means chunk_size should come down
@@ -244,11 +245,11 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             continue
         ok_features.append(f)
         pieces += layout.road_items(f, frame, cell_id, res, cfg)
-    streets = layout_details.streets_of(ok_features, frame, cell_id, res, cfg)
-    jcts = layout_details.junctions(streets, frame, cell_id, res, cfg)
-    sidewalks, props = layout_details.street_items(streets, jcts, frame, cfg, rule_trees=sat_trees is None)
+    lines = streets.streets_of(ok_features, frame, cell_id, res, cfg)
+    jcts = streets.junctions(lines, frame, cell_id, res, cfg)
+    sidewalks, props = streets.street_items(lines, jcts, frame, cfg, rule_trees=sat_trees is None)
     if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
-        props = props + layout_details.tree_items(frame, sat_trees)
+        props = props + streets.tree_items(frame, sat_trees)
     items += pieces + sidewalks + props
     spawn, spawn_warnings = layout.spawn_item(cell_id, frame, cfg, pieces)
     if spawn is not None:
@@ -290,7 +291,28 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
                                                 "pole_spacing_m", "lamp_spacing_m", "tree_spacing_m", "car_spacing_m", "school_zone_m",
                                                 "roof_pitch_deg", "window_faces")}}
     files["manifest.json"] = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
+    files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids)
     return Plan(cell_id, items, files, counts, warnings)
+
+
+PAIR = re.compile(r'(\w+)=("([^"]*)"|-?\d+(?:\.\d+)?)')
+
+
+def chunks_json(cell_id: str, chunk_texts: Sequence[str], building_ids: Sequence[str]) -> str:
+    """The chunk files as data (chunks.json) for the Studio HttpService path: read back from the Luau text, so both say the same."""
+    def table(body: str) -> dict[str, Any]:
+        return {k: s if raw.startswith('"') else (float(raw) if "." in raw else int(raw)) for k, raw, s in PAIR.findall(body)}
+    chunks, counts = [], {}
+    for text in chunk_texts:
+        looks_line = next(line for line in text.splitlines() if line.startswith("local LOOKS = "))
+        looks: dict[str, Any] = {kind: [m, int(r), int(g), int(b)] for kind, m, r, g, b in re.findall(r'(\w+)=\{"(\w+)",(\d+),(\d+),(\d+)\}', looks_line)}
+        wpart = looks_line.split("walls={", 1)
+        looks["walls"] = {name: [int(r), int(g), int(b)] for name, r, g, b in re.findall(r'\["([^"]+)"\]=\{(\d+),(\d+),(\d+)\}', wpart[1])} if len(wpart) == 2 else {}
+        items = [table(line.strip()[1:-2]) for line in text.splitlines() if line.startswith("\t{")]
+        for it in items:
+            counts[it["k"]] = counts.get(it["k"], 0) + 1
+        chunks.append({"looks": looks, "items": items})
+    return json.dumps({"cell_id": cell_id, "chunks": chunks, "counts": counts, "building_ids": list(building_ids)}, ensure_ascii=False)
 
 
 def write_plan(plan: Plan, root: Path) -> list[Path]:
@@ -311,7 +333,7 @@ SIGN_KEY_RE = re.compile(r"[0-9a-f]{16}")
 
 
 def load_sign_assets(path: Path) -> dict[str, int]:
-    """signs/<cell>.json -> {sign image key: Roblox asset id}. No file means text signs everywhere (SI-9); a bad entry refuses the build."""
+    """signs.json of a cell -> {sign image key: Roblox asset id}. No file means text signs everywhere (SI-9); a bad entry refuses the build."""
     if not path.exists():
         return {}
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -338,9 +360,10 @@ def load_cell_inputs(conn, cell_id: str) -> tuple[list, list, dict, dict, dict]:
 
 
 def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
+    cfg = common.cell_config(cfg, cell_id)
     buildings, features, estimates, overrides, details = load_cell_inputs(conn, cell_id)
-    sign_assets = load_sign_assets(common.resolve(cfg["signs_dir"]) / f"{cell_id}.json")
-    sat_trees = layout_details.load_trees(common.resolve(layout_details.TREES_DIR) / f"{cell_id}.json")
+    sign_assets = load_sign_assets(common.cell_file(cfg, cell_id, "signs"))
+    sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))
     plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees)
     write_plan(plan, root)
     return plan
@@ -380,8 +403,8 @@ def main(cfg: dict[str, Any]) -> int:
             common.log(logging.INFO, "chunk files written", cell_id, **plan.counts)
             for w in plan.warnings:
                 common.log(logging.WARNING, w, cell_id)
-            common.log(logging.INFO, f"next: in Studio run the {plan.counts['chunks']} chunk files of {root / cell_id} in order with "
-                       "execute_luau (Edit), then Builder.verify; ServerStorage/MapBuilder must hold studio/Builder.luau", cell_id)
+            common.log(logging.INFO, f"next: Studio fetches {root / cell_id}/chunks.json from 127.0.0.1 (cycle-build studio-build.luau), "
+                       "then Builder.verify; ServerStorage/MapBuilder must hold studio/ServerStorage/MapBuilder.luau", cell_id)
         except Exception as e:  # carry on with the next cell
             failed += 1
             message = common.mask(f"{type(e).__name__}: {e}")

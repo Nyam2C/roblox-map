@@ -28,7 +28,8 @@ git status --short          # 내 것이 아닌 변경이 있으면 건드리지
 sqlite3 data/map.db "select cell_id, count(*) from buildings group by cell_id"
 sqlite3 data/map.db "select b.cell_id, count(e.building_id), count(d.building_id) from buildings b left join estimates e using(building_id) left join details d using(building_id) group by b.cell_id"
 sqlite3 data/map.db "select cell_id, unit, status, finished_at from collection_runs order by finished_at desc limit 10"
-ls data/build/<칸>/ trees/<칸>.json overrides/<칸>.json details/<칸>.json data/satellite/<칸>-z19.json 2>/dev/null
+ls data/build/<칸>/ regions/*/cells/<칸>/ data/satellite/<칸>-z19.json 2>/dev/null
+uv run src/tiers.py list --cells <칸>          # 등급(구역의 tiers.json). 구역에 없는 칸이면 오류
 ```
 
 `data/build/<칸>/manifest.json`이 있으면 `counts`, `warnings`, `poor_fit`을 본다.

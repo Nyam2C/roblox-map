@@ -9,6 +9,13 @@ description: roblox-map 세션 흐름의 3단계 "구현". 칸 하나를 데이�
 
 ## 단계
 
+### 0. 구역과 등급
+칸이 어느 `regions/<구역>/region.toml`의 `cells`에도 없으면 넣는다(새 동네면 구역 폴더와 `region.toml`을 만든다: `name`, `cells`, 있으면 `school_polygons`, `spawn_*`, `[road_lanes_by_name]`). 칸별 판단 파일은 `regions/<구역>/cells/<칸>/`에 생긴다.
+```bash
+uv run src/tiers.py classify --cells <칸>      # -> regions/<구역>/tiers.json. 고칠 때: tiers.py set --cell <칸> --tier N --reason "..."
+```
+등급: 1급은 아래 모두, 2급·3급은 3·4단계(거리뷰·판단)를 건너뛴다(2급 기본값 분포는 첫 2급 칸에서 만든다).
+
 ### 1. 수집
 ```bash
 uv run --env-file .env src/cells.py --cells <칸>
@@ -18,11 +25,11 @@ uv run --env-file .env src/register.py --cells <칸>
 
 ### 2. 위성 모자이크와 나무
 ```bash
-uv run --env-file .env --with h3 --with pillow python .claude/skills/cycle-build/scripts/satellite_cell.py <칸>
+uv run --env-file .env src/satellite.py cell <칸>
 uv run src/trees.py --cells <칸>
 ```
 
-### 3. 거리뷰 (1급 칸만, 등급이 생기기 전까지는 모든 칸)
+### 3. 거리뷰 (1급 칸만)
 `uv run src/capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(실행당 새 파노라마 100장 상한). 백그라운드로 돌리고 끝나면 확인. 403/429·형식 이상으로 `stopped`면 **우회하지 말고 멈추고** 사용자에게 알린다.
 
 ### 4. 판단 (눈가림)
@@ -37,8 +44,7 @@ uv run src/trees.py --cells <칸>
 
 ### 6. 생성
 ```bash
-uv run src/build_luau.py --cells <칸>
-python3 .claude/skills/cycle-build/scripts/chunks_json.py <칸>
+uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, manifest.json
 ```
 경고(`warnings`)를 읽는다.
 
@@ -48,7 +54,7 @@ python3 .claude/skills/cycle-build/scripts/chunks_json.py <칸>
 3. `cd data/build && python3 -m http.server 8765 --bind 127.0.0.1`(백그라운드).
 4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행. `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. 서버를 내린다: `pkill -f "http.server 8765"`.
-6. Builder를 바꿨다면 먼저 `ServerStorage/MapBuilder`를 Clone 후 원본 Destroy로 교체(require 캐시).
+6. Builder(`studio/ServerStorage/MapBuilder.luau`)를 바꿨다면 먼저 `ServerStorage/MapBuilder`를 Clone 후 원본 Destroy로 교체(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`.
 
 ### 8. 규칙을 고칠 때
 검증에서 여러 건물에 공통인 문제가 나오면 `src/details_rules.py`·`src/layout_details.py`(또는 해당 모듈)를 고치고 테스트를 고치거나 더한 뒤:

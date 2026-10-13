@@ -8,7 +8,7 @@ Usage:
   uv run src/details.py pending --cells 8930e0af13bffff [--limit 10] [--redo ID ...]   # bodies without a detail row + sheet paths
   uv run src/details.py record --file details.json                                     # or --file - for standard input
   uv run src/details.py list --cells 8930e0af13bffff
-  uv run src/details.py export --cells 8930e0af13bffff        # rewrites details/<cell>.json (record and import do this by themselves)
+  uv run src/details.py export --cells 8930e0af13bffff        # rewrites regions/<region>/cells/<cell>/details.json (record and import do this by themselves)
   uv run src/details.py import --file details/8930e0af13bffff.json   # recovery: details back into the database
   uv run src/details.py --selftest                            # import check only
 
@@ -69,7 +69,7 @@ def record(conn, cfg, rows: Sequence[Any]) -> int:
     count = db.record_details(conn, rows, common.now_iso())
     cells = {db.building_cell(conn, r["building_id"]) for r in rows}
     for cell in sorted(c for c in cells if c):
-        db.export_details(conn, cell, common.resolve(cfg["details_dir"]))
+        db.export_details(conn, cell, common.cell_file(cfg, cell, "details"))
     return count
 
 
@@ -89,7 +89,7 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     p.add_argument("--redo", nargs="*", default=[], metavar="ID", help="judge these buildings again")
     r = sub.add_parser("record", help="store detail rows from a JSON list")
     r.add_argument("--file", required=True, help="a file, or - for standard input")
-    for name, text in (("list", "show the detail rows of cells"), ("export", "rewrite details/<cell>.json")):
+    for name, text in (("list", "show the detail rows of cells"), ("export", "rewrite regions/<region>/cells/<cell>/details.json")):
         c = sub.add_parser(name, help=text)
         c.add_argument("--cells", nargs="+", required=True, type=cell_arg, metavar="ID")
     i = sub.add_parser("import", help="load an export file into the database")
@@ -107,7 +107,6 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
 
 
 def run_command(conn, cfg: dict[str, Any], args: argparse.Namespace) -> dict[str, int]:
-    out = common.resolve(cfg["details_dir"])
     if args.command == "pending":
         cell = args.cells[0]
         items, left = pending_rows(conn, cfg, cell, args.limit, args.redo)
@@ -132,12 +131,12 @@ def run_command(conn, cfg: dict[str, Any], args: argparse.Namespace) -> dict[str
     if args.command == "export":
         written = 0
         for cell in args.cells:
-            path = db.export_details(conn, cell, out)
+            path = db.export_details(conn, cell, common.cell_file(cfg, cell, "details"))
             written += path is not None
             print(f"{cell}: {path if path else 'nothing to export'}")
         return {"files": written}
     result = db.import_details(conn, args.file)
-    db.export_details(conn, result["cell_id"], out)
+    db.export_details(conn, result["cell_id"], common.cell_file(cfg, result["cell_id"], "details"))
     print(f"imported {result['details']} details for {result['cell_id']}")
     for bid in result["orphans"]:
         print(f"orphan: {bid} (not a building in the database; kept)")

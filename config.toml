@@ -6,6 +6,7 @@ overpass_pause_s = 1         # Overpass 호출 사이 대기(초)
 vworld_pause_s = 0.5         # V-World 호출 사이 대기(초)
 vworld_page_size = 1000      # V-World 한 번에 받는 건수 (최대 1000)
 retry_waits_s = [10, 30, 60] # 429/502/504/시간 초과일 때 재시도 대기(초)
+regions_dir = "regions"     # 구역 설정 regions/<구역>/region.toml과 칸별 판단 파일 cells/<칸>/*.json (git 포함, U7)
 db_path = "data/map.db"
 log_dir = "data/logs"
 backup_dir = "data/backups"
@@ -30,18 +31,6 @@ default_height_m = 10        # 층수도 높이도 없을 때 (BR-4.3)
 school_max_views = 6          # 학교 건물 하나에 쓰는 사진 최대 장수(면마다 하나) (BR-2.7)
 school_face_min_m = 8         # 이보다 짧은 면은 사진을 따로 고르지 않는다 (BR-2.7)
 school_face_max_deg = 60      # 면의 바깥 방향에서 이 각도 안에 있는 파노라마만 쓴다 (BR-2.7)
-school_polygons = [
-  [  # 심원고등학교 필지(중동 1074-1, V-World 연속지적도). 이 안의 건물만 면 기준으로 사진을 고른다 (BR-2.7)
-    [37.503903, 126.77855],
-    [37.50394, 126.778517],
-    [37.50451, 126.778636],
-    [37.505268, 126.778793],
-    [37.504465, 126.780119],
-    [37.5044, 126.780159],
-    [37.503726, 126.780157],
-    [37.503697, 126.780114],
-  ],
-]
 
 # U2 Studio 생성기
 origin_lat = 37.504169        # Studio (0, 0, 0): 심원고 세 칸이 만나는 꼭짓점. 프로젝트에 하나, 바꾸지 않는다 (BR-1.1)
@@ -52,9 +41,6 @@ ground_margin_m = 20          # 땅 판이 칸 경계 밖으로 더 덮는 거�
 sidewalk_width_m = 1.5        # 인도 폭(m) (BR-3.8)
 lane_width_m = 3.25           # 차로 하나의 폭(m). OSM lanes 태그가 있으면 차로 수 x 이 폭 (위성 비교 2026-10-13)
 chunk_size = 70               # 한 번의 execute_luau에 넣는 항목 수 (U2 BR-7.2, U5 BR-14.6: 호출당 약 11 KB)
-spawn_lat = 37.504483         # 스폰 점: 심원고 본관에 가장 가까운 신흥로238번길(보행로) 위의 점. 사용자와 Studio에서 같이 정함(2026-10-13, Q6=B) (BR-5.1)
-spawn_lon = 126.77861
-spawn_yaw_deg = -62.0         # 캐릭터가 본관(북동쪽)을 보도록. 값이 없으면 스폰을 만들지 않는다
 
 # U4 판단·보정
 floor_height_min_m = 2.5      # 대장 높이는 층당 이 범위 안일 때만 쓴다 (BR-4.1)
@@ -63,7 +49,6 @@ review_batch_size = 12        # 비교 쌍을 한 번에 같이 보는 개수 (B
 sheet_tile_w = 512            # 눈가림 묶음 이미지의 칸 크기와 JPEG 품질 (BR-1.4)
 sheet_tile_h = 384
 sheet_jpeg_quality = 85
-overrides_dir = "overrides"   # 보정과 판단 내보내기 파일(git 포함) (BR-8.3)
 blind_broken = ["gis:11081057"]  # 판단 전에 사진과 높이를 본 건물. 사진-대장 일치율에서 뺀다 (N-U4-9)
 
 # U5 디테일 (BR-14.9). 건축 치수(창, 띠, 기단, 대문, 간판 ...)는 src/details_rules.py의 DIMS 상수다
@@ -74,10 +59,8 @@ car_spacing_m = 0             # 주차 차량 간격(m, living_street; residenti
 school_zone_m = 50            # 학교 필지에서 이 거리 안이 스쿨존
 roof_pitch_deg = 25           # 박공·모임지붕 경사각
 window_faces = "all"          # "front"이면 창을 도로 쪽 면에만 (FPS 조절 1단계)
-details_dir = "details"       # 세부 판단 내보내기 파일(git 포함)
 
 # U5 간판 이미지 (aidlc-docs/construction/u5-details/sign-images/plan.md). 비밀값 OPENAI_API_KEY, OPENAI_BASE_URL은 .env
-signs_dir = "signs"                       # 올린 자산 ID 기록 signs/<칸ID>.json (git 포함)
 assets_dir = "assets/signs"               # 만든 이미지 캐시 (git 제외)
 sign_image_model = "gpt-image-2.5-sunburst"   # Azure 배포 이름
 sign_image_size = "1536x1024"
@@ -103,9 +86,6 @@ steps = 2
 corridor = 2
 bridleway = 2
 track = 3
-
-[road_lanes_by_name]          # OSM에 lanes가 없는 큰길의 양방향 차로 수(위성에서 셈). 일방 차로(oneway=yes)는 절반
-"길주로" = 10
 
 [wall_colors]                 # 벽 색 이름 -> [r, g, b]. 이 이름만 판단·보정에 쓸 수 있다 (기능 설계 Palette)
 white = [236, 236, 232]

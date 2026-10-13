@@ -30,6 +30,7 @@ DEFAULTS: dict[str, Any] = {
     "vworld_pause_s": 0.5,
     "vworld_page_size": 1000,
     "retry_waits_s": [10, 30, 60],
+    "regions_dir": "regions",  # U7: regions/<region>/region.toml and cells/<cell>/{details,overrides,signs,trees}.json
     "db_path": "data/map.db",
     "log_dir": "data/logs",
     "backup_dir": "data/backups",
@@ -50,7 +51,7 @@ DEFAULTS: dict[str, Any] = {
     "camera_height_m": 2.5,
     "floor_height_m": 3.4,
     "default_height_m": 10,
-    "school_polygons": [],
+    "school_polygons": [],  # region.toml
     "school_max_views": 6,
     "school_face_min_m": 8,
     "school_face_max_deg": 60,
@@ -62,7 +63,7 @@ DEFAULTS: dict[str, Any] = {
     "ground_margin_m": 20,
     "sidewalk_width_m": 1.5,
     "lane_width_m": 3.25,  # an OSM lanes tag (or road_lanes_by_name) sets the width to lanes x this
-    "road_lanes_by_name": {"길주로": 10},  # both directions; a oneway=yes carriageway gets half (satellite, 2026-10-13)
+    "road_lanes_by_name": {},  # region.toml: both directions; a oneway=yes carriageway gets half (satellite, 2026-10-13)
     "road_widths_m": {
         "motorway": 14, "trunk": 14, "primary": 12, "secondary": 11, "tertiary": 10, "unclassified": 6,
         "residential": 6, "service": 4, "living_street": 5, "road": 6, "link": 6,
@@ -70,7 +71,7 @@ DEFAULTS: dict[str, Any] = {
         "track": 3,
     },
     "chunk_size": 70,  # U5: about 11 KB per call with the detail items (U5 BR-14.6; 80 crossed the 15 KB line on building-heavy chunks)
-    "spawn_lat": None,  # unset = no spawn is built (decided together in Studio)
+    "spawn_lat": None,  # region.toml; unset = no spawn is built (decided together in Studio)
     "spawn_lon": None,
     "spawn_yaw_deg": 0,
     # U4 judgement and corrections
@@ -80,7 +81,6 @@ DEFAULTS: dict[str, Any] = {
     "sheet_tile_w": 512,
     "sheet_tile_h": 384,
     "sheet_jpeg_quality": 85,
-    "overrides_dir": "overrides",
     "blind_broken": ["gis:11081057"],  # buildings whose photo and height were seen before judging; left out of the agreement rate
     "wall_colors": {
         "white": [236, 236, 232], "cream": [236, 224, 190], "beige": [214, 192, 156], "yellow": [232, 205, 110],
@@ -95,8 +95,7 @@ DEFAULTS: dict[str, Any] = {
     "school_zone_m": 50,
     "roof_pitch_deg": 25,
     "window_faces": "all",  # "front": windows only on the road-facing face (first step of the FPS ladder)
-    "details_dir": "details",
-    "signs_dir": "signs", "assets_dir": "assets/signs", "sign_image_model": "gpt-image-2.5-sunburst",
+    "assets_dir": "assets/signs", "sign_image_model": "gpt-image-2.5-sunburst",
     "sign_image_size": "1536x1024", "sign_image_workers": 4,
 }
 
@@ -116,6 +115,9 @@ RANGES: dict[str, tuple[float, float, bool]] = {
     "pole_spacing_m": (0, 200, False), "lamp_spacing_m": (0, 200, False), "tree_spacing_m": (0, 50, False),
     "car_spacing_m": (0, 50, False), "school_zone_m": (0, 300, False), "roof_pitch_deg": (5, 60, False),
 }
+
+# U7 B: keys that belong to one region (regions/<region>/region.toml), not to config.toml
+REGION_KEYS = ("school_polygons", "spawn_lat", "spawn_lon", "spawn_yaw_deg", "road_lanes_by_name")
 
 RETRY_CODES = {429, 502, 504}
 MASK = "<KEY>"
@@ -137,11 +139,20 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         unknown = sorted(set(data) - set(DEFAULTS))
         if unknown:
             raise ValueError(f"config: unknown keys {unknown}")
+        misplaced = sorted(set(data) & set(REGION_KEYS))
+        if misplaced:
+            raise ValueError(f"config: {misplaced} belong in regions/<region>/region.toml")
         cfg.update(data)
         if isinstance(data.get("road_widths_m"), dict):  # a partial table only overrides the classes it names
             cfg["road_widths_m"] = {**DEFAULTS["road_widths_m"], **data["road_widths_m"]}
         if isinstance(data.get("wall_colors"), dict):  # same for the color table
             cfg["wall_colors"] = {**DEFAULTS["wall_colors"], **data["wall_colors"]}
+    check_config(cfg)
+    return cfg
+
+
+def check_config(cfg: Mapping[str, Any]) -> None:
+    """Types and ranges of a whole config (config.toml merged with DEFAULTS, and with a region's keys by cell_config)."""
     errors = []
     if not (isinstance(cfg["h3_res"], int) and not isinstance(cfg["h3_res"], bool) and 0 <= cfg["h3_res"] <= 15):
         errors.append("h3_res must be an integer from 0 to 15")
@@ -158,7 +169,7 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
     waits = cfg["retry_waits_s"]
     if not (isinstance(waits, list) and all(_is_number(w) and w >= 0 for w in waits)):
         errors.append("retry_waits_s must be a list of numbers >= 0")
-    for k in ("db_path", "log_dir", "backup_dir", "captures_dir", "overrides_dir", "details_dir", "signs_dir", "assets_dir", "sign_image_model", "sign_image_size"):
+    for k in ("db_path", "log_dir", "backup_dir", "captures_dir", "regions_dir", "assets_dir", "sign_image_model", "sign_image_size"):
         if not (isinstance(cfg[k], str) and cfg[k].strip()):
             errors.append(f"{k} must be a non-empty string")
     keep = cfg["backup_keep"]
@@ -197,9 +208,40 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         errors.append("spawn_lat and spawn_lon must be set together")
     elif lat is not None and not (_is_number(lat) and _is_number(lon) and -90 <= lat <= 90 and -180 <= lon <= 180):
         errors.append("spawn_lat and spawn_lon must be a latitude and a longitude")
+    lanes = cfg["road_lanes_by_name"]
+    if not (isinstance(lanes, dict) and all(isinstance(k, str) and _is_number(v) and 1 <= v <= 20 for k, v in lanes.items())):
+        errors.append("road_lanes_by_name must be a table of lane counts from 1 to 20")
     if errors:
         raise ValueError("config: " + "; ".join(errors))
-    return cfg
+
+
+def region_of(cfg: Mapping[str, Any], cell_id: str) -> tuple[Path, dict[str, Any]]:
+    """The folder and the region.toml table of the one region whose `cells` list holds this cell."""
+    hits = []
+    for p in sorted(resolve(cfg["regions_dir"]).glob("*/region.toml")):
+        with p.open("rb") as f:
+            data = tomllib.load(f)
+        if cell_id in data.get("cells", []):
+            hits.append((p.parent, data))
+    if len(hits) != 1:
+        raise ValueError(f"{cell_id} is in {len(hits)} regions: add it to the cells list of exactly one {cfg['regions_dir']}/<region>/region.toml")
+    return hits[0]
+
+
+def cell_config(cfg: Mapping[str, Any], cell_id: str) -> dict[str, Any]:
+    """cfg with the cell's region keys (school parcels, spawn, lanes by road name) and `region`, `cell_dir` set."""
+    folder, data = region_of(cfg, cell_id)
+    unknown = sorted(set(data) - {"name", "cells", *REGION_KEYS})
+    if unknown:
+        raise ValueError(f"{folder.name}/region.toml: unknown keys {unknown}")
+    out = {**cfg, **{k: data[k] for k in REGION_KEYS if k in data}, "region": folder.name, "cell_dir": str(folder / "cells" / cell_id)}
+    check_config(out)
+    return out
+
+
+def cell_file(cfg: Mapping[str, Any], cell_id: str, kind: str) -> Path:
+    """regions/<region>/cells/<cell>/<kind>.json, kind = details | overrides | signs | trees (kept in git)."""
+    return Path(cell_config(cfg, cell_id)["cell_dir"]) / f"{kind}.json"
 
 
 def building_height_m(height_m: float | None, floors_above: int | None, cfg: Mapping[str, Any]) -> float:

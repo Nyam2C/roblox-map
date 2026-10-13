@@ -2,7 +2,7 @@
 # requires-python = ">=3.11"
 # dependencies = ["h3==4.5.0", "numpy==2.5.4", "pillow==12.3.0", "scipy==1.18.1", "shapely==2.2.0"]
 # ///
-"""C8: find the trees of one cell in the V-World satellite photo and write trees/<cell>.json (kept in git).
+"""C8: find the trees of one cell in the V-World satellite photo and write regions/<region>/cells/<cell>/trees.json (kept in git).
 
 Usage:
   uv run src/trees.py --cells 8930e0af13bffff     # needs data/satellite/<cell>-z19.jpg and <cell>-z19.json (tile_x0, tile_y0 of its top-left)
@@ -10,7 +10,7 @@ Usage:
 
 Green and not too bright = crown; buildings are cut out (dark roofs look green) and no trunk stands on a road. Crowns are packed
 with discs from the thickest part outwards, so a wood becomes several trees and a street row becomes a row. build_luau.py reads the
-file and makes the trees (layout_details.tree_items); without it the old rule (a tree every tree_spacing_m beside a sidewalk) stays.
+file and makes the trees (streets.tree_items); without it the old rule (a tree every tree_spacing_m beside a sidewalk) stays.
 """
 from __future__ import annotations
 
@@ -31,7 +31,6 @@ from shapely.geometry import LineString
 import common
 import db
 import layout
-from layout_details import TREES_DIR
 
 SAT_DIR = "data/satellite"
 ZOOM = 19
@@ -116,9 +115,8 @@ def find_trees(rgb: np.ndarray, geo: Georef, cell_id: str, buildings: Sequence[M
     return sorted(trees, key=lambda t: (t[1], t[0]))
 
 
-def write_trees(cell_id: str, trees: Sequence[Sequence[float]], out_dir: Path) -> Path:
-    out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / f"{cell_id}.json"
+def write_trees(cell_id: str, trees: Sequence[Sequence[float]], path: Path) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"cell_id": cell_id, "source": f"V-World satellite z{ZOOM}", "count": len(trees), "trees": list(trees)},
                                ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
     return path
@@ -152,7 +150,7 @@ def main(cfg: dict[str, Any]) -> int:
         meta = json.loads(sat.with_suffix(".json").read_text(encoding="utf-8"))
         rgb = np.asarray(Image.open(sat.with_suffix(".jpg")).convert("RGB"))
         trees = find_trees(rgb, Georef(int(meta["tile_x0"]), int(meta["tile_y0"])), cell_id, buildings, features, cfg)
-        path = write_trees(cell_id, trees, common.resolve(TREES_DIR))
+        path = write_trees(cell_id, trees, common.cell_file(cfg, cell_id, "trees"))
         common.log(logging.INFO, f"trees written: {len(trees)} in {path}", cell_id)
     return 0
 
