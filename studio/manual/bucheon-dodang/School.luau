@@ -167,7 +167,9 @@ local t = 0.144
 part(e, "CreamEnd", b3 * CFrame.new(-(hw3 + t / 2), 0, 0), Vector3.new(t, H3, hd3 * 2 + 2 * t), Enum.Material.Plaster, {232, 226, 212}, { CanCollide = false })
 part(e, "BrickCorner", b3 * CFrame.new(-(hw3 + 0.3), 0, -(hd3 - 3.0)), Vector3.new(0.6, H3, 7.2), Enum.Material.Brick, BRICK, { CanCollide = false })
 part(e, "BrickCornerS", b3 * CFrame.new(-(hw3 - 3.0), 0, -(hd3 + 0.3)), Vector3.new(7.2, H3, 0.6), Enum.Material.Brick, BRICK, { CanCollide = false })
-local letters = part(e, "NameLetters", b3 * CFrame.new(-(hw3 + 0.35), H3 / 2 - 7.5, 0) * yaw(90), Vector3.new(hd3 * 2 - 4, 7.0, 0.2), Enum.Material.SmoothPlastic, {232, 226, 212}, { Transparency = 1, CanCollide = false })
+-- a cream plate over the top floor's Auto windows behind the letters (made in Studio by hand, moved here 2026-10-14)
+part(e, "CreamTop", b3 * CFrame.new(-(hw3 + 0.3), H3 / 2 - 0.3 - (H3 / 5 - 0.6) / 2, 0), Vector3.new(0.2, H3 / 5 - 0.6, hd3 * 2 - 0.6), Enum.Material.Plaster, {232, 226, 212}, { CanCollide = false })
+local letters = part(e, "NameLetters", b3 * CFrame.new(-(hw3 + 0.5), H3 / 2 - 7.5, 0) * yaw(90), Vector3.new(hd3 * 2 - 4, 7.0, 0.2), Enum.Material.SmoothPlastic, {232, 226, 212}, { Transparency = 1, CanCollide = false })
 textOn(letters, "심원고등학교", Enum.NormalId.Front, Color3.fromRGB(30, 60, 150), 400)
 for _, side in ipairs({-1, 1}) do
 	part(e, "RoofBand", b3 * CFrame.new(0, H3 / 2 - 1.2, side * (hd3 + 0.4)), Vector3.new(hw3 * 2 + 1.0, 2.4, 0.5), Enum.Material.Slate, {70, 55, 50}, { CanCollide = false })
