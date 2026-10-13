@@ -90,3 +90,32 @@ U1 안에서 C1(`cells.py`) → DB → C2(`register.py`)의 연결과, 실제 �
 - **Scenario 2**: 수작업 부품이 있으면 161개를 만들고 1개를 건너뛰었다(`verify` 정상, 같은 ID의 자동 건물은 만들어지지 않음). 다시 만든 결과가 처음과 같았고(부품 이름, 위치, 크기, 회전, 재질, 색, 층수 속성의 서명이 같음) 다른 칸 폴더가 유지됐다. 시험 물체는 모두 지웠다.
 - **Scenario 3**: 플레이에서 스폰 점 `(-323.28, 4.2, -125.7)`에서 태어나 본관 방향(`0.88, -0.47`)을 보았다. 도로까지 걸어서 도착했고(`(-440.3, 4.1, 100.9)`), 심원고 본관 박스 안으로 가는 길은 "경로 없음"으로 막혔다.
 - 중간에 Studio 연결 ID가 한 번 바뀌었다. 같은 장소(`placeId`)였고 장소 안의 변경은 그대로 남아 있었다.
+
+---
+
+# U4 판단·보정 (2026-10-13)
+
+## 자동화된 통합 테스트 (외부 호출 없음)
+`test_estimate.py`(합성 DB와 합성 이미지로 `pending`, `record`, `report`, `plan`, `compose`와 명령줄), `test_overrides.py`(`set`, `unset`, `list`, `export`, `import`와 **복구 연습 시나리오**: 새 DB에 건물을 다시 넣고 불러오면 같은 최종값), `test_u4_db.py`, `test_build_luau.py`의 U4 시험(판단·보정이 덩어리 파일의 높이·색·속성에 들어가고 코드 주입이 막힌다)이 한다.
+
+## 실제 통합 확인 (첫 칸 `8930e0af13bffff`, 수동)
+
+### Scenario 1: 눈가림 판단 → 보고
+- **Test Steps**: `estimate.py pending`으로 건물 10개씩 받아 묶음 이미지를 보고 판단해 `record`한다. 122개를 끝낸 뒤 `report`.
+- **Expected Results**: 모든 건물이 판단되고 `report`가 상태, 일치율, 확인 목록을 낸다. 판단 전에는 항목에 대장·OSM 숫자가 없다.
+- **결과**: 13번(10~12개씩)에 122개를 기록했다. 층수 상태 verified 64, unverified 12, conflict 30, filled 11, none 5. 사진 층수가 대장과 같은 건물 75/104(72%; high 5/5, medium 59/74, low 11/25, 눈가림이 깨진 1개는 제외). 확인 목록 45개. 높이 근거 register 100, from_floors 17, photo_geometry 4, default 1.
+
+### Scenario 2: Studio에 새 값으로 칸 만들기
+- **Test Steps**: `build_luau.py`, `MapBuilder` 갱신, 덩어리 4개 실행, `verify`.
+- **Expected Results**: 부품 163개, `verify` 문제 없음, 건물 122개에 `HeightBasis`, `FloorsBasis`, `WallColor`, `Review`가 달리고 벽 색이 칠해진다.
+- **결과**: 통과(부품 163개, `Review` 45개, 벽 색 8종). 처음에는 속성이 안 달렸다: `require` 캐시 때문(Troubleshooting 참고). 모듈을 새 인스턴스로 바꾸고 다시 만들어 해결.
+
+### Scenario 3: 비교 쌍과 같이 확인하기
+- **Test Steps**: `plan`, Studio 카메라를 크롭 위치에 두고 `screen_capture`, `compose`, 쌍을 보고 어긋난 건물을 정한다.
+- **결과**: 136쌍 중 74개를 만들고 봤다(1~4번 묶음 62개 전부, 5~11번 묶음은 고정 시드 표본 12개; 사용자 결정으로 Q8의 "전체"를 바꿨다). 보정 0개, 대장 값 122개 유지.
+
+### Scenario 4: 복구 연습
+- **결과**: 통과. 새 DB에 `cells.py`, `register.py`를 다시 돌리고 `overrides.py import`하자 건물 122개의 최종값이 연습 전과 모든 필드에서 같았고 `export` 파일이 바이트까지 같았다. 사진 표(`captures`, `building_views`)는 대상이 아니다.
+
+### Scenario 5: 보정 `set`/`unset`과 다시 만들기 (실제 칸)
+- **결과**: **실제 칸에서는 해 보지 못했다**(보정이 0개라서). 이 경로는 자동 테스트(`test_u4_db.py`, `test_overrides.py`, `test_build_luau.py`)와 `MCP_Test`의 합성 칸 시험으로만 확인됐다. 첫 보정이 생길 때 한 번 더 확인한다.

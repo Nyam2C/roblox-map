@@ -826,3 +826,70 @@
 **Context**: U4 Build and Test, step 3. The 29 register-versus-photo disagreements stay as flagged `conflict` in the report, the final values are the register values; the review is recorded here as: checked in comparison pairs, register kept.
 
 ---
+
+## U4 Build and Test - Sample of the Remaining Batches
+**Timestamp**: 2026-10-13T20:20:00Z (approx.)
+**User Input**: "전부 대장 유지, 12개 표본, 커밋 푸시해" (see the decision entry above)
+**AI Response**: Committed and pushed (9272f7a, main). Drew the sample from batches 5 to 11 (74 buildings, none flagged) with a fixed seed (random.Random(20261013) over the sorted pair keys): gis:11173936, 11181583, 11185950, 11186638, 11192751, 11196440, 11198845, 11206216, 11209217, 11215159, 11216699, 11216703 (list kept in data/build/8930e0af13bffff/sample.json, git ignored). Made the 12 pairs one capture at a time (about 3.5 seconds each), restored the viewport camera and field of view (checked: same CFrame and 70), Auto 169 and Manual 0 unchanged. Looked at all 12: every house shows three floors in the photo (several with a roof terrace, round attic windows or a tower above the third floor), the box heights (9.2 to 10.5 m) look right against the neighbours, the wall colors are plausible (the brown and orange boxes read as lighter than the brick in the photo; the colors come from a fixed 12-color table). No correction. Totals: pairs seen 74 of 136 (batches 1 to 4 completely, 12 sampled pairs); register values kept for all 122 buildings; 0 overrides. Not done yet: recovery drill (needs a fresh database and a re-run of cells.py and register.py against Overpass and V-World, so it is proposed to the user first), frame-rate measurement (Studio window must stay in front), the user's own look at the cell in Studio and at the sample, Build and Test documents.
+**Context**: CONSTRUCTION - U4 Build and Test, end of step 3.
+
+---
+
+## U4 Build and Test - Go-Ahead for the Recovery Drill
+**Timestamp**: 2026-10-13T20:30:00Z (approx.)
+**AI Prompt**: Proposed the recovery drill (copy the database, new database, re-run cells.py and register.py against Overpass and V-World, overrides.py import, compare the final values) and asked whether to do it or the frame-rate measurement first.
+**User Response**: "복구 연습 먼저 진행해"
+**Status**: Approved. The real database is copied first and restored after the drill.
+**Context**: U4 Build and Test, step 5 (recovery drill, BR-8.6, runbook R-13).
+
+---
+
+## U4 Build and Test - Recovery Drill (BR-8.6, runbook R-13)
+**Timestamp**: 2026-10-13T21:00:00Z (approx.)
+**User Input**: "복구 연습 먼저 진행해" (see the entry above)
+**AI Response**: Ran the recovery drill on the first cell. Before: copied data/map.db and overrides/8930e0af13bffff.json (copy hash equal to the original) and dumped the final values of the 122 buildings (122 estimates, 0 overrides, 363 views, 232 captures). Moved the real database aside, ran cells.py (OSM: 68 fetched, 10 owned, 18 street features, about 4 s) and register.py (V-World 558 received, 122 buildings assembled, 106 with floors, 101 with height, about 1 s) into a fresh database: 122 buildings, 0 estimates, 0 overrides, 0 views, 0 captures. The final values of the empty database differ from the original in all 122 buildings (nothing is judged yet). Ran overrides.py import of overrides/8930e0af13bffff.json: 122 judgements, 0 overrides, 0 orphans. After the import the final values of all 122 buildings are identical to those before the drill (every field, compared as JSON), and overrides.py export wrote a file byte-identical to the original. Restored the real database (hash equal to the copy; 122 estimates, 363 views, 232 captures; final values identical). Removed the artifacts of the drill (the fresh database and the two automatic backups it made, which would have pushed older backups out of the rotation of 5). What the drill does not cover and the runbook says: the street-view tables (captures, building_views) are not part of the export; after a lost database capture.py has to be run again (the photos in captures/ stay on disk but the pairing is rebuilt; this was not tried here because it calls Naver). Note: during the drill two old shell wrapper processes from earlier sessions were visible in pgrep (their command lines contain the text of heredocs mentioning cells.py and capture.py); no pipeline script was running.
+**Context**: CONSTRUCTION - U4 Build and Test, step 5 done.
+
+---
+
+## U4 Build and Test - Go-Ahead for the Frame-Rate Measurement
+**Timestamp**: 2026-10-13T21:10:00Z (approx.)
+**AI Prompt**: Asked to keep the Studio window in front and not touch it during the measurement (about one minute) and whether the place was saved.
+**User Response**: "저장했어 프레임 측정 시작해"
+**Status**: Approved. The place is saved by the user.
+**Context**: U4 Build and Test, step 6 (walking frame rate, U4-NFR-P5).
+
+---
+
+## U4 Build and Test - Frame Rate: First Attempt Throttled
+**Timestamp**: 2026-10-13T21:30:00Z (approx.)
+**User Input**: "저장했어 프레임 측정 시작해"
+**AI Response**: Started the play test in Studio (Client datamodel, first cell with 169 descendants, spawn at the configured point) and recorded RenderStepped frame times. Standing still for 5 s gave 75 frames, exactly 15.0 FPS with every frame about 67 ms (worst 67.7 ms, 99th percentile 67.6 ms); 28 further 2-second windows over the next 56 s all gave 15 FPS. That is the Studio background limit seen in the U2 Build and Test (Studio window not in front), not the cost of the map, so no walking measurement was taken. Stopped the play test and returned to Edit mode; the camera, Auto cell and Manual were not changed by the test. Asked the user to bring the Studio window to the front and click into it before the next attempt.
+**Context**: CONSTRUCTION - U4 Build and Test, step 6 (frame rate), waiting for the user to put Studio in front.
+
+---
+
+## U4 Build and Test - Frame Rate: Second Attempt Still Throttled
+**Timestamp**: 2026-10-13T21:50:00Z (approx.)
+**User Input**: "준비됐어"
+**AI Response**: Started the play test again right after the message and waited 86 s for Studio to leave the 15 FPS background limit (43 two-second windows, all exactly 15 FPS), then a further 3 s window (45 frames, 15.0 FPS, worst frame 67.8 ms, 99th percentile 67.5 ms). Other readings in the same session: physics 60 FPS, Heartbeat time 0.18 ms, physics step 0.25 ms, instances 48,296 (Studio and the cell), CPU frame stat 67 ms (equal to the cap), GPU stat 0.00 (not informative in Studio). The game logic costs almost nothing; the render rate is held at 15 FPS from outside the map, so no walking measurement was taken. Stopped the play test. Options given to the user: try again with a longer wait and Studio verified in front and focused, or accept the U2 result (average 60 FPS, no frame under 30 FPS, 163 parts) because U4 does not change the part count (163 parts, only colors and attributes), with the limit of that argument stated.
+**Context**: CONSTRUCTION - U4 Build and Test, step 6 (frame rate), waiting for the user's choice.
+
+---
+
+## U4 Build and Test - Frame Rate Measured and Build and Test Documents
+**Timestamp**: 2026-10-13T22:30:00Z (approx.)
+**User Input**: "다시 해"
+**AI Response**: Started the play test and Studio was in front this time (60 FPS in the first 2-second window). Standing still for 5 s: 300 frames, average 60.0 FPS, worst frame 18.2 ms. Walk 1 (spawn to the road in the western houses, about 410 studs, 36.5 s): 2,188 frames, average 60.0 FPS, worst frame 20.9 ms, 99th percentile 17.8 ms, no frame slower than 30 FPS, no stall over 1 s. Walk 2 (to the tall commercial blocks in the north, 47.6 s): 2,854 frames, average 60.0 FPS, worst frame 18.3 ms, none slower than 30 FPS. Stopped the play test (Edit mode again). Collected the rest of the Build and Test numbers: compileall pass, 3 selftests pass, 413 tests collected, 412 passed and 1 skipped with six seeds, CI green for the three U4 pushes, pip-audit clean for the test requirements and for estimate.py, .env values not in 141 tracked files, the git history or the U4 logs, the export file without paths or personal data, report and plan 0.19 s, effective_buildings 1 ms for 122 buildings. Wrote the U4 sections of build-instructions.md, unit-test-instructions.md, integration-test-instructions.md, performance-test-instructions.md, security-test-instructions.md and build-and-test-summary.md under aidlc-docs/construction/build-and-test/ and stated openly: the real-cell override set/unset path was not exercised (0 overrides), the blind judgement slipped twice, Q8 was changed by the user to batches 1 to 4 plus a sample, and the first two frame-rate attempts were void because of the 15 FPS background limit. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U4 Build and Test, step 7-9 (documents, approval gate).
+
+---
+
+## U4 Build and Test - Approval
+**Timestamp**: 2026-10-13T22:50:00Z (approx.)
+**AI Prompt**: "Approve & Continue - Approve build and test results and proceed to Operations" (for U4: the unit is complete, the next unit U5 starts only when the user asks), and the question about commit and push. In between the user asked whether the buildings are only painted blocks without detail; answered yes (one painted box per building, height and color from the final values, flat roof, Concrete material, roof shape recorded but not built, no windows, doors or signs; details are U5).
+**User Response**: "ㄱㄱ U4 승인하고 커밋 푸시까지"
+**Status**: Approved (U4 only), commit and push authorized. U4 is complete. The user did not ask to start U5, so U5 has not been started.
+**Context**: U4 judgement and corrections is complete (code, Build and Test, first cell judged, built and checked in Studio, recovery drill and frame rate done). Next unit in the order is U5 details; it starts only when the user asks.
+
+---

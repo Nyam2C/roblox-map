@@ -83,3 +83,31 @@ uv run src/build_luau.py --cells 8930e0af13bffff        # data/build/<칸ID>/chu
 - **`not a valid ... H3 cell`**: 칸 ID가 해상도 9 형식이 아니다.
 - **Studio 연결 ID가 바뀌었다(`studio_id ... is not connected`)**: `list_roblox_studios`로 같은 장소(`placeId`)의 새 ID를 찾아 이어서 한다. 이번에 한 번 있었고 장소 안의 변경은 그대로 남아 있었다.
 - **`MapBuilder` 소스를 바꿨다**: 같은 방법으로 `Source`를 다시 쓴다. 한 칸의 재생성은 약 5 ms다.
+
+---
+
+# U4 판단·보정 (2026-10-13)
+
+## Prerequisites
+- **의존성**: 새로 들어온 것이 없다. `estimate.py`는 `pillow==12.3.0`, `h3==4.5.0`, `shapely==2.2.0`(`projection.py`와 numpy는 가져오지 않는다), `overrides.py`는 표준 라이브러리만 쓴다. 인라인 고정이 `tests/test_versions.py`로 점검된다.
+- **환경변수**: 없다(`estimate.py`, `overrides.py`는 비밀값을 쓰지 않는다. `build_luau.py`도 마찬가지).
+- **Studio**: Roblox Studio와 내장 MCP 서버. 칸을 다시 만들 때 `ServerStorage/MapBuilder`가 새 `studio/Builder.luau`와 같아야 한다.
+
+## 검증
+```bash
+python3 -m compileall -q src tests
+uv run src/estimate.py --selftest && uv run src/overrides.py --selftest && uv run src/build_luau.py --selftest
+uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ --collect-only -q
+```
+- **기대 출력**: 컴파일 오류 없음, `selftest ok` 세 줄, `413 tests collected`.
+
+## Studio 쪽 갱신 (Claude가 MCP로 한다)
+1. `studio/Builder.luau`의 내용으로 `ServerStorage/MapBuilder`의 `Source`를 바꾼다.
+2. **모듈을 복제하고 원본을 지워 새 인스턴스로 바꾼다**(`local fresh = old:Clone(); old:Destroy(); fresh.Parent = ServerStorage`). Studio는 `require` 결과를 인스턴스마다 캐시해서 `Source`만 바꾸면 예전 코드가 계속 실행된다.
+3. `MCP_Test` 안의 시험용 폴더에 건물 하나를 만들어 벽 색과 새 속성이 달리는지 확인하고 시험 물체를 지운다.
+4. `uv run src/build_luau.py --cells <칸ID>`로 만든 덩어리를 차례로 `execute_luau`(Edit)로 실행하고 `Builder.verify`.
+
+## Troubleshooting
+- **`verify`는 통과하는데 건물에 `HeightBasis`, `WallColor`가 없다**: 위 2번을 안 한 것이다(예전 Builder가 캐시에 남아 있다). 모듈을 새 인스턴스로 바꾸고 칸을 다시 만든다.
+- **`screen_capture`가 `Request timeout`**: 캡처를 병렬로 부르면 난다. 한 장씩 부른다(장당 약 4초).
+- **인자 없는 `screen_capture`가 엉뚱한 시점을 찍는다**: 항상 `camera_position`과 `look_at_position`을 준다.

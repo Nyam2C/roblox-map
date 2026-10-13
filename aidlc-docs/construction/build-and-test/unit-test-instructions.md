@@ -52,3 +52,20 @@ CAPTURE_RESOLVED=/tmp/capture-resolved.txt uv run --python 3.14 --with-requireme
 - 파일별 U2: `test_layout.py` 48(P2-1~P2-7, P2-9와 예시), `test_build_luau.py` 43(코드 주입 방지, 계획, 항목 순서, P2-8, 파일, DB, 실행 기록), `test_common.py` +3(새 설정 검증, 도로 폭 표 병합, 스폰 쌍), `test_versions.py` +2(`build_luau.py` 고정, `Builder.luau` 안전 검사).
 - **테스트가 실제로 잡는지** 규칙 12곳을 일부러 깨뜨려 확인했다(`layout` 5, `build_luau` 5, `Builder.luau` 2). 모두 잡혔고, 정렬 변이는 처음엔 살아남아 항목 순서 테스트를 더했다.
 - 생성 중 속성 테스트가 알려 준 것: 삼각형과 마름모 같은 대칭 사각형은 최소 면적 박스가 하나로 정해지지 않는다(설계 BR-2.2에 기록).
+
+---
+
+# U4 판단·보정 (2026-10-13)
+
+## 실행
+```bash
+uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
+uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/test_judgement.py tests/test_review.py tests/test_u4_db.py tests/test_estimate.py tests/test_overrides.py   # U4만
+```
+
+## 결과
+- **전체**: 412개 통과, 1개 생략(`CAPTURE_RESOLVED`가 없을 때만 건너뛰는 `capture.py` 고정 일치 검사). 시드 1, 7, 42, 2026, 99999, 20261013 모두 같은 결과, 약 8초. CI(GitHub Actions)는 U4 푸시 3번 모두 통과(약 30~45초).
+- **U4 파일**: `test_judgement.py` 54, `test_review.py` 17, `test_u4_db.py` 29, `test_estimate.py` 16, `test_overrides.py` 10 = 126개. 기존 파일에도 U4 시험을 더했다(`test_common.py`, `test_layout.py`, `test_build_luau.py`, `test_versions.py`, `test_db.py`).
+- **속성 P4-1~P4-16**: 층수 표와 높이 규칙과 보정 우선과 확인 목록과 검증과 내보내기 형식(P4-1, 2, 3, 7, 8, 9, 12)은 `test_judgement.py`, 눈가림과 순서와 시야각과 방위와 일치율(P4-10, 11, 13, 14, 15)은 `test_review.py`, 보정 되돌리기와 교환과 멱등과 왕복과 원자성과 고아(P4-3~P4-7, P4-9, P4-16)는 `test_u4_db.py`.
+- **테스트가 실제로 잡는지**: 규칙 12곳(층수 표 한 칸, 높이 보정 무시, 층수가 바뀌었는데 대장 높이 유지, 눈가림 필드 노출, 내보내기 행 정렬, `record` 일부만 저장, `set_override` 멱등 깨짐, 눈가림 깨진 건물 통계 포함, 새 글자 검사 제거, `Review` 구분자를 쉼표로, 내보내기를 제자리에 쓰기, 사진 없는 건물을 계획에 넣기)을 일부러 깨뜨려서 모두 실패로 잡히는 것을 확인했다.
+- **생성 중에 테스트가 알려 준 것**: 시야각이 아주 작을 때 4:3 자르기가 반올림으로 어긋난다(실제 크롭은 60~100°라 해당 없음, 속성 범위를 20~100°로 좁힘). 전역 Pillow 픽셀 한도가 `capture.py` 설정과 한 프로세스에서 부딪쳐서 `estimate.py`는 이미지를 열 때 크기를 먼저 보는 방식으로 바꿨다.

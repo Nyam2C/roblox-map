@@ -54,3 +54,24 @@ CI가 푸시마다 같은 명령을 돌린다. 결과: **No known vulnerabilitie
 
 ### 비밀값
 이 유닛은 키를 쓰지 않는다. `.env` 값을 모든 추적 파일에서 검색했다: 없음.
+
+---
+
+# U4 판단·보정 (2026-10-13)
+
+## 의존성 취약점
+```bash
+uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r tests/requirements.txt
+uv export --script src/estimate.py --no-hashes --no-annotate --no-header > /tmp/estimate-resolved.txt
+uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r /tmp/estimate-resolved.txt --no-deps --disable-pip
+```
+결과: 둘 다 **No known vulnerabilities found**. 새 의존성은 없다.
+
+## 비밀값과 개인 정보
+- `.env` 값 2개를 추적 가능한 파일 141개, 전체 git 이력, U4 로그 3개에서 검색했다: 없음. `overrides/8930e0af13bffff.json`에 파일 경로, 사진 확장자, 절대 경로, URL이 없고 메모에 사람·번호판·상호·한글이 없다(122개 메모 검사).
+- `captures/`와 `data/`는 `.gitignore`에 있고(`git check-ignore`) 비교 이미지와 묶음 이미지는 `captures/` 안에만 있다. 이미지는 판단하는 동안 이 대화에서만 봤고 Artifact나 외부 서비스에 올리지 않았다.
+
+## 입력 검증과 안전
+- 판단·보정·불러오기 파일 검증, 건물 ID 허용 문자, 경로가 `captures/` 밖으로 나가는 것 거부, 캡처 이미지 크기·형식 거부, 한 건이라도 틀리면 전체 거부(`test_judgement.py`, `test_u4_db.py`, `test_estimate.py`, `test_overrides.py`).
+- Studio로 가는 새 글자(`HeightBasis`, `FloorsBasis`, `WallColor`, `Review`)도 `build_luau.py`의 허용 문자 검사를 거치고, 어긋난 건물은 건너뛰어 코드로 새지 않는다(`test_build_luau.py`). `Builder.luau`의 안전 검사(`loadstring` 등 없음, 지우는 것은 `Auto/<칸ID>` 하나)는 `test_versions.py`가 계속 확인한다.
+- Studio 변경: 비교 쌍을 만드는 동안 바뀐 것은 뷰포트 카메라뿐이고 매번 되돌렸다(CFrame과 시야각 확인). `Auto`와 `Manual`은 그대로였다. `MCP_Test` 시험 물체는 모두 지웠다.

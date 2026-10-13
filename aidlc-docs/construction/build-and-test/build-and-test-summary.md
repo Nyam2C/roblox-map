@@ -199,3 +199,66 @@ U3의 Build and Test가 끝났다. 승인하면 U2 Studio 생성기로 넘어간
 
 ## Next Steps
 U2의 Build and Test가 끝났다. 승인하면 U4 판단·보정(Functional Design)으로 넘어간다. 그 전에 Studio의 결과를 저장해 두는 것을 권한다. 나머지 두 칸은 `cells.py`, `register.py`, `capture.py`로 데이터를 받은 뒤 `build_luau.py`로 만든다.
+
+---
+
+# U4 판단·보정 (2026-10-13)
+
+## Build Status
+- **Build Tool**: `uv` 0.11.28, Python 3.11 이상(개발 3.14). 컴파일 단계는 없다. Studio 내장 MCP.
+- **Build Status**: 성공(`compileall` 통과, `selftest` 세 스크립트 통과, 테스트 413개 수집)
+- **Build Artifacts**: `overrides/<칸ID>.json`(git 포함), `captures/<칸ID>/sheets/`와 `review/`, `data/build/<칸ID>/`(git 제외), Studio의 `ServerStorage/MapBuilder`(새 Builder)와 `Workspace/Auto/<칸ID>`.
+
+## Test Execution Summary
+
+### Unit Tests
+- **Total Tests**: 413(U4 126 + 기존에 U4 시험을 더한 것), **Passed**: 412, **Skipped**: 1(`CAPTURE_RESOLVED` 없을 때만), **Failed**: 0. 시드 6개, 약 8초. CI 3번 통과.
+- **Status**: Pass. 규칙 12곳을 일부러 깨뜨려 모두 잡혔다. 속성 P4-1~P4-16 대응.
+
+### Integration Tests
+- **자동**: 합성 DB·이미지로 명령줄 전체와 복구 연습 시나리오, 덩어리 파일의 코드 주입 방지.
+- **실제**: 5개 시나리오 중 4개 통과(눈가림 판단과 보고, Studio 갱신, 비교 쌍, 복구 연습). **1개는 해 보지 못했다**: 실제 칸에서 보정 `set`/`unset` 후 다시 만들기(보정이 0개라서). 자동 시험으로만 확인.
+- **Status**: Pass(위 한 건 제외)
+
+### Performance Tests
+- 묶음 이미지 1.8초, 쌍 합성 22 ms, 최종값 합치기 1 ms, `report` 0.19초, Studio 덩어리 2~9 ms. 걸을 때 평균 60.0 FPS, 가장 느린 프레임 20.9 ms, 30 FPS보다 느린 프레임 0(두 번 걷기, 합 84초, 5,042프레임).
+- **Status**: Pass(걷기는 Studio 창이 앞에 있을 때. 처음 두 시도는 15 FPS 제한에 걸려 무효)
+
+### Additional Tests
+- **Security**: Pass(`pip-audit` 취약점 없음, 비밀값 검색 통과, 내보내기 파일에 경로·개인 정보 없음)
+- **Contract / E2E**: N/A
+
+## 첫 칸 `8930e0af13bffff` 실제 결과
+
+| 항목 | 값 |
+|---|---|
+| 판단한 건물 | 122개(눈가림, 13번에 나눠서) |
+| 사진 층수 = 대장 층수 | 75 / 104 (72%). high 5/5, medium 59/74 (80%), low 11/25 (44%) |
+| 층수 상태 | verified 64, unverified 12, **conflict 30**, filled 11, none 5 |
+| 대장에 층수가 없던 16개 | 11개를 사진으로 채움(대부분 작은 구조물과 학교 건물, 확신 medium·low), 4개는 높이만 추정, 1개는 기본 10 m |
+| 높이 근거 | register 100, from_floors 17, photo_geometry 4, default 1 |
+| 벽 색 | 적벽돌 37, 밝은 회색 37, 갈색 31, 베이지 8, 주황 3, 진한 회색 3, 흰색 2, 분홍 1. 지붕 평지붕 89, 모임지붕 27, 박공 5, 한쪽 경사 1 |
+| 비교 쌍 | 136쌍 중 74개를 만들고 봄. 보정 **0개**, 대장 값 122개 유지 |
+| Studio | 부품 163개, `verify` 문제 없음, 건물 122개에 새 속성, `Review` 45개 |
+| 복구 연습 | 성공(최종값 122개 전부 같음, 내보내기 파일 바이트까지 같음) |
+| 걷기 | 평균 60.0 FPS, 30 FPS 미만 프레임 0 |
+
+## 발견한 것
+
+1. **사진 층수가 대장보다 한쪽으로 쏠렸다.** 어긋난 29건 중 19건은 제가 대장보다 1층을 더 셌다(대장 3층에 사진 4층이 17건). 비교 쌍을 보니 대부분 지붕창, 다락 창, 옥상 테라스, 높은 계단탑을 한 층으로 센 것으로 보인다. 층수 세는 규칙(BR-2.5)에 "지붕창, 다락, 계단탑 윗부분은 층이 아니다"를 분명히 적는 것이 좋겠다(다른 칸을 판단할 때). 사진 값이 high 확신으로 대장과 달랐던 건물은 0개여서 사진이 대장을 바꾼 건물은 없다.
+2. **대장에 값이 없던 건물은 사진으로 채웠지만 믿을 수 있는 정도는 낮다.** 학교 건물과 작은 시설은 박스가 실제와 크게 달라(맞춤 0.2~0.5) 비교 쌍이 의미가 없었다. U5에서 수작업으로 다룬다.
+3. **`MapBuilder.Source`를 바꾸면 안 되고 모듈을 새 인스턴스로 바꿔야 한다.** `require` 캐시 때문에 `verify`는 통과하는데 새 속성과 색이 안 달렸다(문서화).
+4. **Studio 캡처는 한 장씩만 된다.** 병렬로 부르면 타임아웃이 나고 한 장에 3.5~5초가 걸린다. 136쌍을 전부 만들면 약 10분이다.
+5. **프레임 측정은 Studio 창이 앞에 있을 때만 유효하다.** 처음 두 번은 정확히 15 FPS로 고정(백그라운드 제한)이라 무효였다.
+6. **눈가림은 약속이라 두 번 어긋났다.** 비교 이미지 시험(NFR 단계)에서 건물 하나(`gis:11081057`)의 크롭과 높이를 봐서 일치율에서 뺐고, 판단이 다 끝나기 전에 `report`를 한 번 돌렸다(10개 건물에 대장 값이 있다는 것만 알게 됨). `gis:11201615`는 다른 건물로 잘못 보고 기록했다가 고쳤다.
+7. **10 KB 덩어리 경고선은 측정한 한계가 아니다.** 9 KB 덩어리도 Studio 안에서 2~9 ms였다.
+8. **Q8을 사용자가 바꿨다**: 비교 쌍 전체 대신 1~4번 묶음 전부 + 나머지는 표본 12개.
+
+## Overall Status
+- **Build**: 성공
+- **All Tests**: Pass(412 + 1 생략, 실제 칸 확인 4/5)
+- **Ready for the next unit (U5)**: 예. U5가 쓸 건물 부품에는 `BuildingId`, `Floors`, `HeightM`, `FitRatio`, `HeightBasis`, `FloorsBasis`, `WallColor`, `Review`가 있고 지붕 모양(`roof_shape`)은 `estimates`에 기록되어 있다.
+- **Ready for Operations**: 해당 없음(U5가 남았다)
+
+## Next Steps
+U4의 Build and Test가 끝났다. 승인하면 U4가 끝나고 U5 디테일(지붕, 층 구분, 창·문, 간판, 가로시설, 학교 건물 수작업)로 넘어간다. 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)은 `cells.py`, `register.py`, `capture.py`로 데이터를 받은 뒤 같은 흐름(판단, 만들기, 확인)을 반복한다. Studio의 현재 결과는 사용자가 저장한 상태다.
