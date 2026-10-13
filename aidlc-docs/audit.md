@@ -1120,3 +1120,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - U7 Requirements Analysis (interiors).
 
 ---
+
+## U7 Plan Only
+**Timestamp**: 2026-10-13T15:13:46Z
+**User Response**: Q6-Q8 "다 A로"; then "지금 진행하지말고 계획만 잘 세우는걸로 안되나?"
+**AI Response**: Recorded Q6-Q8 = A. Stopped before any interior code (only read the code and re-measured the wedge slope in Studio: high side +Z). Wrote aidlc-docs/construction/plans/u7-real-shapes-interiors-plan.md: hollow shells (invisible building volume keeps the attributes, colliding walls, no wall between sibling boxes, front door opening and frame, windows through the wall), real floors (slabs, switchback wedge stairs, elevator prompts for apartments and 6+ floor shops), interior kits by use, one light per floor, about 50k parts for three cells with StreamingEnabled, Manual scripts anchored to outlines (src/anchors.py), tests P7-1..8, and an order with user checkpoints (three test buildings in MCP_Test first). Waiting for approval.
+**Context**: CONSTRUCTION - U7 planning.
+
+---
