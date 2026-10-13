@@ -759,3 +759,20 @@
 **Context**: U4 Code Generation approved. Committing and pushing the code, tests and documents, then starting U4 Build and Test.
 
 ---
+
+## U4 Build and Test - Blind Judgement of the First Cell
+**Timestamp**: 2026-10-13T16:30:00Z (approx.)
+**User Input**: (none, continuation after "ㄱㄱ 승인하고 커밋 푸시까지"; the code was committed and pushed as 43f065c)
+**AI Response**: Judged all 122 first-cell buildings from the sheet images in 13 rounds of 10 to 12 (estimate.py pending, then Read of the sheet images, then estimate.py record). Floors (above ground, pilotis counted, rooftop and basement not counted), confidence, wall color and roof shape were recorded without looking at the register or OSM numbers, with these exceptions that are stated in the notes and in the results: (1) gis:11081057 was not blind (its crop and Studio height had been seen during the NFR camera test) and is left out of the agreement rate through blind_broken; (2) one correction inside the session: gis:11201615 was first recorded as a small pink building and corrected after the next batch showed that the pink building belongs to gis:11192750 (it is an open pavilion; the record was overwritten, same blind rules); (3) report was run once when 10 buildings were still not judged (a slip against the rule that report runs only after judging); it showed only counts and the review list, and nothing about the floors of those 10 beyond that they have register data with normal heights. Results after all 122: floors status verified 64, unverified 12, conflict 30, filled 11, none 5; height basis register 100, from_floors 17, photo_geometry 4, default 1; flags conflict 30, filled 11, low_confidence 8, default_height 1, height_out_of_range 1; no change by high confidence (changed 0). Photo count agrees with the register on 75 of 104 buildings (72%; high 5/5, medium 59/74, low 11/25; 1 blind-broken building left out). Of the 29 disagreements, 19 are photo = register + 1 (17 of them register 3 / photo 4) and 8 are photo = register - 1; semi-basements explain only part of the +1 (11 of 40 three-floor buildings with a register basement against 7 of 44 without). overrides/8930e0af13bffff.json holds the 122 judgements (43 KB, notes checked for names, brands and numbers: none). The commit of this file is proposed to the user (NFR Q3=A). Not done yet: MapBuilder update, cell rebuild, comparison pairs, corrections, recovery drill.
+**Context**: CONSTRUCTION - U4 Build and Test, step 1 (judgement), before the first user check.
+
+---
+
+## U4 Build and Test - Commit of the Judgements and Go-Ahead for the Studio Update
+**Timestamp**: 2026-10-13T16:45:00Z (approx.)
+**AI Prompt**: Proposed (NFR Q3=A) to commit overrides/8930e0af13bffff.json (122 judgements) and asked whether to update ServerStorage/MapBuilder, rebuild the first cell and make the comparison pairs.
+**User Response**: "ㄱㄱ 커밋 푸시하고 Studio 갱신해"
+**Status**: Approved: commit and push, then update MapBuilder and rebuild the first cell in Studio (Auto/<cell> only; Manual is empty and untouched).
+**Context**: U4 Build and Test, steps 2 and 3.
+
+---

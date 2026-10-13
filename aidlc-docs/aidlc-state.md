@@ -3,7 +3,7 @@
 ## Project Information
 - **Project Type**: Brownfield (minimal: 50-line prototype script)
 - **Start Date**: 2026-10-12T12:47:25Z
-- **Current Stage**: CONSTRUCTION - U1, U2 and U3 complete. U4 Functional Design approved (2026-10-13). U4 NFR Requirements approved (2026-10-13). U4 Code Generation approved (2026-10-13), U4 Build and Test next (NFR Design skipped)
+- **Current Stage**: CONSTRUCTION - U1, U2 and U3 complete. U4 Functional Design approved (2026-10-13). U4 NFR Requirements approved (2026-10-13). U4 Code Generation approved and pushed (43f065c). U4 Build and Test in progress: 122 blind judgements recorded (2026-10-13), next MapBuilder update, cell rebuild, comparison pairs, corrections, recovery drill (NFR Design skipped)
 - **AI-DLC Rules Version**: 1.0.1 (local clone of awslabs/aidlc-workflows, copied to `.aidlc-rule-details/`)
 
 ## Workspace State
