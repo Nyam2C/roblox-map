@@ -570,3 +570,97 @@
 **Context**: CONSTRUCTION - U2 Functional Design, Step 6-7 gate.
 
 ---
+
+## U2 Functional Design - Approval
+**Timestamp**: 2026-10-12T20:25:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - 승인하면 U2 NFR Requirements로 넘어갑니다."
+**User Response**: "ㄱㄱ U2 승인하고 NFR 시작해"
+**Status**: Approved
+**Context**: U2 Functional Design approved. Starting U2 NFR Requirements (applied on top of the U1 and U3 decisions, performance criteria added).
+
+---
+
+## U2 NFR Requirements - Plan and Questions Issued
+**Timestamp**: 2026-10-12T20:55:00Z (approx.)
+**User Input**: "ㄱㄱ U2 승인하고 NFR 시작해" (logged above as the U2 Functional Design approval)
+**AI Response**: Read the NFR Requirements rules and the U3 NFR plan. Ran feasibility probes in Studio, limited to Workspace.MCP_Test and cleaned up afterwards (MCP_Test back to its two original parts, ServerStorage empty): the yaw convention in BR-1.4 is correct (checked on a real building), a ModuleScript Source can be written and required, a realistic 50-building chunk (3.7 KB) runs in 4.6 ms, Manual-wins and regeneration behave as designed, SpawnLocation defaults to Duration 10 so 0 must be set explicitly, and StreamingEnabled is on in this place. Created aidlc-docs/construction/plans/u2-studio-builder-nfr-requirements-plan.md with the probe results, eleven design defaults (N-U2-1 to N-U2-11, including Luau string escaping against code injection from external data) and four questions with recommendations: performance criterion, streaming, Studio backup, Luau checks in CI. Nothing remains changed in Studio. Waiting for the answers.
+**Context**: CONSTRUCTION - U2 NFR Requirements, Step 3-5 gate (questions in the plan file).
+
+---
+
+## U2 NFR Requirements - Answers Received and Artifacts Generated
+**Timestamp**: 2026-10-12T21:15:00Z (approx.)
+**User Input**: "A A A A 커밋 푸시까지"
+**AI Response**: Recorded Q1=A (walking performance: average 60 FPS or more, momentary minimum 30 FPS or more, no stall over 1 second, measured in the user's Studio play test, first cell at the end of U2 and three cells at the end of U5), Q2=A (turn StreamingEnabled off, set once by Claude at the first generation), Q3=A (the user makes one .rbxl copy before the first generation, then Version History, and copies before big changes from U5 on), Q4=A (no Luau check in CI, Studio verify and S-1 to S-6 instead). No contradictions, no follow-up questions. Generated aidlc-docs/construction/u2-studio-builder/nfr-requirements/{nfr-requirements,tech-stack-decisions}.md: scalability and part budget, performance (Python 5 s, Studio call 1 s, chunk file warning above 10 KB, frame-rate criterion), recovery runbook R-10 to R-12, security (code-injection guard for external data placed into Luau, delete scope limited to Auto/<cell>, no loadstring), reliability, maintainability (properties P2-1 to P2-9, Builder.verify), usability, Studio MCP use. Extension compliance: Security compliant or N/A with no new exceptions (SECURITY-01 at rest and SECURITY-03 central log stay as the U1 exceptions), Resiliency compliant, PBT-09 unchanged. No new dependencies. No blocking findings. Commit and push authorized by the same message. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U2 NFR Requirements, Step 7-8 gate. NFR Design for U2 is skipped as planned (patterns decided in U1).
+
+---
+
+## U2 NFR Requirements - Approval
+**Timestamp**: 2026-10-12T21:30:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - 승인하면 U2 Code Generation으로 넘어갑니다(NFR Design은 계획대로 건너뜁니다)."
+**User Response**: "ㄱㄱ U2 승인하고 코드 생성 시작해"
+**Status**: Approved
+**Context**: U2 NFR Requirements approved. U2 NFR Design is skipped as planned. Starting U2 Code Generation Part 1 (Planning).
+
+---
+
+## U2 Code Generation - Plan Presented
+**Timestamp**: 2026-10-12T21:45:00Z (approx.)
+**User Input**: "ㄱㄱ U2 승인하고 코드 생성 시작해" (logged above as the U2 NFR Requirements approval)
+**AI Response**: Created aidlc-docs/construction/plans/u2-studio-builder-code-generation-plan.md: 11 numbered steps. Settings and a shared height function moved from projection.py to common.py (so build_luau.py needs no numpy or pillow); layout.py in four parts (coordinates, building boxes, roads and sidewalks, ground, spawn, ordering and chunks) with its property tests P2-1 to P2-9; build_luau.py (database read, Luau text with string escaping against code injection, chunk and manifest files, run record, size warning, --selftest) with its tests; studio/Builder.luau (begin, add, finish, verify) tested only inside Workspace.MCP_Test; version-pin test, CLAUDE.md and code summary; post-generation checks. The real first-cell Studio build, the place settings changes, the scale check, the spawn proposal and the frame-rate measurement are left to Build and Test and need the user's .rbxl copy first. Approval prompt: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u2-studio-builder-code-generation-plan.md. Ready to proceed to generation?"
+**Context**: CONSTRUCTION - U2 Code Generation Part 1, Step 6 gate.
+
+---
+
+## U2 Code Generation - Plan Approval
+**Timestamp**: 2026-10-12T21:55:00Z (approx.)
+**AI Prompt**: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u2-studio-builder-code-generation-plan.md. Ready to proceed to generation?" and the question about commit and push
+**User Response**: "ㄱㄱ 계획 승인하고 커밋 푸시까지"
+**Status**: Approved, commit and push authorized (for this plan commit)
+**Context**: U2 Code Generation Part 1 complete, starting Part 2 (Generation) at plan step 1.
+
+---
+
+## U2 Code Generation - Generated
+**Timestamp**: 2026-10-12T23:00:00Z (approx.)
+**User Input**: (none, execution of the approved plan)
+**AI Response**: Executed the 11 plan steps. Created src/layout.py (world frame, building boxes by minimum-area rotated rectangle, road, path and sidewalk pieces with the owner-cell rule by segment midpoint, ground slab, spawn, ordering and chunks), src/build_luau.py (database read, Luau text with a character whitelist against code injection, chunk and manifest files, run record, size warning, --selftest), studio/Builder.luau (begin, add, finish, verify), tests/test_layout.py (48) and tests/test_build_luau.py (43), code-summary.md; modified common.py (U2 settings, building_height_m moved here), projection.py (re-exports it), config.toml, tests/generators.py, tests/test_common.py, tests/test_versions.py, CLAUDE.md and the BR-2.2 design rule (triangles have several equally good boxes, found by a property test). 248 tests pass with seeds 1, 7, 42, 2026 and 99999; 12 deliberate code breaks (5 in layout, 5 in build_luau, 2 in Builder.luau) were all caught, one of them only after adding an item-order test. Real first-cell run of build_luau.py (read only): 162 items (ground 1, road 29, path 2, sidewalk 8, building 122), 4 chunk files of 1.9 to 6.6 KB, 9 poor-fit buildings, matching the earlier estimate. Studio sandbox test inside Workspace.MCP_Test only: the generated chunk files ran as they are, 19 parts made plus 1 skipped for Manual (matching the manifest of 20), verify reported no problem, read-back positions, sizes and rotation axes matched, spawn properties correct, regeneration gave the same result, other cell folders and Manual were kept, bad cell ids, unknown kinds and add before begin were refused; all test objects were removed and MCP_Test is back to its two original parts. Deviations from the plan: shorter chunk keys with one look table per chunk, counters kept in folder attributes, spawn_item signature, building_height_m moved to common.py. Post-generation checks: everything compiles, no secrets in files, no duplicate files. The real first-cell Studio build, place settings changes, scale check, spawn proposal and frame-rate measurement are left to Build and Test and need the user's .rbxl copy first. Presented the completion message.
+**Context**: CONSTRUCTION - U2 Code Generation Part 2, Step 14-15 gate.
+
+---
+
+## U2 Code Generation - Approval
+**Timestamp**: 2026-10-12T23:15:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - 승인하면 U2 Build and Test로 넘어갑니다." and the question about commit and push
+**User Response**: "ㄱㄱ U2 승인하고 빌드앤테스트 시작해 커밋 푸시까지"
+**Status**: Approved, commit and push authorized
+**Context**: U2 Code Generation approved. Committing the U2 code and documents, then starting U2 Build and Test. The place settings changes and the first-cell Studio build wait for the user's confirmation that the .rbxl copy exists (NFR A2).
+
+---
+
+## U2 Build and Test - Backup Copy Confirmed
+**Timestamp**: 2026-10-12T23:45:00Z (approx.)
+**AI Prompt**: Asked the user to download a .rbxl copy of the place before any change in Studio (NFR A2); explained the File menu choice ("Download a Copy") and the save location (Documents, name 10122026_1-before-U2).
+**User Response**: "복사본 만들었어"
+**Status**: Confirmed. The place settings changes, the MapBuilder install and the first-cell build may start.
+**Context**: U2 Build and Test. Nothing had been changed in the Studio place before this confirmation.
+
+---
+
+## U2 Build and Test Stage
+**Timestamp**: 2026-10-13T00:30:00Z (approx.)
+**User Input**: "ㄱㄱ U2 승인하고 빌드앤테스트 시작해 커밋 푸시까지", "복사본 만들었어" (see the entries above), then the answers "B 노랑: 신흥로238번길" for the spawn point and "3.6 그대로 확정" for the scale.
+**AI Response**: Waited for the .rbxl copy before touching the place (the user made it with Download a Copy, Documents, 85 KB). Changed the place settings (streaming off, Baseplate hidden, default SpawnLocation off, with the old values recorded), installed ServerStorage/MapBuilder, built the first cell from the generated chunk files (162 parts, verify clean, read-back values match), checked Manual-wins and regeneration on the real cell (161 + 1 skipped, same result after regenerating, other cell folders kept), proposed four spawn candidates as markers, and after the user chose the Sinheung-ro 238beon-gil pedestrian path set spawn_lat 37.504483, spawn_lon 126.77861, spawn_yaw_deg -62 in config.toml and rebuilt (163 parts, verify clean, spawn faces the school). Play test: the character spawns on the spawn point and walks to the road; walking into the main building has no route. Frame rate: 60 FPS average with no frame slower than 30 FPS over 26.5 s of walking (and at idle with or without the map), but one run was fixed at 15 FPS, a background throttle of the Studio window and not a map cost. The Studio connection id changed once; the same placeId came back with all changes intact. Python side: build_luau.py takes 0.2 s. Updated the Build and Test documents and CLAUDE.md. All test objects were removed; MCP_Test is back to its two original parts. Commit and push authorized by the opening message. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U2 Build and Test, approval gate.
+
+---
+
+## U2 Build and Test - Approval
+**Timestamp**: 2026-10-13T00:50:00Z (approx.)
+**AI Prompt**: "Approve & Continue - 승인하면 U2가 끝나고 U4 판단·보정으로 넘어갑니다." and the advice to save the Studio place first; the user then asked how to save and was told File > Save to Roblox.
+**User Response**: "저장했어 U2만 승인하고 커밋 푸시까지"
+**Status**: Approved (U2 only). U2 is complete. The user did not ask to start U4, so U4 has not been started. Commit and push authorized.
+**Context**: U2 Studio builder is complete (code, Build and Test, first cell built and saved in Studio, spawn and scale confirmed). Next unit in the order is U4 judgement and corrections; it starts only when the user asks.
+
+---

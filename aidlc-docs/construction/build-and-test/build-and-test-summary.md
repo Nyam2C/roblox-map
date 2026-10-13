@@ -1,6 +1,6 @@
 # Build and Test Summary
 
-범위: U1 데이터 기반, U3 거리뷰 캡처 (2026-10-13). 이후 유닛이 끝날 때마다 이 문서에 해당 유닛의 결과를 추가한다. U3는 맨 아래에 있다.
+범위: U1 데이터 기반, U3 거리뷰 캡처, U2 Studio 생성기 (2026-10-13). 이후 유닛이 끝날 때마다 이 문서에 해당 유닛의 결과를 추가한다. U3와 U2는 아래로 이어진다.
 
 ## Build Status
 - **Build Tool**: `uv` 0.11.28, Python 3.14.6. 컴파일 단계는 없다.
@@ -137,3 +137,65 @@ U1의 Build and Test가 끝났다. 승인하면 U3 거리뷰 캡처를 시작한
 
 ## Next Steps
 U3의 Build and Test가 끝났다. 승인하면 U2 Studio 생성기로 넘어간다. 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)의 캡처는 U1의 `cells.py`, `register.py`로 건물을 받은 뒤 `capture.py --cells`로 돌린다.
+
+---
+
+# U2 Studio 생성기 (2026-10-13)
+
+## Build Status
+- **Build Tool**: `uv` 0.11.28(Python 3.11 이상), Roblox Studio 0.742와 내장 MCP 서버. 컴파일 단계는 없다.
+- **Build Status**: 성공 (전체 `py_compile` 통과, `build_luau.py --selftest` 통과, 테스트 248개 수집)
+- **Build Artifacts**: 실행하면 `data/build/<칸ID>/`(git 제외)가 생기고, Studio에는 `Workspace/Auto/<칸ID>`, `ServerStorage/MapBuilder`, 빈 `Workspace/Manual`이 생긴다.
+
+## Test Execution Summary
+
+### Unit Tests
+- **Total Tests**: 248 (U1 93 + U3 59 + U2 96, 속성 P2-1~P2-9 포함), **Passed**: 248, **Failed**: 0 (시드 5개, 약 5초)
+- **Status**: Pass. 규칙 12곳을 일부러 깨뜨려 테스트가 잡는지 확인했다.
+
+### Integration Tests
+- **자동**: 합성 DB로 덩어리·manifest·정렬·같은 입력은 같은 글자·코드 주입 방지·실행 기록(`test_build_luau.py`).
+- **실제 Studio**: 시나리오 3개 모두 통과(첫 칸 생성과 `verify`, 수작업 우선과 재생성, 스폰에서 걷기).
+- **Status**: Pass
+
+### Performance Tests
+- Python 0.2초(요구 5초), 한 칸 재생성 3.6~5.6 ms(호출당 1초 요구), 걸을 때 평균 60 FPS와 느린 프레임 0(창이 앞에 있을 때, 요구 평균 60 / 최저 30).
+- **Status**: Pass. 단, Studio 창이 뒤에 있으면 Studio가 15 FPS로 제한된다(발견한 것 6번).
+
+### Additional Tests
+- **Security**: Pass (`pip-audit` 통과, 코드 주입 방지 테스트, `Builder.luau` 안전 검사, 키 검색 통과)
+- **Contract / E2E**: N/A (U4가 이 칸을 Studio에서 확인하는 일이 end-to-end의 시작이다)
+- **CI**: GitHub Actions 통과(`48cdd2d`)
+
+## 첫 칸 `8930e0af13bffff` 실제 결과
+
+| 항목 | 값 |
+|---|---|
+| Studio에 만든 부품 | **163개**: 땅 1, 도로 29, 보행로 2, 인도 8, 건물 122, 스폰 1. `verify` 문제 없음 |
+| 덩어리 | 4개(5.4 / 6.6 / 6.6 / 2.0 KB), 경고 0개 |
+| 읽어 온 값 | 위치, 크기, 회전축이 덩어리 값과 일치(건물, 도로, 인도, 땅, 스폰) |
+| 수작업 우선 / 재생성 | `Manual`에 같은 `BuildingId`가 있으면 161개 + 건너뜀 1개. 다시 만든 결과가 처음과 같고 다른 칸 폴더가 유지됨 |
+| 스폰 | **신흥로238번길(보행로) 위 `(37.504483, 126.77861)`, yaw −62°**. 플레이에서 정확히 거기서 시작해 본관 쪽을 본다 |
+| 스케일 | **3.6 stud/m 확정**(사용자, 2026-10-13) |
+| 안 맞는 건물 | 9개(`poor_fit`): 심원고 본관과 별관들, 부흥중학교, 로얄프라자 등 |
+| 걷기 | 스폰 → 도로까지 걸어서 도착. 본관 박스 안으로 가는 길은 "경로 없음" |
+
+## 발견한 것
+
+1. **정문 위치는 데이터로 알 수 없어서 사용자와 정했다.** 후보 4곳을 Studio에 표지로 세웠고 사용자가 신흥로238번길(교정 옆 보행로)을 골랐다. 스폰이 보행로(폭 2.5 m) 위라 걷기 시작하는 곳이 좁다.
+2. **스케일 3.6 stud/m이 자연스럽다고 사용자가 확인했다.** 3층 주택 약 38 stud, 아바타 약 5.5 stud(약 7배).
+3. **학교 건물은 박스 하나라 밋밋하다.** 심원고 본관·별관과 부흥중학교(맞춤 0.39~0.54)가 큰 직사각형으로 서 있다. 계획대로 U5에서 수작업(`Manual`)으로 다듬는다.
+4. **도로는 어두운 회색 판이라 폭이 좁아 보인다.** 폭 기본값은 OSM에 폭 태그가 없어서 종류별로 정한 값이다(골목 4~6 m). 현실과 비교해 U4/U5에서 조정할 수 있다.
+5. **Studio 연결 ID가 중간에 한 번 바뀌었다.** 같은 장소(`placeId`)였고 장소 안의 변경(설정 3개, `MapBuilder`, 첫 칸)은 그대로 남아 있었다. 이어서 작업했다.
+6. **Studio 창이 다른 앱 뒤에 있으면 15 FPS로 제한된다.** 같은 걷기에서 한 번은 평균 60 FPS(30 FPS보다 느린 프레임 0, 26.5초), 한 번은 정확히 15 FPS 고정(프레임 438개 중 437개가 67 ms)이 나왔다. 프레임 시간이 변하지 않아서 맵 부하가 아니라 창 제한으로 판단한다. 맵이 있든 없든 가만히 있을 때는 똑같이 60 FPS였다. 칸 3개를 확인하는 U5 끝에서는 Studio 창을 맨 앞에 두고 다시 잰다.
+7. **Studio에 만든 결과는 아직 저장되지 않았다.** 장소 변경과 첫 칸은 열려 있는 Studio 안에만 있다. 사용자가 저장(Roblox에 저장)해야 남는다. 처음 복사본(`10122026_1-before-U2.rbxl`)은 U2 이전 상태다.
+8. **`SpawnLocation`의 기본 `Duration`은 10**이라 코드가 0으로 명시한다(시험에서 속성 확인).
+
+## Overall Status
+- **Build**: 성공
+- **All Tests**: Pass (248 + 실제 Studio 확인)
+- **Ready for the next unit (U4)**: 예. U4가 쓸 건물 부품에는 `BuildingId`, `Floors`, `HeightM`, `FitRatio` 속성이 있다.
+- **Ready for Operations**: 해당 없음(U4, U5가 남았다)
+
+## Next Steps
+U2의 Build and Test가 끝났다. 승인하면 U4 판단·보정(Functional Design)으로 넘어간다. 그 전에 Studio의 결과를 저장해 두는 것을 권한다. 나머지 두 칸은 `cells.py`, `register.py`, `capture.py`로 데이터를 받은 뒤 `build_luau.py`로 만든다.

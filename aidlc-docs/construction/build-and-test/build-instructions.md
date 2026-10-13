@@ -61,3 +61,25 @@ uv export --script src/capture.py --no-hashes --no-annotate --no-header   # 22�
 - **`uv export`가 `numpy`를 풀지 못한다**: `requires-python`이 3.13 미만이 됐을 때 나온다. 인라인 헤더의 `requires-python = ">=3.13"`을 되돌리지 않는다.
 - **`stopped (cap)`**: 실행당 새 파노라마 100장 상한에 닿은 것이고 오류가 아니다. 같은 명령을 다시 돌리면 이어간다.
 - **`stopped (blocked)` 또는 `(failures)`**: 네이버가 막았거나 같은 실패가 연속 3번 났다. 우회하지 않는다. 시간을 두고 다시 돌리고, 계속되면 사용자와 방법을 다시 정한다(런북 R-8).
+
+## U2 Studio 생성기 (2026-10-13)
+
+### Prerequisites
+- **도구**: `uv`(Python 3.11 이상, `build_luau.py`). Roblox Studio와 내장 MCP 서버(시험은 Studio 0.742). 비밀값과 환경변수는 없다.
+- **의존성**: `build_luau.py` 인라인에 `h3==4.5.0`, `shapely==2.2.0`(`register.py`와 같음). 새 의존성 없음.
+- **먼저 할 일(처음 한 번, 되돌릴 수 있음)**: ① 사용자가 장소의 `.rbxl` 복사본을 만든다(Studio 파일 메뉴의 "Download a Copy"). ② Claude가 장소 설정을 바꾼다: `StreamingEnabled = false`, `Baseplate`는 `Transparency = 1`과 `CanCollide = false`, 기본 `SpawnLocation`은 `Enabled = false`. ③ `ServerStorage/MapBuilder`(ModuleScript)에 `studio/Builder.luau`를 넣는다.
+
+### 빌드
+```bash
+uv run src/build_luau.py --selftest
+uv run src/build_luau.py --cells 8930e0af13bffff        # data/build/<칸ID>/chunk-NNN.luau 와 manifest.json
+```
+- **기대 출력**: `selftest ok: h3 and shapely import`, 첫 칸은 `items=163 chunks=4 ... warnings=0`(스폰 설정 뒤).
+- **Studio에서**: 덩어리 파일을 순서대로 `execute_luau`(편집 모드)로 실행하고 `Builder.verify`로 manifest와 비교한다(`code-summary.md`의 순서).
+
+### Troubleshooting
+- **`no spawn point configured`**: `config.toml`의 `spawn_lat`, `spawn_lon`, `spawn_yaw_deg`가 없다는 경고다. 스폰 없이도 만들어진다.
+- **`spawn point is not on a road or path`**: 스폰 점이 도로·보행로 중심선에서 폭의 절반 + 1 m보다 멀다. 점을 도로 위로 옮긴다.
+- **`not a valid ... H3 cell`**: 칸 ID가 해상도 9 형식이 아니다.
+- **Studio 연결 ID가 바뀌었다(`studio_id ... is not connected`)**: `list_roblox_studios`로 같은 장소(`placeId`)의 새 ID를 찾아 이어서 한다. 이번에 한 번 있었고 장소 안의 변경은 그대로 남아 있었다.
+- **`MapBuilder` 소스를 바꿨다**: 같은 방법으로 `Source`를 다시 쓴다. 한 칸의 재생성은 약 5 ms다.

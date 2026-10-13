@@ -37,3 +37,20 @@ CI가 푸시마다 같은 명령을 돌린다. 결과: **No known vulnerabilitie
 - 네이버 응답: 위치 범위와 거리(1 km), ID 형식, 이미지 크기와 형식을 확인하고 어긋나면 버린다(`test_capture.py`). 응답 형식 이상과 403/429는 우회하지 않고 멈춘다(P3-7).
 - Pillow의 큰 이미지 방지 한도를 명시했다(8 MP). 파일 이름은 안전한 문자만 쓰고 저장 경로가 `captures/` 밖으로 나가지 못한다(P3-8, `../` 시험 포함).
 - 한계: `streetlevel`이 해석하는 내부 통신 응답은 라이브러리에 의존한다(위험으로 기록, 버전 고정).
+
+## U2 Studio 생성기 (2026-10-13)
+
+### 의존성 취약점
+`build_luau.py`는 `h3`, `shapely`만 쓰고 둘 다 `tests/requirements.txt`에 있어서 기존 `pip-audit -r tests/requirements.txt`가 점검한다. CI 통과(`48cdd2d`).
+
+### 코드 주입 방지 (SECURITY-05)
+- V-World와 OSM에서 온 건물 ID, 도로 ID가 Studio에서 실행되는 코드에 들어간다. `tests/test_build_luau.py`가 확인한다: 허용 문자(영문자, 숫자, `: # _ - .`) 밖의 글자(따옴표, 줄바꿈, 역슬래시, `]]`, 공백, 한글 등)가 든 ID는 건너뛰고 경고하며, 어떤 입력에서도 코드 파일의 모든 따옴표 글자가 허용 문자뿐이고 역슬래시가 없다. 숫자는 유한한 값만 쓴다.
+- 칸 ID는 H3 형식인지 `build_luau.py`와 `Builder.luau`가 각각 확인한다(Studio 시험에서 `../Workspace`, 14자리 ID 거부).
+- `Builder.luau`: `loadstring`, `HttpService` 등이 없고 `:Destroy()`는 `Auto/<칸ID>`를 지우는 한 곳뿐이다(`tests/test_versions.py`가 검사, 변이 시험으로 확인).
+
+### Studio 변경 범위
+- 이번 실행에서 장소에 바꾼 것: 장소 설정 3개(스트리밍 끄기, `Baseplate` 숨기기, 기본 `SpawnLocation` 끄기), `ServerStorage/MapBuilder`, `Workspace/Auto/<칸ID>`, 빈 `Workspace/Manual`. 시험용 부품은 모두 지웠다(`MCP_Test`는 처음 상태).
+- 변경 전에 사용자의 `.rbxl` 복사본을 확인했다(Documents에 85 KB 파일).
+
+### 비밀값
+이 유닛은 키를 쓰지 않는다. `.env` 값을 모든 추적 파일에서 검색했다: 없음.

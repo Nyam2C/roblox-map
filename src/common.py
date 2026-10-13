@@ -54,9 +54,26 @@ DEFAULTS: dict[str, Any] = {
     "school_max_views": 6,
     "school_face_min_m": 8,
     "school_face_max_deg": 60,
+    # U2 Studio builder
+    "origin_lat": 37.504169,  # the vertex shared by the three target cells = Studio (0, 0, 0)
+    "origin_lon": 126.779628,
+    "studs_per_m": 3.6,
+    "poor_fit_ratio": 0.8,
+    "ground_margin_m": 20,
+    "sidewalk_width_m": 1.5,
+    "road_widths_m": {
+        "motorway": 14, "trunk": 14, "primary": 12, "secondary": 11, "tertiary": 10, "unclassified": 6,
+        "residential": 6, "service": 4, "living_street": 5, "road": 6, "link": 6,
+        "pedestrian": 2.5, "footway": 2, "path": 2, "cycleway": 2, "steps": 2, "corridor": 2, "bridleway": 2,
+        "track": 3,
+    },
+    "chunk_size": 50,
+    "spawn_lat": None,  # unset = no spawn is built (decided together in Studio)
+    "spawn_lon": None,
+    "spawn_yaw_deg": 0,
 }
 
-# U3 key -> (min, max, must be an integer)
+# U3 and U2 key -> (min, max, must be an integer)
 RANGES: dict[str, tuple[float, float, bool]] = {
     "pano_limit_m": (1, 1000, False), "pano_separation_deg": (0, 180, False), "pano_max_views": (1, 6, True),
     "max_new_panos": (1, 10_000, True), "crop_width": (64, 4096, True), "crop_height": (64, 4096, True),
@@ -64,6 +81,9 @@ RANGES: dict[str, tuple[float, float, bool]] = {
     "pitch_max_deg": (0, 89, False), "camera_height_m": (0, 100, False), "floor_height_m": (0.5, 20, False),
     "default_height_m": (0.5, 500, False), "school_max_views": (1, 12, True), "school_face_min_m": (1, 100, False),
     "school_face_max_deg": (5, 89, False),
+    "origin_lat": (-90, 90, False), "origin_lon": (-180, 180, False), "studs_per_m": (0.1, 100, False),
+    "poor_fit_ratio": (0.01, 1, False), "ground_margin_m": (0, 500, False), "sidewalk_width_m": (0.5, 10, False),
+    "chunk_size": (1, 1000, True), "spawn_yaw_deg": (-360, 360, False),
 }
 
 RETRY_CODES = {429, 502, 504}
@@ -87,6 +107,8 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         if unknown:
             raise ValueError(f"config: unknown keys {unknown}")
         cfg.update(data)
+        if isinstance(data.get("road_widths_m"), dict):  # a partial table only overrides the classes it names
+            cfg["road_widths_m"] = {**DEFAULTS["road_widths_m"], **data["road_widths_m"]}
     errors = []
     if not (isinstance(cfg["h3_res"], int) and not isinstance(cfg["h3_res"], bool) and 0 <= cfg["h3_res"] <= 15):
         errors.append("h3_res must be an integer from 0 to 15")
@@ -122,9 +144,26 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         errors.append("school_polygons must be a list of polygons, each with at least 3 [lat, lon] points")
     if not errors and cfg["fov_min_deg"] > cfg["fov_max_deg"]:
         errors.append("fov_min_deg must not exceed fov_max_deg")
+    widths = cfg["road_widths_m"]
+    if not (isinstance(widths, dict) and all(isinstance(k, str) and _is_number(v) and 0.5 <= v <= 50 for k, v in widths.items())):
+        errors.append("road_widths_m must be a table of numbers from 0.5 to 50")
+    lat, lon = cfg["spawn_lat"], cfg["spawn_lon"]
+    if (lat is None) != (lon is None):
+        errors.append("spawn_lat and spawn_lon must be set together")
+    elif lat is not None and not (_is_number(lat) and _is_number(lon) and -90 <= lat <= 90 and -180 <= lon <= 180):
+        errors.append("spawn_lat and spawn_lon must be a latitude and a longitude")
     if errors:
         raise ValueError("config: " + "; ".join(errors))
     return cfg
+
+
+def building_height_m(height_m: float | None, floors_above: int | None, cfg: Mapping[str, Any]) -> float:
+    """Building height in meters: V-World height, else floors x floor height, else the default (U3 BR-4.3, U2 BR-2.4)."""
+    if height_m and height_m > 0:
+        return float(height_m)
+    if floors_above and floors_above > 0:
+        return floors_above * float(cfg["floor_height_m"])
+    return float(cfg["default_height_m"])
 
 
 def resolve(path: str | Path) -> Path:
