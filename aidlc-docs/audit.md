@@ -1230,3 +1230,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - scale decisions.
 
 ---
+
+## Sign Images - Reuse, Landmarks Only
+**Timestamp**: 2026-10-13T16:51:55Z
+**User Request**: Asked whether images burden the server (answer: no; images live on Roblox's CDN, the server holds only the ImageLabel; the client loads textures for nearby signs, bounded by streaming, MaxDistance and resolution; the real costs are moderation risk, generation cost and upload work), then "그럼 일단 지금꺼 재사용으로하고 진짜 엄청난 랜드마크다 하는것만 만들어 ( 진짜 필요하면 칸당 2장 제한 )".
+**AI Response**: Recorded the decision in CLAUDE.md; new U7 item K (reuse the 145 uploaded images by type, aspect bucket and panel colour with a fixed pick per sign, sign text matched to the image, text sign when nothing fits; new images only for big landmarks judged by Claude, at most 2 per cell, after the vocabulary check); cycle-build step 5 rewritten (skill change). The 13 images generated for cells 2 and 3 stay cached and unuploaded.
+**Context**: Decisions; U7 planning.
+
+---
