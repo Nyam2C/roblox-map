@@ -50,6 +50,7 @@ studs_per_m = 3.6             # 1 m당 stud. 첫 칸을 만든 뒤 사용자와 
 poor_fit_ratio = 0.8          # 박스와 면적 비율이 이 값 미만인 건물은 manifest의 poor_fit 목록에 올린다 (BR-2.5)
 ground_margin_m = 20          # 땅 판이 칸 경계 밖으로 더 덮는 거리(m) (BR-4.1)
 sidewalk_width_m = 1.5        # 인도 폭(m) (BR-3.8)
+lane_width_m = 3.25           # 차로 하나의 폭(m). OSM lanes 태그가 있으면 차로 수 x 이 폭 (위성 비교 2026-10-13)
 chunk_size = 70               # 한 번의 execute_luau에 넣는 항목 수 (U2 BR-7.2, U5 BR-14.6: 호출당 약 11 KB)
 spawn_lat = 37.504483         # 스폰 점: 심원고 본관에 가장 가까운 신흥로238번길(보행로) 위의 점. 사용자와 Studio에서 같이 정함(2026-10-13, Q6=B) (BR-5.1)
 spawn_lon = 126.77861
@@ -102,6 +103,9 @@ steps = 2
 corridor = 2
 bridleway = 2
 track = 3
+
+[road_lanes_by_name]          # OSM에 lanes가 없는 큰길의 양방향 차로 수(위성에서 셈). 일방 차로(oneway=yes)는 절반
+"길주로" = 10
 
 [wall_colors]                 # 벽 색 이름 -> [r, g, b]. 이 이름만 판단·보정에 쓸 수 있다 (기능 설계 Palette)
 white = [236, 236, 232]

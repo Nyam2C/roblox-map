@@ -1072,3 +1072,27 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - first cell review; next the other two cells (signs paused).
 
 ---
+
+## U5 옥산공원 Applied In Studio, First Publish Explained
+**Timestamp**: 2026-10-14T00:15:00Z
+**User Request**: "여기서 뭐 누름" (dashboard overview, access "비공개"), then a page "게임이 게시되지 않았습니다", then "Studio 열었어, 공원 넣어줘"
+**AI Response**: The dashboard page "게임이 게시되지 않았습니다" showed the place had only been saved (Save to Roblox, 11:28 PM), never published; the earlier statement that it was already published (from the tool context isPublished: true) was wrong and was corrected. First publish: Studio File > Publish to Roblox (name, description, genre, devices), then set the access to public in the dashboard and fill the content maturity questionnaire. Studio was reopened from the dashboard (studio_id changed): the saved version already had the satellite trees (Props 2,529 = 1,484 tree parts, no rule trees, no cars) and the old Manual/School/Park. Done: removed Manual/School/Park (35 descendants), ran studio/ManualPark.luau (Manual/Park, 123 ground tiles: earth, gravel, sand), Edit camera set to Fixed. Top-down and eye-level captures agree with the satellite (gravel yard, sand pits in the north, wood on four sides, the three small buildings inside). Not saved or published yet; nothing committed.
+**Context**: CONSTRUCTION - U5 first cell visual polish.
+
+---
+
+## U6 Minimap And Kick Scooter - Requirements Questions
+**Timestamp**: 2026-10-14T00:40:00Z
+**User Request**: "지금에서 오른쪽 위에 지도랑 빠르게 이동가능하게 킥보드 탈거 구현가능?"
+**AI Response**: Yes, both are feasible as Roblox scripts (client GUI and a server script) without changing the Auto/Manual parts. Following the AI-DLC rule that questions go in a file, wrote aidlc-docs/inception/requirements/u6-minimap-scooter-questions.md (5 questions with recommendations: vector map from cell data, north-up minimap with M-key big map, big map view only, scooter toggled by a button or key anywhere, 25 studs/s = real 25 km/h at 3.6 studs/m). The earlier standing approval was for U5 only, so the answers are left to the user. Not recommended and not planned: a Creator Store scooter model, satellite photo as the map. aidlc-state.md Next Stage lists U6.
+**Context**: INCEPTION - U6 Requirements Analysis, waiting for answers.
+
+---
+
+## Cell 8930e0af12bffff Built, Satellite and Street-View Review
+**Timestamp**: 2026-10-13T14:51:55Z
+**User Request**: Asked why trees floated ("이거 나무는 어떻게 못하나?"), what "the other two cells" meant, whether the lessons carry over, where the next cells are on the satellite, then "딱 이정도 퀄리티로 계속 만들면 좋은데".
+**AI Response**: Fixed standing cylinders sunk half into the ground (commit 8fcf123). Showed the three cells on the satellite (data/compare/cells_overview.jpg). Cell 3 (8930e0af12bffff): satellite z19 mosaic and trees.py (461 trees), built in Studio (verify ok). The satellite overlay showed 길주로 far too narrow (OSM tertiary, no lanes): road width now = OSM width, else lanes x lane_width_m 3.25, else road_lanes_by_name (길주로 10, a one-way carriageway half), else the class table; the cap went from 30 to 40 m; cell 1 trees regenerated (367) since trunks keep off the wider roads. Street-view pairs of cell 3 showed the 18-22 floor apartments with office ribbon windows: new archetype apartment (02000 and 5 floors or more) with a punched-window grid on the long faces (3.6 m pitch), blank short end walls, no shop signs and no front items. Glass stair colour toned down. Both cells rebuilt (cell 1: 7,891 created + 170 Manual skips; cell 3: 7,720; verify ok). Tests 598 passed.
+**Context**: CONSTRUCTION - other cells; next cell 8930e0af123ffff (2), signs paused.
+
+---

@@ -525,10 +525,13 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
             L = face.length
             if side in occluded or L < D["face_min"]:
                 continue
+            if body.archetype == "apartment" and L < 0.5 * max(face_of(box, sd).length for sd in SIDES):
+                continue  # an apartment's short end walls are blank (street view 2026-10-13)
             is_front = facing_here and side == body.facing.side  # type: ignore[union-attr]
             for k in range(F):
-                if body.archetype in ("villa", "school"):  # punched windows; a school gets the dense classroom grid (BR-6.1, street view 2026-10-13)
+                if body.archetype in ("villa", "school", "apartment"):  # punched windows; a school gets the dense classroom grid (BR-6.1, street view 2026-10-13)
                     pitch, win_w, win_h, win_max = ((D["school_win_pitch"], D["school_win_w"], D["school_win_h"], 60) if body.archetype == "school"
+                                                    else (3.6, D["win_w"], D["win_h"], 30) if body.archetype == "apartment"
                                                     else (D["win_pitch"], D["win_w"], D["win_h"], int(D["win_max"])))
                     n = max(1, min(win_max, int((L - 1) // pitch)))
                     wh = min(win_h, fh - 1.0)
@@ -589,7 +592,7 @@ SHOP_FRONTS = (("SmoothPlastic", "glass_shop", D["reflect_shop"]), ("SmoothPlast
 
 def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> list[Item]:
     """Stair tower, bay, balconies, door and canopy (or shutter), AC units, gas pipe, storefront: the front box's facing face."""
-    if not body.is_body or body.facing is None or body.archetype == "school":
+    if not body.is_body or body.facing is None or body.archetype in ("school", "apartment"):
         return []
     bi, side, F, fh, H = body.front, body.facing.side, body.floors, body.fh, body.height_m
     L = body.facing.length
@@ -750,7 +753,7 @@ def _name(body: Body, slot: str, where: str, floor: int) -> str:
 
 def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> tuple[list[Item], int]:
     """Band signs, per-floor signs, projecting signs, the rooftop frame and the name plate; (items, label count) (BR-10)."""
-    if not body.is_body or body.facing is None or body.archetype == "school":
+    if not body.is_body or body.facing is None or body.archetype in ("school", "apartment"):
         return [], 0
     bi, side, F, fh, H, L = body.front, body.facing.side, body.floors, body.fh, body.height_m, body.facing.length
     items: list[Item] = []

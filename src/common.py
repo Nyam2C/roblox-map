@@ -61,6 +61,8 @@ DEFAULTS: dict[str, Any] = {
     "poor_fit_ratio": 0.8,
     "ground_margin_m": 20,
     "sidewalk_width_m": 1.5,
+    "lane_width_m": 3.25,  # an OSM lanes tag (or road_lanes_by_name) sets the width to lanes x this
+    "road_lanes_by_name": {"길주로": 10},  # both directions; a oneway=yes carriageway gets half (satellite, 2026-10-13)
     "road_widths_m": {
         "motorway": 14, "trunk": 14, "primary": 12, "secondary": 11, "tertiary": 10, "unclassified": 6,
         "residential": 6, "service": 4, "living_street": 5, "road": 6, "link": 6,

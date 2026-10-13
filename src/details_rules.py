@@ -180,11 +180,14 @@ PUBLIC_SUFFIXES = ("학교", "행정복지센터", "주민센터", "경로당")
 
 
 def archetype(usability_code: str | None, floors: int | None, name: str | None, in_school_polygon: bool) -> str:
-    """school > commercial > public > villa, first match (BR-1.5)."""
+    """school > apartment > commercial > public > villa, first match (BR-1.5). An apartment is a 공동주택 (02000) of five floors or
+    more: a dense grid of punched windows and no shop signs (street-view review 2026-10-13)."""
     name = name or ""
     if in_school_polygon or name.endswith("학교"):
         return "school"
     code = usability_code or ""
+    if code == "02000" and (floors or 0) >= 5:
+        return "apartment"
     if code in COMMERCIAL_CODES or (floors or 0) >= 5:
         return "commercial"
     if code in PUBLIC_CODES:
@@ -278,7 +281,7 @@ def sign_name(owner: str, slot: str, pool: str) -> str:
 PALETTE: dict[str, tuple[int, int, int]] = {
     # buildings
     "plinth": (150, 150, 145), "glass": (45, 60, 60), "glass_com": (50, 80, 75), "glass_school": (90, 120, 150),
-    "glass_shop": (35, 45, 50), "glass_shop_b": (150, 170, 175), "shop_wood": (125, 90, 60), "glass_stair": (110, 165, 165), "bay": (225, 225, 222), "balcony": (190, 190, 185), "iron": (40, 40, 45),
+    "glass_shop": (35, 45, 50), "glass_shop_b": (150, 170, 175), "shop_wood": (125, 90, 60), "glass_stair": (75, 120, 125), "bay": (225, 225, 222), "balcony": (190, 190, 185), "iron": (40, 40, 45),
     "door": (70, 50, 40), "door_shop": (90, 90, 95), "canopy": (60, 60, 65), "eyebrow": (45, 45, 48), "shutter": (150, 150, 150),
     "ac": (225, 225, 222), "gas": (190, 40, 35), "tank": (235, 235, 230), "railing": (235, 235, 235), "lamp_globe": (245, 245, 240),
     "leaf": (60, 110, 50), "leaf_b": (76, 124, 54), "leaf_c": (52, 98, 46), "leaf_d": (92, 130, 54), "concrete": (150, 150, 145),

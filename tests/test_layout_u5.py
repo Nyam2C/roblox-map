@@ -553,7 +553,7 @@ def test_p5_15_every_owned_item_names_its_building_and_the_budget_holds(case):
         if i.kind != "building" or len(body.boxes) > 1:
             assert i.owner == body.building_id and i.name.startswith(body.building_id + "#")
         assert i.material in R.MATERIALS and i.shape in R.SHAPES
-    limit = {"villa": 90, "commercial": 140, "public": 60, "school": 320}[body.archetype]  # villa: up to six sashes a face; school: the classroom grid on a tall block
+    limit = {"villa": 90, "commercial": 140, "public": 60, "school": 320, "apartment": 320}[body.archetype]  # villa: up to six sashes a face; school: the classroom grid on a tall block
     assert len(items) <= limit
     assert len({i.name for i in items}) == len(items)
 

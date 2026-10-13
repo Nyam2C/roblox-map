@@ -118,7 +118,8 @@ def test_default_finish_follows_the_wall_color_table():
 @pytest.mark.parametrize("code, floors, name, in_poly, expect", [
     ("01000", 3, "", False, "villa"), ("01000", 5, "", False, "commercial"), ("14000", 2, "", False, "commercial"), ("09000", 8, "", False, "commercial"),
     ("10000", 7, "로얄프라자", False, "commercial"), ("10000", 1, "옥산경로당", False, "public"), ("03000", 2, "행정복지센터", False, "public"),
-    ("10000", 5, "부흥중학교", False, "school"), ("", 5, "", True, "school"), (None, None, "", False, "villa"), ("", 2, "", False, "villa")])
+    ("10000", 5, "부흥중학교", False, "school"), ("", 5, "", True, "school"), (None, None, "", False, "villa"), ("", 2, "", False, "villa"),
+    ("02000", 20, "1004동", False, "apartment"), ("02000", 4, "", False, "villa"), ("02000", 5, "한빛학교", False, "school")])
 def test_archetype_is_school_then_commercial_then_public_then_villa(code, floors, name, in_poly, expect):
     assert R.archetype(code, floors, name, in_poly) == expect
 

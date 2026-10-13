@@ -227,10 +227,17 @@ def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, A
 # --- roads, paths, sidewalks (BR-3) -------------------------------------------------------------------------
 
 def road_width_m(feature: Mapping[str, Any], cfg: Mapping[str, Any]) -> float:
-    """OSM width tag (1 to 30 m) or the table value for the class (BR-3.4)."""
-    tagged = geo.normalize_height((feature.get("tags") or {}).get("width"))
+    """OSM width tag (1 to 40 m), else lanes x lane width (the OSM lanes tag, or the lanes of a named road in road_lanes_by_name,
+    halved on a one-way carriageway), else the table value for the class (BR-3.4)."""
+    tags = feature.get("tags") or {}
+    tagged = geo.normalize_height(tags.get("width"))
     if tagged is not None:
-        return min(30.0, max(1.0, tagged))
+        return min(40.0, max(1.0, tagged))
+    lanes = geo.normalize_height(tags.get("lanes"))
+    if lanes is None and tags.get("name") in cfg.get("road_lanes_by_name", {}):
+        lanes = float(cfg["road_lanes_by_name"][tags["name"]]) / (2 if tags.get("oneway") == "yes" else 1)
+    if lanes is not None and lanes >= 1:
+        return min(40.0, round(lanes * float(cfg.get("lane_width_m", 3.25)), 2))
     cls = str(feature.get("highway_class") or "")
     key = "link" if cls.endswith("_link") else cls
     return float(cfg["road_widths_m"].get(key, 6 if feature.get("kind") == "road" else 2))

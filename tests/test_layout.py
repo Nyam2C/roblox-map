@@ -216,7 +216,7 @@ def expected_width(feature):
     tag = (feature["tags"] or {}).get("width", "")
     m = re.fullmatch(r"\s*(\d+(?:\.\d+)?)\s*[mM]?\s*", tag)
     if m and float(m.group(1)) > 0:
-        return min(30.0, max(1.0, float(m.group(1))))
+        return min(40.0, max(1.0, float(m.group(1))))
     cls = feature["highway_class"]
     return float(CFG["road_widths_m"]["link" if cls.endswith("_link") else cls])
 
@@ -268,12 +268,20 @@ def test_zero_length_segments_and_other_kinds_are_not_built():
 
 
 @pytest.mark.parametrize("tag, cls, kind, expected", [
-    ("8", "residential", "road", 8), ("6.5 m", "service", "road", 6.5), ("100", "residential", "road", 30), ("0.2", "tertiary", "road", 1),
+    ("8", "residential", "road", 8), ("6.5 m", "service", "road", 6.5), ("100", "residential", "road", 40), ("0.2", "tertiary", "road", 1),
     ("abc", "tertiary", "road", 10), (None, "tertiary_link", "road", 6), (None, "footway", "path", 2), (None, "pedestrian", "path", 2.5),
     (None, "mystery", "road", 6), (None, "mystery", "path", 2)])
 def test_road_width_comes_from_the_tag_or_the_class_table(tag, cls, kind, expected):
     feature = {"kind": kind, "highway_class": cls, "tags": {"width": tag} if tag else {}}
     assert layout.road_width_m(feature, CFG) == expected
+
+
+def test_lanes_set_the_width_and_a_named_big_road_without_lanes_uses_the_table():
+    cfg = {**CFG, "lane_width_m": 3.25, "road_lanes_by_name": {"길주로": 10}}
+    assert layout.road_width_m({"kind": "road", "highway_class": "tertiary", "tags": {"lanes": "4"}}, cfg) == 13.0
+    assert layout.road_width_m({"kind": "road", "highway_class": "tertiary", "tags": {"name": "길주로"}}, cfg) == 32.5
+    assert layout.road_width_m({"kind": "road", "highway_class": "tertiary", "tags": {"name": "길주로", "oneway": "yes"}}, cfg) == 16.25
+    assert layout.road_width_m({"kind": "road", "highway_class": "tertiary", "tags": {"name": "옥산로"}}, cfg) == 10
 
 
 def test_segment_names_sort_by_number_not_by_text():
