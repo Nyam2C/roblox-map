@@ -1032,3 +1032,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - first cell Manual work; the other two cells move on to U4 judgements.
 
 ---
+
+## U4/U5 Judgements of the Other Two Cells
+**Timestamp**: 2026-10-13T12:49:12Z
+**User Request**: "커밋하고 두 칸 판단 진행해"
+**AI Response**: Committed the Manual work (b18ed78). Judged all 308 buildings of 8930e0af123ffff (223) and 8930e0af12bffff (85) blind from the contact sheets: five sub-agents (72/72/72/69/23 buildings) read only the pending list and the sheet images (no database, overrides or details), each writing one U4 judgement and one U5 detail row per building; the notes were scanned for personal data (none). Report: 123ffff photo agrees with the register on 114/185 (62%; high 32/44, medium 51/78, low 31/63), 12bffff on 58/70 (83%; high 41/41). The 12 high-confidence disagreements in 123ffff were checked by Claude against the sheets after the report: 6 were miscounts (half-basement, gable attic or a rooftop pergola counted as a floor, a set-back top floor missed, a double-height garage) and got floors_above overrides keeping the register (reasons in overrides/8930e0af123ffff.json); 6 stay as photo values. Buildings with no building in the crops (utility boxes, fences, park) are null and keep register or default heights.
+**Context**: CONSTRUCTION - other two cells: U4 and U5 judgements done; next signs, build_luau, Studio.
+
+---
