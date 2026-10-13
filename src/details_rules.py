@@ -8,6 +8,8 @@ Standard library only, no input or output. Rules: aidlc-docs/construction/u5-det
 from __future__ import annotations
 
 import json
+import hashlib
+import math
 import re
 import zlib
 from typing import Any, Mapping, Sequence
@@ -366,3 +368,71 @@ DIMS: dict[str, float] = {
     "fence_end_clear": 3.0, "bollard_dia": 0.15, "bollard_h": 0.9, "bollard_gap": 1.2, "bollard_in": 1.0, "box_along": 1.5, "box_off": 0.8,
     "box_telecom_w": 0.6, "box_telecom_h": 1.2, "box_telecom_d": 0.4, "box_recycle_w": 0.6, "box_recycle_h": 0.9, "box_recycle_d": 0.6,
 }
+
+
+# --- U5 sign images (SI-1 to SI-4, aidlc-docs/construction/u5-details/sign-images/plan.md) ---------------------------------
+
+SIGN_IMAGE_TAILS = ("sg", "sgf")  # band signs and floor signs get a generated image; plates, projecting and roof signs stay text
+SIGN_IMAGE_WIDTH = 1024           # Roblox keeps images at 1024 px at most
+SIGN_IMAGE_KEY_VERSION = "v1"     # bump when the prompt or the finishing changes so every sign is made again
+SIGN_ICONS: tuple[tuple[str, str], ...] = (  # the longest matching ending wins (checked in this order)
+    ("피아노학원", "a few piano keys"), ("노래연습장", "a musical note"), ("재활의학과", "a medical cross"), ("정형외과", "a medical cross"),
+    ("한의원", "a green leaf"), ("요양병원", "two open hands"), ("어린이집", "a smiling sun"), ("유치원", "a smiling sun"),
+    ("복지관", "two open hands"), ("필라테스", "a stretching figure silhouette"), ("태권도", "a kicking figure silhouette"),
+    ("편의점", "a shopping basket"), ("휴대폰", "a mobile phone"), ("부동산", "a small house"), ("독서실", "an open book"),
+    ("법무사", "a balance scale"), ("미용실", "a pair of scissors"), ("치과", "a tooth"), ("약국", "a red cross"), ("학원", "a pencil"),
+    ("내과", "a medical cross"), ("의원", "a medical cross"), ("안과", "an eye"), ("피부과", "a leaf"), ("카페", "a coffee cup"),
+    ("분식", "a bowl with chopsticks"), ("김밥", "a sliced gimbap roll"), ("치킨", "a chicken"), ("피자", "a pizza slice"),
+    ("꽃집", "a flower"), ("안경", "a pair of glasses"), ("호프", "a beer mug"), ("마트", "a shopping cart"), ("슈퍼", "a shopping cart"),
+    ("세탁소", "a shirt on a hanger"), ("정육점", "a cut of meat"), ("문구", "a pencil"), ("빵집", "a loaf of bread"),
+)
+PALETTE_WORDS = {"sign_white": "white", "sign_black": "black", "sign_red": "red", "sign_blue": "royal blue", "sign_yellow": "yellow",
+                 "sign_green": "green", "sign_pharmacy": "white", "ink_black": "black", "ink_white": "white", "ink_yellow": "yellow",
+                 "ink_red": "red"}
+_ASPECT_RE = re.compile(r"[0-9]{1,2}\.[05]")
+
+
+def sign_tail(name: str) -> str:
+    """'gis:1#sgf1-0' -> 'sgf', 'gis:1#sg0' -> 'sg', anything else -> the letters of the tail."""
+    tail = name.rsplit("#", 1)[-1]
+    return re.match(r"[a-z]*", tail).group(0)  # type: ignore[union-attr]
+
+
+def aspect_bucket(width: float, height: float) -> str:
+    """Width over height rounded to a half, as text, clamped to 1.0 .. 20.0 (SI-2)."""
+    if not (width > 0 and height > 0) or not (math.isfinite(width) and math.isfinite(height)):
+        raise ValueError("sign size must be positive and finite")
+    ratio = min(20.0, max(1.0, width / height))
+    return f"{round(ratio * 2) / 2:.1f}"
+
+
+def sign_image_key(text: str, tail: str, bg: str, ink: str, aspect: str) -> str:
+    """The cache and upload key of one sign look: text, tail (sg/sgf), colors and aspect bucket (SI-2). Stable across machines."""
+    if not isinstance(text, str) or not SIGN_TEXT.fullmatch(text):
+        raise ValueError(f"not a sign text: {str(text)[:20]!r}")
+    if tail not in SIGN_IMAGE_TAILS:
+        raise ValueError(f"not an image sign tail: {tail!r}")
+    if bg not in PALETTE_WORDS or ink not in PALETTE_WORDS:
+        raise ValueError(f"not sign colors: {bg!r} {ink!r}")
+    if not isinstance(aspect, str) or not _ASPECT_RE.fullmatch(aspect):
+        raise ValueError(f"not an aspect bucket: {aspect!r}")
+    raw = f"{SIGN_IMAGE_KEY_VERSION}|{text}|{tail}|{bg}|{ink}|{aspect}".encode("utf-8")
+    return hashlib.sha1(raw).hexdigest()[:16]
+
+
+def sign_icon(text: str) -> str | None:
+    for ending, icon in SIGN_ICONS:
+        if text.endswith(ending):
+            return icon
+    return None
+
+
+def sign_prompt(text: str, bg: str, ink: str) -> str:
+    """The image prompt of one sign (SI-3): fictional text only, panel and letter colors, an icon by trade, nothing else."""
+    if not isinstance(text, str) or not SIGN_TEXT.fullmatch(text):
+        raise ValueError(f"not a sign text: {str(text)[:20]!r}")
+    icon = sign_icon(text)
+    icon_part = f" a small simple {icon} icon in {PALETTE_WORDS[ink]} on the left," if icon else ""
+    return (f"Front-facing photo-realistic Korean storefront sign panel filling the entire image edge to edge, no margin, no building, "
+            f"flat {PALETTE_WORDS[bg]} panel with a thin aluminium frame,{icon_part} bold {PALETTE_WORDS[ink]} Korean text \"{text}\" "
+            f"centered and spelled exactly, no other text, no people, clean even lighting")

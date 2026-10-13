@@ -56,6 +56,13 @@ uv run src/details.py pending --cells 8930e0af13bffff --limit 10        # 세부
 uv run src/details.py record --file details.json                        # 기록(여러 건 한 번에, 하나라도 틀리면 전부 거부) -> details/<칸ID>.json(git 포함)
 # uv run src/details.py list|export|import ...                           (import는 복구용)
 
+# 5c) 간판 이미지(U5 확장, 2026-10-13). 띠간판·층별 간판만 이미지, 나머지는 글자. 키는 .env의 OPENAI_API_KEY, OPENAI_BASE_URL
+uv run src/signs.py plan --cells 8930e0af13bffff                                    # 간판 모양 목록 -> data/build/<칸ID>/signs-plan.json
+uv run --env-file .env src/signs.py generate --cells 8930e0af13bffff --workers 4     # 없는 이미지만 생성 -> assets/signs/<key>.png (raw는 재사용)
+# Claude가 assets/signs를 127.0.0.1에서 서빙하고 Studio MCP upload_image로 올린 뒤:
+uv run src/signs.py record --cells 8930e0af13bffff --file upload.json               # {url: "rbxassetid://N"} -> signs/<칸ID>.json(git 포함)
+# uv run src/signs.py status --cells ...   그 뒤 build_luau.py가 im=<자산ID>를 붙인다. signs/<칸ID>.json이 없으면 글자 간판
+
 # 6) 보정(사용자와 같이 보고 정한 값, 사유 필수). set과 unset은 overrides/<칸ID>.json(git 포함)을 바로 다시 쓴다
 uv run src/overrides.py set --building gis:11081057 --field floors_above --value 4 --reason "누가 무엇을 보고 정했는지"
 # uv run src/overrides.py unset|list|export|import ...      (import는 복구용: 보정과 판단이 같이 돌아온다)
@@ -72,6 +79,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 - `capture.py`는 건물마다 파노라마를 최대 3장(120 m 안, 방위각 60° 이상 차이) 골라 `captures/`에 저장하고 건물 방향 크롭(1024×768)을 만든다. 호출 간격 1초, 실행당 새 파노라마 100장 상한. 403/429가 재시도 뒤에도 계속되거나 응답 형식이 이상하면 우회하지 않고 멈춘다(`collection_runs`의 `stopped_reason`). `captures/`는 git 제외.
 - U4(`judgement.py`, `review.py`, `estimate.py`, `overrides.py`): 층수·높이·벽 색·지붕 모양의 최종값은 **보정 > 사진 판단 > 대장 > 기본값**이다(OSM 값은 참고만). 사진 판단은 Claude가 묶음 이미지(`captures/<칸ID>/sheets/`)를 대장·OSM 숫자 없이(**눈가림**) 보고 `estimates`에 기록하고 대장과의 비교는 `report`가 한다. 사진이 대장과 다르면 확신 high일 때만 사진 값, 그 밖은 대장 유지와 확인 목록. 대장 높이는 층수가 같고 층당 2.5~5 m일 때만 쓰고 아니면 층수 × 3.4 m. 판단과 보정은 `overrides/<칸ID>.json`(git 포함)으로 즉시 내보낸다. 그 파일에 올라가는 `note`와 `reason`에는 사람·번호판·상호 같은 개인 정보를 쓰지 않는다. `build_luau.py`가 최종값을 읽어 건물 부품에 높이·벽 색을 반영하고 속성 `HeightBasis`, `FloorsBasis`, `WallColor`, `Review`(사유를 `-`로 이음)를 단다. 비교 쌍은 Studio 카메라를 크롭 위치에 두고 캡처한다: **`screen_capture`에 항상 `camera_position`과 `look_at_position`을 준다**(인자 없으면 다른 시점이 찍힌다), 세로 시야각 83.58°, Studio 창은 4:3보다 넓게. 설계와 규칙은 `aidlc-docs/construction/u4-judgement-corrections/`.
 - U5(`details_rules.py`, `layout_details.py`, `details.py`): 건물마다 세부 판단(`details` 표, `details/<칸ID>.json`) > U4 메모 검색 > 기본값으로 마감·1층 용도·계단실·돌출창·발코니·지붕 색·옥상을 정하고, `build_luau.py`가 지붕(쐐기), 층 띠, 창(불투명 부품), 계단실, 발코니, 문, 가게 전면, 마당 담·대문, 간판(가상 한글 이름, `SurfaceGui`), 가로(연석, 노면, 횡단보도, 전봇대·전선, 가로등, 가로수, 주차 차량, 스쿨존 울타리, 볼라드)를 항목으로 만든다. 같은 건물의 V-World 중복 외곽선은 뺀다. 안 맞는 외곽선은 박스 ≤ 3개(학교 6)로 나눈다. 모든 변화는 `details_rules.pick`(crc32 + 혼합)뿐이다. 외부 자산(텍스처 업로드, 메시, 크리에이터 스토어)은 쓰지 않는다. 간판 글자는 `SIGN_TEXT = [가-힣A-Za-z0-9 ]{1,12}`로만 검사해 그대로 Luau에 넣고, 그 밖의 글자는 `SAFE_TEXT` 그대로다. 리터럴 키 `i p m c o t u md j g l`은 기본과 다를 때만. 규칙은 `aidlc-docs/construction/u5-details/functional-design/business-rules.md`, 코드 차이는 `.../code/code-summary.md`. 수작업 학교는 `studio/ManualSchool.luau`를 `execute_luau`(Edit)로 한 번만 실행한다(`Manual/School`이 있으면 아무것도 안 함, 만들기만 하고 지우지 않음; 좌표는 첫 칸 박스에서 계산한 값이라 다른 칸에는 쓰지 않는다).
+- 간판 이미지(U5 확장, `src/signs.py`): 사용자 결정(2026-10-13)으로 띠간판·층별 간판은 Azure OpenAI 이미지 생성(배포 `gpt-image-2.5-sunburst`, `.env`의 `OPENAI_API_KEY`·`OPENAI_BASE_URL`)으로 만든 그림을 Roblox에 올려 `ImageLabel`로 보여 준다. "외부 자산 없음" 결정은 간판 이미지에 한해 풀었다. 열쇠 = sha1(글자|종류|판 색|글자 색|비율 묶음)[:16], 캐시 `assets/signs/`(git 제외, raw 포함), 자산 ID는 `signs/<칸ID>.json`(git 포함)으로 고정되어 덩어리 파일이 결정적이다. 프롬프트에는 가상 이름만 들어간다. 규칙 SI-1~9: `aidlc-docs/construction/u5-details/sign-images/plan.md`.
 - 건물은 자기 중심점이 속한 칸에만 저장되므로 칸 사이 중복이 없다. DB는 `data/map.db`, 로그는 `data/logs/*.jsonl`, 칸 재수집 직전 백업은 `data/backups/`(모두 git 제외).
 
 ## 현재 상태

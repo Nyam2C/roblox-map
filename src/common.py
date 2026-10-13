@@ -94,6 +94,8 @@ DEFAULTS: dict[str, Any] = {
     "roof_pitch_deg": 25,
     "window_faces": "all",  # "front": windows only on the road-facing face (first step of the FPS ladder)
     "details_dir": "details",
+    "signs_dir": "signs", "assets_dir": "assets/signs", "sign_image_model": "gpt-image-2.5-sunburst",
+    "sign_image_size": "1536x1024", "sign_image_workers": 4,
 }
 
 # U3 and U2 key -> (min, max, must be an integer)
@@ -105,7 +107,7 @@ RANGES: dict[str, tuple[float, float, bool]] = {
     "default_height_m": (0.5, 500, False), "school_max_views": (1, 12, True), "school_face_min_m": (1, 100, False),
     "school_face_max_deg": (5, 89, False),
     "origin_lat": (-90, 90, False), "origin_lon": (-180, 180, False), "studs_per_m": (0.1, 100, False),
-    "poor_fit_ratio": (0.01, 1, False), "ground_margin_m": (0, 500, False), "sidewalk_width_m": (0.5, 10, False),
+    "poor_fit_ratio": (0.01, 1, False), "sign_image_workers": (1, 16, True), "ground_margin_m": (0, 500, False), "sidewalk_width_m": (0.5, 10, False),
     "chunk_size": (1, 1000, True), "spawn_yaw_deg": (-360, 360, False),
     "floor_height_min_m": (0.5, 20, False), "floor_height_max_m": (0.5, 50, False), "review_batch_size": (1, 100, True),
     "sheet_tile_w": (64, 2048, True), "sheet_tile_h": (64, 2048, True), "sheet_jpeg_quality": (1, 100, True),
@@ -154,7 +156,7 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
     waits = cfg["retry_waits_s"]
     if not (isinstance(waits, list) and all(_is_number(w) and w >= 0 for w in waits)):
         errors.append("retry_waits_s must be a list of numbers >= 0")
-    for k in ("db_path", "log_dir", "backup_dir", "captures_dir", "overrides_dir", "details_dir"):
+    for k in ("db_path", "log_dir", "backup_dir", "captures_dir", "overrides_dir", "details_dir", "signs_dir", "assets_dir", "sign_image_model", "sign_image_size"):
         if not (isinstance(cfg[k], str) and cfg[k].strip()):
             errors.append(f"{k} must be a non-empty string")
     keep = cfg["backup_keep"]

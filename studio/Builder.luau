@@ -13,7 +13,7 @@
 	          c wall color name, v review flags. U5 (optional, only when they differ from the defaults): i owner building id,
 	          p shape (Wedge, CornerWedge, Cylinder standing with size = height, diameter, diameter, Ball), m material,
 	          c color name of any kind (its RGB is in looks.walls), o ink color name, t sign text, u="LR" two-sided sign,
-	          md sign MaxDistance, j reflectance, g 0/1 cast shadow, l 0/1 collide.
+	          md sign MaxDistance, im sign image asset id (SI-7), j reflectance, g 0/1 cast shadow, l 0/1 collide.
 	Rules:    aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md (BR-2.8, BR-6, BR-7.5)
 	          aidlc-docs/construction/u5-details/functional-design/business-rules.md (BR-10.5, BR-12.5, BR-14.1, BR-14.3 to BR-14.5)
 ]]
@@ -115,14 +115,25 @@ local function addSignGui(part, it, looks, face)
 	gui.LightInfluence = 1
 	gui.AlwaysOnTop = false
 	gui.MaxDistance = it.md or 200
-	local label = Instance.new("TextLabel")
-	label.Size = UDim2.fromScale(1, 1)
-	label.BackgroundTransparency = 1
-	label.TextScaled = true
-	label.TextColor3 = colorOf(looks, { "", 20, 20, 20 }, it.o)
-	label.FontFace = Font.fromEnum(Enum.Font.SourceSansBold)
-	label.Text = it.t -- data only: the text never becomes code
-	label.Parent = gui
+	local asset = tonumber(it.im)
+	if asset and asset > 0 and asset == math.floor(asset) then
+		-- a generated sign image (SI-7): the asset id is a number, never text, and the text stays in `t` as the fallback
+		local image = Instance.new("ImageLabel")
+		image.Size = UDim2.fromScale(1, 1)
+		image.BackgroundTransparency = 1
+		image.ScaleType = Enum.ScaleType.Stretch
+		image.Image = "rbxassetid://" .. string.format("%d", asset)
+		image.Parent = gui
+	else
+		local label = Instance.new("TextLabel")
+		label.Size = UDim2.fromScale(1, 1)
+		label.BackgroundTransparency = 1
+		label.TextScaled = true
+		label.TextColor3 = colorOf(looks, { "", 20, 20, 20 }, it.o)
+		label.FontFace = Font.fromEnum(Enum.Font.SourceSansBold)
+		label.Text = it.t -- data only: the text never becomes code
+		label.Parent = gui
+	end
 	gui.Parent = part
 end
 
@@ -263,7 +274,7 @@ function Builder.verify(cellId, expected, sampleNames, buildingIds, root)
 	if expected.labels ~= nil then
 		local labels = 0
 		for _, d in ipairs(cell.Signs:GetDescendants()) do
-			if d:IsA("TextLabel") then
+			if d:IsA("TextLabel") or d:IsA("ImageLabel") then
 				labels += 1
 			end
 		end

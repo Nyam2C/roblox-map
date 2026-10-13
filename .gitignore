@@ -12,3 +12,4 @@ captures/
 .env
 # local database, logs and backups
 data/
+assets/

@@ -1001,3 +1001,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U5 details complete. Next: the other two cells.
 
 ---
+## U5 Sign Images - Decision Change and Go
+**Timestamp**: 2026-10-13T09:51:33Z
+**User Request**: Asked whether an Azure OpenAI image endpoint (deployment gpt-image-2.5-sunburst) could fill the signs; after a one-image trial (Korean sign text rendered correctly) and Claude's recommendation (band signs and floor signs as generated images, plates, projecting and roof signs stay text), the user said "추천대로 진행해" and also asked for a real satellite photo of the area.
+**Decision**: The U5 rule "no external assets (texture upload)" is relaxed for sign images only: generated sign images are uploaded to Roblox through the Studio MCP upload_image tool and shown with an ImageLabel in the sign SurfaceGui; every other part keeps built-in materials. The API key lives in .env (OPENAI_API_KEY, OPENAI_BASE_URL, git-excluded) and is never written to code, docs or Luau. Generated images go to assets/signs/ (git-excluded cache) keyed by the sign text and look; asset ids go to signs/<cell>.json (git-included) so a rebuild never regenerates or re-uploads.
+**Context**: CONSTRUCTION - U5 extension "sign images" (functional design, code, Build and Test); the user is present for this request.
+
+---
+

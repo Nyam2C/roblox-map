@@ -61,7 +61,8 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
     """One item as a Luau table. Keys: k kind, n name, x y z center, w h d size (local X, Y, Z), r yaw; buildings add
     s source, e height in m, q fit ratio, f floors, and from U4 b height basis, a floors basis, c wall color name,
     v review flags. U5 adds, only when they differ from the defaults (BR-14.2): i owner, p shape, m material, c color name
-    (any kind), o ink, t sign text, u="LR" two-sided, md sign MaxDistance (x is the position), j reflectance, g shadow, l collide.
+    (any kind), o ink, t sign text, u="LR" two-sided, md sign MaxDistance (x is the position), im sign image asset id (SI-6),
+    j reflectance, g shadow, l collide.
     BuildingId and CellId are not sent: Builder takes them from n (or i) and the cell."""
     parts = [f"k={luau_string(item.kind)}", f"n={luau_string(item.name)}", f"x={luau_number(item.cx)}", f"y={luau_number(item.cy)}",
              f"z={luau_number(item.cz)}", f"w={luau_number(item.sx)}", f"h={luau_number(item.sy)}", f"d={luau_number(item.sz)}",
@@ -95,6 +96,11 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
             parts.append('u="LR"')
         if "MaxDistance" in item.attrs:
             parts.append(f"md={int(item.attrs['MaxDistance'])}")
+        if "ImageAsset" in item.attrs:  # SI-6: a generated sign image, by Roblox asset id (a number, never text)
+            asset = item.attrs["ImageAsset"]
+            if not isinstance(asset, int) or isinstance(asset, bool) or asset <= 0:
+                raise ValueError(f"not a Roblox asset id: {asset!r}")
+            parts.append(f"im={asset}")
     if item.reflectance:
         parts.append(f"j={luau_number(item.reflectance)}")
     default_shadow, default_collide = layout.KIND_DEFAULTS[item.kind]
@@ -145,7 +151,7 @@ def _texts_ok(item: layout.Item) -> bool:
 def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Sequence[Mapping[str, Any]],
               cfg: Mapping[str, Any], estimates: Mapping[str, Mapping[str, Any]] | None = None,
               overrides: Mapping[str, Mapping[str, Any]] | None = None,
-              details: Mapping[str, Mapping[str, Any]] | None = None) -> Plan:
+              details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -245,6 +251,15 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     warnings += spawn_warnings
     if cfg.get("spawn_lat") is None:
         warnings.append("no spawn point configured (spawn_lat, spawn_lon): no spawn is built")
+    sign_images = 0
+    for i in items:  # SI-6: band and floor signs whose image was made and uploaded get the asset id; the text stays as the fallback
+        if i.kind == "sign" and sign_assets and i.text and i.color_name and i.ink:
+            tail = details_rules.sign_tail(i.name)
+            if tail in details_rules.SIGN_IMAGE_TAILS:
+                asset = sign_assets.get(details_rules.sign_image_key(i.text, tail, i.color_name, i.ink, details_rules.aspect_bucket(i.sx, i.sy)))
+                if asset is not None:
+                    i.attrs["ImageAsset"] = int(asset)
+                    sign_images += 1
     items = layout.order_items(items)
     chunks = layout.chunk_items(items, cfg["chunk_size"])
     files = {f"chunk-{n:03d}.luau": render_chunk(cell_id, n, len(chunks), c) for n, c in enumerate(chunks, 1)}
@@ -260,7 +275,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               "streets_in": sum(1 for f in features if f["kind"] in ("road", "path")), "junctions": sum(1 for j in jcts if j.owned),
               "poor_fit": len(poor_fit), "warnings": len(warnings), "judged": judged, "details_used": details_used,
               "flagged": sum(1 for i in items if i.kind == "building" and "Review" in i.attrs),
-              "signs": signs, "labels": labels, "parts_total": len(items), "boxes": len(boxes_report),
+              "signs": signs, "labels": labels, "sign_images": sign_images, "parts_total": len(items), "boxes": len(boxes_report),
               "no_facing": len(no_facing), "far_facing": len(far_facing)}
     manifest = {"cell_id": cell_id, "counts": counts, "poor_fit": poor_fit, "warnings": warnings, "boxes": boxes_report,
                 "building_ids": building_ids, "duplicates_dropped": [list(d) for d in dropped], "no_facing": no_facing, "far_facing": far_facing,
@@ -287,13 +302,40 @@ def write_plan(plan: Plan, root: Path) -> list[Path]:
     return paths
 
 
-def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
+SIGN_KEY_RE = re.compile(r"[0-9a-f]{16}")
+
+
+def load_sign_assets(path: Path) -> dict[str, int]:
+    """signs/<cell>.json -> {sign image key: Roblox asset id}. No file means text signs everywhere (SI-9); a bad entry refuses the build."""
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    rows = data.get("signs") if isinstance(data, dict) else None
+    if not isinstance(rows, dict):
+        raise ValueError(f"{path.name}: not a sign asset file")
+    out: dict[str, int] = {}
+    for key, row in rows.items():
+        asset = row.get("asset_id") if isinstance(row, dict) else None
+        if not (isinstance(key, str) and SIGN_KEY_RE.fullmatch(key) and isinstance(asset, int) and not isinstance(asset, bool) and asset > 0):
+            raise ValueError(f"{path.name}: bad sign asset entry {str(key)[:20]!r}")
+        out[key] = asset
+    return out
+
+
+def load_cell_inputs(conn, cell_id: str) -> tuple[list, list, dict, dict, dict]:
+    """The database rows plan_cell needs: buildings, road and path features, estimates, overrides, details (also used by signs.py)."""
     buildings = [b for b in db.rows_in_cells(conn, "buildings", [cell_id]) if b["status"] == "ok"]
     if not buildings:
         raise ValueError("no buildings stored for this cell: run register.py first")
     features = [f for f in db.rows_in_cells(conn, "street_features", [cell_id]) if f["kind"] in ("road", "path")]
     estimates = {e["building_id"]: e for e in db.estimates_in_cell(conn, cell_id)}
-    plan = plan_cell(cell_id, buildings, features, cfg, estimates, db.overrides_by_building(conn, cell_id), db.details_by_building(conn, cell_id))
+    return buildings, features, estimates, db.overrides_by_building(conn, cell_id), db.details_by_building(conn, cell_id)
+
+
+def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
+    buildings, features, estimates, overrides, details = load_cell_inputs(conn, cell_id)
+    sign_assets = load_sign_assets(common.resolve(cfg["signs_dir"]) / f"{cell_id}.json")
+    plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets)
     write_plan(plan, root)
     return plan
 

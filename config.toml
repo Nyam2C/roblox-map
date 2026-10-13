@@ -75,6 +75,13 @@ roof_pitch_deg = 25           # 박공·모임지붕 경사각
 window_faces = "all"          # "front"이면 창을 도로 쪽 면에만 (FPS 조절 1단계)
 details_dir = "details"       # 세부 판단 내보내기 파일(git 포함)
 
+# U5 간판 이미지 (aidlc-docs/construction/u5-details/sign-images/plan.md). 비밀값 OPENAI_API_KEY, OPENAI_BASE_URL은 .env
+signs_dir = "signs"                       # 올린 자산 ID 기록 signs/<칸ID>.json (git 포함)
+assets_dir = "assets/signs"               # 만든 이미지 캐시 (git 제외)
+sign_image_model = "gpt-image-2.5-sunburst"   # Azure 배포 이름
+sign_image_size = "1536x1024"
+sign_image_workers = 4                    # generate의 병렬 호출 수
+
 [road_widths_m]               # 도로 종류별 폭(m). OSM width 태그가 있으면 그것이 우선이다 (BR-3.4)
 motorway = 14
 trunk = 14
