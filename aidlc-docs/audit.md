@@ -1238,3 +1238,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: Decisions; U7 planning.
 
 ---
+
+## U7 Plan Cleaned Up
+**Timestamp**: 2026-10-13T16:54:37Z
+**User Request**: "응 계획서 정리해줘"
+**AI Response**: Rewrote aidlc-docs/construction/plans/u7-real-shapes-interiors-plan.md into one consistent plan: the decisions (A) in a table, completion criteria (cells 1 and 3 rebuilt by the cycle, cell 2 made start to finish from the skills alone, skills and records updated), starting point, work items B, G, D (with interior kits by tier), E (PC only), F, J (Manual-site criteria and the school ground generator), K (sign reuse), H (tree kit, then villa window bay compared side by side), I, the repeating cycle, eight steps with user checkpoints, files, tests P7-1..12, risks. Waiting for approval.
+**Context**: CONSTRUCTION - U7 planning.
+
+---
