@@ -725,3 +725,20 @@
 **Context**: U4 NFR Requirements approved. Committing and pushing the plan, the two NFR documents, audit and state; then starting U4 Code Generation Part 1 (planning). NFR Design is skipped as planned.
 
 ---
+
+## U4 Code Generation - Part 1 Plan (approval prompt)
+**Timestamp**: 2026-10-13T06:10:00Z (approx.)
+**User Input**: "ㄱㄱ 승인하고 커밋 푸시까지" (the NFR Requirements approval, see the entry above; NFR Design is skipped as planned)
+**AI Response**: Committed and pushed the NFR Requirements (2e552d7, main). Started U4 Code Generation Part 1: read the stage rule, the U2 code generation plan (format), build_luau.py, layout.py, studio/Builder.luau, common.py, db.py, the test generators and conftest. Created aidlc-docs/construction/plans/u4-judgement-corrections-code-generation-plan.md with 12 steps (config; pure modules judgement.py and review.py; db.py U4 tables, export and import; property-based and example tests; overrides.py; estimate.py with pending, record, report, plan and compose; U2 changes in layout.py, build_luau.py and Builder.luau with a Studio test inside MCP_Test only; read-only real-data check that keeps the blind judgement intact; versions test and documents; post-generation checks), a traceability table for FR-8, FR-9, FR-11, NFR-3, NFR-4, NFR-6, NFR-7, NFR-8, BR-1 to BR-10 and P4-1 to P4-16, and 6 announced adjustments to the Functional Design (Review separator "-" instead of a comma, overrides_dir setting, header strip on pair images, order exception to P4-10, compose subcommand, two pure modules). No code was written. Asked for approval of the plan.
+**Context**: CONSTRUCTION - U4 Code Generation Part 1 (Planning), Step 6-7 approval gate.
+
+---
+
+## U4 Code Generation - Plan Approval
+**Timestamp**: 2026-10-13T06:25:00Z (approx.)
+**AI Prompt**: "Unit of work code generation plan complete. Review aidlc-docs/construction/plans/u4-judgement-corrections-code-generation-plan.md. Ready to proceed to generation?" and the question about commit and push
+**User Response**: "ㄱㄱ 승인하고 커밋 푸시까지"
+**Status**: Approved, commit and push authorized (for this plan commit)
+**Context**: U4 Code Generation Part 1 complete. Committing and pushing the plan, then starting Part 2 (Generation) at plan step 1.
+
+---

@@ -3,7 +3,7 @@
 ## Project Information
 - **Project Type**: Brownfield (minimal: 50-line prototype script)
 - **Start Date**: 2026-10-12T12:47:25Z
-- **Current Stage**: CONSTRUCTION - U1, U2 and U3 complete. U4 Functional Design approved (2026-10-13). U4 NFR Requirements approved (2026-10-13), U4 Code Generation next (NFR Design skipped)
+- **Current Stage**: CONSTRUCTION - U1, U2 and U3 complete. U4 Functional Design approved (2026-10-13). U4 NFR Requirements approved (2026-10-13). U4 Code Generation plan approved (2026-10-13), Part 2 (generation) in progress (NFR Design skipped)
 - **AI-DLC Rules Version**: 1.0.1 (local clone of awslabs/aidlc-workflows, copied to `.aidlc-rule-details/`)
 
 ## Workspace State
@@ -50,7 +50,7 @@
 ## Execution Plan Summary
 - **Stages to Execute**: Application Design, Units Generation, Functional Design, NFR Requirements, NFR Design, Code Generation, Build and Test
 - **Stages to Skip**: Reverse Engineering (user choice), User Stories (single persona), Infrastructure Design (no cloud infrastructure)
-- **Next Stage**: U4 Code Generation (plan first), then Build and Test
+- **Next Stage**: U4 Code Generation Part 2 (generation, step 1 of 12 first), then Build and Test
 - **Unit Order**: U1 data foundation -> U3 street-view capture -> U2 Studio builder -> U4 estimate and corrections -> U5 details, first cell 8930e0af13bffff, then repeat for the other two cells
 - **Design Decisions**: GIS integrated building data matched to OSM (Q1=C), role-based scripts (Q2=A), SQLite as hub (Q3=C, Q7=A), Luau ModuleScript in Studio (Q4=B), Auto/Manual folders (Q5=A), per-cell 360 panorama capture (Q6=C), overrides exported to text for git (Q8=B)
 - **Key Decisions**: H3 res 9 kept for future expansion; heights: floors from building register (건축물대장) first, verified by street view, street-view estimate as fallback, reviewed together by user and Claude; spawn at school front gate road
