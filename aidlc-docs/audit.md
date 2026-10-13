@@ -1009,3 +1009,10 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 
 ---
 
+## U5 Sign Images and School v4 - Upload Stopped by Roblox Moderation
+**Timestamp**: 2026-10-13T10:57:29Z
+**AI Response**: Generated 145 sign images (two passes, the endpoint answers 429 under four parallel calls; raw answers cached, finishing redone to crop to the lettering block). Uploaded with the Studio MCP upload_image tool: batch 1 (25) succeeded, batch 2 had 12 successes and then every upload answered HTTP 403 "User is moderated"; batch 3 failed entirely. Stopped uploading at once (no retries, no workaround), recorded the 36 usable asset ids in signs/8930e0af13bffff.json, rebuilt the cell (36 ImageLabel signs, 214 text signs, verify ok). The one uploaded image that can breach Roblox's alcohol rule, a "호프" (beer hall) band sign with a beer-mug icon, was dropped from the record; "호프" was replaced by "문구" in the name pool and the beer icon removed, with a guard test. Meanwhile the school was rebuilt by hand (Manual/School v4) from the U3 street-view crops and three photos the user supplied: entrance canopy, steps, name sign and clock on the south wing, coloured window surrounds, cream east end wall with the name in blue letters and a brick corner, dark roof band, stair tower on the north side, red roof on the north-west block, dark roof, arched stair window and balcony stack on the brick building, green shade shelters, basketball cage and hoop, potted pines, white leaf fences on the road sides and green bars on the west, granite gate pillars with folding gates at the user's marked gates, and the pine park west of the parcel; the school archetype now gets a classroom window grid (1.8 x 1.5 m at 2.4 m). Tests 585 passed. Commit a45bf4f.
+**Context**: CONSTRUCTION - U5 sign images paused at 36/145 until the user checks the Roblox account's moderation notice; school detail work continues.
+
+---
+
