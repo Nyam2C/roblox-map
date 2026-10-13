@@ -1166,3 +1166,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 planning.
 
 ---
+
+## Scale Q4 - Meshes Only for Reusable Pieces
+**Timestamp**: 2026-10-13T16:21:22Z
+**User Response**: "일단 건물을 조립하고 재 사용 가능성이 있어 보이면 메시로 만들자"
+**AI Response**: Recorded as scale Q4 = X: buildings stay assembled from parts; repeated pieces (trees, furniture, lamps and poles, window frames, fences) become reusable mesh kits when they show up, first few uploads checked for moderation, asset ids pinned in git; no whole-building meshes. U7 plan item H and CLAUDE.md decisions updated.
+**Context**: INCEPTION - scale decisions.
+
+---
