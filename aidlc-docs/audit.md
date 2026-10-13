@@ -893,3 +893,63 @@
 **Context**: U4 judgement and corrections is complete (code, Build and Test, first cell judged, built and checked in Studio, recovery drill and frame rate done). Next unit in the order is U5 details; it starts only when the user asks.
 
 ---
+## U5 Details - Start (Session Continuity, Functional Design)
+**Timestamp**: 2026-10-13T05:51:22Z
+**User Input**: "u5 진행해
+
+u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거라고 착각할만큼 완벽히 진행해"
+**AI Response**: Read aidlc-state.md (U1 to U4 complete, U5 not started), the U5 unit definition, requirements FR-4 to FR-7 and NFR-1, the U2 and U4 functional designs and code (layout.py, build_luau.py, Builder.luau, judgement.py), config.toml and the first-cell data (122 buildings, roof shapes and wall colors judged, street features are roads only). Treated the message as "continue where you left off" (U5 Functional Design). Before writing the functional design plan, launched a read-only analysis: survey of the street-view sheets for the neighborhood's visual vocabulary, extension points in the builder code, Roblox techniques for roofs, windows, signs and street furniture with part budgets, and the data signals available per building. No file in the project is changed by the analysis.
+**Context**: CONSTRUCTION - U5 details, Functional Design (step 1: analyze unit context).
+
+---
+
+## U5 Details - Language Instruction
+**Timestamp**: 2026-10-13T06:07:21Z
+**User Input**: "한글로 말해라"
+**AI Response**: 채팅 답변을 한글로 바꿨다. 분석 워크플로(사진 조사, 코드 확장점, Roblox 기술, 데이터 신호 -> 설계안 3개 -> 비평 2개)는 계속 돌고 있고, 끝나면 U5 기능 설계 계획서와 질문을 aidlc-docs/construction/plans/에 쓴다.
+**Context**: CONSTRUCTION - U5 details, Functional Design (분석 진행 중).
+
+---
+
+## U5 Details - Functional Design Plan and Questions
+**Timestamp**: 2026-10-13T06:58:31Z
+**AI Prompt**: Finished the read-only analysis (photo survey of 50 sheets, code extension points, Roblox facts from docs and Studio measurements, data signals of the first cell, three design proposals, two critiques; saved under aidlc-docs/construction/u5-details/analysis/). Wrote aidlc-docs/construction/plans/u5-details-functional-design-plan.md with the confirmed facts, 25 design defaults (D-U5-1 to D-U5-25: one part per item with owner ids and four new kinds, no external assets, deduplicated outlines, archetypes, facing side, material from wall color, bands and parapet, measured roof recipes, opaque window parts, storefront, yard wall and gate, signs with fictional names, rule-generated street furniture, residential sidewalks, Manual school, lighting by hand, chunking, config keys, budget about 5k parts per cell, Studio tests T1 to T5, privacy) and 9 questions: Q1 source of per-building facade facts (A second judgement pass, B note keywords, C hash), Q2 multi-box footprints, Q3 school bodies Auto vs whole Manual, Q4 parked cars, Q5 paved ground, Q6 Hangul sign text transport (A second regex, B hex), Q7 real names for public institutions, Q8 lighting Realistic, Q9 scope of small objects. Recommendations: A A A A A A A A A. Asked the user to answer in the plan file (or in chat).
+**User Response**: (waiting)
+**Status**: Pending.
+**Context**: CONSTRUCTION - U5 details, Functional Design (steps 2 to 4 done: plan, questions, stored; step 5 waiting for answers).
+
+---
+
+## U5 Details - Functional Design Answers
+**Timestamp**: 2026-10-13T07:05:03Z
+**User Input**: "A A A A A A A A A"
+**AI Response**: Transcribed the nine answers into aidlc-docs/construction/plans/u5-details-functional-design-plan.md (Q1 second facade judgement pass with a details table, Q2 multi-box footprints, Q3 school bodies in Auto with Manual extras, Q4 parked cars at 8/10 m, Q5 paved ground, Q6 Hangul sign text verbatim through a second regex, Q7 real names for public institutions, Q8 Realistic lighting, Q9 all small objects). Checked for contradictions: none (Q3=A needs Q2=A, satisfied; Q9=A and Q4=A fit the budget estimate D-U5-23). No follow-up questions. Proceeding to the functional design artifacts under aidlc-docs/construction/u5-details/functional-design/.
+**Context**: CONSTRUCTION - U5 details, Functional Design (step 5 done, step 6 artifacts in progress).
+
+---
+
+## U5 Details - Standing Approval for the Rest of U5
+**Timestamp**: 2026-10-13T07:16:11Z
+**User Input**: "나 오래 자리비워야해서 자동승인으로 하고 질문있으면 권고하고 u5 끝까지 진행해"
+**AI Response**: Recorded a standing approval from the user for every remaining U5 gate (Functional Design approval, NFR Requirements plan, questions and approval, Code Generation plan and approval, Build and Test approval). For every question file from here on, Claude answers with the recommended option, writes the answer into the file and logs it here as "answered by Claude under the standing approval". Commits and pushes at the stage gates follow the pattern of the earlier units ("승인하고 커밋 푸시까지"). Steps that only the user can do (LightingStyle in the Properties window, the .rbxl copy, keeping the Studio window in front for the frame-rate measurement) are attempted where a tool allows it and otherwise listed for the user at the end.
+**Context**: CONSTRUCTION - U5 details, Functional Design (verification running), then NFR Requirements, Code Generation, Build and Test.
+
+---
+
+## U5 Details - Studio Smoke Test T1 (S-7, S-8, S-10 in advance)
+**Timestamp**: 2026-10-13T07:24:36Z
+**AI Response**: Built the U5 T1 smoke chunk under Workspace/MCP_Test/U5_T1 (22 parts, scratch folder only): a 12 x 10 x 10 m brick box with a gable roof (2 Part.Shape=Wedge), one with a hip roof (2 wedges + 4 CornerWedge), one with a shed roof, a vertical cylinder (size = height, dia, dia with a 90 degree roll), a LeafyGrass ball, seven material samples and a Hangul sign (SurfaceGui + TextLabel, TextScaled, SourceSansBold). Read back: all four corner-wedge apexes at the ridge ends (+-3.6, 44.993, 0) against the expected (3.6, 44.993, 0); both wedge ridges coincide at (0, 44.993, 0); eave at y 35.928 = (10 - 0.02) x 3.6 and z -19.44 = -(d/2 + 0.4) x 3.6; cylinder y extent [0, 36] (stands). Captures (camera arguments given): the hip corners close without gaps, the eave overhang shows, Brick at 3.6 studs per metre reads as real brick courses, the sign text "한솔약국 2층 치과" renders in a bold CJK face without tofu. The measured wedge conventions and the four corner yaws (180, 90, 270, 0) in BR-4.2 are confirmed. The scratch folder stays until the end of Build and Test. Baseline tests before any U5 code change: 412 passed, 1 skipped (seed 42).
+**Context**: CONSTRUCTION - U5 details, Functional Design verification running; Studio checks S-7, S-8 (Brick) and S-10 (one sign) done early.
+
+---
+
+## U5 Details - Functional Design Verified, Fixed and Approved
+**Timestamp**: 2026-10-13T07:40:43Z
+**AI Response**: Three verification critiques (consistency, implementability, extension compliance; 7 blocking, about 50 should-fix, about 60 nits) were applied by rewriting business-rules.md, domain-entities.md and business-logic-model.md: band sign bottom moved to fh - 0.2 above the shop canopy; yard wall measured from setback_s (setback minus the sidewalk width); "ring" parts renamed slabs and the roof railing made of four bars; rooftop base heights; reflectance literal key j; manifest signs and labels (two-sided projecting signs); exterior 0.6 m rule excludes yard and rooftop; prop budget 120 per 100 m; owned-item naming and hash-purpose table; facing side from the full feature geometry with an explicit along formula; multi-box cut ordering; crosswalk markings 0.01 stud above centre lines; free-span placement of windows, storefront, signs and AC units around stair towers and bays; public buildings get a care-pool name sign; note keyword rules for roof colour, garage and rooftop; Manual scripts restricted to Workspace/Manual/School with no Destroy; recovery drill S-16; PBT categories fixed and the components without properties listed; P5-19 sidewalk sides; F = max(1, ...); fh < 2.0 guard; chunk_size 80; body gate adds a long-side ratio. The plan's adjustment table records the amended defaults. Extension compliance: Security (SECURITY-05, 09, 11, 12, 13, 15 compliant; 01, 03 with the U1 exceptions; 02, 04, 06, 07, 08, 10, 14 N/A), Resiliency (01, 02, 03, 04, 11, 12, 13, 14, 15 compliant; 05 to 10 N/A), PBT-01 compliant (P5-1 to P5-19 with categories, no-property components listed). frontend-components.md is not needed (no UI; the only interaction is the CLI and Studio itself).
+**AI Prompt**: "Functional Design Complete - u5-details. Continue to Next Stage (NFR Requirements)?"
+**User Response**: Approved under the standing approval of 2026-10-13T07:40:43Z (user, earlier: "나 오래 자리비워야해서 자동승인으로 하고 질문있으면 권고하고 u5 끝까지 진행해").
+**Status**: Approved. Committed and pushed.
+**Context**: CONSTRUCTION - U5 details, Functional Design complete; next NFR Requirements.
+
+---
+
