@@ -85,7 +85,7 @@ C) 큰길(간선도로)로 둘러싸인 블록 단위.
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A (사용자, 2026-10-14: "A로 하고 지도에도 좀 장소 정보 표시가 더 상세하게 있으면 좋겠는데?")
 
 ## Question 9 — 데이터 출처 표시와 이용 조건
 OSM 데이터로 만든 것을 공개하면 "© OpenStreetMap contributors" 표시가 필요하다(ODbL). V-World 데이터와 위성의 이용 조건은 아직 확인하지 않았다.
@@ -96,4 +96,4 @@ B) 나중에(게시할 때) 정한다.
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A (사용자, 2026-10-14: "A로 하고 지도에도 좀 장소 정보 표시가 더 상세하게 있으면 좋겠는데?")

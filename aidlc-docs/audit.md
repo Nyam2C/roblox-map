@@ -1190,3 +1190,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - scale decisions.
 
 ---
+
+## Scale Q8, Q9 and a Map-Detail Request for U6
+**Timestamp**: 2026-10-13T16:28:16Z
+**User Response**: Asked what Q8 and Q9 are, then "A로 하고 지도에도 좀 장소 정보 표시가 더 상세하게 있으면 좋겠는데?"
+**AI Response**: Recorded scale Q8 = A (places split by administrative dong) and Q9 = A (OSM attribution in the game description and in game, V-World terms checked before publishing, satellite never in the map). The map request belongs to U6 (another session's unit, files still uncommitted), so wrote aidlc-docs/inception/requirements/u6-map-detail-questions.md for the session that resumes U6: what the data already has (81 building names, 20 road names, dong boundaries), a privacy note (one building name holds a person's name; personal names and lot addresses never go on the map), and three questions (which layers, zoom levels, attribution spot).
+**Context**: INCEPTION - scale decisions; U6 addendum.
+
+---
