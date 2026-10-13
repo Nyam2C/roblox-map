@@ -1342,3 +1342,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 5; decision change.
 
 ---
+
+## Reference Models Measured; Exterior Candidates a, b, c Built (BR-6.6, BR-3.2a)
+**Timestamp**: 2026-10-13T20:08:42Z
+**User Request**: "findsskill로 로볼록스 구현 관련 스킬 찾아봐" / "그럼 모델 디자인 로볼록스 건물 디자인에서 참고 가능한거" / "둘다 클로드 스킬이야?" / "둘 다 넣어서 재 봐" / "a,b,c ㄱㄱ"
+**AI Response**: Searched skills.sh (roblox-brain skills are general Roblox knowledge, little on facades; nothing installed). Searched the Creator Store and measured two models in MCP_Test/Ref (scripts deleted at once, no Play): the official Modular Building Kit (11 buildings of 109-456 parts, 15-stud floors, window pieces 3 floors tall, 4-layer windows for depth) and a Korean apartment model (14337224610; 8863231026 failed to load), ~28,500 parts. Built the three candidates: (a) a villa window frame 0.2 m proud of the wall with the glass on it, (c) one frame and one glass per window column over its run of floors, with a wall-colour skin (0.3 m) between rows, cut at the stair tower and bay; (b) a thick ground band at the first floor line (0.3 m tall, 0.48 m proud), not on schools. AC and gas pipe move onto the skin. Schools keep their windows (Manual parts sit on their walls). Villa window parts 5,121 -> 5,218 (three cells 22,127 -> 22,224): what (c) saved went into (a). Checked in MCP_Test/Facade (30 villas of cell 1, shifted 8,000 studs east).
+**Context**: CONSTRUCTION - U7 exterior quality L. Rules BR-6.6 and BR-3.2a in u5-details business-rules.md; tests test_br_6_6_*, test_br_3_2a_*, two existing tests updated.
+
+---

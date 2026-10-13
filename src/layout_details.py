@@ -487,7 +487,12 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
     band_name = f"{body.wall_color}_band"
     band = dict(material=body.material, color=R.band_color(body.wall_rgb), color_name=band_name)
     for k in range(1, F):
-        items.append(_box_part(frame, body, bi, "facade", f"fl{bi}-{k}", seq, 0.0, 0.0, k * fh - D["band_h"] / 2, (w + lip, D["band_h"], d + lip), **band))
+        if k == 1 and body.archetype != "school":  # BR-3.2a: the ground floor ends in a thick band proud of the window skin
+            bh, bl = D["band1_h"], 2 * D["band1_out"]
+            items.append(_box_part(frame, body, bi, "facade", f"fl{bi}-{k}", seq, 0.0, 0.0, k * fh - bh / 2, (w + bl, bh, d + bl),
+                                   material="Concrete", color=R.PALETTE["band_ground"], color_name="band_ground"))
+        else:
+            items.append(_box_part(frame, body, bi, "facade", f"fl{bi}-{k}", seq, 0.0, 0.0, k * fh - D["band_h"] / 2, (w + lip, D["band_h"], d + lip), **band))
         seq += 1
     flat = body.archetype == "school" or body.roof_shape not in ("gable", "hip", "shed")
     roof_surface = H
@@ -527,11 +532,14 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                 items += more
                 seq += len(more)
                 continue
+            if body.archetype == "villa":
+                more = _villa_face(body, bi, side, frame, seq, win_t, glass, is_front)
+                items += more
+                seq += len(more)
+                continue
             for k in range(F):
-                if body.archetype in ("villa", "school", "apartment"):  # punched windows; a school gets the dense classroom grid (BR-6.1, street view 2026-10-13)
-                    pitch, win_w, win_h, win_max = ((D["school_win_pitch"], D["school_win_w"], D["school_win_h"], 60) if body.archetype == "school"
-                                                    else (3.6, D["win_w"], D["win_h"], 30) if body.archetype == "apartment"
-                                                    else (D["win_pitch"], D["win_w"], D["win_h"], int(D["win_max"])))
+                if body.archetype == "school":  # the dense classroom grid (BR-6.1, street view 2026-10-13)
+                    pitch, win_w, win_h, win_max = D["school_win_pitch"], D["school_win_w"], D["school_win_h"], 60
                     n = max(1, min(win_max, int((L - 1) // pitch)))
                     wh = min(win_h, fh - 1.0)
                     for j in range(n):
@@ -586,6 +594,78 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                                    (D["tank_h"], D["tank_dia"], D["tank_dia"]), box.yaw_deg, owner=body.building_id, shape="Cylinder",
                                    material="SmoothPlastic", color=R.PALETTE["tank"], color_name="tank"))
                 seq += 1
+    return items
+
+
+FRAMES = ("frame_white", "frame_gray", "frame_dark")
+
+
+def _villa_columns(body: Body, bi: int, side: str, is_front: bool) -> tuple[list[tuple[float, list[int]]], float]:
+    """BR-6.1 window places of a villa face as columns: (along, floors with a window there), and the window height. The front
+    face skips the stair tower and bay spans, the shop's ground floor and the door's slot on the ground floor (BR-6.4)."""
+    L, F, fh = face_of(body.boxes[bi], side).length, body.floors, body.fh
+    win_w = D["win_w"]
+    n = max(1, min(int(D["win_max"]), int((L - 1) // D["win_pitch"])))
+    spans = free_spans(body) if is_front else []
+    door = _door_along(body) if is_front else None
+    cols = []
+    for j in range(n):
+        a = L * (j + 0.5) / n - L / 2
+        if is_front and not _in_span(spans, a - win_w / 2, a + win_w / 2):
+            continue
+        ks = [k for k in range(F) if not (is_front and k == 0 and (body.shop or (door is not None and
+                                                                                abs(a - door) < (win_w + D["door_w"]) / 2 + D["span_clear"])))]
+        cols.append((a, ks))
+    return cols, min(D["win_h"], fh - 1.0)
+
+
+def villa_skin_at(body: Body, bi: int, side: str, k: int, is_front: bool) -> bool:
+    """BR-6.6: a villa face has wall skin between rows k-1 and k when some window column runs across that floor line."""
+    if body.archetype != "villa" or body.fh < D["min_fh"]:
+        return False
+    return any(k - 1 in ks and k in ks for _, ks in _villa_columns(body, bi, side, is_front)[0])
+
+
+def _villa_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: float, glass: Mapping[str, Any], is_front: bool) -> list[Item]:
+    """BR-6.6: a villa face's windows in few parts. Each run of floors with a window in the same place is one frame (proud of the
+    wall by `frame_out`, a colour picked per building) with one glass on it; between two rows a wall-colour skin (`skin_out`)
+    covers the frames and glass across the face, so each floor reads as a framed window set in a deeper wall. The skin stops at
+    the stair tower and the bay on the front face."""
+    L, fh = face_of(body.boxes[bi], side).length, body.fh
+    cols, wh = _villa_columns(body, bi, side, is_front)
+    fr = FRAMES[R.pick(body.building_id, "frame", len(FRAMES))]
+    frame_look = dict(material="SmoothPlastic", color=R.PALETTE[fr], color_name=fr)
+    wall = dict(material=body.material, color=body.wall_rgb, color_name=body.wall_color)
+    win_w, m, sill = D["win_w"], D["frame_m"], D["win_sill"]
+    items: list[Item] = []
+
+    def add(tail: str, along: float, y: float, out: float, size: tuple[float, float, float], look: Mapping[str, Any]) -> None:
+        items.append(_wall_part(frame, body, bi, side, "facade", tail, seq + len(items), along, y, out, size, **look))
+
+    for j, (a, ks) in enumerate(cols):
+        runs: list[list[int]] = []
+        for k in ks:
+            if runs and runs[-1][-1] == k - 1:
+                runs[-1].append(k)
+            else:
+                runs.append([k])
+        for run in runs:
+            y0, y1 = run[0] * fh + sill, run[-1] * fh + sill + wh
+            add(f"wf{bi}{side}{run[0]}-{j}", a, y0 - m, D["frame_out"], (win_w + 2 * m, y1 - y0 + 2 * m, D["frame_out"]), frame_look)
+            add(f"w{bi}{side}{run[0]}-{j}", a, y0, D["frame_out"] + D["frame_glass"], (win_w, y1 - y0, win_t), glass)
+    so = D["skin_out"]
+    ranges = [(-L / 2 - so, L / 2 + so)]  # past the corner so two faces' skins meet
+    if is_front:
+        for b0, b1 in _blocked(body):
+            b0, b1 = b0 - D["span_clear"], b1 + D["span_clear"]
+            ranges = [r for s0, s1 in ranges for r in ((s0, min(s1, b0)), (max(s0, b1), s1)) if r[1] - r[0] > 1e-6]
+    for k in range(1, body.floors):
+        if not any(k - 1 in ks and k in ks for _, ks in cols):
+            continue
+        bottom, top = (k - 1) * fh + sill + wh, k * fh + sill
+        for i, (s0, s1) in enumerate(ranges):
+            if s1 - s0 >= D["span_min"]:
+                add(f"ws{bi}{side}{k}-{i}", (s0 + s1) / 2, bottom, so, (s1 - s0, top - bottom, so), wall)
     return items
 
 
@@ -758,12 +838,13 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
                                         material="Slate", color=R.PALETTE["canopy"], color_name="canopy"))
             seq += 2
     # AC units (BR-8.5)
+    skin = D["skin_out"] if villa_skin_at(body, bi, side, 1, True) else 0.0  # BR-6.6: the AC and the gas pipe sit on the skin
     if body.archetype == "villa":
         count = 1 + R.pick(body.building_id, "ac", 2)
         spans = free_spans(body)
         for i, a in enumerate((L / 4 + D["ac_along"], -(L / 4 + D["ac_along"]))[:count]):
             if _in_span(spans, a - D["ac_w"] / 2, a + D["ac_w"] / 2):
-                items.append(_wall_part(frame, body, bi, side, "facade", f"ac{i}", seq, a, fh - D["ac_drop"], D["ac_d"], (D["ac_w"], D["ac_h"], D["ac_d"]),
+                items.append(_wall_part(frame, body, bi, side, "facade", f"ac{i}", seq, a, fh - D["ac_drop"], skin + D["ac_d"], (D["ac_w"], D["ac_h"], D["ac_d"]),
                                         material="Metal", color=R.PALETTE["ac"], color_name="ac"))
                 seq += 1
     elif body.archetype == "commercial":
@@ -779,8 +860,9 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
     # gas pipe (BR-8.6)
     if det["finish"] == "brick":
         gas = dict(material="Metal", color=R.PALETTE["gas"], color_name="gas")
-        items.append(_wall_part(frame, body, bi, side, "facade", "gs0", seq, 0.0, D["gas_y"], D["gas_out"], (L, D["gas_dia"], D["gas_dia"]), **gas))
-        items.append(_wall_part(frame, body, bi, side, "facade", "gs1", seq + 1, -L / 2 + D["gas_along"], 0.0, D["gas_out"], (D["gas_dia"], D["gas_y"], D["gas_dia"]), **gas))
+        go = skin + D["gas_out"]
+        items.append(_wall_part(frame, body, bi, side, "facade", "gs0", seq, 0.0, D["gas_y"], go, (L, D["gas_dia"], D["gas_dia"]), **gas))
+        items.append(_wall_part(frame, body, bi, side, "facade", "gs1", seq + 1, -L / 2 + D["gas_along"], 0.0, go, (D["gas_dia"], D["gas_y"], D["gas_dia"]), **gas))
         seq += 2
     return items
 

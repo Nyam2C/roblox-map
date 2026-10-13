@@ -286,6 +286,7 @@ PALETTE: dict[str, tuple[int, int, int]] = {
     "ac": (225, 225, 222), "gas": (190, 40, 35), "tank": (235, 235, 230), "railing": (235, 235, 235), "lamp_globe": (245, 245, 240),
     "glass_apt": (52, 58, 64), "apt_beige": (214, 190, 160), "apt_tan": (190, 158, 122), "apt_sand": (226, 212, 186),
     "apt_line": (95, 100, 108), "apt_slab": (236, 236, 232), "apt_rail": (60, 62, 66),
+    "frame_white": (232, 232, 228), "frame_gray": (140, 142, 145), "frame_dark": (55, 56, 60), "band_ground": (150, 148, 142),
     "leaf": (60, 110, 50), "leaf_b": (76, 124, 54), "leaf_c": (52, 98, 46), "leaf_d": (92, 130, 54), "concrete": (150, 150, 145),
     # roofs
     "roof_dark": (60, 60, 65), "roof_red": (150, 60, 50), "roof_brown": (110, 70, 50), "roof_pink": (200, 140, 130),
@@ -370,6 +371,9 @@ DIMS: dict[str, float] = {
     "apt_end": 1.5, "apt_mull_w": 0.15, "apt_mull_out": 0.1, "apt_mulls": 2, "apt_panel_t": 0.04, "apt_canopy_w": 3.6,
     "apt_canopy_d": 1.8, "apt_canopy_h": 0.3, "apt_canopy_y": 2.7, "apt_crown_h": 1.8, "apt_crown_t": 0.35, "apt_no_h": 3.2,
     "apt_no_drop": 5.0, "apt_no_t": 0.06,
+    # villa window columns and the ground band (BR-6.6, BR-3.2a, reference models 2026-10-14): a frame proud of the wall with the
+    # glass on it, one per window column; wall-colour skin between the rows; a thick band at the first floor line
+    "frame_out": 0.2, "frame_m": 0.1, "frame_glass": 0.04, "skin_out": 0.3, "band1_h": 0.3, "band1_out": 0.48,
     "pole_dia": 0.30, "pole_h": 10.0, "pole_off": 0.4, "arm_w": 1.6, "arm_t": 0.1, "arm_y": 9.0, "transformer_dia": 0.8, "transformer_h": 1.2,
     "transformer_y": 8.2, "wire_t": 0.04, "wire_y1": 9.0, "wire_y2": 8.6, "wire_max_span": 60.0,
     "lamp_dia": 0.25, "lamp_h": 9.0, "lamp_in": 0.4, "lamp_arm": 1.5, "lamp_arm_y": 8.8, "lamp_head_w": 0.5, "lamp_head_h": 0.2, "lamp_head_d": 0.3,

@@ -317,17 +317,19 @@ def test_a_12_by_10_three_floor_villa_has_the_expected_parts():
         by.setdefault(tail(i)[:2] if i.kind != "building" else "box", []).append(i)
     assert len(by["box"]) == 1 and len(by["fl"]) == 2 and len(by["ca"]) == 1 and len(by["pl"]) == 1 and len(by["dr"]) == 1 and len(by["cn"]) == 1
     windows = [i for i in items if tail(i).startswith("w0")]
-    # three per face per floor (3 m pitch, 2.2 m sashes) on the other faces; on the facing face the door, stair and bay take some
-    front = [w for w in windows if tail(w)[2] == body.facing.side]
-    per_face = {}
-    for w in windows:
-        per_face.setdefault((tail(w)[2], tail(w)[3]), []).append(w)
-    others = {k: len(v) for k, v in per_face.items() if k[0] != body.facing.side}
-    assert len(others) == 3 * 3 and set(others.values()) <= {2, 3} and 0 < len(front) < 3 * 3
+    # BR-6.6: one glass and one frame per window column (3 m pitch, 2.2 m sashes: three on the 12 m faces, two on the 10 m ones), each
+    # over all three floors except where the door takes the facing face's ground floor; two skins a face between the rows
+    fh, wh = body.fh, min(D["win_h"], body.fh - 1.0)
+    others = [w for w in windows if tail(w)[2] != body.facing.side]
+    assert sorted(len([w for w in others if tail(w)[2] == s]) for s in "fblr" if s != body.facing.side) == [2, 2, 3]
+    assert all(w.sy / S == pytest.approx(2 * fh + wh, abs=1e-3) for w in others)
+    assert len([i for i in items if tail(i).startswith("wf0")]) == len(windows)
+    assert all(len([i for i in items if tail(i).startswith(f"ws0{s}")]) == 2 for s in "fblr")
     door = next(i for i in items if tail(i).startswith("dr0"))
     for w in windows:
         if tail(w)[2] == body.facing.side and tail(w)[3] == "0":
             assert math.hypot(w.cx - door.cx, w.cz - door.cz) >= ((D["win_w"] + D["door_w"]) / 2 + D["span_clear"]) * S - 1e-6
+    assert len(items) < 60  # was 3 x 3 windows a face, one part each
     assert 5 <= sum(1 for i in items if tail(i).startswith("y")) <= 11 and labels == 0 and warnings == []
     assert {i.kind for i in items if tail(i).startswith("y")} == {"prop"} and all(i.collides for i in items if tail(i).startswith("y"))
 
@@ -348,7 +350,12 @@ def test_p5_7_bands_sit_on_the_floor_lines_and_windows_stay_inside_their_floor_a
         if t.startswith("w0") or t.startswith("rb0"):
             k = int(re.fullmatch(r"(?:w|rb)\d[fblr](\d+)-\d+", t).group(1))
             bottom, top = (i.cy - i.sy / 2) / S, (i.cy + i.sy / 2) / S
-            assert bottom >= k * fh + (0.9 if t.startswith("w0") else 1.0) - 1e-3 and top <= (k + 1) * fh - 0.06 + 1e-3
+            if body.archetype == "villa":  # BR-6.6: one glass covers a run of r floors in the same place
+                wh = min(D["win_h"], fh - 1.0)
+                r = (top - bottom - wh) / fh + 1
+                assert bottom == pytest.approx(k * fh + D["win_sill"], abs=1e-3) and r == pytest.approx(round(r), abs=1e-3) and k + round(r) <= body.floors
+            else:
+                assert bottom >= k * fh + (0.9 if t.startswith("w0") else 1.0) - 1e-3 and top <= (k + 1) * fh - 0.06 + 1e-3
     by_face: dict[str, list] = {}
     for i in items:
         t = tail(i)
@@ -454,6 +461,72 @@ def test_br_6_5_any_apartment_keeps_its_units_inside_the_face_and_the_glass_insi
             k = int(re.fullmatch(r"ag0[fb](\d+)-\d", t).group(1))
             assert k * body.fh <= (i.cy - i.sy / 2) / S and (i.cy + i.sy / 2) / S <= (k + 1) * body.fh
     assert len({i.name for i in items}) == len(items)
+
+
+# --- BR-6.6 villa window columns, BR-3.2a ground band ---------------------------------------------------------------------------------
+
+def _out(body, item, side):
+    """How far an item's outer face stands from the wall of face `side` (metres); the item's thin side is its depth."""
+    box, f = body.boxes[0], LD.face_of(body.boxes[0], side)
+    t = math.radians(box.yaw_deg)
+    e, n = item.cx / S - box.cx_m, -item.cz / S - box.cy_m
+    u, v = e * math.cos(t) + n * math.sin(t), e * math.sin(t) - n * math.cos(t)
+    return (u * f.n[0] + v * f.n[1]) - (box.depth_m if side in "fb" else box.width_m) / 2 + min(item.sx, item.sz) / S / 2
+
+
+@settings(max_examples=40)
+@given(st.integers(2, 4), st.floats(6, 20), st.floats(6, 14), st.sampled_from(["none", "glass", "brick"]), st.booleans())
+def test_br_6_6_skins_sit_between_rows_frames_sit_behind_the_glass_and_the_skin_stops_at_the_stair(floors, w, d, stair, bay):
+    detail = {"building_id": "gis:9", "finish": "brick", "ground_use": "house", "stair": stair, "bay": int(bay), "balcony": 0,
+              "roof_color": "dark", "rooftop": "none", "note": "", "judged_at": "2026-10-14T00:00:00+00:00"}
+    row, est, _ = villa(i=9, w=w, d=d, floors=floors)
+    body, eff = resolve(row, est, detail, features=[street()])
+    assume(body.archetype == "villa" and len(body.boxes) == 1 and body.fh >= D["min_fh"])
+    items, _, _ = all_items(body, row, eff)
+    fh, wh = body.fh, min(D["win_h"], body.fh - 1.0)
+    for i in items:
+        t = tail(i)
+        bottom, top = (i.cy - i.sy / 2) / S, (i.cy + i.sy / 2) / S
+        if t.startswith("ws0"):
+            k = int(re.fullmatch(r"ws0[fblr](\d+)-\d+", t).group(1))
+            assert bottom == pytest.approx((k - 1) * fh + D["win_sill"] + wh, abs=1e-3) and top == pytest.approx(k * fh + D["win_sill"], abs=1e-3)
+            assert _out(body, i, t[3]) == pytest.approx(D["skin_out"], abs=1e-3)
+        if t.startswith("wf0"):
+            assert _out(body, i, t[3]) == pytest.approx(D["frame_out"], abs=1e-3)
+        if t.startswith("w0"):
+            assert _out(body, i, t[2]) == pytest.approx(D["frame_out"] + D["frame_glass"], abs=1e-3)
+    if body.facing is not None:
+        side = body.facing.side
+        for a, b in LD._blocked(body):  # no front skin crosses the stair tower or the bay
+            for i in items:
+                if tail(i).startswith(f"ws0{side}"):
+                    u = _u(body, i) if side in "fb" else None
+                    if u is not None:
+                        along = -u if side == "f" else u
+                        half = i.sx / S / 2
+                        assert along + half <= a - D["span_clear"] + 1e-3 or along - half >= b + D["span_clear"] - 1e-3
+        if LD.villa_skin_at(body, 0, side, 1, True):
+            for i in items:
+                if tail(i).startswith(("ac", "gs0")):  # gs0 runs along the face; gs1 is the riser at its end
+                    assert _out(body, i, side) >= D["skin_out"] + D["gas_out"] - 1e-3, tail(i)
+
+
+def test_br_3_2a_the_first_floor_band_is_thick_and_proud_but_a_school_keeps_the_thin_one():
+    row, est, _ = villa(floors=3)
+    body, eff = resolve(row, est, features=[street()])
+    items, _, _ = all_items(body, row, eff)
+    b1 = next(i for i in items if tail(i) == "fl0-1")
+    b2 = next(i for i in items if tail(i) == "fl0-2")
+    box = body.boxes[0]
+    assert b1.sy / S == pytest.approx(D["band1_h"], abs=1e-3) and b1.color_name == "band_ground"
+    assert max(b1.sx, b1.sz) / S == pytest.approx(box.width_m + 2 * D["band1_out"], abs=1e-3)
+    assert b1.cy == pytest.approx(body.fh * S, abs=2e-3) and b2.sy / S == pytest.approx(D["band_h"], abs=1e-3)
+    assert D["band1_out"] > D["skin_out"] > D["frame_out"] + D["frame_glass"]  # band over skin over glass over frame
+    srow, sest, _ = villa(i=2, floors=3, name="한빛학교")
+    sbody, seff = resolve(srow, sest, features=[street()])
+    assert sbody.archetype == "school"
+    sb1 = next(i for i in all_items(sbody, srow, seff)[0] if tail(i) == "fl0-1")
+    assert sb1.sy / S == pytest.approx(D["band_h"], abs=1e-3)
 
 
 # --- P5-9 shops and yards -------------------------------------------------------------------------------------------------------------
