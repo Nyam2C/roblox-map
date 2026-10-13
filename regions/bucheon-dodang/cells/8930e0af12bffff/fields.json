@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af12bffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:490139718",
+   "name": "옥산초등학교",
+   "made_by": "kit",
+   "surface": "turf",
+   "x": 116.618,
+   "z": 446.471,
+   "yaw": 80.501,
+   "w": 118.8,
+   "d": 64.8,
+   "fit": 0.995
+  }
+ ]
+}

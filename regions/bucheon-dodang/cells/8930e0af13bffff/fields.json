@@ -1,0 +1,30 @@
+{
+ "cell_id": "8930e0af13bffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:488843788",
+   "name": "부천부흥중학교",
+   "made_by": "manual",
+   "surface": "sand",
+   "x": -510.23,
+   "z": -293.259,
+   "yaw": 170.762,
+   "w": 180.0,
+   "d": 178.2,
+   "fit": 1.0
+  },
+  {
+   "osm": "way:488843789",
+   "name": "심원고등학교",
+   "made_by": "manual",
+   "surface": "sand",
+   "x": -41.299,
+   "z": 30.327,
+   "yaw": 169.919,
+   "w": 372.6,
+   "d": 185.4,
+   "fit": 0.985
+  }
+ ]
+}

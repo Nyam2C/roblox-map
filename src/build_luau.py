@@ -30,6 +30,7 @@ import h3
 import common
 import db
 import details_rules
+import fields
 import judgement
 import layout
 import layout_details
@@ -160,7 +161,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               overrides: Mapping[str, Mapping[str, Any]] | None = None,
               details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None,
               sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1,
-              sign_library: Sequence[Mapping[str, Any]] | None = None) -> Plan:
+              sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -255,6 +256,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     sidewalks, props = streets.street_items(lines, jcts, frame, cfg, rule_trees=sat_trees is None)
     if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
         props = props + streets.tree_items(frame, sat_trees)
+    for g in grounds or []:  # U7 J: school grounds of fields.json that no Manual script makes
+        props = props + fields.field_items(g, frame)
     items += pieces + sidewalks + props
     spawn, spawn_warnings = layout.spawn_item(cell_id, frame, cfg, pieces)
     if spawn is not None:
@@ -432,7 +435,7 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     sign_assets = load_sign_assets(common.cell_file(cfg, cell_id, "signs"))
     sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))
     plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier,
-                     load_sign_library(cfg, cell_id))
+                     load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")))
     write_plan(plan, root)
     return plan
 
