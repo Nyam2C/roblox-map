@@ -65,3 +65,34 @@ B) 한 번에 한 세션만 이 저장소를 쓴다.
 X) Other (please describe after [Answer]: tag below)
 
 [Answer]:
+
+## Question 7 — 등급을 어떻게 정할까
+A) **OSM으로 칸마다 자동 분류하고 사람이 고칠 수 있게**. 칸 안의 땅 용도(상업·주거·공업)와 시설(학교, 역, 큰 상가 거리)을 세어 1·2·3급을 정하고 `regions/<구역>/tiers.json`(git)에 쓴다. 바꾸고 싶은 칸만 손으로 고친다. (추천)
+
+B) 사람이 칸마다 직접 정한다.
+
+X) Other (please describe after [Answer]: tag below)
+
+[Answer]:
+
+## Question 8 — 장소(구역)를 나누는 경계
+A) **행정동(OSM `admin_level=8`) 경계를 기준으로, 칸은 중심점이 속한 동에 넣는다**. 플레이어가 아는 이름(○○동)으로 구역이 나뉜다. 한 장소에 동 여러 개를 묶을 수 있다. (추천)
+
+B) H3 큰 칸(해상도 7, 약 5 km²) 단위. 계산은 쉽지만 경계가 길·동과 안 맞는다.
+
+C) 큰길(간선도로)로 둘러싸인 블록 단위.
+
+X) Other (please describe after [Answer]: tag below)
+
+[Answer]:
+
+## Question 9 — 데이터 출처 표시와 이용 조건
+OSM 데이터로 만든 것을 공개하면 "© OpenStreetMap contributors" 표시가 필요하다(ODbL). V-World 데이터와 위성의 이용 조건은 아직 확인하지 않았다.
+
+A) **게시 전에 OSM 출처를 게임 설명과 게임 안(설정 화면이나 시작 화면)에 넣고, V-World 이용 조건을 확인한 결과를 결정 사항에 적는다. 위성 사진은 판단·나무 위치 읽기에만 쓰고 맵에 그대로 넣지 않는다(지금과 같음)**. (추천)
+
+B) 나중에(게시할 때) 정한다.
+
+X) Other (please describe after [Answer]: tag below)
+
+[Answer]:

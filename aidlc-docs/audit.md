@@ -1152,3 +1152,17 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - scale decisions before U7.
 
 ---
+
+## U6 Scooter: Quieter, 80 km/h, Balance And Falling, Hands On The Handlebar
+**Timestamp**: 2026-10-14T01:00:00Z
+**User Request**: "소리 너무커서 줄일 필요있고 + 최대 속력 80 + 좌우 밸런스 고려해서 이거 못하면 넘어지게 ㄱㄴ?? 실제 킥보드 처럼", then "+킥보드 손잡는 모습까지"
+**AI Response**: Sound volume 0.15 + 0.55 f (max 0.7) -> 0.03 + 0.17 f (max 0.2, 0.084 at 25 studs/s). Max speed 80 (acceleration 22, braking 60, drag 5 + 0.08 v, turning rate falling with speed). Balance: a lean angle with its own dynamics (tips over when nearly stopped, rights itself at ordinary speeds, wobbles and grows above 50 studs/s, bumps), a gauge on screen, the rider leans into turns and with the wobble; pushing the way it leans puts it right (counter-steering); it falls (Humanoid Ragdoll, the scooter taken away by the server, no re-mount for 2.5 s, up again after 2.5 s) when the lean passes 0.55, when a hard turn lasts over 0.45 s, or when it hits something fast. The constants were chosen with a small simulation and then measured in Play (cruising 25 / 50 / 60 is stable, 80 with no steering falls after about 4.5 s, a lean-reading corrector holds 80 for 9 s one time in three). Hands: the idle animation sets the arms every frame so a fixed joint turn is ignored (measured: Transform is set to the opposite of the frame change); the legs do follow, so the feet are brought together by turning the hips (2.12 -> 1.18) but the arms are bent every frame after the animation by the rider's client with a two-link reach to the grip the server works out (hands reach the bar within 0.12 studs in height). Limit: Transform does not replicate, so only the rider sees his arms on the bar; the others see the arms hanging and the bar in front. A phantom fall right after getting on happened twice during testing and did not come back in 5 repeats after the reason of every fall was recorded. Files: studio/ScooterClient.client.luau, studio/Scooter.server.luau, plan and requirements updated. Studio is unsaved; nothing committed.
+**Context**: CONSTRUCTION - U6 follow-up requests. Port 8777 used for the temporary local source server (8765 belongs to another session), stopped after each install.
+
+## U7 Scope - Everything Set Up in U7, Then Repeat
+**Timestamp**: 2026-10-13T16:12:39Z
+**User Request**: Asked whether H3 and OSM help at this scale, then "u7에서 모든걸 세팅하고 여기서 구축한 사이클로 계속 반복하는걸로하자".
+**AI Response**: H3 is the work, cost and batching unit (not a player-facing boundary); OSM gives roads, names, land use (tier classification) and districts but not buildings (V-World); OSM needs attribution when published. U7 now sets up the whole cycle: scale decisions (added Q7 automatic tiers from OSM, Q8 district boundaries for places, Q9 attribution and terms), structure (regions, studio split, scratch steps into src, layout_details split, session rule), tiers, interiors, streaming, Manual anchors, a mesh upload test and a cycle command; cells 1 and 3 are rebuilt with the cycle and cell 2 is its first real run. Plan, CLAUDE.md next steps and aidlc-state updated.
+**Context**: CONSTRUCTION - U7 planning.
+
+---
