@@ -1334,3 +1334,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 replanning (interiors removed).
 
 ---
+
+## Public References First
+**Timestamp**: 2026-10-13T20:07:55Z
+**User Request**: "다른 세션에서 작업중이긴 한데 건물 제작 필요시 우선적으로 외부 공개 레퍼런스 참조 추가 가능? 다른 사람 작품들 공개된거"
+**AI Response**: Widened the reference-model decision: before deciding how to make a building, facility or facade rule, look at others' public work first (Creator Store models measured in MCP_Test with scripts deleted and no Play, then deleted; uncopylocked public places; public screenshots on DevForum or in videos). Only measured numbers and methods reach the map, never others' parts, meshes, textures or images; copylocked places are not ripped; sources are noted in U7 L or the design document. Position, shape and height still come from V-World, OSM, satellite and street view. CLAUDE.md decision and cycle-build step 8 updated. The other session (U7 L) keeps doing the reference measurements.
+**Context**: CONSTRUCTION - U7 step 5; decision change.
+
+---

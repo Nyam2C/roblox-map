@@ -57,6 +57,8 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 6. Builder(`studio/ServerStorage/MapBuilder.luau`)나 게임 스크립트(`studio/ServerScriptService/*.server.luau`)를 바꿨다면 먼저 교체한다: 그 파일 복사본만 둔 폴더를 같은 서버로 내놓고 Studio에서 `HttpService:GetAsync`로 받아 새 인스턴스의 `Source`에 넣고 원본 Destroy(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`.
 
 ### 8. 규칙을 고칠 때
+**먼저 공개 레퍼런스를 본다**(CLAUDE.md "공개 레퍼런스 먼저"): 고칠 것(창, 발코니, 지붕 끝, 학교 운동장 등)과 같은 것을 공개 작품에서 찾아 `MCP_Test`에서 재거나(스크립트 즉시 삭제, Play 금지, 다 보면 지움) 스크린샷으로 비율을 본다. 본 것(자산 ID·출처, 잰 값)을 계획서 U7 L이나 설계 문서에 적고, 숫자와 방식만 가져온다. 수작업(Manual)을 새로 만들 때도 같다.
+
 검증에서 여러 건물에 공통인 문제가 나오면 `src/details_rules.py`·`src/layout_details.py`(또는 해당 모듈)를 고치고 테스트를 고치거나 더한 뒤:
 ```bash
 uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
