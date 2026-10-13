@@ -953,3 +953,21 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 
 ---
 
+## U5 Details - NFR Requirements Plan, Answers and Artifacts
+**Timestamp**: 2026-10-13T07:44:06Z
+**AI Prompt**: Wrote aidlc-docs/construction/plans/u5-details-nfr-requirements-plan.md with 6 questions (Q1 frame-rate gate and ladder, Q2 chunk size 80 then 250 after measuring, Q3 commit cadence and cloud save when the user is away, Q4 Luau checked in Studio only, Q5 no new dependencies, Q6 judgement reproducibility as in U4) and defaults N-U5-1 to N-U5-11.
+**User Response**: Answered by Claude with the recommended option for every question (A A A A A A) under the standing approval of 2026-10-13 ("자동승인으로 하고 질문있으면 권고하고 u5 끝까지 진행해"). No ambiguity.
+**AI Response**: Wrote aidlc-docs/construction/u5-details/nfr-requirements/nfr-requirements.md (scalability, performance with the FPS ladder, availability and runbooks R-16 to R-18, security SEC1 to SEC6, reliability, maintainability with module split and P5 tests, usability, Studio tools, extension compliance tables) and tech-stack-decisions.md (no new dependencies, parts and built-in materials only, SurfaceGui text, chunk size, Studio tools used and not used).
+**Context**: CONSTRUCTION - U5 details, NFR Requirements (steps 2 to 6 done; completion and approval next).
+
+---
+
+## U5 Details - NFR Requirements Approval, Detail Judgements Complete
+**Timestamp**: 2026-10-13T07:45:31Z
+**AI Prompt**: "NFR Requirements Complete - u5-details. Continue to Next Stage (Code Generation)?"
+**User Response**: Approved under the standing approval of 2026-10-13.
+**AI Response**: Detail judgements (BR-7) of all 116 non-duplicate buildings of the first cell were made by Claude from the sheet images during the Functional Design and NFR stages and kept in data/build/8930e0af13bffff/details-judgements.jsonl (git ignored) until details.py exists to record them. Distribution: finish brick 78, stone 10, tile 12, panel 11, paint 4, glass 1; ground_use shop 37, house 78, garage 0 (garages noted in notes only where seen); stair glass 54, round 11, brick 1, none 49, unknown 1; bay 36; balcony 44; roof_color dark 105, red 4, brown 4, green 2, pink 1; rooftop tank 8, railing 6, none 102. Notes carry no personal data. Committed the NFR documents.
+**Context**: CONSTRUCTION - U5 details, NFR Requirements complete; Code Generation next.
+
+---
+
