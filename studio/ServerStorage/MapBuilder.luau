@@ -129,7 +129,8 @@ local function addSignGui(part, it, looks, face)
 	local gui = Instance.new("SurfaceGui")
 	gui.Face = face
 	gui.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
-	gui.PixelsPerStud = 50
+	-- text tops out at 100 px, so a tall plate (an apartment block number) gets fewer pixels per stud to fill it
+	gui.PixelsPerStud = part.Size.Y > 6 and 110 / part.Size.Y or 50
 	gui.LightInfluence = 1
 	gui.AlwaysOnTop = false
 	gui.MaxDistance = it.md or 200

@@ -284,6 +284,8 @@ PALETTE: dict[str, tuple[int, int, int]] = {
     "glass_shop": (35, 45, 50), "glass_shop_b": (150, 170, 175), "shop_wood": (125, 90, 60), "glass_stair": (75, 120, 125), "bay": (225, 225, 222), "balcony": (190, 190, 185), "iron": (40, 40, 45),
     "door": (70, 50, 40), "door_shop": (90, 90, 95), "canopy": (60, 60, 65), "eyebrow": (45, 45, 48), "shutter": (150, 150, 150),
     "ac": (225, 225, 222), "gas": (190, 40, 35), "tank": (235, 235, 230), "railing": (235, 235, 235), "lamp_globe": (245, 245, 240),
+    "glass_apt": (52, 58, 64), "apt_beige": (214, 190, 160), "apt_tan": (190, 158, 122), "apt_sand": (226, 212, 186),
+    "apt_line": (95, 100, 108), "apt_slab": (236, 236, 232), "apt_rail": (60, 62, 66),
     "leaf": (60, 110, 50), "leaf_b": (76, 124, 54), "leaf_c": (52, 98, 46), "leaf_d": (92, 130, 54), "concrete": (150, 150, 145),
     # roofs
     "roof_dark": (60, 60, 65), "roof_red": (150, 60, 50), "roof_brown": (110, 70, 50), "roof_pink": (200, 140, 130),
@@ -360,6 +362,14 @@ DIMS: dict[str, float] = {
     "sign_floor_min_floors": 4, "sign_floor_pitch": 8.0, "sign_floor_max_panels": 3, "proj_t": 0.12, "proj_h": 0.9, "proj_d": 0.6,
     "proj_out": 0.1, "proj_along_in": 1.0, "roof_sign_frac": 0.6, "roof_sign_h": 1.5, "roof_sign_t": 0.2, "roof_sign_post": 0.15,
     "roof_sign_min_floors": 7,
+    # apartment facade (BR-6.5, street view of gis:11208043 and a user reference 2026-10-14): a long face is a glass band, rail and
+    # slab a floor plus full-height wall piers, dark unit lines, accent panels and white mullions; the block number on the end walls
+    # and the entrance canopy; a crown parapet
+    "apt_glass_sill": 0.9, "apt_glass_head": 0.6, "apt_slab_h": 0.3, "apt_slab_out": 0.35, "apt_rail_y": 1.1, "apt_rail_h": 0.08,
+    "apt_rail_out": 0.25, "apt_unit": 10.0, "apt_pier_w": 3.0, "apt_pier_out": 0.3, "apt_line_w": 0.9, "apt_line_out": 0.45,
+    "apt_end": 1.5, "apt_mull_w": 0.15, "apt_mull_out": 0.1, "apt_mulls": 2, "apt_panel_t": 0.04, "apt_canopy_w": 3.6,
+    "apt_canopy_d": 1.8, "apt_canopy_h": 0.3, "apt_canopy_y": 2.7, "apt_crown_h": 1.8, "apt_crown_t": 0.35, "apt_no_h": 3.2,
+    "apt_no_drop": 5.0, "apt_no_t": 0.06,
     "pole_dia": 0.30, "pole_h": 10.0, "pole_off": 0.4, "arm_w": 1.6, "arm_t": 0.1, "arm_y": 9.0, "transformer_dia": 0.8, "transformer_h": 1.2,
     "transformer_y": 8.2, "wire_t": 0.04, "wire_y1": 9.0, "wire_y2": 8.6, "wire_max_span": 60.0,
     "lamp_dia": 0.25, "lamp_h": 9.0, "lamp_in": 0.4, "lamp_arm": 1.5, "lamp_arm_y": 8.8, "lamp_head_w": 0.5, "lamp_head_h": 0.2, "lamp_head_d": 0.3,

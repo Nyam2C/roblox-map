@@ -477,7 +477,8 @@ def _rear_corner(body: Body) -> tuple[int, int, str]:
 
 
 def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnings: list[str], plan: Any = None) -> list[Item]:
-    """Bands, parapet or railing, plinth, windows or ribbons, rooftop objects of one box (BR-3, BR-4.4, BR-6).
+    """Bands, parapet or railing, plinth, windows or ribbons (an apartment's faces by BR-6.5), rooftop objects of one box (BR-3,
+    BR-4.4, BR-6).
 
     With an interior plan (U7): windows reach through the 0.25 m shell wall, the roof cap leaves the stairwell open and roof
     objects keep clear of the stair hut (BR-I2, BR-I8)."""
@@ -542,9 +543,13 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
             L = face.length
             if side in occluded or L < D["face_min"]:
                 continue
-            if body.archetype == "apartment" and L < 0.5 * max(face_of(box, sd).length for sd in SIDES):
-                continue  # an apartment's short end walls are blank (street view 2026-10-13)
             is_front = facing_here and side == body.facing.side  # type: ignore[union-attr]
+            if body.archetype == "apartment":
+                end = L < 0.5 * max(face_of(box, sd).length for sd in SIDES)
+                more = (_apartment_end if end else _apartment_face)(body, bi, side, frame, seq, win_t, door if is_front else None)
+                items += more
+                seq += len(more)
+                continue
             for k in range(F):
                 if body.archetype in ("villa", "school", "apartment"):  # punched windows; a school gets the dense classroom grid (BR-6.1, street view 2026-10-13)
                     pitch, win_w, win_h, win_max = ((D["school_win_pitch"], D["school_win_w"], D["school_win_h"], 60) if body.archetype == "school"
@@ -575,8 +580,15 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                         items.append(_wall_part(frame, body, bi, side, "facade", f"rb{bi}{side}{k}-{j}", seq, (s0 + s1) / 2, k * fh + D["ribbon_sill"],
                                                 D["win_out"], (s1 - s0, rh, win_t), **glass))
                         seq += 1
+    if flat and body.archetype == "apartment":  # BR-6.5 crown: a parapet round the roof, above the cap
+        ch, ct = D["apt_crown_h"], D["apt_crown_t"]
+        for i, (su, sv, size) in enumerate(((0, -1, (w + lip, ch, ct)), (0, 1, (w + lip, ch, ct)), (-1, 0, (ct, ch, d + lip - 2 * ct)),
+                                             (1, 0, (ct, ch, d + lip - 2 * ct)))):
+            items.append(_box_part(frame, body, bi, "facade", f"cr{bi}-{i}", seq, su * (w + lip - ct) / 2, sv * (d + lip - ct) / 2, H - D["cap_sink"],
+                                   size, collide=True, **band))
+            seq += 1
     # rooftop (flat roofs only, BR-4.4)
-    if flat and body.archetype != "school" and w >= 6.0 and d >= 5.0:
+    if flat and body.archetype not in ("school", "apartment") and w >= 6.0 and d >= 5.0:
         su, sv, rear = _rear_corner(body)
         pw, ph, pd = (D["penthouse_w"], D["penthouse_h"], D["penthouse_d"]) if body.archetype == "commercial" and F >= 5 else \
             (D["rooftop_box_w"], D["rooftop_box_h"], D["rooftop_box_d"])
@@ -602,6 +614,90 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                                    material="SmoothPlastic", color=R.PALETTE["tank"], color_name="tank"))
                 seq += 1
     return items
+
+
+APT_ACCENTS = ("apt_beige", "apt_tan", "apt_sand")
+
+
+def _block_no(body: Body) -> int:
+    return 101 + R.pick(body.building_id, "block_no", 12)
+
+
+def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: float, door: float | None) -> list[Item]:
+    """BR-6.5: a long face of an apartment, few parts for many floors. Units ~10 m wide between full-height wall piers (a dark
+    line in front of each); a unit is one full-height accent panel with full-height white mullions. A floor adds one dark glass
+    band, a rail and a white slab across the face (the ground floor's band split round the entrance), so slabs and mullions draw
+    the window grid. The entrance gets a canopy with the block number."""
+    L, F, fh, H = face_of(body.boxes[bi], side).length, body.floors, body.fh, body.height_m
+    accent = APT_ACCENTS[R.pick(body.building_id, "apt_accent", len(APT_ACCENTS))]
+    glass = dict(material="SmoothPlastic", color=R.PALETTE["glass_apt"], color_name="glass_apt")  # no reflectance: it mirrors the sky blue
+    rail = dict(material="Metal", color=R.PALETTE["apt_rail"], color_name="apt_rail")
+    slab = dict(material="Concrete", color=R.PALETTE["apt_slab"], color_name="apt_slab")
+    line = dict(material="Concrete", color=R.PALETTE["apt_line"], color_name="apt_line")
+    panel = dict(material="Plaster", color=R.PALETTE[accent], color_name=accent)
+    wall = dict(material=body.material, color=body.wall_rgb, color_name=body.wall_color)
+    items: list[Item] = []
+
+    def add(tail: str, along: float, y: float, out: float, size: tuple[float, float, float], look: Mapping[str, Any], kind: str = "facade",
+            **extra: Any) -> None:
+        items.append(_wall_part(frame, body, bi, side, kind, tail, seq + len(items), along, y, out, size, **look, **extra))
+
+    a0, a1 = -L / 2 + D["apt_end"], L / 2 - D["apt_end"]
+    gh = fh - D["apt_glass_sill"] - D["apt_glass_head"]
+    gap = (D["door_w"] + 0.2) / 2 + D["span_clear"]
+    for k in range(F):
+        ranges = [(a0, door - gap), (door + gap, a1)] if k == 0 and door is not None else [(a0, a1)]
+        for j, (s0, s1) in enumerate(ranges):
+            if s1 - s0 < D["span_min"]:
+                continue
+            add(f"ag{bi}{side}{k}-{j}", (s0 + s1) / 2, k * fh + D["apt_glass_sill"], D["win_out"], (s1 - s0, gh, win_t), glass)
+            add(f"ar{bi}{side}{k}-{j}", (s0 + s1) / 2, k * fh + D["apt_rail_y"], D["apt_rail_out"], (s1 - s0, D["apt_rail_h"], D["apt_rail_h"]), rail)
+        if k > 0:
+            add(f"as{bi}{side}{k}", 0.0, k * fh - D["apt_slab_h"], D["apt_slab_out"], (L, D["apt_slab_h"], D["apt_slab_out"]), slab)
+    n = max(2, round(L / D["apt_unit"]))
+    cuts = [L * j / n - L / 2 for j in range(1, n)]
+    if door is not None:  # a pier never stands in the entrance
+        clear = (D["door_w"] + D["apt_pier_w"]) / 2 + D["span_clear"]
+        cuts = [door + math.copysign(clear, a - door or 1.0) if abs(a - door) < clear else a for a in cuts]
+    for j, a in enumerate(cuts, 1):
+        add(f"ap{bi}{side}{j}", a, 0.0, D["apt_pier_out"], (D["apt_pier_w"], H, D["apt_pier_out"]), wall)
+        add(f"al{bi}{side}{j}", a, 0.0, D["apt_line_out"], (D["apt_line_w"], H, D["apt_line_out"]), line)
+    edges = [a0] + cuts + [a1]
+    for j in range(len(edges) - 1):
+        u0 = edges[j] + (D["apt_pier_w"] / 2 if j > 0 else 0.0)
+        u1 = edges[j + 1] - (D["apt_pier_w"] / 2 if j < len(edges) - 2 else 0.0)
+        if u1 - u0 < D["span_min"]:
+            continue
+        if door is not None and u0 < door < u1:  # the panel goes round the entrance: left, right and above it
+            top = D["apt_canopy_y"]
+            for i, (p0, p1, y) in enumerate(((u0, door - gap, 0.0), (door + gap, u1, 0.0), (door - gap, door + gap, top))):
+                if p1 - p0 > 0.1:
+                    add(f"au{bi}{side}{j}-{i}", (p0 + p1) / 2, y, D["apt_panel_t"], (p1 - p0, H - y, D["apt_panel_t"]), panel)
+        else:
+            add(f"au{bi}{side}{j}", (u0 + u1) / 2, 0.0, D["apt_panel_t"], (u1 - u0, H, D["apt_panel_t"]), panel)
+        m = int(D["apt_mulls"])
+        for i in range(1, m + 1):
+            a = u0 + (u1 - u0) * i / (m + 1)
+            if door is not None and abs(a - door) < gap:
+                continue
+            add(f"am{bi}{side}{j}-{i}", a, D["apt_glass_sill"], D["apt_mull_out"], (D["apt_mull_w"], H - D["apt_glass_sill"], D["apt_mull_out"]),
+                slab)
+    if door is not None:
+        cw, cd, ch, cy = D["apt_canopy_w"], D["apt_canopy_d"], D["apt_canopy_h"], D["apt_canopy_y"]
+        add("acn", door, cy, cd, (cw, ch, cd), dict(material="Concrete", color=R.PALETTE["canopy"], color_name="canopy"))
+        add("acs", door, cy + ch, cd, (0.6 * cw, 0.6, 0.06), dict(material="SmoothPlastic", color=R.PALETTE["canopy"], color_name="canopy"),
+            kind="sign", text=str(_block_no(body)), ink="apt_slab", faces="F", attrs={"MaxDistance": 300})
+    return items
+
+
+def _apartment_end(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: float, door: float | None) -> list[Item]:
+    """BR-6.5: an apartment's end wall stays blank but for the block number high up (101 to 112, fixed by the building ID)."""
+    L, H = face_of(body.boxes[bi], side).length, body.height_m
+    if H < D["apt_no_drop"] + D["apt_no_h"] + 3.0:
+        return []
+    return [_wall_part(frame, body, bi, side, "sign", "no" + side, seq, 0.0, H - D["apt_no_drop"], D["apt_no_t"],
+                       (min(0.6 * L, 2.2 * D["apt_no_h"]), D["apt_no_h"], D["apt_no_t"]), material="SmoothPlastic", color=body.wall_rgb,
+                       color_name=body.wall_color, text=f"{_block_no(body)}동", ink="apt_line", faces="F", attrs={"MaxDistance": 1500})]
 
 
 # --- facade elements, storefront, yard (BR-8, BR-9) ------------------------------------------------------------------------

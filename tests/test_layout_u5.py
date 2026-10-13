@@ -374,6 +374,88 @@ def test_bands_and_windows_are_skipped_when_a_floor_is_too_low():
     assert not any(tail(i).startswith("w0") for i in items) and any("below" in w for w in body.warnings) and warnings == []
 
 
+# --- BR-6.5 apartment facade ------------------------------------------------------------------------------------------------------------
+
+def apartment(floors=22, w=42.0, d=12.0, i=7):
+    return villa(i=i, w=w, d=d, floors=floors, wall="light_gray", code="02000")
+
+
+def _u(body, item):
+    """An item's centre along the box's long axis (box-local u, metres)."""
+    box, t = body.boxes[0], math.radians(body.boxes[0].yaw_deg)
+    e, n = item.cx / S - box.cx_m, -item.cz / S - box.cy_m
+    return e * math.cos(t) + n * math.sin(t)
+
+
+def test_br_6_5_a_22_floor_apartment_is_a_band_rail_and_slab_a_floor_not_hundreds_of_windows():
+    """gis:11208043 (22 floors, 42 x 12 m) had 483 punched windows; a long face is now a few parts a floor plus full-height units."""
+    row, est, _ = apartment()
+    body, eff = resolve(row, est, features=[street()])
+    assert body.archetype == "apartment" and body.facing.side in "fb"
+    items, _, _ = all_items(body, row, eff)
+    tails = [tail(i) for i in items]
+    assert not any(t.startswith("w0") for t in tails)
+    F, fh = body.floors, body.fh
+    for side in "fb":
+        front = side == body.facing.side
+        assert sum(t.startswith(f"ag0{side}") for t in tails) == F + front  # the ground floor's band splits round the entrance
+        assert sum(t.startswith(f"ar0{side}") for t in tails) == F + front
+        assert sum(t.startswith(f"as0{side}") for t in tails) == F - 1
+        assert sum(t.startswith(f"ap0{side}") for t in tails) == sum(t.startswith(f"al0{side}") for t in tails) == round(42 / 10) - 1
+    assert not any(t.startswith(("ag0l", "ag0r", "w0l", "w0r")) for t in tails)  # end walls stay blank
+    assert sum(t.startswith("cr0") for t in tails) == 4
+    assert len([i for i in items if i.kind == "facade"]) < 300
+    for i in items:
+        t = tail(i)
+        if t.startswith("ag0"):
+            k = int(re.fullmatch(r"ag0[fb](\d+)-\d", t).group(1))
+            bottom, top = (i.cy - i.sy / 2) / S, (i.cy + i.sy / 2) / S
+            assert bottom == pytest.approx(k * fh + D["apt_glass_sill"], abs=1e-3) and top == pytest.approx((k + 1) * fh - D["apt_glass_head"], abs=1e-3)
+        if t.startswith(("ap0", "al0", "au0")) and "-" not in t:
+            assert i.sy / S == pytest.approx(body.height_m, abs=1e-3)
+
+
+def test_br_6_5_nothing_on_the_ground_floor_covers_the_entrance_and_the_block_number_matches():
+    row, est, _ = apartment()
+    body, eff = resolve(row, est, features=[street()])
+    items, _, _ = all_items(body, row, eff)
+    canopy = next(i for i in items if tail(i) == "acn")
+    door = _u(body, canopy)
+    half = (D["door_w"] + 0.2) / 2
+    for i in items:
+        t = tail(i)
+        if t.startswith(("ag0", "ar0", "am0", "ap0", "al0", "au0")) and t[3] == body.facing.side and (i.cy - i.sy / 2) / S < D["apt_canopy_y"] - 1e-3:
+            u, along = _u(body, i), i.sx / S / 2
+            assert u + along <= door - half + 1e-3 or u - along >= door + half - 1e-3, t
+    plate = next(i for i in items if tail(i) == "acs")
+    ends = [i for i in items if tail(i) in ("nol", "nor")]
+    assert len(ends) == 2 and all(i.kind == "sign" and R.SIGN_TEXT.fullmatch(i.text) for i in ends + [plate])
+    assert re.fullmatch(r"1(0[1-9]|1[0-2])", plate.text) and all(i.text == plate.text + "동" for i in ends)
+
+
+def test_br_6_5_block_numbers_run_101_to_112_and_are_fixed_by_the_building_id():
+    seen = {LD._block_no(resolve(*apartment(i=i)[:2], features=[street()])[0]) for i in range(1, 200)}
+    assert seen == set(range(101, 113))
+
+
+@settings(max_examples=30)
+@given(st.integers(5, 30), st.floats(18, 70), st.floats(10, 16))
+def test_br_6_5_any_apartment_keeps_its_units_inside_the_face_and_the_glass_inside_its_floor(floors, w, d):
+    row, est, _ = apartment(floors=floors, w=w, d=d)
+    body, eff = resolve(row, est, features=[street()])
+    assume(body.archetype == "apartment" and len(body.boxes) == 1 and body.boxes[0].width_m > 2 * body.boxes[0].depth_m)
+    items, _, _ = all_items(body, row, eff)
+    L = body.boxes[0].width_m
+    for i in items:
+        t = tail(i)
+        if t.startswith(("ag0", "ap0", "al0", "au0", "am0")):
+            assert abs(_u(body, i)) + i.sx / S / 2 <= L / 2 + 1e-3, t
+        if t.startswith("ag0"):
+            k = int(re.fullmatch(r"ag0[fb](\d+)-\d", t).group(1))
+            assert k * body.fh <= (i.cy - i.sy / 2) / S and (i.cy + i.sy / 2) / S <= (k + 1) * body.fh
+    assert len({i.name for i in items}) == len(items)
+
+
 # --- P5-9 shops and yards -------------------------------------------------------------------------------------------------------------
 
 @pytest.mark.parametrize("code, use, floors, setback_dy, expect", [

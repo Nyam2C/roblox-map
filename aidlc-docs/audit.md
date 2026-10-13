@@ -1302,3 +1302,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 4 (user checkpoint next).
 
 ---
+
+## Apartment Facade (BR-6.5), 22-Floor Test
+**Timestamp**: 2026-10-13T19:42:15Z
+**User Request**: "우리도 이런 리얼한 건물 만들려면 방법?" / "이런건" / "아파트도 많을텐데 저런거 아파트 자체는 못만드나?" / "응 22층 시험으로 만들어 봐" / "이것도 참고" (reference photo: white piers, beige unit bays, dark windows with white frames, block number over the entrance) / "2번으로 해, 테스트랑 문서 쓰고 커밋해"
+**AI Response**: Explained that realism comes from lighting, materials and repeated facade patterns. Replaced the apartment's punched windows (483 parts on the 22-floor gis:11208043) with BR-6.5: per floor one glass band, rail and slab on each long face; full-height wall piers, dark unit lines, accent panels and white mullions; block number on the end walls and over the entrance canopy; a crown parapet. Facade 571 -> 262 parts. Built it in MCP_Test (shifted 6000 studs east) and captured it. Glass material and reflective dark glass mirrored the blue sky, so apartment glass is dark gray SmoothPlastic with no reflectance. Long faces are shaded because the sun is to -X. MapBuilder lowers PixelsPerStud for plates taller than 6 studs. Found another session running at the same time (step 5); committed only this session's files.
+**Context**: CONSTRUCTION - U7 (side request during step 5). Rule BR-6.5 in u5-details business-rules.md; tests test_br_6_5_* (4).
+
+---
