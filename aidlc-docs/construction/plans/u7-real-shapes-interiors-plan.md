@@ -7,7 +7,7 @@
 | 묶음 | 내용 | 근거 |
 |---|---|---|
 | A. 규모 결정 | 목표 규모, 상세도 등급, 구역·원점, 메시 경로, 기준 기기, 세션 규칙, 등급 자동 분류, 구역 경계, 출처 표시 | `aidlc-docs/inception/requirements/scale-decisions-questions.md` Q1~Q9 (답 대기) |
-| B. 구조 | `regions/<구역>/`(설정, 등급, 칸별 판단 파일), `studio/`를 Studio 위치별로, 임시 스크립트(`chunks.json`, 위성 모자이크, 겹쳐 보기)를 `src/`로, `layout_details.py` 나누기(가로·나무 → `streets.py`), 세션·worktree 규칙 | `aidlc-docs/architecture.md` 4·8절 |
+| B. 구조 | `regions/<구역>/`(설정, 등급, 칸별 판단 파일), `studio/`를 Studio 위치별로, 임시 스크립트(`chunks.json`, 위성 모자이크, 겹쳐 보기)를 `src/`로, `layout_details.py` 나누기(가로·나무 → `streets.py`), 세션 흐름(동시 세션 없음, 칸당 한 세션, 인지 → 메모리 → 구현 → 검증 → 기록, `aidlc-docs/lessons.md`) | `aidlc-docs/architecture.md` 4·8절 |
 | C. 외관 | 실제 외곽선 박스(완료 b9748d4), 사선·곡선은 나중 | Q1 |
 | D. 내부 | 속이 빈 껍데기, 실제 층, 계단·엘리베이터, 용도별 꾸러미, 조명 | 아래 1~3절 |
 | E. 성능 | 스트리밍, 건물 Model 묶기(Atomic), 랜드마크 Persistent, 거리별 상세도, 예산 측정(PC·휴대폰) | architecture 5·6절 |

@@ -1182,3 +1182,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - scale decisions.
 
 ---
+
+## Session Flow (Scale Q6)
+**Timestamp**: 2026-10-13T16:26:25Z
+**User Response**: "세션 동시에 안하고 한칸마다 한세션으로하고 인지 -> 메모리 -> 구현 -> 검증 -> 기록 이순으로 가자 기록은 개발중 발생되는 이후 인지 사항 기록하기"
+**AI Response**: Recorded scale Q6 = X. CLAUDE.md gets a "세션 흐름" section (one session at a time, one cell per session, the five steps, commit only own files, no git add -A or git stash). New aidlc-docs/lessons.md for things learned during development, seeded with this session's lessons (capture delay, one capture at a time, camera reset, Play mode, studio_id change, verify keys, roof cap, wedge slope, cylinder bug, road lanes, apartment type, facilities missing from data, judgement mistakes, pending limit, moderation, session collisions, scratch scripts, local server). Architecture and U7 plan updated; memory saved.
+**Context**: INCEPTION - scale decisions.
+
+---
