@@ -776,3 +776,53 @@
 **Context**: U4 Build and Test, steps 2 and 3.
 
 ---
+
+## U4 Build and Test - Studio Update (MapBuilder and first cell)
+**Timestamp**: 2026-10-13T17:20:00Z (approx.)
+**User Input**: "ㄱㄱ 커밋 푸시하고 Studio 갱신해" (see the entry above)
+**AI Response**: Committed and pushed the 122 judgements (3fe1802, main). Regenerated the chunk files with the judgements (items 163, chunks 4 of 6.0/9.0/9.0/2.8 KB, judged 122, flagged 45, warnings 0). Replaced the Source of ServerStorage/MapBuilder with the new Builder (7,405 characters, equal to studio/Builder.luau). First run of the four chunks gave a verify pass but no new attributes and no wall colors on the buildings: Studio caches the result of require per module instance, so changing Source alone kept running the old code. Fixed by replacing the module with a clone of itself (new instance), tested inside a scratch folder under MCP_Test (color and attributes applied; scratch folder removed, MCP_Test back to TestBase and TestBuilding), and ran the four chunks again: 163 parts (ground 1, roads 29, paths 2, sidewalks 8, buildings 122, spawn 1), verify ok with no problems, BuildComplete true, 122 buildings with HeightBasis (register 100, from_floors 17, photo_geometry 4, default 1) and WallColor (light_gray 37, red_brick 37, brown 31, beige 8, white 2, dark_gray 3, orange 3, pink 1), 45 with Review, Manual still empty, spawn present, all counts equal to the report. Chunk calls took 2 to 9 ms inside Studio (the 9 KB chunks included), so the 10 KB warning line is not a measured limit but nothing is close to a problem. Noted for later: the require cache rule (CLAUDE.md and code-summary.md updated). The viewport camera was not touched. Not done yet: comparison pairs (need the user to keep the Studio window in front and not touch the viewport), corrections, recovery drill, frame rate. The Studio result is not saved; the user has to save the place.
+**Context**: CONSTRUCTION - U4 Build and Test, step 2 (Studio update).
+
+---
+
+## U4 Build and Test - Comparison Pairs, Batch 1 of 11
+**Timestamp**: 2026-10-13T18:05:00Z (approx.)
+**User Input**: "저장했어 비교 쌍 시작해"
+**AI Response**: The user saved the Studio place. Ran estimate.py plan for the first cell: 136 pairs in 11 batches of up to 12 buildings (flagged buildings first, then school, then the rest). Saved the viewport camera (CFrame, field of view 70) and set the vertical field of view to 83.58. Captured the 12 pairs of batch 1 with screen_capture (camera_position and look_at_position always given). Findings about the method: captures must be taken one at a time (four parallel calls gave three request timeouts and one good image; the good one was redone and was identical), about 4 to 5 seconds per capture; each pair needs one capture; composing 12 pairs is instant. The composed files are captures/8930e0af13bffff/review/<building>__1.jpg (1280x536, git ignored, not uploaded anywhere). Pair for gis:11036833 (school building, box fit 0.46) is meaningless because the camera is inside the oversized box. Looked at all 12 pairs myself: in the batch the photo count of 4 against a register 3 comes from dormers, attic windows, roof terraces or tall stair towers that were counted as a floor (gis:11081057, 11172810, 11174024, 11182332, 11171875 look like 3 floors); one debatable case is gis:11177608 (register 2 floors, 7.8 m; the photo shows 2 floors plus a roof terrace level, the box looks lower than the real house); no correction was made, the user decides. The camera and field of view were restored (checked: same CFrame and 70). Auto 169 descendants and Manual 0 unchanged.
+**Context**: CONSTRUCTION - U4 Build and Test, step 3 (comparison pairs), waiting for the user's review of batch 1.
+
+---
+
+## U4 Build and Test - Comparison Pairs, Batch 2 of 11
+**Timestamp**: 2026-10-13T18:40:00Z (approx.)
+**User Input**: "ㄱㄱ 다음 묶음 만들어"
+**AI Response**: Made the 12 pairs of batch 2 (all 12 flagged buildings: 8 conflict, 3 filled or low_confidence small structures, 1 default height), one capture at a time (about 4 seconds each, no timeouts), viewport camera and field of view saved before and restored after (checked equal), Auto 169 and Manual 0 unchanged. Looked at all pairs: no clear correction found. gis:11196895 (register 4 floors, 14 m) and gis:11201645 (register 10 floors) show the register is right where I had counted one floor fewer behind trees; gis:11188106 (register 3, I counted 4) shows a ground floor shop, two window bands and a gable with a round window, so 3 floors plus an attic is the likelier reading; gis:11184538 and gis:11188641 (9 to 10 floors) are mostly hidden by street trees, nothing to compare; gis:11190876 is a useless pair (the street-view crop is a close-up of a bay wall and the Studio camera sits at the wall); gis:11201923 (default height 10 m) could not be identified in the photo (the target is probably a small shelter behind the fence, the brick building in the picture belongs to the school); the small structures gis:11201615, 11201637, 11201639 and 11202584 look plausible at 1 floor 3.4 m and 2.5 m. Pending decision of the user from batch 1: gis:11177608. No override was set. Observation for the process: from batch 3 on the flagged buildings are used up (24 of 45 flagged were in batches 1 and 2), the rest are unflagged houses where the pair says little beyond height and position.
+**Context**: CONSTRUCTION - U4 Build and Test, step 3 (comparison pairs), waiting for the user's review of batch 2.
+
+---
+
+## U4 Build and Test - Decision on the Remaining Comparison Batches
+**Timestamp**: 2026-10-13T18:50:00Z (approx.)
+**AI Prompt**: Proposed to finish batches 3 and 4 (the remaining flagged buildings and the school faces) and to sample the 7 remaining batches of unflagged houses instead of looking at all of them (the pairs say little beyond height and position there).
+**User Response**: "3~4번만 하고 나머지는 표본으로 하자"
+**Status**: Decided. This changes Q8=A (all pairs) into: batches 1 to 4 completely, then a sample of the later batches (size and way to draw it to be agreed with the user). Recorded here as a change of the Functional Design choice made by the user.
+**Context**: U4 Build and Test, step 3.
+
+---
+
+## U4 Build and Test - Comparison Pairs, Batches 3 and 4 of 11
+**Timestamp**: 2026-10-13T19:40:00Z (approx.)
+**User Input**: "3~4번만 하고 나머지는 표본으로 하자"
+**AI Response**: Made batch 3 (17 pairs: 7 flagged houses, the small structures and school fields with several views) and batch 4 (21 pairs: 3 flagged shop houses, the school buildings with face views and one unflagged house), one capture at a time (about 4 seconds each, no timeouts), viewport camera and field of view saved before each batch and restored after (checked: same CFrame and 70), Auto 169 and Manual 0 unchanged. Looked at all 38 pairs. Findings: the pairs of school buildings (gis:16821018, 11185213, 11185281, 14944897, 15358826 views from inside the oversized boxes) and of the small structures in the school yard (11214902, 11215390, 11215391, 11215393, 15839722, 16052777) cannot be compared: the camera stands inside or behind a box that is much bigger than the real building, or the target is hidden behind the fence; the school wings (5 floors) match the photo count. For the register-versus-photo disagreements, in most pairs the extra floor of my count is an attic, dormer, roof terrace or a ground shop front that the register may not count as a floor; candidates where the pair suggests 4 floors instead of the register 3 (full extra floor, not only an attic): gis:12996130, gis:12425559, gis:11216743, with weaker cases gis:11210095, gis:11214369, gis:11216748 and gis:11170718, and gis:11177608 (register 2, roof terrace level) from batch 1. No override has been set because the user has not decided any of them. Total pairs seen: 62 of 136. Proposal made to the user: commit now (NFR Q3=A: every 3 comparison batches), and draw a sample of 12 unflagged buildings from the 7 remaining batches with a fixed seed. Q8=A (all pairs) was changed to batches 1 to 4 plus a sample by the user's decision, see the entry above.
+**Context**: CONSTRUCTION - U4 Build and Test, step 3 (comparison pairs), waiting for corrections.
+
+---
+
+## U4 Build and Test - Decisions After Batches 1 to 4
+**Timestamp**: 2026-10-13T19:55:00Z (approx.)
+**AI Prompt**: Asked which of the candidate buildings to correct, whether a sample of 12 from the 7 remaining batches is right, and whether to commit and push.
+**User Response**: "전부 대장 유지, 12개 표본, 커밋 푸시해"
+**Status**: Decided: no correction (all register values kept, no override rows), sample of 12 buildings from batches 5 to 11 drawn with a fixed seed, commit and push authorized (for this commit).
+**Context**: U4 Build and Test, step 3. The 29 register-versus-photo disagreements stay as flagged `conflict` in the report, the final values are the register values; the review is recorded here as: checked in comparison pairs, register kept.
+
+---

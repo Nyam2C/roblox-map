@@ -44,7 +44,7 @@
 ### 보정과 재생성
 - 사용자가 어긋난 건물을 말하면 사진을 다시 보고 같이 정해 `uv run src/overrides.py set --building ... --field ... --value ... --reason "..."`(사유에 개인 정보 금지). 되돌리려면 `unset`.
 - 한 묶음이 끝날 때마다 `uv run src/build_luau.py --cells <칸ID>`로 덩어리를 다시 만들고 Studio에서 `Builder.begin`부터 실행한다(`Manual`은 그대로).
-- **Studio의 `ServerStorage/MapBuilder`를 새 `studio/Builder.luau`로 갱신해야 한다**(Build and Test에서, 지금은 예전 Builder라 새 덩어리의 벽 색 표를 무시한다).
+- **`ServerStorage/MapBuilder`의 `Source`를 바꿀 때는 모듈 인스턴스를 새로 만든다(`Clone` 후 원본 `Destroy`).** Studio는 `require` 결과를 인스턴스마다 캐시해서 `Source`만 바꾸면 예전 코드가 계속 실행된다(2026-10-13 Build and Test에서 겪음: `verify`는 통과하는데 새 속성과 벽 색이 안 달렸다). 갱신한 뒤에는 시험용 폴더(`Builder.root`)에 건물 하나를 만들어 색과 속성이 달리는지 먼저 확인하고 덩어리를 실행한다.
 
 ### 복구 (BR-8.6)
 DB를 복사해 두고 새 DB에 `cells.py`, `register.py`를 다시 돌린 뒤 `uv run src/overrides.py import --file overrides/<칸ID>.json`. 복사해 둔 DB와 최종값(`effective_buildings`)이 같아야 한다. 이 흐름은 `tests/test_overrides.py`에서 합성 데이터로 확인했다.
