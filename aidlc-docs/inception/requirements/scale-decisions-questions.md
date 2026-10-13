@@ -56,7 +56,7 @@ B) PC만.
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: B (사용자, 2026-10-14: "기준 기기는 pc"). PC 걷기 평균 60 FPS(Studio 창 앞)를 기준으로 한다. 휴대폰은 기준에서 뺀다.
 
 ## Question 6 — 여러 세션이 같이 작업할 때
 A) **기능마다 git worktree(별도 작업 폴더)와 브랜치, 끝나면 main에 합친다. Studio 작업은 한 번에 한 세션. 커밋은 자기 파일만.** CLAUDE.md에 규칙으로 적는다. (추천)

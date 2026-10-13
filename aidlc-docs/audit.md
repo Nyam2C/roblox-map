@@ -1174,3 +1174,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - scale decisions.
 
 ---
+
+## Scale Q5 - PC Only
+**Timestamp**: 2026-10-13T16:23:00Z
+**User Response**: "기준 기기는 pc고  여러 세션 작업 규칙은?"
+**AI Response**: Recorded scale Q5 = B (PC, walking 60 FPS average with Studio in front); explained the multi-session rule (Q6) before it is answered.
+**Context**: INCEPTION - scale decisions.
+
+---
