@@ -1214,3 +1214,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: Workflow.
 
 ---
+
+## Scale Q2 - Three Tiers
+**Timestamp**: 2026-10-13T16:41:19Z
+**User Response**: "등급 나누고 H?"
+**AI Response**: Recorded scale Q2 = A (tiers 1, 2, 3; tier-2 defaults drawn per building from the distribution judged in tier-1 cells). Explained U7 H next.
+**Context**: INCEPTION - scale decisions.
+
+---
