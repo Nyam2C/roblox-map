@@ -1222,3 +1222,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - scale decisions.
 
 ---
+
+## Decisions by Interview
+**Timestamp**: 2026-10-13T16:49:59Z
+**User Request**: "이제 결정이 필요한거는 나를 인터뷰해서 정해봐"
+**AI Response**: Interviewed with two question rounds. Answers: target = all of Bucheon; one origin; tiers classified automatically from OSM with hand fixes; Claude picks Manual sites by criteria with a per-cell cap and turns repeated ones into kits (school ground generator first), the user only checks results; mesh order = tree kit, then villa piece kit (window bay first); map shows dong names, road names, public and major facilities, building names (personal names and lot addresses filtered), by zoom level. Sign images: the user wants to talk it over ("이건 나랑 대화좀"). Recorded in scale-decisions-questions.md (Q1, Q3, Q7), u6-map-detail-questions.md (Q1, Q2), U7 plan (H order, new J Manual-site selection) and CLAUDE.md decisions.
+**Context**: INCEPTION - scale decisions.
+
+---
