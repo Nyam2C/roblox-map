@@ -20,7 +20,7 @@ OSM, V-World  →   data/map.db    →   regions/<구역>/      →  src/layout*
 | 판단·보정 | 눈가림 판단, 세부 판단, 보정, 위성 나무, 간판 자산 ID | **git에 남는 사람의 결정**. 잃으면 다시 판단해야 한다 |
 | 생성 규칙 | 외곽선 → 박스, 창·지붕·간판·가로·나무·(U7) 내부 | 규칙을 고치고 다시 생성. 같은 입력이면 같은 결과(결정적) |
 | 엔진 반영 | Luau 덩어리 → `Builder`가 부품만 만든다 | 계산은 하지 않는다 |
-| 게임 | 미니맵, 킥보드, 엘리베이터 등 | 맵 부품을 고치지 않고 읽기만 한다 |
+| 게임 | 미니맵, 킥보드 등 | 맵 부품을 고치지 않고 읽기만 한다 |
 
 원칙
 - **계산은 Python, Studio는 부품만**: 좌표·모양 계산은 테스트할 수 있는 Python에 둔다.
@@ -57,12 +57,12 @@ OSM, V-World  →   data/map.db    →   regions/<구역>/      →  src/layout*
 | `tests/` | pytest, 속성 기반 테스트 | – |
 | `studio/ServerStorage/MapBuilder.luau` | 부품 생성기 | `ServerStorage/MapBuilder` |
 | `studio/manual/<구역>/*.luau` | 구역 전용 손작업 | `Workspace/Manual` (한 번 실행) |
-| `studio/ServerScriptService/`, `studio/StarterPlayerScripts/` | 게임 스크립트(U6, 엘리베이터) | 같은 이름 |
+| `studio/ServerScriptService/`, `studio/StarterPlayerScripts/` | 게임 스크립트(U6) | 같은 이름 |
 | `regions/<구역>/` | 구역 설정, 등급, 칸별 판단 값(git) | – |
 | `data/ captures/ assets/` | 로컬 원본·캐시·결과 | – |
 | `aidlc-docs/` | 요구·설계·계획·기록 | – |
 
-`studio/` 폴더 이름은 Studio 위치 그대로라 나중에 **Rojo**(파일 → Studio 자동 반영)를 붙일 수 있다. 내부는 새 `interiors.py`로.
+`studio/` 폴더 이름은 Studio 위치 그대로라 나중에 **Rojo**(파일 → Studio 자동 반영)를 붙일 수 있다.
 
 ## 5. 성능 예산 (숫자로 정하고 잰다)
 
@@ -134,8 +134,8 @@ OSM, V-World  →   data/map.db    →   regions/<구역>/      →  src/layout*
 
 ### 6.7 네트워크와 스크립트
 
-- 맵 부품마다 스크립트를 넣지 않는다. 기능은 `CollectionService` 태그나 속성(예: `ElevatorFloors`)을 단 부품을 스크립트 하나가 찾아 처리한다.
-- 서버가 확인할 것은 서버에서(엘리베이터 층 이동, 킥보드 속도). 클라이언트가 보낸 값은 믿지 않는다.
+- 맵 부품마다 스크립트를 넣지 않는다. 기능은 `CollectionService` 태그나 속성을 단 부품을 스크립트 하나가 찾아 처리한다.
+- 서버가 확인할 것은 서버에서(킥보드 속도). 클라이언트가 보낸 값은 믿지 않는다.
 - 실행 중 맵 부품을 대량으로 바꾸지 않는다(복제 폭주).
 
 ### 6.8 편집(Studio)과 생성 속도

@@ -28,14 +28,12 @@ LOOKS = {  # BR-2.7, BR-3.6, BR-4.1 (U5 BR-11.14 paved ground and paver sidewalk
     "building": ("Concrete", (200, 200, 205)), "road": ("Asphalt", (60, 60, 64)), "path": ("Pavement", (150, 150, 150)),
     "sidewalk": ("Brick", (165, 140, 135)), "ground": ("Concrete", (130, 128, 125)), "spawn": ("SmoothPlastic", (255, 255, 255)),
     "roof": ("Slate", (60, 60, 65)), "facade": ("SmoothPlastic", (225, 225, 222)), "sign": ("SmoothPlastic", (240, 240, 236)),
-    "prop": ("Concrete", (150, 150, 148)), "wall": ("Concrete", (200, 200, 205)), "interior": ("SmoothPlastic", (235, 235, 230)),
+    "prop": ("Concrete", (150, 150, 148)),
 }
-ORDER = {"ground": 0, "road": 1, "path": 2, "sidewalk": 3, "building": 4, "roof": 5, "facade": 6, "sign": 7, "prop": 8, "spawn": 9,
-         "wall": 10, "interior": 11}  # BR-7.1, U5 BR-14.1, U7 BR-I2 (shell, floors, stairs) and BR-I12 (rooms)
+ORDER = {"ground": 0, "road": 1, "path": 2, "sidewalk": 3, "building": 4, "roof": 5, "facade": 6, "sign": 7, "prop": 8, "spawn": 9}  # BR-7.1, U5 BR-14.1
 # U5 BR-14.1: (casts a shadow, collides) by kind; an item that differs sends g=/l= (yard parts and parked cars collide, markings do not)
 KIND_DEFAULTS = {"ground": (True, True), "road": (True, True), "path": (True, True), "sidewalk": (True, True), "building": (True, True),
-                 "roof": (True, True), "facade": (False, False), "sign": (False, False), "prop": (False, True), "spawn": (False, False),
-                 "wall": (True, True), "interior": (False, True)}
+                 "roof": (True, True), "facade": (False, False), "sign": (False, False), "prop": (False, True), "spawn": (False, False)}
 SPAWN_SIZE = 6.0
 SPAWN_THICKNESS = 0.2
 
@@ -101,7 +99,7 @@ class Item:
     standing with size = height, diameter, diameter, Ball), `color_name` (palette key the chunk's color table resolves), `text`,
     `ink`, `faces` (signs), `reflectance`, `shadow` and `collide` (the kind's default when None).
     """
-    kind: str  # ground, road, path, sidewalk, building, roof, facade, sign, prop, spawn; U7 wall, interior
+    kind: str  # ground, road, path, sidewalk, building, roof, facade, sign, prop, spawn
     name: str
     group: str
     seq: int
@@ -124,7 +122,6 @@ class Item:
     reflectance: float = 0.0
     shadow: bool | None = None
     collide: bool | None = None
-    pitch_deg: float = 0.0  # U7 BR-I6: a stair flight turned about its own X axis after the yaw (key px)
 
     @property
     def casts_shadow(self) -> bool:

@@ -1326,3 +1326,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 replanning.
 
 ---
+
+## U7 Interior Code Removed
+**Timestamp**: 2026-10-13T19:51:16Z
+**User Request**: (follows "내부 구현은 취소하고 외부 구현 퀄리티에 더 집중하자"; done after the step-5 session committed F and K in a5b26a7)
+**AI Response**: Removed src/interiors.py, tests/test_interiors.py, studio/ServerScriptService/Elevator.server.luau, the plan / hollow branches in layout_details.py (bands, cap, windows, roof objects, doors, storefront), the interiors call and counts and the hv / px / lt / ef keys in build_luau.py, the wall / interior kinds and pitch_deg in layout.py, the interiors key in common.py and config.toml, and the interior handling in MapBuilder.luau. Kept: per-building Models, the Persistent Base model and Made_<kind> counts in MapBuilder, the tier argument, the step-5 sign library. Per-cell part budget back to 15,000 (architecture.md). The items of all three cells are identical before and after (8,099 / 7,103 / 8,741). Tests 649 pass on three seeds; the default run replays the known P5-3 vertex-order example in outline_to_boxes (pre-existing, flagged as a separate task). Docs and skills (CLAUDE.md, plan, state, architecture, lessons, cycle-verify 3.5 removed, cycle-build) updated.
+**Context**: CONSTRUCTION - U7 replanning (interiors removed).
+
+---

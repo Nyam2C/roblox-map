@@ -150,8 +150,7 @@ def test_pause_after_success_and_https_only_and_json_only():
 def test_default_config_file_matches_the_defaults_in_code():
     cfg = common.load_config()
     assert cfg.pop("regions_dir") == "regions"  # DEFAULTS' value is moved out of the repository for tests (conftest)
-    assert cfg.pop("interiors") is True and common.DEFAULTS["interiors"] is False  # the code default is the U5 map (BR-I16)
-    assert cfg == {k: v for k, v in common.DEFAULTS.items() if k not in ("regions_dir", "interiors")}
+    assert cfg == {k: v for k, v in common.DEFAULTS.items() if k != "regions_dir"}
     assert common.DEFAULTS["school_polygons"] == [] and common.DEFAULTS["spawn_lat"] is None  # region keys live in region.toml
 
 
@@ -197,7 +196,7 @@ def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):
                 "floor_height_min_m = 6", "floor_height_min_m = 5\nfloor_height_max_m = 5", "review_batch_size = 0",
                 "sheet_tile_w = 10", "sheet_jpeg_quality = 101", 'regions_dir = ""', "blind_broken = [1]", 'blind_broken = [""]',
                 "pole_spacing_m = -1", "lamp_spacing_m = 201", "tree_spacing_m = 51", "car_spacing_m = -0.5", "school_zone_m = 301",
-                "roof_pitch_deg = 4", 'window_faces = "side"', 'interiors = 1', 'assets_dir = ""'):
+                "roof_pitch_deg = 4", 'window_faces = "side"', 'assets_dir = ""'):
         p.write_text(bad + "\n", encoding="utf-8")
         with pytest.raises(ValueError):
             common.load_config(p)

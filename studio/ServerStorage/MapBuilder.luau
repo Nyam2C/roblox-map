@@ -8,18 +8,16 @@
 
 	Layout:   Workspace/Auto/<cell id>/Base (Model, Persistent)/{Ground, Roads, Paths, Sidewalks}
 	          Workspace/Auto/<cell id>/Buildings/<building id> (Model, Atomic): every part a building owns (box, roof, facade,
-	          sign, yard, U7 walls and interior)
+	          sign, yard)
 	          Workspace/Auto/<cell id>/{Props, Spawn}                                 street props, spawn
 	          Workspace/Manual                                                       never changed, only read
-	          Counts per kind are cell attributes Made_<kind> (verify reads them; U7 BR-I15).
+	          Counts per kind are cell attributes Made_<kind> (verify reads them). Models: a building streams whole (U7 E).
 	Item keys: k kind, n name, x y z center, w h d size along the part's own X, Y, Z, r yaw in degrees (counterclockwise from
 	          east, seen from above); buildings s source, e height in m, q fit ratio, f floors, b height basis, a floors basis,
 	          c wall color name, v review flags. U5 (optional, only when they differ from the defaults): i owner building id,
 	          p shape (Wedge, CornerWedge, Cylinder standing with size = height, diameter, diameter, Ball), m material,
 	          c color name of any kind (its RGB is in looks.walls), o ink color name, t sign text, u="LR" two-sided sign,
 	          md sign MaxDistance, im sign image asset id (SI-7), j reflectance, g 0/1 cast shadow, l 0/1 collide.
-	          U7: hv=1 a hollow building's volume (invisible, no collision), px pitch in degrees about the part's own X after the
-	          yaw (stair flights), lt PointLight range in studs, ef / eF elevator door floor and floor count (tag Elevator).
 	Rules:    aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md (BR-2.8, BR-6, BR-7.5)
 	          aidlc-docs/construction/u5-details/functional-design/business-rules.md (BR-10.5, BR-12.5, BR-14.1, BR-14.3 to BR-14.5)
 ]]
@@ -31,16 +29,14 @@ Builder.root = nil
 
 local FOLDER_OF = {
 	ground = "Ground", road = "Roads", path = "Paths", sidewalk = "Sidewalks", building = "Buildings",
-	roof = "Roofs", facade = "Facades", sign = "Signs", prop = "Props", spawn = "Spawn", wall = "Walls", interior = "Interiors",
+	roof = "Roofs", facade = "Facades", sign = "Signs", prop = "Props", spawn = "Spawn",
 }
 local BASE_KINDS = { ground = true, road = true, path = true, sidewalk = true } -- in the Persistent Base model (BR-I15.3)
 -- (casts a shadow, collides) by kind; an item sends g / l only when it differs (U5 BR-14.1)
 local KIND_DEFAULTS = {
 	ground = { true, true }, road = { true, true }, path = { true, true }, sidewalk = { true, true }, building = { true, true },
 	roof = { true, true }, facade = { false, false }, sign = { false, false }, prop = { false, true }, spawn = { false, false },
-	wall = { true, true }, interior = { false, true },
 }
-local CollectionService = game:GetService("CollectionService")
 local SHAPES = { Block = Enum.PartType.Block, Wedge = Enum.PartType.Wedge, CornerWedge = Enum.PartType.CornerWedge,
 	Cylinder = Enum.PartType.Cylinder, Ball = Enum.PartType.Ball }
 
@@ -203,9 +199,6 @@ function Builder.add(cellId, items, looks, root)
 			end
 			part.Size = Vector3.new(it.w, it.h, it.d)
 			local cf = CFrame.new(it.x, it.y, it.z) * CFrame.Angles(0, math.rad(it.r), 0)
-			if it.px then
-				cf = cf * CFrame.Angles(math.rad(it.px), 0, 0) -- a stair flight (U7 BR-I6)
-			end
 			if it.p == "Cylinder" then
 				cf = cf * CFrame.Angles(0, 0, math.rad(90)) -- a cylinder's length runs along X: stand it up (U5 BR-14.3)
 			end
@@ -239,28 +232,6 @@ function Builder.add(cellId, items, looks, root)
 					if it[key] ~= nil then
 						part:SetAttribute(attr, it[key])
 					end
-				end
-				if it.hv == 1 then -- U7 BR-I1.3: the shell walls show the building; the box only carries the attributes
-					part.Transparency = 1
-					part.CanCollide = false
-					part.CanTouch = false
-					part.CanQuery = false
-					part.CastShadow = false
-					part:SetAttribute("Hollow", true)
-				end
-			elseif it.k == "interior" then
-				if it.lt then
-					local light = Instance.new("PointLight")
-					light.Range = it.lt
-					light.Brightness = 1.2
-					light.Shadows = false
-					light.Color = Color3.fromRGB(255, 236, 205)
-					light.Parent = part
-				end
-				if it.ef ~= nil then
-					part:SetAttribute("ElevatorFloor", it.ef)
-					part:SetAttribute("ElevatorFloors", it.eF)
-					CollectionService:AddTag(part, "Elevator")
 				end
 			elseif it.k == "sign" then
 				if it.u == "LR" then

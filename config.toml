@@ -58,7 +58,6 @@ tree_spacing_m = 7            # 가로수 간격(m)
 car_spacing_m = 0             # 주차 차량 간격(m, living_street; residential은 x1.25). 0이면 없음. 상자 두 개짜리 차가 어색해서 껐다(2026-10-13)
 school_zone_m = 50            # 학교 필지에서 이 거리 안이 스쿨존
 roof_pitch_deg = 25           # 박공·모임지붕 경사각
-interiors = false              # U7 내부는 취소(사용자 결정 2026-10-14: 외관 품질에 집중). false = U5 맵과 같은 항목
 window_faces = "all"          # "front"이면 창을 도로 쪽 면에만 (FPS 조절 1단계)
 
 # U5 간판 이미지 (aidlc-docs/construction/u5-details/sign-images/plan.md). 비밀값 OPENAI_API_KEY, OPENAI_BASE_URL은 .env

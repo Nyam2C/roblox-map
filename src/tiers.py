@@ -10,8 +10,7 @@ Usage (repo root; the cell must be in the cells list of its region.toml first):
   uv run src/tiers.py list --cells 8930e0af13bffff [...]
 
 Tier 1: landmarks (school, station, park, hospital, market, public office ...), shopping streets, commercial land: street view,
-judgement, interiors and signs in full. Tier 2: housing: rule defaults, light interiors. Tier 3: industry, farmland, forest:
-boxes only. The thresholds are set so the first three cells are tier 1 (plan G). OSM buildings are not counted: in Korea OSM has
+judgement and signs in full. Tier 2: housing: rule defaults. Tier 3: industry, farmland, forest: boxes only. The thresholds are set so the first three cells are tier 1 (plan G). OSM buildings are not counted: in Korea OSM has
 5 to 12 per cell where V-World has 85 to 223 (2026-10-14), so a count would call the town centre "edge of town".
 """
 from __future__ import annotations

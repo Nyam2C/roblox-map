@@ -95,7 +95,6 @@ DEFAULTS: dict[str, Any] = {
     "school_zone_m": 50,
     "roof_pitch_deg": 25,
     "window_faces": "all",  # "front": windows only on the road-facing face (first step of the FPS ladder)
-    "interiors": False,  # U7 BR-I1: hollow buildings with floors, stairs and rooms (config.toml turns it on; off = the U5 map)
     "assets_dir": "assets/signs", "sign_image_model": "gpt-image-2.5-sunburst",
     "sign_image_size": "1536x1024", "sign_image_workers": 4,
 }
@@ -191,8 +190,6 @@ def check_config(cfg: Mapping[str, Any]) -> None:
         errors.append("fov_min_deg must not exceed fov_max_deg")
     if not errors and cfg["floor_height_min_m"] >= cfg["floor_height_max_m"]:
         errors.append("floor_height_min_m must be below floor_height_max_m")
-    if not isinstance(cfg["interiors"], bool):
-        errors.append("interiors must be true or false")
     if cfg["window_faces"] not in ("all", "front"):
         errors.append('window_faces must be "all" or "front"')
     broken = cfg["blind_broken"]
