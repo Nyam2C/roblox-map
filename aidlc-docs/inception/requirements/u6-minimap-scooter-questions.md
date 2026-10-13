@@ -3,6 +3,8 @@
 요청(사용자, 2026-10-14): "오른쪽 위에 지도랑, 빠르게 이동 가능하게 킥보드 탈거 구현 가능?"
 답: 가능하다. 둘 다 Roblox 안의 스크립트(플레이어 화면 + 서버)이고 지금 맵(Auto/Manual 부품)은 건드리지 않는다.
 
+상시 승인(사용자, 2026-10-14: "지금 다 권고로 ㄱㄱ")에 따라 아래 5개 질문은 Claude가 추천안(A)으로 답하고 그 사실을 `audit.md`에 적는다.
+
 ## 방법 요약 (질문에 답하기 전에 읽는 것)
 
 - **지도**: 플레이어 화면(ScreenGui)에 작은 지도를 오른쪽 위에 둔다. 내 위치는 캐릭터의 stud 좌표를 지도 픽셀로 바꿔 표시한다(좌표 바꾸는 계산은 Python에서 만들고 테스트한다. 이 맵은 이미 동쪽 +X, 북쪽 −Z, 3.6 stud/m로 정해져 있다).
@@ -20,7 +22,7 @@ C) 위성 사진을 그대로 지도로. 권하지 않는다(V-World·카카오 
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A
 
 ## Question 2 — 작은 지도의 동작
 A) 오른쪽 위 작은 지도, 항상 북쪽이 위이고 내 화살표만 돌아간다. 큰 지도는 M 키(휴대폰은 지도 버튼)로 켜고 끈다. (추천)
@@ -31,7 +33,7 @@ C) A로 시작하고 버튼으로 B로 바꾼다.
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A
 
 ## Question 3 — 큰 지도에서 할 수 있는 것
 A) 보기만 한다. 장소 이름(심원고, 부흥중, 옥산공원)과 내 위치가 보인다. (추천)
@@ -40,7 +42,7 @@ B) A에 더해 장소를 눌러 순간이동도 된다. 서버가 요청 간격�
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A
 
 ## Question 4 — 킥보드를 타는 방법
 A) 버튼 하나(키 K, 휴대폰은 화면 버튼)로 어디서나 타고 내린다. 가장 단순하고 휴대폰에서도 쉽다. (추천)
@@ -51,7 +53,7 @@ C) A와 B 둘 다.
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A
 
 ## Question 5 — 킥보드 속도
 이 맵은 1 m = 3.6 stud라서 기본 걷기 16 stud/s는 현실에서 시속 16 km(조깅 속도)이고, 현실 킥보드 한도 25 km/h는 25 stud/s다. 첫 칸 한 변이 약 1,100 stud라 걸어서 약 70초, 25 stud/s면 약 45초다.
@@ -64,4 +66,4 @@ C) 보통(25)과 빠름(40)을 버튼으로 바꾼다.
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A

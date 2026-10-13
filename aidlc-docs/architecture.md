@@ -62,7 +62,7 @@ OSM, V-World  →   data/map.db    →   regions/<구역>/      →  src/layout*
 | `data/ captures/ assets/` | 로컬 원본·캐시·결과 | – |
 | `aidlc-docs/` | 요구·설계·계획·기록 | – |
 
-`studio/` 폴더 이름은 Studio 위치 그대로라 나중에 **Rojo**(파일 → Studio 자동 반영)를 붙일 수 있다. U6 스크립트(`studio/*.client.luau`, `*.server.luau`)는 U6이 커밋될 때 위치 폴더로 옮긴다. 내부는 새 `interiors.py`로.
+`studio/` 폴더 이름은 Studio 위치 그대로라 나중에 **Rojo**(파일 → Studio 자동 반영)를 붙일 수 있다. 내부는 새 `interiors.py`로.
 
 ## 5. 성능 예산 (숫자로 정하고 잰다)
 

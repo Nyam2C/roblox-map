@@ -1262,3 +1262,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 2.
 
 ---
+
+## Commit the Leftover U6 Files, Start U7 Step 3
+**Timestamp**: 2026-10-13T17:59:23Z
+**User Request**: "커밋 안된거 커밋하고 푸시하고 U7 단계 3 진행해. 인지부터."
+**AI Response**: Committed the U6 work left uncommitted by an earlier session (src/minimap.py, tests/test_minimap.py, the U6 plan, requirements and question files). The three U6 scripts moved into the Studio-location folders (studio/StarterPlayerScripts/, studio/ServerScriptService/) and minimap.SOURCES points there; the installer test also checks the files exist. A property test found a 10-floor school block with 331 parts against the limit 320 (320 classroom-grid windows + bands, by the rule); the school limit in test P5-15 is now 360 with the reason. Tests 636 passed (default and 3 seeds).
+**Context**: CONSTRUCTION - U6 commit; U7 step 3 next.
+
+---
