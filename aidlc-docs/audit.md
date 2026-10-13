@@ -1096,3 +1096,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - other cells; next cell 8930e0af123ffff (2), signs paused.
 
 ---
+
+## U7 Real Building Shapes - Requirements Questions
+**Timestamp**: 2026-10-13T14:57:11Z
+**User Request**: "이거 지금 다 블록 형태고 실제 건물이 아니자나 실제 건물로 다 다시 변환 가능한가? 이걸 토대로 이걸 스킬로 만들던지 사항으로 넣어서 확장할 때 가능하게"
+**AI Response**: Feasible: the V-World outlines are already in the database (430 buildings, median 6 vertices, 90 % at 9 or fewer, max 44); only the outline-to-box step changes. Wrote aidlc-docs/inception/requirements/u7-real-shapes-questions.md (5 questions: how real, which buildings, frame-rate limit, skill versus code and rules for expansion, what to do with the built cells). Waiting for the answers; the U5 standing approval does not cover U7.
+**Context**: INCEPTION - U7 Requirements Analysis.
+
+---
