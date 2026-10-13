@@ -148,7 +148,10 @@ def test_pause_after_success_and_https_only_and_json_only():
 # --- config --------------------------------------------------------------------------
 
 def test_default_config_file_matches_the_defaults_in_code():
-    assert common.load_config() == common.DEFAULTS
+    cfg = common.load_config()
+    spawn = {k: cfg.pop(k) for k in ("spawn_lat", "spawn_lon", "spawn_yaw_deg")}  # the chosen spawn point lives only in the file
+    assert cfg == {k: v for k, v in common.DEFAULTS.items() if not k.startswith("spawn_")}
+    assert (spawn["spawn_lat"] is None) == (spawn["spawn_lon"] is None)
 
 
 def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):

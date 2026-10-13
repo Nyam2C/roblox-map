@@ -36,7 +36,9 @@ poor_fit_ratio = 0.8          # 박스와 면적 비율이 이 값 미만인 건
 ground_margin_m = 20          # 땅 판이 칸 경계 밖으로 더 덮는 거리(m) (BR-4.1)
 sidewalk_width_m = 1.5        # 인도 폭(m) (BR-3.8)
 chunk_size = 50               # 한 번의 execute_luau에 넣는 항목 수 (BR-7.2)
-# spawn_lat, spawn_lon, spawn_yaw_deg: 정문 앞 도로 점을 Studio에서 같이 정한 뒤 적는다. 없으면 스폰을 만들지 않는다 (BR-5.1)
+spawn_lat = 37.504483         # 스폰 점: 심원고 본관에 가장 가까운 신흥로238번길(보행로) 위의 점. 사용자와 Studio에서 같이 정함(2026-10-13, Q6=B) (BR-5.1)
+spawn_lon = 126.77861
+spawn_yaw_deg = -62.0         # 캐릭터가 본관(북동쪽)을 보도록. 값이 없으면 스폰을 만들지 않는다
 
 [road_widths_m]               # 도로 종류별 폭(m). OSM width 태그가 있으면 그것이 우선이다 (BR-3.4)
 motorway = 14
