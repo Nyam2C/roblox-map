@@ -1104,3 +1104,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - U7 Requirements Analysis.
 
 ---
+
+## U7 Real Building Shapes - Answers and Change
+**Timestamp**: 2026-10-13T15:03:45Z
+**User Response**: "그냥 외관만 현실에 맞추고 내부는 너가 판단해서 층수만 맞추자"
+**AI Response**: Recorded in u7-real-shapes-questions.md (Q1 outside follows the outline, no interiors, floors already match; Q2-Q5 Claude's recommended A as the user left them to Claude). Measured first: loosening the existing multi-box split (up to 6 boxes, school 8, depth 3/4, target fit 0.93 instead of 0.8, pieces from 8 m2, gain 0.03) raises the outline IoU over 430 buildings from median 0.937 to 0.963 and cuts those below 0.85 from 43 to 11, for about +360 parts on two cells; so this goes first instead of wall panels and wedges (data/compare/shapes_before_after.png). Tests 613 passed. CLAUDE.md gets the per-cell procedure. Studio rebuild waits for the user to leave Play mode (20 s frame read during Play with two cells: 60.0 average, 60 lowest second).
+**Context**: CONSTRUCTION - U7 (outline-following boxes).
+
+---

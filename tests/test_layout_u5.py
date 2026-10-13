@@ -122,7 +122,7 @@ def test_p5_3_boxes_cover_the_outline_use_less_area_than_one_box_and_ignore_the_
     single = layout.box_of_points(pts)
     assume(single is not None and Polygon(pts).area >= D["split_min_area"])
     boxes = LD.outline_to_boxes([list(p) for p in outline], FRAME, CFG, "villa")
-    assert 1 <= len(boxes) <= 3
+    assert 1 <= len(boxes) <= 6  # U7: up to six boxes follow the outline
     assert sum(b.width_m * b.depth_m for b in boxes) <= single.width_m * single.depth_m * (1 + 1e-6) + 0.01
     assert covers(boxes, pts, tol=0.05)
     turned = list(outline[shift % len(outline):] + outline[:shift % len(outline)])

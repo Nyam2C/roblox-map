@@ -213,17 +213,18 @@ def _split(poly: Polygon, depth: int, max_depth: int, budget: list[int], ratio: 
 
 
 def outline_to_boxes(outline: Sequence[Sequence[float]], frame: Frame, cfg: Mapping[str, Any], archetype: str) -> list[Box]:
-    """One box, or up to 3 (school 6) boxes for a poor fit when they improve the union fit by 0.10 (BR-2.1, BR-2.2)."""
+    """One box, or up to 6 (school 8) boxes when the single box covers the outline less than shape_fit and the pieces improve the
+    union fit by split_gain (BR-2.1, BR-2.2; U7 2026-10-14: the outside follows the real outline, ㄱ, ㄷ and stepped blocks)."""
     poly = _poly_m(outline, frame)
     if poly is None:
         return []
     single = layout.box_of_points(list(poly.exterior.coords)[:-1], poly.area)
     if single is None:
         return []
-    ratio = float(cfg["poor_fit_ratio"])
+    ratio = D["shape_fit"]
     if _fit(poly, single) >= ratio or poly.area < D["split_min_area"]:
         return [single]
-    max_boxes, max_depth = (6, 3) if archetype == "school" else (3, 2)
+    max_boxes, max_depth = (8, 4) if archetype == "school" else (6, 3)
     pieces = _split(poly, 0, max_depth, [max_boxes - 1], ratio)
     if len(pieces) < 2:
         return [single]

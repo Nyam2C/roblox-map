@@ -26,6 +26,21 @@
 - 주차 차량은 만들지 않는다(사용자 결정, 2026-10-13). `config.toml`의 `car_spacing_m = 0`이고, 상자 두 개짜리 차가 어색해서 껐다. 나중에 넣는다면 메시 하나를 복제하는 방식이고 걷기 FPS를 잰 뒤에 한다.
 - 나무는 위성 사진에서 읽는다(사용자 결정, 2026-10-13). `src/trees.py`가 V-World 위성 z19의 수관을 찾아 `trees/<칸ID>.json`에 쓰고(첫 칸 371그루), `build_luau.py`가 그 파일이 있으면 규칙 가로수(7 m 간격) 대신 그 나무를 만든다. 옥산공원은 `studio/ManualPark.luau`(Manual/Park, 위성 색으로 가른 흙·자갈·모래 바닥)이고 나무는 Auto의 위성 나무가 맡는다. 다른 칸은 위성 타일을 받고 `.json`(`tile_x0`, `tile_y0`)을 써 두면 같은 방법으로 된다.
 
+## 칸 추가 절차 (확장할 때 이 순서 그대로, 2026-10-14)
+
+칸 하나(또는 다른 동네의 새 칸)를 만들 때. 스킬은 만들지 않고 이 절차와 `src/` 코드로 반복한다(U7 Q4=A).
+
+1. 수집: `cells.py --cells <칸>` → `register.py --cells <칸>`
+2. 거리뷰: `capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(100장 상한)
+3. 판단(눈가림): `estimate.py pending`(200개씩) → 사진만 보고 U4 판단과 U5 세부 판단을 같이 기록(`estimate.py record`, `details.py record`). 서브에이전트에 나눌 때도 DB·overrides·details는 읽지 않게 한다. `report`의 확신 high 불일치는 사진을 다시 보고 틀린 판단이면 `overrides.py set`으로 대장 유지
+4. 위성 나무: 칸의 V-World z19 모자이크(`data/satellite/<칸>-z19.jpg`와 `.json`) → `trees.py --cells <칸>`
+5. 생성: `build_luau.py --cells <칸>` → `data/build/<칸>/chunks.json`(덩어리 파일을 데이터로 바꾼 것)을 127.0.0.1에서 받아 `Builder.begin/add/finish/verify`(검증 키는 `items_<kind>`), `HttpEnabled`는 받는 동안만
+6. 위성 겹쳐 보기: Studio 수직 캡처(높이 650, 0.974 px/stud)와 위성을 같은 격자로 겹쳐 데이터에 없는 시설(운동장, 체육관, 큰길 폭)과 잘못 잡힌 건물을 찾는다
+7. 거리뷰 대조: `estimate.py plan` → 같은 카메라로 `screen_capture`(세로 시야각 83.58, 하나씩) → `compose`. 여러 건물에 공통인 문제는 규칙(`details_rules`, `layout_details`)으로 고치고 테스트, 한 건물만의 문제는 보정이나 Manual
+8. 특별한 곳(학교, 공원 등)만 Manual 스크립트. 끝나면 걷기 FPS(Studio 창 앞)
+
+외관은 실제 외곽선을 따른다(U7): 박스 최대 6개(학교 8개)로 쪼개 외곽선 일치도 0.93을 목표로 한다. 건물 내부는 만들지 않고 층수는 층 띠와 층별 창으로 보인다.
+
 ## 실행
 
 ```bash

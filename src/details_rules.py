@@ -336,7 +336,7 @@ def band_color(rgb: Sequence[int]) -> tuple[int, int, int]:
 # Building dimensions in metres (never configuration: they do not change). Names are used across layout.py.
 DIMS: dict[str, float] = {
     "dup_overlap": 0.6, "body_min_height": 2.5, "body_min_side": 3.0, "body_max_ratio": 12.0, "min_fh": 2.0,
-    "split_min_area": 60.0, "split_min_piece": 20.0, "split_edge_margin": 1.0, "split_gain": 0.10,
+    "split_min_area": 30.0, "split_min_piece": 8.0, "split_edge_margin": 1.0, "split_gain": 0.03, "shape_fit": 0.93,  # U7: closer to the real outline
     "band_lip": 0.10, "band_h": 0.12, "cap_h": 0.8, "cap_sink": 0.2, "rail_h": 0.06, "rail_lip": 0.10, "plinth_h": 0.5,
     "roof_overhang": 0.4, "roof_sink": 0.02, "shed_pitch_deg": 12.0, "hip_min_ridge": 1.0,
     "penthouse_w": 4.0, "penthouse_h": 3.0, "penthouse_d": 4.0, "rooftop_box_w": 3.0, "rooftop_box_h": 2.6, "rooftop_box_d": 3.0,
