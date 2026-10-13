@@ -1350,3 +1350,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 exterior quality L. Rules BR-6.6 and BR-3.2a in u5-details business-rules.md; tests test_br_6_6_*, test_br_3_2a_*, two existing tests updated.
 
 ---
+
+## U7 Step 5: J School Ground Kit, F Checked in Studio
+**Timestamp**: 2026-10-13T20:37:41Z
+**User Request**: "응 레퍼런스 보고 J 진행해 U7 계속 진행"
+**AI Response**: References first: Creator Store models 12968011289 (track and pitch), 16631688240 (field), 10541782424 (basketball court), 3925271000 (stadium) inserted into MCP_Test/RefJ, scripts checked (none), measured (court lines 0.69 studs, arcs from straight pieces, hoop 11.8 studs, bleacher treads 3 studs, layered lines just above the ground), captured, deleted. J: src/fields.py finds the ground of each OSM school area in the satellite photo (OSM has no pitches here) and writes fields.json; build_luau makes the kit (slab, lines, centre circle, goals) for schools without a Manual script. 심원고 372.6 x 185.4 studs vs Manual 397 x 192, 부흥중 180 x 178.2 vs 185 x 180, 옥산초 turf 118.8 x 64.8 (new). Earlier in this step F was checked in Studio (School script = Studio Manual, 1,180 parts) and the Studio-only CreamTop moved into the script. .gitignore fixed (cells/ hid new files under regions/). Studio place was closed during the step, so the kit capture of 옥산초 is left for when the place is open. cycle-build and CLAUDE.md updated with fields.py and the anchors run.
+**Context**: CONSTRUCTION - U7 step 5 (F, K, J done; Studio capture of the kit pending).
+
+---

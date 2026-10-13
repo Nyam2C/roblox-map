@@ -50,11 +50,11 @@
 1. 수집: `cells.py --cells <칸>` → `register.py --cells <칸>`
 2. 거리뷰: `capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(100장 상한)
 3. 판단(눈가림): `estimate.py pending`(200개씩) → 사진만 보고 U4 판단과 U5 세부 판단을 같이 기록(`estimate.py record`, `details.py record`). 서브에이전트에 나눌 때도 DB·overrides·details는 읽지 않게 한다. `report`의 확신 high 불일치는 사진을 다시 보고 틀린 판단이면 `overrides.py set`으로 대장 유지
-4. 위성 나무: `satellite.py cell <칸>`(V-World z19 모자이크 `data/satellite/<칸>-z19.jpg`와 `.json`) → `trees.py --cells <칸>`
+4. 위성 나무·운동장: `satellite.py cell <칸>`(V-World z19 모자이크 `data/satellite/<칸>-z19.jpg`와 `.json`) → `trees.py --cells <칸>` → `fields.py --cells <칸>`(학교 운동장 키트, U7 J)
 5. 생성: `build_luau.py --cells <칸>` → `data/build/<칸>/chunks.json`(덩어리 파일을 데이터로 바꾼 것)을 127.0.0.1에서 받아 `Builder.begin/add/finish/verify`(검증 키는 `items_<kind>`), `HttpEnabled`는 받는 동안만
 6. 위성 겹쳐 보기: Studio 수직 캡처(높이 650, 0.974 px/stud)와 위성을 `satellite.py compare`로 같은 격자에 겹쳐 데이터에 없는 시설(운동장, 체육관, 큰길 폭)과 잘못 잡힌 건물을 찾는다
 7. 거리뷰 대조: `estimate.py plan` → 같은 카메라로 `screen_capture`(세로 시야각 83.58, 하나씩) → `compose`. 여러 건물에 공통인 문제는 규칙(`details_rules`, `layout_details`)으로 고치고 테스트, 한 건물만의 문제는 보정이나 Manual
-8. 특별한 곳(학교, 공원 등)만 Manual 스크립트. 끝나면 걷기 FPS(Studio 창 앞)
+8. 특별한 곳(학교, 공원 등)만 Manual 스크립트(`regions/<구역>/manual.json`에 등록, 박스 좌표 대신 `anchors.py` 기준점). 학교 운동장은 키트가 먼저. 끝나면 걷기 FPS(Studio 창 앞)
 
 외관은 실제 외곽선을 따른다(U7): 박스 최대 6개(학교 8개)로 쪼개 외곽선 일치도 0.93을 목표로 한다. 건물 내부는 만들지 않고 층수는 층 띠와 층별 창으로 보인다.
 

@@ -27,7 +27,9 @@ uv run --env-file .env src/register.py --cells <칸>
 ```bash
 uv run --env-file .env src/satellite.py cell <칸>
 uv run src/trees.py --cells <칸>
+uv run src/fields.py --cells <칸>        # 학교 운동장 키트(U7 J): OSM 학교 영역 + 위성 -> regions/<구역>/cells/<칸>/fields.json
 ```
+`fields.py` 출력에 학교마다 `way:... sand|turf W x D studs`가 나오는지 본다(Overpass 504가 이어지면 결과가 그대로 남는다). 수작업이 있는 학교는 `manual.json`의 `osm`으로 `made_by: manual`이 되어 생성하지 않는다. 새 학교는 위성 겹쳐 보기(cycle-verify)에서 운동장 사각형을 확인한다.
 
 ### 3. 거리뷰 (1급 칸만)
 `uv run src/capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(실행당 새 파노라마 100장 상한). 백그라운드로 돌리고 끝나면 확인. 403/429·형식 이상으로 `stopped`면 **우회하지 말고 멈추고** 사용자에게 알린다.
@@ -54,7 +56,7 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 3. `cd data/build && python3 -m http.server 8765 --bind 127.0.0.1`(백그라운드).
 4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행. `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. 서버를 내린다: `pkill -f "http.server 8765"`.
-6. Builder(`studio/ServerStorage/MapBuilder.luau`)나 게임 스크립트(`studio/ServerScriptService/*.server.luau`)를 바꿨다면 먼저 교체한다: 그 파일 복사본만 둔 폴더를 같은 서버로 내놓고 Studio에서 `HttpService:GetAsync`로 받아 새 인스턴스의 `Source`에 넣고 원본 Destroy(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`.
+6. Builder(`studio/ServerStorage/MapBuilder.luau`)나 게임 스크립트(`studio/ServerScriptService/*.server.luau`)를 바꿨다면 먼저 교체한다: 그 파일 복사본만 둔 폴더를 같은 서버로 내놓고 Studio에서 `HttpService:GetAsync`로 받아 새 인스턴스의 `Source`에 넣고 원본 Destroy(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`를 바로 실행하지 않고 `uv run src/anchors.py build --region <구역>` → `uv run src/anchors.py script --region <구역> --name <이름>`이 만든 `data/build/manual/<이름>.luau`(기준점 앞부분 + 스크립트)를 같은 서버로 내놓고 ModuleScript `Source`에 넣어 `require`한다. 스크립트에는 박스 좌표를 숫자로 쓰지 않고 `A.box`·`A.frame`·`A.boxes`를 쓴다(U7 F).
 
 ### 8. 규칙을 고칠 때
 **먼저 공개 레퍼런스를 본다**(CLAUDE.md "공개 레퍼런스 먼저"): 고칠 것(창, 발코니, 지붕 끝, 학교 운동장 등)과 같은 것을 공개 작품에서 찾아 `MCP_Test`에서 재거나(스크립트 즉시 삭제, Play 금지, 다 보면 지움) 스크린샷으로 비율을 본다. 본 것(자산 ID·출처, 잰 값)을 계획서 U7 L이나 설계 문서에 적고, 숫자와 방식만 가져온다. 수작업(Manual)을 새로 만들 때도 같다.
