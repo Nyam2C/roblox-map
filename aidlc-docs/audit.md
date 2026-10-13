@@ -700,3 +700,28 @@
 **Context**: U4 Functional Design approved. Committing and pushing the plan, the three design documents, audit and state; then continuing to U4 NFR Requirements (the approval chose "Continue to Next Stage").
 
 ---
+
+## U4 NFR Requirements - Plan and Feasibility Test
+**Timestamp**: 2026-10-13T04:50:00Z (approx.)
+**User Input**: (none, continuation after the Functional Design approval "ㄱㄱ 승인하고 커밋 푸시까지")
+**AI Response**: Committed and pushed the Functional Design (8ed81cd, main). Started U4 NFR Requirements: read the stage rule, the U1 and U2 NFR documents and the CI. Ran a feasibility test in the open Studio place (Edit mode, nothing created or deleted): moved the camera to the street-view position of one real building and captured with screen_capture; capture with explicit camera_position and look_at_position works and is saved as a local JPEG (1437x882), the camera field of view (vertical) is honoured, a capture without arguments used another viewpoint and left CurrentCamera changed, so arguments must always be given; composing a 4:3 centre crop next to the crop takes 22 ms and 122 judgement sheets take 1.8 s. The viewport camera and field of view were restored to their earlier values and the Auto cell (169 descendants) and Manual (0) were verified unchanged afterwards. During the test the crop and the Studio height (10.55 m) of building gis:11081057 were seen, so that building is excluded from the blind agreement statistics (N-U4-9). Created the NFR Requirements plan with 15 defaults and 3 questions in aidlc-docs/construction/plans/u4-judgement-corrections-nfr-requirements-plan.md. No code, DB or place change. Waiting for the answers.
+**Context**: CONSTRUCTION - U4 NFR Requirements, Step 2-4 (plan and questions).
+
+---
+
+## U4 NFR Requirements - Answers and Artifacts
+**Timestamp**: 2026-10-13T05:15:00Z (approx.)
+**User Input**: "A A A"
+**AI Response**: Recorded the answers in the plan file (Q1=A judge in this session sequentially, no sub-agents; Q2=A one comparison file per building, no 6-pair sheets, which differs from the recommendation C; Q3=A commit proposals after all 122 judgements and then every 3 comparison batches, only with the user's permission). No contradictions or ambiguities, so no clarification file. Created nfr-requirements.md (scalability, performance, availability and recovery with runbook R-13 to R-15, security, reliability, maintainability and tests, usability, external integration, Security, Resiliency and PBT compliance summaries, no blocking findings) and tech-stack-decisions.md (no new dependency; estimate.py uses pillow, h3 and shapely with exact pins and does not import projection.py) under aidlc-docs/construction/u4-judgement-corrections/nfr-requirements/. No code, DB or place change. Presented the completion message and asked for approval. NFR Design is skipped for U4 as planned in the unit table (decided in U1), so the next stage is Code Generation.
+**Context**: CONSTRUCTION - U4 NFR Requirements, Steps 5-8 (answers analysed, artifacts generated, approval gate).
+
+---
+
+## U4 NFR Requirements - Approval
+**Timestamp**: 2026-10-13T05:30:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - Approve NFR requirements and proceed to U4 Code Generation" and the question about commit and push
+**User Response**: "ㄱㄱ 승인하고 커밋 푸시까지"
+**Status**: Approved, commit and push authorized (for this commit)
+**Context**: U4 NFR Requirements approved. Committing and pushing the plan, the two NFR documents, audit and state; then starting U4 Code Generation Part 1 (planning). NFR Design is skipped as planned.
+
+---
