@@ -1198,3 +1198,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: INCEPTION - scale decisions; U6 addendum.
 
 ---
+
+## Session-Flow Skills
+**Timestamp**: 2026-10-13T16:31:53Z
+**User Request**: "그리고 인지 메모리 구현 검증 기록은 각각 스킬로 만들어놓자 반복 작업일테니"
+**AI Response**: The CLAUDE.md decision "no new skills" is lifted for these five only. Project skills: .claude/skills/cycle-recognize (read records, repo, cell, Studio; report; changes nothing), cycle-memory (cell-<id>-session memory, index, pruning, progress lines), cycle-build (the cycle with commands; judge-prompt.md for blind sub-agent judging; studio-build.luau; scripts chunks_json.py and satellite_cell.py kept from this session's scratchpad), cycle-verify (tests, manifest warnings, verify/sunk/http, satellite overlay with scripts/satellite_compare.py, street-view pairs, FPS at the densest place, report table), cycle-record (what goes where, lessons criteria, audit format, own-files-only commit, session end). CLAUDE.md, lessons.md and the U7 plan (item I) point to them.
+**Context**: Workflow.
+
+---
