@@ -150,4 +150,4 @@ U1 안에서 C1(`cells.py`) → DB → C2(`register.py`)의 연결과, 실제 �
 표본 3장을 127.0.0.1에서 `upload_image`로 올려 `rbxassetid` 3개를 받았고, `MCP_Test/U5_IMG` 안에서 진짜 Builder로 `im`이 있는 간판 3개와 없는 간판 1개를 만들었다: `ImageLabel` 3, `TextLabel` 1, `verify`의 `labels` 4. 28 stud와 65 stud 캡처에서 한글 이름·아이콘이 읽힌다(만든 직후 첫 캡처는 빈 판이었고 1분 뒤에는 보였다). 시험 폴더는 지웠다.
 
 ### Scenario 8: 첫 칸 전체
-[SIGN_SCENARIO8]
+145장 생성·올리기·기록 뒤 `build_luau.py`가 `sign_images=145`를 내고(항목 6,436, 덩어리 92개 ≤ 13.3 KB), Studio 재생성에서 `ImageLabel` 145·`TextLabel` 105(현판·돌출·옥상), `verify ok`, Manual 학교 그대로. 올린 직후 캡처는 색 판만 보이고 1분 뒤 글자·그림이 보인다. 검수 거부된 3장은 Studio에서 빈 판으로 남는다(글자 대체는 자산이 기록에 있는 한 켜지지 않음: 사용자가 ID를 알려 주면 기록에서 빼서 글자로 되돌린다)

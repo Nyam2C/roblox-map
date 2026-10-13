@@ -29,4 +29,4 @@
 - [x] 4. `studio/Builder.luau`: `addSignGui`의 `ImageLabel` 경로, `verify`의 `labels`.
 - [x] 5. 테스트: `tests/test_signs.py`, `test_details_rules.py`·`test_build_luau.py`·`test_versions.py` 추가.
 - [x] 6. 문서: BR-10에 SI-1~9, CLAUDE.md(명령과 결정), `.gitignore`(`assets/`).
-- [ ] 7. Build and Test: 첫 칸 생성(10장 먼저 보고 나머지), 올리기, 기록, 덩어리 다시 만들기, Studio 재생성, 캡처, 걷기 FPS, 문서, 커밋.
+- [x] 7. Build and Test: 첫 칸 생성(10장 먼저 보고 나머지), 올리기, 기록, 덩어리 다시 만들기, Studio 재생성, 캡처, 걷기 FPS, 문서, 커밋.

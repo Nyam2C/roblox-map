@@ -1016,3 +1016,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 
 ---
 
+## U5 Sign Images - All 145 Uploaded and Recorded
+**Timestamp**: 2026-10-13T11:25:11Z
+**User Response**: Checked the Creator Dashboard: only 3 of the first 37 uploads were filtered; said to upload the rest and to decide on reference-photo generation later.
+**AI Response**: Generated the 3 renamed signs (the bar names became 문구), uploaded the remaining 109 in batches of 10 to 20 (no 403 this time), recorded 145/145 asset ids in signs/8930e0af13bffff.json, rebuilt the chunk files (sign_images=145, 6,436 items, 92 chunks) and the Studio cell (ImageLabel 145, TextLabel 105, verify ok, Manual/School unchanged). The sign street capture shows every band and floor sign with its icon and name. A first walking measurement ran at a flat 15 FPS, the Studio-in-background cap, so it is invalid; the run is repeated with the Studio window in front. The 3 filtered assets still have to be named by the user (asset id -> data/build/<cell>/asset-index.json) so they can be dropped from the record and fall back to text.
+**Context**: CONSTRUCTION - U5 sign images Build and Test nearly done (frame-rate check pending); school v4 done.
+
+---
+
