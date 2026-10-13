@@ -675,3 +675,28 @@
 **Context**: U3 change after Build and Test; documented in aidlc-docs/construction/u3-street-view-capture/code/school-faces-change.md. No AI-DLC stage was reopened: the change is within U3 scope and follows the same rules (BR-2.7, BR-4.7, P3-9, P3-10 added).
 
 ---
+
+## U4 Functional Design - Start (user request)
+**Timestamp**: 2026-10-13T03:40:00Z (approx.)
+**User Input**: "U4 이어서 ㄱㄱ"
+**AI Response**: Read core-workflow, session-continuity, question-format-guide, the Functional Design rule, the unit definition (U4: C4 estimate.py, C5 overrides.py, effective_building), components, component methods, services S4 and S5, requirements (FR-8, FR-9, FR-11, NFR-3, NFR-4, NFR-6, NFR-8), U1 BR-5.4/6.2/6.3, the U2 Functional Design plan (as format), db.py and common.building_height_m. Read the first-cell data (read only): 122 buildings, floors 106, height 101, neither 16 (all with register area 0, 3 of them school buildings), 363 crops, no building without photos. Created the Functional Design plan with 8 questions and 15 design defaults in aidlc-docs/construction/plans/u4-judgement-corrections-functional-design-plan.md. No code, no DB change, no Studio change. Waiting for the answers.
+**Context**: CONSTRUCTION - U4 Functional Design, Step 2-4 (plan and questions). The state file says U4 had not been started; this is its start.
+
+---
+
+## U4 Functional Design - Answers and Artifacts
+**Timestamp**: 2026-10-13T04:10:00Z (approx.)
+**User Input**: "A A B A A B A A"
+**AI Response**: Recorded the answers in the plan file (Q1=A all 122 buildings, Q2=A blind judgement, Q3=B wall color and roof shape, Q4=A photo wins only at high confidence, Q5=A register height when floors match and 2.5-5 m per floor, Q6=B U2 gets height and wall color, Q7=A values-only overrides, Q8=A comparison pairs for every building in batches of 12). No contradictions or ambiguities (Q6=B needs Q3=B or C, satisfied), so no clarification file. Adjustments that followed from the answers: the "5+ floors first" step of the Q1 order was dropped because the order would reveal floor counts and break the blind judgement (Q2=A); Q7=A has no skip and no manual-record field; added default D-U4-16 (estimates exported together with overrides in overrides/<cell>.json, the user may veto). Created domain-entities.md, business-rules.md (BR-1 to BR-10, 16 testable properties P4-1 to P4-16 for PBT-01) and business-logic-model.md under aidlc-docs/construction/u4-judgement-corrections/functional-design/. No code, DB or Studio change. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U4 Functional Design, Steps 5-8 (answers analysed, artifacts generated, approval gate).
+
+---
+
+## U4 Functional Design - Approval
+**Timestamp**: 2026-10-13T04:25:00Z (approx.)
+**AI Prompt**: "Continue to Next Stage - Approve functional design and proceed to U4 NFR Requirements" and the question about commit and push
+**User Response**: "ㄱㄱ 승인하고 커밋 푸시까지"
+**Status**: Approved, commit and push authorized (for this commit)
+**Context**: U4 Functional Design approved. Committing and pushing the plan, the three design documents, audit and state; then continuing to U4 NFR Requirements (the approval chose "Continue to Next Stage").
+
+---
