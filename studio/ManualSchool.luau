@@ -1,20 +1,22 @@
--- Manual school parts for the first cell, v3 (U5 S-14, BR-12). Built from the street-view crops and the satellite photo of 2026-10-13.
--- Creates only; never destroys or clears anything. Running it again when Manual/School exists does nothing.
+-- Manual school parts for the first cell, v5 (U5 S-14, BR-12). Built from the street-view crops, the satellite photo and the user's photos of 2026-10-13.
+-- Creates only; never destroys or clears anything. Each top folder is made only when Manual/School does not have it yet,
+-- so to redo one part of the school, delete that folder in Studio and run this again.
 -- Numbers: data/build/8930e0af13bffff boxes gis:11185213#b0..b3 and gis:11185281, config.toml school_polygons, scale 3.6 stud/m.
 local ws = workspace
 local manual = ws:FindFirstChild("Manual")
 if not manual then manual = Instance.new("Folder") manual.Name = "Manual" manual.Parent = ws end
-if manual:FindFirstChild("School") then return "Manual/School exists; nothing done" end
-local school = Instance.new("Folder") school.Name = "School" school.Parent = manual
+local school = manual:FindFirstChild("School")
+if not school then school = Instance.new("Folder") school.Name = "School" school.Parent = manual end
 local made = 0
-local function folder(n) local f = Instance.new("Folder") f.Name = n f.Parent = school return f end
+-- a folder that already exists gets a detached stand-in, so its parts are made and thrown away
+local function folder(n) local f = Instance.new("Folder") f.Name = n if not school:FindFirstChild(n) then f.Parent = school end return f end
 local function part(parent, name, cf, size, material, color, extra)
 	local p = Instance.new("Part")
 	p.Name = name p.Anchored = true p.Shape = Enum.PartType.Block
 	p.TopSurface = Enum.SurfaceType.Smooth p.BottomSurface = Enum.SurfaceType.Smooth
 	p.Size = size p.CFrame = cf p.Material = material p.Color = Color3.fromRGB(color[1], color[2], color[3])
 	if extra then for k, v in pairs(extra) do p[k] = v end end
-	p.Parent = parent made += 1
+	p.Parent = parent if parent.Parent then made += 1 end
 	return p
 end
 local function textOn(p, text, face, color, maxDist)
@@ -24,19 +26,27 @@ end
 local yaw = function(deg) return CFrame.Angles(0, math.rad(deg), 0) end
 local WHITE, GREEN, GRANITE, BRICK, GLASS = {240, 240, 238}, {40, 80, 50}, {175, 175, 170}, {155, 75, 60}, {90, 120, 150}
 
--- sports ground: sand, lines, goals
+-- sports ground (V-World satellite z19 over a straight-down capture, 2026-10-13): sand 397 x 192 studs on the school grid, turned
+-- 10 degrees like the buildings; the football pitch sits inside a green mesh cage that takes most of the ground (user, 2026-10-13)
 local g = folder("Ground")
-part(g, "Field", CFrame.new(-57.5, 0.3, 60), Vector3.new(385, 0.4, 220), Enum.Material.Sand, {196, 178, 140})
-for _, l in ipairs({ {-57.5, -40, 345, 0.5}, {-57.5, 160, 345, 0.5}, {-230, 60, 0.5, 200}, {115, 60, 0.5, 200}, {-57.5, 60, 0.5, 200} }) do
-	part(g, "Line", CFrame.new(l[1], 0.53, l[2]), Vector3.new(l[3], 0.06, l[4]), Enum.Material.SmoothPlastic, {240, 240, 235}, { CanCollide = false })
+local F = CFrame.new(-56, 0, 34) * yaw(-10)        -- local +X runs east along the long side, local +Z is south
+local FL, FW = 397, 192
+local PL, PW = 320, 150                            -- the cage; the pitch lines are 6 studs inside it
+part(g, "Field", F * CFrame.new(0, 0.3, 0), Vector3.new(FL, 0.4, FW), Enum.Material.Sand, {196, 178, 140})
+for _, l in ipairs({ {0, -(PW / 2 - 6), PL - 12, 0.5}, {0, PW / 2 - 6, PL - 12, 0.5}, {-(PL / 2 - 6), 0, 0.5, PW - 12}, {PL / 2 - 6, 0, 0.5, PW - 12}, {0, 0, 0.5, PW - 12} }) do
+	part(g, "Line", F * CFrame.new(l[1], 0.53, l[2]), Vector3.new(l[3], 0.06, l[4]), Enum.Material.SmoothPlastic, {240, 240, 235}, { CanCollide = false })
 end
-for _, gx in ipairs({-150, 113}) do
-	part(g, "GoalPost", CFrame.new(gx, 4.9, 60 - 13.2), Vector3.new(0.4, 8.8, 0.4), Enum.Material.SmoothPlastic, WHITE)
-	part(g, "GoalPost", CFrame.new(gx, 4.9, 60 + 13.2), Vector3.new(0.4, 8.8, 0.4), Enum.Material.SmoothPlastic, WHITE)
-	part(g, "GoalBar", CFrame.new(gx, 9.1, 60), Vector3.new(0.4, 0.4, 26.8), Enum.Material.SmoothPlastic, WHITE)
+for _, s in ipairs({-1, 1}) do
+	local gx = s * (PL / 2 - 6)
+	for _, z in ipairs({-13.2, 13.2}) do
+		part(g, "GoalPost", F * CFrame.new(gx, 4.9, z), Vector3.new(0.4, 8.8, 0.4), Enum.Material.SmoothPlastic, WHITE)
+	end
+	part(g, "GoalBar", F * CFrame.new(gx, 9.1, 0), Vector3.new(0.4, 0.4, 26.8), Enum.Material.SmoothPlastic, WHITE)
 end
--- green shade shelters (steel posts, green roof, benches) along the north and west edges of the ground
+-- the teal stand roofs along the north edge of the ground, broken by the entrance porch, and the short bend north at the west end.
+-- The building data has this as gis:11215390 (judged a 4-floor block, target not certain); BuildingId makes that Auto box step aside
 local sh = folder("Shelters")
+sh:SetAttribute("BuildingId", "gis:11215390")
 local function shelter(x0, z0, x1, z1, depthDir)
 	local dx, dz = x1 - x0, z1 - z0
 	local len = math.sqrt(dx * dx + dz * dz)
@@ -54,16 +64,22 @@ local function shelter(x0, z0, x1, z1, depthDir)
 	part(sh, "Roof", CFrame.new(cx, 9.6, cz) * yaw(y), Vector3.new(len + 1, 0.3, 9.6), Enum.Material.Metal, {70, 140, 90})
 	part(sh, "Bench", CFrame.new(cx, 1.6, cz) * yaw(y), Vector3.new(len - 2, 0.3, 1.6), Enum.Material.Wood, {150, 110, 70})
 end
-shelter(-200, -58, 95, -58, {0, 1})      -- in front of the main block (north edge of the ground), roof toward the ground
-shelter(-248, -30, -248, 110, {1, 0})    -- west edge
--- basketball cage at the west end of the ground: green mesh walls
+local toField = {-0.184, 0.983}
+shelter(-250, -104, -150, -85.3, toField)
+shelter(-100, -76.0, 108, -37, toField)
+shelter(-257, -150, -257, -108, {1, 0})
+-- the green mesh cage round the pitch, posts about every 20 studs
 local cg = folder("Cage")
-local cx0, cx1, cz0, cz1 = -236, -166, -36, 54
-for _, w in ipairs({ {(cx0 + cx1) / 2, cz0, cx1 - cx0, 0.1}, {(cx0 + cx1) / 2, cz1, cx1 - cx0, 0.1}, {cx0, (cz0 + cz1) / 2, 0.1, cz1 - cz0}, {cx1, (cz0 + cz1) / 2, 0.1, cz1 - cz0} }) do
-	part(cg, "Mesh", CFrame.new(w[1], 7.2, w[2]), Vector3.new(w[3], 14.4, w[4]), Enum.Material.Fabric, {60, 160, 80}, { Transparency = 0.55, CanCollide = false })
+for _, w in ipairs({ {0, -PW / 2, PL, 0.1}, {0, PW / 2, PL, 0.1}, {-PL / 2, 0, 0.1, PW}, {PL / 2, 0, 0.1, PW} }) do
+	part(cg, "Mesh", F * CFrame.new(w[1], 7.2, w[2]), Vector3.new(w[3], 14.4, w[4]), Enum.Material.Fabric, {60, 160, 80}, { Transparency = 0.55, CanCollide = false })
 end
-for _, c in ipairs({ {cx0, cz0}, {cx1, cz0}, {cx0, cz1}, {cx1, cz1}, {(cx0 + cx1) / 2, cz0}, {(cx0 + cx1) / 2, cz1} }) do
-	part(cg, "Post", CFrame.new(c[1], 7.2, c[2]), Vector3.new(0.3, 14.4, 0.3), Enum.Material.Metal, {40, 110, 60})
+for _, side in ipairs({ { -PL / 2, -PW / 2, PL / 2, -PW / 2 }, { -PL / 2, PW / 2, PL / 2, PW / 2 }, { -PL / 2, -PW / 2, -PL / 2, PW / 2 }, { PL / 2, -PW / 2, PL / 2, PW / 2 } }) do
+	local len = math.max(math.abs(side[3] - side[1]), math.abs(side[4] - side[2]))
+	local count = math.floor(len / 20 + 0.5)
+	for k = 0, count do        -- both ends, so every corner has a post
+		local t = k / count
+		part(cg, "Post", F * CFrame.new(side[1] + (side[3] - side[1]) * t, 7.2, side[2] + (side[4] - side[2]) * t), Vector3.new(0.3, 14.4, 0.3), Enum.Material.Metal, {40, 110, 60})
+	end
 end
 
 -- fences: white leaf fence (posts, rails, translucent lattice panel) on the road sides, dark green bars on the west side
@@ -109,15 +125,18 @@ end
 gate("Main", 111.68, 181.83, 170.58, -0.1637, 0.9865, 170.58, 14.4, "심원고등학교")
 gate("Back", -5.51, -241.69, -37.35, 0.6067, -0.7949, -37.35, 10.8, "심원고등학교")
 
--- main block gis:11185213#b0 (light gray, 5 floors): red gable roof (satellite photo)
+-- main block gis:11185213#b0 (light gray, 5 floors): the red gable roof covers only its north-west part, about 40 x 28 m, which is the
+-- gym (satellite z19 over a straight-down capture, 2026-10-13: x -270..-168, z -327..-184); the rest keeps the flat gray top.
+-- local +X is north, local +Z is east
 local m = folder("Main")
 local b0 = CFrame.new(-206.147, 36.81, -241.257) * yaw(79.919)        -- size 185.558 x 73.62 x 124.397
-local hw0, hd0, H0 = 92.779, 62.1985, 73.62
-local half = hd0 + 1.8
+local H0 = 73.62
+local gx, gl, gz, gw = 21, 72, -10.5, 51.5                            -- gym centre and half sizes in b0 space
+local half = gw + 1.8
 local rise = math.tan(math.rad(18)) * half
 for _, s in ipairs({-1, 1}) do
 	local turn = (s == 1) and CFrame.Angles(0, math.pi, 0) or CFrame.new()
-	part(m, "Roof", b0 * CFrame.new(0, H0 / 2 + rise / 2, s * half / 2) * turn, Vector3.new(hw0 * 2 + 3.6, rise, half), Enum.Material.Slate, {160, 62, 48}, { Shape = Enum.PartType.Wedge })
+	part(m, "Roof", b0 * CFrame.new(gx, H0 / 2 + rise / 2, gz + s * half / 2) * turn, Vector3.new(gl * 2 + 3.6, rise, half), Enum.Material.Slate, {160, 62, 48}, { Shape = Enum.PartType.Wedge })
 end
 
 -- south wing gis:11185213#b3 (5 floors, 56 m, faces the sports ground; local -Z is south, local -X is east):
@@ -166,16 +185,17 @@ for i, j in ipairs({ 6, 10, 14, 18 }) do
 	end
 end
 
--- gis:11185281 (red brick, 5 floors): white balcony stack at the south end, arched stair window on the east face
+-- gis:11185281 (red brick, 5 floors): white balcony stack at the west corner of the south end, a blank south end wall with darker
+-- brick diamonds, a glass stair strip with an arched top near the south end of the east face (street view #1 NW and #3 N, photo 2026)
 local a = folder("BrickBlock")
 local bb = CFrame.new(-308.119, 30.6, 5.311) * yaw(80.16)        -- size 181.815 x 61.2 x 48.853; local -X is south, local +Z is east
 local hwb, hdb, Hb = 90.9075, 24.4265, 61.2
 local fh = Hb / 5
 for k = 0, 4 do
 	local fy = k * fh - Hb / 2
-	part(a, "Balcony", bb * CFrame.new(-(hwb + 2.9), fy + 0.3, hdb - 4.7), Vector3.new(5.8, 0.6, 9.4), Enum.Material.Concrete, {225, 222, 215})
-	part(a, "BalconyFront", bb * CFrame.new(-(hwb + 5.6), fy + 2.3, hdb - 4.7), Vector3.new(0.4, 4.0, 9.4), Enum.Material.Concrete, {225, 222, 215}, { CanCollide = false })
-	part(a, "BalconySide", bb * CFrame.new(-(hwb + 2.9), fy + 2.3, hdb - 0.2), Vector3.new(5.8, 4.0, 0.4), Enum.Material.Concrete, {225, 222, 215}, { CanCollide = false })
+	part(a, "Balcony", bb * CFrame.new(-(hwb + 2.9), fy + 0.3, -(hdb - 4.7)), Vector3.new(5.8, 0.6, 9.4), Enum.Material.Concrete, {225, 222, 215})
+	part(a, "BalconyFront", bb * CFrame.new(-(hwb + 5.6), fy + 2.3, -(hdb - 4.7)), Vector3.new(0.4, 4.0, 9.4), Enum.Material.Concrete, {225, 222, 215}, { CanCollide = false })
+	part(a, "BalconySide", bb * CFrame.new(-(hwb + 2.9), fy + 2.3, -(hdb - 0.2)), Vector3.new(5.8, 4.0, 0.4), Enum.Material.Concrete, {225, 222, 215}, { CanCollide = false })
 end
 -- dark gray gable roof along the long axis (photo 2026), 15 degrees, eaves 0.4 m past the walls
 local halfb = hdb + 1.4
@@ -184,19 +204,32 @@ for _, s in ipairs({-1, 1}) do
 	local turn = (s == 1) and CFrame.Angles(0, math.pi, 0) or CFrame.new()
 	part(a, "Roof", bb * CFrame.new(0, Hb / 2 + riseb / 2, s * halfb / 2) * turn, Vector3.new(hwb * 2 + 2.8, riseb, halfb), Enum.Material.Slate, {75, 70, 72}, { Shape = Enum.PartType.Wedge })
 end
-part(a, "ArchGlass", bb * CFrame.new(hwb - 30, Hb / 2 - 8.0, hdb + 0.2) * CFrame.Angles(0, math.rad(90), 0), Vector3.new(0.3, 14.4, 14.4), Enum.Material.Glass, GLASS, { Shape = Enum.PartType.Cylinder, Reflectance = 0.3, CanCollide = false })
-part(a, "StairStrip", bb * CFrame.new(hwb - 30, -2.0, hdb + 0.2), Vector3.new(5.4, Hb - 12.0, 0.3), Enum.Material.Glass, GLASS, { Reflectance = 0.3, CanCollide = false })
-
--- potted dwarf pines along the south edge of the ground and a basketball stand at the east end (photo 2026)
-local gd = folder("GroundSide")
-for _, x in ipairs({ -170, -120, -70, -20, 30, 80, 130 }) do
-	part(gd, "Pot", CFrame.new(x, 1.4, 152), Vector3.new(2.8, 2.8, 2.8), Enum.Material.SmoothPlastic, {40, 40, 42}, { Shape = Enum.PartType.Cylinder })
-	part(gd, "PotTrunk", CFrame.new(x, 4.5, 152), Vector3.new(0.5, 3.5, 0.5), Enum.Material.Wood, {90, 70, 50})
-	part(gd, "PotCrown", CFrame.new(x, 8.2, 152), Vector3.new(4.6, 6.0, 4.6), Enum.Material.Grass, {45, 90, 50}, { Shape = Enum.PartType.Ball, CanCollide = false })
+-- the stair strip 4 m wide, 14 studs in from the south corner; its arch rises above the eaves on a brick gable
+local sx = -(hwb - 14)
+part(a, "ArchWall", bb * CFrame.new(sx, Hb / 2 + 4.0, hdb - 1.2), Vector3.new(18.0, 8.0, 2.8), Enum.Material.Brick, BRICK)
+part(a, "ArchGlass", bb * CFrame.new(sx, Hb / 2 - 0.5, hdb + 0.35) * CFrame.Angles(0, math.rad(90), 0), Vector3.new(0.3, 14.4, 14.4), Enum.Material.Glass, GLASS, { Shape = Enum.PartType.Cylinder, Reflectance = 0.3, CanCollide = false })
+part(a, "StairStrip", bb * CFrame.new(sx, 1.55, hdb + 0.35), Vector3.new(14.4, Hb - 4.1, 0.3), Enum.Material.Glass, GLASS, { Reflectance = 0.3, CanCollide = false })
+for _, s in ipairs({-1, 1}) do
+	part(a, "StairFrame", bb * CFrame.new(sx + s * 7.6, 1.55, hdb + 0.4), Vector3.new(0.8, Hb - 4.1, 0.4), Enum.Material.SmoothPlastic, WHITE, { CanCollide = false })
 end
-part(gd, "HoopPost", CFrame.new(100, 5.5, -44), Vector3.new(0.5, 11.0, 0.5), Enum.Material.Metal, {60, 90, 160})
-part(gd, "Backboard", CFrame.new(100, 10.6, -41.5), Vector3.new(6.5, 3.8, 0.2), Enum.Material.SmoothPlastic, {245, 245, 245}, { CanCollide = false })
-part(gd, "Hoop", CFrame.new(100, 9.2, -39.5), Vector3.new(1.6, 0.2, 1.6), Enum.Material.Metal, {220, 90, 40}, { Shape = Enum.PartType.Cylinder, CanCollide = false })
+-- the south end wall: brick over the Auto windows (they stand out 0.18 studs), darker brick diamonds two or one per floor
+part(a, "EndWall", bb * CFrame.new(-(hwb + 0.35), 0, 0), Vector3.new(0.3, Hb, hdb * 2 + 0.7), Enum.Material.Brick, BRICK, { CanCollide = false })
+for k = 1, 4 do
+	for _, z in ipairs(k % 2 == 0 and { 0, 14 } or { 7 }) do
+		part(a, "Diamond", bb * CFrame.new(-(hwb + 0.55), -Hb / 2 + k * fh + fh / 2, z) * CFrame.Angles(math.rad(45), 0, 0), Vector3.new(0.12, 5.0, 5.0), Enum.Material.Brick, {115, 50, 40}, { CanCollide = false })
+	end
+end
+
+-- potted dwarf pines along the south edge east of the pergola and a basketball stand at the east end, on the ground's frame (photo 2026)
+local gd = folder("GroundSide")
+for _, x in ipairs({ 100, 125, 150, 175 }) do
+	part(gd, "Pot", F * CFrame.new(x, 1.4, FW / 2 + 6), Vector3.new(2.8, 2.8, 2.8), Enum.Material.SmoothPlastic, {40, 40, 42}, { Shape = Enum.PartType.Cylinder })
+	part(gd, "PotTrunk", F * CFrame.new(x, 4.5, FW / 2 + 6), Vector3.new(0.5, 3.5, 0.5), Enum.Material.Wood, {90, 70, 50})
+	part(gd, "PotCrown", F * CFrame.new(x, 8.2, FW / 2 + 6), Vector3.new(4.6, 6.0, 4.6), Enum.Material.Grass, {45, 90, 50}, { Shape = Enum.PartType.Ball, CanCollide = false })
+end
+part(gd, "HoopPost", F * CFrame.new(190, 5.5, -50), Vector3.new(0.5, 11.0, 0.5), Enum.Material.Metal, {60, 90, 160})
+part(gd, "Backboard", F * CFrame.new(187.5, 10.6, -50), Vector3.new(0.2, 3.8, 6.5), Enum.Material.SmoothPlastic, {245, 245, 245}, { CanCollide = false })
+part(gd, "Hoop", F * CFrame.new(185.5, 9.2, -50), Vector3.new(1.6, 0.2, 1.6), Enum.Material.Metal, {220, 90, 40}, { Shape = Enum.PartType.Cylinder, CanCollide = false })
 
 -- the small park west of the parcel: grass, pines, a pavilion, benches, a hedge along the path
 local pk = folder("Park")
@@ -217,4 +250,38 @@ for _, bz in ipairs({-50, 20}) do
 	part(pk, "Bench", CFrame.new(-352, 1.6, bz), Vector3.new(1.6, 0.3, 6.0), Enum.Material.Wood, {150, 110, 70})
 end
 part(pk, "Hedge", CFrame.new(-346, 1.2, -20), Vector3.new(1.6, 2.2, 176), Enum.Material.Grass, {50, 110, 55}, { CanCollide = false })
-return string.format("Manual/School v3 made: %d parts", made)
+-- gis:11215391: the open steel pergola along the south fence of the ground (street view of gis:11215391 #2 N and gis:15358826 #2 NW),
+-- not the solid box the data gives; BuildingId makes the Auto box step aside
+local pg = folder("Pergola")
+pg:SetAttribute("BuildingId", "gis:11215391")
+local pc = CFrame.new(-112.179, 0, 125.845) * yaw(170.5)        -- box 251.943 x 18.001
+local pl, pd, STEEL = 251.943, 18.001, {200, 200, 205}
+local nb = math.floor(pl / 14.4 + 0.5)
+for k = 0, nb do
+	local x = -pl / 2 + k * pl / nb
+	for _, z in ipairs({ -(pd / 2 - 0.5), pd / 2 - 0.5 }) do
+		part(pg, "Post", pc * CFrame.new(x, 5.5, z), Vector3.new(0.4, 11.0, 0.4), Enum.Material.Metal, STEEL)
+	end
+end
+for _, z in ipairs({ -(pd / 2 - 0.5), pd / 2 - 0.5 }) do
+	part(pg, "Beam", pc * CFrame.new(0, 11.2, z), Vector3.new(pl, 0.6, 0.4), Enum.Material.Metal, STEEL)
+end
+for k = 0, nb * 2 do
+	part(pg, "Rafter", pc * CFrame.new(-pl / 2 + k * pl / (nb * 2), 11.7, 0), Vector3.new(0.3, 0.4, pd), Enum.Material.Metal, STEEL)
+end
+
+-- gis:11215393: an open shelter in front of the main block (green metal roof on steel posts like the stands), not a solid box
+local sp = folder("Shelter")
+sp:SetAttribute("BuildingId", "gis:11215393")
+local sc = CFrame.new(-125.308, 0, -105.893) * yaw(80.531)        -- box 56.605 x 43.348
+local sl, sd = 56.605, 43.348
+for _, x in ipairs({ -sl / 2 + 1, 0, sl / 2 - 1 }) do
+	for _, z in ipairs({ -sd / 2 + 1, sd / 2 - 1 }) do
+		part(sp, "Post", sc * CFrame.new(x, 5.6, z), Vector3.new(0.5, 11.2, 0.5), Enum.Material.Metal, {120, 120, 125})
+	end
+end
+part(sp, "Roof", sc * CFrame.new(0, 11.5, 0), Vector3.new(sl + 1, 0.4, sd + 1), Enum.Material.Metal, {70, 140, 90})
+for _, z in ipairs({ -sd / 4, sd / 4 }) do
+	part(sp, "Bench", sc * CFrame.new(0, 1.6, z), Vector3.new(sl - 6, 0.3, 1.6), Enum.Material.Wood, {150, 110, 70})
+end
+return string.format("Manual/School v5: %d parts made (folders already there were left alone)", made)
