@@ -6,6 +6,8 @@
 
 개발 요청은 `.aidlc-rule-details/core-workflow.md`를 먼저 읽고 따른다(v1.0.1, `aidlc-workflows`에서 복사). 질문은 채팅이 아니라 `aidlc-docs/` 안의 질문 파일에 `[Answer]:` 형식으로 둔다. 진행 상태는 `aidlc-docs/aidlc-state.md`, 입력 기록은 `aidlc-docs/audit.md`(덮어쓰지 말고 추가만).
 
+구조·폴더·성능 예산·대규모 맵 최적화 방안은 `aidlc-docs/architecture.md`. 새 유닛을 시작하기 전에 그 문서와 맞는지 본다.
+
 ## 파이프라인
 
 1. 구역 지정: 위경도 4점 또는 칸 ID → `src/cells.py`가 H3 칸으로 채움 (해상도 9 ≈ 변 200m·넓이 0.105km², 10 ≈ 변 76m)
@@ -88,6 +90,10 @@ uv run src/signs.py record --cells 8930e0af13bffff --file upload.json           
 uv run src/overrides.py set --building gis:11081057 --field floors_above --value 4 --reason "누가 무엇을 보고 정했는지"
 # uv run src/overrides.py unset|list|export|import ...      (import는 복구용: 보정과 판단이 같이 돌아온다)
 # uv run src/estimate.py --selftest, uv run src/overrides.py --selftest   (import만 확인)
+
+# 5) 미니맵 데이터와 킥보드·지도 스크립트 설치 파일 (비밀값·네트워크 없음). 지금 Studio에 만든 칸을 모두 적는다.
+#    data/build/install-u6.luau를 Studio(Edit)에서 execute_luau로 실행하면 ReplicatedStorage·StarterPlayerScripts·ServerScriptService에 설치/갱신된다
+uv run src/minimap.py --cells 8930e0af13bffff 8930e0af12bffff
 
 # 테스트 (속성 기반 테스트 포함)
 uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/

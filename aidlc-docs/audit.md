@@ -1128,3 +1128,19 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 planning.
 
 ---
+
+## U6 Minimap, Big Map And Kick Scooter - Done
+**Timestamp**: 2026-10-14T00:30:00Z
+**User Request**: "u6 적용가능? 지금 다 권고로 ㄱㄱ", then while it ran: "킥보드 탈 때는 위에 올라탄 모습으로하고 속도 부여해서 가속 정지 가능하게", then "두 발 모이게 하고 이동할 때 걷는 소리 말고 킥보드 타는 소리로"
+**AI Response**: Answered the 5 U6 questions with the recommended A (standing approval for U6, recorded in the question file), wrote aidlc-docs/inception/requirements/u6-requirements.md and aidlc-docs/construction/plans/u6-minimap-scooter-plan.md (rules BR-1..6, NFR compliance for Security, Resiliency and PBT, results). Code: src/minimap.py (map rectangles from the same plan items build_luau makes, 4 hand-set areas, 3 labels, the installer text), tests/test_minimap.py (14 tests, 613 pass in all with --hypothesis-seed=2), studio/MinimapClient.client.luau, studio/ScooterClient.client.luau, studio/Scooter.server.luau. Installed into the open place (ReplicatedStorage MinimapData and ScooterToggle, StarterPlayerScripts MinimapClient and ScooterClient, ServerScriptService Scooter) through a local JSON of the sources on 127.0.0.1 (port 8765 was already used by another session, so 8777; HttpEnabled false afterwards, server stopped). Measured in Play: map GUI built (379 rectangles, 3 names), M opens the big map, scooter 0 -> 25 studs/s in about 1.3 s, coasting 7 studs/s^2, back push brakes in about 0.7 s then turns round, sideways push steers 90 degrees, idle pose only (the Animate script is disabled while riding), WalkSpeed/AutoRotate/Animate restored after. A first version drove the body with a LinearVelocity at WalkSpeed 0 and did not move (the Humanoid held the body), so it was changed to feed the Humanoid its walk speed and move direction. Feet together: hips turned inward when getting on (feet apart 2.12 -> 1.19 studs, restored after), deck as wide as the feet. Sound: footsteps muted (Running volume 0, restored), rolling-wheels loop (Creator Store 99838569349900, someone else's upload) played per rider by every client, volume and pitch follow speed. Not verified: how it sounds (tools cannot listen), walking FPS (the Studio window was behind, the 15 FPS cap), phone and two players. Spawned an unrelated task chip earlier for the school part budget test.
+**Context**: CONSTRUCTION - U6 complete except the checks above. Studio is unsaved; nothing committed.
+
+---
+
+## Architecture Document
+**Timestamp**: 2026-10-13T15:22:56Z
+**User Request**: Asked how map projects usually design their architecture ("보통 이렇게 맵개발을 할 때는 아키텍처 설계를 어떻게 하지? 나는 잘몰라"), then "거기에 대규모 맵 최적화 방안까지".
+**AI Response**: Wrote aidlc-docs/architecture.md: the layered pipeline, Auto versus Manual rules (anchor Manual to stable ids and outlines), spatial units (cell, region, place), folders versus Studio locations and the target layout (studio/ split by Studio location, Rojo-compatible; scratch steps into src/), a numeric performance budget, large-map optimisation by cost (cheap rules already applied, StreamingEnabled with Atomic models and Persistent landmarks, distance tiers, kits and mesh instancing, merged building meshes, scripts by tag, place splitting) with a priority table, measurement, and the multi-session workflow rule (one session per file set, worktrees, add only one's own files). CLAUDE.md points to it.
+**Context**: Architecture, before U7.
+
+---
