@@ -664,3 +664,14 @@
 **Context**: U2 Studio builder is complete (code, Build and Test, first cell built and saved in Studio, spawn and scale confirmed). Next unit in the order is U4 judgement and corrections; it starts only when the user asks.
 
 ---
+
+## U3 Change - School Buildings Pictured Face by Face (user request) and Merge
+**Timestamp**: 2026-10-13T03:30:55Z
+**User Input (verbatim, in order)**:
+- "남쪽 도로 파노라마로 운동장 쪽 정면 크롭 확인해봐"
+- "학교 건물만 면 기준으로 사진 고르게 해줘"
+- "u2까지 끝남"
+**AI Response**: Checked the playground-facing facades from stored panoramas (no network): the first south-road panoramas were behind a row of houses, a line-of-sight check found the road right below the playground (79-87 m from the main building, 59-64 m from the west wing) and crops from there show the main building front and the west wing east face; the existing three views of the main building looked at it from the north, east and west only. Implemented face-based picking for buildings inside a configured school parcel (V-World parcel 중동 1074-1) in a separate worktree and branch (school-faces) because the U2 session was working: faces from the outline (stepped walls are one side), one panorama per face that no other building hides, lookups also 40 m and 80 m in front of each face, crops aimed at the face, building_views columns face_deg/target_lat/target_lon, --replan-school. Real run on the first cell (replan-school): 8 school buildings, 22 face views, 1 new panorama, no failures or blocks, about 108 s; the main building now has south, north, east and west views. First attempt put all four main building views on the north face; fixed by merging same-direction runs and by looking up in front of each face. Six deliberate breaks of the rules were all caught by the new tests. After the user said U2 was finished, merged main (U2) into the branch, resolved three conflicts by keeping both sides (config.toml, src/common.py, tests/test_common.py), 273 tests pass (seeds 5, 42, 7, 2026), self-test ok, then fast-forwarded main. Added the --replan-school line and a short note to CLAUDE.md. Not pushed.
+**Context**: U3 change after Build and Test; documented in aidlc-docs/construction/u3-street-view-capture/code/school-faces-change.md. No AI-DLC stage was reopened: the change is within U3 scope and follows the same rules (BR-2.7, BR-4.7, P3-9, P3-10 added).
+
+---

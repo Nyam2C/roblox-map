@@ -37,6 +37,7 @@ uv run --env-file .env src/register.py --cells 8930e0af13bffff     # 또는 --al
 # 3) 거리뷰 파노라마와 건물별 크롭 (비밀값 없음, 네이버 호출). 상한(100장)에 닿으면 멈추니 같은 명령을 다시 돌려 이어간다
 uv run src/capture.py --cells 8930e0af13bffff
 # uv run src/capture.py --cells 8930e0af13bffff --replan   (그 칸의 건물별 사진 짝을 지우고 처음부터 계획)
+# uv run src/capture.py --cells 8930e0af13bffff --replan-school   (학교 건물만 지우고 면 기준으로 다시 계획)
 # uv run src/capture.py --selftest                          (라이브러리 import만 확인, 네트워크 없음. CI가 쓴다)
 
 # 4) Studio에 올릴 Luau 덩어리 파일 만들기 (비밀값·네트워크 없음). Studio 실행은 Claude가 execute_luau로 한다
@@ -50,6 +51,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 - 설정 값(겹침 기준, 버퍼, 호출 간격 등)은 `config.toml`, 비밀값은 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외).
 - Overpass와 V-World는 429/502/504와 시간 초과에서 재시도한다(10s, 30s, 60s). 칸 하나가 실패해도 이전 데이터는 유지된다.
 - `build_luau.py`는 칸의 건물과 도로로 `data/build/<칸ID>/chunk-NNN.luau`(항목 50개씩)와 `manifest.json`을 만든다. 모든 좌표·박스 계산은 Python(`layout.py`), `studio/Builder.luau`는 부품만 만든다. 건물은 최소 면적 회전 직사각형 박스 1개(맞춤 0.8 미만은 manifest의 `poor_fit`), 원점은 세 칸이 만나는 꼭짓점, 스케일 3.6 stud/m(첫 칸을 만든 뒤 확정). Studio 쪽은 `Workspace/Auto/<칸ID>`만 비우고 다시 만들고 `Workspace/Manual`은 읽기만 한다. 스폰은 `config.toml`의 `spawn_lat`, `spawn_lon`, `spawn_yaw_deg`를 정하면 만들어진다.
+- 학교 건물(`config.toml`의 `school_polygons` 필지 안, 지금은 심원고 필지)은 가까운 순이 아니라 **면마다 파노라마 하나**(최대 6면, 가림 없는 것)를 골라 면의 가운데를 향한 크롭을 만든다. 첫 칸의 학교 건물 8동에 면 사진 22장(본관은 남·북·동·서 네 면). 나무와 차량은 가림으로 판단하지 않아서 서쪽 면 같은 곳은 약하다. 자세한 내용은 `aidlc-docs/construction/u3-street-view-capture/code/school-faces-change.md`.
 - `capture.py`는 건물마다 파노라마를 최대 3장(120 m 안, 방위각 60° 이상 차이) 골라 `captures/`에 저장하고 건물 방향 크롭(1024×768)을 만든다. 호출 간격 1초, 실행당 새 파노라마 100장 상한. 403/429가 재시도 뒤에도 계속되거나 응답 형식이 이상하면 우회하지 않고 멈춘다(`collection_runs`의 `stopped_reason`). `captures/`는 git 제외.
 - 건물은 자기 중심점이 속한 칸에만 저장되므로 칸 사이 중복이 없다. DB는 `data/map.db`, 로그는 `data/logs/*.jsonl`, 칸 재수집 직전 백업은 `data/backups/`(모두 git 제외).
 
