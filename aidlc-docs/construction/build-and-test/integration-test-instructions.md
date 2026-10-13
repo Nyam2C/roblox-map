@@ -64,3 +64,29 @@ U1 안에서 C1(`cells.py`) → DB → C2(`register.py`)의 연결과, 실제 �
 - **Test Steps**: 위쪽 각도·시야각 규칙을 바꾼 뒤 `uv run src/capture.py --cells 8930e0af13bffff`.
 - **Expected Results**: 네이버를 부르지 않고(`new_downloads=0`), 값이 바뀐 크롭만 다시 만든다.
 - **이번 결과**: 크롭 360개를 다시 만들고 3개는 그대로(73초, 실패 0). 지붕과 지면이 모두 들어오는 크롭이 241개(66%) → 312개(86%), 건물 단위 114/122 → 121/122.
+
+## U2 Studio 생성기 (2026-10-13)
+
+### 자동화된 통합 테스트
+`tests/test_build_luau.py`가 합성 DB로 한다: 덩어리·manifest 파일, 항목 순서, 같은 입력은 같은 글자(P2-8), 오래된 덩어리 삭제, `main`의 실행 기록, 칸에 건물이 없을 때의 오류.
+
+### 실제 Studio 통합 확인 (수동, 사용자의 `.rbxl` 복사본 필요)
+
+#### Scenario 1: 첫 칸 생성 (S-1, S-2)
+- **Setup**: `.rbxl` 복사본, 장소 설정 변경, `ServerStorage/MapBuilder` 설치.
+- **Test Steps**: `build_luau.py --cells 8930e0af13bffff` → 덩어리 4개를 차례로 `execute_luau` → `Builder.verify(칸ID, manifest.counts, 샘플 이름)`.
+- **Expected Results**: 만든 수 = manifest, 읽어 온 위치·크기·회전이 덩어리 값과 일치.
+- **Cleanup**: 필요하면 `Workspace/Auto/<칸ID>`를 지우면 된다(다시 실행하면 비우고 만든다).
+
+#### Scenario 2: 수작업 우선 (S-3)와 재생성 (S-4)
+- **Test Steps**: `Workspace/Manual`에 같은 `BuildingId` 속성을 가진 부품을 두고 칸을 다시 만든다. 지우고 다시 한 번 만든다. 다른 칸 폴더를 `Auto`에 두고 확인한다.
+- **Expected Results**: 자동 건물 한 개를 건너뛰고 `verify` 정상. 수작업 부품을 지운 뒤 다시 만든 결과가 처음 결과와 같다. 다른 칸 폴더와 `Manual`은 그대로.
+
+#### Scenario 3: 걸어 보기 (S-5)와 눈으로 확인 (S-6)
+- **Test Steps**: 플레이 테스트로 스폰에서 시작해 `character_navigation`으로 도로까지 걷는다. `screen_capture`로 위에서와 눈높이에서 본다.
+
+### 이번 결과 (첫 칸 `8930e0af13bffff`)
+- **Scenario 1**: 부품 162개(스폰 설정 전), 그다음 163개(스폰 포함)를 만들었다. 만든 수가 manifest와 같았고(`verify` 문제 없음) 읽어 온 값이 덩어리 값과 일치했다(건물 `gis:11185213`, 도로 `way:222140575#2`, 인도, 땅).
+- **Scenario 2**: 수작업 부품이 있으면 161개를 만들고 1개를 건너뛰었다(`verify` 정상, 같은 ID의 자동 건물은 만들어지지 않음). 다시 만든 결과가 처음과 같았고(부품 이름, 위치, 크기, 회전, 재질, 색, 층수 속성의 서명이 같음) 다른 칸 폴더가 유지됐다. 시험 물체는 모두 지웠다.
+- **Scenario 3**: 플레이에서 스폰 점 `(-323.28, 4.2, -125.7)`에서 태어나 본관 방향(`0.88, -0.47`)을 보았다. 도로까지 걸어서 도착했고(`(-440.3, 4.1, 100.9)`), 심원고 본관 박스 안으로 가는 길은 "경로 없음"으로 막혔다.
+- 중간에 Studio 연결 ID가 한 번 바뀌었다. 같은 장소(`placeId`)였고 장소 안의 변경은 그대로 남아 있었다.

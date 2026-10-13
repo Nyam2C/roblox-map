@@ -57,17 +57,18 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 - U1(데이터 기반)은 끝났다. 첫 칸 `8930e0af13bffff`는 수집과 조립이 끝나 `data/map.db`에 건물 122개가 있다. 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)은 아직 데이터를 받지 않았다.
 - OSM 태그는 부족하므로(서울시청 시험에서 건물 128개 중 높이·층수 태그 26개) V-World 건물통합정보의 층수와 거리뷰로 보완한다.
+- U2 첫 칸이 Studio에 만들어졌다(2026-10-13): 부품 163개(땅 1, 도로 29, 보행로 2, 인도 8, 건물 122, 스폰 1), 스케일 3.6 stud/m 확정, 스폰은 신흥로238번길 보행로 `(37.504483, 126.77861)` yaw −62°(`config.toml`). Studio에 만든 결과는 사용자가 저장해야 남는다(복사본 `10122026_1-before-U2.rbxl`은 U2 이전 상태). 걸을 때 60 FPS(Studio 창이 앞에 있을 때; 뒤에 있으면 15 FPS로 제한됨).
 - U2 코드(`src/layout.py`, `build_luau.py`, `studio/Builder.luau`)를 만들었다(2026-10-13). 첫 칸 계획: 항목 162개(땅 1, 도로 29, 보행로 2, 인도 8, 건물 122), 덩어리 4개(6.6 KB 이하), 안 맞는 건물 9개. Studio 시험은 `MCP_Test` 안에서만 했고(실제 덩어리 파일 실행, `Manual` 우선, 재생성 확인) 지웠다. 실제 첫 칸 생성, 장소 설정 변경, 스케일 확정, 스폰 점 제안은 Build and Test에서 하고, 그 전에 사용자의 `.rbxl` 복사본이 필요하다.
 - U3 코드(`src/projection.py`, `panorama_source.py`, `capture.py`)를 만들고 첫 칸을 실제로 돌렸다(2026-10-13). 테스트 152개. 첫 칸 결과: 건물 122개에 파노라마 226장과 크롭 363개(384 MB), 사진 없는 건물 0, 차단·재시도·실패 0, 약 13분(3번에 나눠서). 크롭의 32%가 지붕을 놓쳐서 위쪽 각도·시야각 규칙을 벽 기준으로 바꿨다(지붕과 지면이 다 들어오는 크롭 66% → 86%).
 - 큐브 맵 규칙(`aidlc-docs/construction/u3-street-view-capture/code/layout-notes.md`): 면 순서 앞·오른쪽·뒤·왼쪽·위·아래, 앞면이 보는 방위각 = ID 조회 `heading` + 180°(설계의 가정과 180° 다르다. 파노라마 3장에서 외곽선을 겹쳐 확인).
 - 파이썬 3.13 이상이 필요하다(`capture.py`가 `numpy` 2.5.4를 쓴다). `uv`가 알아서 받는다.
 - Roblox Studio 설치와 내장 MCP 연결 완료, 동작 확인(2026-10-12). `execute_luau`로 생성, `screen_capture`로 캡처가 된다. 열린 장소에 테스트용 `MCP_Test` 폴더가 남아 있다.
-- AI-DLC: Inception 완료, U1 완료, U3 Functional Design·NFR Requirements·Code Generation 승인, U3 완료(Build and Test 승인). U2 Studio 생성기는 Functional Design·NFR Requirements·Code Generation 계획 승인, Code Generation 승인, Build and Test 시작(첫 생성 전에 사용자의 `.rbxl` 복사본 확인 대기). 다음은 U2 Build and Test 완료.
+- AI-DLC: Inception 완료, U1 완료, U3 Functional Design·NFR Requirements·Code Generation 승인, U3 완료(Build and Test 승인). U2 Studio 생성기는 Functional Design·NFR Requirements·Code Generation 계획 승인, Code Generation 승인, Build and Test 완료(승인 대기). 다음은 U4.
 
 ## 다음 할 일
 
-1. U2 Build and Test: `.rbxl` 복사본 확인 → 장소 설정 변경 → 첫 칸 Studio 생성 → 스케일 확정, 스폰 점 제안과 확정, 프레임 측정
-2. U4 판단·보정 → U5 디테일 (`aidlc-state.md` 참고)
+1. U2 Build and Test 승인 → Studio 결과 저장
+2. U4 판단·보정 → U5 디테일(학교 건물 수작업, 가로시설, 교차로) (`aidlc-state.md` 참고)
 3. U4 완료 때 복구 연습(DB를 지우고 S1 재실행, `overrides` 불러오기)
 
 ## 주의

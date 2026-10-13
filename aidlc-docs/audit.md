@@ -638,3 +638,20 @@
 **Context**: U2 Code Generation approved. Committing the U2 code and documents, then starting U2 Build and Test. The place settings changes and the first-cell Studio build wait for the user's confirmation that the .rbxl copy exists (NFR A2).
 
 ---
+
+## U2 Build and Test - Backup Copy Confirmed
+**Timestamp**: 2026-10-12T23:45:00Z (approx.)
+**AI Prompt**: Asked the user to download a .rbxl copy of the place before any change in Studio (NFR A2); explained the File menu choice ("Download a Copy") and the save location (Documents, name 10122026_1-before-U2).
+**User Response**: "복사본 만들었어"
+**Status**: Confirmed. The place settings changes, the MapBuilder install and the first-cell build may start.
+**Context**: U2 Build and Test. Nothing had been changed in the Studio place before this confirmation.
+
+---
+
+## U2 Build and Test Stage
+**Timestamp**: 2026-10-13T00:30:00Z (approx.)
+**User Input**: "ㄱㄱ U2 승인하고 빌드앤테스트 시작해 커밋 푸시까지", "복사본 만들었어" (see the entries above), then the answers "B 노랑: 신흥로238번길" for the spawn point and "3.6 그대로 확정" for the scale.
+**AI Response**: Waited for the .rbxl copy before touching the place (the user made it with Download a Copy, Documents, 85 KB). Changed the place settings (streaming off, Baseplate hidden, default SpawnLocation off, with the old values recorded), installed ServerStorage/MapBuilder, built the first cell from the generated chunk files (162 parts, verify clean, read-back values match), checked Manual-wins and regeneration on the real cell (161 + 1 skipped, same result after regenerating, other cell folders kept), proposed four spawn candidates as markers, and after the user chose the Sinheung-ro 238beon-gil pedestrian path set spawn_lat 37.504483, spawn_lon 126.77861, spawn_yaw_deg -62 in config.toml and rebuilt (163 parts, verify clean, spawn faces the school). Play test: the character spawns on the spawn point and walks to the road; walking into the main building has no route. Frame rate: 60 FPS average with no frame slower than 30 FPS over 26.5 s of walking (and at idle with or without the map), but one run was fixed at 15 FPS, a background throttle of the Studio window and not a map cost. The Studio connection id changed once; the same placeId came back with all changes intact. Python side: build_luau.py takes 0.2 s. Updated the Build and Test documents and CLAUDE.md. All test objects were removed; MCP_Test is back to its two original parts. Commit and push authorized by the opening message. Presented the completion message and asked for approval.
+**Context**: CONSTRUCTION - U2 Build and Test, approval gate.
+
+---
