@@ -1,4 +1,4 @@
--- Manual parts for 부흥중학교 (gis:11036833, first cell), v3 (2026-10-13). The Auto building body stays. Sources: street view of
+-- Manual parts for 부흥중학교 (gis:11036833, first cell), v4 (2026-10-14: anchors, U7 F; v3 2026-10-13). The Auto building body stays. Sources: street view of
 -- gis:11036833 #1 SW (pano at (-397, -585), the gate) and #3 W; the V-World satellite z19 laid over a straight-down Studio capture
 -- (data/compare/now_blend.jpg, 0.974 px per stud), which shows what the building data does not have: the teal roof with solar panels,
 -- the sand ground, the basketball court, the gym with its two-storey annex and the covered walkway (no V-World or OSM records).
@@ -26,7 +26,8 @@ local function textOn(p, text, face)
 	local label = Instance.new("TextLabel") label.Size = UDim2.new(1, 0, 1, 0) label.BackgroundTransparency = 1 label.TextScaled = true label.Text = text label.TextColor3 = Color3.new(1, 1, 1) label.FontFace = Font.fromEnum(Enum.Font.SourceSansBold) label.Parent = gui
 end
 local yaw = function(deg) return CFrame.Angles(0, math.rad(deg), 0) end
-local GRID = 170.762                                -- the school's grid: gis:11036833#b1 yaw
+local BH = "gis:11036833"
+local GRID = A.get(BH).yaw                         -- the school's grid: the outline's long side (170.762 when written)
 
 -- the fence along 계남로 way:219848661 (yaw 143), 46 studs off its centre line on the school side, from just past the building's
 -- north-east corner (u = -25) to u = 300: a low dark brick wall with dark steel pickets; the gate at u 89.5 to 113.5
@@ -62,17 +63,18 @@ textOn(plate, "부흥중학교", Enum.NormalId.Back)
 -- a blank banner on the fence east of the gate (the real one carries this year's notice; no text is copied)
 part(fe, "Banner", at(70, 5.0) * CFrame.new(0, 0, 0.3), Vector3.new(18.0, 2.5, 0.1), Enum.Material.Fabric, {245, 225, 235}, { CanCollide = false })
 
--- teal roof over the Auto roof caps of b0..b4 (`#cap`, top at 67.5; the caps do not answer ray casts) and two rows of solar panels on b1
+-- v4 (U7 F): the teal roof is one sheet over every current Auto box (over the `#cap`, A roof = cap top; the caps do not answer ray
+-- casts), so a new box split cannot leave a box bare; two rows of solar panels on the long middle wing, kept off its south edge
 local rf = folder("Roof")
-local TOP, TEAL = 67.5, {110, 170, 145}
-for _, b in ipairs({
-	{-570.666, -559.328, 100.105, 65.302, 81.181}, {-452.889, -453.968, 330.798, 70.292, 170.762}, {-398.963, -500.827, 23.738, 11.463, 81.103},
-	{-375.627, -487.368, 53.950, 21.317, 144.658}, {-369.629, -480.049, 75.839, 7.927, 170.762} }) do
-	part(rf, "Roof", CFrame.new(b[1], TOP + 0.2, b[2]) * yaw(b[5]), Vector3.new(b[3] + 0.4, 0.4, b[4] + 0.4), Enum.Material.Concrete, TEAL)
+local TEAL = {110, 170, 145}
+local boxes, ba = A.boxes(BH)
+for _, b in ipairs(boxes) do
+	part(rf, "Roof", b.cf * CFrame.new(0, ba.roof - ba.top / 2 + 0.2, 0), Vector3.new(b.size.X + 0.4, 0.4, b.size.Z + 0.4), Enum.Material.Concrete, TEAL)
 end
-local b1 = CFrame.new(-452.889, TOP, -453.968) * yaw(GRID)        -- local -Z is south
-for _, s in ipairs({ {-110, -27, 105, 12}, {92, -26, 55, 10} }) do
-	part(rf, "Solar", b1 * CFrame.new(s[1], 0.7, s[2]) * CFrame.Angles(math.rad(-12), 0, 0), Vector3.new(s[3], 0.3, s[4]), Enum.Material.Glass, {40, 55, 90}, { Reflectance = 0.2 })
+local b1, b1s = A.box(BH, -452.889, -453.968, GRID)        -- local -Z is south
+b1 = b1 * CFrame.new(0, ba.roof - ba.top / 2, 0)
+for _, s in ipairs({ {-110, 2.1, 105, 12}, {92, 4.1, 55, 10} }) do        -- {along, margin from the south edge, length, depth}
+	part(rf, "Solar", b1 * CFrame.new(s[1], 0.7, -(b1s.Z / 2 - s[2] - s[4] / 2)) * CFrame.Angles(math.rad(-12), 0, 0), Vector3.new(s[3], 0.3, s[4]), Enum.Material.Glass, {40, 55, 90}, { Reflectance = 0.2 })
 end
 
 -- the sand ground south of the building, lines and goals (long axis east-west), the basketball court west of it
@@ -132,14 +134,16 @@ end
 -- v3 (street-view review 2026-10-13): the teal curtain-wall stair hall at the east end (Auto piece gis:11036833#b3) seen left of the
 -- gate in #1 SW and in gis:15839722 #1, the hedge behind the 계남로 fence, the light-blue wave guard rail on the kerb
 local gh = folder("GlassHall")
-local b3 = CFrame.new(-375.627, 0, -487.368) * yaw(144.658)        -- Auto box 53.950 x 65.34 x 21.317
-part(gh, "Glass", b3 * CFrame.new(0, 33.2, 0), Vector3.new(54.6, 66.4, 22.0), Enum.Material.Glass, {80, 150, 150}, { Reflectance = 0.15 })
+local b3, b3s = A.box(BH, -375.627, -487.368, 144.658)        -- the Auto box there (53.950 x 65.34 x 21.317 at yaw 144.658 when written)
+b3 = b3 * CFrame.new(0, -b3s.Y / 2, 0)
+local GL, GZ, GHt = b3s.X + 0.65, b3s.Z + 0.68, b3s.Y + 1.06
+part(gh, "Glass", b3 * CFrame.new(0, GHt / 2, 0), Vector3.new(GL, GHt, GZ), Enum.Material.Glass, {80, 150, 150}, { Reflectance = 0.15 })
 for k = 1, 5 do
-	part(gh, "Mullion", b3 * CFrame.new(0, k * 13.07, 0), Vector3.new(55.0, 0.5, 22.4), Enum.Material.SmoothPlastic, {210, 215, 215}, { CanCollide = false })
+	part(gh, "Mullion", b3 * CFrame.new(0, k * GHt / 5.08, 0), Vector3.new(GL + 0.4, 0.5, GZ + 0.4), Enum.Material.SmoothPlastic, {210, 215, 215}, { CanCollide = false })
 end
-for _, x in ipairs({ -27.3, -13.5, 0, 13.5, 27.3 }) do
-	for _, z in ipairs({ -11.1, 11.1 }) do
-		part(gh, "Post", b3 * CFrame.new(x, 33.2, z), Vector3.new(0.5, 66.4, 0.5), Enum.Material.SmoothPlastic, {210, 215, 215}, { CanCollide = false })
+for _, f in ipairs({ -0.5, -0.25, 0, 0.25, 0.5 }) do
+	for _, z in ipairs({ -1, 1 }) do
+		part(gh, "Post", b3 * CFrame.new(f * GL, GHt / 2, z * (GZ / 2 + 0.1)), Vector3.new(0.5, GHt, 0.5), Enum.Material.SmoothPlastic, {210, 215, 215}, { CanCollide = false })
 	end
 end
 local hd = folder("Hedge")
@@ -164,4 +168,4 @@ end
 rail(-25, 80)
 rail(124, 300)
 
-return string.format("Manual/Buheung v3: %d parts made (folders already there were left alone)", made)
+return string.format("Manual/Buheung v4: %d parts made (folders already there were left alone)", made)

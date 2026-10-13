@@ -1,7 +1,8 @@
 -- Manual school parts for the first cell, v5 (U5 S-14, BR-12). Built from the street-view crops, the satellite photo and the user's photos of 2026-10-13.
 -- Creates only; never destroys or clears anything. Each top folder is made only when Manual/School does not have it yet,
 -- so to redo one part of the school, delete that folder in Studio and run this again.
--- Numbers: data/build/8930e0af13bffff boxes gis:11185213#b0..b3 and gis:11185281, config.toml school_polygons, scale 3.6 stud/m.
+-- Numbers: the anchors prelude (src/anchors.py script --name School puts it first): A.box finds the current box under a point of a
+-- wing, A.frame is the outline's rectangle, so a new box split moves nothing (U7 F). Ground and fences are satellite world values.
 local ws = workspace
 local manual = ws:FindFirstChild("Manual")
 if not manual then manual = Instance.new("Folder") manual.Name = "Manual" manual.Parent = ws end
@@ -129,8 +130,8 @@ gate("Back", -5.51, -241.69, -37.35, 0.6067, -0.7949, -37.35, 10.8, "심원고�
 -- gym (satellite z19 over a straight-down capture, 2026-10-13: x -270..-168, z -327..-184); the rest keeps the flat gray top.
 -- local +X is north, local +Z is east
 local m = folder("Main")
-local b0 = CFrame.new(-206.147, 36.81, -241.257) * yaw(79.919)        -- size 185.558 x 73.62 x 124.397
-local H0 = 73.62
+local b0, b0s = A.box("gis:11185213", -206.147, -241.257, 79.919)        -- size 185.558 x 73.62 x 124.397 when written
+local H0 = b0s.Y
 local gx, gl, gz, gw = 21, 72, -10.5, 51.5                            -- gym centre and half sizes in b0 space
 local half = gw + 1.8
 local rise = math.tan(math.rad(18)) * half
@@ -142,8 +143,8 @@ end
 -- south wing gis:11185213#b3 (5 floors, 56 m, faces the sports ground; local -Z is south, local -X is east):
 -- entrance canopy with steps, the name over it and a clock on the south face; the stair tower on the north face near the east end;
 -- the east end block in red brick with the school name in white letters and a glass stair strip (street view 2026-10-13)
-local b3 = CFrame.new(-58.609, 36.81, -140.39) * yaw(169.919)        -- size 201.433 x 73.62 x 38.587
-local hw3, hd3, H3 = 100.7165, 19.2935, 73.62
+local b3, b3s = A.box("gis:11185213", -58.609, -140.39, 169.919)        -- size 201.433 x 73.62 x 38.587 when written
+local hw3, hd3, H3 = b3s.X / 2, b3s.Z / 2, b3s.Y
 local cy = -H3 / 2
 part(m, "Canopy", b3 * CFrame.new(0, cy + 13.0, -(hd3 + 4.5)), Vector3.new(25.2, 1.1, 9.0), Enum.Material.Concrete, {215, 215, 212})
 for _, s in ipairs({-1, 1}) do
@@ -188,8 +189,9 @@ end
 -- gis:11185281 (red brick, 5 floors): white balcony stack at the west corner of the south end, a blank south end wall with darker
 -- brick diamonds, a glass stair strip with an arched top near the south end of the east face (street view #1 NW and #3 N, photo 2026)
 local a = folder("BrickBlock")
-local bb = CFrame.new(-308.119, 30.6, 5.311) * yaw(80.16)        -- size 181.815 x 61.2 x 48.853; local -X is south, local +Z is east
-local hwb, hdb, Hb = 90.9075, 24.4265, 61.2
+local bbf, ab = A.frame("gis:11185281")        -- the whole outline (181.815 x 61.2 x 48.853 when written); local -X is south, local +Z is east
+local bb = bbf * CFrame.new(0, ab.top / 2, 0)
+local hwb, hdb, Hb = ab.w / 2, ab.d / 2, ab.top
 local fh = Hb / 5
 for k = 0, 4 do
 	local fy = k * fh - Hb / 2
@@ -236,8 +238,9 @@ part(gd, "Hoop", F * CFrame.new(185.5, 9.2, -50), Vector3.new(1.6, 0.2, 1.6), En
 -- not the solid box the data gives; BuildingId makes the Auto box step aside
 local pg = folder("Pergola")
 pg:SetAttribute("BuildingId", "gis:11215391")
-local pc = CFrame.new(-112.179, 0, 125.845) * yaw(170.5)        -- box 251.943 x 18.001
-local pl, pd, STEEL = 251.943, 18.001, {200, 200, 205}
+local pcb, pcs = A.box("gis:11215391", -112.179, 125.845, 170.5)        -- box 251.943 x 18.001 when written
+local pc = pcb * CFrame.new(0, -pcs.Y / 2, 0)
+local pl, pd, STEEL = pcs.X, pcs.Z, {200, 200, 205}
 local nb = math.floor(pl / 14.4 + 0.5)
 for k = 0, nb do
 	local x = -pl / 2 + k * pl / nb
@@ -255,8 +258,9 @@ end
 -- gis:11215393: an open shelter in front of the main block (green metal roof on steel posts like the stands), not a solid box
 local sp = folder("Shelter")
 sp:SetAttribute("BuildingId", "gis:11215393")
-local sc = CFrame.new(-125.308, 0, -105.893) * yaw(80.531)        -- box 56.605 x 43.348
-local sl, sd = 56.605, 43.348
+local scb, scs = A.box("gis:11215393", -125.308, -105.893, 80.531)        -- box 56.605 x 43.348 when written
+local sc = scb * CFrame.new(0, -scs.Y / 2, 0)
+local sl, sd = scs.X, scs.Z
 for _, x in ipairs({ -sl / 2 + 1, 0, sl / 2 - 1 }) do
 	for _, z in ipairs({ -sd / 2 + 1, sd / 2 - 1 }) do
 		part(sp, "Post", sc * CFrame.new(x, 5.6, z), Vector3.new(0.5, 11.2, 0.5), Enum.Material.Metal, {120, 120, 125})

@@ -1,0 +1,14 @@
+{
+ "note": "U7 J: hand-made places of this region. how = manual (a script in studio/manual/<region>/) or kit (made by a kit from data). buildings = the Auto buildings the script places parts on (anchors.py makes their anchors).",
+ "places": [
+  {"name": "School", "script": "School.luau", "cell": "8930e0af13bffff", "how": "manual", "status": "done",
+   "reason": "OSM 학교(심원고), 위성에만 있는 운동장·스탠드, 시설을 건물로 잘못 잡은 것(gis:11215390 스탠드 차양)",
+   "buildings": ["gis:11185213", "gis:11185281", "gis:11215390", "gis:11215391", "gis:11215393"]},
+  {"name": "Buheung", "script": "Buheung.luau", "cell": "8930e0af13bffff", "how": "manual", "status": "done",
+   "reason": "OSM 학교(부흥중), 데이터에 없는 운동장·농구장·체육관(위성)",
+   "buildings": ["gis:11036833"]},
+  {"name": "Park", "script": "Park.luau", "cell": "8930e0af13bffff", "how": "manual", "status": "done",
+   "reason": "OSM 공원(옥산공원), 위성 색으로 가른 바닥",
+   "buildings": []}
+ ]
+}

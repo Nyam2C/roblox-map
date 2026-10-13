@@ -15,6 +15,7 @@ Rules: aidlc-docs/construction/u2-studio-builder/functional-design/business-rule
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import logging
 import math
@@ -38,6 +39,7 @@ import tiers
 
 BUILD_DIR = "data/build"
 CELL_PART_BUDGET = 25_000  # U7 BR-I14.2 (Q1 A): parts per cell, interiors included
+SIGN_REUSE_ASPECT = math.log(1.12)  # U7 K: a reused image may be stretched by 12 % at most
 CHUNK_WARN_BYTES = 15_000  # U2 NFR P3, raised in U5 (BR-14.6): a bigger chunk file means chunk_size should come down
 SAFE_TEXT = re.compile(r"[A-Za-z0-9:#_.\-]{1,100}")  # N-U2-4: the only characters that may reach Luau code
 TEXT_ATTRS = ("name", "Source", "HeightBasis", "FloorsBasis", "WallColor", "Review")  # the texts of a building item that become code
@@ -167,7 +169,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               cfg: Mapping[str, Any], estimates: Mapping[str, Mapping[str, Any]] | None = None,
               overrides: Mapping[str, Mapping[str, Any]] | None = None,
               details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None,
-              sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1) -> Plan:
+              sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1,
+              sign_library: Sequence[Mapping[str, Any]] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -281,15 +284,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     warnings += spawn_warnings
     if cfg.get("spawn_lat") is None:
         warnings.append("no spawn point configured (spawn_lat, spawn_lon): no spawn is built")
-    sign_images = 0
-    for i in items:  # SI-6: band and floor signs whose image was made and uploaded get the asset id; the text stays as the fallback
-        if i.kind == "sign" and sign_assets and i.text and i.color_name and i.ink:
-            tail = details_rules.sign_tail(i.name)
-            if tail in details_rules.SIGN_IMAGE_TAILS:
-                asset = sign_assets.get(details_rules.sign_image_key(i.text, tail, i.color_name, i.ink, details_rules.aspect_bucket(i.sx, i.sy)))
-                if asset is not None:
-                    i.attrs["ImageAsset"] = int(asset)
-                    sign_images += 1
+    items, sign_images, signs_reused = apply_sign_images(items, sign_assets or {}, sign_library or [])
     items = layout.order_items(items)
     chunks = layout.chunk_items(items, cfg["chunk_size"])
     files = {f"chunk-{n:03d}.luau": render_chunk(cell_id, n, len(chunks), c) for n, c in enumerate(chunks, 1)}
@@ -305,7 +300,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               "streets_in": sum(1 for f in features if f["kind"] in ("road", "path")), "junctions": sum(1 for j in jcts if j.owned),
               "poor_fit": len(poor_fit), "warnings": len(warnings), "judged": judged, "details_used": details_used,
               "flagged": sum(1 for i in items if i.kind == "building" and "Review" in i.attrs),
-              "signs": signs, "labels": labels, "sign_images": sign_images, "parts_total": len(items), "boxes": len(boxes_report),
+              "signs": signs, "labels": labels, "sign_images": sign_images, "signs_reused": signs_reused, "parts_total": len(items), "boxes": len(boxes_report),
               "no_facing": len(no_facing), "far_facing": len(far_facing), "tier": tier, **inside}
     if len(items) > CELL_PART_BUDGET:
         warnings.append(f"{len(items)} parts: over the cell budget of {CELL_PART_BUDGET} (BR-I14.2)")
@@ -320,6 +315,72 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     files["manifest.json"] = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
     files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids)
     return Plan(cell_id, items, files, counts, warnings)
+
+
+def apply_sign_images(items: Sequence[layout.Item], own: Mapping[str, int], library: Sequence[Mapping[str, Any]]
+                      ) -> tuple[list[layout.Item], int, int]:
+    """SI-6: a band or floor sign whose image was uploaded (this cell's signs.json or the region library, same key) gets the asset
+    id; the text stays as the fallback. U7 K: a building's name (owner + text) none of whose image signs has its own image reuses
+    an uploaded image of the region with the first sign's tail (band or floor sign, so a ground-floor name stays one) and panel
+    color and an aspect within 12 %, chosen by pick on that sign's name; every sign of that name then reads the image's text, and
+    its other image signs take an image of that text with their own tail, aspect and color when there is one. Returns (items,
+    signs with an image, of them reused)."""
+    exact = {**{r["key"]: int(r["asset_id"]) for r in library}, **own}
+    looks: dict[tuple[str, str], list[Mapping[str, Any]]] = {}
+    for r in library:
+        looks.setdefault((r["tail"], r["bg"]), []).append(r)
+
+    def near(n: int, tail: str, aspect: str) -> list[Mapping[str, Any]]:  # the Builder stretches the image over the sign
+        a = float(aspect)
+        return [r for r in looks.get((tail, items[n].color_name), []) if abs(math.log(float(r["aspect"]) / a)) <= SIGN_REUSE_ASPECT]
+    groups: dict[tuple[str | None, str], list[tuple[int, str, str]]] = {}
+    for n, i in enumerate(items):
+        if i.kind == "sign" and i.text and i.color_name and i.ink and details_rules.sign_tail(i.name) in details_rules.SIGN_IMAGE_TAILS:
+            groups.setdefault((i.owner, i.text), []).append((n, details_rules.sign_tail(i.name), details_rules.aspect_bucket(i.sx, i.sy)))
+    picked: dict[int, int] = {}
+    renamed: dict[tuple[str | None, str], str] = {}
+    reused = 0
+    for (owner, text), signs in groups.items():
+        keys = {n: details_rules.sign_image_key(text, tail, items[n].color_name, items[n].ink, aspect) for n, tail, aspect in signs}
+        if any(k in exact for k in keys.values()):
+            picked.update({n: exact[k] for n, k in keys.items() if k in exact})
+            continue
+        n0, tail0, aspect0 = signs[0]
+        rows = near(n0, tail0, aspect0)
+        if not rows:
+            continue
+        new_text = rows[details_rules.pick(items[n0].name, "sign_reuse", len(rows))]["text"]
+        renamed[(owner, text)] = new_text
+        for n, tail, aspect in signs:
+            match = [r for r in near(n, tail, aspect) if r["text"] == new_text]
+            if match:
+                picked[n] = int(match[0]["asset_id"])
+                reused += 1
+    out = []
+    for n, i in enumerate(items):
+        if i.kind == "sign" and (i.owner, i.text) in renamed:
+            i = dataclasses.replace(i, text=renamed[(i.owner, i.text)], attrs=dict(i.attrs))
+        if n in picked:
+            i.attrs["ImageAsset"] = picked[n]
+        out.append(i)
+    return out, len(picked), reused
+
+
+def load_sign_library(cfg: Mapping[str, Any], cell_id: str) -> list[dict[str, Any]]:
+    """U7 K: every uploaded sign image of the cell's region (signs.json of all its cells) as rows of key, asset_id, text, tail, bg,
+    ink, aspect, sorted by key. A row whose key does not match its look refuses the build, like a bad asset entry."""
+    folder, _ = common.region_of(cfg, cell_id)
+    rows: dict[str, dict[str, Any]] = {}
+    for path in sorted((folder / "cells").glob("*/signs.json")):
+        assets = load_sign_assets(path)
+        signs = json.loads(path.read_text(encoding="utf-8"))["signs"]
+        for key, asset in assets.items():
+            r = signs[key]
+            look = {k: r.get(k) for k in ("text", "tail", "bg", "ink", "aspect")}
+            if not all(isinstance(v, str) for v in look.values()) or details_rules.sign_image_key(**look) != key:
+                raise ValueError(f"{path.parent.name}/signs.json: key {key} does not match its look")
+            rows[key] = {"key": key, "asset_id": asset, **look}
+    return [rows[k] for k in sorted(rows)]
 
 
 PAIR = re.compile(r'(\w+)=("([^"]*)"|-?\d+(?:\.\d+)?)')
@@ -392,7 +453,8 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     buildings, features, estimates, overrides, details = load_cell_inputs(conn, cell_id)
     sign_assets = load_sign_assets(common.cell_file(cfg, cell_id, "signs"))
     sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))
-    plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier)
+    plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier,
+                     load_sign_library(cfg, cell_id))
     write_plan(plan, root)
     return plan
 

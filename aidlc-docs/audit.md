@@ -1303,6 +1303,14 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 
 ---
 
+## U7 Step 4 Accepted, Step 5 with Reference Comparison
+**Timestamp**: 2026-10-13T19:26:22Z
+**User Request**: "클로드가 다른 맵에서 만든 건물들 보고 만들거나 학습하는 방법은 없을까?" / "그럼 저렇게 해서 이번 실제 1번 3번 재 구현시 완성도 높힐수 있나?" / "좋아, 단계 5에 참고 비교 넣어서 진행해"
+**AI Response**: Explained that Claude does not learn between sessions; what carries over is rules, kits and lessons. Proposed looking at Creator Store models only as a reference (inserted into MCP_Test, scripts deleted at once, measured and captured, then deleted; only numbers and rules reach the map) for the archetypes that fill cells 1 and 3 (villa, commercial, apartment). It helps facade and interior density, not real-world accuracy (that stays with satellite and street view). Took "proceed with step 5" as the user check of step 4. Step 5 = F anchors, J school field kit, K sign reuse, plus the reference comparison. Found uncommitted apartment facade changes (BR-6.5) in details_rules.py, layout_details.py and MapBuilder.luau not made by this session; left untouched and asked the user.
+**Context**: CONSTRUCTION - U7 step 4 accepted; step 5 started. Decision change: Creator Store models allowed as reference only (still no external assets in the map).
+
+---
+
 ## Apartment Facade (BR-6.5), 22-Floor Test
 **Timestamp**: 2026-10-13T19:42:15Z
 **User Request**: "우리도 이런 리얼한 건물 만들려면 방법?" / "이런건" / "아파트도 많을텐데 저런거 아파트 자체는 못만드나?" / "응 22층 시험으로 만들어 봐" / "이것도 참고" (reference photo: white piers, beige unit bays, dark windows with white frames, block number over the entrance) / "2번으로 해, 테스트랑 문서 쓰고 커밋해"
