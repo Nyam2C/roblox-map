@@ -1310,3 +1310,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 (side request during step 5). Rule BR-6.5 in u5-details business-rules.md; tests test_br_6_5_* (4).
 
 ---
+
+## U7 Interiors Cancelled, Focus on Exterior Quality
+**Timestamp**: 2026-10-13T19:43:29Z
+**User Request**: "규칙을 바꿀 수 있을까? 내부 구현은 취소하고 외부 구현 퀄리티에 더 집중하자 다른 맵 탐방해보니 내부 구현은 안한다 다른 세션 작업중인거 인지"
+**AI Response**: Recorded the decision in CLAUDE.md (no building interiors; focus on exterior quality). config.toml interiors = false (the map gets the U5 items, checked on all three cells in step 4). U7 plan: D cancelled, steps 3 and 4 cancelled, new item L exterior quality (to be filled from the sessions studying other maps and realistic buildings), completion criteria without interiors; E streaming kept for the city scale. Studio: removed the Elevator script I installed; left Workspace/MCP_Test alone because another session also uses it (cell 12bffff and AptGround there are not mine). Another session has uncommitted work in the same tree (sign reuse K, anchors F; its sign code refers to the interior trade kits), so deleting the interior code waits until it commits; only my own hunks were committed.
+**Context**: CONSTRUCTION - U7 replanning.
+
+---
