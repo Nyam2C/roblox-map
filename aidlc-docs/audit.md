@@ -655,3 +655,12 @@
 **Context**: CONSTRUCTION - U2 Build and Test, approval gate.
 
 ---
+
+## U2 Build and Test - Approval
+**Timestamp**: 2026-10-13T00:50:00Z (approx.)
+**AI Prompt**: "Approve & Continue - 승인하면 U2가 끝나고 U4 판단·보정으로 넘어갑니다." and the advice to save the Studio place first; the user then asked how to save and was told File > Save to Roblox.
+**User Response**: "저장했어 U2만 승인하고 커밋 푸시까지"
+**Status**: Approved (U2 only). U2 is complete. The user did not ask to start U4, so U4 has not been started. Commit and push authorized.
+**Context**: U2 Studio builder is complete (code, Build and Test, first cell built and saved in Studio, spawn and scale confirmed). Next unit in the order is U4 judgement and corrections; it starts only when the user asks.
+
+---
