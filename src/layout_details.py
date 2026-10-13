@@ -95,7 +95,8 @@ def _part(frame: Frame, kind: str, name: str, group: str, seq: int, east: float,
     """An item from east/north metres, a bottom (or centre) height in metres and a size in metres."""
     s = frame.studs_per_m
     x, z = _studs(frame, east, north)
-    cy = y_m * s if y_center else (y_m + size_m[1] / 2) * s
+    up = size_m[0] if extra.get("shape") == "Cylinder" else size_m[1]  # a standing cylinder's height is its first size (BR-14.3)
+    cy = y_m * s if y_center else (y_m + up / 2) * s
     return layout._item(kind, name, group, seq, (x, cy, z), (size_m[0] * s, size_m[1] * s, size_m[2] * s), yaw % 360.0, **extra)
 
 

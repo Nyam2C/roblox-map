@@ -48,6 +48,8 @@ def test_a_tree_is_a_trunk_and_three_balls_scaled_by_the_crown_diameter_and_repe
     assert [i.name for i in items[:4]] == ["sat#0#tree", "sat#0#crowna", "sat#0#crownb", "sat#0#crownc"]
     trunk = items[0]
     assert trunk.shape == "Cylinder" and trunk.cx == pytest.approx(-100.0, abs=0.01) and trunk.cz == pytest.approx(50.0, abs=0.01)
+    assert trunk.cy - trunk.sx / 2 == pytest.approx(0.0, abs=0.01)  # a standing cylinder stands on the ground (its length is sx)
+    assert min(b.cy - b.sy / 2 for b in items[1:4]) < trunk.cy + trunk.sx / 2  # the crown sits on the trunk, no gap
     main = max(items[1:4], key=lambda b: b.sx)
     assert all(i.shape == "Ball" and i.collide is False for i in items[1:4])
     # the 3 m and the 20 m crowns are limited to the scale range 0.55 .. 1.1
