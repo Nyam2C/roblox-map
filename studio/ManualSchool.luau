@@ -231,25 +231,7 @@ part(gd, "HoopPost", F * CFrame.new(190, 5.5, -50), Vector3.new(0.5, 11.0, 0.5),
 part(gd, "Backboard", F * CFrame.new(187.5, 10.6, -50), Vector3.new(0.2, 3.8, 6.5), Enum.Material.SmoothPlastic, {245, 245, 245}, { CanCollide = false })
 part(gd, "Hoop", F * CFrame.new(185.5, 9.2, -50), Vector3.new(1.6, 0.2, 1.6), Enum.Material.Metal, {220, 90, 40}, { Shape = Enum.PartType.Cylinder, CanCollide = false })
 
--- the small park west of the parcel: grass, pines, a pavilion, benches, a hedge along the path
-local pk = folder("Park")
-part(pk, "Grass", CFrame.new(-372, 0.25, -20), Vector3.new(56, 0.3, 180), Enum.Material.Grass, {95, 135, 70})
-for _, p in ipairs({ {-390, -95}, {-358, -70}, {-392, -35}, {-360, 5}, {-392, 45}, {-362, 62} }) do
-	part(pk, "Trunk", CFrame.new(p[1], 9, p[2]) * CFrame.Angles(0, 0, math.rad(90)), Vector3.new(18, 1.4, 1.4), Enum.Material.Wood, {90, 70, 50}, { Shape = Enum.PartType.Cylinder })
-	for _, c in ipairs({ {12, 10, 7}, {16.5, 8, 6}, {20.5, 5.5, 5} }) do
-		part(pk, "Crown", CFrame.new(p[1], c[1], p[2]), Vector3.new(c[2], c[3], c[2]), Enum.Material.Grass, {40, 85, 45}, { Shape = Enum.PartType.Ball, CanCollide = false })
-	end
-end
-part(pk, "PavilionFloor", CFrame.new(-375, 0.6, -20), Vector3.new(14.4, 0.6, 14.4), Enum.Material.Wood, {150, 110, 70})
-for _, c in ipairs({ {-6, -6}, {6, -6}, {-6, 6}, {6, 6} }) do
-	part(pk, "PavilionPost", CFrame.new(-375 + c[1], 5.6, -20 + c[2]), Vector3.new(0.9, 9.4, 0.9), Enum.Material.Wood, {120, 85, 55})
-end
-part(pk, "PavilionRoof", CFrame.new(-375, 10.55, -20), Vector3.new(16, 0.5, 16), Enum.Material.Slate, {70, 60, 60})
-part(pk, "PavilionRoofTop", CFrame.new(-375, 11.4, -20), Vector3.new(10, 1.2, 10), Enum.Material.Slate, {70, 60, 60})
-for _, bz in ipairs({-50, 20}) do
-	part(pk, "Bench", CFrame.new(-352, 1.6, bz), Vector3.new(1.6, 0.3, 6.0), Enum.Material.Wood, {150, 110, 70})
-end
-part(pk, "Hedge", CFrame.new(-346, 1.2, -20), Vector3.new(1.6, 2.2, 176), Enum.Material.Grass, {50, 110, 55}, { CanCollide = false })
+-- the park west of the parcel (옥산공원) is Manual/Park now: studio/ManualPark.luau, ground read off the satellite photo
 -- gis:11215391: the open steel pergola along the south fence of the ground (street view of gis:11215391 #2 N and gis:15358826 #2 NW),
 -- not the solid box the data gives; BuildingId makes the Auto box step aside
 local pg = folder("Pergola")

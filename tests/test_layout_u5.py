@@ -20,7 +20,7 @@ import layout
 import layout_details as LD
 from generators import BASE, body_cases, offset, rect, star_outlines
 
-CFG = common.DEFAULTS
+CFG = {**common.DEFAULTS, "car_spacing_m": 8}  # cars are off by default (2026-10-13); the generator still makes them when asked
 FRAME = layout.Frame.from_cfg(CFG)
 S = FRAME.studs_per_m
 RES = CFG["h3_res"]
@@ -316,7 +316,13 @@ def test_a_12_by_10_three_floor_villa_has_the_expected_parts():
         by.setdefault(tail(i)[:2] if i.kind != "building" else "box", []).append(i)
     assert len(by["box"]) == 1 and len(by["fl"]) == 2 and len(by["ca"]) == 1 and len(by["pl"]) == 1 and len(by["dr"]) == 1 and len(by["cn"]) == 1
     windows = [i for i in items if tail(i).startswith("w0")]
-    assert len(windows) == 4 * 3 * 2  # two per face per floor (4 m pitch); the 1 m door fits between the two ground-floor windows
+    # three per face per floor (3 m pitch, 2.2 m sashes) on the other faces; on the facing face the door, stair and bay take some
+    front = [w for w in windows if tail(w)[2] == body.facing.side]
+    per_face = {}
+    for w in windows:
+        per_face.setdefault((tail(w)[2], tail(w)[3]), []).append(w)
+    others = {k: len(v) for k, v in per_face.items() if k[0] != body.facing.side}
+    assert len(others) == 3 * 3 and set(others.values()) <= {2, 3} and 0 < len(front) < 3 * 3
     door = next(i for i in items if tail(i).startswith("dr0"))
     for w in windows:
         if tail(w)[2] == body.facing.side and tail(w)[3] == "0":
@@ -447,11 +453,32 @@ def test_p5_11_a_100_m_residential_segment_gets_the_expected_slots():
     assert count(props, "pole") == 3 and count(props, "arm") == 3 and count(props, "tr") == 1 and count(props, "wire") == 4
     assert count(props, "lamp") == 3 and count(props, "car") == 10 and count(props, "cl") == 2 and count(props, "curb") == 2
     assert count(props, "treeL") == 13 and count(props, "treeR") == 12  # one tree per side gives way to a lamp or pole within 2 m
-    assert len(props) == 94
+    assert len(props) == 144  # 25 trees = 25 trunks + 75 crown balls
     poles = sorted((i for i in props if "#pole" in i.name), key=lambda i: i.name)
     xs = sorted(i.cx for i in poles)
     assert xs[1] - xs[0] == pytest.approx(30 * S, abs=0.05) and xs[2] - xs[1] == pytest.approx(30 * S, abs=0.05)
     assert all(i.shape == "Cylinder" and i.sx == pytest.approx(10 * S, abs=2e-3) for i in poles)
+
+
+def test_p5_11_a_tree_is_a_trunk_and_three_overlapping_balls_and_the_trees_differ_but_repeat():
+    (_, props), _ = props_of([street("way:1", "residential", length=100)])
+    (_, again), _ = props_of([street("way:1", "residential", length=100)])
+    trunks = [i for i in props if re.search(r"#tree[LR]\d+$", i.name)]
+    assert len(trunks) == 25
+    for t in trunks:
+        names = {t.name.replace("#tree", "#crown") + k for k in "abc"}
+        balls = [i for i in props if i.name in names]
+        assert len(balls) == 3 and all(b.shape == "Ball" for b in balls)
+        main = max(balls, key=lambda b: b.sx)
+        assert all(b.cy - b.sy / 2 >= t.sx / 2 for b in balls)  # no ball rests near the ground: the crown starts above half the trunk
+        assert all(math.hypot(b.cx - main.cx, b.cz - main.cz) < (b.sx + main.sx) / 2 for b in balls)  # the three overlap into one crown
+    assert len({(round(i.sx), i.color_name) for i in props if "#crown" in i.name}) > 4
+    assert [(i.name, i.cx, i.cy, i.cz, i.color_name) for i in props] == [(i.name, i.cx, i.cy, i.cz, i.color_name) for i in again]
+
+
+def test_p5_11_no_cars_with_the_default_settings():
+    (_, props), _ = props_of([street("way:1", "residential", length=100)], common.DEFAULTS)
+    assert count(props, "car") == 0 and count(props, "cab") == 0 and count(props, "treeL") > 0
 
 
 @settings(max_examples=30)
@@ -526,7 +553,7 @@ def test_p5_15_every_owned_item_names_its_building_and_the_budget_holds(case):
         if i.kind != "building" or len(body.boxes) > 1:
             assert i.owner == body.building_id and i.name.startswith(body.building_id + "#")
         assert i.material in R.MATERIALS and i.shape in R.SHAPES
-    limit = {"villa": 70, "commercial": 140, "public": 60, "school": 160}[body.archetype]
+    limit = {"villa": 70, "commercial": 140, "public": 60, "school": 200}[body.archetype]  # school: the classroom grid on a tall block
     assert len(items) <= limit
     assert len({i.name for i in items}) == len(items)
 

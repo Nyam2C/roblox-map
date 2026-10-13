@@ -89,7 +89,7 @@ DEFAULTS: dict[str, Any] = {
     "pole_spacing_m": 30,
     "lamp_spacing_m": 30,
     "tree_spacing_m": 7,
-    "car_spacing_m": 8,
+    "car_spacing_m": 0,
     "school_zone_m": 50,
     "roof_pitch_deg": 25,
     "window_faces": "all",  # "front": windows only on the road-facing face (first step of the FPS ladder)

@@ -13,8 +13,10 @@ face; `y` is the bottom of a part unless the name says otherwise.
 """
 from __future__ import annotations
 
+import json
 import math
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 import h3
@@ -579,6 +581,11 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
 
 # --- facade elements, storefront, yard (BR-8, BR-9) ------------------------------------------------------------------------
 
+# storefront looks (material, palette key, reflectance): dark glass, light glass, wood frame, open shutter
+SHOP_FRONTS = (("SmoothPlastic", "glass_shop", D["reflect_shop"]), ("SmoothPlastic", "glass_shop_b", D["reflect_shop"]),
+               ("Wood", "shop_wood", 0.0), ("Metal", "shutter", 0.0))
+
+
 def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> list[Item]:
     """Stair tower, bay, balconies, door and canopy (or shutter), AC units, gas pipe, storefront: the front box's facing face."""
     if not body.is_body or body.facing is None or body.archetype == "school":
@@ -592,7 +599,8 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
     glass = dict(material="SmoothPlastic", color=R.PALETTE["glass"], color_name="glass", reflectance=D["reflect_win"])
     # stair tower (BR-8.1)
     if det["stair"] == "glass":
-        items.append(_wall_part(frame, body, bi, side, "facade", "st0", seq, -L / 3, 0.0, D["stair_out"], (D["stair_w"], H + D["stair_extra"], D["stair_t"]), **glass))
+        items.append(_wall_part(frame, body, bi, side, "facade", "st0", seq, -L / 3, 0.0, D["stair_out"], (D["stair_w"], H + D["stair_extra"], D["stair_t"]),
+                                material="SmoothPlastic", color=R.PALETTE["glass_stair"], color_name="glass_stair", reflectance=D["reflect_glass"]))
     elif det["stair"] == "brick":
         items.append(_wall_part(frame, body, bi, side, "facade", "st0", seq, -L / 2 + D["stair_brick"] / 2, 0.0, D["stair_brick_out"],
                                 (D["stair_brick"], H + D["stair_brick_extra"], D["stair_brick"]), **wall))
@@ -617,7 +625,7 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
             items.append(_wall_part(frame, body, bi, side, "facade", f"bk{k}-0", seq, 0.0, k * fh, D["balcony_d"], (bl, D["balcony_slab_h"], D["balcony_d"]),
                                     material="Concrete", color=R.PALETTE["balcony"], color_name="balcony"))
             items.append(_wall_part(frame, body, bi, side, "facade", f"bk{k}-1", seq + 1, 0.0, k * fh + D["balcony_slab_h"], D["balcony_d"],
-                                    (bl, D["balcony_rail_h"], D["balcony_rail_t"]), material="Metal", color=R.PALETTE["iron"], color_name="iron"))
+                                    (bl, D["balcony_rail_h"], D["balcony_rail_t"]), material="SmoothPlastic", color=R.PALETTE["railing"], color_name="railing"))
             seq += 2
     # door, canopy, shutter, name plate (BR-8.4) or storefront (BR-9.2)
     if body.shop:
@@ -631,8 +639,9 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
             uw = Lf / units
             for u in range(units):
                 a = s0 + uw * (u + 0.5)
+                look = SHOP_FRONTS[R.pick(f"{body.building_id}#sf{u}", "front", len(SHOP_FRONTS))]  # varied fronts (review 2026-10-13)
                 items.append(_wall_part(frame, body, bi, side, "facade", f"sf{u}", seq, a, D["front_y"], D["win_out"], (uw - D["front_gap"], fh - D["front_drop"], D["front_t"]),
-                                        material="SmoothPlastic", color=R.PALETTE["glass_shop"], color_name="glass_shop", reflectance=D["reflect_shop"]))
+                                        material=look[0], color=R.PALETTE[look[1]], color_name=look[1], reflectance=look[2]))
                 seq += 1
             items.append(_wall_part(frame, body, bi, side, "facade", "sd0", seq, s0 + D["front_door_along"], 0.0, 0.08, (D["door_w"], D["door_h"], D["front_door_t"]),
                                     material="Metal", color=R.PALETTE["door_shop"], color_name="door_shop"))
@@ -978,8 +987,42 @@ def sidewalk_pieces(st: Street, jcts: Sequence[Junction], frame: Frame, cfg: Map
     return out
 
 
-def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Frame, cfg: Mapping[str, Any]) -> tuple[list[Item], list[Item]]:
-    """(sidewalk pieces replacing U2's, props: curbs, markings, crosswalks, poles, wires, lamps, trees, cars, zone kit, bollards, boxes)."""
+TREES_DIR = "trees"
+TREE_SPAN = 7.2  # width in metres of the street-tree crown cluster at scale 1 (BR-11.4a)
+
+
+def load_trees(path: Path) -> list[list[float]] | None:
+    """The rows (x, z, crown diameter m) of trees/<cell>.json made by trees.py, or None when there is no file (the rule-based trees stay)."""
+    if not path.exists():
+        return None
+    rows = json.loads(path.read_text(encoding="utf-8"))["trees"]
+    return [[float(v) for v in r] for r in rows if len(r) == 3 and all(math.isfinite(float(v)) for v in r)]
+
+
+def tree_items(frame: Frame, trees: Sequence[Sequence[float]]) -> list[Item]:
+    """The trees read off the satellite photo: the street-tree shape (trunk + three balls) scaled to the crown diameter, turned by hash (BR-11.4a)."""
+    out: list[Item] = []
+    for n, (x, z, dia) in enumerate(trees):
+        name = f"sat#{n}#tree"
+        east, north = x / frame.studs_per_m, -z / frame.studs_per_m
+        sc = min(1.1, max(0.55, dia / TREE_SPAN))  # big satellite crowns hid the houses (review 2026-10-13)
+        yaw = 45.0 * R.pick(name, "yaw", 8)
+        ca, sa = math.cos(math.radians(yaw)), math.sin(math.radians(yaw))
+        leaf = R.TREE_LEAVES[R.pick(name, "leaf", len(R.TREE_LEAVES))]
+        out.append(_part(frame, "prop", name, "sat", n, east, north, 0.0, (D["trunk_h"] * sc, D["trunk_dia"] * max(sc, 0.8), D["trunk_dia"] * max(sc, 0.8)), yaw,
+                         shape="Cylinder", material="Wood", color=R.PALETTE["trunk"], color_name="trunk"))
+        for k, (da, dl, cy, bd) in enumerate(R.TREE_CROWNS[R.pick(name, "tree", len(R.TREE_CROWNS))]):
+            da, dl, cy, bd = da * sc, dl * sc, cy * sc, bd * sc
+            out.append(_part(frame, "prop", f"sat#{n}#crown{'abc'[k]}", "sat", n, east + da * ca - dl * sa, north + da * sa + dl * ca, cy - bd / 2, (bd, bd, bd), yaw,
+                             shape="Ball", material="LeafyGrass", color=R.PALETTE[leaf], color_name=leaf, collide=False))
+    return out
+
+
+def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Frame, cfg: Mapping[str, Any],
+                 rule_trees: bool = True) -> tuple[list[Item], list[Item]]:
+    """(sidewalk pieces replacing U2's, props: curbs, markings, crosswalks, poles, wires, lamps, trees, cars, zone kit, bollards, boxes).
+
+    rule_trees=False leaves the street trees out (the cell has trees read off the satellite photo, see tree_items)."""
     sidewalks: list[Item] = []
     props: list[Item] = []
     s = frame.studs_per_m
@@ -1081,7 +1124,7 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                                                (D["lamp_head_w"], D["lamp_head_h"], D["lamp_head_d"]), material="SmoothPlastic", color=R.PALETTE["lamp_head"],
                                                color_name="lamp_head", collide=False))
         # trees (BR-11.4)
-        if st.sides:
+        if st.sides and rule_trees:
             for i, p, q, mid, length in st.owned:
                 u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
                 for side in st.sides:
@@ -1091,11 +1134,14 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                         if any(abs(pos - a) <= D["tree_clear"] for a in avoid):
                             continue
                         lat = sign * (w / 2 + D["tree_off"])
-                        props.append(_segment_part(frame, "prop", f"{fid}#{i}#tree{side}{j}", fid, 700 + 100 * i + j, p, u, pos, lat, 0.0, (D["trunk_h"], D["trunk_dia"], D["trunk_dia"]),
+                        name = f"{fid}#{i}#tree{side}{j}"
+                        crown = R.TREE_CROWNS[R.pick(name, "tree", len(R.TREE_CROWNS))]
+                        leaf = R.TREE_LEAVES[R.pick(name, "leaf", len(R.TREE_LEAVES))]
+                        props.append(_segment_part(frame, "prop", name, fid, 700 + 100 * i + j, p, u, pos, lat, 0.0, (D["trunk_h"], D["trunk_dia"], D["trunk_dia"]),
                                                    shape="Cylinder", material="Wood", color=R.PALETTE["trunk"], color_name="trunk"))
-                        props.append(_segment_part(frame, "prop", f"{fid}#{i}#crown{side}{j}", fid, 700 + 100 * i + j, p, u, pos, lat, D["crown_y"],
-                                                   (D["crown_dia"], D["crown_dia"], D["crown_dia"]), shape="Ball", material="LeafyGrass", color=R.PALETTE["leaf"],
-                                                   color_name="leaf", collide=False))
+                        for k, (da, dl, cy, dia) in enumerate(crown):
+                            props.append(_segment_part(frame, "prop", f"{fid}#{i}#crown{side}{j}{'abc'[k]}", fid, 700 + 100 * i + j, p, u, pos + da, lat + dl, cy - dia / 2,
+                                                       (dia, dia, dia), shape="Ball", material="LeafyGrass", color=R.PALETTE[leaf], color_name=leaf, collide=False))
         # parked cars (BR-11.5)
         if st.highway_class in CAR_CLASSES and w >= D["car_min_width"] and float(cfg["car_spacing_m"]) > 0:
             spacing = float(cfg["car_spacing_m"]) * (D["car_residential"] if st.highway_class == "residential" else 1.0)

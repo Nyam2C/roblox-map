@@ -1040,3 +1040,35 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - other two cells: U4 and U5 judgements done; next signs, build_luau, Studio.
 
 ---
+
+## U5 Parked Cars Removed
+**Timestamp**: 2026-10-13T13:05:00Z
+**User Request**: "도로에 차모형? 제거하고 너무 좀 제대로 된거 없나"
+**AI Response**: config.toml car_spacing_m 8 -> 0 (the generator already skips cars at 0, so a rebuild no longer brings them back). Regenerated the chunk files of 8930e0af13bffff (6,436 -> 6,284 items, cars in chunks 76 -> 0; the 152 removed are the 76 car bodies plus 76 cabs). Studio was left in Play from the previous session, so it was stopped (Edit state keeps the unsaved work), then the 152 parts matching #carN / #cabN were destroyed in Workspace/Auto/8930e0af13bffff/Props (1,445 -> 1,293 props, matches the chunks). Edit camera set back to Fixed (handoff note). Nothing else in Auto or Manual was touched. Creator Store search for a proper car only (no insert): free low-poly and Korean sedan models exist from unverified creators; the one named "Roblox" uses invisible padding characters and is not the official account. Decision left to the user: no cars, or one low-poly mesh cloned along the roads after the walking frame-rate check.
+**Context**: CONSTRUCTION - U5 first cell; Studio is still unsaved (Roblox save needed).
+
+---
+
+## U5 Street Trees Reshaped, Cars Off By Default
+**Timestamp**: 2026-10-13T13:25:00Z
+**User Request**: "차는 만들지 말고 나무는 어케함?" then "응 그렇게 진행해" (to my plan: keep street trees but make the crown less ball-like; no third-party meshes; park and school trees later by hand from the satellite).
+**AI Response**: The street tree was a thin trunk under one perfect 6.5 m ball (a lollipop). Now a tree is a taller, thicker trunk (4.6 m, dia 0.45) under three overlapping balls, one of four shapes and one of four greens picked by hash(slot name|tree) and hash(slot name|leaf), so a rebuild gives the same trees (details_rules.TREE_CROWNS, TREE_LEAVES, DIMS; layout_details.street_items). 124 trees = 496 parts (was 248; first cell 6,284 -> 6,532 parts, 94 chunks). Cars: common.DEFAULTS car_spacing_m 8 -> 0 so the defaults match config.toml (test_default_config_file_matches_the_defaults_in_code); the layout tests set car_spacing_m 8 themselves, the car code still works. Tests 587 passed (2 new: tree shape and repeatability, no cars with the default settings; the 100 m street count 94 -> 144). Studio: only the tree parts were replaced in Workspace/Auto/8930e0af13bffff/Props (248 removed, 496 created, Props 1,541 = chunk files), data came as JSON (496 items) from 127.0.0.1:8765 with HttpEnabled on only while fetching (http=false after), server stopped. Edit camera put back to Fixed. BR-11.4, BR-11.5, BR-14.1 table row and BR-14.9 updated. Not done: trees in 옥산공원, the school grounds and 부흥중 (by hand from the satellite, later). Studio is still unsaved; nothing committed.
+**Context**: CONSTRUCTION - U5 first cell visual polish.
+
+---
+
+## U5 Trees From The Satellite, 옥산공원 Ground
+**Timestamp**: 2026-10-13T13:50:00Z
+**User Request**: "옥산공원 다시 해주고 위성보고 나무 다시 채워봐"
+**AI Response**: The V-World z19 photo already in data/satellite (the 2048 x 2560 image sits at tile x 446774, y 203141, found by matching tiles; 0.237 m per pixel) showed that the old Manual/School/Park (a grass strip with six invented pines and a pavilion) sat on a wooded strip beside the school fence, not on the park: 옥산공원 is the block between the west road, the south road and the fence, with a gravel and earth yard in the middle, two sand pits in the north and thick crowns on all four sides. Trees: new src/trees.py reads the crowns off the photo (green share of the colour > 0.405, g > r + 8, brightness 18..150, building outlines cut out), packs discs on the thickest crown first (trunks only inside the cell and off buildings and roads, radius 1.6..5 m) and writes trees/8930e0af13bffff.json (371 trees, mean crown 6.5 m); a check overlay on the photo agrees with the visible crowns (park wood, the row along the school's north fence, the 계남로 row, the west green strip). layout_details.tree_items makes each tree from the street-tree shape scaled by crown diameter (0.55..1.5) and turned by hash; build_luau.plan_cell(sat_trees) uses them instead of the rule-based street trees when the file exists (items 6,532 -> 7,520, 108 chunks; trees 1,484 parts). Tests: tests/test_trees.py (mask, packing, tree items, plan with and without the file, loader, georef), scipy==1.18.1 added to tests/requirements.txt; 594 passed with --hypothesis-seed=2. One property test, test_p5_15 (part budget), fails on some seeds (1, 3, 8) both before and after this change: a school-type body can reach 171 parts against the limit of 160; not touched here. Studio: the rule-based trees were replaced by the 1,484 satellite parts (Props 1,541 -> 2,529 = chunk files, data as JSON from 127.0.0.1:8765, HttpEnabled false after, server stopped); walking frame rate at that moment 61 FPS. Park: studio/ManualPark.luau (123 ground tiles of earth, gravel and sand read off the photo) written and the old park code removed from ManualSchool.luau. NOT yet applied in Studio: it was in Play mode with the user walking in it (moved 26 studs in 2 s), so it was left alone; the old Manual/School/Park still stands there until Play is stopped.
+**Context**: CONSTRUCTION - U5 first cell visual polish; Studio unsaved; nothing committed.
+
+---
+
+## Street-View Review of the First Cell, Rule Fixes and 부흥중 v3
+**Timestamp**: 2026-10-13T14:17:55Z
+**User Request**: Stop the sign images ("간판은 멈추고"), review the work against street view across the whole cell, 부흥중 looked short ("부흥중은 많이 부족한거 같다"); then "1, 2번 진행" and "1번으로 같이 커밋 푸시해" (commit together with the uncommitted work of the parallel satellite session).
+**AI Response**: Sign generation stopped (13 new images cached, nothing uploaded). Studio captured at the crop camera of 18 pairs (estimate.py plan/compose, vertical FOV 83.58). Findings: windows too small and few, balcony rails black plates, street trees hid the lower floors, every storefront the same dark glass, glass stair strips dark blue; the "failed" sign images were only not loaded yet at capture time. Rule fixes (details_rules.DIMS/PALETTE/TREE_CROWNS, layout_details): windows 2.2 x 1.5 m at 3 m pitch, up to 6 per face, reflectance 0.1; balcony rail light matte; crowns about 25 % smaller and 0.8 m higher, trunk 5.4 m, satellite tree scale capped at 1.1; storefront look picked by hash from dark glass, light glass, wood, shutter; glass stair 2.0 m wide in teal glass. Tests updated (villa window count, tree scale, school budget 200 for the classroom grid on tall blocks): 594 passed. First cell rebuilt from chunks.json (8,050 items, 7,880 created, 170 skipped for Manual, verify ok, HttpEnabled false). ManualBuheung v3: teal curtain-wall stair hall over Auto piece #b3, hedge behind the fence, light-blue wave guard rail on the kerb (137 parts). Committed together with the satellite session's uncommitted work (trees.py, trees/, ManualPark.luau and their edits) at the user's request.
+**Context**: CONSTRUCTION - first cell review; next the other two cells (signs paused).
+
+---

@@ -153,7 +153,8 @@ def _texts_ok(item: layout.Item) -> bool:
 def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Sequence[Mapping[str, Any]],
               cfg: Mapping[str, Any], estimates: Mapping[str, Mapping[str, Any]] | None = None,
               overrides: Mapping[str, Mapping[str, Any]] | None = None,
-              details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None) -> Plan:
+              details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None,
+              sat_trees: Sequence[Sequence[float]] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -245,7 +246,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         pieces += layout.road_items(f, frame, cell_id, res, cfg)
     streets = layout_details.streets_of(ok_features, frame, cell_id, res, cfg)
     jcts = layout_details.junctions(streets, frame, cell_id, res, cfg)
-    sidewalks, props = layout_details.street_items(streets, jcts, frame, cfg)
+    sidewalks, props = layout_details.street_items(streets, jcts, frame, cfg, rule_trees=sat_trees is None)
+    if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
+        props = props + layout_details.tree_items(frame, sat_trees)
     items += pieces + sidewalks + props
     spawn, spawn_warnings = layout.spawn_item(cell_id, frame, cfg, pieces)
     if spawn is not None:
@@ -337,7 +340,8 @@ def load_cell_inputs(conn, cell_id: str) -> tuple[list, list, dict, dict, dict]:
 def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     buildings, features, estimates, overrides, details = load_cell_inputs(conn, cell_id)
     sign_assets = load_sign_assets(common.resolve(cfg["signs_dir"]) / f"{cell_id}.json")
-    plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets)
+    sat_trees = layout_details.load_trees(common.resolve(layout_details.TREES_DIR) / f"{cell_id}.json")
+    plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees)
     write_plan(plan, root)
     return plan
 

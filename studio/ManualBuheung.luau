@@ -1,4 +1,4 @@
--- Manual parts for 부흥중학교 (gis:11036833, first cell), v2 (2026-10-13). The Auto building body stays. Sources: street view of
+-- Manual parts for 부흥중학교 (gis:11036833, first cell), v3 (2026-10-13). The Auto building body stays. Sources: street view of
 -- gis:11036833 #1 SW (pano at (-397, -585), the gate) and #3 W; the V-World satellite z19 laid over a straight-down Studio capture
 -- (data/compare/now_blend.jpg, 0.974 px per stud), which shows what the building data does not have: the teal roof with solar panels,
 -- the sand ground, the basketball court, the gym with its two-storey annex and the covered walkway (no V-World or OSM records).
@@ -129,4 +129,39 @@ for _, z in ipairs({ -28, -9, 10, 28 }) do
 	end
 end
 
-return string.format("Manual/Buheung v2: %d parts made (folders already there were left alone)", made)
+-- v3 (street-view review 2026-10-13): the teal curtain-wall stair hall at the east end (Auto piece gis:11036833#b3) seen left of the
+-- gate in #1 SW and in gis:15839722 #1, the hedge behind the 계남로 fence, the light-blue wave guard rail on the kerb
+local gh = folder("GlassHall")
+local b3 = CFrame.new(-375.627, 0, -487.368) * yaw(144.658)        -- Auto box 53.950 x 65.34 x 21.317
+part(gh, "Glass", b3 * CFrame.new(0, 33.2, 0), Vector3.new(54.6, 66.4, 22.0), Enum.Material.Glass, {80, 150, 150}, { Reflectance = 0.15 })
+for k = 1, 5 do
+	part(gh, "Mullion", b3 * CFrame.new(0, k * 13.07, 0), Vector3.new(55.0, 0.5, 22.4), Enum.Material.SmoothPlastic, {210, 215, 215}, { CanCollide = false })
+end
+for _, x in ipairs({ -27.3, -13.5, 0, 13.5, 27.3 }) do
+	for _, z in ipairs({ -11.1, 11.1 }) do
+		part(gh, "Post", b3 * CFrame.new(x, 33.2, z), Vector3.new(0.5, 66.4, 0.5), Enum.Material.SmoothPlastic, {210, 215, 215}, { CanCollide = false })
+	end
+end
+local hd = folder("Hedge")
+local function hedge(u0, u1)
+	part(hd, "Hedge", at((u0 + u1) / 2, 1.6) * CFrame.new(0, 0, -2.6), Vector3.new(u1 - u0, 3.2, 2.6), Enum.Material.Grass, {55, 105, 55}, { CanCollide = false })
+end
+hedge(-20, gate0 - 4)
+hedge(gate1 + 4, 300)
+local gr2 = folder("GuardRail")
+local function rail(u0, u1)        -- 1 m wave panels on the kerb, 14 studs from the road centre line, 2 m bays
+	local count = math.max(1, math.floor((u1 - u0) / 7.2 + 0.5))
+	local len = (u1 - u0) / count
+	local function on(u, y) return CFrame.new(O + d * u + n * 13 + Vector3.new(0, y, 0)) * yaw(143) end
+	for k = 0, count - 1 do
+		local c = u0 + (k + 0.5) * len
+		part(gr2, "Panel", on(c, 2.0), Vector3.new(len - 0.4, 2.4, 0.1), Enum.Material.SmoothPlastic, {140, 185, 215}, { Transparency = 0.35, CanCollide = false })
+		part(gr2, "TopRail", on(c, 3.5), Vector3.new(len, 0.25, 0.25), Enum.Material.Metal, {170, 175, 180})
+		part(gr2, "Post", on(u0 + k * len, 1.8), Vector3.new(0.3, 3.6, 0.3), Enum.Material.Metal, {170, 175, 180})
+	end
+	part(gr2, "Post", on(u1, 1.8), Vector3.new(0.3, 3.6, 0.3), Enum.Material.Metal, {170, 175, 180})
+end
+rail(-25, 80)
+rail(124, 300)
+
+return string.format("Manual/Buheung v3: %d parts made (folders already there were left alone)", made)

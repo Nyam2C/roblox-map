@@ -278,10 +278,10 @@ def sign_name(owner: str, slot: str, pool: str) -> str:
 PALETTE: dict[str, tuple[int, int, int]] = {
     # buildings
     "plinth": (150, 150, 145), "glass": (45, 60, 60), "glass_com": (50, 80, 75), "glass_school": (90, 120, 150),
-    "glass_shop": (35, 45, 50), "bay": (225, 225, 222), "balcony": (190, 190, 185), "iron": (40, 40, 45),
+    "glass_shop": (35, 45, 50), "glass_shop_b": (150, 170, 175), "shop_wood": (125, 90, 60), "glass_stair": (110, 165, 165), "bay": (225, 225, 222), "balcony": (190, 190, 185), "iron": (40, 40, 45),
     "door": (70, 50, 40), "door_shop": (90, 90, 95), "canopy": (60, 60, 65), "eyebrow": (45, 45, 48), "shutter": (150, 150, 150),
     "ac": (225, 225, 222), "gas": (190, 40, 35), "tank": (235, 235, 230), "railing": (235, 235, 235), "lamp_globe": (245, 245, 240),
-    "leaf": (60, 110, 50), "concrete": (150, 150, 145),
+    "leaf": (60, 110, 50), "leaf_b": (76, 124, 54), "leaf_c": (52, 98, 46), "leaf_d": (92, 130, 54), "concrete": (150, 150, 145),
     # roofs
     "roof_dark": (60, 60, 65), "roof_red": (150, 60, 50), "roof_brown": (110, 70, 50), "roof_pink": (200, 140, 130),
     "roof_green": (50, 100, 70), "roof_blue": (50, 80, 130),
@@ -340,10 +340,11 @@ DIMS: dict[str, float] = {
     "tank_dia": 2.0, "tank_h": 2.0, "rooftop_inset": 1.0, "tank_offset": 2.0,
     "facing_max": 60.0, "far_facing": 8.0, "occlude_sibling": 0.3, "occlude_other": 2.5, "face_min": 4.0,
     "span_margin": 0.2, "span_clear": 0.3, "span_min": 2.0,
-    "win_w": 1.6, "win_h": 1.4, "win_t": 0.10, "win_sill": 0.9, "win_pitch": 4.0, "win_max": 3, "ribbon_h": 1.7, "ribbon_school_h": 1.5,
+    "win_w": 2.2, "win_h": 1.5, "win_t": 0.10, "win_sill": 0.9, "win_pitch": 3.0, "win_max": 6,  # wide sashes (street view review 2026-10-13)
+    "ribbon_h": 1.7, "ribbon_school_h": 1.5,
     "school_win_w": 1.8, "school_win_h": 1.5, "school_win_pitch": 2.4,  # classroom windows: three per bay with 0.6 m piers (street view)
-    "ribbon_sill": 1.0, "ribbon_inset": 1.0, "win_out": 0.05, "reflect_win": 0.25, "reflect_shop": 0.3, "reflect_glass": 0.2,
-    "stair_w": 1.2, "stair_extra": 1.0, "stair_t": 0.3, "stair_out": 0.2, "stair_brick": 2.5, "stair_brick_extra": 1.2, "stair_brick_out": 0.3,
+    "ribbon_sill": 1.0, "ribbon_inset": 1.0, "win_out": 0.05, "reflect_win": 0.1, "reflect_shop": 0.3, "reflect_glass": 0.2,
+    "stair_w": 2.0, "stair_extra": 1.0, "stair_t": 0.3, "stair_out": 0.2, "stair_brick": 2.5, "stair_brick_extra": 1.2, "stair_brick_out": 0.3,
     "stair_round_dia": 2.8, "bay_w": 2.4, "bay_d": 0.4, "balcony_frac": 0.4, "balcony_slab_h": 0.15, "balcony_d": 0.6, "balcony_rail_h": 1.0,
     "balcony_rail_t": 0.05, "door_w": 1.0, "door_h": 2.1, "door_t": 0.10, "canopy_w": 1.6, "canopy_h": 0.15, "canopy_d": 0.6, "canopy_y": 2.3,
     "shutter_w": 2.6, "shutter_h": 2.4, "shutter_t": 0.08, "plate_w": 1.2, "plate_h": 0.4, "plate_t": 0.08, "plate_y": 1.6, "plate_along": 1.5,
@@ -359,7 +360,7 @@ DIMS: dict[str, float] = {
     "pole_dia": 0.30, "pole_h": 10.0, "pole_off": 0.4, "arm_w": 1.6, "arm_t": 0.1, "arm_y": 9.0, "transformer_dia": 0.8, "transformer_h": 1.2,
     "transformer_y": 8.2, "wire_t": 0.04, "wire_y1": 9.0, "wire_y2": 8.6, "wire_max_span": 60.0,
     "lamp_dia": 0.25, "lamp_h": 9.0, "lamp_in": 0.4, "lamp_arm": 1.5, "lamp_arm_y": 8.8, "lamp_head_w": 0.5, "lamp_head_h": 0.2, "lamp_head_d": 0.3,
-    "tree_off": 0.6, "trunk_dia": 0.35, "trunk_h": 3.5, "crown_dia": 6.5, "crown_y": 3.25, "tree_clear": 2.0,
+    "tree_off": 0.6, "trunk_dia": 0.45, "trunk_h": 5.4, "tree_clear": 2.0,
     "car_in": 1.0, "car_w": 4.4, "car_h": 1.45, "car_d": 1.8, "car_y": 0.1, "cab_w": 2.2, "cab_h": 0.5, "cab_d": 1.6, "car_residential": 1.25,
     "car_min_width": 4.0, "slot_junction_clear": 6.0, "car_crosswalk_clear": 2.0,
     "curb_h_studs": 0.5, "curb_w": 0.15, "curb_in": 0.075, "mark_t_studs": 0.05, "mark_y_studs": 0.03, "cw_y_studs": 0.04, "line_w": 0.15,
@@ -369,6 +370,16 @@ DIMS: dict[str, float] = {
     "fence_end_clear": 3.0, "bollard_dia": 0.15, "bollard_h": 0.9, "bollard_gap": 1.2, "bollard_in": 1.0, "box_along": 1.5, "box_off": 0.8,
     "box_telecom_w": 0.6, "box_telecom_h": 1.2, "box_telecom_d": 0.4, "box_recycle_w": 0.6, "box_recycle_h": 0.9, "box_recycle_d": 0.6,
 }
+
+# Street trees (BR-11.4): a crown is three overlapping balls, each (along, lateral, centre height, diameter) in m from the trunk.
+# One of four shapes and one of four greens per tree, picked by hash so a rebuild gives the same trees.
+TREE_CROWNS: tuple[tuple[tuple[float, float, float, float], ...], ...] = (  # pruned street trees: small crowns high on the trunk (review 2026-10-13)
+    ((0.0, 0.0, 7.2, 4.5), (-1.2, 0.6, 6.6, 3.2), (1.1, -0.7, 7.1, 3.3)),
+    ((0.0, 0.0, 7.0, 4.2), (1.3, 0.8, 6.5, 3.4), (-1.0, -0.8, 6.4, 3.0)),
+    ((0.0, 0.0, 7.5, 4.8), (-1.4, -0.5, 6.5, 3.0), (0.9, 0.9, 6.7, 3.2)),
+    ((0.0, 0.0, 7.1, 4.4), (0.3, 1.3, 6.4, 3.3), (-0.5, -1.2, 7.0, 3.4)),
+)
+TREE_LEAVES = ("leaf", "leaf_b", "leaf_c", "leaf_d")
 
 
 # --- U5 sign images (SI-1 to SI-4, aidlc-docs/construction/u5-details/sign-images/plan.md) ---------------------------------

@@ -23,6 +23,8 @@
 - 건물은 외곽선 전체가 아니라 단순화한 박스로 시작한다. 비정형 외곽선은 필요한 건물만 나중에.
 - 첫 대상은 부천 심원고등학교(H3 해상도 9 칸 3개). 경험과 데이터가 쌓이면 같은 H3 칸 방식으로 다른 동네로 확장한다(사용자 결정, 2026-10-12).
 - 높이: 층수는 V-World 건물통합정보(건축물대장 계열 속성) 1순위, 거리뷰로 층수와 비율을 검증, 값이 없거나 어긋나는 건물만 거리뷰 기하 추정. OSM 높이·층수 태그는 참고로 기록만 한다. 만든 뒤 사용자와 Claude가 같이 보고 현실 스케일에 맞는지 확인해서 보정한다(순서는 AI 추천, 거리뷰 기본으로 되돌릴 수 있음). 건물 외곽선과 층수·높이는 V-World 건물통합정보(`LT_C_BLDGINFO`, 개발키 `VWORLD_KEY`, 만료 2027-04-13)로 받는다(2026-10-13 시험: 심원고 3칸 건물 약 85~203개/칸, 층수 88~93%, 높이 45~62%, OSM은 5~10개/칸). 건축HUB API는 호출만 확인했고 U1에서는 쓰지 않는다. 인증키는 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외)로만 쓴다.
+- 주차 차량은 만들지 않는다(사용자 결정, 2026-10-13). `config.toml`의 `car_spacing_m = 0`이고, 상자 두 개짜리 차가 어색해서 껐다. 나중에 넣는다면 메시 하나를 복제하는 방식이고 걷기 FPS를 잰 뒤에 한다.
+- 나무는 위성 사진에서 읽는다(사용자 결정, 2026-10-13). `src/trees.py`가 V-World 위성 z19의 수관을 찾아 `trees/<칸ID>.json`에 쓰고(첫 칸 371그루), `build_luau.py`가 그 파일이 있으면 규칙 가로수(7 m 간격) 대신 그 나무를 만든다. 옥산공원은 `studio/ManualPark.luau`(Manual/Park, 위성 색으로 가른 흙·자갈·모래 바닥)이고 나무는 Auto의 위성 나무가 맡는다. 다른 칸은 위성 타일을 받고 `.json`(`tile_x0`, `tile_y0`)을 써 두면 같은 방법으로 된다.
 
 ## 실행
 
@@ -39,6 +41,10 @@ uv run src/capture.py --cells 8930e0af13bffff
 # uv run src/capture.py --cells 8930e0af13bffff --replan   (그 칸의 건물별 사진 짝을 지우고 처음부터 계획)
 # uv run src/capture.py --cells 8930e0af13bffff --replan-school   (학교 건물만 지우고 면 기준으로 다시 계획)
 # uv run src/capture.py --selftest                          (라이브러리 import만 확인, 네트워크 없음. CI가 쓴다)
+
+# 3.5) 위성 사진에서 나무 위치 읽기 (비밀값·네트워크 없음, data/satellite/<칸ID>-z19.jpg와 .json이 있어야 한다). 결과 trees/<칸ID>.json은 git에 넣고,
+#      있으면 build_luau.py가 규칙 가로수 대신 이 나무를 만든다 (첫 칸 371그루)
+uv run src/trees.py --cells 8930e0af13bffff
 
 # 4) Studio에 올릴 Luau 덩어리 파일 만들기 (비밀값·네트워크 없음). Studio 실행은 Claude가 execute_luau로 한다
 uv run src/build_luau.py --cells 8930e0af13bffff
