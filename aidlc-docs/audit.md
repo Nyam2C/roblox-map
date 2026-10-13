@@ -1270,3 +1270,19 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U6 commit; U7 step 3 next.
 
 ---
+
+## U7 Step 3: Functional Design Questions
+**Timestamp**: 2026-10-13T18:03:36Z
+**User Request**: (same message) "U7 단계 3 진행해. 인지부터."
+**AI Response**: Ran cycle-recognize and cycle-memory. Measured the three cells with the current rules: 387 buildings with bodies, 1,242 floors (villa 304 / 820, commercial 35 / 166, apartment 23 / 182, public 17 / 45, school 8 / 29), floor height 2.6 to 5.0 m; all 361 multi-floor buildings fit a switchback stairwell (2.2 x 3.3 m) in some box. Furnishing by the plan table: cell 1 about 18k parts, cell 2 about 20k, cell 3 about 14.6k against a 15k per-cell budget; one PointLight a floor gives about 250 in the streaming radius against 100. Wrote aidlc-docs/construction/plans/u7-interiors-functional-design-plan.md: what Claude decided (stairs, entrance, walls, windows through walls, hidden volume, elevator, streaming) and four questions (per-cell budget, lights, roof access, shop interiors).
+**Context**: CONSTRUCTION - U7 step 3, Functional Design (waiting for answers).
+
+---
+
+## U7 Step 3: Answers
+**Timestamp**: 2026-10-13T18:13:31Z
+**User Response**: "다 A로 이거 u7 앞으로 얼마나 더 걸리지?"
+**AI Response**: Recorded A for Q1 (per-cell budget 25k, radius budget 20k), Q2 (Neon ceiling panels, PointLights only in ground-floor shops, lobbies and classrooms), Q3 (stairs up to the roof with a stair hut on flat roofs), Q4 (shop interiors from the sign word). Writing the three Functional Design documents; answered the time question in chat.
+**Context**: CONSTRUCTION - U7 step 3, Functional Design.
+
+---
