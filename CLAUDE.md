@@ -68,7 +68,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 ## 다음 할 일
 
 1. U4 판단·보정 → U5 디테일(학교 건물 수작업, 가로시설, 교차로) (`aidlc-state.md` 참고)
-3. U4 완료 때 복구 연습(DB를 지우고 S1 재실행, `overrides` 불러오기)
+2. U4 완료 때 복구 연습(DB를 지우고 S1 재실행, `overrides` 불러오기)
 
 ## 주의
 
