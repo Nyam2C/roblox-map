@@ -1206,3 +1206,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: Workflow.
 
 ---
+
+## Record Step Includes Skill Fixes
+**Timestamp**: 2026-10-13T16:33:14Z
+**User Request**: "기록의 핵심은 lessons 뿐만아니라 스킬 수정이 필요하면 그것도 하는거야"
+**AI Response**: cycle-record now has two cores: lessons.md for what was learned, and fixing the cycle-* skills when the cycle itself must change (a table of when and which skill, short skills, lessons moved into a skill shrink to one line with "→ cycle-xxx에 반영", audit entry for each skill change, "스킬 변경 없음" when none). CLAUDE.md session flow, lessons.md header and memory updated.
+**Context**: Workflow.
+
+---
