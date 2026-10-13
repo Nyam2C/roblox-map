@@ -320,3 +320,13 @@ U4의 Build and Test가 끝났다. 승인하면 U4가 끝나고 U5 디테일(지
 - **All Tests**: Pass(548 + 1 생략, 실제 시나리오 6/6, 성능 S-9~S-12 Pass, S-13 Pass(계획 경로 대신 사용자의 걷기로 측정))
 - **사용자가 할 일**: (1) `Lighting.LightingStyle`을 `Realistic`으로(속성 창). (2) Roblox에 저장(클라우드)하고 큰 작업 전 `.rbxl` 복사본. (3) `Workspace/Manual/School`을 지우지 않는다(R-18). (4) `StreamingEnabled`는 칸 3개 뒤에 결정.
 - **Ready for the next unit**: 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)을 `cells.py` → `register.py` → `capture.py` → U4 판단 → `details.py` → `build_luau.py` 순서로.
+
+---
+
+# U5 확장 간판 이미지 Build and Test 요약 (2026-10-13)
+
+- **코드**: `src/signs.py`, `details_rules.py` SI 절, `build_luau.py` `im`, `studio/Builder.luau` `ImageLabel`, 테스트 30개(전체 579 통과, 시드 5개). 커밋 2bcb0f1.
+- **표본**: 첫 한 장(바른치과)이 글자까지 정확했고, 마무리(여백 자르기 → 글자 블록 자르기 → 비율 채우기)를 한 번 고쳤다(처음에는 3:2 판 전체를 13:1로 늘려 이름이 가운데 작은 덩어리로 남았다).
+- **첫 칸**: [SIGN_SUMMARY]
+- **Manual 학교 v2**: 위성 사진과 사용자 표시로 정문(남쪽 변, 옥산로113번길)·후문(북동쪽 변, 계남로)을 옮기고 본관 붉은 박공지붕(18°)과 운동장(385×220 stud)을 더했다. 495부품. 끌어온 박스 시험은 v1에서 끝났고 v2에는 없다(그 건물은 다음 Auto 재생성에서 돌아온다).
+- **사용자 할 일**: 변동 없음(`LightingStyle Realistic`, 저장, `.env` 키 교체 권고).

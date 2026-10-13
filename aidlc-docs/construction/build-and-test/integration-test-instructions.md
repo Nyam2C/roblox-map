@@ -143,3 +143,11 @@ U1 안에서 C1(`cells.py`) → DB → C2(`register.py`)의 연결과, 실제 �
 
 ### Scenario 6: 거리 캡처
 10 m: 적벽돌 3층 빌라의 층 띠·창·셔터·띠간판·가스관·마당 담·가로등·전선, 떨림 없음. 80 m: 모임지붕·박공 빌라 거리와 상가 블록(층별 간판은 색 띠로만 보임, `MaxDistance` 200 stud = 55 m 의도대로). 60 stud(16.7 m) 정면: 9자 이름이 읽힌다.
+
+## U5 확장: 간판 이미지 (2026-10-13)
+
+### Scenario 7: 올리기 경로와 Builder의 ImageLabel
+표본 3장을 127.0.0.1에서 `upload_image`로 올려 `rbxassetid` 3개를 받았고, `MCP_Test/U5_IMG` 안에서 진짜 Builder로 `im`이 있는 간판 3개와 없는 간판 1개를 만들었다: `ImageLabel` 3, `TextLabel` 1, `verify`의 `labels` 4. 28 stud와 65 stud 캡처에서 한글 이름·아이콘이 읽힌다(만든 직후 첫 캡처는 빈 판이었고 1분 뒤에는 보였다). 시험 폴더는 지웠다.
+
+### Scenario 8: 첫 칸 전체
+[SIGN_SCENARIO8]

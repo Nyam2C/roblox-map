@@ -91,3 +91,9 @@ uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r /tmp/estimate-resolve
 ### 개인 정보
 - 세부 비고 116건에 숫자(전화·번호판)·상호가 없다(정규식 0건, 가장 긴 비고 170자). 간판 이름은 모두 가상 풀(`details_rules.POOLS`)에서 나오고 실제 상호 목록(`REAL_BRANDS`)은 테스트가 막는다. 공공기관만 대장 이름을 쓴다.
 - `captures/`는 git 제외 그대로. 묶음 이미지는 U4의 것을 재사용했다.
+
+## U5 확장: 간판 이미지 (2026-10-13)
+- 키는 `.env`에서만 읽고(`uv run --env-file .env`), 로그는 `common.mask`를 거친다(열쇠 해시까지 가려질 정도로 보수적). 프롬프트에는 가상 이름·색·아이콘만 들어간다. 코드·문서·Luau에 키 없음(grep 확인). 채팅에 붙여넣은 키는 사용자가 교체하기를 권했다.
+- `im`은 정수만 받아 `rbxassetid://%d`로 만든다(`item_literal`과 Builder 양쪽 검사). `signs/<칸ID>.json`은 16자리 16진 열쇠와 양의 정수만 허용. 업로드 결과 파일은 2 MB 상한, 모르는 열쇠는 거부.
+- `assets/`는 git 제외. 엔드포인트 응답은 20 MB 상한, 이상한 모양이면 멈춘다(`StopGeneration`).
+- 적대적 검토(워크플로, 3개 렌즈 + 반박 검증): [SIGN_REVIEW]

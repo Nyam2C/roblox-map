@@ -116,10 +116,11 @@ def test_finishing_crops_the_margin_pads_to_the_aspect_and_scales_to_1024_wide(w
 
 
 def lettered_png(w=1200, h=800, margin=60, bg=(30, 50, 120), ink=(255, 255, 255)):
-    """A panel with a lettering block (a bright bar) in its middle third, like the endpoint's answers."""
+    """A framed panel with a lettering block (a bar) in its middle third, like the endpoint's answers (thin aluminium frame)."""
     img = Image.new("RGB", (w, h), (255, 255, 255))
-    d = Image.new("RGB", (w - 2 * margin, h - 2 * margin), bg)
-    img.paste(d, (margin, margin))
+    img.paste(Image.new("RGB", (w - 2 * margin, h - 2 * margin), (185, 185, 190)), (margin, margin))  # the frame line
+    d = Image.new("RGB", (w - 2 * margin - 8, h - 2 * margin - 8), bg)
+    img.paste(d, (margin + 4, margin + 4))
     bar = Image.new("RGB", ((w - 2 * margin) * 6 // 10, (h - 2 * margin) // 4), ink)
     img.paste(bar, (margin + (w - 2 * margin) * 2 // 10, margin + (h - 2 * margin) * 3 // 8))
     buf = io.BytesIO()
@@ -151,6 +152,71 @@ def test_generate_reuses_a_cached_raw_answer_without_calling_the_endpoint(tmp_pa
     assert Sg.generate(targets, cache, fake, limit=5, workers=1)["made"] == 1 and len(calls) == 1
     (cache / f"{targets[0]['key']}.png").unlink()  # a new finishing: only the finished file goes
     assert Sg.generate(targets, cache, fake, limit=5, workers=1)["made"] == 1 and len(calls) == 1
+
+
+def test_a_white_panel_with_black_lettering_keeps_its_white_and_its_lettering():
+    out = Sg.finish_image(lettered_png(bg=(246, 246, 243), ink=(20, 20, 20)), "9.0")
+    px = out.load()
+    assert px[3, 3] == (246, 246, 243) and px[out.size[0] - 4, 3] == (246, 246, 243)
+    assert min(min(px[x, out.size[1] // 2]) for x in range(out.size[0])) < 60  # the black bar survived
+
+
+def test_an_answer_that_cannot_be_finished_is_dropped_so_the_next_run_asks_again(tmp_path):
+    targets = Sg.targets_of([sign_item()])
+    answers = [Image.new("RGB", (200, 100), (255, 255, 255))]  # first: all white (unusable), then good
+    calls = []
+
+    def fake(prompt):
+        calls.append(prompt)
+        if answers:
+            buf = io.BytesIO()
+            answers.pop().save(buf, format="PNG")
+            return buf.getvalue()
+        return lettered_png()
+
+    cache = tmp_path / "signs"
+    assert Sg.generate(targets, cache, fake, limit=5, workers=1)["failed"] == 1 and not (cache / "raw" / f"{targets[0]['key']}.png").exists()
+    assert Sg.generate(targets, cache, fake, limit=5, workers=1)["made"] == 1 and len(calls) == 2
+
+
+def test_a_tiny_panel_and_a_pixel_bomb_count_as_failures_not_crashes(tmp_path):
+    tiny = Image.new("RGB", (200, 100), (255, 255, 255))
+    tiny.paste(Image.new("RGB", (20, 20), (30, 50, 120)), (90, 40))
+    tiny.paste(Image.new("RGB", (2, 2), (255, 255, 255)), (99, 49))
+    bomb = Image.new("1", (6000, 6000), 1)
+    pngs = []
+    for im in (tiny, bomb):
+        buf = io.BytesIO()
+        im.save(buf, format="PNG")
+        pngs.append(buf.getvalue())
+    assert Sg.finish_image(pngs[0], "9.0").size == (1024, 114)  # a tiny panel is still a picture, never an IndexError
+    with pytest.raises(ValueError):
+        Sg.finish_image(pngs[1], "9.0")  # too many pixels
+    targets = Sg.targets_of([sign_item(), sign_item(name="gis:1#sgf1-0", text="다솜피아노학원", sx=36, sy=2.88), sign_item(name="gis:5#sg0", text="별빛분식")])
+    it = iter([pngs[0], lettered_png(), pngs[1]])
+    counts = Sg.generate(targets, tmp_path / "signs", lambda prompt: next(it), limit=10, workers=1)
+    assert counts["made"] == 2 and counts["failed"] == 1
+
+
+def test_a_plan_file_whose_key_does_not_match_its_look_is_refused(tmp_path):
+    targets = Sg.targets_of([sign_item()])
+    root = tmp_path / "build"
+    Sg.write_plan_file(root, CELL, targets)
+    assert Sg.read_plan_file(root, CELL) == targets
+    Sg.write_plan_file(root, CELL, [{**targets[0], "key": "../../evil"}])
+    with pytest.raises(ValueError):
+        Sg.read_plan_file(root, CELL)
+    Sg.write_plan_file(root, CELL, [{**targets[0], "key": "0123456789abcdef"}])
+    with pytest.raises(ValueError):
+        Sg.read_plan_file(root, CELL)
+
+
+def test_a_redirect_from_the_endpoint_is_an_error_not_followed(monkeypatch):
+    import urllib.request
+    client = Sg.api_client("https://x.example/openai/v1", "sk-test", "dep", "1536x1024")
+    opener = urllib.request._opener  # installed by api_client
+    assert any(isinstance(h, Sg._NoRedirect) for h in opener.handlers)
+    assert Sg._NoRedirect().redirect_request(None, None, 302, "Found", {}, "http://evil.example/x") is None
 
 
 def test_an_all_white_answer_is_refused():
@@ -269,6 +335,14 @@ def test_the_literal_carries_im_only_for_a_mapped_sign_and_keeps_the_text():
     item.attrs["ImageAsset"] = "987"
     with pytest.raises(ValueError):
         B.item_literal(item, CELL)
+    item.attrs["ImageAsset"] = 2 ** 60
+    with pytest.raises(ValueError):
+        B.item_literal(item, CELL)
+    import dataclasses
+    two_sided = dataclasses.replace(sign_item(name="gis:1#sp0", text="우리카페"), faces="LR")
+    two_sided.attrs["ImageAsset"] = 5
+    with pytest.raises(ValueError):
+        B.item_literal(two_sided, CELL)
 
 
 # --- the command line ------------------------------------------------------------------------------------------------------

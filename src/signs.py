@@ -39,11 +39,18 @@ import details_rules
 
 MAX_FILE_BYTES = 2_000_000
 WHITE = 240          # a pixel whose darkest channel is at least this bright is margin, not panel (SI-4)
-RETRY_WAITS_S = (5.0, 15.0, 30.0)
+RETRY_WAITS_S = (10.0, 30.0, 60.0)  # the endpoint answers 429 under four parallel calls; a longer wait beats a skipped sign
 
 
 class StopGeneration(RuntimeError):
     """The endpoint answered in a shape we do not understand: stop instead of guessing (SI-8)."""
+
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """A 3xx is an error, never followed: urllib would re-send the key headers to any Location, http:// included (SI-8)."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
 
 
 # --- targets (SI-1, SI-2) --------------------------------------------------------------------------------------------
@@ -85,13 +92,17 @@ def read_plan_file(root: Path, cell_id: str) -> list[dict[str, Any]]:
     targets = data.get("targets") if isinstance(data, dict) else None
     if not isinstance(targets, list):
         raise ValueError(f"{path.name}: not a sign plan")
-    for t in targets:
-        details_rules.sign_image_key(t["text"], t["tail"], t["bg"], t["ink"], t["aspect"])  # refuses a tampered file
+    if data.get("version") != details_rules.SIGN_IMAGE_KEY_VERSION:
+        raise ValueError(f"{path.name}: made with key version {str(data.get('version'))[:10]!r}: run `signs.py plan` again")
+    for t in targets:  # a key that does not match its look (tampered, or made under an older version) never reaches a file name
+        if t.get("key") != details_rules.sign_image_key(t["text"], t["tail"], t["bg"], t["ink"], t["aspect"]):
+            raise ValueError(f"{path.name}: key {str(t.get('key'))[:20]!r} does not match its look: run `signs.py plan` again")
     return targets
 
 
 # --- the picture (SI-4) ------------------------------------------------------------------------------------------------
 
+MAX_IMAGE_PIXELS = 4 * 1536 * 1024  # the endpoint is asked for 1536x1024; anything far bigger is a bad answer, not a sign
 INK_DISTANCE = 150  # a pixel this far (sum of channel differences, 0..765) from the panel color is lettering or icon (SI-4)
 INK_ROW_SHARE = 0.01  # a row or column counts as lettering when at least this share of its pixels is ink (photo grain is sparser)
 INK_MARGIN = (0.12, 0.08)  # of the lettering block's height, added above/below and left/right before padding
@@ -101,23 +112,26 @@ def finish_image(png: bytes, aspect: str):
     """Crop the white margin, then crop to the lettering block (so the name fills the sign's height instead of sitting in a
     small 3:2 panel), pad to the sign's aspect with the panel color, scale to 1024 px wide (SI-4)."""
     from PIL import Image
-    img = Image.open(io.BytesIO(png)).convert("RGB")
+    try:
+        img = Image.open(io.BytesIO(png))  # lazy: the header only
+    except Image.DecompressionBombError as e:
+        raise ValueError(str(e)) from None
+    if img.width * img.height > MAX_IMAGE_PIXELS:
+        raise ValueError(f"image too large: {img.width}x{img.height}")
+    img = img.convert("RGB")
     box = img.convert("L").point(lambda v: 255 if v < WHITE else 0).getbbox()
     if box is None or box[2] - box[0] < 16 or box[3] - box[1] < 16:
         raise ValueError("the image has no panel (all white)")
-    panel = img.crop(box)
-    panel = _ink_block(panel)
+    panel, color = _ink_block(img.crop(box))
     ratio = float(aspect)
     w, h = panel.size
     if w / h < ratio:  # pad the sides
         new_w = int(round(h * ratio))
-        edge = _edge_color(panel, "lr")
-        out = Image.new("RGB", (new_w, h), edge)
+        out = Image.new("RGB", (new_w, h), color)
         out.paste(panel, ((new_w - w) // 2, 0))
     else:  # pad top and bottom
         new_h = int(round(w / ratio))
-        edge = _edge_color(panel, "tb")
-        out = Image.new("RGB", (w, new_h), edge)
+        out = Image.new("RGB", (w, new_h), color)
         out.paste(panel, (0, (new_h - h) // 2))
     width = details_rules.SIGN_IMAGE_WIDTH
     height = max(8, int(round(width / ratio)))
@@ -125,12 +139,14 @@ def finish_image(png: bytes, aspect: str):
 
 
 def _ink_block(panel):
-    """The lettering and icon of a panel with a margin around it; the whole panel when nothing stands out from its color."""
+    """(the lettering and icon of a panel with a margin around it, the panel color); the whole panel when nothing stands out."""
     from PIL import Image
     w, h = panel.size
-    bg = _edge_color(panel, "lr")
     border = max(2, int(min(w, h) * 0.06))  # the thin frame line along the edges is not lettering
     inner = panel.crop((border, border, w - border, h - border))
+    if inner.width < 8 or inner.height < 8:
+        raise ValueError("the panel is too small")
+    bg = _panel_color(inner)
     r, g, b = inner.split()
     dist = Image.merge("RGB", (r.point(lambda v: abs(v - bg[0])), g.point(lambda v: abs(v - bg[1])), b.point(lambda v: abs(v - bg[2]))))
     far = dist.convert("L", (1, 1, 1, 0)).point(lambda v: 255 if v >= INK_DISTANCE else 0)  # the sum of the three differences
@@ -139,27 +155,26 @@ def _ink_block(panel):
     ry = [y for y in range(ih) if rows[0, y] >= 255 * INK_ROW_SHARE]
     cx = [x for x in range(iw) if cols[x, 0] >= 255 * INK_ROW_SHARE]
     if not ry or not cx or cx[-1] - cx[0] < w * 0.05 or ry[-1] - ry[0] < h * 0.05:
-        return panel
+        return panel, bg
     x0, y0, x1, y1 = cx[0] + border, ry[0] + border, cx[-1] + 1 + border, ry[-1] + 1 + border
     bh = y1 - y0
     my, mx = int(bh * INK_MARGIN[0]), int(bh * INK_MARGIN[1])
-    return panel.crop((max(0, x0 - mx), max(0, y0 - my), min(w, x1 + mx), min(h, y1 + my)))
+    return panel.crop((max(0, x0 - mx), max(0, y0 - my), min(w, x1 + mx), min(h, y1 + my))), bg
 
 
-def _edge_color(panel, sides: str) -> tuple[int, int, int]:
-    """The average color of the panel's outer columns (lr) or rows (tb), a few pixels in so the frame line does not dominate."""
-    w, h = panel.size
-    inset = max(2, min(w, h) // 25)
-    px = panel.load()
-    samples = []
-    if sides == "lr":
-        for y in range(0, h, max(1, h // 64)):
-            samples += [px[inset, y], px[w - 1 - inset, y]]
-    else:
-        for x in range(0, w, max(1, w // 64)):
-            samples += [px[x, inset], px[x, h - 1 - inset]]
-    n = max(1, len(samples))
-    return tuple(int(sum(s[c] for s in samples) / n) for c in range(3))  # type: ignore[return-value]
+def _panel_color(inner) -> tuple[int, int, int]:
+    """Per-channel median of the frame-free interior: lettering and icon are the minority, so the median is the panel (white too)."""
+    out = []
+    for channel in inner.split():
+        hist = channel.histogram()
+        half = sum(hist) / 2
+        seen = 0
+        for v, n in enumerate(hist):
+            seen += n
+            if seen >= half:
+                out.append(v)
+                break
+    return tuple(out)  # type: ignore[return-value]
 
 
 # --- the endpoint (SI-8) ----------------------------------------------------------------------------------------------
@@ -167,6 +182,7 @@ def _edge_color(panel, sides: str) -> tuple[int, int, int]:
 def api_client(base_url: str, api_key: str, model: str, size: str, timeout_s: float = 180.0) -> Callable[[str], bytes]:
     """A function prompt -> PNG bytes against an OpenAI-compatible images endpoint. Retries 429, 5xx and timeouts three times."""
     url = base_url.rstrip("/") + "/images/generations"
+    urllib.request.install_opener(urllib.request.build_opener(_NoRedirect()))
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}", "api-key": api_key, "User-Agent": "roblox-map"}
 
     def make(prompt: str) -> bytes:
@@ -233,7 +249,9 @@ def generate(targets: Sequence[Mapping[str, Any]], cache_dir: Path, client: Call
                 raw = client(prompt)
                 if len(raw) > 30_000_000:
                     raise ValueError("image response too large")
-                raw_path.write_bytes(raw)
+                raw_tmp = raw_path.with_suffix(".png.tmp")
+                raw_tmp.write_bytes(raw)
+                os.replace(raw_tmp, raw_path)
             img = finish_image(raw, t["aspect"])
             tmp = cache_dir / f"{t['key']}.png.tmp"
             img.save(tmp, format="PNG", optimize=True)
@@ -243,7 +261,8 @@ def generate(targets: Sequence[Mapping[str, Any]], cache_dir: Path, client: Call
         except StopGeneration as e:
             stop.append(e)
             return False
-        except (ValueError, OSError, urllib.error.URLError, TimeoutError) as e:
+        except Exception as e:  # one bad answer (endpoint error, unusable picture, Pillow refusing it) skips this key only (SI-8)
+            raw_path.unlink(missing_ok=True)  # an answer that cannot be finished is not worth keeping: the next run asks again
             common.log(logging.WARNING, f"sign image failed: {common.mask(f'{type(e).__name__}: {e}')}", cell_id, key=t["key"])
             return False
 
@@ -259,15 +278,18 @@ def generate(targets: Sequence[Mapping[str, Any]], cache_dir: Path, client: Call
 
 # --- record (SI-5) ----------------------------------------------------------------------------------------------------
 
+MAX_ASSET_ID = 2 ** 53  # a Luau number is a double; Roblox ids are far below this
+
+
 def parse_asset_id(value: Any) -> int:
-    if isinstance(value, int) and not isinstance(value, bool) and value > 0:
+    if isinstance(value, int) and not isinstance(value, bool) and 0 < value < MAX_ASSET_ID:
         return value
     if isinstance(value, str):
         digits = value.strip()
         for prefix in ("rbxassetid://", "http://www.roblox.com/asset/?id=", "https://www.roblox.com/asset/?id="):
             if digits.startswith(prefix):
                 digits = digits[len(prefix):]
-        if digits.isdigit() and int(digits) > 0:
+        if digits.isdigit() and 0 < int(digits) < MAX_ASSET_ID:
             return int(digits)
     raise ValueError(f"not a Roblox asset id: {str(value)[:40]!r}")
 

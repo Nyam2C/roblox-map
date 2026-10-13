@@ -139,3 +139,8 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 - `verify`가 `problems`를 내면 kind별 개수와 `Skipped_<kind>`를 본다. Manual에 `BuildingId`가 있는 건물은 그 건물의 모든 항목이 건너뛰어진다(의도).
 - `unknown_manual`에 ID가 나오면 Manual의 `BuildingId`가 manifest에 없는 것이다(오타나 다른 칸).
 - `Builder.add`는 `{created, skipped_manual}` 표를 돌려준다. 숫자로 더하면 오류가 난다(Build and Test에서 한 번 겪음).
+
+## U5 확장: 간판 이미지 (2026-10-13)
+- `.env`에 `OPENAI_API_KEY`, `OPENAI_BASE_URL`(Azure OpenAI, 배포 `gpt-image-2.5-sunburst`). `signs.py`는 pillow·h3·shapely(테스트 핀과 같음).
+- 순서: `signs.py plan` → `uv run --env-file .env src/signs.py generate --workers 4`(없는 것만, raw 답은 `assets/signs/raw/`에 남아 다시 마무리할 때 호출 없음) → Claude가 `assets/signs`를 `python3 -m http.server 8765 --bind 127.0.0.1`로 서빙하고 Studio MCP `upload_image`로 올림 → `signs.py record --file upload.json` → `build_luau.py` → Studio 재생성.
+- 문제: 엔드포인트는 4개 병렬에서 429를 낸다(재시도 10/30/60초 뒤 그 간판만 건너뛰고 다음 `generate`가 다시 시도). 캡처 직후에는 SurfaceGui가 빈 판으로 찍힐 수 있다(수십 초 뒤 다시 캡처하면 글자·이미지가 보인다).

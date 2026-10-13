@@ -98,8 +98,10 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
             parts.append(f"md={int(item.attrs['MaxDistance'])}")
         if "ImageAsset" in item.attrs:  # SI-6: a generated sign image, by Roblox asset id (a number, never text)
             asset = item.attrs["ImageAsset"]
-            if not isinstance(asset, int) or isinstance(asset, bool) or asset <= 0:
+            if not isinstance(asset, int) or isinstance(asset, bool) or not 0 < asset < 2 ** 53:
                 raise ValueError(f"not a Roblox asset id: {asset!r}")
+            if item.faces == "LR":
+                raise ValueError(f"{item.name}: a two-sided sign cannot carry an image")
             parts.append(f"im={asset}")
     if item.reflectance:
         parts.append(f"j={luau_number(item.reflectance)}")
@@ -316,7 +318,7 @@ def load_sign_assets(path: Path) -> dict[str, int]:
     out: dict[str, int] = {}
     for key, row in rows.items():
         asset = row.get("asset_id") if isinstance(row, dict) else None
-        if not (isinstance(key, str) and SIGN_KEY_RE.fullmatch(key) and isinstance(asset, int) and not isinstance(asset, bool) and asset > 0):
+        if not (isinstance(key, str) and SIGN_KEY_RE.fullmatch(key) and isinstance(asset, int) and not isinstance(asset, bool) and 0 < asset < 2 ** 53):
             raise ValueError(f"{path.name}: bad sign asset entry {str(key)[:20]!r}")
         out[key] = asset
     return out
