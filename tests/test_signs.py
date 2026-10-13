@@ -82,7 +82,14 @@ def test_the_prompt_carries_the_exact_text_the_colors_and_nothing_secret(text, b
 
 def test_icons_pick_the_longest_matching_ending():
     assert R.sign_icon("다솜피아노학원") == "a few piano keys" and R.sign_icon("행복수학학원") == "a pencil"
-    assert R.sign_icon("바른치과") == "a tooth" and R.sign_icon("나래호프") == "a beer mug" and R.sign_icon("하나빌딩") is None
+    assert R.sign_icon("바른치과") == "a tooth" and R.sign_icon("나래문구") == "a pencil" and R.sign_icon("하나빌딩") is None
+
+
+def test_no_sign_name_or_icon_refers_to_alcohol():
+    """Roblox moderated the account after a beer-mug sign went up (2026-10-13): no bar names in the pools, no drink icons."""
+    for pool in R.POOLS.values():
+        assert not any(any(w in word for w in ("호프", "주점", "맥주", "소주", "포차", "바")) for word in pool), pool
+    assert not any(any(w in icon for w in ("beer", "wine", "soju", "cocktail", "bottle")) for _, icon in R.SIGN_ICONS)
 
 
 def test_sign_tail_reads_the_item_name():

@@ -524,20 +524,22 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                 continue
             is_front = facing_here and side == body.facing.side  # type: ignore[union-attr]
             for k in range(F):
-                if body.archetype == "villa":
-                    n = max(1, min(int(D["win_max"]), int((L - 1) // D["win_pitch"])))
-                    wh = min(D["win_h"], fh - 1.0)
+                if body.archetype in ("villa", "school"):  # punched windows; a school gets the dense classroom grid (BR-6.1, street view 2026-10-13)
+                    pitch, win_w, win_h, win_max = ((D["school_win_pitch"], D["school_win_w"], D["school_win_h"], 60) if body.archetype == "school"
+                                                    else (D["win_pitch"], D["win_w"], D["win_h"], int(D["win_max"])))
+                    n = max(1, min(win_max, int((L - 1) // pitch)))
+                    wh = min(win_h, fh - 1.0)
                     for j in range(n):
                         a = L * (j + 0.5) / n - L / 2
                         if is_front:
                             if body.shop and k == 0:
                                 continue
-                            if not _in_span(spans, a - D["win_w"] / 2, a + D["win_w"] / 2):
+                            if not _in_span(spans, a - win_w / 2, a + win_w / 2):
                                 continue
-                            if k == 0 and door is not None and abs(a - door) < (D["win_w"] + D["door_w"]) / 2 + D["span_clear"]:
+                            if k == 0 and door is not None and abs(a - door) < (win_w + D["door_w"]) / 2 + D["span_clear"]:
                                 continue
                         items.append(_wall_part(frame, body, bi, side, "facade", f"w{bi}{side}{k}-{j}", seq, a, k * fh + D["win_sill"],
-                                                D["win_out"], (D["win_w"], wh, D["win_t"]), **glass))
+                                                D["win_out"], (win_w, wh, D["win_t"]), **glass))
                         seq += 1
                 else:
                     rh = min(D["ribbon_school_h"] if body.archetype == "school" else D["ribbon_h"], 0.5 * fh)

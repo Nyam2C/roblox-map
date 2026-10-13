@@ -1,0 +1,330 @@
+{
+ "cell_id": "8930e0af13bffff",
+ "signs": {
+  "001cc1762ef02006": {
+   "aspect": "15.0",
+   "asset_id": 110379821762778,
+   "bg": "sign_yellow",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "마루재활의학과"
+  },
+  "010356d96c01e653": {
+   "aspect": "9.5",
+   "asset_id": 126293205087522,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "새봄김밥"
+  },
+  "051e94de5356f0ac": {
+   "aspect": "11.0",
+   "asset_id": 108710468240886,
+   "bg": "sign_yellow",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "아람교회"
+  },
+  "06b580256dd3f16a": {
+   "aspect": "9.5",
+   "asset_id": 81545628104332,
+   "bg": "sign_yellow",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "아람피부과"
+  },
+  "0d1f6566d888f899": {
+   "aspect": "13.5",
+   "asset_id": 110812179575115,
+   "bg": "sign_red",
+   "ink": "ink_yellow",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "솔바람수학학원"
+  },
+  "0d99e8bf36d054df": {
+   "aspect": "14.0",
+   "asset_id": 75912079081061,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "고운치과"
+  },
+  "0e6978013a6cd246": {
+   "aspect": "7.0",
+   "asset_id": 128109943570752,
+   "bg": "sign_blue",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "우리휴대폰"
+  },
+  "0f7c571a35c56326": {
+   "aspect": "14.0",
+   "asset_id": 124683431577568,
+   "bg": "sign_red",
+   "ink": "ink_yellow",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "바른유치원"
+  },
+  "108b5b6e64399036": {
+   "aspect": "10.5",
+   "asset_id": 88207385950750,
+   "bg": "sign_white",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "밝은세탁소"
+  },
+  "1358f2ec9ce0cdfa": {
+   "aspect": "10.5",
+   "asset_id": 92122673452647,
+   "bg": "sign_white",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "정다운분식"
+  },
+  "160c9171702799cd": {
+   "aspect": "14.0",
+   "asset_id": 134108376654088,
+   "bg": "sign_red",
+   "ink": "ink_yellow",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "한빛독서실"
+  },
+  "172f0f9aa63d47f4": {
+   "aspect": "13.5",
+   "asset_id": 109076137096316,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "누리치과"
+  },
+  "1e30f8bffac1c64c": {
+   "aspect": "9.5",
+   "asset_id": 136426950363858,
+   "bg": "sign_blue",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "믿음수학학원"
+  },
+  "1e526002e31a757e": {
+   "aspect": "9.5",
+   "asset_id": 140490861100778,
+   "bg": "sign_white",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "솔바람카페"
+  },
+  "1e66a04a58f747a9": {
+   "aspect": "9.5",
+   "asset_id": 74212369320061,
+   "bg": "sign_yellow",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "참좋은미용실"
+  },
+  "1fab3df769148169": {
+   "aspect": "5.5",
+   "asset_id": 82255643250341,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "한결교회"
+  },
+  "1fbfdfd60349680c": {
+   "aspect": "5.5",
+   "asset_id": 128823445437105,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "행복피아노학원"
+  },
+  "2161b1208b8d40c7": {
+   "aspect": "7.5",
+   "asset_id": 126008294962854,
+   "bg": "sign_blue",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "햇살요양병원"
+  },
+  "223d108efce3e9e3": {
+   "aspect": "9.5",
+   "asset_id": 99890506523435,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "마루미술학원"
+  },
+  "26029da6e21d3c2d": {
+   "aspect": "9.5",
+   "asset_id": 104790456749299,
+   "bg": "sign_black",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "샘터수학학원"
+  },
+  "275ac9fa5452ce9c": {
+   "aspect": "10.0",
+   "asset_id": 104485473368822,
+   "bg": "sign_pharmacy",
+   "ink": "ink_red",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "선한약국"
+  },
+  "27ea74c8c934381e": {
+   "aspect": "11.0",
+   "asset_id": 139529910686752,
+   "bg": "sign_black",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "온누리피아노학원"
+  },
+  "2967cab5d7831fca": {
+   "aspect": "13.5",
+   "asset_id": 71114486384348,
+   "bg": "sign_white",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "밝은요양병원"
+  },
+  "2db12e6f78a77e32": {
+   "aspect": "9.5",
+   "asset_id": 72974074260328,
+   "bg": "sign_red",
+   "ink": "ink_yellow",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "정다운내과"
+  },
+  "2f3ac90738a3e0f8": {
+   "aspect": "7.5",
+   "asset_id": 97398081038635,
+   "bg": "sign_black",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "하늘카페"
+  },
+  "30cf4ea4f62e29b7": {
+   "aspect": "14.0",
+   "asset_id": 76109411056319,
+   "bg": "sign_red",
+   "ink": "ink_yellow",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "희망유치원"
+  },
+  "34cde669a3bc0818": {
+   "aspect": "10.0",
+   "asset_id": 93907142965236,
+   "bg": "sign_yellow",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "미래요양병원"
+  },
+  "37be731c88fab717": {
+   "aspect": "13.5",
+   "asset_id": 123984552980087,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "다솜노래연습장"
+  },
+  "3d0697f0e3abbaf3": {
+   "aspect": "8.5",
+   "asset_id": 132634922529944,
+   "bg": "sign_blue",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "보람미용실"
+  },
+  "3d39643b4c102fa8": {
+   "aspect": "8.0",
+   "asset_id": 126937728555297,
+   "bg": "sign_blue",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "참좋은어린이집"
+  },
+  "40114f4c800037e2": {
+   "aspect": "9.5",
+   "asset_id": 127898807580470,
+   "bg": "sign_black",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "미래독서실"
+  },
+  "46d48fa2b84a8ef5": {
+   "aspect": "13.5",
+   "asset_id": 82742670179784,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "우리내과"
+  },
+  "4771247f96f11295": {
+   "aspect": "11.0",
+   "asset_id": 90067550522037,
+   "bg": "sign_red",
+   "ink": "ink_yellow",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "라온법무사"
+  },
+  "49b1dc064b78d805": {
+   "aspect": "9.0",
+   "asset_id": 128888930155178,
+   "bg": "sign_green",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "다온김밥"
+  },
+  "49e63cda1ea808ab": {
+   "aspect": "14.0",
+   "asset_id": 132971355947517,
+   "bg": "sign_yellow",
+   "ink": "ink_black",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sgf",
+   "text": "성실피아노학원"
+  },
+  "4b04a0062da627d3": {
+   "aspect": "8.5",
+   "asset_id": 138996860719434,
+   "bg": "sign_black",
+   "ink": "ink_white",
+   "recorded_at": "2026-10-13T10:55:52+00:00",
+   "tail": "sg",
+   "text": "누리편의점"
+  }
+ },
+ "version": "v1"
+}

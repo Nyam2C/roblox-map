@@ -216,7 +216,7 @@ PREFIXES = ("한솔", "푸른", "하늘", "미래", "행복", "다온", "라온"
             "새봄", "한결", "해솔", "아람", "보람", "고운", "나래", "누리", "다솜", "마루", "미소", "믿음", "서로", "선한", "성실",
             "우리", "정다운", "초록", "하나", "샘터", "별빛", "햇살", "솔바람", "온누리", "참좋은")
 POOLS: dict[str, tuple[str, ...]] = {
-    "villa_gf": ("부동산", "편의점", "분식", "김밥", "미용실", "세탁소", "치킨", "호프", "카페", "꽃집", "철물", "슈퍼"),
+    "villa_gf": ("부동산", "편의점", "분식", "김밥", "미용실", "세탁소", "치킨", "문구", "카페", "꽃집", "철물", "슈퍼"),  # no bars: Roblox moderates alcohol (2026-10-13)
     "com_gf": ("약국", "카페", "베이커리", "편의점", "치킨", "피자", "부동산", "안경", "휴대폰", "김밥", "국수", "떡집"),
     "upper": ("영어학원", "수학학원", "피아노학원", "태권도", "치과", "한의원", "내과", "피부과", "교회", "세무사", "법무사",
               "노래연습장", "헬스", "필라테스", "미술학원", "독서실"),
@@ -341,6 +341,7 @@ DIMS: dict[str, float] = {
     "facing_max": 60.0, "far_facing": 8.0, "occlude_sibling": 0.3, "occlude_other": 2.5, "face_min": 4.0,
     "span_margin": 0.2, "span_clear": 0.3, "span_min": 2.0,
     "win_w": 1.6, "win_h": 1.4, "win_t": 0.10, "win_sill": 0.9, "win_pitch": 4.0, "win_max": 3, "ribbon_h": 1.7, "ribbon_school_h": 1.5,
+    "school_win_w": 1.8, "school_win_h": 1.5, "school_win_pitch": 2.4,  # classroom windows: three per bay with 0.6 m piers (street view)
     "ribbon_sill": 1.0, "ribbon_inset": 1.0, "win_out": 0.05, "reflect_win": 0.25, "reflect_shop": 0.3, "reflect_glass": 0.2,
     "stair_w": 1.2, "stair_extra": 1.0, "stair_t": 0.3, "stair_out": 0.2, "stair_brick": 2.5, "stair_brick_extra": 1.2, "stair_brick_out": 0.3,
     "stair_round_dia": 2.8, "bay_w": 2.4, "bay_d": 0.4, "balcony_frac": 0.4, "balcony_slab_h": 0.15, "balcony_d": 0.6, "balcony_rail_h": 1.0,
@@ -383,7 +384,7 @@ SIGN_ICONS: tuple[tuple[str, str], ...] = (  # the longest matching ending wins 
     ("법무사", "a balance scale"), ("미용실", "a pair of scissors"), ("치과", "a tooth"), ("약국", "a red cross"), ("학원", "a pencil"),
     ("내과", "a medical cross"), ("의원", "a medical cross"), ("안과", "an eye"), ("피부과", "a leaf"), ("카페", "a coffee cup"),
     ("분식", "a bowl with chopsticks"), ("김밥", "a sliced gimbap roll"), ("치킨", "a chicken"), ("피자", "a pizza slice"),
-    ("꽃집", "a flower"), ("안경", "a pair of glasses"), ("호프", "a beer mug"), ("마트", "a shopping cart"), ("슈퍼", "a shopping cart"),
+    ("꽃집", "a flower"), ("안경", "a pair of glasses"), ("마트", "a shopping cart"), ("슈퍼", "a shopping cart"),
     ("세탁소", "a shirt on a hanger"), ("정육점", "a cut of meat"), ("문구", "a pencil"), ("빵집", "a loaf of bread"),
 )
 PALETTE_WORDS = {"sign_white": "white", "sign_black": "black", "sign_red": "red", "sign_blue": "royal blue", "sign_yellow": "yellow",
