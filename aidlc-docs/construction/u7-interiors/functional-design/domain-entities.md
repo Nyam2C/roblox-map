@@ -41,7 +41,8 @@ k = 0 … F−1. 바닥 윗면 높이 `y_k`(BR-I5), 층 사이 판 두께 0.2. �
 | `interior` | 칸막이, 가구, 천장 등판, 엘리베이터 문, 주차선 | 가구·칸막이 예, 판·선 아니오 | 아니오 | 꾸러미 팔레트(BR-I12) | 꾸밈 |
 
 - `building`(지금 박스)은 **부피**가 된다: 키 `hv=1`이면 Builder가 `Transparency=1`, `CanCollide/CanTouch/CanQuery=false`, 그림자 없음으로 만든다. 속성(`BuildingId`, `Floors`, `HeightBasis` …)은 그대로.
-- 새 리터럴 키: `hv`(부피, 1), `lt`(PointLight 반경 stud, 있으면 그 부품에 PointLight `Shadows=false`, `Brightness` 1.2, 따뜻한 흰색), `ef`(엘리베이터 문: 이 층 번호), `eF`(그 건물 층수). 엘리베이터 문에는 CollectionService 태그 `Elevator`.
+- 새 리터럴 키: `hv`(부피, 1), `px`(오르막 기울기, 도), `lt`(PointLight 반경 stud, 있으면 그 부품에 PointLight `Shadows=false`, `Brightness` 1.2, 따뜻한 흰색), `ef`(엘리베이터 문: 이 층 번호), `eF`(그 건물 층수). 엘리베이터 문에는 CollectionService 태그 `Elevator`.
+- 칸 폴더: `Base`(Model, Persistent: 땅·도로·보행로·인도), `Buildings/<건물 ID>`(Model, Atomic), `Props`, `Spawn`. 종류별 개수는 칸 속성 `Made_<kind>`(verify가 읽음).
 - 칸 폴더 아래에서 건물 하나의 모든 부품(외관·지붕·간판·내부)은 Model `<BuildingId>` 하나에 묶인다(스트리밍 단위, BR-I15).
 - 매니페스트 `counts`에 `items_wall`, `items_interior`, `interior_buildings`, `interior_floors`, `stairwells`, `elevators`, `lights`가 더해진다.
 

@@ -25,6 +25,12 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 3. `<칸>_side_by_side.jpg`, `<칸>_blend.jpg`를 보고 확인: 큰길 폭, 건물 위치·모양, 데이터에 없는 시설(운동장, 체육관, 주차장), 건물로 잘못 잡힌 시설, 나무 띠, 높은 건물은 원근으로 커 보인다는 점.
 4. 사용자에게 겹친 그림을 보낸다(`SendUserFile`).
 
+## 3.5 내부 (내부가 있는 칸)
+1. `manifest.json`: `no_stairwell = 0`, `items` ≤ 2.5만(경고 없음).
+2. Play에서 빌라·상가·아파트 각 1동: 서버 `execute_luau`로 캐릭터를 첫 오르막 아래에 두고 그 건물의 `#isf-` 부품을 높이순으로, 오르막마다 아래 끝 → 위 끝으로 `Humanoid:MoveTo`(길찾기 도구는 좁은 계단에서 실패). 기준: 옥상(평지붕) 또는 맨 위층까지 멈춘 곳 0.
+3. 엘리베이터 1동: 클라이언트 카메라를 문으로 돌리고(프롬프트는 화면 안에서만 뜸) E로 한 층 위, Q로 한 층 아래.
+4. 안 캡처 2~3장(1층 가게, 주거층, 복도). 끝나면 Play 멈춤.
+
 ## 4. 거리뷰 대조 (1급 칸)
 1. `uv run src/estimate.py plan --cells <칸>` → `data/build/<칸>/review.json`.
 2. Studio 시야각 83.58로 바꾼다. 쌍 8~12개를 골라(랜드마크, 처음 보는 유형, 확인 목록, 고르게 섞어) **하나씩** `screen_capture`(카메라 위치·바라보는 점은 review.json 그대로).
@@ -47,6 +53,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 | verify / sunk / http | ok / 0 / false | |
 | 경고 | 원인 앎 | |
 | 위성 | 큰 차이 없음 | |
+| 내부 | 계단 멈춤 0, 엘리베이터 위·아래 | |
 | 거리뷰 | 공통 문제 없음 | |
 | FPS | 60 / 55 | |
 

@@ -1286,3 +1286,19 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 3, Functional Design.
 
 ---
+
+## U7 Step 3 Approved, Step 4 Started
+**Timestamp**: 2026-10-13T18:20:32Z
+**User Response**: "승인하고 U7 단계 4 진행해"
+**AI Response**: Functional Design of U7 interiors and streaming approved (aidlc-docs/construction/u7-interiors/functional-design/). Starting step 4: interiors.py, the exterior changes, MapBuilder keys and Model grouping, Elevator.server.luau, tests, then the three test buildings in MCP_Test.
+**Context**: CONSTRUCTION - U7 step 3 approved; step 4 Code Generation.
+
+---
+
+## U7 Step 4: Interiors Code and Test Buildings
+**Timestamp**: 2026-10-13T19:06:04Z
+**User Request**: (same message) "승인하고 U7 단계 4 진행해"
+**AI Response**: Wrote src/interiors.py (shell walls with sibling-box openings, floors lifted over the facade floor bands, switchback stairs as pitched slabs (key px), roof stair hut, elevator core and doors, rooms split above 14 m, 17 kits chosen by use and sign word, ceiling panels, PointLights only in ground-floor shops, lobbies and classrooms); exterior changes for hollow buildings in layout_details.py (hv volume, windows through walls, cap and bands open over the stairwell, no door leaf, storefront collides with a door gap); build_luau.py (tier, keys hv px lt ef eF, counts, 25k budget warning); config interiors = true; MapBuilder.luau (wall and interior kinds, a Model per building (Atomic), Persistent Base model, Made_<kind> counts); Elevator.server.luau (E up / Q down, gamepad X / Y, server checks). tests/test_interiors.py (P7-1 to P7-8, P7-13, P7-14); tests 651 (default and 5 seeds; one pre-existing P5-3 vertex-order failure in outline_to_boxes found and flagged as a separate task). With interiors off the items of all three cells equal the step-2 snapshot. Cells with interiors: 19.1k, 15.9k, 23.6k parts, no building without stairs, 35 elevators. Studio: new MapBuilder installed (old kept as MapBuilder_U5), Elevator script installed, MCP_Test holds villa gis:11200829, commercial gis:11184538, apartment gis:11170882 shifted 4,000 studs east; the character walked every flight of all three to the roof (Humanoid:MoveTo) and the elevator moved one floor per E / Q. Found and fixed during the test: facade floor bands covering floors and stair holes, sparse home kits (pieces retried on the other wall, partitions trimmed, pieces on top of others), apartment corridor along the long side, one gamepad button firing both prompts, yaw 179.9995 printing as 180. Skills: cycle-build step 7 (install sources by HTTP fetch), cycle-verify new 3.5 interior check (walk flights with MoveTo, elevator with the camera on the door). Design documents updated with the corrections.
+**Context**: CONSTRUCTION - U7 step 4 (user checkpoint next).
+
+---

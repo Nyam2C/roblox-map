@@ -476,15 +476,30 @@ def _rear_corner(body: Body) -> tuple[int, int, str]:
     return {"b": (-1, 1), "f": (1, -1), "r": (1, 1), "l": (-1, -1)}[rear] + (rear,)
 
 
-def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> list[Item]:
-    """Bands, parapet or railing, plinth, windows or ribbons, rooftop objects of one box (BR-3, BR-4.4, BR-6)."""
+def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnings: list[str], plan: Any = None) -> list[Item]:
+    """Bands, parapet or railing, plinth, windows or ribbons, rooftop objects of one box (BR-3, BR-4.4, BR-6).
+
+    With an interior plan (U7): windows reach through the 0.25 m shell wall, the roof cap leaves the stairwell open and roof
+    objects keep clear of the stair hut (BR-I2, BR-I8)."""
     box = body.boxes[bi]
+    win_t = D["win_t"] + (0.25 if plan is not None else 0.0)
+    stair_here = plan is not None and plan.stair is not None and plan.stair.bi == bi and plan.roof_y is not None
+    hut = plan.hut() if stair_here else None
     w, d, F, fh, H = box.width_m, box.depth_m, body.floors, body.fh, body.height_m
     lip, items, seq = D["band_lip"], [], 0
     wall = dict(material=body.material, color=body.wall_rgb, color_name=body.wall_color)
     band_name = f"{body.wall_color}_band"
     band = dict(material=body.material, color=R.band_color(body.wall_rgb), color_name=band_name)
+    stair_box = plan is not None and plan.stair is not None and plan.stair.bi == bi
     for k in range(1, F):
+        if stair_box:  # U7: the band (a full-footprint slab) leaves the stairwell open
+            from interiors import rect_minus
+            whole = (-(w + lip) / 2, (w + lip) / 2, -(d + lip) / 2, (d + lip) / 2)
+            for j, (u0, u1, v0, v1) in enumerate(rect_minus(whole, plan.stair.rect)):
+                items.append(_box_part(frame, body, bi, "facade", f"fl{bi}-{k}-{j}", seq, (u0 + u1) / 2, (v0 + v1) / 2, k * fh - D["band_h"] / 2,
+                                       (u1 - u0, D["band_h"], v1 - v0), **band))
+                seq += 1
+            continue
         items.append(_box_part(frame, body, bi, "facade", f"fl{bi}-{k}", seq, 0.0, 0.0, k * fh - D["band_h"] / 2, (w + lip, D["band_h"], d + lip), **band))
         seq += 1
     flat = body.archetype == "school" or body.roof_shape not in ("gable", "hip", "shed")
@@ -498,8 +513,17 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                                        material="Metal", color=R.PALETTE["railing"], color_name="railing"))
                 seq += 1
         else:
-            items.append(_box_part(frame, body, bi, "facade", f"cap{bi}", seq, 0.0, 0.0, H - D["cap_sink"], (w + lip, D["cap_h"], d + lip), **band))
-            seq += 1
+            if stair_here:
+                from interiors import rect_minus  # U7: the cap opens over the stairwell
+                cap = (-(w + lip) / 2, (w + lip) / 2, -(d + lip) / 2, (d + lip) / 2)
+                for j, (u0, u1, v0, v1) in enumerate(rect_minus(cap, plan.stair.rect)):
+                    items.append(_box_part(frame, body, bi, "facade", f"cap{bi}-{j}", seq, (u0 + u1) / 2, (v0 + v1) / 2, H - D["cap_sink"],
+                                           (u1 - u0, D["cap_h"], v1 - v0), collide=True, **band))
+                    seq += 1
+            else:
+                items.append(_box_part(frame, body, bi, "facade", f"cap{bi}", seq, 0.0, 0.0, H - D["cap_sink"], (w + lip, D["cap_h"], d + lip),
+                                       **({"collide": True} if plan is not None else {}), **band))
+                seq += 1
             roof_surface = H + D["cap_h"] - D["cap_sink"]
     if body.archetype in ("villa", "public") and not body.shop:
         items.append(_box_part(frame, body, bi, "facade", f"pl{bi}", seq, 0.0, 0.0, 0.0, (w + lip, D["plinth_h"], d + lip),
@@ -538,7 +562,7 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                             if k == 0 and door is not None and abs(a - door) < (win_w + D["door_w"]) / 2 + D["span_clear"]:
                                 continue
                         items.append(_wall_part(frame, body, bi, side, "facade", f"w{bi}{side}{k}-{j}", seq, a, k * fh + D["win_sill"],
-                                                D["win_out"], (win_w, wh, D["win_t"]), **glass))
+                                                D["win_out"], (win_w, wh, win_t), **glass))
                         seq += 1
                 else:
                     rh = min(D["ribbon_school_h"] if body.archetype == "school" else D["ribbon_h"], 0.5 * fh)
@@ -549,7 +573,7 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                         if s1 - s0 < D["span_min"]:
                             continue
                         items.append(_wall_part(frame, body, bi, side, "facade", f"rb{bi}{side}{k}-{j}", seq, (s0 + s1) / 2, k * fh + D["ribbon_sill"],
-                                                D["win_out"], (s1 - s0, rh, D["win_t"]), **glass))
+                                                D["win_out"], (s1 - s0, rh, win_t), **glass))
                         seq += 1
     # rooftop (flat roofs only, BR-4.4)
     if flat and body.archetype != "school" and w >= 6.0 and d >= 5.0:
@@ -560,6 +584,10 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
         want_tank = (body.archetype == "commercial" and F >= 5) or body.details["rooftop"] == "tank"
         inset = D["rooftop_inset"]
         cu, cv = su * (w / 2 - inset - pw / 2), sv * (d / 2 - inset - pd / 2)
+
+        def clear(u: float, v: float, half: float) -> bool:  # U7 BR-I8.4: keep 1 m away from the stair hut
+            return hut is None or not (u + half + 1.0 > hut[0] and u - half - 1.0 < hut[1] and v + half + 1.0 > hut[2] and v - half - 1.0 < hut[3])
+        want_box = want_box and clear(cu, cv, max(pw, pd) / 2)
         if want_box:
             items.append(_box_part(frame, body, bi, "facade", f"rt{bi}", seq, cu, cv, roof_surface, (pw, ph, pd), **wall))
             seq += 1
@@ -567,7 +595,7 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
             t = face_of(box, rear).t
             shift = pw / 2 + D["tank_offset"] + D["tank_dia"] / 2
             tu, tv = cu + t[0] * shift, cv + t[1] * shift
-            if abs(tu) <= w / 2 - D["tank_dia"] / 2 and abs(tv) <= d / 2 - D["tank_dia"] / 2:
+            if abs(tu) <= w / 2 - D["tank_dia"] / 2 and abs(tv) <= d / 2 - D["tank_dia"] / 2 and clear(tu, tv, D["tank_dia"] / 2):
                 east, north = _world(box, tu, tv)
                 items.append(_part(frame, "facade", f"{body.building_id}#tk{bi}", body.building_id, seq, east, north, roof_surface,
                                    (D["tank_h"], D["tank_dia"], D["tank_dia"]), box.yaw_deg, owner=body.building_id, shape="Cylinder",
@@ -583,8 +611,11 @@ SHOP_FRONTS = (("SmoothPlastic", "glass_shop", D["reflect_shop"]), ("SmoothPlast
                ("Wood", "shop_wood", 0.0), ("Metal", "shutter", 0.0))
 
 
-def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> list[Item]:
-    """Stair tower, bay, balconies, door and canopy (or shutter), AC units, gas pipe, storefront: the front box's facing face."""
+def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str], plan: Any = None) -> list[Item]:
+    """Stair tower, bay, balconies, door and canopy (or shutter), AC units, gas pipe, storefront: the front box's facing face.
+
+    With an interior plan (U7 BR-I4): no door leaf or shutter (the entrance is open), the storefront glass collides and leaves
+    the shop door gap open."""
     if not body.is_body or body.facing is None or body.archetype in ("school", "apartment"):
         return []
     bi, side, F, fh, H = body.front, body.facing.side, body.floors, body.fh, body.height_m
@@ -635,13 +666,18 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
             units = 1 if body.archetype == "villa" else max(1, min(int(D["shop_units_max"]), int(Lf // D["shop_unit_m"])))
             uw = Lf / units
             for u in range(units):
-                a = s0 + uw * (u + 0.5)
+                a0, a1 = s0 + uw * u + D["front_gap"] / 2, s0 + uw * (u + 1) - D["front_gap"] / 2
+                if plan is not None and u == 0:
+                    a0 = max(a0, s0 + D["front_door_along"] + 1.0)  # U7: the 2 m shop door gap stays open
                 look = SHOP_FRONTS[R.pick(f"{body.building_id}#sf{u}", "front", len(SHOP_FRONTS))]  # varied fronts (review 2026-10-13)
-                items.append(_wall_part(frame, body, bi, side, "facade", f"sf{u}", seq, a, D["front_y"], D["win_out"], (uw - D["front_gap"], fh - D["front_drop"], D["front_t"]),
-                                        material=look[0], color=R.PALETTE[look[1]], color_name=look[1], reflectance=look[2]))
+                if a1 - a0 > 0.3:
+                    items.append(_wall_part(frame, body, bi, side, "facade", f"sf{u}", seq, (a0 + a1) / 2, D["front_y"], D["win_out"],
+                                            (a1 - a0, fh - D["front_drop"], D["front_t"]), material=look[0], color=R.PALETTE[look[1]],
+                                            color_name=look[1], reflectance=look[2], **({"collide": True} if plan is not None else {})))
                 seq += 1
-            items.append(_wall_part(frame, body, bi, side, "facade", "sd0", seq, s0 + D["front_door_along"], 0.0, 0.08, (D["door_w"], D["door_h"], D["front_door_t"]),
-                                    material="Metal", color=R.PALETTE["door_shop"], color_name="door_shop"))
+            if plan is None:
+                items.append(_wall_part(frame, body, bi, side, "facade", "sd0", seq, s0 + D["front_door_along"], 0.0, 0.08, (D["door_w"], D["door_h"], D["front_door_t"]),
+                                        material="Metal", color=R.PALETTE["door_shop"], color_name="door_shop"))
             seq += 1
             items.append(_wall_part(frame, body, bi, side, "facade", "eb0", seq, (s0 + s1) / 2, fh - D["eyebrow_drop"], D["eyebrow_d"], (Lf - D["eyebrow_gap"], D["eyebrow_h"], D["eyebrow_d"]),
                                     material="Metal", color=R.PALETTE["eyebrow"], color_name="eyebrow"))
@@ -650,11 +686,13 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
         door = _door_along(body)
         if door is not None:
             if det["ground_use"] == "garage":
-                items.append(_wall_part(frame, body, bi, side, "facade", "sh0", seq, door, 0.0, D["door_t"], (D["shutter_w"], D["shutter_h"], D["shutter_t"]),
-                                        material="Metal", color=R.PALETTE["shutter"], color_name="shutter"))
+                if plan is None:
+                    items.append(_wall_part(frame, body, bi, side, "facade", "sh0", seq, door, 0.0, D["door_t"], (D["shutter_w"], D["shutter_h"], D["shutter_t"]),
+                                            material="Metal", color=R.PALETTE["shutter"], color_name="shutter"))
             else:
-                items.append(_wall_part(frame, body, bi, side, "facade", "dr0", seq, door, 0.0, D["door_t"], (D["door_w"], D["door_h"], D["door_t"]),
-                                        material="Wood", color=R.PALETTE["door"], color_name="door"))
+                if plan is None:
+                    items.append(_wall_part(frame, body, bi, side, "facade", "dr0", seq, door, 0.0, D["door_t"], (D["door_w"], D["door_h"], D["door_t"]),
+                                            material="Wood", color=R.PALETTE["door"], color_name="door"))
                 items.append(_wall_part(frame, body, bi, side, "facade", "cn0", seq + 1, door, D["canopy_y"], D["canopy_d"], (D["canopy_w"], D["canopy_h"], D["canopy_d"]),
                                         material="Slate", color=R.PALETTE["canopy"], color_name="canopy"))
             seq += 2
@@ -825,8 +863,10 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
 
 # --- the body boxes as building items (U2 BR-2 with U5 BR-2.3) --------------------------------------------------------------
 
-def box_items(body: Body, building: Mapping[str, Any], eff: Any, frame: Frame) -> list[Item]:
-    """One `building` item per box with the U2/U4 attributes; multi-box names end in #b<n> and carry the owner."""
+def box_items(body: Body, building: Mapping[str, Any], eff: Any, frame: Frame, hollow: bool = False) -> list[Item]:
+    """One `building` item per box with the U2/U4 attributes; multi-box names end in #b<n> and carry the owner.
+
+    hollow (U7 BR-I1.3): the box becomes an invisible volume that only carries the attributes; the shell walls show the building."""
     s = frame.studs_per_m
     items = []
     for i, (box, name) in enumerate(zip(body.boxes, body.names)):
@@ -840,6 +880,8 @@ def box_items(body: Body, building: Mapping[str, Any], eff: Any, frame: Frame) -
             attrs["FloorsBasis"] = eff.floors_basis
         if eff.flags:
             attrs["Review"] = "-".join(eff.flags)
+        if hollow:
+            attrs["Hollow"] = 1
         items.append(layout._item("building", name, body.building_id, i, (box.cx_m * s, sy / 2, -box.cy_m * s),
                                   (max(box.width_m * s, 1.0), sy, max(box.depth_m * s, 1.0)), box.yaw_deg, attrs, body.wall_rgb,
                                   material=body.material, color_name=body.wall_color, owner=body.building_id if len(body.boxes) > 1 else None))

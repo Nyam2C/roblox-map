@@ -54,7 +54,7 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 3. `cd data/build && python3 -m http.server 8765 --bind 127.0.0.1`(백그라운드).
 4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행. `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. 서버를 내린다: `pkill -f "http.server 8765"`.
-6. Builder(`studio/ServerStorage/MapBuilder.luau`)를 바꿨다면 먼저 `ServerStorage/MapBuilder`를 Clone 후 원본 Destroy로 교체(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`.
+6. Builder(`studio/ServerStorage/MapBuilder.luau`)나 게임 스크립트(`studio/ServerScriptService/*.server.luau`, 엘리베이터 등)를 바꿨다면 먼저 교체한다: 그 파일 복사본만 둔 폴더를 같은 서버로 내놓고 Studio에서 `HttpService:GetAsync`로 받아 새 인스턴스의 `Source`에 넣고 원본 Destroy(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`.
 
 ### 8. 규칙을 고칠 때
 검증에서 여러 건물에 공통인 문제가 나오면 `src/details_rules.py`·`src/layout_details.py`(또는 해당 모듈)를 고치고 테스트를 고치거나 더한 뒤:

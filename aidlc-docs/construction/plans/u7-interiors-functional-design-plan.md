@@ -91,4 +91,4 @@ X) Other (please describe after [Answer]: tag below)
 - [x] `aidlc-docs/construction/u7-interiors/functional-design/domain-entities.md`: 새 항목 종류(`wall`, `hv`, `floor`, `stair`, `furn`, `light`, `elev`), 속성, 꾸러미 표
 - [x] `business-rules.md`: 치수, 벽·현관·창, 층·계단·구멍, 옥상, 엘리베이터, 꾸러미 선택(유형·층·등급·업종), 조명, 예산 상한, 스트리밍 값, 테스트 P7-1~P7-8과의 연결
 - [x] `business-logic-model.md`: 건물 하나의 내부 생성 순서(박스 → 벽 구간 → 현관 → 층 → 계단실 → 방 나누기 → 가구 → 조명 → 엘리베이터), 시험 건물 3동(빌라·상가·아파트) 고르는 기준
-- [ ] 사용자 승인 → audit, aidlc-state
+- [x] 사용자 승인(2026-10-14: "승인하고 U7 단계 4 진행해") → audit, aidlc-state

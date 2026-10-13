@@ -134,6 +134,8 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 ## 현재 상태
 
+- U7 단계 4(2026-10-14): 건물 내부(`src/interiors.py`): 벽 껍데기(0.25 m), 층 바닥, 꺾음계단(기울인 판, 키 `px`), 평지붕 옥상 계단탑, 엘리베이터(아파트·6층 이상 상가, `Elevator.server.luau`, E 위층·Q 아래층), 방·꾸러미 17종(가게 안은 간판 단어 업종), 천장 등판과 1층 가게·로비·교실만 PointLight. `config.toml`의 `interiors = true`(false면 U5와 같은 항목). Builder는 건물마다 Model(Atomic), 칸의 땅·도로는 `Base`(Persistent), 종류별 개수는 칸 속성 `Made_<kind>`. Studio `ServerStorage/MapBuilder`는 새 Builder, 예전 것은 `MapBuilder_U5`로 남김. 실제 지도 칸(1·3번)은 아직 예전 Builder로 만든 그대로(단계 7에 다시 만듦). 테스트 651개. 내부 포함 칸 부품 1번 1.91만, 3번 1.59만, 2번 2.36만.
+
 - U1(데이터 기반)은 끝났다. 첫 칸 `8930e0af13bffff`는 수집과 조립이 끝나 `data/map.db`에 건물 122개가 있다. 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)은 아직 데이터를 받지 않았다.
 - OSM 태그는 부족하므로(서울시청 시험에서 건물 128개 중 높이·층수 태그 26개) V-World 건물통합정보의 층수와 거리뷰로 보완한다.
 - U2 첫 칸이 Studio에 만들어졌다(2026-10-13): 부품 163개(땅 1, 도로 29, 보행로 2, 인도 8, 건물 122, 스폰 1), 스케일 3.6 stud/m 확정, 스폰은 신흥로238번길 보행로 `(37.504483, 126.77861)` yaw −62°(`config.toml`). Studio에는 사용자가 저장했다(Roblox에 저장, 2026-10-13). 복사본 `10122026_1-before-U2.rbxl`은 U2 이전 상태다. 걸을 때 60 FPS(Studio 창이 앞에 있을 때; 뒤에 있으면 15 FPS로 제한됨).
@@ -152,7 +154,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 U7 = 기반 세팅(사용자 결정 2026-10-14: "u7에서 모든걸 세팅하고 여기서 구축한 사이클로 계속 반복"). 계획 `aidlc-docs/construction/plans/u7-real-shapes-interiors-plan.md`, 구조·최적화 `aidlc-docs/architecture.md`.
 
 1. 사용자: Studio를 Roblox에 저장, `.rbxl` 복사본(`LightingStyle`은 `Realistic` 확인됨, 2026-10-14)
-2. U7(계획 승인 2026-10-14): 계획서 5절 순서대로. 단계 2(B 구조, G 등급) 끝(2026-10-14). 다음은 단계 3(D 내부·E 성능 Functional Design: 치수·꾸러미 확정, **사용자 확인**), 새 세션에서 `cycle-recognize`부터
+2. U7(계획 승인 2026-10-14): 계획서 5절 순서대로. 단계 2(B 구조, G 등급)·단계 3(내부·성능 Functional Design, 승인) 끝(2026-10-14). 단계 4 코드와 시험 끝(2026-10-14), **사용자 확인 대기**: Studio `Workspace/MCP_Test`(지도 동쪽 4,000 stud)에 빌라·상가(10층)·아파트(5층) 시험 건물. 확인되면 단계 5(F 기준점, J 학교 운동장 키트, K 간판 재사용). 설계 `aidlc-docs/construction/u7-interiors/functional-design/`, 코드 `src/interiors.py`, `studio/ServerScriptService/Elevator.server.luau`
 3. 1·3번 칸을 사이클로 다시 만들고, 2번 칸을 사이클의 첫 실전으로. 그 뒤로는 칸·구역마다 같은 사이클
 4. 간판 이미지는 멈춤 상태(새 13장 캐시, 업로드 없음). 사이클에 넣을지는 U7에서
 

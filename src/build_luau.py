@@ -29,12 +29,15 @@ import h3
 import common
 import db
 import details_rules
+import interiors
 import judgement
 import layout
 import layout_details
 import streets
+import tiers
 
 BUILD_DIR = "data/build"
+CELL_PART_BUDGET = 25_000  # U7 BR-I14.2 (Q1 A): parts per cell, interiors included
 CHUNK_WARN_BYTES = 15_000  # U2 NFR P3, raised in U5 (BR-14.6): a bigger chunk file means chunk_size should come down
 SAFE_TEXT = re.compile(r"[A-Za-z0-9:#_.\-]{1,100}")  # N-U2-4: the only characters that may reach Luau code
 TEXT_ATTRS = ("name", "Source", "HeightBasis", "FloorsBasis", "WallColor", "Review")  # the texts of a building item that become code
@@ -63,7 +66,7 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
     s source, e height in m, q fit ratio, f floors, and from U4 b height basis, a floors basis, c wall color name,
     v review flags. U5 adds, only when they differ from the defaults (BR-14.2): i owner, p shape, m material, c color name
     (any kind), o ink, t sign text, u="LR" two-sided, md sign MaxDistance (x is the position), im sign image asset id (SI-6),
-    j reflectance, g shadow, l collide.
+    j reflectance, g shadow, l collide. U7 adds hv=1 (a hollow building's volume), px pitch, lt light range, ef / eF elevator door.
     BuildingId and CellId are not sent: Builder takes them from n (or i) and the cell."""
     parts = [f"k={luau_string(item.kind)}", f"n={luau_string(item.name)}", f"x={luau_number(item.cx)}", f"y={luau_number(item.cy)}",
              f"z={luau_number(item.cz)}", f"w={luau_number(item.sx)}", f"h={luau_number(item.sy)}", f"d={luau_number(item.sz)}",
@@ -78,6 +81,8 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
         for key, attr in (("b", "HeightBasis"), ("a", "FloorsBasis"), ("c", "WallColor"), ("v", "Review")):
             if attr in a:
                 parts.append(f"{key}={luau_string(a[attr])}")
+        if a.get("Hollow"):
+            parts.append("hv=1")
     elif item.color_name:
         parts.append(f"c={luau_string(item.color_name)}")
     if item.owner and item.owner != item.name:
@@ -106,6 +111,13 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
             parts.append(f"im={asset}")
     if item.reflectance:
         parts.append(f"j={luau_number(item.reflectance)}")
+    if item.pitch_deg:  # U7: px stair flight pitch, lt PointLight range (studs), ef / eF elevator door floor and floor count
+        parts.append(f"px={luau_number(item.pitch_deg)}")
+    if item.kind == "interior":
+        if "Light" in item.attrs:
+            parts.append(f"lt={luau_number(item.attrs['Light'])}")
+        if "ElevatorFloor" in item.attrs:
+            parts.append(f"ef={int(item.attrs['ElevatorFloor'])},eF={int(item.attrs['ElevatorFloors'])}")
     default_shadow, default_collide = layout.KIND_DEFAULTS[item.kind]
     if item.shadow is not None and item.shadow != default_shadow:
         parts.append(f"g={1 if item.shadow else 0}")
@@ -155,7 +167,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               cfg: Mapping[str, Any], estimates: Mapping[str, Mapping[str, Any]] | None = None,
               overrides: Mapping[str, Mapping[str, Any]] | None = None,
               details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None,
-              sat_trees: Sequence[Sequence[float]] | None = None) -> Plan:
+              sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -207,17 +219,29 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     details_used = 0
     building_ids: list[str] = []
     boxes_report = []
+    inside = {"interior_buildings": 0, "stairwells": 0, "elevators": 0, "lights": 0, "no_stairwell": 0}
     for body, b, eff in resolved:
-        group: list[layout.Item] = layout_details.box_items(body, b, eff, frame)
+        ip = interiors.plan_of(body, cfg, tier)
+        group: list[layout.Item] = layout_details.box_items(body, b, eff, frame, hollow=ip is not None)
         body_warnings = list(body.warnings)
         if body.is_body:
             for bi in range(len(body.boxes)):
                 group += layout_details.roof_items(body, bi, frame, cfg)
-                group += layout_details.body_items(body, bi, frame, cfg, body_warnings)
-            group += layout_details.front_items(body, frame, cfg, body_warnings)
+                group += layout_details.body_items(body, bi, frame, cfg, body_warnings, ip)
+            group += layout_details.front_items(body, frame, cfg, body_warnings, ip)
             group += layout_details.yard_items(body, frame, cfg)
             sign_list, n_labels = layout_details.sign_items(body, frame, cfg, body_warnings)
             group += sign_list
+            inner = interiors.interior_items(body, ip, frame)
+            group += inner
+            if ip is not None:
+                inside["interior_buildings"] += 1
+                inside["stairwells"] += ip.stair is not None
+                inside["elevators"] += ip.core is not None
+                inside["lights"] += sum(1 for i in inner if "Light" in i.attrs)
+                if ip.stair is None and len(ip.levels) > 1:
+                    inside["no_stairwell"] += 1
+                    body_warnings.append(f"{body.building_id}: no_stairwell (no box holds a stairwell; upper floors have no way up)")
         if not all(_texts_ok(i) for i in group):
             warnings.append(f"{body.building_id}: id, source or a value has characters that are not allowed in Luau code")
             continue
@@ -282,14 +306,17 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               "poor_fit": len(poor_fit), "warnings": len(warnings), "judged": judged, "details_used": details_used,
               "flagged": sum(1 for i in items if i.kind == "building" and "Review" in i.attrs),
               "signs": signs, "labels": labels, "sign_images": sign_images, "parts_total": len(items), "boxes": len(boxes_report),
-              "no_facing": len(no_facing), "far_facing": len(far_facing)}
+              "no_facing": len(no_facing), "far_facing": len(far_facing), "tier": tier, **inside}
+    if len(items) > CELL_PART_BUDGET:
+        warnings.append(f"{len(items)} parts: over the cell budget of {CELL_PART_BUDGET} (BR-I14.2)")
+        counts["warnings"] = len(warnings)
     manifest = {"cell_id": cell_id, "counts": counts, "poor_fit": poor_fit, "warnings": warnings, "boxes": boxes_report,
                 "building_ids": building_ids, "duplicates_dropped": [list(d) for d in dropped], "no_facing": no_facing, "far_facing": far_facing,
                 "files": {n: len(t.encode()) for n, t in sorted(files.items())},
                 "config": {k: cfg[k] for k in ("origin_lat", "origin_lon", "studs_per_m", "chunk_size", "poor_fit_ratio",
                                                 "ground_margin_m", "sidewalk_width_m", "spawn_lat", "spawn_lon", "spawn_yaw_deg",
                                                 "pole_spacing_m", "lamp_spacing_m", "tree_spacing_m", "car_spacing_m", "school_zone_m",
-                                                "roof_pitch_deg", "window_faces")}}
+                                                "roof_pitch_deg", "window_faces", "interiors")}}
     files["manifest.json"] = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
     files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids)
     return Plan(cell_id, items, files, counts, warnings)
@@ -361,10 +388,11 @@ def load_cell_inputs(conn, cell_id: str) -> tuple[list, list, dict, dict, dict]:
 
 def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     cfg = common.cell_config(cfg, cell_id)
+    tier = tiers.tier_of(cfg, cell_id) or 1  # never classified: treated as tier 1 (cycle-build step 0)
     buildings, features, estimates, overrides, details = load_cell_inputs(conn, cell_id)
     sign_assets = load_sign_assets(common.cell_file(cfg, cell_id, "signs"))
     sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))
-    plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees)
+    plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier)
     write_plan(plan, root)
     return plan
 
