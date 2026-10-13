@@ -183,6 +183,52 @@ def test_p5_5_a_face_next_to_another_box_is_occluded_and_front_only_keeps_the_fa
     assert {tail(i)[2] for i in items if tail(i).startswith("w0")} == {"b"}
 
 
+def test_every_wall_part_on_every_face_looks_away_from_its_box():
+    """The Builder's CFrame.Angles(0, yaw, 0) sends a part's Front (-Z) to (-sin yaw, -cos yaw) in world x, z (mutation L5)."""
+    row, est, _ = villa(w=14, d=9)
+    body, eff = resolve(row, est, features=[street()])
+    items, _, _ = all_items(body, row, eff)
+    box = body.boxes[0]
+    seen = set()
+    for i in items:
+        t = tail(i)
+        if not (t.startswith("w0") or t.startswith("fl")):
+            continue
+        side = t[2] if t.startswith("w0") else None
+        if t.startswith("w0"):
+            seen.add(side)
+            tr = math.radians(i.yaw_deg)
+            front = (-math.sin(tr), -math.cos(tr))  # world x, z
+            out = (i.cx - box.cx_m * S, i.cz + box.cy_m * S)  # from the box centre (north is -z) to the part
+            half = (box.depth_m if side in "fb" else box.width_m) / 2 * S  # the face is this far out along its normal
+            assert front[0] * out[0] + front[1] * out[1] >= half - 0.5 * S, (t, i.yaw_deg)
+    assert seen == {"f", "b", "l", "r"}
+
+
+def test_a_narrow_front_gives_up_its_only_ground_floor_window_to_the_door():
+    """A 5 m front has one window slot, at the middle where the door goes: the window is skipped, never put on the door (mutation L9)."""
+    row, est, _ = villa(w=5, d=6)
+    body, eff = resolve(row, est, features=[street()])
+    items, _, _ = all_items(body, row, eff)
+    door = next(i for i in items if tail(i).startswith("dr0"))
+    front_ground = [i for i in items if tail(i).startswith("w0") and tail(i)[2] == body.facing.side and tail(i)[3] == "0"]
+    assert front_ground == [] and door is not None
+    upper = [i for i in items if tail(i).startswith("w0") and tail(i)[2] == body.facing.side and tail(i)[3] == "1"]
+    assert len(upper) == 1  # the slot exists on the floor above
+
+
+def test_two_buildings_that_merely_overlap_a_little_are_both_kept():
+    """Only an attribute-less record that overlaps another by the duplicate ratio (0.6) is dropped (mutation L8)."""
+    a, _, _ = villa(1, w=12, d=10)
+    b, _, _ = villa(2, w=12, d=10, center=offset(CENTER, 8, 15 + 5))  # a third of a overlaps b
+    b = {**b, "floors_above": None, "height_m": None, "name": "", "building_area": None, "usability_code": ""}  # attribute-less (BR-1.2)
+    kept, dropped = LD.dedupe_buildings([a, b], FRAME)
+    assert len(kept) == 2 and dropped == []
+    c = {**b, "building_id": "gis:3", "outline": a["outline"]}  # the same footprint without attributes
+    kept, dropped = LD.dedupe_buildings([a, c], FRAME)
+    assert [k["building_id"] for k in kept] == ["gis:1"] and dropped == [("gis:3", "gis:1")]
+
+
 def test_free_spans_leave_out_the_stair_tower_and_the_bay_and_the_door_takes_the_middle():
     row, est, _ = villa(detail={"building_id": "gis:1", "stair": "glass", "bay": 1})
     body, _ = resolve(row, est, {"building_id": "gis:1", "stair": "glass", "bay": 1}, features=[street()])
@@ -271,6 +317,10 @@ def test_a_12_by_10_three_floor_villa_has_the_expected_parts():
     assert len(by["box"]) == 1 and len(by["fl"]) == 2 and len(by["ca"]) == 1 and len(by["pl"]) == 1 and len(by["dr"]) == 1 and len(by["cn"]) == 1
     windows = [i for i in items if tail(i).startswith("w0")]
     assert len(windows) == 4 * 3 * 2  # two per face per floor (4 m pitch); the 1 m door fits between the two ground-floor windows
+    door = next(i for i in items if tail(i).startswith("dr0"))
+    for w in windows:
+        if tail(w)[2] == body.facing.side and tail(w)[3] == "0":
+            assert math.hypot(w.cx - door.cx, w.cz - door.cz) >= ((D["win_w"] + D["door_w"]) / 2 + D["span_clear"]) * S - 1e-6
     assert 5 <= sum(1 for i in items if tail(i).startswith("y")) <= 11 and labels == 0 and warnings == []
     assert {i.kind for i in items if tail(i).startswith("y")} == {"prop"} and all(i.collides for i in items if tail(i).startswith("y"))
 
@@ -366,6 +416,9 @@ def test_signs_carry_text_colors_faces_and_distances_and_a_bad_name_removes_them
     for i in (i for i in signs if i.kind == "sign"):
         assert R.SIGN_TEXT.fullmatch(i.text) and i.ink in R.PALETTE and i.color_name in R.PALETTE and i.attrs["MaxDistance"] in (200, 300, 400)
     assert labels == sum(2 if i.faces == "LR" else 1 for i in signs if i.kind == "sign")
+    band = next(i for i in signs if tail(i).startswith("sg0"))
+    floor1 = [i for i in signs if tail(i).startswith("sgf1-")]
+    assert floor1 and (band.cy + band.sy / 2) / S <= body.fh + 1e-6 <= min((i.cy - i.sy / 2) / S for i in floor1)  # the band sign stays below the floor line, floor signs above it (S-10)
     public = villa(2, code="03000", floors=2, name='a"b주민센터')[0]  # a public name (kept as is) with a character the sign text forbids
     pbody, _ = resolve(public, villa(2)[1], features=[street()])
     warnings: list[str] = []

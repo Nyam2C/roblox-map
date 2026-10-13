@@ -262,3 +262,61 @@ U2의 Build and Test가 끝났다. 승인하면 U4 판단·보정(Functional Des
 
 ## Next Steps
 U4의 Build and Test가 끝났다. 승인하면 U4가 끝나고 U5 디테일(지붕, 층 구분, 창·문, 간판, 가로시설, 학교 건물 수작업)로 넘어간다. 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)은 `cells.py`, `register.py`, `capture.py`로 데이터를 받은 뒤 같은 흐름(판단, 만들기, 확인)을 반복한다. Studio의 현재 결과는 사용자가 저장한 상태다.
+
+---
+
+# U5 디테일 Build and Test 요약 (2026-10-13)
+
+## Build Status
+- **Build Tool**: `uv` 0.11, Python 3.13 이상(개발 3.14). Studio 내장 MCP. 새 의존성 없음.
+- **Build Status**: 성공(`selftest` 통과, 테스트 548개 수집, 첫 칸 덩어리 70개 ≤ 13.3 KB).
+- **Build Artifacts**: `details/<칸ID>.json`(git 포함), `studio/ManualSchool.luau`(git 포함), `data/build/<칸ID>/`(git 제외), Studio `Workspace/Auto/<칸ID>`(4,880부품)와 `Workspace/Manual/School`(512 자손).
+
+## Test Execution Summary
+
+### Unit Tests
+- **Total Tests**: 548 통과, 1 생략, 0 실패. 시드 5개. 코드 망가뜨리기 16곳 중 15곳 잡힘(남은 1곳은 다른 수정이 먼저 막는 안전띠).
+- **Status**: Pass. 속성 P5-2~7, 9, 11~13, 15, 18, 19 대응(P5-1, 8, 10, 14, 16, 17은 예시 테스트로).
+
+### Integration Tests
+- **자동**: 명령줄 전체, DB 왕복, 덩어리 파일의 재질·간판·속성, 글자 검사.
+- **실제**: 6개 시나리오 통과(세부 판단 116, Studio 생성과 `verify`, Manual 학교와 재생성, 복구 연습, 간판 겹침 수정, 거리 캡처).
+- **Status**: Pass
+
+### Performance Tests
+- S-9 창 재질 차이 없음(둘 다 60 FPS 상한) → SmoothPlastic 유지. S-11 가장 느린 덩어리 3.69 ms. S-13 걷기: 70초 평균 60 FPS, 1초 최저 60, 가장 느린 프레임 20 ms, 멈춤 0(사용자가 걷는 동안 기록, 계획 경로는 아님).
+- **Status**: Pass(계획 경로 대신 사용자의 걷기로 측정)
+
+### Additional Tests
+- **Security**: Pass(`pip-audit` 없음, 간판·비고에 개인 정보 없음, Builder·Manual 스크립트 범위 확인, 로컬 전달은 데이터만).
+
+## 첫 칸 `8930e0af13bffff` 실제 결과
+
+| 항목 | 값 |
+|---|---|
+| 세부 판단 | 116건(마감 brick 78, stone 10, tile 12, panel 11, paint 4, glass 1; 1층 shop 37, house 78; 계단탑 glass 54, round 11, brick 1; 베이 36; 발코니 44; 옥상 tank 8, railing 6) |
+| 항목 | 4,881(땅 1, 도로 29, 보행로 2, 인도 20, 건물 128, 지붕 161, 외장 2,891, 간판 203, 가로 1,445, 스폰 1), 덩어리 70개, 경고 0 |
+| 건물 | 122개 중 116개 생성, 중복 6개 제외, 다중 박스 6개(2~4박스), 도로 쪽 면 없음 0, 먼 면 15, 맞춤 0.8 미만 3 |
+| Studio | 생성 4,880 + Manual이 가진 1개 건너뜀, `verify ok`, `unknown_manual []` |
+| Manual 학교 | 501부품 + 끌어온 박스 1(재생성 뒤 그대로) |
+| 조명 | ClockTime 15, 위도 37.5, Brightness 2.5, Atmosphere·Bloom·SunRays 적용, DepthOfField 삭제. **LightingStyle은 아직 Soft(사용자가 Realistic으로)** |
+| 복구 연습 | 성공(덩어리 70개·manifest 글자까지 같음) |
+| 걷기 | 70초 평균 60 FPS, 1초 최저 60, 가장 느린 프레임 20 ms, 멈춤 0(사용자가 걷는 동안 기록, 계획 경로는 아님) |
+
+## 발견한 것
+
+1. **절단선이 꼭짓점을 지나면 조각이 남았다.** `shapely.split`이 0.005 m² 조각을 만들어 L자 건물이 한 박스로 남았다. 절단 위치를 반올림 전 값으로 쓰고 0.01 m² 미만 조각을 버린다. 부흥중학교 박스가 바뀌었다.
+2. **가로 자리 간격이 1 m 미만이면 멈춘 것처럼 보였다.** 속성 테스트가 0.0001 m 간격을 넣어 수백만 자리를 만들었다. 1 m 미만은 "없음".
+3. **띠간판과 2층 층별 간판이 겹쳤다.** 둘 다 1층 천장선에 있었다. 띠간판을 천장선 아래로 내렸다(BR-10.2의 그림은 유지, 수치만).
+4. **테스트 12개는 테스트가 틀렸다.** 위경도→m가 0.1 % 비등방이라 `abs=0.01`이 안 맞고, 이름 형식과 도우미의 shapely 사용이 틀렸다. 코드 생성 때 테스트를 끝까지 돌리지 못한 탓이다(돌리지 못한 이유가 2번).
+5. **창 재질 A/B는 60 FPS 상한 때문에 구분이 안 된다.** 상한을 풀거나 MicroProfiler를 써야 하는데 MCP로는 못 한다. 규칙대로 기본값을 유지.
+6. **Studio가 Build and Test 중 두 번 Play 모드로 바뀌었고 캐릭터가 움직여 있었다**(사용자가 보고 있었던 것으로 보임). Edit 작업은 멈추고 Play를 되돌린 뒤 진행했다.
+7. **`Builder.add`의 반환은 표다.** 숫자처럼 더하다 한 번 실패했고, 그 사이 `begin`이 칸을 비워 다시 만들었다(재생성 가능이라 문제 없음).
+8. **첫 상가 캡처(67 stud, 낮은 각도)에서 간판 글자가 안 보였는데 정면 40·60 stud에서는 보인다.** 재현되지 않아 원인을 못 찾았다(관찰만 기록).
+9. **학교 남쪽 경계에 70×5 m 창고(`gis:11215391`)가 있다.** 소나무를 운동장 북쪽으로 옮겼고 운동장을 그 앞에서 끊었다.
+
+## Overall Status
+- **Build**: 성공
+- **All Tests**: Pass(548 + 1 생략, 실제 시나리오 6/6, 성능 S-9~S-12 Pass, S-13 Pass(계획 경로 대신 사용자의 걷기로 측정))
+- **사용자가 할 일**: (1) `Lighting.LightingStyle`을 `Realistic`으로(속성 창). (2) Roblox에 저장(클라우드)하고 큰 작업 전 `.rbxl` 복사본. (3) `Workspace/Manual/School`을 지우지 않는다(R-18). (4) `StreamingEnabled`는 칸 3개 뒤에 결정.
+- **Ready for the next unit**: 나머지 두 칸(`8930e0af123ffff`, `8930e0af12bffff`)을 `cells.py` → `register.py` → `capture.py` → U4 판단 → `details.py` → `build_luau.py` 순서로.

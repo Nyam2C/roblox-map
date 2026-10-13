@@ -111,3 +111,31 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ --
 - **`verify`는 통과하는데 건물에 `HeightBasis`, `WallColor`가 없다**: 위 2번을 안 한 것이다(예전 Builder가 캐시에 남아 있다). 모듈을 새 인스턴스로 바꾸고 칸을 다시 만든다.
 - **`screen_capture`가 `Request timeout`**: 캡처를 병렬로 부르면 난다. 한 장씩 부른다(장당 약 4초).
 - **인자 없는 `screen_capture`가 엉뚱한 시점을 찍는다**: 항상 `camera_position`과 `look_at_position`을 준다.
+
+---
+
+# U5 디테일 (2026-10-13)
+
+## Prerequisites
+- `uv` 0.11 이상, Python 3.13 이상(개발 3.14). 새 외부 의존성은 없다(`details_rules.py`는 표준 라이브러리만, `details.py`는 의존성 0).
+- Roblox Studio의 `ServerStorage/MapBuilder`가 `studio/Builder.luau`(11,459 B)와 같아야 한다. 바꿀 때는 모듈을 새 인스턴스로 교체한다(`require` 캐시).
+- `data/map.db`에 칸의 건물·거리·판단(U4)·세부(U5 `details` 표)가 있어야 한다.
+
+## 검증
+```bash
+uv run src/details.py --selftest && uv run src/build_luau.py --selftest
+uv run src/build_luau.py --cells 8930e0af13bffff        # data/build/<칸ID>/chunk-001..070.luau, manifest.json
+uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
+```
+첫 칸 결과(최종 코드): 항목 4,881개, 덩어리 70개(최대 13.3 KB, 경고선 15 KB), 건물 116개 생성(중복 6개 제외), 다중 박스 6개, 간판 203개(글자 250), 교차로 19개, 세부 판단 116개 중 111개 사용, 경고 0.
+
+## Studio 쪽 갱신 (Claude가 MCP로 한다)
+- 정식 경로: 덩어리 파일 70개를 순서대로 `execute_luau`(Edit)로 실행하고 마지막에 `Builder.verify(칸ID, manifest.counts, nil, manifest.building_ids)`.
+- Build and Test에서 쓴 빠른 경로: `data/build/<칸ID>`에서 `python3 -m http.server 8765 --bind 127.0.0.1`을 띄우고, 같은 항목을 JSON으로 만든 `chunks.json`(데이터만, 코드 아님)을 Studio가 `HttpService:GetAsync`로 받아 `Builder.begin/add/finish/verify`를 한 번의 `execute_luau`로 돌린다. `HttpEnabled`는 받는 동안만 켜고 바로 `false`로 되돌린다(결과에 `http=false` 확인). 서버는 127.0.0.1에만 묶고 끝나면 내린다.
+- 수작업 학교: `studio/ManualSchool.luau`를 `execute_luau`(Edit)로 한 번 실행한다. `Workspace/Manual/School`이 있으면 아무것도 하지 않는다. 만들기만 하고 `Destroy`·`ClearAllChildren`이 없다.
+- 조명(BR-13.1): `ClockTime 15`, `GeographicLatitude 37.5`, `Brightness 2.5`, `Atmosphere Density 0.3 / Offset 0.25 / Haze 1.0 / Glare 0.2`, `Bloom 0.3`, `SunRays 0.1`, `DepthOfField` 삭제는 스크립트로 적용했다. **`Lighting.LightingStyle`은 스크립트로 바꿀 수 없어서 아직 `Soft`다. 사용자가 속성 창에서 `Realistic`으로 바꿔야 한다.**
+
+## Troubleshooting
+- `verify`가 `problems`를 내면 kind별 개수와 `Skipped_<kind>`를 본다. Manual에 `BuildingId`가 있는 건물은 그 건물의 모든 항목이 건너뛰어진다(의도).
+- `unknown_manual`에 ID가 나오면 Manual의 `BuildingId`가 manifest에 없는 것이다(오타나 다른 칸).
+- `Builder.add`는 `{created, skipped_manual}` 표를 돌려준다. 숫자로 더하면 오류가 난다(Build and Test에서 한 번 겪음).

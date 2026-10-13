@@ -75,3 +75,19 @@ uv run --python 3.14 --with pip-audit==2.10.1 pip-audit -r /tmp/estimate-resolve
 - 판단·보정·불러오기 파일 검증, 건물 ID 허용 문자, 경로가 `captures/` 밖으로 나가는 것 거부, 캡처 이미지 크기·형식 거부, 한 건이라도 틀리면 전체 거부(`test_judgement.py`, `test_u4_db.py`, `test_estimate.py`, `test_overrides.py`).
 - Studio로 가는 새 글자(`HeightBasis`, `FloorsBasis`, `WallColor`, `Review`)도 `build_luau.py`의 허용 문자 검사를 거치고, 어긋난 건물은 건너뛰어 코드로 새지 않는다(`test_build_luau.py`). `Builder.luau`의 안전 검사(`loadstring` 등 없음, 지우는 것은 `Auto/<칸ID>` 하나)는 `test_versions.py`가 계속 확인한다.
 - Studio 변경: 비교 쌍을 만드는 동안 바뀐 것은 뷰포트 카메라뿐이고 매번 되돌렸다(CFrame과 시야각 확인). `Auto`와 `Manual`은 그대로였다. `MCP_Test` 시험 물체는 모두 지웠다.
+
+---
+
+# U5 디테일 (2026-10-13)
+
+### 의존성 취약점
+`pip-audit -r tests/requirements.txt`: 취약점 없음. U5는 새 패키지를 더하지 않았다(`details_rules.py` 표준 라이브러리만, `details.py` 의존성 0, `test_versions.py`가 검사).
+
+### 코드 주입과 Studio 범위
+- `studio/Builder.luau`에 `loadstring`·`HttpService`가 없고 `Destroy`는 `Auto/<칸ID>` 하나뿐(테스트). 간판 글자는 `SIGN_TEXT`(`[가-힣A-Za-z0-9 ]{1,12}`), 그 밖의 글자는 `SAFE_TEXT`; 어긋나면 그 건물의 간판 전부를 빼고 경고(테스트와 실제 0건).
+- `studio/ManualSchool.luau`: 만들기만 한다(`Destroy`·`ClearAllChildren` 0회, `Manual/School`이 있으면 중단).
+- Build and Test의 로컬 전달: 127.0.0.1:8765에서 데이터(JSON)만 받고 `HttpEnabled`를 바로 `false`로 되돌렸다(결과로 확인). 코드를 받아 실행하지 않는다.
+
+### 개인 정보
+- 세부 비고 116건에 숫자(전화·번호판)·상호가 없다(정규식 0건, 가장 긴 비고 170자). 간판 이름은 모두 가상 풀(`details_rules.POOLS`)에서 나오고 실제 상호 목록(`REAL_BRANDS`)은 테스트가 막는다. 공공기관만 대장 이름을 쓴다.
+- `captures/`는 git 제외 그대로. 묶음 이미지는 U4의 것을 재사용했다.

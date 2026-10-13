@@ -771,7 +771,8 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
             for u in range(units):
                 text = _name(body, str(u), "gf", 0)
                 bg, ink = _sign_colors(body, str(u), text[-2:] if text.endswith("약국") else text[-3:])
-                sign(f"sg{u}", s0 + uw * (u + 0.5), fh - D["sign_drop"], D["sign_out"], (uw - D["front_gap"], D["sign_h"], D["sign_t"]), text, bg, ink, "F", 300)
+                # the band sign hangs below the first floor line, on the ground floor's top, so it never meets the floor-1 sign (seen in S-10)
+                sign(f"sg{u}", s0 + uw * (u + 0.5), fh - D["sign_drop"] - D["sign_h"], D["sign_out"], (uw - D["front_gap"], D["sign_h"], D["sign_t"]), text, bg, ink, "F", 300)
         if body.archetype == "commercial" and F >= int(D["sign_floor_min_floors"]):
             p = max(1, min(int(D["sign_floor_max_panels"]), int(L // D["sign_floor_pitch"])))
             pw = L / p

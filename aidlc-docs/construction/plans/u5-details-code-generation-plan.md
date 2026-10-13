@@ -23,3 +23,26 @@
 
 ## 코드 망가뜨리기 목록(Build and Test에서 ≥ 12)
 중복 제거 비교 뒤집기 / 다중 박스 상한 무시 / 모서리 쐐기 yaw 하나 바꾸기 / 띠 y 한 층 어긋남 / 창 창턱 0.9 → 0 / 빈 구간 무시 / 가게 판정에 `storey` 매칭 / 간판 글자 검사 제거 / 접두어 표에 금지어 삽입 / 슬롯 첫 위치 0 / 교차점을 끝점으로만 / 인도 끊기 틈 폭 / 리터럴 `i` 누락 / 색표에서 이름 빠짐 / `record` 일부만 저장 / 내보내기 키 정렬 해제 / `sidewalk:both` 무시.
+
+### Build and Test 결과 (2026-10-13, 16곳)
+
+| # | 망가뜨린 곳 | 처음 | 테스트 추가 뒤 |
+|---|---|---|---|
+| L1 | `_pieces_sorted` 조각 버리기 0.01 m² → 1e-9 | 안 잡힘 | 안 잡힘(절단 위치를 반올림 전 값으로 쓰는 수정이 먼저 막는다, 안전띠) |
+| L2 | 몸체 높이 `>` → `>=` | 잡힘 | |
+| L3 | 빈 구간 여유 제거 | 잡힘 | |
+| L4 | 낮은 층에도 창 | 잡힘 | |
+| L5 | 뒷면 yaw 180 → 0 | 안 잡힘 | 잡힘(`test_every_wall_part_on_every_face_looks_away_from_its_box`) |
+| L6 | 교차로 꼭짓점 반올림 6 → 2자리 | 잡힘 | |
+| L7 | 가로 자리 시작 반 간격 → 0 | 잡힘 | |
+| L8 | 겹침 0.6 기준 → 0 | 안 잡힘 | 잡힘(`test_two_buildings_that_merely_overlap_a_little_are_both_kept`) |
+| L9 | 창이 문을 덮음 | 안 잡힘 | 잡힘(`test_a_narrow_front_gives_up_its_only_ground_floor_window_to_the_door`) |
+| R1 | `SIGN_TEXT`에 따옴표 허용 | 잡힘 | |
+| R2 | `pick` 섞임 제거 | 잡힘 | |
+| D1 | 한 호출에 같은 건물 두 번 허용 | 잡힘 | |
+| B1 | 간판 `md` 키를 `x`로 | 안 잡힘 | 잡힘(`test_a_sign_literal_carries_its_max_distance_as_md_and_one_x_only`) |
+| B2 | 덩어리 경고선 15 KB → 150 KB | 잡힘 | |
+| S1 | Builder가 두 번 `Destroy` | 잡힘 | |
+| C1 | `chunk_size` 기본 70 → 50 | 잡힘 | |
+
+15 / 16. 방법: 트리를 복사해 한 곳씩 바꾸고 `pytest tests/ -x --hypothesis-seed=1`.

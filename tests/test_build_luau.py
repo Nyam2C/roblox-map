@@ -354,3 +354,13 @@ def test_u4_build_cell_reads_judgements_and_corrections_from_the_database(tmp_pa
     heights = {i.name: i.attrs["HeightM"] for i in plan.items if i.kind == "building"}
     assert heights == {"gis:1000": pytest.approx(17.0), "gis:1001": 30.0}
     assert plan.counts["judged"] == 1 and (tmp_path / CELL / "manifest.json").is_file()
+
+
+def test_a_sign_literal_carries_its_max_distance_as_md_and_one_x_only():
+    """The SurfaceGui MaxDistance key is `md`; `x` is the position (mutation B1, the key clash seen in the smoke test)."""
+    from layout import Item
+    item = Item(kind="sign", name="gis:1#sg0", group="gis:1", seq=1, cx=1.0, cy=2.0, cz=3.0, sx=4.0, sy=1.0, sz=0.1, yaw_deg=0.0,
+                material="SmoothPlastic", color=(255, 255, 255), attrs={"MaxDistance": 300}, owner="gis:1", color_name="sign_white",
+                text="한솔약국", ink="ink_black", faces="F")
+    lit = B.item_literal(item, "8930e0af13bffff")
+    assert "md=300" in lit and lit.count("x=") == 1 and 't="한솔약국"' in lit

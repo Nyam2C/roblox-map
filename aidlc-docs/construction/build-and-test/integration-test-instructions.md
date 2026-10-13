@@ -119,3 +119,27 @@ U1 안에서 C1(`cells.py`) → DB → C2(`register.py`)의 연결과, 실제 �
 
 ### Scenario 5: 보정 `set`/`unset`과 다시 만들기 (실제 칸)
 - **결과**: **실제 칸에서는 해 보지 못했다**(보정이 0개라서). 이 경로는 자동 테스트(`test_u4_db.py`, `test_overrides.py`, `test_build_luau.py`)와 `MCP_Test`의 합성 칸 시험으로만 확인됐다. 첫 보정이 생길 때 한 번 더 확인한다.
+
+---
+
+# U5 디테일 (2026-10-13)
+
+자동 시험은 `test_details.py`(합성 DB로 명령줄 전체), `test_u5_db.py`(기록·내보내기·불러오기 왕복), `test_build_luau.py`의 U5 시험(세부가 덩어리 파일의 재질·간판·속성으로 들어가고 간판 글자와 이름이 검사된다)이 한다. 실제 칸에서 한 시나리오:
+
+### Scenario 1: 세부 판단 116건
+`details.py pending`이 U4 묶음 이미지를 재사용해 건물 10개씩 내고, 판단을 `record`로 기록했다(116건, 전부 한 번에 또는 거부). `details/8930e0af13bffff.json`으로 바로 내보내졌고 `list`와 같다. 비고에 숫자·번호판·상호가 없는지 정규식으로 확인(0건).
+
+### Scenario 2: Studio 생성과 `verify`
+첫 생성(수정 전 코드): 부품 4,893개, 덩어리 70개, 1.68초, 가장 느린 덩어리 38 ms, `verify ok`. 수정 후 다시 생성(Manual 학교가 있는 상태): 4,880개 생성(1개는 Manual이 가진 건물이라 건너뜀), `verify ok`, `unknown_manual []`, 폴더 Ground 1, Roads 29, Paths 2, Sidewalks 20, Buildings 127, Roofs 161, Facades 2,891, Signs 203, Props 1,445, Spawn 1. `HttpEnabled`는 끝난 뒤 `false`.
+
+### Scenario 3: Manual 학교 (S-14)
+`studio/ManualSchool.luau`로 `Workspace/Manual/School`에 501개(운동장 모래판·선·골대, 필지 울타리 기둥 155·가로대 290, 교문 기둥 2와 "심원고등학교" 현판, 본관 남면 유리 계단탑과 띠, 별관 발코니 4층, 소나무 6, 정자) + Auto에서 끌어온 작은 건물 `gis:15839722` 1개. 그 뒤 Auto를 다시 만들었더니 Manual은 그대로(자손 512 → 512), 그 건물은 Auto가 건너뛰었다(`Skipped_building 1`, Auto 안에 0개). 계단탑은 본관 남면 가운데에 지붕 위로 1.5 m 솟아 있다(캡처).
+
+### Scenario 4: 복구 연습 (S-16)
+`data/map.db`를 복사해 `estimates`·`overrides`·`details`를 비우고 `overrides.py import`(판단 122, 보정 0) → `details.py import`(116) → `build_luau.py`. 덩어리 70개와 manifest가 원본과 글자까지 같다(`built_at`만 제외). S1(수집)은 네트워크가 필요해 DB 복사로 대신했다.
+
+### Scenario 5: 간판 겹침 (S-10에서 발견)
+20 m 캡처에서 1층 띠간판("누리편의점")과 2층 층별 간판("바른치과")이 같은 자리에 겹쳐 글자가 포개졌다. 띠간판을 1층 천장선 아래(`fh - 0.2 - 0.9`)로 내리고(`layout_details.sign_items`) 테스트(띠간판 위 ≤ 층선 ≤ 층별 간판 아래)를 더했다. 다시 만든 뒤 캡처로 확인.
+
+### Scenario 6: 거리 캡처
+10 m: 적벽돌 3층 빌라의 층 띠·창·셔터·띠간판·가스관·마당 담·가로등·전선, 떨림 없음. 80 m: 모임지붕·박공 빌라 거리와 상가 블록(층별 간판은 색 띠로만 보임, `MaxDistance` 200 stud = 55 m 의도대로). 60 stud(16.7 m) 정면: 9자 이름이 읽힌다.
