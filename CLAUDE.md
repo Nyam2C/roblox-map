@@ -144,8 +144,8 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 U7 = 기반 세팅(사용자 결정 2026-10-14: "u7에서 모든걸 세팅하고 여기서 구축한 사이클로 계속 반복"). 계획 `aidlc-docs/construction/plans/u7-real-shapes-interiors-plan.md`, 구조·최적화 `aidlc-docs/architecture.md`.
 
-1. 사용자: 규모 결정 답(`aidlc-docs/inception/requirements/scale-decisions-questions.md` Q1~Q9), Studio를 Roblox에 저장하고 `Lighting.LightingStyle`을 `Realistic`으로, `.rbxl` 복사본
-2. U7: 구조(구역, studio 정리, 임시 스크립트를 src로) → 등급 자동 분류 → 내부·스트리밍·수작업 기준점 → 메시 시험 → 사이클 명령
+1. 사용자: Studio를 Roblox에 저장하고 `Lighting.LightingStyle`을 `Realistic`으로, `.rbxl` 복사본
+2. U7(계획 승인 2026-10-14): 계획서 5절 순서대로. 다음은 단계 2(B 구조, G 등급), 새 세션에서 `cycle-recognize`부터
 3. 1·3번 칸을 사이클로 다시 만들고, 2번 칸을 사이클의 첫 실전으로. 그 뒤로는 칸·구역마다 같은 사이클
 4. 간판 이미지는 멈춤 상태(새 13장 캐시, 업로드 없음). 사이클에 넣을지는 U7에서
 
