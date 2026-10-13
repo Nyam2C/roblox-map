@@ -1112,3 +1112,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 (outline-following boxes).
 
 ---
+
+## U7 Correction - Interiors Wanted
+**Timestamp**: 2026-10-13T15:05:29Z
+**User Request**: "아니 외간은 실제 외곽선으로 따르게 하고 내부는 너가 자유롭게 만들어 달라는 말"
+**AI Response**: The earlier reading (no interiors) was wrong: every building gets real floors (the judged floor count) and an interior designed by Claude for its use. Added Q6-Q8 to u7-real-shapes-questions.md (how to keep the frame rate with about 1,400 floors: StreamingEnabled recommended; how detailed; doors and moving between floors). Waiting for the answers.
+**Context**: INCEPTION - U7 Requirements Analysis (interiors).
+
+---
