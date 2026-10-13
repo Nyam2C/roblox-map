@@ -169,7 +169,9 @@ def test_config_fills_missing_keys_and_rejects_bad_values(tmp_path):
                 "spawn_lon = 126.8", "spawn_lat = 95\nspawn_lon = 126.8", "[road_widths_m]\ntertiary = 0",
                 '[road_widths_m]\ntertiary = "wide"',
                 "floor_height_min_m = 6", "floor_height_min_m = 5\nfloor_height_max_m = 5", "review_batch_size = 0",
-                "sheet_tile_w = 10", "sheet_jpeg_quality = 101", 'overrides_dir = ""', "blind_broken = [1]", 'blind_broken = [""]'):
+                "sheet_tile_w = 10", "sheet_jpeg_quality = 101", 'overrides_dir = ""', "blind_broken = [1]", 'blind_broken = [""]',
+                "pole_spacing_m = -1", "lamp_spacing_m = 201", "tree_spacing_m = 51", "car_spacing_m = -0.5", "school_zone_m = 301",
+                "roof_pitch_deg = 4", 'window_faces = "side"', 'details_dir = ""'):
         p.write_text(bad + "\n", encoding="utf-8")
         with pytest.raises(ValueError):
             common.load_config(p)

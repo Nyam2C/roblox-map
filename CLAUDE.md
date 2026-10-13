@@ -51,6 +51,11 @@ uv run src/estimate.py report --cells 8930e0af13bffff             # 판단이 �
 uv run src/estimate.py plan --cells 8930e0af13bffff               # 비교 쌍의 Studio 카메라 값 -> data/build/<칸ID>/review.json
 uv run src/estimate.py compose --cells 8930e0af13bffff --captures captures.json   # Studio 캡처 + 크롭 -> captures/<칸ID>/review/
 
+# 5b) 세부 판단(U5). Claude가 묶음 이미지를 보고 7개 필드(마감, 1층 용도, 계단실, 돌출창, 발코니, 지붕 색, 옥상)를 기록한다
+uv run src/details.py pending --cells 8930e0af13bffff --limit 10        # 세부 행이 없는 건물과 묶음 이미지 경로
+uv run src/details.py record --file details.json                        # 기록(여러 건 한 번에, 하나라도 틀리면 전부 거부) -> details/<칸ID>.json(git 포함)
+# uv run src/details.py list|export|import ...                           (import는 복구용)
+
 # 6) 보정(사용자와 같이 보고 정한 값, 사유 필수). set과 unset은 overrides/<칸ID>.json(git 포함)을 바로 다시 쓴다
 uv run src/overrides.py set --building gis:11081057 --field floors_above --value 4 --reason "누가 무엇을 보고 정했는지"
 # uv run src/overrides.py unset|list|export|import ...      (import는 복구용: 보정과 판단이 같이 돌아온다)
@@ -66,6 +71,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 - 학교 건물(`config.toml`의 `school_polygons` 필지 안, 지금은 심원고 필지)은 가까운 순이 아니라 **면마다 파노라마 하나**(최대 6면, 가림 없는 것)를 골라 면의 가운데를 향한 크롭을 만든다. 첫 칸의 학교 건물 8동에 면 사진 22장(본관은 남·북·동·서 네 면). 나무와 차량은 가림으로 판단하지 않아서 서쪽 면 같은 곳은 약하다. 자세한 내용은 `aidlc-docs/construction/u3-street-view-capture/code/school-faces-change.md`.
 - `capture.py`는 건물마다 파노라마를 최대 3장(120 m 안, 방위각 60° 이상 차이) 골라 `captures/`에 저장하고 건물 방향 크롭(1024×768)을 만든다. 호출 간격 1초, 실행당 새 파노라마 100장 상한. 403/429가 재시도 뒤에도 계속되거나 응답 형식이 이상하면 우회하지 않고 멈춘다(`collection_runs`의 `stopped_reason`). `captures/`는 git 제외.
 - U4(`judgement.py`, `review.py`, `estimate.py`, `overrides.py`): 층수·높이·벽 색·지붕 모양의 최종값은 **보정 > 사진 판단 > 대장 > 기본값**이다(OSM 값은 참고만). 사진 판단은 Claude가 묶음 이미지(`captures/<칸ID>/sheets/`)를 대장·OSM 숫자 없이(**눈가림**) 보고 `estimates`에 기록하고 대장과의 비교는 `report`가 한다. 사진이 대장과 다르면 확신 high일 때만 사진 값, 그 밖은 대장 유지와 확인 목록. 대장 높이는 층수가 같고 층당 2.5~5 m일 때만 쓰고 아니면 층수 × 3.4 m. 판단과 보정은 `overrides/<칸ID>.json`(git 포함)으로 즉시 내보낸다. 그 파일에 올라가는 `note`와 `reason`에는 사람·번호판·상호 같은 개인 정보를 쓰지 않는다. `build_luau.py`가 최종값을 읽어 건물 부품에 높이·벽 색을 반영하고 속성 `HeightBasis`, `FloorsBasis`, `WallColor`, `Review`(사유를 `-`로 이음)를 단다. 비교 쌍은 Studio 카메라를 크롭 위치에 두고 캡처한다: **`screen_capture`에 항상 `camera_position`과 `look_at_position`을 준다**(인자 없으면 다른 시점이 찍힌다), 세로 시야각 83.58°, Studio 창은 4:3보다 넓게. 설계와 규칙은 `aidlc-docs/construction/u4-judgement-corrections/`.
+- U5(`details_rules.py`, `layout_details.py`, `details.py`): 건물마다 세부 판단(`details` 표, `details/<칸ID>.json`) > U4 메모 검색 > 기본값으로 마감·1층 용도·계단실·돌출창·발코니·지붕 색·옥상을 정하고, `build_luau.py`가 지붕(쐐기), 층 띠, 창(불투명 부품), 계단실, 발코니, 문, 가게 전면, 마당 담·대문, 간판(가상 한글 이름, `SurfaceGui`), 가로(연석, 노면, 횡단보도, 전봇대·전선, 가로등, 가로수, 주차 차량, 스쿨존 울타리, 볼라드)를 항목으로 만든다. 같은 건물의 V-World 중복 외곽선은 뺀다. 안 맞는 외곽선은 박스 ≤ 3개(학교 6)로 나눈다. 모든 변화는 `details_rules.pick`(crc32 + 혼합)뿐이다. 외부 자산(텍스처 업로드, 메시, 크리에이터 스토어)은 쓰지 않는다. 간판 글자는 `SIGN_TEXT = [가-힣A-Za-z0-9 ]{1,12}`로만 검사해 그대로 Luau에 넣고, 그 밖의 글자는 `SAFE_TEXT` 그대로다. 리터럴 키 `i p m c o t u md j g l`은 기본과 다를 때만. 규칙은 `aidlc-docs/construction/u5-details/functional-design/business-rules.md`, 코드 차이는 `.../code/code-summary.md`.
 - 건물은 자기 중심점이 속한 칸에만 저장되므로 칸 사이 중복이 없다. DB는 `data/map.db`, 로그는 `data/logs/*.jsonl`, 칸 재수집 직전 백업은 `data/backups/`(모두 git 제외).
 
 ## 현재 상태
@@ -84,8 +90,8 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 ## 다음 할 일
 
-1. U5 디테일(지붕, 층 구분, 창·문, 간판, 가로시설, 교차로, 학교 건물 수작업)은 사용자가 시작하라고 하면 (`aidlc-state.md` 참고). 나머지 두 칸은 `cells.py`, `register.py`, `capture.py`로 데이터를 받은 뒤 판단·만들기·확인을 반복
-2. 칸 3개를 만든 U5 끝에서 프레임 수 다시 확인(Studio 창을 맨 앞에 두고)
+1. U5 Build and Test(첫 칸 생성, `verify`, Manual 학교, 조명, 걷기 FPS; `aidlc-state.md` 참고). 나머지 두 칸은 `cells.py`, `register.py`, `capture.py`로 데이터를 받은 뒤 U4 판단·U5 세부 판단·만들기·확인을 반복
+2. 칸 3개를 만든 뒤 프레임 수 다시 확인(Studio 창을 맨 앞에 두고). 미달이면 `window_faces = "front"` → `car_spacing_m` 12 → `tree_spacing_m` 10 → `StreamingEnabled` 순
 
 ## 주의
 

@@ -1,7 +1,9 @@
 """U2 pure functions: world frame, building boxes, road, sidewalk, ground and spawn items, ordering and chunks.
 
 No input or output. Everything the Studio builder needs is computed here, in Python (BR-7.5); studio/Builder.luau only
-turns the items into parts. Rules: aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md
+turns the items into parts. Rules: aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md.
+U5 (details) adds the item fields owner, shape, color_name, text, ink, faces, reflectance, shadow, collide, four kinds and the
+sidewalk amendments (U5 BR-11.13, BR-11.14, BR-14.1); its geometry lives in layout_details.py.
 """
 from __future__ import annotations
 
@@ -22,11 +24,16 @@ MAX_PART_STUDS = 2048  # Roblox's largest part dimension (BR-4.2)
 GROUND_THICKNESS = 4.0
 TOPS = {"road": 0.2, "path": 0.3, "sidewalk": 0.4}  # BR-3.5: top height in studs, the slab fills down to Y = 0
 BIG_ROADS = {"trunk", "primary", "secondary", "tertiary"}  # and their _link classes (BR-3.7)
-LOOKS = {  # BR-2.7, BR-3.6, BR-4.1: (material, color)
+LOOKS = {  # BR-2.7, BR-3.6, BR-4.1 (U5 BR-11.14 paved ground and paver sidewalks, BR-14.1 the new kinds): (material, color)
     "building": ("Concrete", (200, 200, 205)), "road": ("Asphalt", (60, 60, 64)), "path": ("Pavement", (150, 150, 150)),
-    "sidewalk": ("Concrete", (185, 185, 185)), "ground": ("Grass", (95, 140, 70)), "spawn": ("SmoothPlastic", (255, 255, 255)),
+    "sidewalk": ("Brick", (165, 140, 135)), "ground": ("Concrete", (130, 128, 125)), "spawn": ("SmoothPlastic", (255, 255, 255)),
+    "roof": ("Slate", (60, 60, 65)), "facade": ("SmoothPlastic", (225, 225, 222)), "sign": ("SmoothPlastic", (240, 240, 236)),
+    "prop": ("Concrete", (150, 150, 148)),
 }
-ORDER = {"ground": 0, "road": 1, "path": 2, "sidewalk": 3, "building": 4, "spawn": 5}  # BR-7.1
+ORDER = {"ground": 0, "road": 1, "path": 2, "sidewalk": 3, "building": 4, "roof": 5, "facade": 6, "sign": 7, "prop": 8, "spawn": 9}  # BR-7.1, U5 BR-14.1
+# U5 BR-14.1: (casts a shadow, collides) by kind; an item that differs sends g=/l= (yard parts and parked cars collide, markings do not)
+KIND_DEFAULTS = {"ground": (True, True), "road": (True, True), "path": (True, True), "sidewalk": (True, True), "building": (True, True),
+                 "roof": (True, True), "facade": (False, False), "sign": (False, False), "prop": (False, True), "spawn": (False, False)}
 SPAWN_SIZE = 6.0
 SPAWN_THICKNESS = 0.2
 
@@ -86,8 +93,13 @@ def from_studs(frame: Frame, x: float, z: float) -> LatLon:
 
 @dataclass(frozen=True)
 class Item:
-    """One part to build. Lengths in studs, rounded to three decimals. `group` and `seq` only fix the order (BR-7.1)."""
-    kind: str  # ground, road, path, sidewalk, building, spawn
+    """One part to build. Lengths in studs, rounded to three decimals. `group` and `seq` only fix the order (BR-7.1).
+
+    U5 fields: `owner` (the building a roof, facade, sign or yard part belongs to), `shape` (Block, Wedge, CornerWedge, Cylinder
+    standing with size = height, diameter, diameter, Ball), `color_name` (palette key the chunk's color table resolves), `text`,
+    `ink`, `faces` (signs), `reflectance`, `shadow` and `collide` (the kind's default when None).
+    """
+    kind: str  # ground, road, path, sidewalk, building, roof, facade, sign, prop, spawn
     name: str
     group: str
     seq: int
@@ -101,14 +113,31 @@ class Item:
     material: str
     color: tuple[int, int, int]
     attrs: Mapping[str, Any] = field(default_factory=dict)
+    owner: str | None = None
+    shape: str = "Block"
+    color_name: str | None = None
+    text: str | None = None
+    ink: str | None = None
+    faces: str | None = None
+    reflectance: float = 0.0
+    shadow: bool | None = None
+    collide: bool | None = None
+
+    @property
+    def casts_shadow(self) -> bool:
+        return KIND_DEFAULTS[self.kind][0] if self.shadow is None else self.shadow
+
+    @property
+    def collides(self) -> bool:
+        return KIND_DEFAULTS[self.kind][1] if self.collide is None else self.collide
 
 
 def _item(kind: str, name: str, group: str, seq: int, center: tuple[float, float, float], size: tuple[float, float, float],
-          yaw: float, attrs: Mapping[str, Any] | None = None, color: tuple[int, int, int] | None = None) -> Item:
+          yaw: float, attrs: Mapping[str, Any] | None = None, color: tuple[int, int, int] | None = None, **extra: Any) -> Item:
     material, default_color = LOOKS[kind]
     color = color or default_color
     return Item(kind, name, group, seq, fmt(center[0]), fmt(center[1]), fmt(center[2]), fmt(size[0]), fmt(size[1]), fmt(size[2]),
-                fmt(yaw), material, color, dict(attrs or {}))
+                fmt(yaw), extra.pop("material", material), color, dict(attrs or {}), **extra)
 
 
 def order_items(items: Sequence[Item]) -> list[Item]:
@@ -137,9 +166,15 @@ class Box:
 
 def outline_to_box(outline: Sequence[LatLon], frame: Frame) -> Box | None:
     """Minimum-area rotated rectangle around the outline (BR-2.2). None when the outline has no area."""
-    pts = [to_meters(frame, lat, lon) for lat, lon in outline]
+    return box_of_points([to_meters(frame, lat, lon) for lat, lon in outline])
+
+
+def box_of_points(pts: Sequence[tuple[float, float]], area: float | None = None) -> Box | None:
+    """Minimum-area rotated rectangle around east/north metre points; `area` is the covered polygon's own area (default: the
+    polygon through the points in order). None when there is no area."""
     rect = MultiPoint(pts).minimum_rotated_rectangle
-    area = Polygon(pts).area
+    if area is None:
+        area = Polygon(pts).area if len(pts) >= 3 else 0.0
     if rect.geom_type != "Polygon" or rect.area <= 1e-9 or area <= 1e-9:
         return None
     c = list(rect.exterior.coords)[:4]
@@ -184,7 +219,8 @@ def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, A
         if eff.flags:
             attrs["Review"] = "-".join(eff.flags)  # not a comma: Luau text may only hold the characters in build_luau.SAFE_TEXT
     item = _item("building", bid, bid, 0, (box.cx_m * s, sy / 2, -box.cy_m * s),
-                 (max(box.width_m * s, 1.0), sy, max(box.depth_m * s, 1.0)), box.yaw_deg, attrs, color)
+                 (max(box.width_m * s, 1.0), sy, max(box.depth_m * s, 1.0)), box.yaw_deg, attrs, color,
+                 color_name=eff.wall_color if eff is not None else None)
     return item, None
 
 
@@ -230,14 +266,23 @@ def road_items(feature: Mapping[str, Any], frame: Frame, cell_id: str, res: int,
 
 
 def sidewalk_sides(feature: Mapping[str, Any]) -> tuple[str, ...]:
-    """Which sides get a sidewalk: the OSM sidewalk tag first, else both sides of the big roads (BR-3.7)."""
+    """Which sides get a sidewalk: the OSM sidewalk tag, else sidewalk:both/left/right, else both sides of the big roads and of
+    residential roads (BR-3.7 as amended by U5 BR-11.13)."""
     if feature["kind"] != "road":
         return ()
-    tag = (feature.get("tags") or {}).get("sidewalk")
+    tags = feature.get("tags") or {}
+    tag = tags.get("sidewalk")
     if isinstance(tag, str):
         return {"both": ("L", "R"), "left": ("L",), "right": ("R",)}.get(tag.strip().lower(), ())
+    yes = ("yes", "separate")
+    if isinstance(tags.get("sidewalk:both"), str):
+        return ("L", "R") if tags["sidewalk:both"].strip().lower() in yes else ()
+    sides = tuple(s for s, key in (("L", "sidewalk:left"), ("R", "sidewalk:right"))
+                  if isinstance(tags.get(key), str) and tags[key].strip().lower() in yes)
+    if sides or any(isinstance(tags.get(k), str) for k in ("sidewalk:left", "sidewalk:right")):
+        return sides
     cls = str(feature.get("highway_class") or "")
-    return ("L", "R") if cls.removesuffix("_link") in BIG_ROADS else ()
+    return ("L", "R") if cls.removesuffix("_link") in BIG_ROADS or cls == "residential" else ()
 
 
 def sidewalk_items(feature: Mapping[str, Any], frame: Frame, cell_id: str, res: int, cfg: Mapping[str, Any]) -> list[Item]:

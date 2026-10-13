@@ -1,7 +1,8 @@
-"""SQLite data layer (C7) for U1, U3 and U4: schema, per-cell replacement, orphan report, backup, run log.
+"""SQLite data layer (C7) for U1, U3, U4 and U5: schema, per-cell replacement, orphan report, backup, run log.
 
-U1 tables, U3's `captures` and `building_views`, and U4's `estimates` (photo judgements) and `overrides` (corrections).
-Only the U4 functions below write `estimates` and `overrides`; `replace_cell_rows` never touches them (U1 BR-6.2).
+U1 tables, U3's `captures` and `building_views`, U4's `estimates` (photo judgements) and `overrides` (corrections), and U5's
+`details` (facade judgements). Only the U4 and U5 functions below write those tables; `replace_cell_rows` never touches them
+(U1 BR-6.2, U5 BR-7.5).
 """
 from __future__ import annotations
 
@@ -13,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
+import details_rules
 import judgement
 
 JSON_COLUMNS = {"outline", "centroid", "tags", "osm_tags", "boundary", "geometry", "counts"}
@@ -74,6 +76,10 @@ CREATE TABLE IF NOT EXISTS estimates (
 CREATE TABLE IF NOT EXISTS overrides (
     building_id TEXT NOT NULL, field TEXT NOT NULL, value TEXT NOT NULL, cell_id TEXT NOT NULL, reason TEXT NOT NULL,
     set_at TEXT NOT NULL, PRIMARY KEY (building_id, field));
+CREATE TABLE IF NOT EXISTS details (
+    building_id TEXT PRIMARY KEY, cell_id TEXT NOT NULL, finish TEXT, ground_use TEXT, stair TEXT, bay INTEGER, balcony INTEGER,
+    roof_color TEXT, rooftop TEXT, note TEXT, judged_at TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS idx_details_cell ON details(cell_id);
 CREATE INDEX IF NOT EXISTS idx_estimates_cell ON estimates(cell_id);
 CREATE INDEX IF NOT EXISTS idx_overrides_cell ON overrides(cell_id);
 CREATE INDEX IF NOT EXISTS idx_osm_buildings_cell ON osm_buildings(cell_id);
@@ -82,7 +88,7 @@ CREATE INDEX IF NOT EXISTS idx_buildings_cell ON buildings(cell_id);
 CREATE INDEX IF NOT EXISTS idx_street_features_cell ON street_features(cell_id);
 """
 
-OWNED_BY_U4 = ("overrides", "estimates")
+OWNED_BY_U4 = ("overrides", "estimates", "details")  # and U5: tables a re-collection never touches
 
 
 def connect(path: str | Path) -> sqlite3.Connection:
@@ -447,3 +453,79 @@ def import_file(conn: sqlite3.Connection, cfg: Mapping[str, Any], path: str | Pa
     ids = {o["building_id"] for o in overrides} | {e["building_id"] for e in estimates}
     return {"cell_id": cell_id, "overrides": len(overrides), "estimates": len(estimates),
             "orphans": [(t, b) for t, b in orphans(conn) if b in ids]}
+
+
+# --- U5: facade details (BR-7) ------------------------------------------------------------------------------------------
+
+DETAIL_COLUMNS = ("building_id", "cell_id", *details_rules.DETAIL_FIELDS, "note", "judged_at")
+
+
+def _detail_select(where: str) -> str:
+    return f"SELECT {', '.join(details_rules.DETAIL_KEYS)} FROM details {where} ORDER BY building_id"
+
+
+def record_details(conn: sqlite3.Connection, rows: Sequence[Mapping[str, Any]], now: str) -> int:
+    """Store detail judgements, all or none (BR-7.4). A row equal to the stored one changes nothing, not even its time."""
+    checked: list[tuple[str, dict[str, Any]]] = []
+    seen: set[str] = set()
+    for raw in rows:
+        row = details_rules.validate_detail(raw)
+        bid = row["building_id"]
+        found = conn.execute("SELECT cell_id, status FROM buildings WHERE building_id = ?", (bid,)).fetchone()
+        if found is None or found[1] != "ok":
+            raise ValueError(f"{bid}: not a building with status ok in this database")
+        if bid in seen:
+            raise ValueError(f"{bid}: appears twice in one call")
+        seen.add(bid)
+        checked.append((found[0], row))
+    with conn:
+        for cell_id, row in checked:
+            old = conn.execute(_detail_select("WHERE building_id = ?"), (row["building_id"],)).fetchone()
+            if old is not None and {k: v for k, v in zip(details_rules.DETAIL_KEYS, old) if k != "judged_at"} == row:
+                continue
+            conn.execute(
+                f"INSERT OR REPLACE INTO details ({', '.join(DETAIL_COLUMNS)}) VALUES ({', '.join('?' for _ in DETAIL_COLUMNS)})",
+                (row["building_id"], cell_id, *(row[f] for f in details_rules.DETAIL_FIELDS), row["note"], now))
+    return len(checked)
+
+
+def details_in_cell(conn: sqlite3.Connection, cell_id: str) -> list[dict[str, Any]]:
+    return [dict(zip(details_rules.DETAIL_KEYS, r)) for r in conn.execute(_detail_select("WHERE cell_id = ?"), (cell_id,))]
+
+
+def details_by_building(conn: sqlite3.Connection, cell_id: str) -> dict[str, dict[str, Any]]:
+    return {d["building_id"]: d for d in details_in_cell(conn, cell_id)}
+
+
+def export_details(conn: sqlite3.Connection, cell_id: str, directory: str | Path) -> Path | None:
+    """Write details/<cell>.json (BR-7.5). No file for a cell with no rows unless an old file exists (then it is rewritten empty)."""
+    if not details_rules.CELL_RE.fullmatch(cell_id):
+        raise ValueError(f"not an H3 cell id: {cell_id[:40]!r}")
+    rows = details_in_cell(conn, cell_id)
+    path = Path(directory) / f"{cell_id}.json"
+    if not rows and not path.exists():
+        return None
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(details_rules.export_details_payload(cell_id, rows), encoding="utf-8")
+    os.replace(tmp, path)
+    return path
+
+
+def import_details(conn: sqlite3.Connection, path: str | Path) -> dict[str, Any]:
+    """Load a details export into the database: checked completely first, then written in one transaction (BR-7.5).
+
+    Rows are written by building id and keep the file's time; rows of buildings that are not in the database are loaded too
+    and reported as orphans.
+    """
+    p = Path(path)
+    if p.stat().st_size > details_rules.MAX_EXPORT_BYTES:
+        raise ValueError("export file is too large")
+    cell_id, rows = details_rules.parse_details_export(p.read_text(encoding="utf-8"))
+    known = {r[0] for r in conn.execute("SELECT building_id FROM buildings WHERE cell_id = ?", (cell_id,))}
+    with conn:
+        for row in rows:
+            conn.execute(
+                f"INSERT OR REPLACE INTO details ({', '.join(DETAIL_COLUMNS)}) VALUES ({', '.join('?' for _ in DETAIL_COLUMNS)})",
+                (row["building_id"], cell_id, *(row[f] for f in details_rules.DETAIL_FIELDS), row["note"], row["judged_at"]))
+    return {"cell_id": cell_id, "details": len(rows), "orphans": sorted(r["building_id"] for r in rows if r["building_id"] not in known)}

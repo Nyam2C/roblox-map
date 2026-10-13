@@ -248,3 +248,53 @@ def override_sets(draw):
 def building_cases(draw, building_id: str = "gis:1"):
     """(buildings row, judgement or None, overrides dict) for one building."""
     return (draw(register_buildings(building_id)), draw(st.one_of(st.none(), judgements(building_id))), draw(override_sets()))
+
+
+# --- U5 details ---------------------------------------------------------------------------------------
+
+import details_rules as R  # noqa: E402
+
+NOTE_WORDS = ["shop", "store", "storey", "restaurant", "cafe", "stair", "bay", "balcony", "balconies", "garage", "carport",
+              "roof terrace", "solar", "red roof", "green tile", "brown roof", "brick", "house", "two", "tower"]
+WALL_NAMES = sorted(common.DEFAULTS["wall_colors"])
+USE_CODES = ["01000", "04000", "09000", "10000", "11000", "14000", "03000", ""]
+
+
+def notes():
+    """A U4-style note made of the words the U5 keyword rules look at."""
+    return st.lists(st.sampled_from(NOTE_WORDS), max_size=6).map(" ".join)
+
+
+@st.composite
+def detail_rows(draw, building_id: str = "gis:1", all_known: bool = False):
+    """A detail row as `record` takes it; fields may be empty unless all_known."""
+    row: dict = {"building_id": building_id}
+    for field, values in R.VOCAB.items():
+        row[field] = draw(st.sampled_from(values)) if all_known else draw(st.one_of(st.none(), st.sampled_from(values)))
+    row["note"] = draw(st.one_of(st.none(), notes()))
+    return row
+
+
+@st.composite
+def body_cases(draw, i: int = 1, center: geo.LatLon | None = None, spread_m: float = 120.0):
+    """(buildings row, estimate, detail row or None) of one rectangular building with its final values ready to merge."""
+    w, d = draw(st.floats(6, 30)), draw(st.floats(5, 20))
+    floors = draw(st.integers(1, 10))
+    fh = draw(st.floats(2.6, 4.5))
+    wall = draw(st.sampled_from(WALL_NAMES))
+    roof = draw(st.sampled_from(J.ROOF_SHAPES))
+    code = draw(st.sampled_from(USE_CODES))
+    name = draw(st.sampled_from(["", "", "", "한빛학교", "중앙행정복지센터", "샘터경로당", "큰타워"]))
+    c = center or offset(BASE, draw(st.floats(-spread_m, spread_m)), draw(st.floats(-spread_m, spread_m)))
+    outline = [list(p) for p in rect(c, w, d)]
+    row = {"building_id": f"gis:{i}", "cell_id": "8930e0af13bffff", "source": "gis", "outline": outline, "centroid": [c[0], c[1]],
+           "name": name, "usability_code": code, "floors_above": floors, "height_m": round(floors * fh, 2), "building_area": round(w * d, 1),
+           "status": "ok", "osm_height_m": None, "osm_levels": None}
+    est = {"floors_seen": floors, "confidence": "high", "height_est_m": None, "wall_color": wall, "roof_shape": roof, "views_used": [1],
+           "note": draw(st.one_of(st.none(), notes()))}
+    detail = draw(st.one_of(st.none(), detail_rows(f"gis:{i}")))
+    return row, est, detail
+
+
+SIGN_TEXTS = st.text(alphabet=st.one_of(st.characters(min_codepoint=0xAC00, max_codepoint=0xD7A3), st.sampled_from(list("abcXYZ019 "))),
+                     min_size=1, max_size=12)

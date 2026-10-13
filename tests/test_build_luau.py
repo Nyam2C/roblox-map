@@ -149,7 +149,8 @@ def test_the_plan_counts_chunks_and_files_match_the_manifest():
     plan = B.plan_cell(CELL, buildings, [street("way:1", "tertiary"), street("way:2", "residential")], CFG)
     manifest = json.loads(plan.files["manifest.json"])
     c = plan.counts
-    assert c["items"] == 1 + 2 + 2 + 45 and c["items_ground"] == 1 and c["items_road"] == 2 and c["items_sidewalk"] == 2
+    assert c["items"] == sum(c[f"items_{k}"] for k in layout.ORDER) and c["items_ground"] == 1 and c["items_road"] == 2
+    assert c["items_sidewalk"] == 4 and c["items_building"] == 45 and c["items_facade"] > 45  # U5: residential sidewalks, facade parts
     assert c["chunks"] == math.ceil(c["items"] / 20) and sorted(k for k in plan.files if k.endswith(".luau")) == [f"chunk-{n:03d}.luau" for n in range(1, c["chunks"] + 1)]
     assert manifest["counts"] == c and manifest["cell_id"] == CELL
     assert manifest["files"] == {n: len(t.encode()) for n, t in plan.files.items() if n.endswith(".luau")}
@@ -162,7 +163,10 @@ def test_items_are_written_in_the_fixed_order_across_the_chunk_files():
     plan = B.plan_cell(CELL, [building(i) for i in (7, 2, 5)], [street("way:9", "tertiary"), path, street("way:1", "residential")],
                        {**CFG, "chunk_size": 4, "spawn_lat": spot[0], "spawn_lon": spot[1]})
     order = [m for n, t in sorted(plan.files.items()) if n.endswith(".luau") for m in re.findall(r'\{k="(\w+)",n="([^"]+)"', t)]
-    assert [k for k, _ in order] == ["ground", "road", "road", "path", "sidewalk", "sidewalk", "building", "building", "building", "spawn"]
+    ranks = [layout.ORDER[k] for k, _ in order]
+    assert ranks == sorted(ranks) and order[0][0] == "ground" and order[-1][0] == "spawn"
+    assert [k for k, _ in order if k in ("ground", "road", "path", "sidewalk", "building", "spawn")] == \
+        ["ground", "road", "road", "path", "sidewalk", "sidewalk", "sidewalk", "sidewalk", "building", "building", "building", "spawn"]
     assert [n for k, n in order if k == "building"] == ["gis:1002", "gis:1005", "gis:1007"] and [n for k, n in order if k == "road"] == ["way:1#0", "way:9#0"]
 
 
@@ -214,10 +218,11 @@ def test_p2_8_row_order_and_repeats_do_not_change_a_single_character(features, s
 def test_write_plan_writes_the_files_and_removes_chunk_files_of_an_earlier_longer_run(tmp_path):
     long = B.plan_cell(CELL, [building(i) for i in range(45)], [], CFG)
     B.write_plan(long, tmp_path)
-    assert len(list((tmp_path / CELL).glob("chunk-*.luau"))) == 3
-    short = B.plan_cell(CELL, [building(i) for i in range(5)], [], CFG)
+    assert len(list((tmp_path / CELL).glob("chunk-*.luau"))) == long.counts["chunks"] > 3
+    short = B.plan_cell(CELL, [building(0)], [], CFG)
     paths = B.write_plan(short, tmp_path)
-    assert sorted(p.name for p in (tmp_path / CELL).iterdir()) == ["chunk-001.luau", "manifest.json"] and len(paths) == 2
+    assert sorted(p.name for p in (tmp_path / CELL).iterdir()) == [f"chunk-{n:03d}.luau" for n in range(1, short.counts["chunks"] + 1)] + ["manifest.json"]
+    assert len(paths) == short.counts["chunks"] + 1 and short.counts["chunks"] < long.counts["chunks"]
     assert (tmp_path / CELL / "chunk-001.luau").read_text(encoding="utf-8") == short.files["chunk-001.luau"]
 
 
@@ -300,7 +305,7 @@ def test_u4_a_judgement_and_a_correction_change_height_color_and_attributes():
     assert item.color == tuple(CFG["wall_colors"]["blue"])
     text = "".join(t for n, t in plan.files.items() if n.endswith(".luau"))
     assert 'b="from_floors"' in text and 'a="photo_count"' in text and 'c="blue"' in text and 'v="changed"' in text
-    assert 'walls={["blue"]={110,140,180}}' in text
+    assert '["blue"]={110,140,180}' in text
     assert plan.counts["judged"] == 1 and plan.counts["flagged"] == 1
 
 
@@ -309,10 +314,10 @@ def test_u4_the_colors_of_a_chunk_are_sent_once_for_that_chunk_only():
     ests = {bs[0]["building_id"]: judged(bs[0]["building_id"], wall_color="pink"), bs[1]["building_id"]: judged(bs[1]["building_id"], wall_color="pink")}
     plan = B.plan_cell(CELL, bs, [], {**CFG, "chunk_size": 2}, ests)
     texts = [t for n, t in sorted(plan.files.items()) if n.endswith(".luau")]
-    assert [t.count('["pink"]') for t in texts] == [1, 1]  # gis:1000 is in the first chunk, gis:1001 in the second; each sends its color once
-    assert all(t.count("walls=") == 1 for t in texts)
+    assert all(t.count('["pink"]') == (1 if 'c="pink"' in t else 0) for t in texts)  # a chunk sends a color once, and only when it uses it
+    assert sum(t.count('["pink"]') for t in texts) >= 2 and all(t.count("walls=") == 1 for t in texts)
     plan = B.plan_cell(CELL, bs[2:], [], CFG)  # a chunk of buildings without a judgement still gets a table: light_gray is their color
-    assert 'walls={["light_gray"]={200,200,205}}' in "".join(plan.files.values())
+    assert '["light_gray"]={200,200,205}' in "".join(plan.files.values())
 
 
 def test_u4_a_hostile_text_from_the_judgement_never_reaches_the_code():

@@ -68,6 +68,7 @@
   - `studio/Builder.luau`는 저장소에 두고, Claude가 `execute_luau`로 Studio의 ModuleScript에 넣거나 갱신한다(D-3)
   - Studio 쪽은 `Workspace/Auto/<칸ID>` 폴더를 비우고 다시 만든다. `Workspace/Manual`은 건드리지 않는다
 - **인터페이스**: 입력은 칸 ID와 덩어리 크기, 출력은 Luau 호출 데이터. 실행은 Claude가 Studio MCP로 한다
+- **U5 확장(2026-10-13)**: `details_rules.py`(세부 어휘·이름·팔레트·치수), `layout_details.py`(지붕·외장·간판·마당·가로 기하), `details.py`(세부 판단 명령, 표 `details`, `details/<칸ID>.json`)가 더해졌다. 세부 판단은 Claude가 묶음 이미지를 보고 기록한다
 
 ### C7. 데이터 계층 — `db.py`
 - **목적**: 모든 스크립트가 공유하는 SQLite 접근과 스키마

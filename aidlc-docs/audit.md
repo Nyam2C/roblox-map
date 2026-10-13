@@ -971,3 +971,26 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 
 ---
 
+## U5 Details - Code Generation Plan and Approval
+**Timestamp**: 2026-10-13T07:46:38Z
+**AI Prompt**: Wrote aidlc-docs/construction/plans/u5-details-code-generation-plan.md (10 steps: config, data layer, pure rules module details_rules.py, layout geometry, chunk generation, Builder.luau, details.py CLI, tests, docs, first-cell dry run; mutation list). "Approve the U5 code generation plan?"
+**User Response**: Approved under the standing approval of 2026-10-13.
+**Context**: CONSTRUCTION - U5 details, Code Generation Part 1 done; Part 2 (generation) starts.
+
+---
+
+## U5 Details - Code Generation Done, Studio Builder Deployed, Save Attempt
+**Timestamp**: 2026-10-13T08:24:01Z
+**AI Response**: Generated the U5 code (details_rules.py, layout_details.py, details.py, db details table, layout/build_luau/Builder changes, config keys, tests) per the plan; the first-cell dry run gives 4,893 items in 70 chunks (max 13.3 KB), 116 buildings built, 6 duplicates dropped, 210 signs. Recorded the 116 detail judgements through details.py (details/8930e0af13bffff.json). Deployed the U5 Builder.luau to ServerStorage/MapBuilder (new ModuleScript, old destroyed; 11,459 bytes = repository file) and ran a smoke chunk in MCP_Test/U5_T2 (verify ok, Manual skip by owner, unknown Manual id reported, Hangul sign, standing cylinder, reflectance, shadow and collide flags); removed the smoke folder. Existing suite: 500 passed after updating 7 tests to the U5 rules; the new U5 layout tests are running. Tried to save the place to Roblox (Cmd+S through osascript) before rebuilding the cell: macOS refused the keystroke (accessibility not granted), and the Studio keyboard tool only works in a play test, so the cloud save is left to the user. Rebuilding Workspace/Auto/<cell> is regenerable from data and Workspace/Manual is empty, so the rebuild proceeds.
+**Context**: CONSTRUCTION - U5 details, Code Generation Part 2 (steps 1 to 10 done except the tests' final run); Build and Test starts with the first-cell build.
+
+---
+
+## U5 Details - Code Generation Approval (Tests Green)
+**Timestamp**: 2026-10-13T08:45:32Z
+**AI Response**: Finished the U5 code generation: tests/test_layout_u5.py ran (44 tests; 12 failures were test-side: a shapely helper built a polygon from one point, 0.1 % lat/lon-to-metre tolerances, item name formats, a public-name fixture, helper sort keys) plus two code fixes found by the tests: a cut line through an outline vertex left sliver pieces that rejected the split (layout_details._pieces_sorted now drops pieces under 0.01 m2 and cuts at exact vertex projections), and a sub-metre slot spacing made _slots loop for minutes (spacing under 1 m now means none). Whole suite: 544 passed, 1 skipped on seeds 1, 7, 42, 2026, 99999. "Approve the U5 Code Generation?"
+**User Response**: Approved under the standing approval of 2026-10-13 (the user is away; recommended option taken, commit and push follow).
+**Context**: CONSTRUCTION - U5 details, Code Generation complete; Build and Test in progress (first cell built in Studio: 4,893 parts, 70 chunks, verify ok; lighting values set; captures at 10 m and 80 m show no flicker).
+
+---
+

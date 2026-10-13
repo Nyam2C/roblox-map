@@ -67,7 +67,7 @@ DEFAULTS: dict[str, Any] = {
         "pedestrian": 2.5, "footway": 2, "path": 2, "cycleway": 2, "steps": 2, "corridor": 2, "bridleway": 2,
         "track": 3,
     },
-    "chunk_size": 50,
+    "chunk_size": 70,  # U5: about 11 KB per call with the detail items (U5 BR-14.6; 80 crossed the 15 KB line on building-heavy chunks)
     "spawn_lat": None,  # unset = no spawn is built (decided together in Studio)
     "spawn_lon": None,
     "spawn_yaw_deg": 0,
@@ -85,6 +85,15 @@ DEFAULTS: dict[str, Any] = {
         "orange": [214, 140, 80], "red_brick": [170, 90, 70], "brown": [125, 92, 70], "pink": [225, 170, 170],
         "light_gray": [200, 200, 205], "dark_gray": [110, 112, 118], "green": [120, 150, 110], "blue": [110, 140, 180],
     },
+    # U5 details (BR-14.9): the frame-rate knobs and the roof pitch; building dimensions are constants in details_rules.DIMS
+    "pole_spacing_m": 30,
+    "lamp_spacing_m": 30,
+    "tree_spacing_m": 7,
+    "car_spacing_m": 8,
+    "school_zone_m": 50,
+    "roof_pitch_deg": 25,
+    "window_faces": "all",  # "front": windows only on the road-facing face (first step of the FPS ladder)
+    "details_dir": "details",
 }
 
 # U3 and U2 key -> (min, max, must be an integer)
@@ -100,6 +109,8 @@ RANGES: dict[str, tuple[float, float, bool]] = {
     "chunk_size": (1, 1000, True), "spawn_yaw_deg": (-360, 360, False),
     "floor_height_min_m": (0.5, 20, False), "floor_height_max_m": (0.5, 50, False), "review_batch_size": (1, 100, True),
     "sheet_tile_w": (64, 2048, True), "sheet_tile_h": (64, 2048, True), "sheet_jpeg_quality": (1, 100, True),
+    "pole_spacing_m": (0, 200, False), "lamp_spacing_m": (0, 200, False), "tree_spacing_m": (0, 50, False),
+    "car_spacing_m": (0, 50, False), "school_zone_m": (0, 300, False), "roof_pitch_deg": (5, 60, False),
 }
 
 RETRY_CODES = {429, 502, 504}
@@ -143,7 +154,7 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
     waits = cfg["retry_waits_s"]
     if not (isinstance(waits, list) and all(_is_number(w) and w >= 0 for w in waits)):
         errors.append("retry_waits_s must be a list of numbers >= 0")
-    for k in ("db_path", "log_dir", "backup_dir", "captures_dir", "overrides_dir"):
+    for k in ("db_path", "log_dir", "backup_dir", "captures_dir", "overrides_dir", "details_dir"):
         if not (isinstance(cfg[k], str) and cfg[k].strip()):
             errors.append(f"{k} must be a non-empty string")
     keep = cfg["backup_keep"]
@@ -164,6 +175,8 @@ def load_config(path: str | Path | None = None) -> dict[str, Any]:
         errors.append("fov_min_deg must not exceed fov_max_deg")
     if not errors and cfg["floor_height_min_m"] >= cfg["floor_height_max_m"]:
         errors.append("floor_height_min_m must be below floor_height_max_m")
+    if cfg["window_faces"] not in ("all", "front"):
+        errors.append('window_faces must be "all" or "front"')
     broken = cfg["blind_broken"]
     if not (isinstance(broken, list) and all(isinstance(b, str) and b.strip() for b in broken)):
         errors.append("blind_broken must be a list of building ids")

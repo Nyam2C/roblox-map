@@ -41,7 +41,7 @@ SCRIPTS = sorted(p for p in (ROOT / "src").glob("*.py") if "# /// script" in p.r
 
 
 def test_there_are_scripts_with_inline_metadata():
-    assert {p.name for p in SCRIPTS} >= {"cells.py", "register.py", "capture.py", "build_luau.py", "estimate.py", "overrides.py"}
+    assert {p.name for p in SCRIPTS} >= {"cells.py", "register.py", "capture.py", "build_luau.py", "estimate.py", "overrides.py", "details.py"}
 
 
 @pytest.mark.parametrize("script", SCRIPTS, ids=lambda p: p.name)
@@ -134,3 +134,13 @@ def test_overrides_runs_on_the_standard_library_and_our_own_modules_alone():
     for name in ("overrides", "db", "common", "judgement"):  # everything overrides.py imports, transitively
         outside = _imports(ROOT / "src" / f"{name}.py") - set(sys.stdlib_module_names) - LOCAL
         assert not outside, f"{name}.py imports {sorted(outside)}"
+
+
+# --- U5: details.py needs nothing from outside, details_rules.py is standard library only (U5-NFR-SEC6) ------------------
+
+def test_details_runs_on_the_standard_library_and_our_own_modules_alone():
+    assert _inline_meta(ROOT / "src" / "details.py")["dependencies"] == []
+    for name in ("details", "db", "common", "judgement", "details_rules"):
+        outside = _imports(ROOT / "src" / f"{name}.py") - set(sys.stdlib_module_names) - LOCAL
+        assert not outside, f"{name}.py imports {sorted(outside)}"
+    assert _imports(ROOT / "src" / "details_rules.py") <= set(sys.stdlib_module_names) | {"__future__"}

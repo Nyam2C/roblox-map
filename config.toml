@@ -50,7 +50,7 @@ studs_per_m = 3.6             # 1 m당 stud. 첫 칸을 만든 뒤 사용자와 
 poor_fit_ratio = 0.8          # 박스와 면적 비율이 이 값 미만인 건물은 manifest의 poor_fit 목록에 올린다 (BR-2.5)
 ground_margin_m = 20          # 땅 판이 칸 경계 밖으로 더 덮는 거리(m) (BR-4.1)
 sidewalk_width_m = 1.5        # 인도 폭(m) (BR-3.8)
-chunk_size = 50               # 한 번의 execute_luau에 넣는 항목 수 (BR-7.2)
+chunk_size = 70               # 한 번의 execute_luau에 넣는 항목 수 (U2 BR-7.2, U5 BR-14.6: 호출당 약 11 KB)
 spawn_lat = 37.504483         # 스폰 점: 심원고 본관에 가장 가까운 신흥로238번길(보행로) 위의 점. 사용자와 Studio에서 같이 정함(2026-10-13, Q6=B) (BR-5.1)
 spawn_lon = 126.77861
 spawn_yaw_deg = -62.0         # 캐릭터가 본관(북동쪽)을 보도록. 값이 없으면 스폰을 만들지 않는다
@@ -64,6 +64,16 @@ sheet_tile_h = 384
 sheet_jpeg_quality = 85
 overrides_dir = "overrides"   # 보정과 판단 내보내기 파일(git 포함) (BR-8.3)
 blind_broken = ["gis:11081057"]  # 판단 전에 사진과 높이를 본 건물. 사진-대장 일치율에서 뺀다 (N-U4-9)
+
+# U5 디테일 (BR-14.9). 건축 치수(창, 띠, 기단, 대문, 간판 ...)는 src/details_rules.py의 DIMS 상수다
+pole_spacing_m = 30           # 전봇대 간격(m), 0이면 없음
+lamp_spacing_m = 30           # 가로등 간격(m)
+tree_spacing_m = 7            # 가로수 간격(m)
+car_spacing_m = 8             # 주차 차량 간격(m, living_street; residential은 x1.25)
+school_zone_m = 50            # 학교 필지에서 이 거리 안이 스쿨존
+roof_pitch_deg = 25           # 박공·모임지붕 경사각
+window_faces = "all"          # "front"이면 창을 도로 쪽 면에만 (FPS 조절 1단계)
+details_dir = "details"       # 세부 판단 내보내기 파일(git 포함)
 
 [road_widths_m]               # 도로 종류별 폭(m). OSM width 태그가 있으면 그것이 우선이다 (BR-3.4)
 motorway = 14

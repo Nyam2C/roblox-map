@@ -1,0 +1,368 @@
+"""U5 pure rules: the detail vocabulary and its validation, the export file, note keywords, merged details, archetypes,
+public names, sign text, fictional names, the palette, materials, shapes and the building dimensions.
+
+Standard library only, no input or output. Rules: aidlc-docs/construction/u5-details/functional-design/business-rules.md
+(BR-1.5, BR-1.6, BR-3.1, BR-3.2, BR-7, BR-10, BR-14.1, BR-14.2). Every bit of variety comes from `pick` (crc32), never from
+`hash()` or `random`, so the same input always gives the same map (BR-14.8).
+"""
+from __future__ import annotations
+
+import json
+import re
+import zlib
+from typing import Any, Mapping, Sequence
+
+# --- the detail vocabulary (BR-7.1) --------------------------------------------------------------------------
+
+VOCAB: dict[str, tuple[Any, ...]] = {
+    "finish": ("brick", "stone", "tile", "paint", "panel", "glass"),
+    "ground_use": ("house", "shop", "garage"),
+    "stair": ("none", "glass", "brick", "round"),
+    "bay": (0, 1),
+    "balcony": (0, 1),
+    "roof_color": ("dark", "red", "green", "brown", "blue", "pink"),
+    "rooftop": ("none", "box", "railing", "tank"),
+}
+DETAIL_FIELDS = tuple(VOCAB)  # the seven judged fields
+DETAIL_KEYS = ("building_id", *DETAIL_FIELDS, "note", "judged_at")  # a stored row
+RECORD_KEYS = DETAIL_KEYS[:-1]  # what `record` takes (the time is added by the database)
+NOTE_MAX = 300
+EXPORT_VERSION = 1
+MAX_EXPORT_BYTES = 5_000_000
+ID_RE = re.compile(r"[A-Za-z0-9:#_.\-]{1,100}")  # same as judgement.ID_RE (U2 SAFE_TEXT)
+CELL_RE = re.compile(r"[0-9a-f]{15}")
+TIME_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\+00:00|Z)")
+CONTROL = re.compile(r"[\x00-\x1f\x7f]")
+
+DEFAULT_DETAILS: dict[str, Any] = {"ground_use": "house", "stair": "none", "bay": 0, "balcony": 0, "roof_color": "dark", "rooftop": "none"}
+
+
+def _is_int(v: Any) -> bool:
+    return isinstance(v, int) and not isinstance(v, bool)
+
+
+def validate_detail(row: Mapping[str, Any]) -> dict[str, Any]:
+    """One detail row as `record` takes it: known keys only, vocabulary values or empty, a short note (BR-7.4)."""
+    if not isinstance(row, Mapping):
+        raise ValueError("a detail must be an object")
+    unknown = set(row) - set(RECORD_KEYS)
+    if unknown:
+        raise ValueError(f"unknown keys {sorted(unknown)}")
+    bid = row.get("building_id")
+    if not (isinstance(bid, str) and ID_RE.fullmatch(bid)):
+        raise ValueError(f"building_id is missing or has characters that are not allowed: {str(bid)[:40]!r}")
+    out: dict[str, Any] = {"building_id": bid}
+    for field, values in VOCAB.items():
+        v = row.get(field)
+        if v is None:
+            out[field] = None
+            continue
+        if field in ("bay", "balcony"):
+            if not (_is_int(v) and v in values):
+                raise ValueError(f"{bid}: {field} must be 0, 1 or empty")
+        elif v not in values:
+            raise ValueError(f"{bid}: {field} must be one of {values} or empty")
+        out[field] = v
+    note = row.get("note")
+    if note is not None:
+        if not isinstance(note, str) or len(note) > NOTE_MAX or CONTROL.search(note):
+            raise ValueError(f"{bid}: note must be text of at most {NOTE_MAX} characters without control characters")
+        note = note.strip() or None
+    out["note"] = note
+    return out
+
+
+# --- the export file (BR-7.5) --------------------------------------------------------------------------------
+
+def export_details_payload(cell_id: str, rows: Sequence[Mapping[str, Any]]) -> str:
+    """The text of details/<cell>.json: rows by building id, keys sorted, the same text whatever the input order."""
+    data = {"version": EXPORT_VERSION, "cell_id": cell_id,
+            "details": sorted(({k: r[k] for k in DETAIL_KEYS} for r in rows), key=lambda r: r["building_id"])}
+    return json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+
+
+def parse_details_export(text: str) -> tuple[str, list[dict[str, Any]]]:
+    """(cell id, rows) of an export file, every row checked; any problem is a ValueError and nothing is used."""
+    if len(text.encode("utf-8")) > MAX_EXPORT_BYTES:
+        raise ValueError("export file is too large")
+    try:
+        data = json.loads(text)
+    except ValueError as e:
+        raise ValueError(f"export file is not valid JSON: {e}") from None
+    if not isinstance(data, dict) or set(data) != {"version", "cell_id", "details"}:
+        raise ValueError("export file needs exactly version, cell_id, details")
+    if data["version"] != EXPORT_VERSION:
+        raise ValueError(f"unknown export version {data['version']!r}")
+    cell_id = data["cell_id"]
+    if not (isinstance(cell_id, str) and CELL_RE.fullmatch(cell_id)):
+        raise ValueError("cell_id is not an H3 cell id")
+    if not isinstance(data["details"], list):
+        raise ValueError("details must be a list")
+    rows, seen = [], set()
+    for raw in data["details"]:
+        if not isinstance(raw, dict) or set(raw) != set(DETAIL_KEYS):
+            raise ValueError(f"detail: each row needs exactly the keys {list(DETAIL_KEYS)}")
+        stamp = raw["judged_at"]
+        if not (isinstance(stamp, str) and TIME_RE.fullmatch(stamp)):
+            raise ValueError(f"detail {str(raw.get('building_id'))[:40]}: bad time {str(stamp)[:30]!r}")
+        row = validate_detail({k: raw[k] for k in RECORD_KEYS})
+        if row["building_id"] in seen:
+            raise ValueError(f"detail {row['building_id']} appears twice")
+        seen.add(row["building_id"])
+        rows.append({**row, "judged_at": stamp})
+    return cell_id, rows
+
+
+# --- note keywords and the merged details (BR-7.2, BR-7.3) ---------------------------------------------------
+
+NOTE_RULES: tuple[tuple[str, str, Any], ...] = (  # (field, pattern, value), first match per field wins
+    ("ground_use", r"garage|carport", "garage"),
+    ("ground_use", r"\bshop|\bstore\b|restaurant|cafe|convenience|flower|pharmacy", "shop"),
+    ("stair", r"stair", "glass"),
+    ("bay", r"\bbay\b", 1),
+    ("balcony", r"balcon", 1),
+    ("rooftop", r"roof terrace", "railing"),
+    ("rooftop", r"solar", "tank"),
+    ("roof_color", r"red roof|red tile|orange roof", "red"),
+    ("roof_color", r"green roof|green tile", "green"),
+    ("roof_color", r"brown roof|brown tile", "brown"),
+)
+NOTE_FIELDS = tuple(dict.fromkeys(f for f, _, _ in NOTE_RULES))
+
+
+def from_note(note: str | None) -> dict[str, Any]:
+    """The detail fields a U4 note implies (word-bounded, case-insensitive). Fields without a hit are left out."""
+    out: dict[str, Any] = {}
+    if not note:
+        return out
+    for field, pattern, value in NOTE_RULES:
+        if field not in out and re.search(pattern, note, re.IGNORECASE):
+            out[field] = value
+    return out
+
+
+def default_finish(wall_color: str, archetype: str) -> str:
+    """The finish a wall color implies when nothing was judged (BR-3.1 table, right column)."""
+    if wall_color in ("red_brick", "brown", "orange"):
+        return "brick"
+    if wall_color in ("beige", "cream", "yellow"):
+        return "stone"
+    if wall_color in ("light_gray", "white") and archetype == "villa":
+        return "tile"
+    if wall_color in ("pink", "green", "blue", "white"):
+        return "paint"
+    return "panel"
+
+
+def merged_details(detail: Mapping[str, Any] | None, note: str | None, wall_color: str, archetype: str) -> dict[str, Any]:
+    """The seven fields for a body: judged value > note keyword (fields that have one) > default (BR-7.2)."""
+    hints = from_note(note)
+    out: dict[str, Any] = {}
+    for field in DETAIL_FIELDS:
+        v = detail.get(field) if detail else None
+        if v is None and field in hints:
+            v = hints[field]
+        if v is None:
+            v = default_finish(wall_color, archetype) if field == "finish" else DEFAULT_DETAILS[field]
+        out[field] = v
+    if archetype == "commercial":
+        out["ground_use"] = "shop"  # BR-9.1: commercial bodies always have shops
+    return out
+
+
+# --- archetypes and public names (BR-1.5, BR-1.6) ------------------------------------------------------------
+
+COMMERCIAL_CODES = ("04000", "09000", "11000", "14000")
+PUBLIC_CODES = ("03000", "10000")
+PUBLIC_SUFFIXES = ("학교", "행정복지센터", "주민센터", "경로당")
+
+
+def archetype(usability_code: str | None, floors: int | None, name: str | None, in_school_polygon: bool) -> str:
+    """school > commercial > public > villa, first match (BR-1.5)."""
+    name = name or ""
+    if in_school_polygon or name.endswith("학교"):
+        return "school"
+    code = usability_code or ""
+    if code in COMMERCIAL_CODES or (floors or 0) >= 5:
+        return "commercial"
+    if code in PUBLIC_CODES:
+        return "public"
+    return "villa"
+
+
+def is_public_name(name: str | None) -> bool:
+    return bool(name) and any(name.endswith(s) for s in PUBLIC_SUFFIXES)
+
+
+# --- sign text (BR-10.4) and fictional names (BR-10.3) -------------------------------------------------------
+
+SIGN_TEXT = re.compile(r"[가-힣A-Za-z0-9 ]{1,12}")
+
+
+def sign_string(text: Any) -> str:
+    """A Luau string literal for a sign text: Hangul syllables, Latin letters, digits and spaces only, 1 to 12 characters.
+
+    Every UTF-8 byte of a Hangul syllable is 0x80 or above, so none of them can be a quote, a backslash or a newline;
+    the class itself keeps control characters out. Anything else is refused (never escaped).
+    """
+    if not isinstance(text, str) or not SIGN_TEXT.fullmatch(text):
+        raise ValueError(f"text not allowed on a sign: {str(text)[:40]!r}")
+    return f'"{text}"'
+
+
+PREFIXES = ("한솔", "푸른", "하늘", "미래", "행복", "다온", "라온", "한빛", "늘봄", "으뜸", "바른", "소망", "희망", "열린", "밝은",
+            "새봄", "한결", "해솔", "아람", "보람", "고운", "나래", "누리", "다솜", "마루", "미소", "믿음", "서로", "선한", "성실",
+            "우리", "정다운", "초록", "하나", "샘터", "별빛", "햇살", "솔바람", "온누리", "참좋은")
+POOLS: dict[str, tuple[str, ...]] = {
+    "villa_gf": ("부동산", "편의점", "분식", "김밥", "미용실", "세탁소", "치킨", "호프", "카페", "꽃집", "철물", "슈퍼"),
+    "com_gf": ("약국", "카페", "베이커리", "편의점", "치킨", "피자", "부동산", "안경", "휴대폰", "김밥", "국수", "떡집"),
+    "upper": ("영어학원", "수학학원", "피아노학원", "태권도", "치과", "한의원", "내과", "피부과", "교회", "세무사", "법무사",
+              "노래연습장", "헬스", "필라테스", "미술학원", "독서실"),
+    "medical": ("요양병원", "내과", "정형외과", "재활의학과", "치과", "약국"),
+    "care": ("어린이집", "요양원", "복지관", "유치원"),
+    "building": ("타워", "프라자", "빌딩", "센터"),
+}
+PLACE_NAMES = ("중동", "길주", "계남", "옥산", "부천", "신중동")
+REAL_BRANDS = (
+    "파리바게뜨", "뚜레쥬르", "GS25", "CU", "세븐일레븐", "이마트24", "교촌", "BBQ", "bhc", "굽네", "맘스터치", "롯데리아", "맥도날드",
+    "버거킹", "KFC", "서브웨이", "스타벅스", "이디야", "메가커피", "컴포즈", "빽다방", "투썸", "할리스", "탐앤탐스", "엔제리너스",
+    "올리브영", "다이소", "배스킨라빈스", "던킨", "설빙", "공차", "김밥천국", "본죽", "한솥", "도미노", "피자헛", "파파존스", "피자스쿨",
+    "준오", "눈높이", "구몬", "메가스터디", "청담", "윤선생", "대교", "웅진", "롯데마트", "홈플러스", "이마트", "하이마트", "국민은행",
+    "신한", "우리은행", "농협", "새마을금고", "하나은행", "기업은행", "카카오", "네이버", "쿠팡", "배달의민족", "요기요", "네네치킨",
+    "페리카나", "처갓집", "호식이", "멕시카나", "노랑통닭", "자담", "푸라닭", "역전할머니", "생활맥주", "본설렁탕", "원할머니", "놀부",
+    "명륜진사", "하남돼지", "새마을식당", "한신포차", "탐라", "크린토피아", "월드크리닝", "세탁명가", "리틀씨앗", "대성",
+)
+
+
+def pick(name: str, purpose: str, n: int) -> int:
+    """Deterministic choice in [0, n): crc32 of "<name>|<purpose>", then a mixing step (BR-14.1). The only source of variety.
+
+    The mix matters: crc32 is linear, so the crcs of "<name>|p0" and "<name>|w0" differ by a constant and their remainders would
+    move together (120 of the 480 prefix/word pairs were reachable without it).
+    """
+    if n < 1:
+        raise ValueError("n must be at least 1")
+    v = zlib.crc32(f"{name}|{purpose}".encode("utf-8"))
+    v = ((v ^ (v >> 16)) * 0x45D9F3B) & 0xFFFFFFFF
+    v = ((v ^ (v >> 16)) * 0x45D9F3B) & 0xFFFFFFFF
+    return (v ^ (v >> 16)) % n
+
+
+def pool_for(archetype_: str, usability_code: str | None, floor: int, where: str) -> str:
+    """Which word pool a sign draws from: where is 'gf' (ground floor), 'upper', 'roof' or 'plate' (BR-10.3)."""
+    code = usability_code or ""
+    if where == "roof":
+        return "building"
+    if where == "plate":
+        return "care"
+    if code == "09000":
+        return "medical"
+    if code == "11000":
+        return "care"
+    if floor >= 1 or where == "upper":
+        return "upper"
+    return "com_gf" if archetype_ == "commercial" else "villa_gf"
+
+
+def sign_name(owner: str, slot: str, pool: str) -> str:
+    """A fictional Korean shop name: prefix + trade word, fixed by (owner, slot), never a brand or a place name."""
+    words = POOLS[pool]
+    prefix = PREFIXES[pick(owner, f"p{slot}", len(PREFIXES))]
+    return prefix + words[pick(owner, f"w{slot}", len(words))]
+
+
+# --- palette, materials, shapes, dimensions (BR-3, BR-14.1, BR-14.2) ------------------------------------------
+
+PALETTE: dict[str, tuple[int, int, int]] = {
+    # buildings
+    "plinth": (150, 150, 145), "glass": (45, 60, 60), "glass_com": (50, 80, 75), "glass_school": (90, 120, 150),
+    "glass_shop": (35, 45, 50), "bay": (225, 225, 222), "balcony": (190, 190, 185), "iron": (40, 40, 45),
+    "door": (70, 50, 40), "door_shop": (90, 90, 95), "canopy": (60, 60, 65), "eyebrow": (45, 45, 48), "shutter": (150, 150, 150),
+    "ac": (225, 225, 222), "gas": (190, 40, 35), "tank": (235, 235, 230), "railing": (235, 235, 235), "lamp_globe": (245, 245, 240),
+    "leaf": (60, 110, 50), "concrete": (150, 150, 145),
+    # roofs
+    "roof_dark": (60, 60, 65), "roof_red": (150, 60, 50), "roof_brown": (110, 70, 50), "roof_pink": (200, 140, 130),
+    "roof_green": (50, 100, 70), "roof_blue": (50, 80, 130),
+    # signs: background and ink
+    "sign_white": (240, 240, 236), "sign_black": (25, 25, 28), "sign_red": (200, 40, 40), "sign_blue": (30, 70, 160),
+    "sign_yellow": (240, 200, 40), "sign_green": (40, 120, 60), "sign_pharmacy": (240, 240, 236), "sign_plate": (60, 60, 65),
+    "ink_black": (20, 20, 20), "ink_white": (255, 255, 255), "ink_yellow": (250, 220, 60), "ink_red": (200, 35, 35),
+    # streets
+    "pole": (150, 150, 148), "transformer": (110, 110, 110), "wire": (30, 30, 30), "lamp_post": (120, 120, 125),
+    "lamp_head": (255, 240, 200), "trunk": (90, 70, 50), "curb": (150, 150, 145), "line_yellow": (235, 190, 40),
+    "line_white": (235, 235, 230), "car_white": (235, 235, 235), "car_silver": (190, 190, 195), "car_black": (30, 30, 32),
+    "car_gray": (90, 90, 95), "car_blue": (40, 70, 140), "fence_zone": (150, 165, 180), "pole_zone": (230, 190, 40),
+    "bollard": (180, 40, 40), "box_telecom": (50, 110, 60), "box_recycle": (40, 80, 170),
+}
+SIGN_PAIRS: tuple[tuple[str, str], ...] = (("sign_white", "ink_black"), ("sign_black", "ink_white"), ("sign_red", "ink_yellow"),
+                                            ("sign_blue", "ink_white"), ("sign_yellow", "ink_black"), ("sign_green", "ink_white"))
+MATERIALS = frozenset((
+    "Plastic", "SmoothPlastic", "Neon", "Wood", "WoodPlanks", "Marble", "Basalt", "Slate", "CrackedLava", "Concrete", "Limestone",
+    "Granite", "Pavement", "Brick", "Pebble", "Cobblestone", "Rock", "Sandstone", "CorrodedMetal", "DiamondPlate", "Foil", "Metal",
+    "Grass", "LeafyGrass", "Sand", "Fabric", "Snow", "Mud", "Ground", "Asphalt", "Salt", "Ice", "Glacier", "Glass", "ForceField",
+    "Cardboard", "Carpet", "CeramicTiles", "ClayRoofTiles", "RoofShingles", "Leather", "Plaster", "Rubber", "Air", "Water"))
+SHAPES = ("Block", "Wedge", "CornerWedge", "Cylinder", "Ball")
+ROOF_MATERIALS: dict[str, tuple[str, str]] = {  # roof_color -> (material, palette key) (BR-4.3)
+    "dark": ("Slate", "roof_dark"), "red": ("ClayRoofTiles", "roof_red"), "brown": ("ClayRoofTiles", "roof_brown"),
+    "pink": ("ClayRoofTiles", "roof_pink"), "green": ("Metal", "roof_green"), "blue": ("Metal", "roof_blue"),
+}
+
+
+def wall_material(finish: str, wall_color: str) -> str:
+    """The Roblox material of a body (BR-3.1, left columns)."""
+    if finish == "brick":
+        return "Brick"
+    if finish == "stone":
+        return "Sandstone" if wall_color in ("beige", "cream", "yellow") else "Cobblestone"
+    if finish == "tile":
+        return "CeramicTiles"
+    if finish == "paint":
+        return "Plaster"
+    if finish == "glass":
+        return "SmoothPlastic"
+    return "Concrete"
+
+
+def band_color(rgb: Sequence[int]) -> tuple[int, int, int]:
+    """The floor-band color: the wall color times 0.72, rounded per channel (BR-3.2)."""
+    return tuple(int(round(int(c) * 0.72)) for c in rgb)  # type: ignore[return-value]
+
+
+# Building dimensions in metres (never configuration: they do not change). Names are used across layout.py.
+DIMS: dict[str, float] = {
+    "dup_overlap": 0.6, "body_min_height": 2.5, "body_min_side": 3.0, "body_max_ratio": 12.0, "min_fh": 2.0,
+    "split_min_area": 60.0, "split_min_piece": 20.0, "split_edge_margin": 1.0, "split_gain": 0.10,
+    "band_lip": 0.10, "band_h": 0.12, "cap_h": 0.8, "cap_sink": 0.2, "rail_h": 0.06, "rail_lip": 0.10, "plinth_h": 0.5,
+    "roof_overhang": 0.4, "roof_sink": 0.02, "shed_pitch_deg": 12.0, "hip_min_ridge": 1.0,
+    "penthouse_w": 4.0, "penthouse_h": 3.0, "penthouse_d": 4.0, "rooftop_box_w": 3.0, "rooftop_box_h": 2.6, "rooftop_box_d": 3.0,
+    "tank_dia": 2.0, "tank_h": 2.0, "rooftop_inset": 1.0, "tank_offset": 2.0,
+    "facing_max": 60.0, "far_facing": 8.0, "occlude_sibling": 0.3, "occlude_other": 2.5, "face_min": 4.0,
+    "span_margin": 0.2, "span_clear": 0.3, "span_min": 2.0,
+    "win_w": 1.6, "win_h": 1.4, "win_t": 0.10, "win_sill": 0.9, "win_pitch": 4.0, "win_max": 3, "ribbon_h": 1.7, "ribbon_school_h": 1.5,
+    "ribbon_sill": 1.0, "ribbon_inset": 1.0, "win_out": 0.05, "reflect_win": 0.25, "reflect_shop": 0.3, "reflect_glass": 0.2,
+    "stair_w": 1.2, "stair_extra": 1.0, "stair_t": 0.3, "stair_out": 0.2, "stair_brick": 2.5, "stair_brick_extra": 1.2, "stair_brick_out": 0.3,
+    "stair_round_dia": 2.8, "bay_w": 2.4, "bay_d": 0.4, "balcony_frac": 0.4, "balcony_slab_h": 0.15, "balcony_d": 0.6, "balcony_rail_h": 1.0,
+    "balcony_rail_t": 0.05, "door_w": 1.0, "door_h": 2.1, "door_t": 0.10, "canopy_w": 1.6, "canopy_h": 0.15, "canopy_d": 0.6, "canopy_y": 2.3,
+    "shutter_w": 2.6, "shutter_h": 2.4, "shutter_t": 0.08, "plate_w": 1.2, "plate_h": 0.4, "plate_t": 0.08, "plate_y": 1.6, "plate_along": 1.5,
+    "ac_w": 0.8, "ac_h": 0.6, "ac_d": 0.3, "ac_drop": 0.9, "ac_along": 1.3, "ac_com_y": 0.3, "gas_dia": 0.06, "gas_y": 2.9, "gas_out": 0.08,
+    "gas_along": 0.5, "shop_unit_m": 6.0, "shop_units_max": 4, "front_gap": 0.4, "front_drop": 0.6, "front_y": 0.1, "front_t": 0.10,
+    "front_door_t": 0.12, "front_door_along": 1.2, "eyebrow_gap": 0.6, "eyebrow_h": 0.15, "eyebrow_d": 0.6, "eyebrow_drop": 0.375,
+    "yard_min": 1.5, "yard_max": 8.0, "yard_back": 0.3, "wall_h": 1.4, "wall_t": 0.2, "wall_extra": 2.0, "gate_gap": 2.8, "post_w": 0.5,
+    "post_h": 1.8, "gate_h": 1.6, "gate_t": 0.06, "globe_dia": 0.25, "shrub_min": 1.2, "shrub_step": 0.4, "shrub_clear": 0.2,
+    "sign_h": 0.9, "sign_t": 0.15, "sign_out": 0.25, "sign_drop": 0.2, "sign_floor_h": 0.8, "sign_floor_y": 0.15, "sign_floor_max": 5,
+    "sign_floor_min_floors": 4, "sign_floor_pitch": 8.0, "sign_floor_max_panels": 3, "proj_t": 0.12, "proj_h": 0.9, "proj_d": 0.6,
+    "proj_out": 0.1, "proj_along_in": 1.0, "roof_sign_frac": 0.6, "roof_sign_h": 1.5, "roof_sign_t": 0.2, "roof_sign_post": 0.15,
+    "roof_sign_min_floors": 7,
+    "pole_dia": 0.30, "pole_h": 10.0, "pole_off": 0.4, "arm_w": 1.6, "arm_t": 0.1, "arm_y": 9.0, "transformer_dia": 0.8, "transformer_h": 1.2,
+    "transformer_y": 8.2, "wire_t": 0.04, "wire_y1": 9.0, "wire_y2": 8.6, "wire_max_span": 60.0,
+    "lamp_dia": 0.25, "lamp_h": 9.0, "lamp_in": 0.4, "lamp_arm": 1.5, "lamp_arm_y": 8.8, "lamp_head_w": 0.5, "lamp_head_h": 0.2, "lamp_head_d": 0.3,
+    "tree_off": 0.6, "trunk_dia": 0.35, "trunk_h": 3.5, "crown_dia": 6.5, "crown_y": 3.25, "tree_clear": 2.0,
+    "car_in": 1.0, "car_w": 4.4, "car_h": 1.45, "car_d": 1.8, "car_y": 0.1, "cab_w": 2.2, "cab_h": 0.5, "cab_d": 1.6, "car_residential": 1.25,
+    "car_min_width": 4.0, "slot_junction_clear": 6.0, "car_crosswalk_clear": 2.0,
+    "curb_h_studs": 0.5, "curb_w": 0.15, "curb_in": 0.075, "mark_t_studs": 0.05, "mark_y_studs": 0.03, "cw_y_studs": 0.04, "line_w": 0.15,
+    "line_gap": 0.15, "dash_len": 3.0, "dash_gap": 5.0, "cw_stripe": 0.45, "cw_len": 4.0, "cw_pitch": 0.9, "cw_from": 1.0, "cw_to": 5.0,
+    "cw_min_arm": 15.0, "stop_w": 0.45, "stop_gap": 1.0, "zone_pole_dia": 0.12, "zone_pole_h": 4.0, "zone_sign": 0.6, "zone_pole_off": 0.6,
+    "gap_extra": 1.0, "piece_min": 0.5, "collinear_sin": 0.2, "fence_len": 4.0, "fence_h": 1.0, "fence_t": 0.05, "fence_off": 0.1,
+    "fence_end_clear": 3.0, "bollard_dia": 0.15, "bollard_h": 0.9, "bollard_gap": 1.2, "bollard_in": 1.0, "box_along": 1.5, "box_off": 0.8,
+    "box_telecom_w": 0.6, "box_telecom_h": 1.2, "box_telecom_d": 0.4, "box_recycle_w": 0.6, "box_recycle_h": 0.9, "box_recycle_d": 0.6,
+}

@@ -291,7 +291,10 @@ def expected_sides(feature):
     tag = feature["tags"].get("sidewalk")
     if tag is not None:
         return {"both": {"L", "R"}, "left": {"L"}, "right": {"R"}}.get(tag.strip().lower(), set())
-    return {"L", "R"} if feature["highway_class"].replace("_link", "") in BIG else set()
+    tags = feature["tags"]
+    if isinstance(tags.get("sidewalk:both"), str):
+        return {"L", "R"} if tags["sidewalk:both"].strip().lower() in ("yes", "separate") else set()
+    return {"L", "R"} if feature["highway_class"].replace("_link", "") in BIG or feature["highway_class"] == "residential" else set()
 
 
 @settings(max_examples=60)
@@ -322,7 +325,7 @@ def test_sidewalks_stay_off_paths_small_roads_and_no_tags():
     cell = h3.latlng_to_cell(*[(line[0][0] + line[1][0]) / 2, (line[0][1] + line[1][1]) / 2], RES)
     make = lambda cls, kind="road", **tags: layout.sidewalk_items({"feature_id": "way:5", "kind": kind, "highway_class": cls, "tags": tags, "geometry": line}, FRAME, cell, RES, CFG)
     assert make("tertiary") and len(make("tertiary")) == 2 and len(make("tertiary_link")) == 2
-    assert make("residential") == [] and make("living_street") == [] and make("footway", "path") == []
+    assert len(make("residential")) == 2 and make("living_street") == [] and make("footway", "path") == []  # U5 BR-11.13: residential both sides
     assert make("tertiary", sidewalk="no") == [] and make("tertiary", sidewalk="none") == []
     assert len(make("residential", sidewalk="both")) == 2  # the OSM tag wins over the class default
     assert len(make("tertiary", sidewalk="left")) == 1 and len(make("tertiary", sidewalk="right")) == 1
@@ -343,7 +346,7 @@ def test_p2_6_the_ground_covers_the_cell_with_a_margin_and_its_top_is_y_zero(cel
         assert g.cx - g.sx / 2 + margin - 0.01 <= x <= g.cx + g.sx / 2 - margin + 0.01
         assert g.cz - g.sz / 2 + margin - 0.01 <= z <= g.cz + g.sz / 2 - margin + 0.01
     assert g.cy + g.sy / 2 == pytest.approx(0, abs=1e-3) and g.sy == 4 and max(g.sx, g.sz) <= 2048
-    assert (g.kind, g.material, g.name) == ("ground", "Grass", "Ground")
+    assert (g.kind, g.material, g.name) == ("ground", "Concrete", "Ground")  # U5 BR-11.14: paved ground
 
 
 def test_p2_6_a_cell_too_big_for_one_part_is_an_error():

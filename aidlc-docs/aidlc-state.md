@@ -3,7 +3,7 @@
 ## Project Information
 - **Project Type**: Brownfield (minimal: 50-line prototype script)
 - **Start Date**: 2026-10-12T12:47:25Z
-- **Current Stage**: CONSTRUCTION - U1, U2, U3 and U4 complete. U5 details: Functional Design and NFR Requirements approved 2026-10-13 (standing approval); Code Generation next. Detail judgements of the first cell: 116/116 recorded in data/build/8930e0af13bffff/details-judgements.jsonl (loaded into the DB once details.py exists)
+- **Current Stage**: CONSTRUCTION - U1, U2, U3 and U4 complete. U5 details: Functional Design, NFR Requirements and Code Generation approved 2026-10-13 (standing approval; 544 tests on 5 seeds); Build and Test in progress (first cell built in Studio with the U5 Builder, S-7/S-8/S-10/S-11/S-12/S-15 checks done, S-9/S-13/S-14/S-16 and the documents remain). Detail judgements of the first cell: 116/116 recorded in data/build/8930e0af13bffff/details-judgements.jsonl (loaded into the DB once details.py exists)
 - **AI-DLC Rules Version**: 1.0.1 (local clone of awslabs/aidlc-workflows, copied to `.aidlc-rule-details/`)
 
 ## Workspace State
@@ -50,7 +50,7 @@
 ## Execution Plan Summary
 - **Stages to Execute**: Application Design, Units Generation, Functional Design, NFR Requirements, NFR Design, Code Generation, Build and Test
 - **Stages to Skip**: Reverse Engineering (user choice), User Stories (single persona), Infrastructure Design (no cloud infrastructure)
-- **Next Stage**: U5 details Code Generation (plan, then code) -> Build and Test (standing approval)
+- **Next Stage**: U5 details Build and Test (remaining scenarios and documents, standing approval) -> the other two cells
 - **Unit Order**: U1 data foundation -> U3 street-view capture -> U2 Studio builder -> U4 estimate and corrections -> U5 details, first cell 8930e0af13bffff, then repeat for the other two cells
 - **Design Decisions**: GIS integrated building data matched to OSM (Q1=C), role-based scripts (Q2=A), SQLite as hub (Q3=C, Q7=A), Luau ModuleScript in Studio (Q4=B), Auto/Manual folders (Q5=A), per-cell 360 panorama capture (Q6=C), overrides exported to text for git (Q8=B)
 - **Key Decisions**: H3 res 9 kept for future expansion; heights: floors from building register (건축물대장) first, verified by street view, street-view estimate as fallback, reviewed together by user and Claude; spawn at school front gate road
