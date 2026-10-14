@@ -1,0 +1,427 @@
+{
+  "cell_id": "8930e0af117ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11170915",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "library, light gray 4-storey block with blue glass stair strip and entrance canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11174513",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "open parking shelter carport with blue metal roof and small storage room",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176492",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "granite public office block with tall glass stair strip, ribbon windows, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11187131",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "high-rise apartment tower, stone base, balcony railings, rooftop box; floors hard to count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11187520",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 75.0,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "high-rise apartment tower with stone base and balcony railings; too tall to count floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11188785",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "two-storey brown tile post office with rounded corners, shop-like ground floor and ATM corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11189272",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "corridor apartment slab, white paint, enclosed windows, entrance canopy; floors estimated",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11189287",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "long apartment slab, white paint, curved balconies with railings, green canopy at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11203999",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "two-storey tiled public office, rounded corners, shop-like ground floor; other crops show park, apartment door",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11205118",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 12.0,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "granite-clad building with curved wall and ribbon windows, entrance canopy; upper floors not visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205122",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "single-storey prefab hut beside a parking lot, small booth; mostly parking lot in view",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205198",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "school block behind painted wall, red brick with glass stair strip; top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11205320",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "single-storey prefab panel building with yellow sign board, behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205424",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "single-storey granite guard house at office gate with stone cornice",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205483",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "park; only a small wooden pavilion at the edge, mostly trees and dirt ground",
+      "roof_shape": "hip",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11205484",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "no clear target: apartment entrance, park trees, park path",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11205518",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "trees only at centre; small blue prefab booth at side; target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11205950",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "open parking shelter carport with blue metal roof and storage box",
+      "roof_shape": "shed",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206330",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "office entrance block of granite public office, glass stair strip, canopy and steps",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206338",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "glass stair strip of red brick school block behind painted wall; top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11206342",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "ramp down to underground parking between brick building and fence; no above-ground target",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206438",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "small stainless guard kiosk at apartment entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208042",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "corridor apartment slab, white paint, entrance canopy; floors estimated",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11216641",
+      "confidence": "medium",
+      "floors_seen": null,
+      "height_est_m": 16.0,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "brick church with tall gable front and large stained glass panel, gray metal roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11218694",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "school blocks, red brick and cream walls, glass stair strip, dark pitched roof edge",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11634425",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "gray shop house, convenience store and shops at ground, academies above, stair core, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12810930",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "apartment shopping block, shops at ground, glass curtain walls above, roof terrace railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16135461",
+      "confidence": "high",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "granite public office, round stair tower, glass entrance block with columns",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17520732",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "small gray street kiosk box on sidewalk corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17675466",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:05:15+00:00",
+      "note": "passage under a shop building and small shed; target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

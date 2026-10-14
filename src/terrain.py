@@ -184,7 +184,43 @@ def _cut(i: layout.Item, ground: Ground) -> list[layout.Item]:
     return out
 
 
-def lift(items: Sequence[layout.Item], ground: Ground | None) -> list[layout.Item]:
+class _Flat:
+    def h(self, x: float, z: float) -> float:
+        return 0.0
+
+
+class _Raised:
+    """The ground plus a bridge deck's rise over it (bridges.Decks.offset_studs) for the items of one bridge way."""
+
+    def __init__(self, ground: Any, decks: Any, fid: str):
+        self.ground, self.decks, self.fid = ground, decks, fid
+
+    def h(self, x: float, z: float) -> float:
+        return self.ground.h(x, z) + self.decks.offset_studs(self.fid, x, z)
+
+
+def _on_deck(i: layout.Item, ground: Any, decks: Any) -> list[layout.Item]:
+    """An item of a bridge way on its deck: blocks are cut and tilted along it (the road, lines, girder, walls), the rest rise by
+    the centre; street props a deck does not carry are dropped where it is up (bridges.KEEP)."""
+    g = _Raised(ground, decks, i.group)
+    rise = decks.offset_studs(i.group, i.cx, i.cz)
+    if i.kind == "prop" and rise > 1.0 and not any(k in i.name for k in decks.keep) and "#deck" not in i.name and "#bw" not in i.name:
+        return []
+    if i.shape == "Block" and i.kind in ("road", "prop") and max(i.sx, i.sz) >= FLAT_MIN and not any(k in i.name for k in ("#lamp", "#larm", "#lhead")):
+        out = []
+        for p in _cut(i, g):
+            ax, az = _slopes(g, p.cx, p.cz, p.yaw_deg, p.sx, p.sz)
+            out.append(dataclasses.replace(p, cy=layout.fmt(p.cy + g.h(p.cx, p.cz)), tilt_x=ax, tilt_z=az))
+        return out
+    return [dataclasses.replace(i, cy=layout.fmt(i.cy + g.h(i.cx, i.cz)))]
+
+
+def lift(items: Sequence[layout.Item], ground: Ground | None, decks: Any = None) -> list[layout.Item]:
+    """Items onto the ground heights; the items of a bridge way (decks: bridges.Decks) onto its deck."""
+    if decks is not None and decks.fids:
+        on = [i for i in items if i.group in decks.fids]
+        rest = [i for i in items if i.group not in decks.fids]
+        return [p for i in on for p in _on_deck(i, ground or _Flat(), decks)] + lift(rest, ground)
     if ground is None:
         return list(items)
     by_unit: dict[str, float] = {}

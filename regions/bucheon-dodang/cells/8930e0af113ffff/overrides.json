@@ -1,0 +1,318 @@
+{
+  "cell_id": "8930e0af113ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11170727",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "kindergarten, dark red brick, arched yellow-framed windows, glass stair strip, playground in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11176577",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "two-storey shop row, ground floor shop and store fronts, low pitched roof with eaves",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11176861",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray panel, balconies with air units, central glass stair tower, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176915",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray, enclosed balconies, entrance lobby, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176916",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "tall apartment tower, light gray, balconies, glass stair strip at centre, entrance at base",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176917",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "tall apartment tower, light gray, balconies with air units, central glass stair strip",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176919",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment tower, light gray, balconies, entrance lobby, stair strip",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176920",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray, open corridors and balconies, round glass stair tower",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11179614",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "kindergarten, tan brick, dark mansard style roof with small upper floor, covered entry canopy",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11190720",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray with blue bands, balconies, central stair core",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191020",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray, enclosed balconies, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191032",
+      "confidence": "low",
+      "floors_seen": 22,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment tower, light gray, balconies, small entrance with hip roof canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191421",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray, enclosed balconies, mostly hidden by trees",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191422",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "small commercial building, brown brick, shop and store signs on all floors, rooftop railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11191436",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment tower, light gray, balconies, largely hidden by trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11204712",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "small public office, red brick, round stair tower corner, flagpoles in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11208039",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray, enclosed balconies, pilotis gap at base",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208040",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray, enclosed balconies, bay-like curved balcony fronts",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208041",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment slab, light gray with dark gray bands, balconies, entrance at base",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11218238",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "apartment shopping block, brown brick, ground floor shop and convenience store, tiled pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:12995505",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "tall apartment tower, light gray, balconies, central glass stair strip",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17400421",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "guard booth at apartment gate, red brick, dark hip roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

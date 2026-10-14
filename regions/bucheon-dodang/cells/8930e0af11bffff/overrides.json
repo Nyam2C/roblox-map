@@ -1,0 +1,372 @@
+{
+  "cell_id": "8930e0af11bffff",
+  "estimates": [
+    {
+      "building_id": "gis:11014543",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "4-storey stone shop building, ground shops and restaurant with open passage, AC units on upper windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11169066",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "office building, stone base with arched windows, glass curtain upper floors, ground shop and parking",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11171884",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "large electronics store, gray panel walls with billboards, ground parking entrance and shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11172841",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "large white panel store building, parking pilotis on ground, shop at front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11176957",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "4-storey tiled shop building, ground shops and restaurant, green glass bands above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11187186",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "large store podium with louvered metal panel and glass ground floor, tall tower behind",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189499",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "corner shop building, dark panel, glass bands, ground shops and pharmacy, restaurant upstairs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11191017",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "long apartment block, white and gray, balconies, guard hut at entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11191435",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "long apartment block, white and gray, balconies, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11195098",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "4-storey tiled shop building, ground restaurant and shops, church and fitness upstairs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11198892",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "tall officetel tower over stone podium, ground shops and clinic floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205706",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "old one-storey brick house with red gable roof behind fence and trees, house door",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11206512",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "small annex in brick house yard, hidden by trees; crops show the main brick house",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11206658",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "dark stone office building, parking pilotis ground, glass curtain bay in middle",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11208116",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 70.0,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "high-rise officetel tower with podium of shops and clinics",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208117",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "4-storey tiled shop building, ground restaurant and shops, green glass windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11215241",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "3-storey tiled shop building, ground restaurant and shops, singing room signs upstairs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11217014",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "medical office building, tile and glass, ground pharmacy and shops, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11247451",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "commercial building, tile with glass bands, ground cafe, bakery and convenience store",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11583659",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "commercial building, tile and glass, ground shops and restaurant, parking entry",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:14755068",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "large store podium with louvered metal panel and glass ground floor, tall tower behind",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15544648",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "4-storey stone shop building, ground shops and restaurant with open passage",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:16528155",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "small sidewalk kiosk stall covered with posters",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:16690662",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "dark stone office building, parking pilotis ground; crops 2 and 3 show neighbours",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17434014",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "large electronics store, gray panel with billboards, ground parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:18211531",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T17:07:56+00:00",
+      "note": "4-storey tiled shop building, ground restaurant and shops, green glass windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

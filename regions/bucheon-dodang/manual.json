@@ -1,29 +1,101 @@
 {
  "note": "U7 J: hand-made places of this region. how = manual (a script in studio/manual/<region>/) or kit (made by a kit from data). buildings = the Auto buildings the script places parts on (anchors.py makes their anchors).",
  "places": [
-  {"name": "School", "script": "School.luau", "osm": "way:488843789", "cell": "8930e0af13bffff", "how": "manual", "status": "done",
+  {
+   "name": "School",
+   "script": "School.luau",
+   "osm": "way:488843789",
+   "cell": "8930e0af13bffff",
+   "how": "manual",
+   "status": "done",
    "reason": "OSM 학교(심원고), 위성에만 있는 운동장·스탠드, 시설을 건물로 잘못 잡은 것(gis:11215390 스탠드 차양)",
-   "buildings": ["gis:11185213", "gis:11185281", "gis:11215390", "gis:11215391", "gis:11215393"]},
-  {"name": "Buheung", "script": "Buheung.luau", "osm": "way:488843788", "cell": "8930e0af13bffff", "how": "manual", "status": "done",
+   "buildings": [
+    "gis:11185213",
+    "gis:11185281",
+    "gis:11215390",
+    "gis:11215391",
+    "gis:11215393"
+   ]
+  },
+  {
+   "name": "Buheung",
+   "script": "Buheung.luau",
+   "osm": "way:488843788",
+   "cell": "8930e0af13bffff",
+   "how": "manual",
+   "status": "done",
    "reason": "OSM 학교(부흥중), 데이터에 없는 운동장·농구장·체육관(위성)",
-   "buildings": ["gis:11036833"]},
-  {"name": "Park", "script": "Park.luau", "cell": "8930e0af13bffff", "how": "manual", "status": "done",
+   "buildings": [
+    "gis:11036833"
+   ]
+  },
+  {
+   "name": "Park",
+   "script": "Park.luau",
+   "cell": "8930e0af13bffff",
+   "how": "manual",
+   "status": "done",
    "reason": "OSM 공원(옥산공원), 위성 색으로 가른 바닥",
-   "buildings": []},
-  {"name": "Gwangseong", "cell": "8930e0af123ffff", "how": "manual", "status": "candidate",
-   "reason": "거리뷰와 크게 다른 한 곳(2026-10-14 2번 칸 대조): 광성아파트는 3층 상가 기단(아치 입구, 간판) 위 아파트인데 자동 생성은 땅까지 아파트 띠",
-   "buildings": ["gis:11177081"]},
-  {"name": "Landmark", "script": "Landmark.luau", "cell": "8930e0af10fffff", "how": "manual", "status": "done",
+   "buildings": []
+  },
+  {
+   "name": "Gwangseong",
+   "cell": "8930e0af123ffff",
+   "how": "rule",
+   "status": "done",
+   "reason": "거리뷰와 크게 다른 한 곳(2026-10-14 2번 칸 대조): 광성아파트는 3층 상가 기단(아치 입구, 간판) 위 아파트인데 자동 생성은 땅까지 아파트 띠. 2026-10-15: 수작업 대신 규칙으로(사진이 상가로 본 아파트 = 돌 상가 기단 1~3층, layout_details.podium_items), 같은 유형 4동도 같이",
+   "buildings": [
+    "gis:11177081"
+   ]
+  },
+  {
+   "name": "Landmark",
+   "script": "Landmark.luau",
+   "cell": "8930e0af10fffff",
+   "how": "manual",
+   "status": "done",
    "reason": "OSM 랜드마크(신중동역 랜드마크 푸르지오 시티, 49층): V-World 외곽선은 6층 상가 기단 전체라 Auto는 기단만(보정 30 m), 탑 2동은 위성 헬리패드 지붕을 항공사진 기울기만큼 되돌린 자리에 얹는다",
-   "buildings": ["gis:11778185"]},
-  {"name": "Plaza", "script": "Plaza.luau", "cell": "8930e0af10fffff", "how": "manual", "status": "done",
+   "buildings": [
+    "gis:11778185"
+   ]
+  },
+  {
+   "name": "Plaza",
+   "script": "Plaza.luau",
+   "cell": "8930e0af10fffff",
+   "how": "manual",
+   "status": "done",
    "reason": "미관광장(백화점 남쪽): 데이터에 없는 화단·계단식 타원·흰 기둥 열·지하상가 유리 출입구. 지하주차장 외곽선(gis:16759296)은 만들지 않음. src/plaza.py가 위성 격자로 만든다",
-   "buildings": []},
-  {"name": "DeptStore", "script": "DeptStore.luau", "cell": "8930e0af10fffff", "how": "manual", "status": "done",
+   "buildings": []
+  },
+  {
+   "name": "DeptStore",
+   "script": "DeptStore.luau",
+   "cell": "8930e0af10fffff",
+   "how": "manual",
+   "status": "done",
    "reason": "백화점(판매시설 11층): 동쪽 끝이 큰 원호(위성·외곽선 15점 중 9점이 호). 박스는 원호 모서리를 네모로 채워 수작업이 외곽선대로 몸체·곡면 유리·띠를 만든다",
-   "buildings": ["gis:11740143"]},
-  {"name": "Raemian", "script": "Raemian.luau", "cell": "8930e0af133ffff", "how": "manual", "status": "done",
+   "buildings": [
+    "gis:11740143"
+   ]
+  },
+  {
+   "name": "Raemian",
+   "script": "Raemian.luau",
+   "cell": "8930e0af133ffff",
+   "how": "manual",
+   "status": "done",
    "reason": "래미안 부천중동(7개 동, 19~27층): V-World가 동마다 조각 수십 개로 나뉘어 25층 상자 무리가 됨(사용자 2026-10-15). 배치도·위성·거리뷰로 7개 동만 만들고 부지의 다른 기록은 모두 Claims로 비킴. src/raemian.py",
-   "buildings": []}
+   "buildings": []
+  },
+  {
+   "name": "Courts",
+   "script": "Courts.luau",
+   "cell": "8930e0af147ffff",
+   "how": "manual",
+   "status": "done",
+   "reason": "미리내공원 테니스장 3곳(클레이, 복식 선·네트·철망)과 풋살장(인조잔디, 골대·철망): OSM·V-World에 없음. src/courts.py가 위성(z19)에서 찾은 사각형으로 만든다(사용자 2026-10-15 목록 승인)",
+   "buildings": []
+  }
  ]
 }

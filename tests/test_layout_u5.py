@@ -139,7 +139,10 @@ def test_p5_3_boxes_cover_the_outline_use_less_area_than_one_box_and_ignore_the_
 def test_p5_4_every_building_gets_one_archetype_floors_and_a_floor_height_that_fit(case):
     row, est, detail = case
     body, eff = resolve(row, est, detail)
-    assert body.archetype == R.archetype(row["usability_code"], eff.floors_above, row["name"], False)
+    want = R.archetype(row["usability_code"], eff.floors_above, row["name"], False)
+    if want == "public" and R.shop_house(row["usability_code"], row["name"], detail):  # a 03000 the photo saw as shops (2026-10-14)
+        want = "commercial"
+    assert body.archetype == want
     assert body.floors >= 1 and body.floors * body.fh == pytest.approx(body.height_m, abs=1e-6)
     single = layout.box_of_points([layout.to_meters(FRAME, *p) for p in row["outline"]])
     assert body.is_body == (body.height_m > 2.5 and single.depth_m >= 3.0 and single.width_m <= 12 * single.depth_m)
@@ -411,6 +414,9 @@ def test_br_6_5_a_22_floor_apartment_is_a_band_rail_and_slab_a_floor_not_hundred
         assert sum(t.startswith(f"ap0{side}") for t in tails) == sum(t.startswith(f"al0{side}") for t in tails) == round(42 / 10) - 1
     assert not any(t.startswith(("ag0l", "ag0r", "w0l", "w0r")) for t in tails)  # end walls stay blank
     assert sum(t.startswith("cr0") for t in tails) == 4
+    for side in "fb":  # an AC unit a unit and floor, the lower floors only on a tall block (2026-10-15)
+        acs = sum(t.startswith(f"aa0{side}") for t in tails)
+        assert 0 < acs <= 48 and acs % 4 == 0
     assert len([i for i in items if i.kind == "facade"]) < 300
     for i in items:
         t = tail(i)
@@ -1023,3 +1029,64 @@ def test_an_apartment_panel_takes_the_judged_wall_colour():
     body, eff = resolve(row, est, None, features=[street()])
     panels = [i for i in all_items(body, row, eff)[0] if tail(i).startswith("au")]
     assert body.archetype == "apartment" and panels and all(i.color_name == "apt_white" for i in panels)
+
+
+def test_shop_houses_get_awnings_a_vertical_sign_a_roof_edge_and_corner_shops():
+    """2026-10-15 (local user: "건물 디테일이 부족"): awnings over some shop units, a tall vertical sign on a 3+ floor front, a parapet or a
+    dark mansard round a flat villa roof with a stair house, and a corner 상가주택 gets its side street shop front too."""
+    side_road = {"feature_id": "way:5", "kind": "road", "highway_class": "residential", "tags": {},
+                 "geometry": [list(offset(CENTER, 11, -10)), list(offset(CENTER, 11, 60))]}  # 5 m east of a 12 m wide villa
+    seen_awning = seen_mansard = seen_parapet = False
+    for i in range(1, 30):
+        row, est, _ = villa(i=i, floors=4, wall="beige", center=offset(CENTER, 0, 4 + 5))
+        body, eff = resolve(row, est, SHOP, features=[street(), side_road])
+        assert body.archetype == "villa" and body.shop and body.side_shops
+        items, _, warnings = all_items(body, row, eff)
+        tails = [tail(it) for it in items]
+        aw = [it for it in items if tail(it).startswith("aw")]
+        assert len(aw) <= 1 and all(it.shape == "Wedge" and it.material == "Fabric" for it in aw)
+        seen_awning |= bool(aw)
+        vs = [it for it in items if tail(it) == "sv0"]
+        assert len(vs) == 1 and vs[0].kind == "sign" and vs[0].sy > 2.5 * vs[0].sz  # tall and narrow (its sign faces are Left and Right)
+        assert not any(t.startswith("sp") for t in tails)  # the vertical sign takes the small projecting sign's place
+        edge = [t for t in tails if t.startswith(("mn0", "pp0"))]
+        assert len(edge) == 4 and len({t[:2] for t in edge}) == 1
+        seen_mansard |= edge[0].startswith("mn")
+        seen_parapet |= edge[0].startswith("pp")
+        assert "rt0" in tails  # the stair house on the roof
+        side = body.side_shops[0][1]
+        assert any(t.startswith(f"ss0{side}") for t in tails) and any(t.startswith(f"sgs0{side}") for t in tails)
+    assert seen_awning and seen_mansard and seen_parapet
+    low, eff = resolve(*villa(i=3, floors=2, wall="beige")[:2], SHOP, features=[street()])
+    assert not any(tail(it) == "sv0" for it in all_items(low, villa(i=3)[0], eff)[0])  # two floors: no vertical sign
+
+
+def test_a_shop_podium_apartment_starts_its_face_on_a_stone_podium_with_shops_and_signs():
+    """광성아파트 (2026-10-15): the photos saw a 3-storey shopping podium; the apartment bands used to run down to the pavement."""
+    row, est, _ = apartment(floors=13)
+    est = {**est, "note": "apartment slab about 10 floors over a 3-storey shopping podium, shops ground floor"}
+    detail = {"finish": "panel", "ground_use": "shop", "stair": "none", "bay": 0, "balcony": 1, "roof_color": "dark", "rooftop": "none"}
+    body, eff = resolve(row, est, detail, features=[street()])
+    assert body.podium == 3
+    items, labels, _ = all_items(body, row, eff)
+    tails = [tail(i) for i in items]
+    assert "pd0" in tails and any(t.startswith("pf0") for t in tails) and any(t.startswith("psg") for t in tails) and labels > 0
+    fh = body.fh
+    for i in items:
+        t = tail(i)
+        if t.startswith(("ag0", "ar0", "aa0", "ap0", "au0")):
+            assert i.cy - i.sy / 2 >= 3 * fh * FRAME.studs_per_m - 0.01, t  # nothing of the apartment face below the podium top
+    plain, eff2 = resolve(row, {**est, "note": "apartment slab"}, {**detail, "ground_use": "house"}, features=[street()])
+    assert plain.podium == 0
+    assert R.podium("apartment", 13, detail, "tower on a podium with shops") == 2 and R.podium("apartment", 13, detail, "shops") == 1
+
+
+def test_an_open_canopy_over_pumps_or_chargers_is_columns_and_a_roof():
+    assert LD.canopy_kind({}, "gas station canopy over pumps, white and teal") == "fuel"
+    assert LD.canopy_kind({}, "EV charging canopy, white columns and flat roof over chargers") == "ev"
+    assert LD.canopy_kind({}, "gas station building, orange two-level block with outdoor stair, canopy next to it") is None
+    row, _, _ = villa(w=20.0, d=12.0, floors=1)
+    items = LD.canopy_items(row, "fuel", FRAME, CFG)
+    roof = [i for i in items if "#cr" in i.name]
+    assert len(roof) == 1 and roof[0].cy > 5.0 * FRAME.studs_per_m
+    assert sum("#cc" in i.name for i in items) == 2 * round(20 / 8) and sum("#cp" in i.name for i in items) == 4 * round(20 / 8)

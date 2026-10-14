@@ -249,6 +249,20 @@ def pilotis(archetype: str, floors: int, detail: Mapping[str, Any] | None, note:
     return use == "garage" or bool(PILOTIS_NOTE.search(note or ""))
 
 
+PODIUM_FLOORS = re.compile(r"(\d)[- ]?(?:stor(?:e)?y|floor)\b[^,;]*(?:podium|base|shop)", re.I)
+
+
+def podium(archetype: str, floors: int, detail: Mapping[str, Any] | None, note: str | None) -> int:
+    """Floors of the shop podium under an apartment the photos judged with shops on the ground (2026-10-15: 광성아파트 and four more
+    blocks came out with apartment bands down to the pavement): the number the note gives ("3-storey shopping podium"), else 2 for a
+    note that says podium, else 1; 0 when not a shop-podium apartment. Never more than a third of the floors."""
+    if archetype != "apartment" or (detail or {}).get("ground_use") != "shop":
+        return 0
+    m = PODIUM_FLOORS.search(note or "")
+    n = int(m.group(1)) if m else (2 if "podium" in (note or "").lower() else 1)
+    return max(1, min(n, floors // 3))
+
+
 def is_public_name(name: str | None) -> bool:
     return bool(name) and any(name.endswith(s) for s in PUBLIC_SUFFIXES)
 
@@ -341,6 +355,9 @@ PALETTE: dict[str, tuple[int, int, int]] = {
     "glass_apt": (52, 58, 64), "apt_beige": (214, 190, 160), "apt_tan": (190, 158, 122), "apt_sand": (226, 212, 186), "apt_white": (238, 238, 234), "apt_gray": (212, 214, 216),
     "apt_line": (95, 100, 108), "apt_slab": (236, 236, 232), "apt_rail": (60, 62, 66),
     "frame_white": (232, 232, 228), "frame_gray": (140, 142, 145), "frame_dark": (55, 56, 60), "band_ground": (150, 148, 142),
+    "awn_red": (190, 52, 46), "awn_green": (38, 112, 70), "awn_blue": (40, 82, 150), "awn_orange": (222, 122, 42), "awn_gray": (108, 110, 114),
+    "apt_rail_panel": (224, 228, 230), "mansard": (70, 72, 78), "podium_stone": (200, 192, 178),
+    "canopy_white": (238, 238, 236), "canopy_teal": (40, 150, 140), "pump": (220, 60, 50), "charger": (60, 170, 120),
     "piloti_col": (226, 226, 222), "piloti_guard": (222, 184, 40), "piloti_ceiling": (92, 94, 98), "piloti_floor": (118, 118, 116),
     # flat-roof tops read off the satellite photo (roofs.py SAT_LOOKS times 0.88, like the school grounds)
     "rtop_white": (189, 189, 185), "rtop_light": (154, 154, 151), "rtop_gray": (114, 114, 114), "rtop_dark": (66, 69, 72),
@@ -426,6 +443,13 @@ DIMS: dict[str, float] = {
     "sign_floor_min_floors": 4, "sign_floor_pitch": 8.0, "sign_floor_max_panels": 3, "proj_t": 0.12, "proj_h": 0.9, "proj_d": 0.6,
     "proj_out": 0.1, "proj_along_in": 1.0, "roof_sign_frac": 0.6, "roof_sign_h": 1.5, "roof_sign_t": 0.2, "roof_sign_post": 0.15,
     "roof_sign_min_floors": 7,
+    # shop houses and villas (local user 2026-10-15 "건물 디테일이 부족"; street view of cells 173 and 133, a public shop model measured
+    # in MCP_Test and deleted: asset 71075654590750, awnings about 6.5 x 1.4 m): fabric awnings over some shop units, a tall vertical
+    # sign at the end of a 3+ floor front, a parapet or a dark mansard edge round a flat villa roof
+    "awn_d": 1.4, "awn_h": 0.5, "awn_gap": 0.05, "vsign_w": 0.8, "vsign_t": 0.3, "vsign_floors": 4, "vsign_in": 0.6,
+    "parapet_h": 0.9, "parapet_t": 0.2, "mansard_h": 1.4, "mansard_d": 1.4, "mansard_out": 0.3, "parapet_max_floors": 6,
+    # apartments (street view of gis:11177764): an outdoor AC unit per unit and floor in front of the slab, a light rail panel over the glass foot
+    "apt_ac_w": 0.85, "apt_ac_h": 0.6, "apt_ac_d": 0.4, "apt_ac_in": 0.8, "apt_ac_max": 48, "apt_rail_panel_h": 0.85, "apt_rail_panel_tr": 0.35,
     # apartment facade (BR-6.5, street view of gis:11208043 and a user reference 2026-10-14): a long face is a glass band, rail and
     # slab a floor plus full-height wall piers, dark unit lines, accent panels and white mullions; the block number on the end walls
     # and the entrance canopy; a crown parapet

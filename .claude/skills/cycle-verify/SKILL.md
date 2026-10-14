@@ -16,7 +16,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 
 ## 2. 생성 결과
 - `data/build/<칸>/manifest.json`: `warnings`를 읽고 하나씩 원인을 안다(예: 가게 앞면을 놓을 자리가 없음).
-- Studio 생성 결과(studio-build.luau의 반환): `verify=true`, `problems` 없음, `sunk_cylinders=0`, `http=false`, 가장 느린 덩어리 10 ms 이하.
+- Studio 생성 결과(studio-build.luau의 반환): `verify=true`, `problems` 없음, `http=false`, 가장 느린 덩어리 10 ms 이하(2026-10-15 지금 12~14 ms인 칸이 있음, 덩어리 크기를 50으로 줄여도 그대로라 70 유지). 땅에 묻힌 기둥 검사(`sunk_cylinders`)는 지형 높이 때문에 뺐다.
 
 ## 3. 위성 겹쳐 보기 (모든 칸)
 1. 칸 중심 위 높이 650에서 바로 아래로 `screen_capture`(`camera_position = {x, 650, z}`, `look_at_position = {x, 0, z - 1}`). 70° 시야각이면 px/stud = 캡처 세로 px ÷ 910(= 2·650·tan 35°). 1631 × 882 창이면 0.974, 1528 × 689면 0.757. 캡처 크기를 보고 계산한다.
@@ -36,8 +36,8 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 규칙(`streets.sidewalk_pieces`의 차로 겹침 자르기, `_on_other_road`, 횡단보도 `on_other`)으로 고치고 `tests/test_layout_u5.py`에 사례를 더한다.
 
 ## 4. 거리뷰 대조 (1급 칸)
-1. `uv run src/estimate.py plan --cells <칸>` → `data/build/<칸>/review.json`.
-2. Studio 시야각 83.58로 바꾼다. 쌍 8~12개를 골라(랜드마크, 처음 보는 유형, 확인 목록, 고르게 섞어) **하나씩** `screen_capture`(카메라 위치·바라보는 점은 review.json 그대로).
+1. `uv run --with numpy==2.5.4 --with scipy==1.18.1 src/estimate.py plan --cells <칸>` → `data/build/<칸>/review.json`(numpy·scipy가 있어야 카메라가 지형 높이만큼 올라간다. 없으면 평지 높이라 경사 칸에서 땅속에 들어감).
+2. Studio 시야각 83.58로 바꾼다. 쌍 8~12개를 골라(캡처는 **한 번에 하나씩, 병렬 호출 금지**: 동시에 보내면 시간 초과)(랜드마크, 처음 보는 유형, 확인 목록, 고르게 섞어) **하나씩** `screen_capture`(카메라 위치·바라보는 점은 review.json 그대로).
 3. 캡처 경로를 `{쌍 키: 경로}` JSON으로 → `uv run src/estimate.py compose --cells <칸> --captures <json>` → `captures/<칸>/review/`.
 4. 쌍을 세로로 이어 붙여 보고, 사용자에게 보낸다.
 5. 자주 나온 문제(lessons 참고): 창 크기·수, 난간, 나무가 가림, 가게 앞면, 계단실 색, 건물 유형(아파트·교회·공장), 간판 글자(만든 직후 비어 보이면 1분 뒤 다시), 처음 보는 유형(백화점 → `store`), 고층 복합 건물(외곽선은 기단 전체: 기단 높이로 보정 + 탑은 Manual), manifest의 `underground facility` 경고(역사·지하주차장이 빠졌는지).
@@ -59,7 +59,7 @@ cycle-build 7b에서 본 사진과 Studio 캡처(같은 방향, 땅 높이)를 �
 | 항목 | 기준 | 결과 |
 |---|---|---|
 | 테스트 | 전부 통과 | |
-| verify / sunk / http | ok / 0 / false | |
+| verify / http | ok / false | |
 | 경고 | 원인 앎 | |
 | 위성 | 큰 차이 없음 | |
 | 도로·인도 겹침 | 차로 위 인도·연석·횡단보도·가로등 0 | |

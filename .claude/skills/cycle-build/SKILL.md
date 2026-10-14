@@ -36,7 +36,7 @@ uv run src/trees.py --cells <칸>
 uv run src/fields.py --cells <칸>        # 학교 운동장 키트(U7 J): OSM 학교 영역 + 위성 -> regions/<구역>/cells/<칸>/fields.json
 uv run src/roofs.py --cells <칸>         # 평지붕 윗면 색(7층 이하): 위성 -> regions/<구역>/cells/<칸>/roofs.json
 ```
-`fields.py` 출력에 학교마다 `way:... sand|turf W x D studs`가 나오는지 본다(Overpass 504가 이어지면 결과가 그대로 남는다). 수작업이 있는 학교는 `manual.json`의 `osm`으로 `made_by: manual`이 되어 생성하지 않는다. 새 학교는 위성 겹쳐 보기(cycle-verify)에서 운동장 사각형을 확인한다.
+`roofs.py`는 7층 이하만 읽는다(높은 건물은 위성에서 기울어 보임). 8층 이상 아파트 지붕 색은 외곽선을 위성에 겹친 그림을 보고 `roofs.json`의 `"hand"`에 손으로 적는다(다시 돌려도 유지). 수작업이 위성 나무 자리에 있으면(코트·광장) 그 사각형을 `cells/<칸>/courts.json`의 `clear`에 둔다(`courts.py` 참고, build_luau가 그 안 나무를 뺀다). `fields.py` 출력에 학교마다 `way:... sand|turf W x D studs`가 나오는지 본다(Overpass 504가 이어지면 결과가 그대로 남는다). 수작업이 있는 학교는 `manual.json`의 `osm`으로 `made_by: manual`이 되어 생성하지 않는다. 새 학교는 위성 겹쳐 보기(cycle-verify)에서 운동장 사각형을 확인한다.
 
 ### 3. 거리뷰 (1급 칸만)
 `uv run src/capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(실행당 새 파노라마 100장 상한). 백그라운드로 돌리고 끝나면 확인. 403/429·형식 이상으로 `stopped`면 **우회하지 말고 멈추고** 사용자에게 알린다.

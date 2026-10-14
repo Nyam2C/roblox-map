@@ -26,12 +26,8 @@ for _, CELL in ipairs(CELLS) do
 	for k, v in data.counts do exp["items_" .. k] = v end
 	if not exp.items_spawn then exp.items_spawn = 0 end
 	local v = Builder.verify(CELL, exp)
-	local sunk = 0
-	for _, p in workspace.Auto[CELL]:GetDescendants() do
-		if p:IsA("Part") and p.Shape == Enum.PartType.Cylinder and p.Parent.Name ~= "Signs" and p.Position.Y - p.Size.X / 2 < -0.5 then sunk += 1 end
-	end
-	table.insert(out, string.format("%s created=%d skipped_manual=%d slowest=%.1fms verify=%s %s sunk_cylinders=%d",
-		CELL, created, skipped, slowest * 1000, tostring(v.ok), HS:JSONEncode(v.problems), sunk))
+	table.insert(out, string.format("%s created=%d skipped_manual=%d slowest=%.1fms verify=%s %s",
+		CELL, created, skipped, slowest * 1000, tostring(v.ok), HS:JSONEncode(v.problems)))
 end
 -- the hand-made places onto the ground too (data/build/terrain.json, written by build_luau.py)
 HS.HttpEnabled = true

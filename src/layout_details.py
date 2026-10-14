@@ -13,6 +13,7 @@ face; `y` is the bottom of a part unless the name says otherwise.
 from __future__ import annotations
 
 import math
+import re
 from dataclasses import dataclass, field
 from typing import Any, Iterable, Mapping, Sequence
 
@@ -264,6 +265,7 @@ class Body:
     base: str | None = None  # wall colour of a two-floor brick base under a panel body (2026-10-14)
     side_shops: tuple[tuple[int, str], ...] = ()  # other faces of a shop block that front a road: storefront and band signs too
     pilotis: bool = False  # open parking on columns under the floors above (2026-10-15)
+    podium: int = 0  # floors of a stone shop podium under an apartment (2026-10-15)
 
     @property
     def shop(self) -> bool:
@@ -319,7 +321,8 @@ def make_body(building: Mapping[str, Any], eff: Any, detail: Mapping[str, Any] |
                 single=archetype == "commercial" and R.single_business(building.get("name"), tags),
                 officetel=archetype == "commercial" and R.is_officetel(building.get("usability_code"), building.get("name"), tags, floors),
                 base=base,
-                pilotis=is_body and R.pilotis(archetype, floors, merged, note))
+                pilotis=is_body and R.pilotis(archetype, floors, merged, note),
+                podium=R.podium(archetype, floors, detail, note) if is_body else 0)
 
 
 # --- the road-facing side, occlusion and free spans (BR-5) -----------------------------------------------------------
@@ -387,7 +390,7 @@ def resolve_body(body: Body, lines: Sequence[tuple[str, LineString, float, Mappi
 def shop_sides(body: Body, lines: Sequence[tuple[str, LineString, float, Mapping[str, Any]]]) -> tuple[tuple[int, str], ...]:
     """The other faces of a commercial shop block that front a road or footpath (setback at most side_shop_max, the face turned toward it): they
     get storefronts and band signs like the facing face. A corner block downtown has shops on every street (cell 4, 2026-10-14)."""
-    if body.facing is None or not body.shop or body.archetype != "commercial":
+    if body.facing is None or not body.shop:
         return ()
     roads = [(line, width) for _, line, width, f in lines]  # roads and footpaths: downtown shops face wide pavements and plazas
     out = []
@@ -550,6 +553,10 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
             items.append(_box_part(frame, body, bi, "facade", f"cap{bi}", seq, 0.0, 0.0, H - D["cap_sink"], (w + lip, D["cap_h"], d + lip), **top))
             seq += 1
             roof_surface = H + D["cap_h"] - D["cap_sink"]
+    if flat and body.is_body and body.archetype in ("villa", "commercial") and body.details["rooftop"] != "railing" and F <= D["parapet_max_floors"]:
+        more = roof_edge_items(body, bi, frame, seq, roof_surface)
+        items += more
+        seq += len(more)
     if body.pilotis:
         items += pilotis_items(body, bi, frame, seq)
         seq += 100
@@ -631,6 +638,10 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
         items.append(_box_part(frame, body, bi, "facade", f"bs{bi}", seq, 0.0, 0.0, 0.0, (w + 2 * bo, min(D["base_floors"], F) * fh, d + 2 * bo),
                                material="Brick", color=rgb, color_name=body.base))
         seq += 1
+    if body.podium and body.is_body:
+        more = podium_items(body, bi, frame, seq)
+        items += more
+        seq += len(more)
     if flat and body.archetype == "apartment":  # BR-6.5 crown: a parapet round the roof, above the cap
         ch, ct = D["apt_crown_h"], D["apt_crown_t"]
         for i, (su, sv, size) in enumerate(((0, -1, (w + lip, ch, ct)), (0, 1, (w + lip, ch, ct)), (-1, 0, (ct, ch, d + lip - 2 * ct)),
@@ -643,7 +654,7 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
         su, sv, rear = _rear_corner(body)
         pw, ph, pd = (D["penthouse_w"], D["penthouse_h"], D["penthouse_d"]) if body.archetype == "commercial" and F >= 5 else \
             (D["rooftop_box_w"], D["rooftop_box_h"], D["rooftop_box_d"])
-        want_box = (body.archetype == "commercial" and F >= 5) or body.details["rooftop"] == "box"
+        want_box = (body.archetype == "commercial" and F >= 5) or body.details["rooftop"] == "box" or (body.archetype == "villa" and F >= 3)
         want_tank = (body.archetype == "commercial" and F >= 5) or body.details["rooftop"] == "tank"
         inset = D["rooftop_inset"]
         cu, cv = su * (w / 2 - inset - pw / 2), sv * (d / 2 - inset - pd / 2)
@@ -660,6 +671,63 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                                    (D["tank_h"], D["tank_dia"], D["tank_dia"]), box.yaw_deg, owner=body.building_id, shape="Cylinder",
                                    material="SmoothPlastic", color=R.PALETTE["tank"], color_name="tank"))
                 seq += 1
+    return items
+
+
+def podium_items(body: Body, bi: int, frame: Frame, seq: int) -> list[Item]:
+    """A stone podium of `body.podium` floors under an apartment (2026-10-15): a skin round the box, shopfronts and an eyebrow on
+    every free long face's ground floor, a glass band on each upper podium floor; the band signs come with sign_items."""
+    box, fh, n = body.boxes[bi], body.fh, body.podium
+    items: list[Item] = []
+    so = D["skin_out"]
+    stone = dict(material="Sandstone", color=R.PALETTE["podium_stone"], color_name="podium_stone")
+    items.append(_box_part(frame, body, bi, "facade", f"pd{bi}", seq, 0.0, 0.0, 0.0, (box.width_m + 2 * so, n * fh + 0.3, box.depth_m + 2 * so), **stone))
+    occluded = body.occluded[bi] if bi < len(body.occluded) else frozenset()
+    glass = dict(material="SmoothPlastic", color=R.PALETTE["glass_com"], color_name="glass_com", reflectance=D["reflect_win"])
+    for side in SIDES:
+        L = face_of(box, side).length
+        if side in occluded or L < D["side_shop_min"]:
+            continue
+        for u, (a0, a1) in enumerate(_shop_units(body, L)):
+            a0, a1 = a0 + D["front_gap"] / 2, a1 - D["front_gap"] / 2
+            look = SHOP_FRONTS[R.pick(f"{body.building_id}#pf{bi}{side}{u}", "front", len(SHOP_FRONTS))]
+            items.append(_wall_part(frame, body, bi, side, "facade", f"pf{bi}{side}{u}", seq + len(items), (a0 + a1) / 2, D["front_y"], so + D["win_out"],
+                                    (a1 - a0, fh - D["front_drop"], D["front_t"]), material=look[0], color=R.PALETTE[look[1]],
+                                    color_name=look[1], reflectance=look[2]))
+        items.append(_wall_part(frame, body, bi, side, "facade", f"pe{bi}{side}", seq + len(items), 0.0, fh - D["eyebrow_drop"], so + D["eyebrow_d"],
+                                (L - 2 * D["span_margin"], D["eyebrow_h"], D["eyebrow_d"]), material="Metal", color=R.PALETTE["eyebrow"], color_name="eyebrow"))
+        for k in range(1, n):
+            items.append(_wall_part(frame, body, bi, side, "facade", f"pg{bi}{side}{k}", seq + len(items), 0.0, k * fh + D["ribbon_sill"], so + D["win_out"],
+                                    (L - D["ribbon_inset"], min(D["ribbon_h"], 0.5 * fh), D["win_t"]), **glass))
+    return items
+
+
+def mansard(body: Body) -> bool:
+    """Two in five flat-roofed villas of 3+ floors wear a dark sloped edge (가짜 경사 지붕) instead of a plain parapet (2026-10-15)."""
+    return body.archetype == "villa" and body.floors >= 3 and R.pick(body.building_id, "mansard", 5) < 2
+
+
+def roof_edge_items(body: Body, bi: int, frame: Frame, seq: int, roof_surface: float) -> list[Item]:
+    """The edge of a flat villa or low shop-house roof (2026-10-15): a wall-colour parapet on the cap, or a dark mansard: a wedge on
+    each face rising inward from just outside the wall."""
+    items: list[Item] = []
+    box = body.boxes[bi]
+    occluded = body.occluded[bi] if bi < len(body.occluded) else frozenset()
+    for side in SIDES:
+        L = face_of(box, side).length
+        if side in occluded:  # against a sibling box or a neighbour: no edge across the roof
+            continue
+        if mansard(body):
+            material, color_key = R.ROOF_MATERIALS.get(body.details.get("roof_color") or "dark", R.ROOF_MATERIALS["dark"])
+            mo = D["mansard_out"]
+            items.append(_wall_part(frame, body, bi, side, "facade", f"mn{bi}{side}", seq + len(items), 0.0, body.height_m - D["cap_sink"], mo,
+                                    (L + 2 * mo, D["mansard_h"], D["mansard_d"]), shape="Wedge", material=material,
+                                    color=R.PALETTE[color_key], color_name=color_key))
+        else:
+            lip = D["band_lip"] / 2
+            items.append(_wall_part(frame, body, bi, side, "facade", f"pp{bi}{side}", seq + len(items), 0.0, roof_surface, lip,
+                                    (L + 2 * lip, D["parapet_h"], D["parapet_t"]), collide=True, material=body.material, color=body.wall_rgb,
+                                    color_name=body.wall_color))
     return items
 
 
@@ -785,7 +853,8 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
     # the judged wall colour first: here 60 of 62 judged apartments are white or light gray, the beige panels read wrong (2026-10-15)
     accent = APT_PANEL.get(body.wall_color) or APT_ACCENTS[R.pick(body.building_id, "apt_accent", len(APT_ACCENTS))]
     glass = dict(material="SmoothPlastic", color=R.PALETTE["glass_apt"], color_name="glass_apt")  # no reflectance: it mirrors the sky blue
-    rail = dict(material="Metal", color=R.PALETTE["apt_rail"], color_name="apt_rail")
+    rail = dict(material="Metal", color=R.PALETTE["apt_rail_panel"], color_name="apt_rail_panel", transparency=D["apt_rail_panel_tr"])
+    ac = dict(material="Metal", color=R.PALETTE["ac"], color_name="ac")
     slab = dict(material="Concrete", color=R.PALETTE["apt_slab"], color_name="apt_slab")
     line = dict(material="Concrete", color=R.PALETTE["apt_line"], color_name="apt_line")
     panel = dict(material="Plaster", color=R.PALETTE[accent], color_name=accent)
@@ -798,15 +867,18 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
 
     a0, a1 = -L / 2 + D["apt_end"], L / 2 - D["apt_end"]
     gh = fh - D["apt_glass_sill"] - D["apt_glass_head"]
+    y0 = body.podium * fh  # the face starts on the podium (podium_items)
+    if body.podium:
+        door = None
     gap = (D["door_w"] + 0.2) / 2 + D["span_clear"]
-    for k in range(F):
+    for k in range(body.podium, F):
         ranges = [(a0, door - gap), (door + gap, a1)] if k == 0 and door is not None else [(a0, a1)]
         for j, (s0, s1) in enumerate(ranges):
             if s1 - s0 < D["span_min"]:
                 continue
             add(f"ag{bi}{side}{k}-{j}", (s0 + s1) / 2, k * fh + D["apt_glass_sill"], D["win_out"], (s1 - s0, gh, win_t), glass)
-            add(f"ar{bi}{side}{k}-{j}", (s0 + s1) / 2, k * fh + D["apt_rail_y"], D["apt_rail_out"], (s1 - s0, D["apt_rail_h"], D["apt_rail_h"]), rail)
-        if k > 0:
+            add(f"ar{bi}{side}{k}-{j}", (s0 + s1) / 2, k * fh + D["apt_glass_sill"], D["apt_rail_out"], (s1 - s0, D["apt_rail_panel_h"], 0.05), rail)
+        if k > body.podium:
             add(f"as{bi}{side}{k}", 0.0, k * fh - D["apt_slab_h"], D["apt_slab_out"], (L, D["apt_slab_h"], D["apt_slab_out"]), slab)
     n = max(2, round(L / D["apt_unit"]))
     cuts = [L * j / n - L / 2 for j in range(1, n)]
@@ -814,8 +886,8 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
         clear = (D["door_w"] + D["apt_pier_w"]) / 2 + D["span_clear"]
         cuts = [door + math.copysign(clear, a - door or 1.0) if abs(a - door) < clear else a for a in cuts]
     for j, a in enumerate(cuts, 1):
-        add(f"ap{bi}{side}{j}", a, 0.0, D["apt_pier_out"], (D["apt_pier_w"], H, D["apt_pier_out"]), wall)
-        add(f"al{bi}{side}{j}", a, 0.0, D["apt_line_out"], (D["apt_line_w"], H, D["apt_line_out"]), line)
+        add(f"ap{bi}{side}{j}", a, y0, D["apt_pier_out"], (D["apt_pier_w"], H - y0, D["apt_pier_out"]), wall)
+        add(f"al{bi}{side}{j}", a, y0, D["apt_line_out"], (D["apt_line_w"], H - y0, D["apt_line_out"]), line)
     edges = [a0] + cuts + [a1]
     for j in range(len(edges) - 1):
         u0 = edges[j] + (D["apt_pier_w"] / 2 if j > 0 else 0.0)
@@ -828,14 +900,23 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
                 if p1 - p0 > 0.1:
                     add(f"au{bi}{side}{j}-{i}", (p0 + p1) / 2, y, D["apt_panel_t"], (p1 - p0, H - y, D["apt_panel_t"]), panel)
         else:
-            add(f"au{bi}{side}{j}", (u0 + u1) / 2, 0.0, D["apt_panel_t"], (u1 - u0, H, D["apt_panel_t"]), panel)
+            add(f"au{bi}{side}{j}", (u0 + u1) / 2, y0, D["apt_panel_t"], (u1 - u0, H - y0, D["apt_panel_t"]), panel)
         m = int(D["apt_mulls"])
         for i in range(1, m + 1):
             a = u0 + (u1 - u0) * i / (m + 1)
             if door is not None and abs(a - door) < gap:
                 continue
-            add(f"am{bi}{side}{j}-{i}", a, D["apt_glass_sill"], D["apt_mull_out"], (D["apt_mull_w"], H - D["apt_glass_sill"], D["apt_mull_out"]),
+            add(f"am{bi}{side}{j}-{i}", a, y0 + D["apt_glass_sill"], D["apt_mull_out"], (D["apt_mull_w"], H - y0 - D["apt_glass_sill"], D["apt_mull_out"]),
                 slab)
+    # outdoor AC units: one per unit and floor at the unit's edge, standing on the slab (street view: a column of white boxes per unit)
+    acs = [(j, (edges[j] + D["apt_pier_w"] / 2 + D["apt_ac_in"]) if j % 2 else (edges[j + 1] - D["apt_pier_w"] / 2 - D["apt_ac_in"]))
+           for j in range(len(edges) - 1)]
+    floors = list(range(max(1, body.podium), F))
+    if len(acs) * len(floors) > D["apt_ac_max"]:  # ponytail: tall long blocks keep the lower floors only (the street sees those), all units
+        floors = floors[:max(1, int(D["apt_ac_max"]) // max(1, len(acs)))]
+    for k in floors:
+        for j, a in acs:
+            add(f"aa{bi}{side}{k}-{j}", a, k * fh, D["apt_slab_out"] + D["apt_ac_d"], (D["apt_ac_w"], D["apt_ac_h"], D["apt_ac_d"]), ac)
     if door is not None:
         cw, cd, ch, cy = D["apt_canopy_w"], D["apt_canopy_d"], D["apt_canopy_h"], D["apt_canopy_y"]
         add("acn", door, cy, cd, (cw, ch, cd), dict(material="Concrete", color=R.PALETTE["canopy"], color_name="canopy"))
@@ -920,6 +1001,11 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
                     items.append(_wall_part(frame, body, bi, side, "facade", f"sf{u}", seq, (a0 + a1) / 2, D["front_y"], D["win_out"],
                                             (a1 - a0, fh - D["front_drop"], D["front_t"]), material=look[0], color=R.PALETTE[look[1]],
                                             color_name=look[1], reflectance=look[2]))
+                    awn = awning(body, u)
+                    if awn:
+                        top = fh - D["sign_drop"] - D["sign_h"] - D["awn_gap"]
+                        items.append(_wall_part(frame, body, bi, side, "facade", f"aw{u}", seq + 500, (a0 + a1) / 2, top - D["awn_h"], D["awn_d"],
+                                                (a1 - a0, D["awn_h"], D["awn_d"]), shape="Wedge", material="Fabric", color=R.PALETTE[awn], color_name=awn))
                 seq += 1
             items.append(_wall_part(frame, body, bi, side, "facade", "sd0", seq, s0 + D["front_door_along"], 0.0, 0.08, (D["door_w"], D["door_h"], D["front_door_t"]),
                                     material="Metal", color=R.PALETTE["door_shop"], color_name="door_shop"))
@@ -971,10 +1057,20 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
     return items
 
 
+AWNINGS = ("awn_red", "awn_green", "awn_blue", "awn_orange", "awn_gray")
+
+
+def awning(body: Body, unit: int) -> str | None:
+    """The fabric awning colour over a shop unit, or None: three in five units have one (street view of cells 173 and 133, 2026-10-15)."""
+    if R.pick(f"{body.building_id}#aw{unit}", "awning", 5) >= 3:
+        return None
+    return AWNINGS[R.pick(f"{body.building_id}#aw{unit}", "awning_color", len(AWNINGS))]
+
+
 def _shop_units(body: Body, L: float) -> list[tuple[float, float]]:
     """(start, end) of the shop units across a side face (whole face but the margins; one unit for a single business)."""
     s0, s1 = -L / 2 + D["span_margin"], L / 2 - D["span_margin"]
-    units = 1 if body.single else max(1, min(int(D["shop_units_max"]), int((s1 - s0) // D["shop_unit_m"])))
+    units = 1 if body.single or body.archetype == "villa" else max(1, min(int(D["shop_units_max"]), int((s1 - s0) // D["shop_unit_m"])))
     uw = (s1 - s0) / units
     return [(s0 + uw * u, s0 + uw * (u + 1)) for u in range(units)]
 
@@ -1061,6 +1157,8 @@ def _name(body: Body, slot: str, where: str, floor: int) -> str:
 
 def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> tuple[list[Item], int]:
     """Band signs, per-floor signs, projecting signs, the rooftop frame and the name plate; (items, label count) (BR-10)."""
+    if body.is_body and body.facing is not None and body.podium:
+        return podium_signs(body, frame)
     if not body.is_body or body.facing is None or body.archetype in ("school", "apartment", "store"):
         return [], 0
     bi, side, F, fh, H, L = body.front, body.facing.side, body.floors, body.fh, body.height_m, body.facing.length
@@ -1122,10 +1220,18 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
                     sign(f"sgf{k}-{i}", pw * (i + 0.5) - L / 2, k * fh + D["sign_floor_y"], D["sign_out"], (pw - D["front_gap"], D["sign_floor_h"], D["sign_t"]),
                          text, bg, ink, "F", 200)
         proj = ((L / 4, 1.5 * fh, "gf"), (-L / 4, 2.5 * fh, "upper")) if body.archetype == "commercial" and not body.single else ((L / 2 - D["proj_along_in"], 1.5 * fh, "gf"),)
+        if F >= 3:  # the last one is a tall vertical sign at the end of the front, floors 2..5 (세로 간판, 2026-10-15)
+            proj = proj[:-1]
         for i, (a, y, where) in enumerate(proj):
             text = _name(body, f"p{i}", where, 1 if where == "upper" else 0)
             bg, ink = _sign_colors(body, f"p{i}", text[-3:])
             sign(f"sp{i}", a, y, D["proj_out"] + D["proj_d"], (D["proj_t"], D["proj_h"], D["proj_d"]), text, bg, ink, "LR", 200)
+        if F >= 3:
+            text = _name(body, "v", "upper", 1)
+            bg, ink = _sign_colors(body, "v", text[-3:])
+            vh = min(F - 1, int(D["vsign_floors"])) * fh - 0.8
+            end = -1 if R.pick(body.building_id, "vsign", 2) else 1
+            sign("sv0", end * (L / 2 - D["vsign_in"]), fh + 0.4, D["proj_out"] + D["vsign_w"], (D["vsign_t"], vh, D["vsign_w"]), text, bg, ink, "LR", 300)
         if body.archetype == "commercial" and not office and F >= int(D["roof_sign_min_floors"]):
             flat = body.roof_shape not in ("gable", "hip", "shed")
             surface = H + D["cap_h"] - D["cap_sink"] if flat and body.details["rooftop"] != "railing" else H
@@ -1151,6 +1257,30 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
         warnings.append(f"{body.building_id}: sign text not allowed ({bad[0][:20]!r}), no signs")
         return [], 0
     return items, labels
+
+
+def podium_signs(body: Body, frame: Frame) -> tuple[list[Item], int]:
+    """Band signs over the podium shops on the facing face, and a row of floor signs on each upper podium floor."""
+    bi, side, fh, L = body.front, body.facing.side, body.fh, body.facing.length  # type: ignore[union-attr]
+    so = D["skin_out"]
+    items: list[Item] = []
+    units = _shop_units(body, L)
+    for u, (a0, a1) in enumerate(units):
+        text = _name(body, f"pd{u}", "gf", 0)
+        bg, ink = _sign_colors(body, f"pd{u}", text[-3:])
+        items.append(_wall_part(frame, body, bi, side, "sign", f"psg{u}", 3000 + u, (a0 + a1) / 2, fh - D["sign_drop"] - D["sign_h"], so + D["sign_out"],
+                                (a1 - a0 - D["front_gap"], D["sign_h"], D["sign_t"]), material="SmoothPlastic", color=R.PALETTE[bg], color_name=bg,
+                                text=text, ink=ink, faces="F", attrs={"MaxDistance": 300}))
+    for k in range(1, body.podium):
+        text = _name(body, f"pk{k}", "upper", k)
+        bg, ink = _sign_colors(body, f"pk{k}", text[-3:])
+        w = min(L * 0.5, 12.0)
+        items.append(_wall_part(frame, body, bi, side, "sign", f"psk{k}", 3100 + k, -L / 4, k * fh + D["sign_floor_y"], so + D["sign_out"],
+                                (w, D["sign_floor_h"], D["sign_t"]), material="SmoothPlastic", color=R.PALETTE[bg], color_name=bg,
+                                text=text, ink=ink, faces="F", attrs={"MaxDistance": 200}))
+    if any(not R.SIGN_TEXT.fullmatch(i.text or "") for i in items):
+        return [], 0
+    return items, len(items)
 
 
 # --- elevated footbridges (cell 163, 2026-10-14) -------------------------------------------------------------------------------
@@ -1183,6 +1313,58 @@ def skybridge_items(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str,
             east, north = _world(box, 0.0, v)
             items.append(_part(frame, "facade", f"{bid}#{tail}{bi}", bid, 10 * bi + k, east, north, y, size, box.yaw_deg, owner=bid,
                                material=mat, color=R.PALETTE[key], color_name=key, **extra))
+    return items
+
+
+# --- open canopies: a gas station's pumps, EV chargers (16b, 2026-10-15) ---------------------------------------------------------
+
+CANOPY_NOTE = re.compile(r"canopy over (?:the )?(?:fuel )?(?:pumps|chargers)|charging canopy|gas station canopy", re.I)
+
+
+def canopy_kind(building: Mapping[str, Any], note: str | None) -> str | None:
+    """'fuel' or 'ev' when the photos saw an open canopy over pumps or chargers (the register calls it a 2-floor 위험물 or parking
+    building, which came out as a closed box with a made-up parking plate); None otherwise."""
+    if not note or not CANOPY_NOTE.search(note):
+        return None
+    return "ev" if re.search(r"charg|\bEV\b", note, re.I) else "fuel"
+
+
+def canopy_items(building: Mapping[str, Any], kind: str, frame: Frame, cfg: Mapping[str, Any]) -> list[Item]:
+    """Per box: a white roof 5 m up with a teal fascia band, two rows of columns every 8 m, and under it islands with two pumps
+    (fuel) or a row of chargers (EV). Street view of gis:11199044 and gis:11200258."""
+    bid = str(building["building_id"])
+    items: list[Item] = []
+    look = lambda key, mat="SmoothPlastic": dict(material=mat, color=R.PALETTE[key], color_name=key)  # noqa: E731
+    for bi, box in enumerate(outline_to_boxes(building["outline"], frame, cfg, "villa")):
+        w, d = box.width_m, box.depth_m
+        if w < d:
+            w, d = d, w  # along the long side: u runs over w only when the box is wider than deep
+        long_u = box.width_m >= box.depth_m
+        uv = (lambda a, c: (a, c)) if long_u else (lambda a, c: (c, a))
+        size = (lambda a, h, c: (a, h, c)) if long_u else (lambda a, h, c: (c, h, a))
+        n = 0
+
+        def add(tail: str, a: float, c: float, y: float, dims: tuple[float, float, float], extra: Mapping[str, Any]) -> None:
+            nonlocal n
+            east, north = _world(box, *uv(a, c))
+            items.append(_part(frame, "facade", f"{bid}#{tail}{bi}-{n}", bid, 20 * bi + n, east, north, y, size(*dims), box.yaw_deg,
+                               owner=bid, **extra))
+            n += 1
+
+        add("cr", 0.0, 0.0, 5.0, (w, 0.9, d), dict(look("canopy_white"), collide=True))
+        add("cb", 0.0, 0.0, 5.3, (w + 0.08, 0.3, d + 0.08), look("canopy_teal"))
+        cols = max(1, round(w / 8.0))
+        for i in range(cols):
+            a = w * (i + 0.5) / cols - w / 2
+            for c in ((-d / 4, d / 4) if d >= 8 else (0.0,)):
+                add("cc", a, c, 0.0, (0.5, 5.0, 0.5), dict(look("canopy_white"), collide=True))
+                if kind == "fuel":
+                    add("ci", a, c, 0.0, (4.0, 0.2, 1.2), dict(look("concrete", "Concrete"), collide=True))
+                    for k in (-1, 1):
+                        add("cp", a + k * 1.3, c, 0.2, (0.8, 1.8, 0.5), dict(look("pump"), collide=True))
+                else:
+                    for k in (-1, 1):
+                        add("ce", a + k * 1.6, c, 0.0, (0.5, 1.6, 0.4), dict(look("charger"), collide=True))
     return items
 
 

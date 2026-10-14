@@ -199,6 +199,14 @@ def report_lines(conn, cfg: Mapping[str, Any], cell_id: str) -> list[str]:
 
 # --- plan and compose: the comparison pairs (BR-7) --------------------------------------------------------------------------
 
+def _ground(cfg: Mapping[str, Any], cell_id: str) -> Any:
+    try:
+        import terrain
+        return terrain.ground_for(common.cell_config(cfg, cell_id))
+    except (ImportError, KeyError, ValueError, FileNotFoundError):  # no heights for the region (or a test config): flat
+        return None
+
+
 def plan_cell(conn, cfg: Mapping[str, Any], cell_id: str) -> dict[str, Any]:
     """Batches of comparison pairs with the Studio camera for each (no files, same input gives the same plan)."""
     frame = layout.Frame.from_cfg(cfg)
@@ -222,6 +230,14 @@ def plan_cell(conn, cfg: Mapping[str, Any], cell_id: str) -> dict[str, Any]:
                     "label": {"floors": e.floors_above, "floors_basis": e.floors_basis, "height_m": round(e.height_m, 1),
                               "height_basis": e.height_basis, "wall_color": e.wall_color, "flags": list(e.flags)}})
         batches.append({"number": number, "pairs": pairs})
+    ground = _ground(cfg, cell_id)
+    if ground is not None:  # the map stands on the street-view heights (terrain.py, 2026-10-15): the camera and its target rise too
+        for b in batches:
+            for p in b["pairs"]:
+                cam = p["camera"]
+                for key in ("position", "look_at"):
+                    x, y, z = cam[key]
+                    cam[key] = [x, layout.fmt(y + ground.h(x, z)), z]
     return {"cell_id": cell_id, "studio_fov_v_deg": round(review.STUDIO_FOV_V_DEG, 2), "batch_size": cfg["review_batch_size"],
             "pairs": sum(len(b["pairs"]) for b in batches), "batches": batches}
 

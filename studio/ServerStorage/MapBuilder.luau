@@ -128,6 +128,17 @@ local function addSignGui(part, it, looks, face)
 	gui.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
 	-- text tops out at 100 px, so a tall plate (an apartment block number) gets fewer pixels per stud to fill it
 	gui.PixelsPerStud = part.Size.Y > 6 and 110 / part.Size.Y or 50
+	-- a tall narrow face (a vertical shop sign) stacks the letters one per line
+	local across = (face == Enum.NormalId.Left or face == Enum.NormalId.Right) and part.Size.Z or part.Size.X
+	local text = it.t
+	if part.Size.Y > 2.5 * across and not it.im then
+		local chars = {}
+		for _, code in utf8.codes(it.t) do
+			table.insert(chars, utf8.char(code))
+		end
+		text = table.concat(chars, "\n")
+		gui.PixelsPerStud = math.min(50, 95 / math.min(across, part.Size.Y / math.max(1, #chars)))
+	end
 	gui.LightInfluence = 1
 	gui.AlwaysOnTop = false
 	gui.MaxDistance = it.md or 200
@@ -147,7 +158,7 @@ local function addSignGui(part, it, looks, face)
 		label.TextScaled = true
 		label.TextColor3 = colorOf(looks, { "", 20, 20, 20 }, it.o)
 		label.FontFace = Font.fromEnum(Enum.Font.SourceSansBold)
-		label.Text = it.t -- data only: the text never becomes code
+		label.Text = text -- data only: the text never becomes code
 		label.Parent = gui
 	end
 	gui.Parent = part

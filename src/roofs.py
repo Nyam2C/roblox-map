@@ -11,7 +11,8 @@ Usage (repo root):
 The flat-roof cap used the wall colour darkened, so a red-brick block got a red-brown top where the photo shows grey, white or green
 waterproof paint (옥산초 gis:11201536, 2026-10-14; user decision: read it off the photo). Inside the footprint shrunk by 1.5 m (edges,
 parapet shadows), without crowns, the median colour goes to the nearest of a few roof-top looks. Tall buildings lean in the photo, so
-from 8 floors up the top is left to the rule. build_luau.py gives the look to the cap of a flat roof (details key roof_top).
+from 8 floors up the top is left to the rule or set by eye under "hand" (an outline overlay on the photo: 103's teal and brown
+apartment decks, 2026-10-15). build_luau.py gives the look to the cap of a flat roof (details key roof_top).
 """
 from __future__ import annotations
 
@@ -76,7 +77,8 @@ def load_roofs(path) -> dict[str, str]:
     """A cell's roofs.json -> {building id: look}; none without the file. An unknown look refuses the build."""
     if not path.exists():
         return {}
-    rows = json.loads(path.read_text(encoding="utf-8"))["roofs"]
+    data = json.loads(path.read_text(encoding="utf-8"))
+    rows = {**data["roofs"], **data.get("hand", {})}  # hand: tall blocks set by eye on an outline overlay (they lean in the photo)
     bad = [k for k, v in rows.items() if v not in SAT_LOOKS]
     if bad:
         raise ValueError(f"{path.name}: unknown roof-top look for {bad[:3]}")
@@ -114,8 +116,9 @@ def main(cfg: dict[str, Any]) -> int:
         looks = roof_looks(Image.open(sat.with_suffix(".jpg")).convert("RGB"), Georef(int(meta["tile_x0"]), int(meta["tile_y0"])), buildings)
         path = common.cell_file(cfg, cell_id, "roofs")
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"cell_id": cell_id, "source": "V-World satellite z19", "roofs": looks}, ensure_ascii=False, indent=0) + "\n",
-                        encoding="utf-8")
+        hand = json.loads(path.read_text(encoding="utf-8")).get("hand", {}) if path.exists() else {}
+        path.write_text(json.dumps({"cell_id": cell_id, "source": "V-World satellite z19", "roofs": looks, **({"hand": hand} if hand else {})},
+                                   ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
         counts: dict[str, int] = {}
         for v in looks.values():
             counts[v] = counts.get(v, 0) + 1

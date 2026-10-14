@@ -14,5 +14,18 @@
 "gis:15885444": "rtop_dark",
 "gis:17847104": "rtop_green",
 "gis:18162460": "rtop_teal"
+},
+"hand": {
+"gis:11188991": "rtop_teal",
+"gis:11189215": "rtop_white",
+"gis:11189228": "rtop_teal",
+"gis:11191021": "rtop_brown",
+"gis:11191276": "rtop_teal",
+"gis:11191288": "rtop_teal",
+"gis:11191293": "rtop_brown",
+"gis:11191295": "rtop_brown",
+"gis:11193342": "rtop_teal",
+"gis:11207095": "rtop_teal",
+"gis:11207098": "rtop_white"
 }
 }

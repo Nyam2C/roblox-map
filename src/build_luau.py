@@ -39,6 +39,7 @@ import judgement
 import layout
 import layout_details
 import streets
+import bridges
 import terrain
 import tiers
 
@@ -187,7 +188,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1,
               sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None,
               roof_tops: Mapping[str, str] | None = None, under_trees: set[str] | None = None,
-              ground: "terrain.Ground | None" = None) -> Plan:
+              ground: "terrain.Ground | None" = None, decks: "bridges.Decks | None" = None,
+              clear: Sequence[Mapping[str, Any]] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -198,6 +200,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     estimates, overrides, details = estimates or {}, overrides or {}, details or {}
     warnings: list[str] = []
     items = [layout.ground_item(cell_id, frame, cfg)]
+    canopies: list[Any] = []
     kept, dropped = layout_details.dedupe_buildings(buildings, frame)
     names: dict[str, str] = {}
     judged = 0
@@ -214,6 +217,16 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         if b.get("source") != "gis" and _seen_empty(estimates.get(bid)):
             # only OSM has it and the photos show no building: an outline left on a cleared lot (16b, 2026-10-14)
             warnings.append(f"{bid}: OSM-only outline and the photos show no building: not built")
+            continue
+        canopy = layout_details.canopy_kind(b, (estimates.get(bid) or {}).get("note"))
+        if canopy:  # an open canopy over pumps or chargers, not a box (16b, 2026-10-15)
+            poly = layout_details._poly_m(b["outline"], frame)
+            if poly is not None and any(p.contains(poly.centroid) for p in canopies):
+                warnings.append(f"{bid}: a second record of a canopy already built: skipped")
+                continue
+            canopies.append(poly)
+            items += layout_details.canopy_items(b, canopy, frame, cfg)
+            warnings.append(f"{bid}: open {canopy} canopy: built on columns")
             continue
         if layout_details.is_skybridge(b, (estimates.get(bid) or {}).get("note"), frame):
             items += layout_details.skybridge_items(b, frame, cfg)
@@ -296,6 +309,10 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     # footpaths are drawn only off the road carriageways (2026-10-14); junctions and crosswalks still use the whole path
     for f in streets.paths_off_roads(ok_features, frame, cfg):
         pieces += layout.road_items(f, frame, cell_id, res, cfg)
+    if decks is not None:  # overpasses: a girder and walls under and beside the road of a bridge way (2026-10-15)
+        for f in ok_features:
+            if str(f["feature_id"]) in decks.fids:
+                pieces += bridges.deck_items(f, frame, cell_id, res, cfg)
     lines = streets.streets_of(ok_features, frame, cell_id, res, cfg)
     jcts = streets.junctions(lines, frame, cell_id, res, cfg)
     sidewalks, props = streets.street_items(lines, jcts, frame, cfg, rule_trees=sat_trees is None)
@@ -305,10 +322,12 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         # not on a school ground: new dark turf reads as crowns on the photo (중흥중, 2026-10-14)
         # nor on a carriageway: trees.py masks roads by its own width, a widened road (road_lanes_by_name) or a junction keeps them (10b, 2026-10-14)
         ways = unary_union(list(streets.carriageways(lines).values())) if lines else None
-        props = props + streets.tree_items(frame, [t for t in sat_trees if not any(fields.covers(g, t[0], t[1]) for g in grounds or [])
+        props = props + streets.tree_items(frame, [t for t in sat_trees if not any(fields.covers(g, t[0], t[1]) for g in list(grounds or []) + list(clear or []))
                                                    and not (ways is not None and ways.contains(Point(t[0] / frame.studs_per_m, -t[1] / frame.studs_per_m)))])
     for g in grounds or []:  # U7 J: school grounds of fields.json that no Manual script makes
         props = props + fields.field_items(g, frame)
+    if decks is not None:  # no crosswalk, stop line or bollard of a junction up on a deck
+        props = [p for p in props if p.group in decks.fids or decks.over(p.cx, p.cz) < 1.0]
     items += pieces + sidewalks + props
     spawn, spawn_warnings = layout.spawn_item(cell_id, frame, cfg, pieces)
     if spawn is not None:
@@ -317,7 +336,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     if cfg.get("spawn_lat") is None:
         warnings.append("no spawn point configured (spawn_lat, spawn_lon): no spawn is built")
     items, sign_images, signs_reused = apply_sign_images(items, sign_assets or {}, sign_library or [])
-    items = terrain.lift(items, ground)  # 2026-10-15: onto the street-view ground heights (flat when the region has none)
+    items = terrain.lift(items, ground, decks)  # 2026-10-15: onto the street-view ground heights (flat when the region has none)
+    if decks is not None:
+        items += bridges.pier_items(decks, ok_features, ground, cell_id, res, cfg)
     items = layout.order_items(items)
     chunks = layout.chunk_items(items, cfg["chunk_size"])
     files = {f"chunk-{n:03d}.luau": render_chunk(cell_id, n, len(chunks), c) for n, c in enumerate(chunks, 1)}
@@ -486,6 +507,29 @@ def load_cell_inputs(conn, cell_id: str) -> tuple[list, list, dict, dict, dict]:
     return buildings, features, estimates, db.overrides_by_building(conn, cell_id), db.details_by_building(conn, cell_id)
 
 
+def load_clear(path: Path) -> list[dict[str, Any]]:
+    """Rectangles of hand-made courts (courts.py) that keep satellite trees off; none without the file."""
+    if not path.exists():
+        return []
+    rows = json.loads(path.read_text(encoding="utf-8"))["clear"]
+    if not all(all(isinstance(r.get(k), (int, float)) and math.isfinite(r[k]) for k in ("x", "z", "yaw", "w", "d")) for r in rows):
+        raise ValueError(f"{path.name}: bad rectangle")
+    return rows
+
+
+_DECKS: dict[str, "bridges.Decks"] = {}
+
+
+def region_decks(conn, cfg: Mapping[str, Any], cell_id: str) -> "bridges.Decks":
+    """The overpasses of the cell's region, from the road features of all its cells (cached per region)."""
+    folder, data = common.region_of(cfg, cell_id)
+    key = folder.name
+    if key not in _DECKS:
+        roads = [f for f in db.rows_in_cells(conn, "street_features", list(data.get("cells") or [])) if f["kind"] == "road"]
+        _DECKS[key] = bridges.Decks(roads, layout.Frame.from_cfg(cfg), cfg)
+    return _DECKS[key]
+
+
 def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     cfg = common.cell_config(cfg, cell_id)
     tier = tiers.tier_of(cfg, cell_id) or 1  # never classified: treated as tier 1 (cycle-build step 0)
@@ -495,7 +539,8 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier,
                      load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")),
                      roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")),
-                     streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")), terrain.ground_for(cfg))
+                     streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")), terrain.ground_for(cfg), region_decks(conn, cfg, cell_id),
+                     load_clear(common.cell_file(cfg, cell_id, "courts")))
     write_plan(plan, root)
     return plan
 
