@@ -70,7 +70,7 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
     s source, e height in m, q fit ratio, f floors, and from U4 b height basis, a floors basis, c wall color name,
     v review flags. U5 adds, only when they differ from the defaults (BR-14.2): i owner, p shape, m material, c color name
     (any kind), o ink, t sign text, u="LR" two-sided, md sign MaxDistance (x is the position), im sign image asset id (SI-6),
-    j reflectance, g shadow, l collide; U7 kt kit mesh name.
+    j reflectance, tr transparency, g shadow, l collide; U7 kt kit mesh name.
     BuildingId and CellId are not sent: Builder takes them from n (or i) and the cell."""
     parts = [f"k={luau_string(item.kind)}", f"n={luau_string(item.name)}", f"x={luau_number(item.cx)}", f"y={luau_number(item.cy)}",
              f"z={luau_number(item.cz)}", f"w={luau_number(item.sx)}", f"h={luau_number(item.sy)}", f"d={luau_number(item.sz)}",
@@ -117,6 +117,10 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
         parts.append(f"kt={luau_string(item.kit)}")
     if item.reflectance:
         parts.append(f"j={luau_number(item.reflectance)}")
+    if item.transparency:
+        if not 0 < item.transparency < 1:
+            raise ValueError(f"{item.name}: transparency must be between 0 and 1")
+        parts.append(f"tr={luau_number(item.transparency)}")
     default_shadow, default_collide = layout.KIND_DEFAULTS[item.kind]
     if item.shadow is not None and item.shadow != default_shadow:
         parts.append(f"g={1 if item.shadow else 0}")
@@ -266,6 +270,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     lines = streets.streets_of(ok_features, frame, cell_id, res, cfg)
     jcts = streets.junctions(lines, frame, cell_id, res, cfg)
     sidewalks, props = streets.street_items(lines, jcts, frame, cfg, rule_trees=sat_trees is None)
+    entrances = [f for f in sorted(features, key=lambda f: str(f["feature_id"])) if f["kind"] == "subway_entrance" and SAFE_TEXT.fullmatch(str(f["feature_id"]))]
+    props = props + streets.entrance_items(entrances, lines, frame, cell_id, res)
     if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
         props = props + streets.tree_items(frame, sat_trees)
     for g in grounds or []:  # U7 J: school grounds of fields.json that no Manual script makes
@@ -438,7 +444,7 @@ def load_cell_inputs(conn, cell_id: str) -> tuple[list, list, dict, dict, dict]:
     buildings = [b for b in db.rows_in_cells(conn, "buildings", [cell_id]) if b["status"] == "ok"]
     if not buildings:
         raise ValueError("no buildings stored for this cell: run register.py first")
-    features = [f for f in db.rows_in_cells(conn, "street_features", [cell_id]) if f["kind"] in ("road", "path")]
+    features = [f for f in db.rows_in_cells(conn, "street_features", [cell_id]) if f["kind"] in ("road", "path", "subway_entrance")]
     estimates = {e["building_id"]: e for e in db.estimates_in_cell(conn, cell_id)}
     return buildings, features, estimates, db.overrides_by_building(conn, cell_id), db.details_by_building(conn, cell_id)
 

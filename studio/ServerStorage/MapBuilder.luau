@@ -219,6 +219,9 @@ function Builder.add(cellId, items, looks, root)
 			if it.j then
 				part.Reflectance = it.j
 			end
+			if it.tr then
+				part.Transparency = it.tr -- glass you see through (subway entrance walls, 2026-10-14)
+			end
 			local defaults = KIND_DEFAULTS[it.k]
 			local shadow = if it.g ~= nil then it.g == 1 else defaults[1]
 			local collide = if it.l ~= nil then it.l == 1 else defaults[2]

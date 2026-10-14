@@ -122,6 +122,7 @@ class Item:
     reflectance: float = 0.0
     shadow: bool | None = None
     collide: bool | None = None
+    transparency: float = 0.0  # see-through glass (subway entrance walls), key tr
     kit: str | None = None  # U7 H: the Builder clones ServerStorage/Kits/<kit> (a MeshPart) instead of making a Part (key kt)
 
     @property

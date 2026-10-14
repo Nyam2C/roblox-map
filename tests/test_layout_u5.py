@@ -772,3 +772,33 @@ def test_p5_15_every_owned_item_names_its_building_and_the_budget_holds(case):
 def test_p5_19_sidewalk_sides_follow_sidewalk_then_sidewalk_both_left_right_then_the_class(tags, cls, expect):
     assert layout.sidewalk_sides({"kind": "road", "highway_class": cls, "tags": tags}) == expect
     assert layout.sidewalk_sides({"kind": "path", "highway_class": "footway", "tags": tags}) == ()
+
+
+# --- subway entrances (2026-10-14, cell 4) ----------------------------------------------------------------------------------------
+
+def test_subway_entrances_stand_off_the_road_open_away_from_the_station_and_carry_the_exit_number():
+    road = street(cls="primary", lanes="8")  # east-west through the cell centre, 8 lanes
+    ents = [{"feature_id": f"node:{n}", "kind": "subway_entrance", "highway_class": None, "geometry": [list(offset(CENTER, x, y))],
+             "tags": {"ref": str(n)}} for n, (x, y) in ((1, (-20.0, 3.0)), (2, (20.0, -3.0)))]  # both on the carriageway, either side of the middle
+    lines = ST.streets_of([road], FRAME, CELL, RES, CFG)
+    items = ST.entrance_items(ents, lines, FRAME, CELL, RES)
+    far = [{**ents[0], "feature_id": "node:9", "geometry": [list(offset(CENTER, 0, 2000))]}]  # a neighbour cell's entrance: only shifts the middle
+    assert ST.entrance_items(ents + far, lines, FRAME, CELL, RES)[0].name.startswith("node:1#") and not [
+        i for i in ST.entrance_items(ents + far, lines, FRAME, CELL, RES) if i.group == "node:9"]
+    w = lines[0].width
+    for n, (x, y) in ((1, (-20.0, 3.0)), (2, (20.0, -3.0))):
+        mine = [i for i in items if i.group == f"node:{n}"]
+        signs = [i for i in mine if i.kind == "sign"]
+        assert len(signs) == 1 and signs[0].text == f"{n}번 출구"
+        north = [-i.cz / S - layout.to_meters(FRAME, *CENTER)[1] for i in mine]
+        assert all(abs(v) >= w / 2 for v in north)  # nothing on the carriageway, on the side it stood
+        assert all((v > 0) == (y > 0) for v in north)
+        east = lambda i: i.cx / S - layout.to_meters(FRAME, *CENTER)[0]
+        body = [i for i in mine if i.name.endswith("#ld")][0]
+        assert abs(east(signs[0])) > abs(east(body))  # the open end with the number faces away from the other entrance
+    assert any(i.transparency for i in items) and "tr=0.6" in B_literal(items)
+
+
+def B_literal(items):
+    import build_luau
+    return " ".join(build_luau.item_literal(i, CELL) for i in items)

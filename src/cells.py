@@ -34,7 +34,8 @@ ROAD_CLASSES = {
 }
 PATH_CLASSES = {"pedestrian", "footway", "path", "steps", "cycleway", "track", "bridleway", "corridor"}
 NODE_KINDS = (("highway", "crossing", "crossing"), ("natural", "tree", "tree"),
-              ("highway", "street_lamp", "street_lamp"), ("amenity", "bench", "bench"))
+              ("highway", "street_lamp", "street_lamp"), ("amenity", "bench", "bench"),
+              ("railway", "subway_entrance", "subway_entrance"))
 
 
 # --- cells (BR-1) -----------------------------------------------------------------------
@@ -112,7 +113,7 @@ def overpass_query(bbox: tuple[float, float, float, float]) -> str:
         "[out:json][timeout:60];("
         f'way["building"]({box});way["highway"]({box});'
         f'node["highway"="crossing"]({box});node["natural"="tree"]({box});'
-        f'node["highway"="street_lamp"]({box});node["amenity"="bench"]({box});'
+        f'node["highway"="street_lamp"]({box});node["amenity"="bench"]({box});node["railway"="subway_entrance"]({box});'
         ");out geom tags;"
     )
 
@@ -203,11 +204,12 @@ def parse_osm(response: Any, res: int, cell_id: str) -> OsmParse:
 
 
 def street_rows_for_cell(features: Sequence[Mapping[str, Any]], cell_id: str, res: int) -> list[dict[str, Any]]:
-    """Street features that touch the cell, as street_features rows (BR-2.3)."""
+    """Street features that touch the cell, as street_features rows (BR-2.3). Subway entrances of the whole query box are kept so a
+    cell can find its station's middle from its neighbours' entrances; the build makes only the cell's own (2026-10-14)."""
     rows = []
     for f in features:
         pts = [tuple(p) for p in f["geometry"]]
-        if cell_id in cells_touched(pts, res):
+        if f["kind"] == "subway_entrance" or cell_id in cells_touched(pts, res):
             rows.append({**f, "cell_id": cell_id})
     return rows
 

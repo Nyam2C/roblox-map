@@ -415,3 +415,80 @@ def j_w_max_band(st: Street, jcts: Sequence[Junction], pos: float) -> float:
         if any(a.feature_id == st.feature_id for a in j.arms):
             return j.w_max / 2 + D["cw_to"]
     return D["cw_to"]
+
+
+# --- subway entrances (OSM railway=subway_entrance, 2026-10-14 cell 4) ----------------------------------------------------------
+
+ENTRANCE = {"len": 9.0, "wid": 3.6, "h": 3.0, "landing": 1.2, "gap": 0.5, "nose_pitch": 0.45, "noses": 6}
+# A glass box over a stair that goes down at the closed end (신중동역 street view: aluminium frame, glass walls and roof, the exit
+# number over the open end). The ground is one slab, so the stair is a dark well with step noses fading into it, not a real descent
+# (no interiors, user decision 2026-10-14). Reference measured: creator store 11939324887 (NYC style: 23 x 34 stud well, 4 stud rail).
+
+
+def entrance_items(entrances: Sequence[Mapping[str, Any]], streets_: Sequence[Street], frame: Frame, cell_id: str, res: int) -> list[Item]:
+    """Glass entrance boxes for the subway entrances inside the cell. Each runs along the nearest road, its open end away from the
+    middle of all the given entrances (the neighbours' too: the stair goes down toward the station), pushed clear of the carriageway."""
+    E = ENTRANCE
+    pts = {str(f["feature_id"]): layout.to_meters(frame, *f["geometry"][0]) for f in entrances}
+    if not pts:
+        return []
+    cx, cy = sum(p[0] for p in pts.values()) / len(pts), sum(p[1] for p in pts.values()) / len(pts)
+    segs = [(st, st.pts[i], st.pts[i + 1]) for st in streets_ if st.kind == "road" for i in range(len(st.pts) - 1)]
+    out: list[Item] = []
+    for fid, (px, py) in sorted(pts.items()):
+        f = next(f for f in entrances if str(f["feature_id"]) == fid)
+        if h3.latlng_to_cell(f["geometry"][0][0], f["geometry"][0][1], res) != cell_id:
+            continue
+        ux, uy, near = 1.0, 0.0, None
+        for st, a, b in segs:
+            dx, dy = b[0] - a[0], b[1] - a[1]
+            L = math.hypot(dx, dy)
+            if L < 1e-6:
+                continue
+            tx, ty = dx / L, dy / L
+            t = max(0.0, min(L, (px - a[0]) * tx + (py - a[1]) * ty))
+            d = math.hypot(px - (a[0] + tx * t), py - (a[1] + ty * t))
+            if near is None or d < near[0]:
+                near = (d, tx, ty, (px - a[0]) * -ty + (py - a[1]) * tx, st.width)  # last: signed distance, left of the road positive
+        if near is not None:
+            _, ux, uy, s, w = near
+            need = w / 2 + E["wid"] / 2 + E["gap"]
+            if abs(s) < need:  # on the carriageway: move it out to the side it stands on
+                side = 1.0 if s >= 0 else -1.0
+                px, py = px + side * (need - abs(s)) * -uy, py + side * (need - abs(s)) * ux
+        if (px - cx) * ux + (py - cy) * uy < 0:
+            ux, uy = -ux, -uy
+        vx, vy = -uy, ux  # left of the stair
+        yaw = math.degrees(math.atan2(uy, ux))
+        seq = 0
+        ref = str((f.get("tags") or {}).get("ref", ""))
+        Lh, Wh, H = E["len"] / 2, E["wid"] / 2, E["h"]
+
+        def put(tail: str, a: float, b: float, y: float, size: tuple[float, float, float], color: str, material: str, **kw: Any) -> None:
+            nonlocal seq
+            out.append(_part(frame, "prop", f"{fid}#{tail}", fid, seq, px + ux * a + vx * b, py + uy * a + vy * b, y, size, yaw,
+                             material=material, color=R.PALETTE[color], color_name=color, **kw))
+            seq += 1
+
+        glass = dict(transparency=0.6, reflectance=0.1)
+        for side, b in (("l", Wh), ("r", -Wh)):
+            put(f"cb{side}", 0.0, b * 0.97, 0.0, (E["len"], 0.3, 0.2), "sub_floor", "Granite")
+            put(f"gw{side}", 0.0, b, 0.3, (E["len"], H - 0.3, 0.05), "sub_glass", "Glass", **glass)
+            put(f"fa{side}", 0.0, b + 0.12 * (1 if b > 0 else -1), H - 0.25, (E["len"] + 0.3, 0.3, 0.1), "sub_frame", "Metal")
+            for k, a in enumerate((-Lh, -Lh / 3, Lh / 3, Lh)):
+                put(f"po{side}{k}", a, b, 0.0, (0.12, H, 0.12), "sub_frame", "Metal")
+        put("cbb", -Lh + 0.1, 0.0, 0.0, (0.2, 0.3, E["wid"]), "sub_floor", "Granite")
+        put("gwb", -Lh, 0.0, 0.3, (0.05, H - 0.3, E["wid"]), "sub_glass", "Glass", **glass)
+        put("rf", 0.0, 0.0, H, (E["len"] + 0.3, 0.08, E["wid"] + 0.3), "sub_glass", "Glass", transparency=0.5, reflectance=0.1)
+        put("faf", Lh + 0.12, 0.0, H - 0.3, (0.1, 0.4, E["wid"] + 0.3), "sub_frame", "Metal")
+        put("ld", Lh - E["landing"] / 2, 0.0, 0.0, (E["landing"], 0.04, E["wid"] - 0.4), "sub_floor", "Granite")
+        well = E["len"] - E["landing"] - 0.2
+        put("wl", Lh - E["landing"] - well / 2, 0.0, 0.0, (well, 0.03, E["wid"] - 0.4), "sub_void", "SmoothPlastic")
+        for k in range(E["noses"]):
+            put(f"ns{k}", Lh - E["landing"] - E["nose_pitch"] * (k + 0.5), 0.0, 0.03, (0.08, 0.01, E["wid"] - 0.6), "sub_nose", "SmoothPlastic")
+        text = f"{ref}번 출구" if R.SIGN_TEXT.fullmatch(f"{ref}번 출구") and ref.isdigit() else "출구"
+        sx, sy = px + ux * (Lh + 0.2), py + uy * (Lh + 0.2)
+        out.append(_part(frame, "sign", f"{fid}#ex", fid, seq, sx, sy, H - 0.75, (E["wid"] * 0.8, 0.45, 0.06), math.degrees(math.atan2(-ux, uy)),
+                         material="SmoothPlastic", color=R.PALETTE["sign_plate"], color_name="sign_plate", text=text, ink="ink_yellow",
+                         faces="F", attrs={"MaxDistance": 200}))
+    return out
