@@ -1,5 +1,24 @@
 {
  "cells": {
+  "8930e0af107ffff": {
+   "counts": {
+    "landmarks": [
+     "park:샛별 어린이공원",
+     "place_of_worship:수청교회",
+     "school:중흥중학교"
+    ],
+    "pois": 6,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.257,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:샛별 어린이공원, place_of_worship:수청교회, school:중흥중학교",
+   "tier": 1
+  },
   "8930e0af10fffff": {
    "counts": {
     "landmarks": [
@@ -71,6 +90,41 @@
    },
    "manual": false,
    "reason": "landmarks: community_centre:중3동 주민센터, park:옥산공원, school:부천부흥중학교, school:심원고등학교",
+   "tier": 1
+  },
+  "8930e0af173ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way490781493"
+    ],
+    "pois": 31,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.203,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way490781493",
+   "tier": 1
+  },
+  "8930e0af177ffff": {
+   "counts": {
+    "landmarks": [
+     "park:어울림공원",
+     "police:경기 부천원미경찰서"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.456,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:어울림공원, police:경기 부천원미경찰서",
    "tier": 1
   }
  }

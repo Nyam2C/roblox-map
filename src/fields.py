@@ -65,6 +65,9 @@ def ground_masks(rgb, smooth_only: bool = True):
     gcc = g / np.maximum(r + g + b, 1)
     sand = (r > 150) & (r - b >= 25) & (r - b <= 90) & (np.abs(r - g) <= 35)
     turf = (g >= r) & (g - b >= 15) & (g >= 80) & (g <= 175) & (gcc < GCC_MIN)
+    # new dark turf (중흥중, cell 107, 2026-10-14: about (50, 82, 63), as green as a crown): smooth, which crowns are not, and teal
+    # (blue above red), which grass and leaves (60, 105, 50) are not
+    turf = turf | ((g >= r + 20) & (g >= b + 12) & (b >= r + 5) & (g >= 55) & (g <= 140) & smooth)
     return (sand & smooth, turf & smooth) if smooth_only else (sand, turf)
 
 
@@ -192,6 +195,13 @@ def field_items(field: Mapping[str, Any], frame: Frame) -> list[Item]:
                     part(f"g{side}{'ab'[v > 0]}", u, v, D["top"] + gh / 2, (p, gh, p), POST, collide=True)
                 part(f"g{side}bar", u, 0, D["top"] + gh + p / 2, (p, p, gw + p), POST, collide=True)
     return out
+
+
+def covers(field: Mapping[str, Any], x: float, z: float) -> bool:
+    """True when the stud point (x, z) lies on the ground's rectangle (x, z, yaw, w, d in studs)."""
+    c, s = math.cos(math.radians(field["yaw"])), math.sin(math.radians(field["yaw"]))
+    dx, dz = x - field["x"], z - field["z"]
+    return abs(dx * c - dz * s) <= field["w"] / 2 and abs(dx * s + dz * c) <= field["d"] / 2
 
 
 def load_fields(path: Path) -> list[dict[str, Any]]:

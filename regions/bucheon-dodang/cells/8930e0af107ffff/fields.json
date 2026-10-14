@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af107ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:221440032",
+   "name": "중흥중학교",
+   "made_by": "kit",
+   "surface": "turf",
+   "x": -1631.424,
+   "z": -775.513,
+   "yaw": 80.106,
+   "w": 210.6,
+   "d": 183.6,
+   "fit": 0.898
+  }
+ ]
+}

@@ -140,3 +140,23 @@ def test_only_kit_rows_are_built_and_a_bad_row_refuses(tmp_path):
     with pytest.raises(ValueError):
         fields.load_fields(path)
     assert fields.load_fields(tmp_path / "none.json") == []
+
+
+def test_dark_new_turf_is_turf_and_flat_grass_is_not():
+    img = np.zeros((40, 80, 3), dtype=np.uint8)
+    img[:, :40] = (50, 82, 63)   # 중흥중's new turf (cell 107, 2026-10-14): teal, as green as a crown
+    img[:, 40:] = GRASS          # grass and leaves lean yellow (blue under red)
+    sand, turf = fields.ground_masks(img)
+    assert turf[5:35, 5:35].all() and not turf[5:35, 45:75].any() and not sand.any()
+
+
+def test_a_ground_covers_its_own_slab_and_satellite_trees_on_it_are_left_out():
+    g = ground(120, 60, 30.0)
+    kit = fields.field_items(g, FRAME)
+    slab = max(kit, key=lambda i: i.sx * i.sz)  # the turf/sand slab itself
+    assert fields.covers(g, slab.cx, slab.cz)
+    for u, v, inside in ((0.4, 0.4, True), (0.55, 0.0, False), (0.0, 0.55, False)):
+        lu, lv = u * g["w"], v * g["d"]
+        c, s = math.cos(math.radians(g["yaw"])), math.sin(math.radians(g["yaw"]))
+        x, z = g["x"] + lu * c + lv * s, g["z"] - lu * s + lv * c  # the inverse of local()
+        assert fields.covers(g, x, z) == inside

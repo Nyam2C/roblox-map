@@ -273,7 +273,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     entrances = [f for f in sorted(features, key=lambda f: str(f["feature_id"])) if f["kind"] == "subway_entrance" and SAFE_TEXT.fullmatch(str(f["feature_id"]))]
     props = props + streets.entrance_items(entrances, lines, frame, cell_id, res)
     if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
-        props = props + streets.tree_items(frame, sat_trees)
+        # not on a school ground: new dark turf reads as crowns on the photo (중흥중, 2026-10-14)
+        props = props + streets.tree_items(frame, [t for t in sat_trees if not any(fields.covers(g, t[0], t[1]) for g in grounds or [])])
     for g in grounds or []:  # U7 J: school grounds of fields.json that no Manual script makes
         props = props + fields.field_items(g, frame)
     items += pieces + sidewalks + props
