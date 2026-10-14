@@ -1,5 +1,23 @@
 {
  "cells": {
+  "8930e0af103ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way488843787",
+     "school:중흥초등학교"
+    ],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.568,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way488843787, school:중흥초등학교",
+   "tier": 1
+  },
   "8930e0af107ffff": {
    "counts": {
     "landmarks": [
@@ -85,6 +103,23 @@
    },
    "manual": false,
    "reason": "landmarks: school:심원고등학교, school:옥산초등학교",
+   "tier": 1
+  },
+  "8930e0af133ffff": {
+   "counts": {
+    "landmarks": [
+     "place_of_worship:여수마을교화"
+    ],
+    "pois": 5,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.978,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: place_of_worship:여수마을교화",
    "tier": 1
   },
   "8930e0af13bffff": {
@@ -209,6 +244,23 @@
    },
    "manual": false,
    "reason": "landmarks: school:계남중학교",
+   "tier": 1
+  },
+  "8930e0af1abffff": {
+   "counts": {
+    "landmarks": [
+     "park:way488839381"
+    ],
+    "pois": 14,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.392,
+     "residential": 0.406,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way488839381",
    "tier": 1
   }
  }

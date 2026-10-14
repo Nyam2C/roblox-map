@@ -18,6 +18,9 @@
    "buildings": ["gis:11778185"]},
   {"name": "Plaza", "script": "Plaza.luau", "cell": "8930e0af10fffff", "how": "manual", "status": "done",
    "reason": "미관광장(백화점 남쪽): 데이터에 없는 화단·계단식 타원·흰 기둥 열·지하상가 유리 출입구. 지하주차장 외곽선(gis:16759296)은 만들지 않음. src/plaza.py가 위성 격자로 만든다",
-   "buildings": []}
+   "buildings": []},
+  {"name": "DeptStore", "script": "DeptStore.luau", "cell": "8930e0af10fffff", "how": "manual", "status": "done",
+   "reason": "백화점(판매시설 11층): 동쪽 끝이 큰 원호(위성·외곽선 15점 중 9점이 호). 박스는 원호 모서리를 네모로 채워 수작업이 외곽선대로 몸체·곡면 유리·띠를 만든다",
+   "buildings": ["gis:11740143"]}
  ]
 }
