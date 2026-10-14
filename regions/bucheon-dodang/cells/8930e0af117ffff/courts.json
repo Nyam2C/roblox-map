@@ -1,0 +1,46 @@
+{
+ "cell_id": "8930e0af117ffff",
+ "note": "Manual/Courts rectangles (studs); no satellite tree inside",
+ "clear": [
+  {
+   "name": "GiljuSand",
+   "x": -2150.68,
+   "z": -1459.64,
+   "yaw": -2.37,
+   "w": 127.61,
+   "d": 138.56
+  },
+  {
+   "name": "GiljuCourt",
+   "x": -2139.38,
+   "z": -1579.24,
+   "yaw": 87.61,
+   "w": 79.06,
+   "d": 107.44
+  },
+  {
+   "name": "GiljuPlaza",
+   "x": -2243.72,
+   "z": -1535.38,
+   "yaw": 0.0,
+   "w": 97.69,
+   "d": 97.69
+  },
+  {
+   "name": "GiljuPlazaN",
+   "x": -2280.35,
+   "z": -1677.62,
+   "yaw": 0.0,
+   "w": 65.33,
+   "d": 65.33
+  },
+  {
+   "name": "GiljuPlay",
+   "x": -2308.34,
+   "z": -1430.15,
+   "yaw": -86.99,
+   "w": 56.96,
+   "d": 85.03
+  }
+ ]
+}

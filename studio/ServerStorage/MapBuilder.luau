@@ -488,12 +488,14 @@ function Builder.settleManual(land, root)
 		for _, child in container:GetChildren() do
 			if child:IsA("Model") then
 				local cf, size = child:GetBoundingBox()
-				local low = math.huge
+				-- a building stands on its lowest corner; a flat ground piece (Settle = "high", e.g. a court on a deep slab) on its highest
+				local high = child:GetAttribute("Settle") == "high"
+				local pick = high and -math.huge or math.huge
 				for _, d in ipairs({ { -1, -1 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { 0, 0 } }) do
 					local p = cf:PointToWorldSpace(Vector3.new(d[1] * size.X / 2, 0, d[2] * size.Z / 2))
-					low = math.min(low, h(p.X, p.Z))
+					pick = high and math.max(pick, h(p.X, p.Z)) or math.min(pick, h(p.X, p.Z))
 				end
-				move(child, low)
+				move(child, pick)
 			elseif child:IsA("BasePart") then
 				move(child, h(child.Position.X, child.Position.Z))
 			elseif child:IsA("Folder") then

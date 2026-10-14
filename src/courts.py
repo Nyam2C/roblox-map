@@ -2,7 +2,9 @@
 # requires-python = ">=3.11"
 # dependencies = ["h3==4.5.0", "shapely==2.2.0", "numpy==2.5.4", "pillow==12.3.0", "scipy==1.18.1"]
 # ///
-"""미리내공원 courts (cell 8930e0af147ffff) -> studio/manual/bucheon-dodang/Courts.luau.
+"""Park courts and grounds the data does not have -> studio/manual/bucheon-dodang/Courts.luau: 미리내공원 (cell 8930e0af147ffff) and
+길주공원 (cell 8930e0af117ffff, 2026-10-15: user "길주공원 모래 광장(검색해)"; the web had no photos of it, so the satellite: a sand
+field, a green ball court, two round paved plazas and a blue rubber playground).
 
 Neither OSM nor V-World has them (user list 2026-10-15, approved with "다 처리"). Traced on the V-World z19 photo of the cell
 (data/satellite/8930e0af147ffff-z19.jpg pixels, 0.237 m a pixel): three clay tennis blocks (orange, found by colour: a double
@@ -25,31 +27,43 @@ import layout
 from trees import Georef
 
 OUT = Path("studio/manual/bucheon-dodang/Courts.luau")
-CELL = "8930e0af147ffff"
-# (name, kind, satellite pixel points of the block)
+# (cell, name, kind, satellite pixel points of the block; a plaza is (cx, cy, r))
+MIRINAE, GILJU = "8930e0af147ffff", "8930e0af117ffff"
 COURTS = (
-    ("TennisWest", "tennis", [(850, 1131), (712, 1112), (694, 1248), (832, 1266)]),
-    ("TennisEast", "tennis", [(1409, 1346), (1434, 1212), (1368, 1199), (1344, 1333)]),
-    ("TennisSouth", "tennis", [(1310, 1495), (1376, 1505), (1386, 1434), (1320, 1424), (1351, 1572), (1360, 1503), (1307, 1496), (1298, 1566)]),
-    ("Futsal", "futsal", [(1220, 1177), (1292, 1182), (1280, 1288), (1207, 1282)]),
+    (MIRINAE, "TennisWest", "tennis", [(850, 1131), (712, 1112), (694, 1248), (832, 1266)]),
+    (MIRINAE, "TennisEast", "tennis", [(1409, 1346), (1434, 1212), (1368, 1199), (1344, 1333)]),
+    (MIRINAE, "TennisSouth", "tennis", [(1310, 1495), (1376, 1505), (1386, 1434), (1320, 1424), (1351, 1572), (1360, 1503), (1307, 1496), (1298, 1566)]),
+    (MIRINAE, "Futsal", "futsal", [(1220, 1177), (1292, 1182), (1280, 1288), (1207, 1282)]),
+    (GILJU, "GiljuSand", "sand", [(1045, 1072), (1190, 1078), (1180, 1235), (1042, 1230)]),
+    (GILJU, "GiljuCourt", "basket", [(1070, 968), (1190, 972), (1185, 1060), (1065, 1055)]),
+    (GILJU, "GiljuPlaza", "plaza", [(1005, 1065, 55)]),
+    (GILJU, "GiljuPlazaN", "plaza", [(962, 898, 36)]),
+    (GILJU, "GiljuPlay", "play", [(880, 1160), (975, 1155), (965, 1215), (885, 1222)]),
 )
 SUB_COURT_M = 16.0  # a tennis block holds round(width / 16 m) courts side by side
 
 
 def blocks() -> list[dict]:
     """Each court block as centre (studs), yaw (degrees, the long side along the part's Z), length and width (studs)."""
-    meta = json.loads(Path(f"data/satellite/{CELL}-z19.json").read_text())
-    geo = Georef(int(meta["tile_x0"]), int(meta["tile_y0"]))
-    frame = layout.Frame.from_cfg(common.cell_config(common.load_config(), CELL))
     out = []
-    for name, kind, px in COURTS:
+    for cell, name, kind, px in COURTS:
+        meta = json.loads(Path(f"data/satellite/{cell}-z19.json").read_text())
+        geo = Georef(int(meta["tile_x0"]), int(meta["tile_y0"]))
+        frame = layout.Frame.from_cfg(common.cell_config(common.load_config(), cell))
+        if kind == "plaza":
+            cx, cy, r = px[0]
+            x, z = layout.to_studs(frame, *geo.to_latlon(cx, cy))
+            x2, _ = layout.to_studs(frame, *geo.to_latlon(cx + r, cy))
+            out.append({"cell": cell, "name": name, "kind": kind, "x": round(x, 2), "z": round(z, 2), "yaw": 0.0,
+                        "length": round(2 * abs(x2 - x), 2), "width": round(2 * abs(x2 - x), 2), "n": 1})
+            continue
         rect = MultiPoint(px).minimum_rotated_rectangle
         cs = [layout.to_studs(frame, *geo.to_latlon(x, y)) for x, y in list(rect.exterior.coords)[:4]]
         cx, cz = sum(c[0] for c in cs) / 4, sum(c[1] for c in cs) / 4
         e1, e2 = (cs[1][0] - cs[0][0], cs[1][1] - cs[0][1]), (cs[2][0] - cs[1][0], cs[2][1] - cs[1][1])
         long_, short = (e1, e2) if math.hypot(*e1) >= math.hypot(*e2) else (e2, e1)
         yaw = math.degrees(math.atan2(long_[0], long_[1]))  # the part's Z axis along the long side
-        out.append({"name": name, "kind": kind, "x": round(cx, 2), "z": round(cz, 2), "yaw": round(yaw, 2),
+        out.append({"cell": cell, "name": name, "kind": kind, "x": round(cx, 2), "z": round(cz, 2), "yaw": round(yaw, 2),
                     "length": round(math.hypot(*long_), 2), "width": round(math.hypot(*short), 2),
                     "n": max(1, round(math.hypot(*short) / frame.studs_per_m / SUB_COURT_M)) if kind == "tennis" else 1})
     return out
@@ -76,6 +90,7 @@ local function part(parent, name, size, cf, material, rgb, opts)
 	return p
 end
 local WHITE, CLAY, TURF, FENCE, NET = {236, 236, 230}, {184, 104, 66}, {46, 112, 70}, {40, 84, 58}, {30, 32, 34}
+local SAND, BLUE = {196, 170, 128}, {70, 120, 190}
 local LINE = 0.1 * S
 local function fence(m, at, L, W, h)
 	for i, s in ipairs({ { 0, L / 2, W, 0 }, { 0, -L / 2, W, 0 }, { W / 2, 0, L, 90 }, { -W / 2, 0, L, 90 } }) do
@@ -92,6 +107,7 @@ local function line(m, at, x, z, w, l)
 end
 for _, c in ipairs(COURTS) do
 	local m = Instance.new("Model") m.Name = c.name
+	m:SetAttribute("Settle", "high") -- flat on its highest ground corner; the deep slab fills down to the lower side
 	local at = CFrame.new(c.x, TOP, c.z) * CFrame.Angles(0, math.rad(c.yaw), 0)
 	local L, W = c.length, c.width
 	if c.kind == "tennis" then
@@ -114,6 +130,40 @@ for _, c in ipairs(COURTS) do
 			if k > 1 then line(m, at, -W / 2 + cw * (k - 1), 0, 0.6, L - 2) end -- the gap between two courts
 		end
 		fence(m, at, L, W, 3.5 * S)
+	elseif c.kind == "sand" then
+		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.Sand, SAND)
+		for _, s in ipairs({ -1, 1 }) do -- a goal at each end
+			local g = at * CFrame.new(0, 0, s * (L / 2 - 2 * S))
+			for _, t in ipairs({ -1, 1 }) do part(m, "GoalPost", Vector3.new(0.3, 2 * S, 0.3), g * CFrame.new(t * 2.5 * S, S, 0), Enum.Material.Metal, WHITE) end
+			part(m, "GoalBar", Vector3.new(5 * S + 0.3, 0.3, 0.3), g * CFrame.new(0, 2 * S, 0), Enum.Material.Metal, WHITE)
+		end
+	elseif c.kind == "play" then
+		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.Rubber, BLUE)
+		part(m, "Slide", Vector3.new(2 * S, 2.5 * S, 2 * S), at * CFrame.new(-W / 5, 1.25 * S, 0), Enum.Material.SmoothPlastic, {240, 190, 50}, { CanCollide = true })
+		part(m, "Chute", Vector3.new(1.2 * S, 2.5 * S, 4 * S), at * CFrame.new(-W / 5, 1.25 * S, -3 * S) * CFrame.Angles(0, math.rad(180), 0), Enum.Material.SmoothPlastic, {220, 70, 60}, { Shape = Enum.PartType.Wedge })
+		for _, t in ipairs({ -1, 1 }) do part(m, "SwingPost", Vector3.new(0.3, 2.5 * S, 0.3), at * CFrame.new(W / 5 + t * 2 * S, 1.25 * S, 0), Enum.Material.Metal, {60, 120, 200}) end
+		part(m, "SwingBar", Vector3.new(4 * S + 0.3, 0.3, 0.3), at * CFrame.new(W / 5, 2.5 * S, 0), Enum.Material.Metal, {60, 120, 200})
+	elseif c.kind == "plaza" then
+		local disc = function(name, d, y, mat, rgb, t) return part(m, name, Vector3.new(t or 1, d, d), at * CFrame.new(0, y, 0) * CFrame.Angles(0, 0, math.rad(90)), mat, rgb, { Shape = Enum.PartType.Cylinder }) end
+		disc("Paving", L, -3.0, Enum.Material.Pavement, {196, 170, 150}, 6) -- deep: no gap on the slope
+		disc("Ring", L * 0.7, -0.43, Enum.Material.Pavement, {170, 120, 100})
+		disc("Centre", L * 0.62, -0.41, Enum.Material.Pavement, {205, 185, 165})
+		for k = 1, 8 do -- benches round the edge
+			local a = math.rad(45 * k)
+			part(m, "Bench", Vector3.new(1.8 * S, 0.45 * S, 0.5 * S), at * CFrame.Angles(0, a, 0) * CFrame.new(0, 0.22 * S, -L / 2 + 0.6 * S), Enum.Material.Wood, {140, 100, 70}, { CanCollide = true })
+		end
+	elseif c.kind == "basket" then
+		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.SmoothPlastic, {70, 130, 100})
+		local pl, pw = L / 2 - 1.5 * S, W / 2 - 1.5 * S
+		for _, s in ipairs({ -1, 1 }) do
+			line(m, at, 0, s * pl, 2 * pw, LINE)
+			line(m, at, s * pw, 0, LINE, 2 * pl)
+			local hoop = at * CFrame.new(0, 0, s * (pl - 0.3 * S))
+			part(m, "HoopPole", Vector3.new(0.3, 3.4 * S, 0.3), hoop * CFrame.new(0, 1.7 * S, s * 0.6 * S), Enum.Material.Metal, {60, 60, 64})
+			part(m, "Board", Vector3.new(1.8 * S, 1.05 * S, 0.1), hoop * CFrame.new(0, 3.3 * S, 0), Enum.Material.SmoothPlastic, WHITE)
+		end
+		line(m, at, 0, 0, 2 * pw, LINE)
+		fence(m, at, L, W, 3 * S)
 	else
 		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.Grass, TURF)
 		local pl, pw = L / 2 - 1.2 * S, W / 2 - 1.2 * S
@@ -151,8 +201,10 @@ if __name__ == "__main__":
     data = blocks()
     OUT.write_text(render(data), encoding="utf-8")
     # the satellite reads the green turf as crowns: build_luau.py keeps trees off these rectangles (covers: w across, d along)
-    clear = [{"name": d["name"], "x": d["x"], "z": d["z"], "yaw": d["yaw"], "w": round(d["width"] + 4, 2), "d": round(d["length"] + 4, 2)} for d in data]
-    path = common.cell_file(common.load_config(), CELL, "courts")
-    path.write_text(json.dumps({"cell_id": CELL, "note": "Manual/Courts rectangles (studs); no satellite tree inside", "clear": clear},
-                               ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    for cell in sorted({d["cell"] for d in data}):
+        clear = [{"name": d["name"], "x": d["x"], "z": d["z"], "yaw": d["yaw"], "w": round(d["width"] + 4, 2), "d": round(d["length"] + 4, 2)}
+                 for d in data if d["cell"] == cell]
+        path = common.cell_file(common.load_config(), cell, "courts")
+        path.write_text(json.dumps({"cell_id": cell, "note": "Manual/Courts rectangles (studs); no satellite tree inside", "clear": clear},
+                                   ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(OUT, [(d["name"], round(d["length"] / 3.6, 1), round(d["width"] / 3.6, 1), d["n"]) for d in data])

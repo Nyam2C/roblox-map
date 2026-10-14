@@ -8,7 +8,12 @@ local COURTS = {
 	{ name = "TennisWest", kind = "tennis", x = -2660.2, z = 1841.18, yaw = 82.46, length = 118.65, width = 116.86, n = 2 },
 	{ name = "TennisEast", kind = "tennis", x = -2135.12, z = 1912.19, yaw = 169.43, length = 116.69, width = 57.29, n = 1 },
 	{ name = "TennisSouth", kind = "tennis", x = -2175.08, z = 2105.93, yaw = -8.62, length = 122.4, width = 59.26, n = 1 },
-	{ name = "Futsal", kind = "futsal", x = -2253.52, z = 1877.69, yaw = 173.54, length = 92.79, width = 62.36, n = 1 }
+	{ name = "Futsal", kind = "futsal", x = -2253.52, z = 1877.69, yaw = 173.54, length = 92.79, width = 62.36, n = 1 },
+	{ name = "GiljuSand", kind = "sand", x = -2150.68, z = -1459.64, yaw = -2.37, length = 134.56, width = 123.61, n = 1 },
+	{ name = "GiljuCourt", kind = "basket", x = -2139.38, z = -1579.24, yaw = 87.61, length = 103.44, width = 75.06, n = 1 },
+	{ name = "GiljuPlaza", kind = "plaza", x = -2243.72, z = -1535.38, yaw = 0, length = 93.69, width = 93.69, n = 1 },
+	{ name = "GiljuPlazaN", kind = "plaza", x = -2280.35, z = -1677.62, yaw = 0, length = 61.33, width = 61.33, n = 1 },
+	{ name = "GiljuPlay", kind = "play", x = -2308.34, z = -1430.15, yaw = -86.99, length = 81.03, width = 52.96, n = 1 }
 }
 local S = 3.6 -- studs a metre
 local TOP = 0.42 -- surface top: over the sidewalks
@@ -24,6 +29,7 @@ local function part(parent, name, size, cf, material, rgb, opts)
 	return p
 end
 local WHITE, CLAY, TURF, FENCE, NET = {236, 236, 230}, {184, 104, 66}, {46, 112, 70}, {40, 84, 58}, {30, 32, 34}
+local SAND, BLUE = {196, 170, 128}, {70, 120, 190}
 local LINE = 0.1 * S
 local function fence(m, at, L, W, h)
 	for i, s in ipairs({ { 0, L / 2, W, 0 }, { 0, -L / 2, W, 0 }, { W / 2, 0, L, 90 }, { -W / 2, 0, L, 90 } }) do
@@ -40,6 +46,7 @@ local function line(m, at, x, z, w, l)
 end
 for _, c in ipairs(COURTS) do
 	local m = Instance.new("Model") m.Name = c.name
+	m:SetAttribute("Settle", "high") -- flat on its highest ground corner; the deep slab fills down to the lower side
 	local at = CFrame.new(c.x, TOP, c.z) * CFrame.Angles(0, math.rad(c.yaw), 0)
 	local L, W = c.length, c.width
 	if c.kind == "tennis" then
@@ -62,6 +69,40 @@ for _, c in ipairs(COURTS) do
 			if k > 1 then line(m, at, -W / 2 + cw * (k - 1), 0, 0.6, L - 2) end -- the gap between two courts
 		end
 		fence(m, at, L, W, 3.5 * S)
+	elseif c.kind == "sand" then
+		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.Sand, SAND)
+		for _, s in ipairs({ -1, 1 }) do -- a goal at each end
+			local g = at * CFrame.new(0, 0, s * (L / 2 - 2 * S))
+			for _, t in ipairs({ -1, 1 }) do part(m, "GoalPost", Vector3.new(0.3, 2 * S, 0.3), g * CFrame.new(t * 2.5 * S, S, 0), Enum.Material.Metal, WHITE) end
+			part(m, "GoalBar", Vector3.new(5 * S + 0.3, 0.3, 0.3), g * CFrame.new(0, 2 * S, 0), Enum.Material.Metal, WHITE)
+		end
+	elseif c.kind == "play" then
+		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.Rubber, BLUE)
+		part(m, "Slide", Vector3.new(2 * S, 2.5 * S, 2 * S), at * CFrame.new(-W / 5, 1.25 * S, 0), Enum.Material.SmoothPlastic, {240, 190, 50}, { CanCollide = true })
+		part(m, "Chute", Vector3.new(1.2 * S, 2.5 * S, 4 * S), at * CFrame.new(-W / 5, 1.25 * S, -3 * S) * CFrame.Angles(0, math.rad(180), 0), Enum.Material.SmoothPlastic, {220, 70, 60}, { Shape = Enum.PartType.Wedge })
+		for _, t in ipairs({ -1, 1 }) do part(m, "SwingPost", Vector3.new(0.3, 2.5 * S, 0.3), at * CFrame.new(W / 5 + t * 2 * S, 1.25 * S, 0), Enum.Material.Metal, {60, 120, 200}) end
+		part(m, "SwingBar", Vector3.new(4 * S + 0.3, 0.3, 0.3), at * CFrame.new(W / 5, 2.5 * S, 0), Enum.Material.Metal, {60, 120, 200})
+	elseif c.kind == "plaza" then
+		local disc = function(name, d, y, mat, rgb, t) return part(m, name, Vector3.new(t or 1, d, d), at * CFrame.new(0, y, 0) * CFrame.Angles(0, 0, math.rad(90)), mat, rgb, { Shape = Enum.PartType.Cylinder }) end
+		disc("Paving", L, -3.0, Enum.Material.Pavement, {196, 170, 150}, 6) -- deep: no gap on the slope
+		disc("Ring", L * 0.7, -0.43, Enum.Material.Pavement, {170, 120, 100})
+		disc("Centre", L * 0.62, -0.41, Enum.Material.Pavement, {205, 185, 165})
+		for k = 1, 8 do -- benches round the edge
+			local a = math.rad(45 * k)
+			part(m, "Bench", Vector3.new(1.8 * S, 0.45 * S, 0.5 * S), at * CFrame.Angles(0, a, 0) * CFrame.new(0, 0.22 * S, -L / 2 + 0.6 * S), Enum.Material.Wood, {140, 100, 70}, { CanCollide = true })
+		end
+	elseif c.kind == "basket" then
+		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.SmoothPlastic, {70, 130, 100})
+		local pl, pw = L / 2 - 1.5 * S, W / 2 - 1.5 * S
+		for _, s in ipairs({ -1, 1 }) do
+			line(m, at, 0, s * pl, 2 * pw, LINE)
+			line(m, at, s * pw, 0, LINE, 2 * pl)
+			local hoop = at * CFrame.new(0, 0, s * (pl - 0.3 * S))
+			part(m, "HoopPole", Vector3.new(0.3, 3.4 * S, 0.3), hoop * CFrame.new(0, 1.7 * S, s * 0.6 * S), Enum.Material.Metal, {60, 60, 64})
+			part(m, "Board", Vector3.new(1.8 * S, 1.05 * S, 0.1), hoop * CFrame.new(0, 3.3 * S, 0), Enum.Material.SmoothPlastic, WHITE)
+		end
+		line(m, at, 0, 0, 2 * pw, LINE)
+		fence(m, at, L, W, 3 * S)
 	else
 		part(m, "Surface", Vector3.new(W, 6.0, L), at * CFrame.new(0, -3.0, 0), Enum.Material.Grass, TURF)
 		local pl, pw = L / 2 - 1.2 * S, W / 2 - 1.2 * S
