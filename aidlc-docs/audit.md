@@ -1534,3 +1534,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U6 추가 기능 조정
 
 ---
+
+## 점프대 군데군데
+**Timestamp**: 2026-10-14T10:43:49Z
+**User Request**: "좋다 저거 군대군대 설치해"
+**AI Response**: ramp_items가 칸마다 최대 4개(50 m 이상 골목·2차로, 긴 구간부터, 서로 100 m 이상)를 놓도록 바꿈, 테스트 추가(710). 8칸 32개 생성, 미니맵 갱신. Studio가 Play 중이라 반영은 Edit으로 돌아온 뒤.
+**Context**: CONSTRUCTION - U6 추가 기능 조정
+
+---

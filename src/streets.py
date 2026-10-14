@@ -607,8 +607,9 @@ def entrance_items(entrances: Sequence[Mapping[str, Any]], streets_: Sequence[St
 # --- trick ramps (user 2026-10-14: "도로 중간에 묘기 하고나 공중 가능하게 경사 있는거 하나씩"; then "가속방지턱 느낌" -> a real kicker) -----------
 
 RAMP = {"h": 1.2, "lip_deg": 50.0, "segs": 5, "deck": 1.2, "land": 2.8, "wid": 3.0, "coping": 0.12, "min_seg": 50.0,
-        "classes": ("residential", "tertiary", "unclassified", "living_street")}
-# A street kicker in the middle of one road per cell: a curved transition (a circular arc from flat to lip_deg at the top, drawn as segs
+        "classes": ("residential", "tertiary", "unclassified", "living_street"), "per_cell": 4, "spacing": 100.0}
+# Street kickers here and there (user 2026-10-14: "군데군데 설치해"; one per cell before): up to per_cell per cell, on the longest owned
+# segments first, at least spacing metres apart. Each: a curved transition (a circular arc from flat to lip_deg at the top, drawn as segs
 # steps of a box and a wedge) up to h, a metal coping at the lip, a flat deck and a straight landing back to the road. First version was a
 # 0.6 m wedge pair that read as a speed bump (user). Reference measured 2026-10-14: creator store "Skate Board Ramp" 94871893 (funbox,
 # 30 x 8.4 x 21 studs, curved transitions, flat deck, coping; inserted in MCP_Test, measured, deleted). The lip segment is <road>#<i>#rampup;
@@ -616,17 +617,25 @@ RAMP = {"h": 1.2, "lip_deg": 50.0, "segs": 5, "deck": 1.2, "land": 2.8, "wid": 3
 
 
 def ramp_items(streets_: Sequence[Street], frame: Frame) -> list[Item]:
-    """One kicker on the longest owned segment (at least min_seg) of a minor road in the cell, centred on its middle and centre line."""
-    best = None
-    for st in streets_:
-        if st.kind != "road" or st.highway_class not in RAMP["classes"]:
+    """Kickers on the cell's minor roads: the longest owned segments (min_seg or more) first, each centred on its segment, skipping one
+    closer than spacing to a kicker already placed, per_cell at most."""
+    segs = sorted(((length, st.feature_id, i, st, p, q) for st in streets_ if st.kind == "road" and st.highway_class in RAMP["classes"]
+                   for i, p, q, mid, length in st.owned if length >= RAMP["min_seg"]), key=lambda t: (-t[0], t[1], t[2]))
+    out: list[Item] = []
+    placed: list[tuple[float, float]] = []
+    for length, _, i, st, p, q in segs:
+        mid = ((p[0] + q[0]) / 2, (p[1] + q[1]) / 2)
+        if len(placed) >= RAMP["per_cell"]:
+            break
+        if any(math.hypot(mid[0] - a, mid[1] - b) < RAMP["spacing"] for a, b in placed):
             continue
-        for i, p, q, mid, length in st.owned:
-            if length >= RAMP["min_seg"] and (best is None or (length, st.feature_id) > (best[4], best[0].feature_id)):
-                best = (st, i, p, q, length)
-    if best is None:
-        return []
-    st, i, p, q, length = best
+        placed.append(mid)
+        out += _kicker(st, i, p, q, length, frame)
+    return out
+
+
+def _kicker(st: Street, i: int, p: tuple[float, float], q: tuple[float, float], length: float, frame: Frame) -> list[Item]:
+    """One kicker centred on the segment i of a street (see RAMP)."""
     u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
     yaw = math.degrees(math.atan2(u[1], u[0]))
     top = layout.TOPS["road"] / frame.studs_per_m

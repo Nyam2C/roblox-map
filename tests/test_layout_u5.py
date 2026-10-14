@@ -981,3 +981,16 @@ def test_one_trick_ramp_is_a_kicker_with_a_curved_transition_a_lip_a_deck_and_a_
     assert look_z(lip) > 0.99 and look_z(next(i for i in items if i.name.endswith("#rampdn"))) < -0.99
     assert sum(i.sx / S * i.sy / S * i.sz / S for i in items) > 6  # a real kicker, not a speed bump (the first one was 1.9 m3)
     assert ST.ramp_items(ST.streets_of([short], FRAME, CELL, RES, CFG), FRAME) == []  # 40 m: too short
+
+
+def test_kickers_go_here_and_there_spaced_apart_and_at_most_per_cell():
+    roads = [{"feature_id": f"way:{n}", "kind": "road", "highway_class": "residential", "tags": {},
+              "geometry": [list(offset(CENTER, -40, y)), list(offset(CENTER, 40, y))]} for n, y in enumerate((-150, -90, 0, 30, 90, 150), 1)]
+    lines = ST.streets_of(roads, FRAME, CELL, RES, CFG)
+    lips = [i for i in ST.ramp_items(lines, FRAME) if i.name.endswith("#rampup")]
+    assert 2 <= len(lips) <= ST.RAMP["per_cell"]
+    pts = [(i.cx / S, i.cz / S) for i in lips]
+    for k, a in enumerate(pts):
+        for b in pts[k + 1:]:
+            assert math.hypot(a[0] - b[0], a[1] - b[1]) >= ST.RAMP["spacing"] - 10  # centres of segments 100 m apart; lips near them
+    assert len({i.name.split("#")[0] for i in lips}) == len(lips)  # one per road here
