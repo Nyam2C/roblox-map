@@ -1366,3 +1366,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 6 (H tree kit done; the villa window cell comparison overlaps the other session's L work).
 
 ---
+
+## U7 Step 7: Cells 1 and 3 Rebuilt with the Cycle
+**Timestamp**: 2026-10-14T03:31:29Z
+**User Request**: "저장했어" / "준비됐어, 간판은 L에 넘겨" / "시작" / "시작"
+**AI Response**: After the user's .rbxl copy, rebuilt cells 8930e0af13bffff (7,190 created, 170 skipped for Manual, verify ok) and 8930e0af12bffff (6,198, verify ok), slowest chunk 6.2 ms, http false. Buheung v4 roof and glass hall rerun through the anchors prelude (10 + 16 parts over the 8 current boxes). Satellite overlays: Buheung roof, solar, ground, court, gym and 옥산초's turf kit line up. Street view (cell 3, 8 pairs, one redone after a parallel capture took the wrong camera): fixed repeated reused sign names on one building (a0b6a34); the sign density on office and public buildings went to the U7 L session (message sent); 옥산초 main building roof colour and facade noted as a one-building issue. FPS on cell 3's shop street: first two runs invalid (window behind, 15 fps), third run delayed 20 s and per second: 40/40 seconds at 60, worst frame 19 ms. cycle-verify FPS step updated.
+**Context**: CONSTRUCTION - U7 step 7 (cells 1 and 3 done; step 8 = cell 2 as the first real run of the cycle).
+
+---

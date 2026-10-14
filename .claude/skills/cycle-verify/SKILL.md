@@ -35,6 +35,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 
 ## 5. 성능
 - 사용자가 Studio 창을 앞에 두고 Play → Client에서 `RenderStepped` 30~75초 기록(평균, 1초 최저, 가장 느린 프레임). 15 고정이면 창이 뒤에 있는 것(무효).
+- 사용자가 채팅에 답하면 Claude 창이 앞으로 와서 Studio가 15로 묶인다. 측정 코드는 **20초 기다린 뒤** 40초를 재고(그 사이 사용자가 Studio를 클릭해 맨 앞에 둠), **1초마다** FPS를 남겨 정확히 15인 초(창이 뒤)는 빼고 평균·최저를 낸다(2026-10-14).
 - 측정 위치: 칸에서 가장 빽빽한 곳(상가 거리, 아파트, 주택 밀집).
 - 기준(architecture.md 5절): PC 평균 60, 1초 최저 55 이상. 부품 수는 칸당 예산과 비교.
 - 사용자가 Play 중일 때는 캐릭터를 움직이지 말고 기록만.
