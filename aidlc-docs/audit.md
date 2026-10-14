@@ -1406,3 +1406,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 exterior quality L.
 
 ---
+
+## U7 Step 8: Cell 2 with the Cycle, P5-3, U7 Done
+**Timestamp**: 2026-10-14T04:40:18Z
+**User Request**: "저장했어 수정하고 u7 계속 진행" / "시작" (FPS runs) / "시작"
+**AI Response**: Fixed P5-3 (927bac2): layout.box_of_points measures the minimum rectangle on every hull edge itself and breaks equal-area ties by the edge length running along the direction, then the smaller angle (a pure smaller-angle rule turned a Buheung box 45 degrees); 1, 6 and 17 buildings change orientation or merge a sliver; tests 671 pass with seeds; also loosened the sign-prompt secret check that banned "key" (piano keys). Cell 2 (8930e0af123ffff): collection, street view and judgement were already done; ran satellite mosaic, trees (122), roofs (215/223), fields (0 schools), build (8,158 after the L session's apartment rule f4920ba), Studio verify ok, satellite overlay, street view 8 pairs (common issue handed to L and fixed there: 02000 below 7 floors as apartments with block numbers; Gwangseong podium a Manual candidate), cells 2 and 3 rebuilt with f4920ba. FPS on cell 2's main road: first walk one 43 fps second (first asset load), second walk 60 throughout. cycle-verify: repeat a walk when one second drops. U7 marked complete in the plan, CLAUDE.md and aidlc-state.
+**Context**: CONSTRUCTION - U7 step 8, U7 complete.
+
+---
