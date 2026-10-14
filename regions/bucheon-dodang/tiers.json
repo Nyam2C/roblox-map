@@ -210,6 +210,12 @@
    "reason": "landmarks: park:미리내공원, school:계남초등학교",
    "tier": 1
   },
+  "8930e0af153ffff": {
+   "counts": {},
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 부천중앙공원 칸): 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af157ffff": {
    "counts": {
     "landmarks": [],
@@ -341,6 +347,12 @@
    },
    "manual": true,
    "reason": "사용자 확장 요청(2026-10-15, 중동 6·8 주변): 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af1cbffff": {
+   "counts": {},
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 부천중앙공원 칸): 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af1cfffff": {

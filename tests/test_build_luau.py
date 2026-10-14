@@ -428,8 +428,12 @@ def test_an_empty_record_under_the_trees_that_the_photos_show_empty_is_not_built
     # 1ab, 2026-10-14: bare V-World outlines in a park stood as default boxes among the trees
     bare = building(0, floors_above=None)
     seen = {bare["building_id"]: {"floors_seen": None, "height_est_m": None, "note": "park trees only"}}
-    kept = B.plan_cell(CELL, [bare], [street("way:1")], CFG, estimates=seen)
-    gone = B.plan_cell(CELL, [bare], [street("way:1")], CFG, estimates=seen, under_trees={bare["building_id"]})
+    used = {**bare, "usability_code": "01000"}  # a record with any register attribute stays unless it is under the trees
+    kept = B.plan_cell(CELL, [used], [street("way:1")], CFG, estimates=seen)
+    gone = B.plan_cell(CELL, [used], [street("way:1")], CFG, estimates=seen, under_trees={bare["building_id"]})
     assert kept.counts["items_building"] == 1 and gone.counts["items_building"] == 0
+    # 153, 2026-10-15: a record with no attributes at all that the photos show empty is not built, under the trees or not
+    blank = {**bare, "usability_code": None, "height_m": None, "building_area": None}
+    assert B.plan_cell(CELL, [blank], [street("way:1")], CFG, estimates=seen).counts["items_building"] == 0
     seen_one = {bare["building_id"]: {"floors_seen": 1, "height_est_m": None, "note": "kiosk"}}
     assert B.plan_cell(CELL, [bare], [street("way:1")], CFG, estimates=seen_one, under_trees={bare["building_id"]}).counts["items_building"] == 1

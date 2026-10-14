@@ -1,0 +1,102 @@
+{
+  "cell_id": "8930e0af153ffff",
+  "details": [
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11189126",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "trees only, no building seen",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11189127",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "trees only, no building seen",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11189128",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "trees only, no building seen",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11189129",
+      "finish": "stone",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "small park hut, stone wall, white flat roof with eaves",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11193430",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "trees only, no building seen",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11204238",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "park only, no building seen",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11205630",
+      "finish": "paint",
+      "ground_use": "garage",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "parking entrance not visible",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11205711",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T21:51:11+00:00",
+      "note": "park only, no building seen",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    }
+  ],
+  "version": 1
+}

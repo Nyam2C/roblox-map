@@ -174,11 +174,16 @@ def _texts_ok(item: layout.Item) -> bool:
     return all(SAFE_TEXT.fullmatch(v) for v in texts) and (item.kind != "sign" or bool(details_rules.SIGN_TEXT.fullmatch(item.text or "")))
 
 
+EMPTY_NOTE = re.compile(r"no building|no clear building|trees only|only (?:park )?trees|park trees|vacant|empty lot|nothing", re.I)
+
+
 def _seen_empty(est: Mapping[str, Any] | None, strict: bool = True) -> bool:
-    """A judgement that counted nothing and (strict) said so in its note ("no building")."""
+    """A judgement that counted nothing and (strict) said so in its note ("no building"); not strict: any note that says the place is
+    empty (trees only, vacant lot), never one that only could not see the target."""
     if not est or est.get("floors_seen") is not None or est.get("height_est_m") is not None:
         return False
-    return not strict or "no building" in str(est.get("note") or "").lower()
+    note = str(est.get("note") or "")
+    return "no building" in note.lower() if strict else bool(EMPTY_NOTE.search(note))
 
 
 def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Sequence[Mapping[str, Any]],
@@ -214,9 +219,12 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             # nothing in the register, crowns on the satellite and no building in the photos: an outline left in a park (1ab, 2026-10-14)
             warnings.append(f"{bid}: empty record under the trees and the photos show no building: not built")
             continue
-        if b.get("source") != "gis" and _seen_empty(estimates.get(bid)):
+        bare = not (b.get("floors_above") or b.get("height_m") or b.get("usability_code") or b.get("building_area"))
+        if (b.get("source") != "gis" or bare) and _seen_empty(estimates.get(bid), strict=b.get("source") != "gis") \
+                and not layout_details.is_skybridge(b, (estimates.get(bid) or {}).get("note"), frame):
+            # a gis record with no attributes at all and no building in the photos: park furniture outlines (153, 2026-10-15)
             # only OSM has it and the photos show no building: an outline left on a cleared lot (16b, 2026-10-14)
-            warnings.append(f"{bid}: OSM-only outline and the photos show no building: not built")
+            warnings.append(f"{bid}: {'attribute-less record' if bare and b.get('source') == 'gis' else 'OSM-only outline'} and the photos show no building: not built")
             continue
         canopy = layout_details.canopy_kind(b, (estimates.get(bid) or {}).get("note"))
         if canopy:  # an open canopy over pumps or chargers, not a box (16b, 2026-10-15)
