@@ -505,7 +505,9 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                                        material="Metal", color=R.PALETTE["railing"], color_name="railing"))
                 seq += 1
         else:
-            items.append(_box_part(frame, body, bi, "facade", f"cap{bi}", seq, 0.0, 0.0, H - D["cap_sink"], (w + lip, D["cap_h"], d + lip), **band))
+            rt = body.details.get("roof_top")  # the satellite's colour of the top (roofs.py); without it the darkened wall colour
+            top = dict(material="Concrete", color=R.PALETTE[rt], color_name=rt) if rt else band
+            items.append(_box_part(frame, body, bi, "facade", f"cap{bi}", seq, 0.0, 0.0, H - D["cap_sink"], (w + lip, D["cap_h"], d + lip), **top))
             seq += 1
             roof_surface = H + D["cap_h"] - D["cap_sink"]
     if body.archetype in ("villa", "public") and not body.shop:

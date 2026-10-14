@@ -32,6 +32,7 @@ import db
 import details_rules
 import fields
 import kits
+import roofs
 import judgement
 import layout
 import layout_details
@@ -166,7 +167,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               overrides: Mapping[str, Mapping[str, Any]] | None = None,
               details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None,
               sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1,
-              sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None) -> Plan:
+              sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None,
+              roof_tops: Mapping[str, str] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -199,6 +201,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         if body is None:
             warnings.append(f"{bid}: outline has no area")
             continue
+        if roof_tops and bid in roof_tops:  # the satellite's top colour for the flat-roof cap (roofs.py)
+            body = dataclasses.replace(body, details={**body.details, "roof_top": roof_tops[bid]})
         bodies.append((body, b, eff))
     # facing, occlusion
     lines = layout_details._feature_lines(features, frame, cfg)
@@ -443,7 +447,8 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     sign_assets = load_sign_assets(common.cell_file(cfg, cell_id, "signs"))
     sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))
     plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier,
-                     load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")))
+                     load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")),
+                     roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")))
     write_plan(plan, root)
     return plan
 

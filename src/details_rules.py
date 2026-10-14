@@ -287,6 +287,9 @@ PALETTE: dict[str, tuple[int, int, int]] = {
     "glass_apt": (52, 58, 64), "apt_beige": (214, 190, 160), "apt_tan": (190, 158, 122), "apt_sand": (226, 212, 186),
     "apt_line": (95, 100, 108), "apt_slab": (236, 236, 232), "apt_rail": (60, 62, 66),
     "frame_white": (232, 232, 228), "frame_gray": (140, 142, 145), "frame_dark": (55, 56, 60), "band_ground": (150, 148, 142),
+    # flat-roof tops read off the satellite photo (roofs.py SAT_LOOKS times 0.88, like the school grounds)
+    "rtop_white": (189, 189, 185), "rtop_light": (154, 154, 151), "rtop_gray": (114, 114, 114), "rtop_dark": (66, 69, 72),
+    "rtop_green": (97, 132, 101), "rtop_teal": (84, 145, 132), "rtop_brown": (123, 92, 75), "rtop_red": (150, 75, 62), "rtop_blue": (79, 106, 141),
     "leaf": (60, 110, 50), "leaf_b": (76, 124, 54), "leaf_c": (52, 98, 46), "leaf_d": (92, 130, 54), "concrete": (150, 150, 145),
     # roofs
     "roof_dark": (60, 60, 65), "roof_red": (150, 60, 50), "roof_brown": (110, 70, 50), "roof_pink": (200, 140, 130),

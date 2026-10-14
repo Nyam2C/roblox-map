@@ -1382,3 +1382,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - after U7 steps 5-7.
 
 ---
+
+## Flat-Roof Tops from the Satellite
+**Timestamp**: 2026-10-14T03:55:06Z
+**User Request**: (interview) flat-roof cap colour = "위성에서 읽기 (Recommended)"
+**AI Response**: Found that 옥산초's red-brown top belonged to gis:11201536 (red brick, satellite white roof) and that every flat-roof cap used the darkened wall colour. Added src/roofs.py (median colour inside the footprint shrunk 1.5 m, crowns out, nearest of nine looks, buildings up to 7 floors) writing roofs.json per cell (cell 1: 112/122, cell 3: 74/85); build_luau passes the look as details roof_top and the cap uses it. Rebuilt cells 1 and 3 (verify ok); the satellite overlay of 옥산초 matches. Tests test_roofs.py (4). Also: MCP_Test cleared (both sessions said unused), big-map attribution added, walking with the map on 60 FPS, lighting shadows-only values applied.
+**Context**: CONSTRUCTION - after U7 step 7.
+
+---
