@@ -674,8 +674,10 @@ def _villa_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: f
 APT_ACCENTS = ("apt_beige", "apt_tan", "apt_sand")
 
 
-def _block_no(body: Body) -> int:
-    return 101 + R.pick(body.building_id, "block_no", 12)
+def _block_no(body: Body) -> int | None:
+    """BR-6.5 (2026-10-14): the block number of a complex building, read off its register name "<number>동"; none otherwise."""
+    name = body.name or ""
+    return int(name[:-1]) if name.endswith("동") and name[:-1].isdigit() and len(name) <= 6 else None
 
 
 def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: float, door: float | None) -> list[Item]:
@@ -740,15 +742,16 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
     if door is not None:
         cw, cd, ch, cy = D["apt_canopy_w"], D["apt_canopy_d"], D["apt_canopy_h"], D["apt_canopy_y"]
         add("acn", door, cy, cd, (cw, ch, cd), dict(material="Concrete", color=R.PALETTE["canopy"], color_name="canopy"))
+    if door is not None and _block_no(body) is not None:
         add("acs", door, cy + ch, cd, (0.6 * cw, 0.6, 0.06), dict(material="SmoothPlastic", color=R.PALETTE["canopy"], color_name="canopy"),
             kind="sign", text=str(_block_no(body)), ink="apt_slab", faces="F", attrs={"MaxDistance": 300})
     return items
 
 
 def _apartment_end(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: float, door: float | None) -> list[Item]:
-    """BR-6.5: an apartment's end wall stays blank but for the block number high up (101 to 112, fixed by the building ID)."""
+    """BR-6.5: an apartment's end wall stays blank but for the block number high up (only a complex building's real number)."""
     L, H = face_of(body.boxes[bi], side).length, body.height_m
-    if H < D["apt_no_drop"] + D["apt_no_h"] + 3.0:
+    if H < D["apt_no_drop"] + D["apt_no_h"] + 3.0 or _block_no(body) is None:
         return []
     return [_wall_part(frame, body, bi, side, "sign", "no" + side, seq, 0.0, H - D["apt_no_drop"], D["apt_no_t"],
                        (min(0.6 * L, 2.2 * D["apt_no_h"]), D["apt_no_h"], D["apt_no_t"]), material="SmoothPlastic", color=body.wall_rgb,

@@ -383,8 +383,8 @@ def test_bands_and_windows_are_skipped_when_a_floor_is_too_low():
 
 # --- BR-6.5 apartment facade ------------------------------------------------------------------------------------------------------------
 
-def apartment(floors=22, w=42.0, d=12.0, i=7):
-    return villa(i=i, w=w, d=d, floors=floors, wall="light_gray", code="02000")
+def apartment(floors=22, w=42.0, d=12.0, i=7, name=""):
+    return villa(i=i, w=w, d=d, floors=floors, wall="light_gray", code="02000", name=name)
 
 
 def _u(body, item):
@@ -423,7 +423,7 @@ def test_br_6_5_a_22_floor_apartment_is_a_band_rail_and_slab_a_floor_not_hundred
 
 
 def test_br_6_5_nothing_on_the_ground_floor_covers_the_entrance_and_the_block_number_matches():
-    row, est, _ = apartment()
+    row, est, _ = apartment(name="1005동")
     body, eff = resolve(row, est, features=[street()])
     items, _, _ = all_items(body, row, eff)
     canopy = next(i for i in items if tail(i) == "acn")
@@ -437,12 +437,21 @@ def test_br_6_5_nothing_on_the_ground_floor_covers_the_entrance_and_the_block_nu
     plate = next(i for i in items if tail(i) == "acs")
     ends = [i for i in items if tail(i) in ("nol", "nor")]
     assert len(ends) == 2 and all(i.kind == "sign" and R.SIGN_TEXT.fullmatch(i.text) for i in ends + [plate])
-    assert re.fullmatch(r"1(0[1-9]|1[0-2])", plate.text) and all(i.text == plate.text + "동" for i in ends)
+    assert plate.text == "1005" and all(i.text == "1005동" for i in ends)
 
 
-def test_br_6_5_block_numbers_run_101_to_112_and_are_fixed_by_the_building_id():
-    seen = {LD._block_no(resolve(*apartment(i=i)[:2], features=[street()])[0]) for i in range(1, 200)}
-    assert seen == set(range(101, 113))
+def test_br_6_5_the_block_number_is_the_register_name_of_a_complex_building_only():
+    for name, number in (("1005동", 1005), ("101동", 101), ("광성아파트", None), ("데오스힐", None), ("", None), ("가동", None)):
+        body, eff = resolve(*apartment(name=name)[:2], features=[street()])
+        assert LD._block_no(body) == number, name
+        items, _, _ = all_items(body, apartment(name=name)[0], eff)
+        assert any(tail(i) in ("acs", "nol", "nor") for i in items) == (number is not None), name
+
+
+@pytest.mark.parametrize("floors, archetype", [(5, "villa"), (6, "villa"), (7, "apartment"), (22, "apartment")])
+def test_br_1_5_a_gongdong_jutaek_is_an_apartment_from_seven_floors(floors, archetype):
+    body, _ = resolve(*apartment(floors=floors)[:2], features=[street()])
+    assert body.archetype == archetype  # 5-6 floors: villas over pilotis or with shops (cell 2 street view 2026-10-14)
 
 
 @settings(max_examples=30)

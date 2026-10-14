@@ -9,6 +9,9 @@
    "buildings": ["gis:11036833"]},
   {"name": "Park", "script": "Park.luau", "cell": "8930e0af13bffff", "how": "manual", "status": "done",
    "reason": "OSM 공원(옥산공원), 위성 색으로 가른 바닥",
-   "buildings": []}
+   "buildings": []},
+  {"name": "Gwangseong", "cell": "8930e0af123ffff", "how": "manual", "status": "candidate",
+   "reason": "거리뷰와 크게 다른 한 곳(2026-10-14 2번 칸 대조): 광성아파트는 3층 상가 기단(아치 입구, 간판) 위 아파트인데 자동 생성은 땅까지 아파트 띠",
+   "buildings": ["gis:11177081"]}
  ]
 }

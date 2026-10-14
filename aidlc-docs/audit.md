@@ -1398,3 +1398,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 exterior quality L.
 
 ---
+
+## Apartment Rule: Seven Floors, Real Block Numbers
+**Timestamp**: 2026-10-14T04:31:53Z
+**User Request**: "1번 규칙으로 고쳐, 2번은 수작업 후보로 둬"
+**AI Response**: BR-1.5: a 공동주택 (02000) is an apartment from 7 floors (was 5); lower ones are villas (never commercial). Chosen from the data: in cell 2 all 16 five-floor 02000 buildings are villas over parking pilotis by their judgement notes and the 6-floor 정순가 is a villa with a ground-floor shop, while 데오스힐 (10), 광성아파트 (13) and the cell-3 complex (13-22) are apartments. BR-6.5: block numbers only on complex buildings whose register name is "<number>동", with that real number (was a made-up 101-112 on every apartment). Result: 17 buildings in cell 2 become villas (정순가 keeps its shop sign), 데오스힐 and 광성 lose made-up numbers, the cell-3 blocks show 1002-1005; cell 1 unchanged. 광성아파트's shopping podium added to regions/bucheon-dodang/manual.json as a manual candidate (status candidate). Tests: two BR-6.5 tests rewritten for real numbers, new tests for the 7-floor threshold and the block number; 675 pass on three seeds. Studio not touched (the Studio session rebuilds).
+**Context**: CONSTRUCTION - U7 exterior quality L.
+
+---

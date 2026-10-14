@@ -176,20 +176,22 @@ def merged_details(detail: Mapping[str, Any] | None, note: str | None, wall_colo
 # --- archetypes and public names (BR-1.5, BR-1.6) ------------------------------------------------------------
 
 COMMERCIAL_CODES = ("04000", "09000", "11000", "14000")
+APARTMENT_MIN_FLOORS = 7  # BR-1.5 (2026-10-14): 5-6 floor 공동주택 here are villas over pilotis or with shops
 OFFICE_CODE = "14000"  # 업무시설: shop signs only on the lower floors, no rooftop sign (BR-10.1a, street view 2026-10-14)
 PUBLIC_CODES = ("03000", "10000")
 PUBLIC_SUFFIXES = ("학교", "행정복지센터", "주민센터", "경로당")
 
 
 def archetype(usability_code: str | None, floors: int | None, name: str | None, in_school_polygon: bool) -> str:
-    """school > apartment > commercial > public > villa, first match (BR-1.5). An apartment is a 공동주택 (02000) of five floors or
-    more: a dense grid of punched windows and no shop signs (street-view review 2026-10-13)."""
+    """school > apartment > commercial > public > villa, first match (BR-1.5). An apartment is a 공동주택 (02000) of seven floors or
+    more: a dense grid of punched windows and no shop signs (street-view review 2026-10-13). A lower 공동주택 is a villa (the
+    five-floor ones over parking pilotis, cell 2 street view 2026-10-14), never a commercial block."""
     name = name or ""
     if in_school_polygon or name.endswith("학교"):
         return "school"
     code = usability_code or ""
-    if code == "02000" and (floors or 0) >= 5:
-        return "apartment"
+    if code == "02000":
+        return "apartment" if (floors or 0) >= APARTMENT_MIN_FLOORS else "villa"
     if code in COMMERCIAL_CODES or (floors or 0) >= 5:
         return "commercial"
     if code in PUBLIC_CODES:
