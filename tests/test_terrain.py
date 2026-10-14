@@ -50,10 +50,35 @@ def test_the_slab_becomes_tilted_tiles_just_under_the_ground_and_no_heights_mean
     g = ramp_ground()
     slab = item("ground", "Ground", 0, 0, 100, 4, 100, y=-2)
     tiles = T.lift([slab], g)
-    assert len(tiles) == 9 and len({t.name for t in tiles}) == 9
+    assert len(tiles) == 9 and len({t.name for t in tiles}) == 9  # a plane: no tile is cut finer
     for t in tiles:
         assert t.cy + t.sy / 2 == pytest.approx(g.h(t.cx, t.cz) - T.TILE_UNDER, abs=2e-3) and t.tilt_z == pytest.approx(math.degrees(math.atan(0.1)), abs=1e-3)
     assert T.lift([slab], None)[0] == slab
+
+
+def hill_ground():
+    # flat at 0 west of x = 0, then a bowl rising as (x / 40)^2 * 8 studs
+    xs = [i * 8.0 for i in range(-30, 31)]
+    zs = [j * 8.0 for j in range(-30, 31)]
+    hs = tuple((max(x, 0) / 40.0) ** 2 * 8 for z in zs for x in xs)
+    return T.Ground(xs[0], zs[0], 8.0, len(xs), len(zs), hs)
+
+
+def test_pieces_and_tiles_are_cut_finer_where_the_ground_bends_and_left_whole_on_the_flat():
+    g = hill_ground()
+    flat_road = item("road", "way:4#0", -120, 0, 38, 0.2, 10)
+    bent_road = item("road", "way:5#0", 60, 0, 38, 0.2, 10)
+    out = T.lift([flat_road, bent_road], g)
+    assert [p.name for p in out if p.name.startswith("way:4")] == ["way:4#0"]
+    bent = [p for p in out if p.name.startswith("way:5")]
+    assert len(bent) >= 2 and len({p.name for p in bent}) == len(bent)
+    for p in bent:
+        assert T._bend(g, p.cx, p.cz, p.yaw_deg, p.sx, p.sz) <= T.BEND or p.sx / 2 < T.SEG_MIN
+    slab = item("ground", "Ground", 0, 0, 192, 4, 96, y=-2)
+    tiles = T.lift([slab], g)
+    west = [t for t in tiles if t.cx < -10]
+    east = [t for t in tiles if t.cx > 10]
+    assert min(t.sx for t in west) > 40 and min(t.sx for t in east) < 30
 
 
 def test_a_long_road_is_cut_so_each_part_follows_its_own_stretch():

@@ -33,6 +33,10 @@ TILE = 48.0  # studs: the ground is tiles this size, each tilted to its own patc
 TILE_T = 6.0  # thick enough that neighbouring tiles' edges overlap where their tilts differ
 TILE_UNDER = 0.6  # studs the tile top stays under the ground heights (roads and sidewalks lie on the heights)
 SEG = 40.0  # studs: a flat piece longer than this is cut so each part follows its own stretch of ground
+BEND = 0.12  # studs: where the ground bends more than this off a road piece's plane, it is halved again (user 2026-10-15: "곡선으로")
+BEND_TILE = 0.3  # studs: the same for a ground tile (between the roads, a little more is not seen)
+SMOOTH = 16.0  # studs: the heights are smoothed this much (Gaussian sigma) before use
+SEG_MIN = 10.0  # studs: no piece or tile is cut shorter than this
 POST_SINK = 0.5  # studs a standing prop (tree, lamp, pole) reaches into the ground tiles, so none shows a gap at its foot
 
 
@@ -71,7 +75,9 @@ class Ground:
 
 def from_points(points: Sequence[Sequence[float]], base_m: float, studs_per_m: float, step: float = STEP) -> Ground:
     """points: (x studs, z studs, altitude m)."""
+    from scipy.ndimage import gaussian_filter
     xs, zs, hm = elevation.surface(elevation.clean(points), step)
+    hm = gaussian_filter(hm, SMOOTH / step, mode="nearest")  # camera heights wobble a few cm: a smooth ground bends only where it rises
     hs = tuple(float((v - base_m) * studs_per_m) for v in hm.ravel())
     return Ground(float(xs[0]), float(zs[0]), step, len(xs), len(zs), hs)
 
@@ -123,38 +129,58 @@ def _slopes(ground: Ground, x: float, z: float, yaw: float, lx: float, lz: float
     return layout.fmt(-math.degrees(math.atan(sz))), layout.fmt(math.degrees(math.atan(sx)))
 
 
+def _bend(ground: Ground, x: float, z: float, yaw: float, lx: float, lz: float) -> float:
+    """How far (studs) the ground leaves the plane a flat part of lx by lz at (x, z) gets (centre height and _slopes)."""
+    (ux, uz), (vx, vz) = _axes(yaw)
+    h0 = ground.h(x, z)
+    sx = (ground.h(x + ux * lx / 2, z + uz * lx / 2) - ground.h(x - ux * lx / 2, z - uz * lx / 2)) / max(lx, 1e-6)
+    sz = (ground.h(x + vx * lz / 2, z + vz * lz / 2) - ground.h(x - vx * lz / 2, z - vz * lz / 2)) / max(lz, 1e-6)
+    worst = 0.0
+    for a in (-0.5, -0.25, 0.25, 0.5):
+        for b in (-0.5, 0.0, 0.5):
+            px, pz = x + ux * a * lx + vx * b * lz, z + uz * a * lx + vz * b * lz
+            worst = max(worst, abs(ground.h(px, pz) - (h0 + sx * a * lx + sz * b * lz)))
+    return worst
+
+
 def tiles(slab: layout.Item, ground: Ground) -> list[layout.Item]:
-    """The cell's ground slab as TILE-stud tiles lying on the heights (their tops TILE_UNDER under them)."""
+    """The cell's ground slab as tiles lying on the heights (tops TILE_UNDER under them): TILE studs on the flat, halved again and
+    again (quarters, down to SEG_MIN) where the ground bends more than BEND off a tile's plane."""
     nx, nz = max(1, math.ceil(slab.sx / TILE)), max(1, math.ceil(slab.sz / TILE))
-    w, d = slab.sx / nx, slab.sz / nz
+    w0, d0 = slab.sx / nx, slab.sz / nz
     x0, z0 = slab.cx - slab.sx / 2, slab.cz - slab.sz / 2
-    out = []
+    out: list[layout.Item] = []
+
+    def tile(x: float, z: float, w: float, d: float, name: str) -> None:
+        if w / 2 >= SEG_MIN and _bend(ground, x, z, 0.0, w, d) > BEND_TILE:
+            for k, (a, b) in enumerate(((-1, -1), (1, -1), (-1, 1), (1, 1))):
+                tile(x + a * w / 4, z + b * d / 4, w / 2, d / 2, f"{name}{k}")
+            return
+        ax, az = _slopes(ground, x, z, 0.0, w, d)
+        top = ground.h(x, z) - TILE_UNDER
+        out.append(dataclasses.replace(slab, name=name, seq=len(out), cx=layout.fmt(x), cz=layout.fmt(z), cy=layout.fmt(top - TILE_T / 2),
+                                       sx=layout.fmt(w + 0.2), sy=TILE_T, sz=layout.fmt(d + 0.2), tilt_x=ax, tilt_z=az))
+
     for j in range(nz):
         for i in range(nx):
-            x, z = x0 + (i + 0.5) * w, z0 + (j + 0.5) * d
-            ax, az = _slopes(ground, x, z, 0.0, w, d)
-            top = ground.h(x, z) - TILE_UNDER
-            out.append(dataclasses.replace(slab, name=f"Ground.{j}-{i}", seq=j * nx + i, cx=layout.fmt(x), cz=layout.fmt(z),
-                                           cy=layout.fmt(top - TILE_T / 2), sx=layout.fmt(w + 0.2), sy=TILE_T, sz=layout.fmt(d + 0.2),
-                                           tilt_x=ax, tilt_z=az))
+            tile(x0 + (i + 0.5) * w0, z0 + (j + 0.5) * d0, w0, d0, f"Ground.{j}-{i}.")
     return out
 
 
-def _cut(i: layout.Item) -> list[layout.Item]:
-    """A flat piece longer than SEG along its own X or Z, cut into equal parts (names <name>.<k>)."""
-    n = max(1, math.ceil(i.sx / SEG)) if i.sx >= i.sz else 1
-    m = max(1, math.ceil(i.sz / SEG)) if i.sz > i.sx else 1
-    if n * m == 1:
+def _cut(i: layout.Item, ground: Ground) -> list[layout.Item]:
+    """A flat piece longer than SEG, or bending more than BEND off its plane, halved along its long axis until it lies on its own
+    stretch (down to SEG_MIN); parts are named <name>.<k>."""
+    along_x = i.sx >= i.sz
+    length = i.sx if along_x else i.sz
+    if length / 2 < SEG_MIN or (length <= SEG and _bend(ground, i.cx, i.cz, i.yaw_deg, i.sx, i.sz) <= BEND):
         return [i]
     (ux, uz), (vx, vz) = _axes(i.yaw_deg)
+    dx, dz = (ux, uz) if along_x else (vx, vz)
     out = []
-    for a in range(n):
-        for b in range(m):
-            da = (a + 0.5) / n - 0.5
-            db = (b + 0.5) / m - 0.5
-            out.append(dataclasses.replace(i, name=f"{i.name}.{a * m + b}", cx=layout.fmt(i.cx + ux * da * i.sx + vx * db * i.sz),
-                                           cz=layout.fmt(i.cz + uz * da * i.sx + vz * db * i.sz), sx=layout.fmt(i.sx / n + (0.05 if n > 1 else 0)),
-                                           sz=layout.fmt(i.sz / m + (0.05 if m > 1 else 0))))
+    for k, sgn in enumerate((-1, 1)):
+        half = dataclasses.replace(i, name=f"{i.name}.{k}", cx=layout.fmt(i.cx + dx * sgn * length / 4), cz=layout.fmt(i.cz + dz * sgn * length / 4),
+                                   **({"sx": layout.fmt(length / 2 + 0.03)} if along_x else {"sz": layout.fmt(length / 2 + 0.03)}))
+        out += _cut(half, ground)
     return out
 
 
@@ -169,7 +195,7 @@ def lift(items: Sequence[layout.Item], ground: Ground | None) -> list[layout.Ite
             by_unit[u] = min(by_unit.get(u, low), low)
     out = []
     flat = lambda i: i.sy <= FLAT_MAX_H and max(i.sx, i.sz) >= FLAT_MIN and i.shape == "Block" and _unit(i) is None
-    items = [p for i in items for p in (_cut(i) if i.kind != "ground" and flat(i) else [i])]
+    items = [p for i in items for p in (_cut(i, ground) if i.kind != "ground" and flat(i) else [i])]
     for i in items:
         if i.kind == "ground":
             out += tiles(i, ground)
