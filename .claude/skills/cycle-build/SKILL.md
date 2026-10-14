@@ -16,6 +16,12 @@ uv run src/tiers.py classify --cells <칸>      # -> regions/<구역>/tiers.json
 ```
 등급: 1급은 아래 모두, 2급·3급은 3·4단계(거리뷰·판단)를 건너뛴다(2급 기본값 분포는 첫 2급 칸에서 만든다).
 
+### 0b. 중요 시설 후보 묻기 (사용자 승인)
+수집(1단계) 뒤, 생성(6단계) 전에 칸마다 그 구간을 대표하는 시설 후보를 고른다: 역·출구, 백화점·큰 상가, 15층 이상 랜드마크, 이름 있는 광장·공원, 학교, 큰 공공·종교시설, 위성에만 있는 큰 시설. 근거는 OSM 태그·이름, 대장 층수·면적, 위성.
+1. 후보를 칸별로 짧은 표(이름, 무엇, 왜)로 **채팅에서** 묻는다. 칸당 0~3개, 애매하면 빼고 적는다.
+2. 사용자가 승인한 것만 7b(웹 사진)와 수작업(Manual, `src/<이름>.py` 생성기 + `manual.json` 등록)으로 상세하게 만든다. 승인 안 한 것은 자동 생성 그대로.
+3. 기다리는 동안 다른 단계(거리뷰·판단·생성)는 계속한다. 후보와 답은 audit에.
+
 ### 1. 수집
 ```bash
 uv run --env-file .env src/cells.py --cells <칸>
@@ -63,7 +69,7 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 8. Builder(`studio/ServerStorage/MapBuilder.luau`)나 게임 스크립트(`studio/ServerScriptService/*.server.luau`)를 바꿨다면 먼저 교체한다: 그 파일 복사본만 둔 폴더를 같은 서버로 내놓고 Studio에서 `HttpService:GetAsync`로 받아 새 인스턴스의 `Source`에 넣고 원본 Destroy(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`를 바로 실행하지 않고 `uv run src/anchors.py build --region <구역>` → `uv run src/anchors.py script --region <구역> --name <이름>`이 만든 `data/build/manual/<이름>.luau`(기준점 앞부분 + 스크립트)를 같은 서버로 내놓고 ModuleScript `Source`에 넣어 `require`한다. 스크립트에는 박스 좌표를 숫자로 쓰지 않고 `A.box`·`A.frame`·`A.boxes`를 쓴다(U7 F).
 
 ### 7b. 중요한 장소 사진 (웹)
-칸에 중요한 장소(OSM 랜드마크, 이름 있는 광장·공원·역·학교·백화점·큰 공공시설, 위성에만 있는 큰 시설, `manual.json` 후보)가 있으면 Studio에 넣은 뒤 그 장소마다:
+0b에서 사용자가 승인한 장소(그리고 `manual.json` 후보)마다, 수작업을 만들기 전에:
 1. `WebSearch`로 "<동> <장소 이름>", "<장소 이름> 사진/전경/광장/정문"을 찾는다(이름이 없으면 근처 랜드마크 + "뒤/앞 광장").
 2. 사진이 있을 만한 페이지(블로그·뉴스·지자체·나무위키)를 **내장 브라우저**로 열어 사진을 본다(`WebFetch`는 글만 준다). 로그인·CAPTCHA가 나오면 그 페이지는 건너뛴다.
 3. 거리뷰 파노라마를 장소 쪽으로 잘라 함께 본다(`projection.render_crop`, 장소 중심 75 m 안).
