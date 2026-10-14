@@ -1414,3 +1414,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 8, U7 complete.
 
 ---
+
+## Minimap Not Updated
+**Timestamp**: 2026-10-14T04:43:09Z
+**User Request**: "지도 업데이트는 안되는데?"
+**AI Response**: The minimap data had been made for cells 1 and 3 only, before cell 2 was built and the P5-3 and apartment-rule rebuilds. Regenerated it for all three cells (717 rectangles + 4 areas) and reinstalled U6 in Studio. cycle-build step 7 now regenerates the minimap after every build; lesson added.
+**Context**: CONSTRUCTION - after U7.
+
+---
