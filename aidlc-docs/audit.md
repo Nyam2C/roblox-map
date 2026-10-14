@@ -1486,3 +1486,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 검증 보충, 가로 규칙
 
 ---
+
+## 정육각형 칸 순간 이동
+**Timestamp**: 2026-10-14T09:43:26Z
+**User Request**: "다음에 하나 기능 추가 맵이 넓어져서 순간 이동이 필요한데 정육각형 단위로 이동가능하게"
+**AI Response**: U6 지도에 붙임(계획서 u6 끝 절). minimap.py가 MinimapData.hexes(동 이름+순번, 착지점=중심에서 가장 가까운 인도, 꼭짓점 6개)와 RemoteEvent HexTeleport를 설치, ServerScriptService/HexTeleport.server.luau(번호 검사, 3초 쿨다운, 스트리밍 요청, 바닥 레이캐스트), MinimapClient에 육각형 테두리·탭 선택·이동 버튼. 가려진 변수(view) 버그를 Play 시험에서 찾아 고침. Play: 원격 호출·쿨다운·잘못된 입력, 지도 탭→버튼→163 칸 인도, 킥보드 탄 채 이동 확인. 테스트 708(+2).
+**Context**: CONSTRUCTION - U6 추가 기능
+
+---

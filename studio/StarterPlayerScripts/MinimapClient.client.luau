@@ -2,6 +2,8 @@
 -- Reads ReplicatedStorage/MinimapData: rectangles {look, x, z, width, depth, rotation} in Studio studs (east +X, north -Z), drawn once as Frames
 -- whose Offset is in studs; a UIScale zooms them and one Position keeps the player at the centre. North is always up; only the arrow turns.
 -- M key or the map button opens the big map (the whole built area, place names). Rules: aidlc-docs/construction/plans/u6-minimap-scooter-plan.md
+-- Teleport by hexagon (2026-10-14): the built cells are drawn as hexagons; a tap on one in the big map selects it and the button sends its index
+-- to the server (ServerScriptService/HexTeleport), which moves the character to the cell's landing point.
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -84,6 +86,45 @@ for _, r in ipairs(Data.rects or {}) do
 		f.Parent = world
 	end
 end
+-- the built cells: six edges each, a line kept 2 px wide on screen whatever the zoom
+local HEX_LINE, HEX_PICK = Color3.fromRGB(90, 100, 130), Color3.fromRGB(240, 120, 30)
+local hexes = {}
+for i, h in ipairs(Data.hexes or {}) do
+	if type(h) == "table" and #h >= 15 then
+		local pts, edges = {}, {}
+		for k = 0, 5 do
+			table.insert(pts, { h[4 + 2 * k], h[5 + 2 * k] })
+		end
+		for k = 1, 6 do
+			local a, b = pts[k], pts[k % 6 + 1]
+			local e = Instance.new("Frame")
+			e.AnchorPoint = Vector2.new(0.5, 0.5)
+			e.Position = UDim2.fromOffset((a[1] + b[1]) / 2, (a[2] + b[2]) / 2)
+			e.Rotation = math.deg(math.atan2(b[2] - a[2], b[1] - a[1]))
+			e.BackgroundColor3 = HEX_LINE
+			e.BorderSizePixel = 0
+			e.ZIndex = 5
+			e.Parent = world
+			table.insert(edges, { f = e, len = math.sqrt((b[1] - a[1]) ^ 2 + (b[2] - a[2]) ^ 2) })
+		end
+		table.insert(hexes, { index = i, name = h[1], pts = pts, edges = edges })
+	end
+end
+local function inHex(hx, x, z) -- the cell is convex: the point is on the same side of every edge
+	local sign = 0
+	for k = 1, 6 do
+		local a, b = hx.pts[k], hx.pts[k % 6 + 1]
+		local c = (b[1] - a[1]) * (z - a[2]) - (b[2] - a[2]) * (x - a[1])
+		if c ~= 0 then
+			if sign ~= 0 and (c > 0) ~= (sign > 0) then
+				return false
+			end
+			sign = c
+		end
+	end
+	return true
+end
+
 -- place names {text, x, z, level, kind, rotation} (U6 map detail Q1 = A+B+C+D, Q2 = A): level 1 also on the small map, 2 on the big map,
 -- 3 when the big map is zoomed in (ZOOM_DETAIL). Kinds 1 dong, 2 road, 3 facility, 4 building; px is the size on screen whatever the zoom
 local KIND = {
@@ -234,6 +275,53 @@ for i, b in ipairs({ { "+", 1.5 }, { "-", 1 / 1.5 } }) do
 	end)
 end
 
+-- the teleport button: shows the selected cell
+local selected = nil
+local go = Instance.new("TextButton")
+go.Name = "Teleport"
+go.AnchorPoint = Vector2.new(0.5, 1)
+go.Position = UDim2.new(0.5, 0, 1, -12)
+go.Size = UDim2.fromOffset(240, 40)
+go.BackgroundColor3 = HEX_PICK
+go.TextColor3 = Color3.fromRGB(255, 255, 255)
+go.Font = Enum.Font.GothamBold
+go.TextSize = 17
+go.Visible = false
+go.ZIndex = 16
+go.Parent = big
+round(go, 10)
+local hint = Instance.new("TextLabel")
+hint.AnchorPoint = Vector2.new(0.5, 0)
+hint.Position = UDim2.new(0.5, 0, 0, 10)
+hint.Size = UDim2.fromOffset(320, 22)
+hint.BackgroundTransparency = 1
+hint.Text = "육각형 칸을 누르면 그 칸으로 이동할 수 있어요"
+hint.Font = Enum.Font.GothamMedium
+hint.TextSize = 14
+hint.TextColor3 = Color3.fromRGB(60, 60, 70)
+hint.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+hint.TextStrokeTransparency = 0.3
+hint.ZIndex = 15
+hint.Parent = big
+local lastZoom
+local function paintHexes(zoom)
+	for _, hx in ipairs(hexes) do
+		local on = hx == selected
+		for _, e in ipairs(hx.edges) do
+			e.f.BackgroundColor3 = on and HEX_PICK or HEX_LINE
+			e.f.ZIndex = on and 6 or 5
+			e.f.Size = UDim2.fromOffset(e.len, (on and 4 or 2) / math.max(zoom or 1, 0.01))
+		end
+	end
+end
+local function pickHex(hx)
+	selected = hx
+	go.Visible = hx ~= nil
+	go.Text = hx and (hx.name .. " 칸으로 이동") or ""
+	paintHexes(lastZoom)
+end
+local teleportRemote = ReplicatedStorage:WaitForChild("HexTeleport", 10)
+
 local isBig = false
 local function showLabels(zoom)
 	-- a name that would cover one already shown is left out at this zoom (screen boxes, the rotation ignored)
@@ -265,6 +353,7 @@ local function setBig(on)
 	if on then
 		userZoom, panX, panZ = 1, (bounds[1] + bounds[3]) / 2, (bounds[2] + bounds[4]) / 2
 	end
+	pickHex(nil)
 	showLabels()
 	mapButton.Text = on and "닫기 (M)" or "지도 (M)"
 end
@@ -278,10 +367,39 @@ UserInputService.InputBegan:Connect(function(input, processed)
 		setBig(not isBig)
 	end
 end)
-local dragging, lastPos = false, nil
+local dragging, lastPos, downPos = false, nil, nil
+local tapView = { zoom = 1, cx = 0, cz = 0 } -- the big map's last zoom and centre, to turn a tap into studs
 big.InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		dragging, lastPos = true, input.Position
+		dragging, lastPos, downPos = true, input.Position, input.Position
+	end
+end)
+big.InputEnded:Connect(function(input)
+	-- a tap (not a drag) picks the hexagon under it
+	if not isBig or not downPos or not (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
+		return
+	end
+	local moved = (Vector2.new(input.Position.X, input.Position.Y) - Vector2.new(downPos.X, downPos.Y)).Magnitude
+	downPos = nil
+	if moved > 6 then
+		return
+	end
+	local vp, at = big.AbsoluteSize, big.AbsolutePosition
+	local x = tapView.cx + (input.Position.X - at.X - vp.X / 2) / tapView.zoom
+	local z = tapView.cz + (input.Position.Y - at.Y - vp.Y / 2) / tapView.zoom
+	local hit = nil
+	for _, hx in ipairs(hexes) do
+		if inHex(hx, x, z) then
+			hit = hx
+			break
+		end
+	end
+	pickHex(hit)
+end)
+go.Activated:Connect(function()
+	if selected and teleportRemote then
+		teleportRemote:FireServer(selected.index)
+		setBig(false)
 	end
 end)
 UserInputService.InputEnded:Connect(function(input)
@@ -315,7 +433,7 @@ workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(functio
 	mapButton.Position = UDim2.new(1, -12, 0, 12 + size + 6)
 end)
 
-local lastZoom, lastBig = nil, nil
+local lastBig = nil
 RunService.RenderStepped:Connect(function()
 	local view = isBig and big or mini
 	local vp = view.AbsoluteSize
@@ -333,11 +451,15 @@ RunService.RenderStepped:Connect(function()
 		return
 	end
 	zoomScale.Scale = zoom
+	if isBig then
+		tapView.zoom, tapView.cx, tapView.cz = zoom, cx, cz
+	end
 	-- positions as a share of the view: an Offset is a whole number of pixels, a Scale moves smoothly
 	world.Position = UDim2.fromScale((vp.X / 2 - cx * zoom) / vp.X, (vp.Y / 2 - cz * zoom) / vp.Y)
 	if zoom ~= lastZoom or isBig ~= lastBig then -- names keep their size on screen: the world is scaled, so the text is not
 		lastZoom, lastBig = zoom, isBig
 		showLabels(zoom)
+		paintHexes(zoom)
 		for _, l in ipairs(labels) do
 			local ts = math.min(l.px / zoom, 100)
 			l.t.TextSize = ts

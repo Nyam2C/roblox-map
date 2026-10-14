@@ -127,3 +127,27 @@ def test_the_installer_holds_every_script_the_data_and_the_remote(tmp_path):
         assert f'ensure(at("{where}"), "{cls}", "{name}")' in text and f"-- {fn}" in text
     assert all((M.STUDIO_DIR / fn).exists() for _, _, _, fn in M.SOURCES)  # the repository holds every source where SOURCES says
     assert '"ModuleScript", "MinimapData"' in text and '"RemoteEvent", "ScooterToggle"' in text and text.rstrip().endswith("return made")
+
+
+# --- teleport by hexagon (2026-10-14) ---------------------------------------------------------------------------------------
+
+def test_a_hex_has_six_corners_and_lands_on_the_sidewalk_nearest_the_cell_centre():
+    import h3
+    frame = layout.Frame.from_cfg(common.DEFAULTS)
+    cell = "8930e0af13bffff"
+    cx, cz = layout.to_studs(frame, *h3.cell_to_latlng(cell))
+    items = [item("sidewalk", cx + 50, cz, 10, 3, 0, "far"), item("sidewalk", cx + 5, cz + 2, 10, 3, 0, "near"), item("road", cx, cz, 10, 8, 0, "r")]
+    name, lx, lz, *corners = M.hex_of(cell, items, frame, "도당동 1")
+    assert name == "도당동 1" and len(corners) == 12 and (lx, lz) == pytest.approx((cx + 5, cz + 2), abs=0.1)
+    pts = list(zip(corners[::2], corners[1::2]))
+    side = [(b[0] - a[0]) * (lz - a[1]) - (b[1] - a[1]) * (lx - a[0]) for a, b in zip(pts, pts[1:] + pts[:1])]
+    assert all(v > 0 for v in side) or all(v < 0 for v in side)  # the landing is inside the cell
+    assert M.hex_of(cell, [], frame, "x")[1:3] == (round(cx, 1), round(cz, 1))  # nothing to stand on: the centre
+
+
+def test_hex_names_count_within_a_dong_and_reach_the_module_text():
+    names = M.hex_names(["a", "b", "c", "d"], {"a": "도당동", "b": "중동", "c": "도당동", "d": ""})
+    assert names == ["도당동 1", "중동 1", "도당동 2", "칸 1"]
+    text = M.module_text([], [], [], [("중동 1", 1.0, 2.0, *range(12))])
+    assert 'hexes = {\n\t{"중동 1", 1, 2, 0, 1, 2, 3' in text
+    assert "HexTeleport" in M.install_text(text)

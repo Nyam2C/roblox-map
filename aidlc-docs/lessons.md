@@ -40,6 +40,9 @@
 - (2026-10-14) 걷기 FPS 측정은 클라이언트 스크립트 하나에서 `MoveTo`로 걸리고 같은 스크립트에서 잰다(서버의 `task.delay` 걷기는 `execute_luau`가 끝나면 돌지 않았다).
 - (2026-10-14, 5~7번 칸) 작업 중 Studio 장소가 닫히면 `list_roblox_studios`는 새 id에 `name: null`, `get_studio_state`는 "Place is not open"을 낸다. 사용자가 다시 열기 전에는 할 수 없으니 Studio 없이 되는 일(커밋)을 하고 기다린다. 다시 열면 칸별 부품 수·Builder 판·Manual·스트리밍을 먼저 확인한다(저장했으면 그대로 있었다).
 - (2026-10-14) `screen_capture`를 한 응답에 여러 개 보내면 첫 하나만 되고 나머지는 시간 초과다(10개 중 1개). 거리뷰 대조는 반드시 한 번에 하나. 창 크기가 바뀌면 겹쳐 보기 배율도 바뀐다(1610×1080 → 1.187).
+- (2026-10-14, 칸 순간 이동) `user_mouse_input`의 x, y는 `InputObject.Position`과 같은 공간(위 메뉴 막대 제외, GUI `AbsolutePosition`과 같음)이다. 큰 지도의 한 점을 누르려면 `big.AbsolutePosition + 크기/2 + (월드 - 중심) × 확대율`. `world.AbsolutePosition`은 UIScale 때문에 쓸 수 없었다.
+- (2026-10-14) MinimapClient의 RenderStepped 안에 `local view`가 있어 같은 이름의 바깥 변수를 가렸다(탭이 늘 엉뚱한 칸). Luau는 경고 없이 가린다. 긴 LocalScript에 새 상태를 더할 때는 이름을 grep해 본다.
+- (2026-10-14) 킥보드 모델(`Scooter`)의 `GetPivot()`은 처음 만든 자리에 남는다(PrimaryPart 없음). 위치는 부품으로 본다.
 
 ## 생성 규칙
 
