@@ -6,6 +6,8 @@
 
 Usage:
   uv run src/minimap.py --cells 8930e0af13bffff 8930e0af12bffff   # writes data/build/minimap.luau and data/build/install-u6.luau
+  (Studio: put minimap.luau into ReplicatedStorage/MinimapData.Source, then run install-u6.luau for the scripts; one file would pass
+   Studio's 200,000-character Source limit)
   uv run src/minimap.py --selftest                                 # import check only
 
 minimap.luau is the ModuleScript text ReplicatedStorage/MinimapData: rectangles in Studio studs (the same plan items build_luau.py makes:
@@ -282,7 +284,10 @@ def install_text(data_module: str, studio_dir: Path = STUDIO_DIR) -> str:
              "\treturn n",
              "end",
              "local made = {}",
-             f"local data = ensure(game:GetService(\"ReplicatedStorage\"), \"ModuleScript\", \"MinimapData\")\ndata.Source = {long_string(data_module)}\nmade[#made + 1] = \"MinimapData\"",
+             # the data goes in by its own request when it would push this program past Studio's 200,000-character Source limit
+             # (15 cells, 2026-10-14): MINIMAP_DATA is then set by the caller before this program runs
+             (f"local data = ensure(game:GetService(\"ReplicatedStorage\"), \"ModuleScript\", \"MinimapData\")\ndata.Source = {long_string(data_module)}\nmade[#made + 1] = \"MinimapData\""
+              if data_module else "made[#made + 1] = \"MinimapData (installed apart from minimap.luau)\""),
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterToggle\")\nmade[#made + 1] = \"ScooterToggle\"",
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"HexTeleport\")\nmade[#made + 1] = \"HexTeleport\"",
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterTrick\")\nmade[#made + 1] = \"ScooterTrick\""]
@@ -338,7 +343,7 @@ def main(cfg: dict[str, Any]) -> int:
     out.mkdir(parents=True, exist_ok=True)
     data = module_text(sorted(rects), labels, areas, hexes)
     (out / "minimap.luau").write_text(data, encoding="utf-8")
-    (out / "install-u6.luau").write_text(install_text(data), encoding="utf-8")
+    (out / "install-u6.luau").write_text(install_text(""), encoding="utf-8")  # scripts only; minimap.luau goes into MinimapData apart
     by_level = {lv: sum(1 for l in labels if l[3] == lv) for lv in (1, 2, 3)}
     common.log(logging.INFO, f"minimap written: {len(rects)} rectangles from {len(args.cells)} cells, plus {len(AREAS) + len(areas)} areas and "
                              f"{len(labels)} labels (level 1/2/3: {by_level[1]}/{by_level[2]}/{by_level[3]})")

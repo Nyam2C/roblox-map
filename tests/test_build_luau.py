@@ -409,3 +409,26 @@ def test_an_osm_only_outline_the_photos_show_empty_is_not_built():
     assert plan.counts["items_building"] == 1 and any("OSM-only" in w for w in plan.warnings)
     plan = B.plan_cell(CELL, [osm, gis], [street("way:1")], CFG, estimates={osm["building_id"]: {**empty, "floors_seen": 1}})
     assert plan.counts["items_building"] == 2
+
+
+def test_a_big_road_gets_a_double_yellow_centre_and_a_dashed_line_between_lanes():
+    # 1ab, 2026-10-14: 신흥로 (8 lanes) had no lines at all; now 7 boundaries = double yellow + 6 dashed
+    def lines(**tags):
+        plan = B.plan_cell(CELL, [building(0, center=offset(CENTER, 0, 60))], [street("way:1", "tertiary", **tags)], CFG)
+        text = "".join(t for n, t in plan.files.items() if n.endswith(".luau"))
+        return len(re.findall(r'#dash\d+"', text)), len(re.findall(r'#cl\d"', text))
+    one, cl = lines()
+    eight, cl8 = lines(lanes="8")
+    assert one > 0 and cl == 0 and cl8 == 2 and eight == 6 * one
+    assert lines(lanes="8", oneway="yes")[1] == 0  # one carriageway of a divided road: no yellow
+
+
+def test_an_empty_record_under_the_trees_that_the_photos_show_empty_is_not_built():
+    # 1ab, 2026-10-14: bare V-World outlines in a park stood as default boxes among the trees
+    bare = building(0, floors_above=None)
+    seen = {bare["building_id"]: {"floors_seen": None, "height_est_m": None, "note": "park trees only"}}
+    kept = B.plan_cell(CELL, [bare], [street("way:1")], CFG, estimates=seen)
+    gone = B.plan_cell(CELL, [bare], [street("way:1")], CFG, estimates=seen, under_trees={bare["building_id"]})
+    assert kept.counts["items_building"] == 1 and gone.counts["items_building"] == 0
+    seen_one = {bare["building_id"]: {"floors_seen": 1, "height_est_m": None, "note": "kiosk"}}
+    assert B.plan_cell(CELL, [bare], [street("way:1")], CFG, estimates=seen_one, under_trees={bare["building_id"]}).counts["items_building"] == 1

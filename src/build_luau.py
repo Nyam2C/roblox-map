@@ -168,9 +168,11 @@ def _texts_ok(item: layout.Item) -> bool:
     return all(SAFE_TEXT.fullmatch(v) for v in texts) and (item.kind != "sign" or bool(details_rules.SIGN_TEXT.fullmatch(item.text or "")))
 
 
-def _seen_empty(est: Mapping[str, Any] | None) -> bool:
-    """A judgement that counted nothing and said so in its note ("no building")."""
-    return bool(est) and est.get("floors_seen") is None and est.get("height_est_m") is None and "no building" in str(est.get("note") or "").lower()
+def _seen_empty(est: Mapping[str, Any] | None, strict: bool = True) -> bool:
+    """A judgement that counted nothing and (strict) said so in its note ("no building")."""
+    if not est or est.get("floors_seen") is not None or est.get("height_est_m") is not None:
+        return False
+    return not strict or "no building" in str(est.get("note") or "").lower()
 
 
 def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Sequence[Mapping[str, Any]],
@@ -179,7 +181,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None,
               sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1,
               sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None,
-              roof_tops: Mapping[str, str] | None = None) -> Plan:
+              roof_tops: Mapping[str, str] | None = None, under_trees: set[str] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -198,6 +200,10 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         bid = str(b["building_id"])
         if layout.is_underground(b):
             warnings.append(f"{bid}: underground facility (floors below {b.get('floors_below')}, above {b.get('floors_above')}): not built")
+            continue
+        if bid in (under_trees or ()) and _seen_empty(estimates.get(bid), strict=False):
+            # nothing in the register, crowns on the satellite and no building in the photos: an outline left in a park (1ab, 2026-10-14)
+            warnings.append(f"{bid}: empty record under the trees and the photos show no building: not built")
             continue
         if b.get("source") != "gis" and _seen_empty(estimates.get(bid)):
             # only OSM has it and the photos show no building: an outline left on a cleared lot (16b, 2026-10-14)
@@ -478,7 +484,8 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))
     plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier,
                      load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")),
-                     roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")))
+                     roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")),
+                     streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")))
     write_plan(plan, root)
     return plan
 

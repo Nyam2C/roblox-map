@@ -1,0 +1,372 @@
+{
+  "cell_id": "8930e0af103ffff",
+  "estimates": [
+    {
+      "building_id": "gis:10976390",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "large commercial building, gray panels and ribbon windows, many shop signs on every floor, stores on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11186570",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "school block almost fully hidden by trees; only a brick wall corner visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11188991",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "1990s apartment slab, gray paint with darker stair strip, balconies, lower floors behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189215",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "1990s apartment slab, light gray paint, balconies, rough count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189228",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "tall 1990s apartment tower, gray with glazed balconies, entrance box at base; rough count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189229",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "2-floor complex shopping building, beige tile, shops and offices on ground, many signs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11189230",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "1-floor yellow brick daycare building with stepped parapet, arched windows, play equipment in yard",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "yellow"
+    },
+    {
+      "building_id": "gis:11191021",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "1990s apartment slab, light gray paint, balconies, rooftop stair boxes",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191276",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "tall apartment tower, gray, glazed balconies, entrance box with red roof; top cut",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191288",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "tall apartment tower, gray, mostly behind trees, slender end wall seen; rough count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191293",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "tall apartment tower, gray with balconies, top cut; rough count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191295",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "1990s apartment slab, white-gray, glazed balconies, lower floors behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11193342",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "tall apartment tower, gray, glazed balconies, entrance box with red roof; top cut",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11204624",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "low 2-floor brick community building inside apartment complex, mostly behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11205530",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "low beige building behind fence and trees, only lower part visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11205581",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "small guard hut at complex entrance, dark small roof, mostly behind trees",
+      "roof_shape": "gable",
+      "views_used": [
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11205640",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "small 1-floor gray utility hut, near bike racks and recycling bins",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206593",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "small white 1-floor utility box near parking, mostly hidden",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11207095",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "1990s apartment slab, light gray, balconies, entrance box with brown roof",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11207098",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "1990s apartment slab, light gray paint with darker stair strip, lower floors behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12335284",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "large church, pink panel walls with round window ornaments, shops and stone base on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:12397093",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "commercial building, gray panels and glass, shops and restaurants on ground, signs on upper floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12995504",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "store building, gray panels, parking entrance on one side and shops on the other, 2 floors above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15885444",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "school block almost fully hidden by trees; only a brick wall corner visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:17847104",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "large church, pink panel walls with round window ornaments, shops and stone base on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:18162460",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:43:24+00:00",
+      "note": "store building, gray panels, parking entrance on one side and shops on the other, 2 floors above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

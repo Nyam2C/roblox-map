@@ -278,6 +278,13 @@ def load_trees(path: Path) -> list[list[float]] | None:
     return [[float(v) for v in r] for r in rows if len(r) == 3 and all(math.isfinite(float(v)) for v in r)]
 
 
+def load_under_trees(path: Path) -> set[str]:
+    """Ids of the bare records trees.py found under the crowns (empty when the file or the key is missing)."""
+    if not path.exists():
+        return set()
+    return {str(v) for v in json.loads(path.read_text(encoding="utf-8")).get("under_trees", [])}
+
+
 def tree_items(frame: Frame, trees: Sequence[Sequence[float]]) -> list[Item]:
     """The trees read off the satellite photo: a trunk and a crown kit mesh (U7 H; it was three balls) scaled to the crown diameter,
     turned by hash (BR-11.4a)."""
@@ -351,21 +358,32 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
             u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
             # lines stop at the widest road of the junction at each end, not inside it (2026-10-14: a lane's centre line ran into 신흥로)
             cw = D["cw_to"] if st.highway_class in CROSSWALK_CLASSES else 0.0  # and before the crosswalk band on this arm
-            t0 = max([w / 2] + [j.w_max / 2 + cw for si, pos, j in jpos if si == i and pos < 1e-6])
-            t1 = max([w / 2] + [j.w_max / 2 + cw for si, pos, j in jpos if si == i and pos > length - 1e-6])
-            if st.highway_class == "residential" and not oneway and length > t0 + t1:
+            # a node that is not a junction trims nothing (1ab, 2026-10-14: trimming every node by half the road's own width left an
+            # 8-lane road with no lines at all between its many short segments)
+            t0 = max([0.0] + [j.w_max / 2 + cw for si, pos, j in jpos if si == i and pos < 1e-6])
+            t1 = max([0.0] + [j.w_max / 2 + cw for si, pos, j in jpos if si == i and pos > length - 1e-6])
+            lanes = int(round(w / float(cfg.get("lane_width_m", 3.25))))
+            wide = st.highway_class == "tertiary" and lanes >= 4  # a big road: double yellow centre and a dashed line between lanes
+            if (st.highway_class == "residential" or (wide and not oneway)) and not oneway and length > t0 + t1:
                 for n, lat in enumerate((D["line_gap"], -D["line_gap"])):
                     props.append(_segment_part(frame, "prop", f"{fid}#{i}#cl{n}", fid, 200 + 2 * i + n, p, u, (t0 + length - t1) / 2, lat, top_road + D["mark_y_studs"],
                                                (length - t0 - t1, D["mark_t_studs"], D["line_w"]), y_studs=True, material="SmoothPlastic",
                                                color=R.PALETTE["line_yellow"], color_name="line_yellow", collide=False))
             if st.highway_class == "tertiary":
-                pos, n = t0, 0
-                while pos + D["dash_len"] <= length - t1:
-                    props.append(_segment_part(frame, "prop", f"{fid}#{i}#dash{n}", fid, 300 + 10 * i + n, p, u, pos + D["dash_len"] / 2, 0.0,
-                                               top_road + D["mark_y_studs"], (D["dash_len"], D["mark_t_studs"], D["line_w"]), y_studs=True,
-                                               material="SmoothPlastic", color=R.PALETTE["line_white"], color_name="line_white", collide=False))
-                    pos += D["dash_len"] + D["dash_gap"]
-                    n += 1
+                lane_w = w / max(lanes, 1)
+                if wide:  # lane boundaries; on a two-way road the centre one is the double yellow above
+                    lats = [-w / 2 + k * lane_w for k in range(1, lanes) if oneway or k != lanes // 2 or lanes % 2]
+                else:
+                    lats = [0.0]
+                n = 0
+                for lat in lats:
+                    pos = t0
+                    while pos + D["dash_len"] <= length - t1:
+                        props.append(_segment_part(frame, "prop", f"{fid}#{i}#dash{n}", fid, 300 + 10 * i + n, p, u, pos + D["dash_len"] / 2, lat,
+                                                   top_road + D["mark_y_studs"], (D["dash_len"], D["mark_t_studs"], D["line_w"]), y_studs=True,
+                                                   material="SmoothPlastic", color=R.PALETTE["line_white"], color_name="line_white", collide=False))
+                        pos += D["dash_len"] + D["dash_gap"]
+                        n += 1
         # poles and wires (BR-11.2)
         pole_tops: list[tuple[float, float]] = []
         lamp_slots: dict[str, list[tuple[int, float]]] = {"L": [], "R": []}

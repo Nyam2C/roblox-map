@@ -1,0 +1,1465 @@
+{
+  "cell_id": "8930e0af1abffff",
+  "estimates": [
+    {
+      "building_id": "gis:11172857",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "car repair works, white metal panel block with ribbon windows, car wash at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11172867",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "car repair shop, 2-storey panel building with drive-through garage bays",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11176257",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "white hoarding wall behind trees, no building visible (possibly cleared lot)",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11178496",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small factory, gray metal panel, blue glass stair strip, shutter doors at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178955",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "tire shop, large signboards, open service bay at ground, panel upper floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11179673",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "beige stone office block, car detailing shop at ground, ribbon windows, roof railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11180963",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "old one-storey cement block workshop with low corrugated metal roof",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11180964",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "long low corrugated metal warehouse on block base, green roof edge",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11181338",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small factory office, pale tile facade with ribbon windows, gated yard parking",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11181548",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "low white panel factory with gable roof and green gable entrance canopy",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11181557",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "old brick office with white bands, external stair at side, small yard parking",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11181948",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "factory building, granite base with beige tile above, blue windows; top not seen",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11183348",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "old 2-storey tiled building, small shop and workshop fronts at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11185870",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "low corrugated metal shed on block base, green roof edge",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11187629",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "car wash building, brown metal panel, glass stair strips, entrance bays at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11194966",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "mid-rise office, gray stone panels, dark tile base, glass stair strip, shop at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11195099",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "2-storey white corrugated panel factory with brick base and double doors",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11197243",
+      "confidence": "medium",
+      "floors_seen": 9,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "mid-rise commercial block, rounded glass corner bays, restaurant at ground, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11198275",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "small office/workshop clad in dark navy metal panel next to a white stone office; side door, roof edge visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11198541",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "roadside park with trees and hedges; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11198721",
+      "confidence": "medium",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "stone-clad office block with glass entrance stair strip, parking in front, recessed top floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11198780",
+      "confidence": "medium",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "stone-clad office block, regular punched windows, recessed top floor with terrace",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11198850",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees; a one-storey shop building is only at the edge of one crop",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199066",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "small restaurant with metal panel facade and big sign band, low building in an alley",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11199074",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees; apartment towers far behind",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199121",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "one-storey cement block shed with low corrugated roof",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199150",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "low corrugated metal shed with green roof edge on block wall",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199151",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "one-storey corrugated metal shed on block base, green roof edge",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199202",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "small stone-clad commercial building, car detailing shop with glass front on ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11199204",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "one-storey white panel workshop with low roof, blue roof edge, behind block wall",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199206",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "trees and fence of apartment complex; target not visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199207",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment parking ramp entrance with small shops beside it, roof garden on top",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199208",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "old one-storey workshop shed with corrugated metal walls and block wall, blue/green metal roof",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199213",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "small factory/warehouse clad in gray metal panel and granite, shutter door",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199214",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199269",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "long low warehouse shed with blue metal gable roof and tarp, behind block wall",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199270",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park with trees and a small wooden pergola; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199271",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199385",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small structure hidden behind white panel fence, not visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199389",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees and pergola; apartment tower only at the edge",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199391",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "old abandoned two-storey brick building behind rusty fence, rooftop tank tower",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11199426",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower with pink accent stripes behind complex gate, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199467",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees; apartment tower only at the edge",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199621",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees on a slope; towers far behind",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199695",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment complex trees and wall; small target not visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199696",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199697",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees only",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199710",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees; tower only at the edge",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199711",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199760",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower with pink stripes and stone base lobby, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199830",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199891",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "one-storey shop podium under apartment towers: convenience store, cafe, shops; roof garden with railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11199894",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199895",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199896",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "one-storey shop podium with row of shops and real-estate office, roof garden railing above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11199997",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees and stairs; a cafe kiosk only at the edge",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11200280",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower behind trees and fence, top cut off; count is a guess",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11200410",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "one-storey corner shop building: cafe, restaurant and store; glass railing roof terrace",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11200576",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "park trees; tower behind",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11200578",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment parking ramp entrance with real-estate shop beside, planted roof",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11200987",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "factory building, granite base with shutter door, beige panels with glass strips",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11203024",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "long one-storey shop podium: convenience store with umbrellas, cafe, shops; roof garden railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11203272",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "apartment tower with pink accent stripes, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11203410",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "one-storey shop podium with shops and real-estate office, glass railing roof garden",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11205027",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "white construction hoarding wall; building not visible (vacant or construction site)",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11205316",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "small stone building with empty glass shop front on the corner, upper floor cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11205321",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "restaurant on ground floor of a small commercial building with AC units on upper floors",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205997",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "white construction hoarding wall; vacant lot",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206253",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "vacant lot with weeds; no building",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206263",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "roadside green strip with trees; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206266",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment garden path and trees, no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206268",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "roadside green strip with stone wall and trees; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206269",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "roadside green strip with stone wall and trees; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206270",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "roadside green strip with stone wall and trees; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206328",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:47+00:00",
+      "note": "roadside green strip with stone wall and trees; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206336",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment edge, only trees and stone wall visible, no building seen",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206425",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment edge, only trees visible, small structure hidden",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206430",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "long narrow strip by playground and trees, no building seen",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11208000",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "warehouse loading building, wood fascia over drive-through bay, pallets",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11209131",
+      "confidence": "medium",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "commercial block, round blue glass stair tower at corner, glass shop front at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11214642",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "old tiled building, restaurant and shop fronts at ground, low roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11218175",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "old brick buildings behind rusty fence, rooftop stair box",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11796845",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "knowledge industry centre, gray panel with window grid, bank at ground, parking ramp",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11798102",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment tower behind trees and stone wall; floors estimated",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:12231623",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "restaurant building, beige panel on parking pilotis, glass stair at corner",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:13001783",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "office block, gray stone panels, shops and showroom at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:14638714",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small factory, gray metal panel, blue glass stair strip, shutter doors at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:14697812",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small office, wood-look and dark panel cladding, parking lot in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:14768442",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "knowledge industry centre, gray panel with window grid, bank at ground, parking ramp",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:14776473",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "car wash building, brown metal panel, glass stair strips, entrance bays at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:15387193",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment tower above stone podium with shops; top hard to count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:15432429",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small factory, panel facade, shutter door at ground, beside walled ramp",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15666172",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "beige stone office block, car detailing shop at ground, ribbon windows, roof railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:15727778",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment slab behind trees; floors estimated",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:15729295",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "factory building, granite base with shutter door, beige panels with glass strips",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:16118582",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment tower with pink accent stripes; floors estimated",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:16261611",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "restaurant building, beige panel on parking pilotis, glass stair at corner",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:17077372",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small old brick building behind rusty metal fence, restaurant front nearby",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:17106938",
+      "confidence": "low",
+      "floors_seen": 22,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment slab over shop podium (convenience, restaurant) and parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:17425176",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment tower behind trees on stone podium; floors estimated",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:18037588",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "mid-rise office, dark stone panels, glass stair strip, glass entrance at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:18687273",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "small one-storey exposed concrete utility hut in apartment garden",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "osm:490069602",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment tower above a podium of shops and convenience store, parking ramp; top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "osm:490069603",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T14:39:52+00:00",
+      "note": "apartment tower on a stone podium with shop row (convenience, restaurant); top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    }
+  ],
+  "overrides": [
+    {
+      "building_id": "gis:11181338",
+      "field": "floors_above",
+      "reason": "확신 high 불일치를 Claude가 사진 다시 봄: 대상 건물이 크롭마다 다르거나 옥탑·필로티 해석 차이로 확정 못 함, 대장 유지 (2026-10-14)",
+      "set_at": "2026-10-14T14:40:10+00:00",
+      "value": 4
+    },
+    {
+      "building_id": "gis:11181557",
+      "field": "floors_above",
+      "reason": "확신 high 불일치를 Claude가 사진 다시 봄: 대상 건물이 크롭마다 다르거나 옥탑·필로티 해석 차이로 확정 못 함, 대장 유지 (2026-10-14)",
+      "set_at": "2026-10-14T14:40:10+00:00",
+      "value": 2
+    },
+    {
+      "building_id": "gis:12231623",
+      "field": "floors_above",
+      "reason": "확신 high 불일치를 Claude가 사진 다시 봄: 대상 건물이 크롭마다 다르거나 옥탑·필로티 해석 차이로 확정 못 함, 대장 유지 (2026-10-14)",
+      "set_at": "2026-10-14T14:40:10+00:00",
+      "value": 4
+    },
+    {
+      "building_id": "gis:15666172",
+      "field": "floors_above",
+      "reason": "확신 high 불일치를 Claude가 사진 다시 봄: 대상 건물이 크롭마다 다르거나 옥탑·필로티 해석 차이로 확정 못 함, 대장 유지 (2026-10-14)",
+      "set_at": "2026-10-14T14:40:11+00:00",
+      "value": 3
+    },
+    {
+      "building_id": "gis:16261611",
+      "field": "floors_above",
+      "reason": "확신 high 불일치를 Claude가 사진 다시 봄: 대상 건물이 크롭마다 다르거나 옥탑·필로티 해석 차이로 확정 못 함, 대장 유지 (2026-10-14)",
+      "set_at": "2026-10-14T14:40:11+00:00",
+      "value": 4
+    }
+  ],
+  "version": 1
+}

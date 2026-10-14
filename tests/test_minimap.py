@@ -151,3 +151,11 @@ def test_hex_names_count_within_a_dong_and_reach_the_module_text():
     text = M.module_text([], [], [], [("중동 1", 1.0, 2.0, *range(12))])
     assert 'hexes = {\n\t{"중동 1", 1, 2, 0, 1, 2, 3' in text
     assert "HexTeleport" in M.install_text(text)
+
+
+def test_the_installer_without_data_leaves_the_data_module_to_its_own_step(tmp_path):
+    for _, _, _, fn in M.SOURCES:
+        (tmp_path / fn).parent.mkdir(parents=True, exist_ok=True)
+        (tmp_path / fn).write_text("local x = 1\n", encoding="utf-8")
+    text = M.install_text("", tmp_path)
+    assert "data.Source" not in text and '"RemoteEvent", "HexTeleport"' in text

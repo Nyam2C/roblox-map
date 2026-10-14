@@ -102,7 +102,9 @@ def find_trees(rgb: np.ndarray, geo: Georef, cell_id: str, buildings: Sequence[M
     mpp = geo.m_per_px(lat0)
     hexagon = [geo.to_px(*p) for p in h3.cell_to_boundary(cell_id)]
     # an underground car park or station is not a roof: the plaza over it keeps its trees (미관광장, 2026-10-14)
-    roofs = _fill((w, h), [[geo.to_px(*p) for p in b["outline"]] for b in buildings if not layout.is_underground(b)])
+    covered = set(under_trees(rgb, geo, cell_id, buildings))  # empty records under the trees are not roofs either (1ab, 2026-10-14)
+    roofs = _fill((w, h), [[geo.to_px(*p) for p in b["outline"]] for b in buildings
+                           if not layout.is_underground(b) and b.get("building_id") not in covered])
     roads = _fill((w, h), [list(LineString([geo.to_px(*p) for p in f["geometry"]]).buffer(layout.road_width_m(f, cfg) / 2 / mpp).exterior.coords)
                            for f in features if len(f["geometry"]) >= 2])
     canopy = canopy_mask(rgb) & ~ndi.binary_dilation(roofs, iterations=2)
@@ -116,10 +118,34 @@ def find_trees(rgb: np.ndarray, geo: Georef, cell_id: str, buildings: Sequence[M
     return sorted(trees, key=lambda t: (t[1], t[0]))
 
 
-def write_trees(cell_id: str, trees: Sequence[Sequence[float]], path: Path) -> Path:
+UNDER_TREES = 0.6  # share of an outline the satellite shows as crowns
+
+
+def bare(b: Mapping[str, Any]) -> bool:
+    """A V-World record with nothing from the register: no floors, no use code, no floor area."""
+    return not b.get("floors_above") and not (b.get("usability_code") or "") and not (b.get("building_area") or 0)
+
+
+def under_trees(rgb: np.ndarray, geo: Georef, cell_id: str, buildings: Sequence[Mapping[str, Any]]) -> list[str]:
+    """Ids of this cell's bare records whose outline the satellite shows at least UNDER_TREES covered by crowns: an outline left in a
+    park or a green strip (1ab, 2026-10-14: 24 such records stood as default boxes among the trees). A roof hidden by a tree here
+    and there stays (177: the bare records were real buildings when the satellite showed a roof)."""
+    h, w = rgb.shape[:2]
+    canopy = canopy_mask(rgb)
+    out = []
+    for b in buildings:
+        if b.get("cell_id") != cell_id or not bare(b):
+            continue
+        m = _fill((w, h), [[geo.to_px(*p) for p in b["outline"]]])
+        if m.sum() and canopy[m].mean() >= UNDER_TREES:
+            out.append(str(b["building_id"]))
+    return sorted(out)
+
+
+def write_trees(cell_id: str, trees: Sequence[Sequence[float]], path: Path, covered: Sequence[str] = ()) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps({"cell_id": cell_id, "source": f"V-World satellite z{ZOOM}", "count": len(trees), "trees": list(trees)},
-                               ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
+    path.write_text(json.dumps({"cell_id": cell_id, "source": f"V-World satellite z{ZOOM}", "count": len(trees), "trees": list(trees),
+                                "under_trees": list(covered)}, ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
     return path
 
 
@@ -150,8 +176,9 @@ def main(cfg: dict[str, Any]) -> int:
         sat = common.resolve(SAT_DIR) / f"{cell_id}-z{ZOOM}"
         meta = json.loads(sat.with_suffix(".json").read_text(encoding="utf-8"))
         rgb = np.asarray(Image.open(sat.with_suffix(".jpg")).convert("RGB"))
-        trees = find_trees(rgb, Georef(int(meta["tile_x0"]), int(meta["tile_y0"])), cell_id, buildings, features, cfg)
-        path = write_trees(cell_id, trees, common.cell_file(cfg, cell_id, "trees"))
+        geo = Georef(int(meta["tile_x0"]), int(meta["tile_y0"]))
+        trees = find_trees(rgb, geo, cell_id, buildings, features, cfg)
+        path = write_trees(cell_id, trees, common.cell_file(cfg, cell_id, "trees"), under_trees(rgb, geo, cell_id, buildings))
         common.log(logging.INFO, f"trees written: {len(trees)} in {path}", cell_id)
     return 0
 

@@ -122,7 +122,7 @@ def test_default_finish_follows_the_wall_color_table():
     ("10000", 5, "부흥중학교", False, "school"), ("", 5, "", True, "school"), (None, None, "", False, "villa"), ("", 2, "", False, "villa"),
     ("02000", 20, "1004동", False, "apartment"), ("02000", 4, "", False, "villa"), ("02000", 5, "한빛학교", False, "school"),
     ("07000", 11, "", False, "store"), ("07000", 3, "", False, "villa"), ("20000", 6, "중동 공영노외주차장(6호)", False, "public"),
-    ("20000", 2, "", False, "villa")])
+    ("20000", 2, "", False, "villa"), ("06000", 5, "순복음교회", False, "public")])
 def test_archetype_is_school_then_commercial_then_public_then_villa(code, floors, name, in_poly, expect):
     assert R.archetype(code, floors, name, in_poly) == expect
 

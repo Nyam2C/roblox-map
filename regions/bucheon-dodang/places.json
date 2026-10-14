@@ -1,17 +1,20 @@
 {
  "cells": {
+  "8930e0af103ffff": "약대동",
   "8930e0af107ffff": "약대동",
   "8930e0af10bffff": "중동",
   "8930e0af10fffff": "중동",
   "8930e0af123ffff": "도당동",
   "8930e0af12bffff": "도당동",
+  "8930e0af133ffff": "약대동",
   "8930e0af13bffff": "약대동",
   "8930e0af147ffff": "중동",
   "8930e0af163ffff": "중동",
   "8930e0af16bffff": "심곡동",
   "8930e0af173ffff": "중동",
   "8930e0af177ffff": "중동",
-  "8930e0af17bffff": "중동"
+  "8930e0af17bffff": "중동",
+  "8930e0af1abffff": "약대동"
  },
  "note": "dong of each cell, Nominatim reverse zoom 16"
 }

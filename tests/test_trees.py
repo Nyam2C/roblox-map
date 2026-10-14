@@ -108,3 +108,14 @@ def test_an_underground_car_park_outline_does_not_hide_the_trees_of_the_plaza_ov
     over = {"outline": box, "floors_above": 1, "floors_below": 4}
     assert T.find_trees(img, g, cell, [over], [], CFG)
     assert not T.find_trees(img, g, cell, [{**over, "floors_below": 1}], [], CFG)
+
+
+def test_a_bare_record_mostly_under_crowns_is_found_and_a_registered_one_is_not():
+    g = T.Georef(0, 0)
+    img = np.full((256, 256, 3), (120, 120, 118), dtype=np.uint8)
+    img[40:120, 40:120] = (38, 74, 46)
+    box = [g.to_latlon(x, y) for x, y in ((50, 50), (110, 50), (110, 110), (50, 110))]
+    roof = [g.to_latlon(x, y) for x, y in ((150, 150), (200, 150), (200, 200), (150, 200))]
+    rows = [{"building_id": "gis:1", "cell_id": "c", "outline": box}, {"building_id": "gis:2", "cell_id": "c", "outline": roof},
+            {"building_id": "gis:3", "cell_id": "c", "outline": box, "floors_above": 3}]
+    assert T.under_trees(img, g, "c", rows) == ["gis:1"]
