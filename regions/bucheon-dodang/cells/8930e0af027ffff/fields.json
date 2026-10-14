@@ -1,0 +1,30 @@
+{
+ "cell_id": "8930e0af027ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:474154164",
+   "name": "부명중학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -4823.105,
+   "z": 2271.78,
+   "yaw": 79.253,
+   "w": 252.0,
+   "d": 217.8,
+   "fit": 1.0
+  },
+  {
+   "osm": "way:1313919741",
+   "name": "부명초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -4535.221,
+   "z": 2306.075,
+   "yaw": 166.423,
+   "w": 253.8,
+   "d": 234.0,
+   "fit": 0.749
+  }
+ ]
+}

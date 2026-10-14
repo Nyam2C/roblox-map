@@ -119,3 +119,19 @@ def test_a_bare_record_mostly_under_crowns_is_found_and_a_registered_one_is_not(
     rows = [{"building_id": "gis:1", "cell_id": "c", "outline": box}, {"building_id": "gis:2", "cell_id": "c", "outline": roof},
             {"building_id": "gis:3", "cell_id": "c", "outline": box, "floors_above": 3}]
     assert T.under_trees(img, g, "c", rows) == ["gis:1"]
+
+
+def test_a_closed_walk_round_a_wood_keeps_the_trees_inside_it():
+    # 부천중앙공원 (cell 153, 2026-10-15): a footpath loop's band was filled solid, so the wood inside lost all its trees
+    import h3
+    cell = "8930e0af10fffff"
+    lat, lon = h3.cell_to_latlng(cell)
+    g0 = T.Georef(0, 0)
+    px, py = g0.to_px(lat, lon)
+    g = T.Georef(int(px // 256) - 1, int(py // 256) - 1)
+    img = np.full((768, 768, 3), (120, 120, 118), dtype=np.uint8)
+    cx, cy = g.to_px(lat, lon)
+    img[int(cy) - 60:int(cy) + 60, int(cx) - 60:int(cx) + 60] = (38, 74, 46)
+    ring = [g.to_latlon(cx + dx, cy + dy) for dx, dy in ((-90, -90), (90, -90), (90, 90), (-90, 90), (-90, -90))]
+    loop = {"feature_id": "way:1", "kind": "path", "highway_class": "footway", "tags": {}, "geometry": [list(p) for p in ring]}
+    assert len(T.find_trees(img, g, cell, [], [loop], CFG)) >= 5

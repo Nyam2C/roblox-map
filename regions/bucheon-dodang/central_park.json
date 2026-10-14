@@ -1,93 +1,5369 @@
 {
- "photo": "data/satellite/8930e0af1cfffff-z19.jpg",
- "scale_note": "0.237 m/px, north up. Park occupies x 0..1520, y ~1800..2304 (only its north third; park centroid per OSM way 221003528 is ~(365,2385), south of the photo).",
- "paths": [
-  {"name": "north edge red-brown bike path along 길주로 side", "pts_px": [[0,1815],[200,1832],[400,1865],[600,1888],[800,1902],[1000,1918],[1300,1942],[1480,1962]], "width_m": 6, "rgb": [105,72,62]},
-  {"name": "west edge walk", "pts_px": [[70,1815],[48,2120],[18,2304]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "west N-S walk A", "pts_px": [[125,1815],[95,2140]], "width_m": 5, "rgb": [200,204,187]},
-  {"name": "big arc walk (NW to NE)", "pts_px": [[170,1815],[230,1878],[290,1925],[350,1958],[420,1988],[500,1998],[600,1993],[650,1978],[700,1958],[750,1938],[800,1912]], "width_m": 7, "rgb": [200,204,187]},
-  {"name": "central N-S axis walk (paving stones)", "pts_px": [[482,1865],[435,2195]], "width_m": 8, "rgb": [200,204,187]},
-  {"name": "N-S walk", "pts_px": [[235,1900],[205,2140]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "E-W short walk", "pts_px": [[110,2015],[300,2008]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "N-S walk past west toilet", "pts_px": [[312,1940],[292,2150]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "south E-W walk (north rim of central area)", "pts_px": [[20,2128],[100,2138],[200,2152],[300,2165],[420,2185],[520,2198],[620,2215],[700,2230]], "width_m": 6, "rgb": [185,188,165]},
-  {"name": "N-S walk south of it", "pts_px": [[205,2160],[185,2304]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "N-S walk from east toilet plaza", "pts_px": [[612,1960],[592,2210]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "E-W short walk", "pts_px": [[598,2103],[682,2108]], "width_m": 3, "rgb": [200,204,187]},
-  {"name": "N-S walk", "pts_px": [[700,1960],[668,2228]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "N-S walk (east edge of west lawns)", "pts_px": [[805,1912],[783,2240]], "width_m": 6, "rgb": [200,204,187]},
-  {"name": "N-S walk by parking entrance", "pts_px": [[866,1965],[838,2185]], "width_m": 4, "rgb": [200,204,187]},
-  {"name": "forest dirt trail", "pts_px": [[935,1925],[922,2150]], "width_m": 3, "rgb": [125,112,90]},
-  {"name": "diagonal tree-lined promenade (two paver lanes + planters, OSM ways 472050741/472050742/473018201)", "pts_px": [[525,2304],[740,2230],[900,2175],[1140,2091],[1360,2015]], "width_m": 14, "rgb": [185,180,165]},
-  {"name": "tan path west of pond", "pts_px": [[1130,2150],[1125,2195],[1100,2240],[1088,2304]], "width_m": 3, "rgb": [195,175,140]},
-  {"name": "tan path along pond east side", "pts_px": [[1222,2125],[1228,2200],[1265,2240],[1300,2270],[1315,2304]], "width_m": 4, "rgb": [195,175,140]},
-  {"name": "light paved walk crossing the stream (small bridge ~(1385,2200))", "pts_px": [[1298,2250],[1340,2225],[1390,2195],[1418,2172]], "width_m": 4, "rgb": [200,204,187]}
- ],
- "plazas": [
-  {"c_px": [365,1925], "r_m": 9, "rgb": [181,187,168], "kind": "square", "notes": "paved apron around west toilet (OSM toilets 472053937)"},
-  {"c_px": [590,1945], "r_m": 8, "rgb": [181,187,168], "kind": "square", "notes": "paved apron around east toilet (OSM 472053938)"},
-  {"c_px": [400,2250], "r_m": 16, "rgb": [177,176,152], "kind": "square", "notes": "hexagon-patterned beige pavers x330-470 y2200-2265, red-brown brick pavers below (rgb ~[150,110,90]); this is the north edge of the central plaza that continues south out of the photo"},
-  {"c_px": [915,2172], "r_m": 9, "rgb": [185,180,165], "kind": "square", "notes": "stepped paved landing where the promenade meets the N-S walks"},
-  {"c_px": [1150,2045], "r_m": 11, "rgb": [173,176,153], "kind": "round", "notes": "semicircular paved plaza open to the south, with a dark curved low wall/bench along its north arc (from (1104,2051) over (1146,2008) to (1196,2024)); small seating plaza, not the 야외음악당"},
-  {"c_px": [1440,2018], "r_m": 12, "rgb": [175,175,160], "kind": "round", "notes": "round paved plaza at park NE corner below tower 102 of 센트럴파크 푸르지오, dark ring (r ~7 m) in it"}
- ],
- "lawns": [
-  {"poly_px": [[50,2160],[200,2168],[188,2304],[20,2304]], "notes": "open lawn, few trees"},
-  {"poly_px": [[103,2028],[198,2030],[195,2132],[98,2126]], "notes": "open dry lawn"},
-  {"poly_px": [[132,1835],[160,1830],[228,1895],[222,2000],[118,2005]]},
-  {"poly_px": [[200,1830],[318,1845],[315,1925],[292,1918],[235,1870]]},
-  {"poly_px": [[245,1905],[300,1945],[300,2000],[238,2000]]},
-  {"poly_px": [[208,2025],[298,2020],[292,2150],[205,2145]]},
-  {"poly_px": [[318,1990],[425,2000],[418,2178],[300,2163]], "notes": "contains dome 1"},
-  {"poly_px": [[410,1870],[470,1870],[462,1985],[415,1983]]},
-  {"poly_px": [[500,1872],[555,1880],[550,1990],[495,1990]]},
-  {"poly_px": [[448,2008],[598,2005],[590,2195],[438,2190]], "notes": "contains dome 2"},
-  {"poly_px": [[625,1898],[790,1908],[740,1938],[650,1975],[625,1980]]},
-  {"poly_px": [[620,1995],[700,1970],[690,2100],[605,2098]]},
-  {"poly_px": [[605,2112],[685,2112],[670,2225],[595,2210]]},
-  {"poly_px": [[712,1958],[795,1918],[783,2235],[675,2230]], "notes": "contains sculpture"},
-  {"poly_px": [[870,1925],[1100,1930],[1100,2060],[1140,2091],[900,2160],[850,2180]], "notes": "dense woodland floor (trees come from trees.py)"},
-  {"poly_px": [[1200,1950],[1360,1960],[1360,2015],[1140,2091],[1200,2060]], "notes": "woodland north of promenade, east part"},
-  {"poly_px": [[1240,2060],[1400,2010],[1500,2010],[1500,2304],[1320,2304],[1300,2250],[1230,2200],[1225,2120]], "notes": "woodland around the stream (east, water theme side)"}
- ],
- "water": [
-  {"poly_px": [[1130,2140],[1215,2132],[1225,2160],[1228,2200],[1220,2240],[1190,2248],[1165,2228],[1158,2190],[1140,2160]], "notes": "dark pond just south of the promenade (OSM ponds 278736798/278736800 continue south past y 2304; OSM outline sits ~40 px east of the visible water, traced from photo)"},
-  {"poly_px": [[1312,2090],[1325,2086],[1365,2148],[1402,2212],[1405,2246],[1393,2246],[1388,2216],[1352,2155]], "notes": "narrow teal concrete stream/cascade channel (~3 m wide), rgb [93,134,120]"}
- ],
- "domes": [
-  {"c_px": [375,2085], "r_m": 7.5, "rgb": [85,108,95], "notes": "glass/steel geodesic hemisphere (web photo confirms lattice glass domes), dark green-gray"},
-  {"c_px": [509,2107], "r_m": 7.5, "rgb": [91,115,99], "notes": "twin of the above"},
-  {"c_px": [358,1906], "r_m": 2.5, "rgb": [45,55,55], "notes": "small dark dome beside west toilet"},
-  {"c_px": [583,1938], "r_m": 2.8, "rgb": [45,55,55], "notes": "small dark dome beside east toilet"},
-  {"c_px": [250,1962], "r_m": 2, "rgb": [60,85,95]},
-  {"c_px": [371,2160], "r_m": 2, "rgb": [60,85,95]},
-  {"c_px": [489,2180], "r_m": 2, "rgb": [60,85,95]},
-  {"c_px": [671,2017], "r_m": 2, "rgb": [60,85,95]}
- ],
- "tower": {"c_px": null, "height_m": 32, "shape": "white concrete sail/blade: a tall slender right-triangle slab (vertical back edge, sloping front edge rising to a sharp tip), with lower flared sail-like fins at its foot; from some angles the tip reads as a curved horn", "rgb": [228,226,218], "notes": "부천시 상징탑 stands in the central plaza/lawn at the park centre, south of this photo (estimated around (430,2430) extrapolated from OSM's central oval walk 472050737; not in the 2304 px image). No published height found; ~30-35 m estimated from photos (several times tree height, below the 20-storey apartments behind). A large white 'BUCHEON' letter sign stands on the plaza nearby."},
- "stage": {"c_px": null, "w_m": 25, "d_m": 15, "notes": "야외음악당 not in this photo. Aerial photo (saebucheon.com) shows a white ribbed shell / half-dome bandshell in the big central lawn between the twin domes and the symbol tower, i.e. south of y 2304. Text sources describe a round light-green roof; the aerial shows white. Size is a rough estimate."},
- "other": [
-  {"kind": "underground_parking_entrance", "c_px": [98,1828], "notes": "white rectangular frame structure ~6x8 m (OSM building 주차장입구 473022825)"},
-  {"kind": "underground_parking_entrance", "c_px": [852,1950], "notes": "OSM 473022826"},
-  {"kind": "underground_parking_entrance", "c_px": [42,2165], "notes": "OSM 473022828"},
-  {"kind": "underground_parking_entrance", "c_px": [302,2214], "notes": "OSM 473033541"},
-  {"kind": "underground_parking_entrance", "c_px": [536,2252], "notes": "OSM 473033542"},
-  {"kind": "underground_parking_entrance", "c_px": [794,2290], "notes": "OSM 473022829"},
-  {"kind": "small_white_structure", "c_px": [1060,2287], "notes": "white frame like the parking entrances, not in OSM"},
-  {"kind": "toilet", "c_px": [365,1870], "notes": "~9x7 m, white walls, green roof (OSM 472053937)"},
-  {"kind": "toilet", "c_px": [585,1912], "notes": "~9x7 m, white walls, green roof (OSM 472053938)"},
-  {"kind": "blue_canopy", "c_px": [265,1782], "notes": "translucent sky-blue arched canopy ~43x8 m along the north road edge, long axis ~8 deg (W-E slightly falling east); likely covers a car ramp to the underground parking"},
-  {"kind": "blue_canopy", "c_px": [712,1850], "notes": "same type ~44x10 m"},
-  {"kind": "sculpture", "c_px": [724,2162], "notes": "metallic hourglass/double-cone object lying on the lawn, ~9 m long, E-W"},
-  {"kind": "small_building", "c_px": [495,2245], "notes": "dark-roof kiosk/park office ~10x15 m with blue tarp, beside the patterned plaza"}
+ "note": "부천중앙공원 (user 2026-10-15): traced on three V-World z19 photos (src/park.py)",
+ "parts": [
+  {
+   "photo": "data/satellite/8930e0af1cfffff-z19.jpg",
+   "scale_note": "0.237 m/px, north up. Park occupies x 0..1520, y ~1800..2304 (only its north third; park centroid per OSM way 221003528 is ~(365,2385), south of the photo).",
+   "paths": [
+    {
+     "name": "north edge red-brown bike path along 길주로 side",
+     "pts_px": [
+      [
+       0,
+       1815
+      ],
+      [
+       200,
+       1832
+      ],
+      [
+       400,
+       1865
+      ],
+      [
+       600,
+       1888
+      ],
+      [
+       800,
+       1902
+      ],
+      [
+       1000,
+       1918
+      ],
+      [
+       1300,
+       1942
+      ],
+      [
+       1480,
+       1962
+      ]
+     ],
+     "width_m": 6,
+     "rgb": [
+      105,
+      72,
+      62
+     ]
+    },
+    {
+     "name": "west edge walk",
+     "pts_px": [
+      [
+       70,
+       1815
+      ],
+      [
+       48,
+       2120
+      ],
+      [
+       18,
+       2304
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "west N-S walk A",
+     "pts_px": [
+      [
+       125,
+       1815
+      ],
+      [
+       95,
+       2140
+      ]
+     ],
+     "width_m": 5,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "big arc walk (NW to NE)",
+     "pts_px": [
+      [
+       170,
+       1815
+      ],
+      [
+       230,
+       1878
+      ],
+      [
+       290,
+       1925
+      ],
+      [
+       350,
+       1958
+      ],
+      [
+       420,
+       1988
+      ],
+      [
+       500,
+       1998
+      ],
+      [
+       600,
+       1993
+      ],
+      [
+       650,
+       1978
+      ],
+      [
+       700,
+       1958
+      ],
+      [
+       750,
+       1938
+      ],
+      [
+       800,
+       1912
+      ]
+     ],
+     "width_m": 7,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "central N-S axis walk (paving stones)",
+     "pts_px": [
+      [
+       482,
+       1865
+      ],
+      [
+       435,
+       2195
+      ]
+     ],
+     "width_m": 8,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk",
+     "pts_px": [
+      [
+       235,
+       1900
+      ],
+      [
+       205,
+       2140
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "E-W short walk",
+     "pts_px": [
+      [
+       110,
+       2015
+      ],
+      [
+       300,
+       2008
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk past west toilet",
+     "pts_px": [
+      [
+       312,
+       1940
+      ],
+      [
+       292,
+       2150
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "south E-W walk (north rim of central area)",
+     "pts_px": [
+      [
+       20,
+       2128
+      ],
+      [
+       100,
+       2138
+      ],
+      [
+       200,
+       2152
+      ],
+      [
+       300,
+       2165
+      ],
+      [
+       420,
+       2185
+      ],
+      [
+       520,
+       2198
+      ],
+      [
+       620,
+       2215
+      ],
+      [
+       700,
+       2230
+      ]
+     ],
+     "width_m": 6,
+     "rgb": [
+      185,
+      188,
+      165
+     ]
+    },
+    {
+     "name": "N-S walk south of it",
+     "pts_px": [
+      [
+       205,
+       2160
+      ],
+      [
+       185,
+       2304
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk from east toilet plaza",
+     "pts_px": [
+      [
+       612,
+       1960
+      ],
+      [
+       592,
+       2210
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "E-W short walk",
+     "pts_px": [
+      [
+       598,
+       2103
+      ],
+      [
+       682,
+       2108
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk",
+     "pts_px": [
+      [
+       700,
+       1960
+      ],
+      [
+       668,
+       2228
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk (east edge of west lawns)",
+     "pts_px": [
+      [
+       805,
+       1912
+      ],
+      [
+       783,
+       2240
+      ]
+     ],
+     "width_m": 6,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk by parking entrance",
+     "pts_px": [
+      [
+       866,
+       1965
+      ],
+      [
+       838,
+       2185
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "forest dirt trail",
+     "pts_px": [
+      [
+       935,
+       1925
+      ],
+      [
+       922,
+       2150
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      125,
+      112,
+      90
+     ]
+    },
+    {
+     "name": "diagonal tree-lined promenade (two paver lanes + planters, OSM ways 472050741/472050742/473018201)",
+     "pts_px": [
+      [
+       525,
+       2304
+      ],
+      [
+       740,
+       2230
+      ],
+      [
+       900,
+       2175
+      ],
+      [
+       1140,
+       2091
+      ],
+      [
+       1360,
+       2015
+      ]
+     ],
+     "width_m": 14,
+     "rgb": [
+      185,
+      180,
+      165
+     ]
+    },
+    {
+     "name": "tan path west of pond",
+     "pts_px": [
+      [
+       1130,
+       2150
+      ],
+      [
+       1125,
+       2195
+      ],
+      [
+       1100,
+       2240
+      ],
+      [
+       1088,
+       2304
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "tan path along pond east side",
+     "pts_px": [
+      [
+       1222,
+       2125
+      ],
+      [
+       1228,
+       2200
+      ],
+      [
+       1265,
+       2240
+      ],
+      [
+       1300,
+       2270
+      ],
+      [
+       1315,
+       2304
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "light paved walk crossing the stream (small bridge ~(1385,2200))",
+     "pts_px": [
+      [
+       1298,
+       2250
+      ],
+      [
+       1340,
+       2225
+      ],
+      [
+       1390,
+       2195
+      ],
+      [
+       1418,
+       2172
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    }
+   ],
+   "plazas": [
+    {
+     "c_px": [
+      365,
+      1925
+     ],
+     "r_m": 9,
+     "rgb": [
+      181,
+      187,
+      168
+     ],
+     "kind": "square",
+     "notes": "paved apron around west toilet (OSM toilets 472053937)"
+    },
+    {
+     "c_px": [
+      590,
+      1945
+     ],
+     "r_m": 8,
+     "rgb": [
+      181,
+      187,
+      168
+     ],
+     "kind": "square",
+     "notes": "paved apron around east toilet (OSM 472053938)"
+    },
+    {
+     "c_px": [
+      400,
+      2250
+     ],
+     "r_m": 16,
+     "rgb": [
+      177,
+      176,
+      152
+     ],
+     "kind": "square",
+     "notes": "hexagon-patterned beige pavers x330-470 y2200-2265, red-brown brick pavers below (rgb ~[150,110,90]); this is the north edge of the central plaza that continues south out of the photo"
+    },
+    {
+     "c_px": [
+      915,
+      2172
+     ],
+     "r_m": 9,
+     "rgb": [
+      185,
+      180,
+      165
+     ],
+     "kind": "square",
+     "notes": "stepped paved landing where the promenade meets the N-S walks"
+    },
+    {
+     "c_px": [
+      1150,
+      2045
+     ],
+     "r_m": 11,
+     "rgb": [
+      173,
+      176,
+      153
+     ],
+     "kind": "round",
+     "notes": "semicircular paved plaza open to the south, with a dark curved low wall/bench along its north arc (from (1104,2051) over (1146,2008) to (1196,2024)); small seating plaza, not the 야외음악당"
+    },
+    {
+     "c_px": [
+      1440,
+      2018
+     ],
+     "r_m": 12,
+     "rgb": [
+      175,
+      175,
+      160
+     ],
+     "kind": "round",
+     "notes": "round paved plaza at park NE corner below tower 102 of 센트럴파크 푸르지오, dark ring (r ~7 m) in it"
+    }
+   ],
+   "lawns": [
+    {
+     "poly_px": [
+      [
+       50,
+       2160
+      ],
+      [
+       200,
+       2168
+      ],
+      [
+       188,
+       2304
+      ],
+      [
+       20,
+       2304
+      ]
+     ],
+     "notes": "open lawn, few trees"
+    },
+    {
+     "poly_px": [
+      [
+       103,
+       2028
+      ],
+      [
+       198,
+       2030
+      ],
+      [
+       195,
+       2132
+      ],
+      [
+       98,
+       2126
+      ]
+     ],
+     "notes": "open dry lawn"
+    },
+    {
+     "poly_px": [
+      [
+       132,
+       1835
+      ],
+      [
+       160,
+       1830
+      ],
+      [
+       228,
+       1895
+      ],
+      [
+       222,
+       2000
+      ],
+      [
+       118,
+       2005
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       200,
+       1830
+      ],
+      [
+       318,
+       1845
+      ],
+      [
+       315,
+       1925
+      ],
+      [
+       292,
+       1918
+      ],
+      [
+       235,
+       1870
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       245,
+       1905
+      ],
+      [
+       300,
+       1945
+      ],
+      [
+       300,
+       2000
+      ],
+      [
+       238,
+       2000
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       208,
+       2025
+      ],
+      [
+       298,
+       2020
+      ],
+      [
+       292,
+       2150
+      ],
+      [
+       205,
+       2145
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       318,
+       1990
+      ],
+      [
+       425,
+       2000
+      ],
+      [
+       418,
+       2178
+      ],
+      [
+       300,
+       2163
+      ]
+     ],
+     "notes": "contains dome 1"
+    },
+    {
+     "poly_px": [
+      [
+       410,
+       1870
+      ],
+      [
+       470,
+       1870
+      ],
+      [
+       462,
+       1985
+      ],
+      [
+       415,
+       1983
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       500,
+       1872
+      ],
+      [
+       555,
+       1880
+      ],
+      [
+       550,
+       1990
+      ],
+      [
+       495,
+       1990
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       448,
+       2008
+      ],
+      [
+       598,
+       2005
+      ],
+      [
+       590,
+       2195
+      ],
+      [
+       438,
+       2190
+      ]
+     ],
+     "notes": "contains dome 2"
+    },
+    {
+     "poly_px": [
+      [
+       625,
+       1898
+      ],
+      [
+       790,
+       1908
+      ],
+      [
+       740,
+       1938
+      ],
+      [
+       650,
+       1975
+      ],
+      [
+       625,
+       1980
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       620,
+       1995
+      ],
+      [
+       700,
+       1970
+      ],
+      [
+       690,
+       2100
+      ],
+      [
+       605,
+       2098
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       605,
+       2112
+      ],
+      [
+       685,
+       2112
+      ],
+      [
+       670,
+       2225
+      ],
+      [
+       595,
+       2210
+      ]
+     ]
+    },
+    {
+     "poly_px": [
+      [
+       712,
+       1958
+      ],
+      [
+       795,
+       1918
+      ],
+      [
+       783,
+       2235
+      ],
+      [
+       675,
+       2230
+      ]
+     ],
+     "notes": "contains sculpture"
+    },
+    {
+     "poly_px": [
+      [
+       870,
+       1925
+      ],
+      [
+       1100,
+       1930
+      ],
+      [
+       1100,
+       2060
+      ],
+      [
+       1140,
+       2091
+      ],
+      [
+       900,
+       2160
+      ],
+      [
+       850,
+       2180
+      ]
+     ],
+     "notes": "dense woodland floor (trees come from trees.py)"
+    },
+    {
+     "poly_px": [
+      [
+       1200,
+       1950
+      ],
+      [
+       1360,
+       1960
+      ],
+      [
+       1360,
+       2015
+      ],
+      [
+       1140,
+       2091
+      ],
+      [
+       1200,
+       2060
+      ]
+     ],
+     "notes": "woodland north of promenade, east part"
+    },
+    {
+     "poly_px": [
+      [
+       1240,
+       2060
+      ],
+      [
+       1400,
+       2010
+      ],
+      [
+       1500,
+       2010
+      ],
+      [
+       1500,
+       2304
+      ],
+      [
+       1320,
+       2304
+      ],
+      [
+       1300,
+       2250
+      ],
+      [
+       1230,
+       2200
+      ],
+      [
+       1225,
+       2120
+      ]
+     ],
+     "notes": "woodland around the stream (east, water theme side)"
+    }
+   ],
+   "water": [
+    {
+     "poly_px": [
+      [
+       1130,
+       2140
+      ],
+      [
+       1215,
+       2132
+      ],
+      [
+       1225,
+       2160
+      ],
+      [
+       1228,
+       2200
+      ],
+      [
+       1220,
+       2240
+      ],
+      [
+       1190,
+       2248
+      ],
+      [
+       1165,
+       2228
+      ],
+      [
+       1158,
+       2190
+      ],
+      [
+       1140,
+       2160
+      ]
+     ],
+     "notes": "dark pond just south of the promenade (OSM ponds 278736798/278736800 continue south past y 2304; OSM outline sits ~40 px east of the visible water, traced from photo)"
+    },
+    {
+     "poly_px": [
+      [
+       1312,
+       2090
+      ],
+      [
+       1325,
+       2086
+      ],
+      [
+       1365,
+       2148
+      ],
+      [
+       1402,
+       2212
+      ],
+      [
+       1405,
+       2246
+      ],
+      [
+       1393,
+       2246
+      ],
+      [
+       1388,
+       2216
+      ],
+      [
+       1352,
+       2155
+      ]
+     ],
+     "notes": "narrow teal concrete stream/cascade channel (~3 m wide), rgb [93,134,120]"
+    }
+   ],
+   "domes": [
+    {
+     "c_px": [
+      375,
+      2085
+     ],
+     "r_m": 7.5,
+     "rgb": [
+      85,
+      108,
+      95
+     ],
+     "notes": "glass/steel geodesic hemisphere (web photo confirms lattice glass domes), dark green-gray"
+    },
+    {
+     "c_px": [
+      509,
+      2107
+     ],
+     "r_m": 7.5,
+     "rgb": [
+      91,
+      115,
+      99
+     ],
+     "notes": "twin of the above"
+    },
+    {
+     "c_px": [
+      358,
+      1906
+     ],
+     "r_m": 2.5,
+     "rgb": [
+      45,
+      55,
+      55
+     ],
+     "notes": "small dark dome beside west toilet"
+    },
+    {
+     "c_px": [
+      583,
+      1938
+     ],
+     "r_m": 2.8,
+     "rgb": [
+      45,
+      55,
+      55
+     ],
+     "notes": "small dark dome beside east toilet"
+    },
+    {
+     "c_px": [
+      250,
+      1962
+     ],
+     "r_m": 2,
+     "rgb": [
+      60,
+      85,
+      95
+     ]
+    },
+    {
+     "c_px": [
+      371,
+      2160
+     ],
+     "r_m": 2,
+     "rgb": [
+      60,
+      85,
+      95
+     ]
+    },
+    {
+     "c_px": [
+      489,
+      2180
+     ],
+     "r_m": 2,
+     "rgb": [
+      60,
+      85,
+      95
+     ]
+    },
+    {
+     "c_px": [
+      671,
+      2017
+     ],
+     "r_m": 2,
+     "rgb": [
+      60,
+      85,
+      95
+     ]
+    }
+   ],
+   "tower": {
+    "c_px": null,
+    "height_m": 32,
+    "shape": "white concrete sail/blade: a tall slender right-triangle slab (vertical back edge, sloping front edge rising to a sharp tip), with lower flared sail-like fins at its foot; from some angles the tip reads as a curved horn",
+    "rgb": [
+     228,
+     226,
+     218
+    ],
+    "notes": "부천시 상징탑 stands in the central plaza/lawn at the park centre, south of this photo (estimated around (430,2430) extrapolated from OSM's central oval walk 472050737; not in the 2304 px image). No published height found; ~30-35 m estimated from photos (several times tree height, below the 20-storey apartments behind). A large white 'BUCHEON' letter sign stands on the plaza nearby."
+   },
+   "stage": {
+    "c_px": null,
+    "w_m": 25,
+    "d_m": 15,
+    "notes": "야외음악당 not in this photo. Aerial photo (saebucheon.com) shows a white ribbed shell / half-dome bandshell in the big central lawn between the twin domes and the symbol tower, i.e. south of y 2304. Text sources describe a round light-green roof; the aerial shows white. Size is a rough estimate."
+   },
+   "other": [
+    {
+     "kind": "underground_parking_entrance",
+     "c_px": [
+      98,
+      1828
+     ],
+     "notes": "white rectangular frame structure ~6x8 m (OSM building 주차장입구 473022825)"
+    },
+    {
+     "kind": "underground_parking_entrance",
+     "c_px": [
+      852,
+      1950
+     ],
+     "notes": "OSM 473022826"
+    },
+    {
+     "kind": "underground_parking_entrance",
+     "c_px": [
+      42,
+      2165
+     ],
+     "notes": "OSM 473022828"
+    },
+    {
+     "kind": "underground_parking_entrance",
+     "c_px": [
+      302,
+      2214
+     ],
+     "notes": "OSM 473033541"
+    },
+    {
+     "kind": "underground_parking_entrance",
+     "c_px": [
+      536,
+      2252
+     ],
+     "notes": "OSM 473033542"
+    },
+    {
+     "kind": "underground_parking_entrance",
+     "c_px": [
+      794,
+      2290
+     ],
+     "notes": "OSM 473022829"
+    },
+    {
+     "kind": "small_white_structure",
+     "c_px": [
+      1060,
+      2287
+     ],
+     "notes": "white frame like the parking entrances, not in OSM"
+    },
+    {
+     "kind": "toilet",
+     "c_px": [
+      365,
+      1870
+     ],
+     "notes": "~9x7 m, white walls, green roof (OSM 472053937)"
+    },
+    {
+     "kind": "toilet",
+     "c_px": [
+      585,
+      1912
+     ],
+     "notes": "~9x7 m, white walls, green roof (OSM 472053938)"
+    },
+    {
+     "kind": "blue_canopy",
+     "c_px": [
+      265,
+      1782
+     ],
+     "notes": "translucent sky-blue arched canopy ~43x8 m along the north road edge, long axis ~8 deg (W-E slightly falling east); likely covers a car ramp to the underground parking"
+    },
+    {
+     "kind": "blue_canopy",
+     "c_px": [
+      712,
+      1850
+     ],
+     "notes": "same type ~44x10 m"
+    },
+    {
+     "kind": "sculpture",
+     "c_px": [
+      724,
+      2162
+     ],
+     "notes": "metallic hourglass/double-cone object lying on the lawn, ~9 m long, E-W"
+    },
+    {
+     "kind": "small_building",
+     "c_px": [
+      495,
+      2245
+     ],
+     "notes": "dark-roof kiosk/park office ~10x15 m with blue tarp, beside the patterned plaza"
+    }
+   ],
+   "sources": [
+    "https://www.ktriptips.com/kor/tourspot/126704",
+    "https://xn--ok0b236bp0a.com/place/6993",
+    "https://www.reportera.co.kr/travel/bucheon-central-park-autumn-walk/",
+    "https://www.telltrip.com/domestic-travel/bucheon-central-park-trumpet-vine-tunnel/",
+    "https://www.bing.com/images/search?q=부천중앙공원+상징탑 (thumbnails viewed only: tower photo from a ktourmap-style page, aerial from saebucheon.com '부천시, 2018년 경기정원문화박람회 유치', glass domes photo '부천 중앙공원 – 경기도 부천시 원미구 가볼만한곳')",
+    "OpenStreetMap via Overpass (park 221003528, ponds 278736798/278736800, footways, 주차장입구 buildings, toilets), 2026-10-15"
+   ],
+   "notes": "Only the north third of 부천중앙공원 lies inside this photo: the grid of lawns and paved walks on the west (tree/grass side), the twin glass geodesic domes, two toilets with small domes, six white-framed underground-parking entrances, the diagonal tree-lined promenade and the start of the east water side (dark pond, teal stream channel, tan paths). The symbol tower, the 야외음악당 shell stage, the central oval lawn, the big fountain/pond with island and the 능소화 tunnel are south of y 2304 and need the cell to the south. Path widths from OSM width tags where present, otherwise measured. Pixel coordinates are traced from the photo; OSM geometry is offset 10-40 px in places (its NW diagonal walk does not match the curved arc seen in the photo). No web image was saved."
+  },
+  {
+   "photo": "data/satellite/8930e0af1cbffff-z19.jpg",
+   "paths": [
+    {
+     "name": "능소화 tunnel promenade, west part to the SW gate (OSM 472050741/742 centre)",
+     "pts_px": [
+      [
+       1024,
+       1999
+      ],
+      [
+       904,
+       2042
+      ],
+      [
+       700,
+       2115
+      ],
+      [
+       475,
+       2196
+      ],
+      [
+       262,
+       2272
+      ]
+     ],
+     "width_m": 14,
+     "rgb": [
+      185,
+      180,
+      165
+     ]
+    },
+    {
+     "name": "wide E-W walk north of the forest library (OSM 472050738 width 8)",
+     "pts_px": [
+      [
+       312,
+       1713
+      ],
+      [
+       435,
+       1734
+      ],
+      [
+       491,
+       1743
+      ],
+      [
+       681,
+       1774
+      ],
+      [
+       772,
+       1789
+      ],
+      [
+       888,
+       1808
+      ],
+      [
+       940,
+       1817
+      ],
+      [
+       1018,
+       1830
+      ]
+     ],
+     "width_m": 8,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "tree-lined N-S walk west (OSM 472049551)",
+     "pts_px": [
+      [
+       977,
+       1246
+      ],
+      [
+       949,
+       1424
+      ],
+      [
+       923,
+       1590
+      ],
+      [
+       888,
+       1808
+      ],
+      [
+       851,
+       2040
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "tree-lined N-S walk east (OSM 472049552)",
+     "pts_px": [
+      [
+       1024,
+       1266
+      ],
+      [
+       1000,
+       1434
+      ],
+      [
+       974,
+       1598
+      ],
+      [
+       940,
+       1817
+      ],
+      [
+       929,
+       1883
+      ],
+      [
+       907,
+       2020
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "walk joining the N-S walks to the west edge walk (OSM 472050733)",
+     "pts_px": [
+      [
+       929,
+       1883
+      ],
+      [
+       960,
+       2001
+      ],
+      [
+       974,
+       2037
+      ],
+      [
+       1002,
+       2099
+      ],
+      [
+       1020,
+       2131
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "E-W walk south of the courts (OSM 472048382)",
+     "pts_px": [
+      [
+       369,
+       1473
+      ],
+      [
+       449,
+       1487
+      ],
+      [
+       593,
+       1512
+      ],
+      [
+       683,
+       1528
+      ],
+      [
+       812,
+       1550
+      ],
+      [
+       866,
+       1559
+      ],
+      [
+       911,
+       1587
+      ],
+      [
+       974,
+       1598
+      ],
+      [
+       1024,
+       1606
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "walk north of the courts (OSM 472048384/472048386)",
+     "pts_px": [
+      [
+       388,
+       1354
+      ],
+      [
+       467,
+       1369
+      ],
+      [
+       573,
+       1387
+      ],
+      [
+       691,
+       1408
+      ],
+      [
+       696,
+       1382
+      ],
+      [
+       755,
+       1392
+      ],
+      [
+       889,
+       1414
+      ],
+      [
+       949,
+       1424
+      ],
+      [
+       1000,
+       1434
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "walk past 장기클럽 (OSM 472048386/387)",
+     "pts_px": [
+      [
+       406,
+       1244
+      ],
+      [
+       509,
+       1264
+      ],
+      [
+       560,
+       1254
+      ],
+      [
+       713,
+       1283
+      ],
+      [
+       696,
+       1382
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walks between courts (OSM 472048383/385/389/390, 472049549/550)",
+     "pts_px": [
+      [
+       491,
+       1743
+      ],
+      [
+       507,
+       1652
+      ],
+      [
+       424,
+       1637
+      ],
+      [
+       449,
+       1487
+      ],
+      [
+       467,
+       1369
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk between tennis and playground",
+     "pts_px": [
+      [
+       613,
+       1394
+      ],
+      [
+       593,
+       1512
+      ],
+      [
+       577,
+       1665
+      ],
+      [
+       657,
+       1679
+      ],
+      [
+       662,
+       1646
+      ],
+      [
+       683,
+       1528
+      ],
+      [
+       703,
+       1410
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk between the gateball roofs and the west N-S walk",
+     "pts_px": [
+      [
+       919,
+       1224
+      ],
+      [
+       889,
+       1414
+      ],
+      [
+       866,
+       1559
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "N-S walk west of the gateball roofs",
+     "pts_px": [
+      [
+       761,
+       1353
+      ],
+      [
+       755,
+       1392
+      ],
+      [
+       731,
+       1536
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "north entry walks (OSM 472058123/124)",
+     "pts_px": [
+      [
+       582,
+       1140
+      ],
+      [
+       576,
+       1189
+      ],
+      [
+       525,
+       1209
+      ],
+      [
+       512,
+       1245
+      ],
+      [
+       496,
+       1341
+      ],
+      [
+       467,
+       1369
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "walks round the library (OSM 472052239, 473025980)",
+     "pts_px": [
+      [
+       681,
+       1774
+      ],
+      [
+       699,
+       1674
+      ],
+      [
+       793,
+       1652
+      ],
+      [
+       859,
+       1687
+      ],
+      [
+       840,
+       1800
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "walk west of library yard (OSM 472052243)",
+     "pts_px": [
+      [
+       403,
+       1836
+      ],
+      [
+       420,
+       1809
+      ],
+      [
+       435,
+       1734
+      ],
+      [
+       439,
+       1685
+      ],
+      [
+       424,
+       1637
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "woodland loop trail west (OSM 293605954)",
+     "pts_px": [
+      [
+       491,
+       1743
+      ],
+      [
+       476,
+       1834
+      ],
+      [
+       433,
+       1828
+      ],
+      [
+       403,
+       1836
+      ],
+      [
+       381,
+       1865
+      ],
+      [
+       378,
+       1898
+      ],
+      [
+       390,
+       1931
+      ],
+      [
+       385,
+       1961
+      ],
+      [
+       360,
+       1989
+      ],
+      [
+       338,
+       2017
+      ],
+      [
+       342,
+       2050
+      ],
+      [
+       370,
+       2076
+      ],
+      [
+       405,
+       2107
+      ],
+      [
+       424,
+       2123
+      ],
+      [
+       448,
+       2125
+      ]
+     ],
+     "width_m": 2.5,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "woodland trails middle (OSM 293605949/951/957)",
+     "pts_px": [
+      [
+       476,
+       1834
+      ],
+      [
+       444,
+       1868
+      ],
+      [
+       437,
+       1903
+      ],
+      [
+       439,
+       1953
+      ],
+      [
+       444,
+       1965
+      ],
+      [
+       418,
+       2023
+      ],
+      [
+       421,
+       2039
+      ],
+      [
+       448,
+       2125
+      ],
+      [
+       475,
+       2196
+      ]
+     ],
+     "width_m": 2.5,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "woodland trail east (OSM 293605955/957)",
+     "pts_px": [
+      [
+       476,
+       1834
+      ],
+      [
+       518,
+       1826
+      ],
+      [
+       563,
+       1843
+      ],
+      [
+       608,
+       1859
+      ],
+      [
+       660,
+       1857
+      ],
+      [
+       677,
+       1879
+      ],
+      [
+       700,
+       1948
+      ],
+      [
+       713,
+       1985
+      ],
+      [
+       745,
+       2078
+      ]
+     ],
+     "width_m": 2.5,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "woodland cross trails (OSM 293605957/958/959)",
+     "pts_px": [
+      [
+       476,
+       1834
+      ],
+      [
+       509,
+       1881
+      ],
+      [
+       520,
+       1923
+      ],
+      [
+       537,
+       1970
+      ],
+      [
+       549,
+       2002
+      ],
+      [
+       609,
+       2020
+      ],
+      [
+       713,
+       1985
+      ]
+     ],
+     "width_m": 2.5,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "woodland trail to the E-W walk (OSM 293605960/956)",
+     "pts_px": [
+      [
+       700,
+       1948
+      ],
+      [
+       746,
+       1932
+      ],
+      [
+       766,
+       1821
+      ],
+      [
+       772,
+       1789
+      ]
+     ],
+     "width_m": 2.5,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "trail south of the promenade (OSM 472040046, tan)",
+     "pts_px": [
+      [
+       483,
+       2213
+      ],
+      [
+       499,
+       2263
+      ],
+      [
+       530,
+       2292
+      ],
+      [
+       559,
+       2304
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "trail south of the promenade, east part (OSM 472040046)",
+     "pts_px": [
+      [
+       606,
+       2278
+      ],
+      [
+       630,
+       2254
+      ],
+      [
+       662,
+       2259
+      ],
+      [
+       691,
+       2287
+      ],
+      [
+       717,
+       2304
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "trail south of the promenade, far east (OSM 472040046)",
+     "pts_px": [
+      [
+       765,
+       2294
+      ],
+      [
+       786,
+       2275
+      ],
+      [
+       866,
+       2282
+      ],
+      [
+       945,
+       2294
+      ],
+      [
+       960,
+       2304
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    }
+   ],
+   "plazas": [
+    {
+     "c_px": [
+      700,
+      1690
+     ],
+     "r_m": 14,
+     "rgb": [
+      178,
+      178,
+      170
+     ],
+     "kind": "square",
+     "poly_px": [
+      [
+       652,
+       1640
+      ],
+      [
+       700,
+       1648
+      ],
+      [
+       860,
+       1665
+      ],
+      [
+       856,
+       1700
+      ],
+      [
+       760,
+       1686
+      ],
+      [
+       725,
+       1698
+      ],
+      [
+       712,
+       1765
+      ],
+      [
+       645,
+       1755
+      ]
+     ],
+     "notes": "paved yard north and west of 숲속작은도서관 (two cars parked in the photo)"
+    },
+    {
+     "c_px": [
+      690,
+      1800
+     ],
+     "r_m": 14,
+     "rgb": [
+      178,
+      178,
+      170
+     ],
+     "kind": "square",
+     "poly_px": [
+      [
+       640,
+       1770
+      ],
+      [
+       860,
+       1805
+      ],
+      [
+       850,
+       1840
+      ],
+      [
+       640,
+       1830
+      ]
+     ],
+     "notes": "paved forecourt south of 숲속작은도서관 joining the wide E-W walk"
+    },
+    {
+     "c_px": [
+      480,
+      1510
+     ],
+     "r_m": 8,
+     "rgb": [
+      178,
+      178,
+      170
+     ],
+     "kind": "square",
+     "notes": "paved strip between the tennis court and the 족구장 (photo shows grey paving with a striped crossing)"
+    }
+   ],
+   "lawns": [
+    {
+     "poly_px": [
+      [
+       425,
+       1120
+      ],
+      [
+       580,
+       1142
+      ],
+      [
+       775,
+       1172
+      ],
+      [
+       918,
+       1224
+      ],
+      [
+       1024,
+       1262
+      ],
+      [
+       1015,
+       1340
+      ],
+      [
+       900,
+       1300
+      ],
+      [
+       713,
+       1283
+      ],
+      [
+       560,
+       1254
+      ],
+      [
+       510,
+       1245
+      ],
+      [
+       408,
+       1243
+      ]
+     ],
+     "notes": "woodland along the north road (dense trees)"
+    },
+    {
+     "poly_px": [
+      [
+       406,
+       1250
+      ],
+      [
+       505,
+       1262
+      ],
+      [
+       490,
+       1350
+      ],
+      [
+       465,
+       1370
+      ],
+      [
+       450,
+       1485
+      ],
+      [
+       430,
+       1630
+      ],
+      [
+       505,
+       1652
+      ],
+      [
+       495,
+       1740
+      ],
+      [
+       330,
+       1716
+      ],
+      [
+       369,
+       1473
+      ],
+      [
+       390,
+       1350
+      ]
+     ],
+     "notes": "woodland strip along 조마루로 west of the courts"
+    },
+    {
+     "poly_px": [
+      [
+       889,
+       1414
+      ],
+      [
+       1000,
+       1434
+      ],
+      [
+       974,
+       1598
+      ],
+      [
+       911,
+       1587
+      ],
+      [
+       866,
+       1559
+      ]
+     ],
+     "notes": "tree strip between the gateball roofs and the N-S walks"
+    },
+    {
+     "poly_px": [
+      [
+       330,
+       1735
+      ],
+      [
+       680,
+       1785
+      ],
+      [
+       640,
+       1830
+      ],
+      [
+       860,
+       1845
+      ],
+      [
+       940,
+       1820
+      ],
+      [
+       1018,
+       1835
+      ],
+      [
+       1015,
+       1860
+      ],
+      [
+       1025,
+       1960
+      ],
+      [
+       904,
+       2030
+      ],
+      [
+       700,
+       2105
+      ],
+      [
+       475,
+       2185
+      ],
+      [
+       260,
+       2262
+      ],
+      [
+       262,
+       2160
+      ]
+     ],
+     "notes": "south-west woodland with the trail network (trees from trees.py)"
+    },
+    {
+     "poly_px": [
+      [
+       270,
+       2290
+      ],
+      [
+       475,
+       2212
+      ],
+      [
+       700,
+       2132
+      ],
+      [
+       905,
+       2058
+      ],
+      [
+       1024,
+       2016
+      ],
+      [
+       1024,
+       2304
+      ],
+      [
+       362,
+       2304
+      ]
+     ],
+     "notes": "woodland south of the promenade (dry rocky stream bed and tan trail inside)"
+    },
+    {
+     "poly_px": [
+      [
+       517,
+       1253
+      ],
+      [
+       657,
+       1278
+      ],
+      [
+       647,
+       1340
+      ],
+      [
+       506,
+       1315
+      ]
+     ],
+     "notes": "스트레칭기구 (outdoor exercise) area: packed earth/grass with equipment, OSM 472053951"
+    }
+   ],
+   "water": [],
+   "domes": [],
+   "tower": null,
+   "stage": null,
+   "other": [
+    {
+     "kind": "membrane_roof_court",
+     "name": "게이트볼장 (north)",
+     "poly_px": [
+      [
+       782,
+       1292
+      ],
+      [
+       875,
+       1307
+      ],
+      [
+       861,
+       1386
+      ],
+      [
+       769,
+       1371
+      ]
+     ],
+     "height_m": 7,
+     "rgb": [
+      240,
+      240,
+      238
+     ],
+     "notes": "white tensile membrane roof over a gateball court, ~22x19 m, OSM 472048394; long side ~9 deg off east"
+    },
+    {
+     "kind": "membrane_roof_court",
+     "name": "게이트볼장 (south)",
+     "poly_px": [
+      [
+       760,
+       1423
+      ],
+      [
+       851,
+       1438
+      ],
+      [
+       838,
+       1521
+      ],
+      [
+       747,
+       1505
+      ]
+     ],
+     "height_m": 7,
+     "rgb": [
+      240,
+      240,
+      238
+     ],
+     "notes": "twin of the above, OSM 472048395"
+    },
+    {
+     "kind": "pitch",
+     "name": "테니스코트 (clay)",
+     "poly_px": [
+      [
+       468,
+       1454
+      ],
+      [
+       582,
+       1475
+      ],
+      [
+       594,
+       1407
+      ],
+      [
+       480,
+       1387
+      ]
+     ],
+     "rgb": [
+      180,
+      140,
+      100
+     ],
+     "notes": "clay courts with white lines, fenced, OSM 278736794"
+    },
+    {
+     "kind": "pitch",
+     "name": "족구장",
+     "poly_px": [
+      [
+       454,
+       1519
+      ],
+      [
+       590,
+       1542
+      ],
+      [
+       573,
+       1653
+      ],
+      [
+       438,
+       1629
+      ]
+     ],
+     "rgb": [
+      100,
+      140,
+      100
+     ],
+     "notes": "green court, fenced, OSM 472048391"
+    },
+    {
+     "kind": "pitch",
+     "name": "basketball",
+     "poly_px": [
+      [
+       603,
+       1524
+      ],
+      [
+       672,
+       1536
+      ],
+      [
+       650,
+       1666
+      ],
+      [
+       584,
+       1655
+      ]
+     ],
+     "rgb": [
+      55,
+      125,
+      115
+     ],
+     "notes": "teal court with white lines, OSM 472048393"
+    },
+    {
+     "kind": "playground",
+     "poly_px": [
+      [
+       621,
+       1408
+      ],
+      [
+       657,
+       1414
+      ],
+      [
+       675,
+       1429
+      ],
+      [
+       686,
+       1445
+      ],
+      [
+       673,
+       1519
+      ],
+      [
+       604,
+       1507
+      ]
+     ],
+     "rgb": [
+      190,
+      170,
+      130
+     ],
+     "notes": "sand playground with play frames, OSM 472048392"
+    },
+    {
+     "kind": "building",
+     "name": "장기클럽",
+     "poly_px": [
+      [
+       588,
+       1206
+      ],
+      [
+       609,
+       1210
+      ],
+      [
+       607,
+       1222
+      ],
+      [
+       671,
+       1233
+      ],
+      [
+       667,
+       1256
+      ],
+      [
+       582,
+       1241
+      ]
+     ],
+     "height_m": 3.5,
+     "rgb": [
+      235,
+      235,
+      232
+     ],
+     "notes": "1-storey, white flat roof, OSM 472049548"
+    },
+    {
+     "kind": "building",
+     "name": "숲속작은도서관",
+     "poly_px": [
+      [
+       827,
+       1784
+      ],
+      [
+       714,
+       1764
+      ],
+      [
+       725,
+       1698
+      ],
+      [
+       756,
+       1704
+      ],
+      [
+       760,
+       1686
+      ],
+      [
+       842,
+       1701
+      ]
+     ],
+     "height_m": 7,
+     "rgb": [
+      70,
+      72,
+      72
+     ],
+     "notes": "small forest library, dark grey roof with rooftop units, OSM 472052240"
+    },
+    {
+     "kind": "toilet",
+     "poly_px": [
+      [
+       321,
+       2199
+      ],
+      [
+       328,
+       2220
+      ],
+      [
+       354,
+       2211
+      ],
+      [
+       341,
+       2179
+      ],
+      [
+       316,
+       2188
+      ]
+     ],
+     "notes": "OSM 473022823, SW corner"
+    },
+    {
+     "kind": "small_building",
+     "poly_px": [
+      [
+       294,
+       2194
+      ],
+      [
+       321,
+       2201
+      ],
+      [
+       319,
+       2225
+      ],
+      [
+       290,
+       2219
+      ]
+     ],
+     "notes": "OSM 473034468, SW corner"
+    },
+    {
+     "kind": "pergola",
+     "poly_px": [
+      [
+       300,
+       2205
+      ],
+      [
+       380,
+       2205
+      ],
+      [
+       340,
+       2262
+      ],
+      [
+       330,
+       2283
+      ],
+      [
+       252,
+       2283
+      ],
+      [
+       250,
+       2240
+      ],
+      [
+       300,
+       2235
+      ]
+     ],
+     "height_m": 3.5,
+     "rgb": [
+      215,
+      215,
+      205
+     ],
+     "notes": "pale slatted shelter/pergola roof at the SW gate (slats run N-S), ~25x18 m"
+    }
+   ]
+  },
+  {
+   "photo": "data/satellite/8930e0af153ffff-z19.jpg",
+   "paths": [
+    {
+     "name": "west dotted-paver axis (plaza -> south road; OSM 472050731, photo width ~7 m)",
+     "pts_px": [
+      [
+       320,
+       1165
+      ],
+      [
+       298,
+       1287
+      ],
+      [
+       283,
+       1376
+      ],
+      [
+       266,
+       1477
+      ],
+      [
+       253,
+       1554
+      ],
+      [
+       244,
+       1607
+      ],
+      [
+       234,
+       1680
+      ]
+     ],
+     "width_m": 7,
+     "rgb": [
+      205,
+      200,
+      185
+     ]
+    },
+    {
+     "name": "east dotted-paver axis (OSM 472050732)",
+     "pts_px": [
+      [
+       460,
+       1125
+      ],
+      [
+       441,
+       1286
+      ],
+      [
+       425,
+       1400
+      ],
+      [
+       399,
+       1502
+      ],
+      [
+       387,
+       1574
+      ],
+      [
+       377,
+       1633
+      ],
+      [
+       367,
+       1700
+      ]
+     ],
+     "width_m": 7,
+     "rgb": [
+      205,
+      200,
+      185
+     ]
+    },
+    {
+     "name": "inner oval walk round the tower lawn (OSM 472050737, photo-corrected)",
+     "pts_px": [
+      [
+       185,
+       1024
+      ],
+      [
+       181,
+       1063
+      ],
+      [
+       184,
+       1125
+      ],
+      [
+       197,
+       1175
+      ],
+      [
+       215,
+       1215
+      ],
+      [
+       245,
+       1255
+      ],
+      [
+       280,
+       1283
+      ],
+      [
+       310,
+       1300
+      ],
+      [
+       360,
+       1311
+      ],
+      [
+       430,
+       1310
+      ],
+      [
+       457,
+       1301
+      ],
+      [
+       507,
+       1274
+      ],
+      [
+       562,
+       1230
+      ],
+      [
+       601,
+       1174
+      ],
+      [
+       618,
+       1102
+      ],
+      [
+       627,
+       1043
+      ],
+      [
+       630,
+       1024
+      ]
+     ],
+     "width_m": 5,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "능소화 tunnel promenade, west of the brick plaza (continues north file's diagonal promenade; steel lattice arches + tree planters, OSM 473018201 centre)",
+     "pts_px": [
+      [
+       278,
+       1131
+      ],
+      [
+       193,
+       1163
+      ],
+      [
+       100,
+       1196
+      ],
+      [
+       17,
+       1225
+      ],
+      [
+       0,
+       1231
+      ]
+     ],
+     "width_m": 14,
+     "rgb": [
+      185,
+      180,
+      165
+     ]
+    },
+    {
+     "name": "west edge walk -> outer ring walk (continues north file west edge walk; OSM 472050736, photo-corrected)",
+     "pts_px": [
+      [
+       18,
+       1024
+      ],
+      [
+       6,
+       1082
+      ],
+      [
+       12,
+       1150
+      ],
+      [
+       26,
+       1192
+      ],
+      [
+       34,
+       1250
+      ],
+      [
+       60,
+       1300
+      ],
+      [
+       94,
+       1356
+      ],
+      [
+       150,
+       1406
+      ],
+      [
+       206,
+       1444
+      ],
+      [
+       266,
+       1477
+      ],
+      [
+       329,
+       1497
+      ],
+      [
+       399,
+       1502
+      ],
+      [
+       478,
+       1496
+      ],
+      [
+       542,
+       1477
+      ],
+      [
+       619,
+       1439
+      ],
+      [
+       680,
+       1394
+      ],
+      [
+       701,
+       1374
+      ],
+      [
+       740,
+       1319
+      ],
+      [
+       768,
+       1252
+      ],
+      [
+       796,
+       1169
+      ],
+      [
+       801,
+       1052
+      ],
+      [
+       795,
+       1010
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "west fan tan path A",
+     "pts_px": [
+      [
+       103,
+       1225
+      ],
+      [
+       162,
+       1300
+      ],
+      [
+       206,
+       1350
+      ],
+      [
+       262,
+       1366
+      ],
+      [
+       283,
+       1370
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "west fan tan path B",
+     "pts_px": [
+      [
+       62,
+       1306
+      ],
+      [
+       125,
+       1344
+      ],
+      [
+       206,
+       1362
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "east fan tan path 1 (inside oval)",
+     "pts_px": [
+      [
+       468,
+       1146
+      ],
+      [
+       530,
+       1120
+      ],
+      [
+       601,
+       1091
+      ],
+      [
+       620,
+       1085
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "east fan tan path 2 (inside oval)",
+     "pts_px": [
+      [
+       455,
+       1200
+      ],
+      [
+       496,
+       1197
+      ],
+      [
+       550,
+       1150
+      ],
+      [
+       612,
+       1112
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "east fan tan path 3",
+     "pts_px": [
+      [
+       450,
+       1224
+      ],
+      [
+       520,
+       1222
+      ],
+      [
+       607,
+       1222
+      ],
+      [
+       662,
+       1158
+      ],
+      [
+       701,
+       1091
+      ],
+      [
+       718,
+       1041
+      ],
+      [
+       722,
+       1024
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "east fan tan path 4",
+     "pts_px": [
+      [
+       573,
+       1319
+      ],
+      [
+       623,
+       1263
+      ],
+      [
+       668,
+       1197
+      ],
+      [
+       707,
+       1108
+      ],
+      [
+       712,
+       1080
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "east fan tan path 5 (long arc to the ring walk)",
+     "pts_px": [
+      [
+       436,
+       1388
+      ],
+      [
+       520,
+       1360
+      ],
+      [
+       573,
+       1341
+      ],
+      [
+       651,
+       1291
+      ],
+      [
+       696,
+       1269
+      ],
+      [
+       751,
+       1213
+      ],
+      [
+       796,
+       1169
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "east fan tan loop south",
+     "pts_px": [
+      [
+       680,
+       1293
+      ],
+      [
+       697,
+       1320
+      ],
+      [
+       694,
+       1350
+      ],
+      [
+       672,
+       1380
+      ],
+      [
+       634,
+       1408
+      ],
+      [
+       612,
+       1432
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "south E-W walk west of the west axis (OSM 472040046)",
+     "pts_px": [
+      [
+       0,
+       1594
+      ],
+      [
+       35,
+       1589
+      ],
+      [
+       100,
+       1571
+      ],
+      [
+       130,
+       1573
+      ],
+      [
+       150,
+       1595
+      ],
+      [
+       172,
+       1607
+      ],
+      [
+       244,
+       1607
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "south ring walk between the axes and into the woods (OSM 472050735)",
+     "pts_px": [
+      [
+       253,
+       1554
+      ],
+      [
+       315,
+       1569
+      ],
+      [
+       387,
+       1574
+      ],
+      [
+       474,
+       1572
+      ],
+      [
+       548,
+       1551
+      ],
+      [
+       618,
+       1520
+      ],
+      [
+       702,
+       1466
+      ],
+      [
+       749,
+       1425
+      ],
+      [
+       796,
+       1368
+      ],
+      [
+       830,
+       1320
+      ],
+      [
+       855,
+       1257
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "south woodland walk (OSM 472040046 east part)",
+     "pts_px": [
+      [
+       244,
+       1607
+      ],
+      [
+       295,
+       1611
+      ],
+      [
+       347,
+       1622
+      ],
+      [
+       377,
+       1633
+      ],
+      [
+       394,
+       1649
+      ],
+      [
+       440,
+       1676
+      ],
+      [
+       474,
+       1674
+      ],
+      [
+       505,
+       1665
+      ],
+      [
+       521,
+       1641
+      ],
+      [
+       565,
+       1613
+      ],
+      [
+       620,
+       1611
+      ],
+      [
+       656,
+       1609
+      ],
+      [
+       699,
+       1592
+      ],
+      [
+       719,
+       1535
+      ],
+      [
+       764,
+       1504
+      ],
+      [
+       816,
+       1505
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "SW woodland walk (OSM 472050733 + 472040050)",
+     "pts_px": [
+      [
+       -22,
+       1331
+      ],
+      [
+       -4,
+       1363
+      ],
+      [
+       15,
+       1389
+      ],
+      [
+       46,
+       1425
+      ],
+      [
+       78,
+       1457
+      ],
+      [
+       124,
+       1490
+      ],
+      [
+       167,
+       1518
+      ],
+      [
+       203,
+       1536
+      ],
+      [
+       253,
+       1554
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "forest dirt trail N-S (OSM 472049553)",
+     "pts_px": [
+      [
+       888,
+       1044
+      ],
+      [
+       855,
+       1257
+      ],
+      [
+       818,
+       1488
+      ],
+      [
+       797,
+       1626
+      ],
+      [
+       784,
+       1710
+      ],
+      [
+       773,
+       1775
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      125,
+      112,
+      90
+     ]
+    },
+    {
+     "name": "forest dirt trail N-S east (continues north file trail, OSM 472060355)",
+     "pts_px": [
+      [
+       944,
+       1054
+      ],
+      [
+       911,
+       1266
+      ],
+      [
+       873,
+       1506
+      ],
+      [
+       867,
+       1548
+      ],
+      [
+       840,
+       1724
+      ],
+      [
+       831,
+       1785
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      125,
+      112,
+      90
+     ]
+    },
+    {
+     "name": "woodland trails south (OSM 472040044, 472052249, 472060353)",
+     "pts_px": [
+      [
+       505,
+       1665
+      ],
+      [
+       550,
+       1694
+      ],
+      [
+       590,
+       1703
+      ],
+      [
+       646,
+       1708
+      ],
+      [
+       676,
+       1719
+      ],
+      [
+       716,
+       1707
+      ],
+      [
+       727,
+       1666
+      ],
+      [
+       718,
+       1622
+      ],
+      [
+       699,
+       1592
+      ]
+     ],
+     "width_m": 2.5,
+     "rgb": [
+      125,
+      112,
+      90
+     ]
+    },
+    {
+     "name": "woodland trail SE",
+     "pts_px": [
+      [
+       727,
+       1666
+      ],
+      [
+       784,
+       1710
+      ],
+      [
+       840,
+       1724
+      ],
+      [
+       908,
+       1742
+      ],
+      [
+       943,
+       1763
+      ],
+      [
+       991,
+       1738
+      ]
+     ],
+     "width_m": 2.5,
+     "rgb": [
+      125,
+      112,
+      90
+     ]
+    },
+    {
+     "name": "E-W walk to the east water side (OSM 472049568, width 8)",
+     "pts_px": [
+      [
+       805,
+       1040
+      ],
+      [
+       888,
+       1044
+      ],
+      [
+       944,
+       1054
+      ],
+      [
+       1075,
+       1078
+      ],
+      [
+       1089,
+       1080
+      ]
+     ],
+     "width_m": 6,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "wavy striped walkway (teal + red-brown painted rubber waves, row of 8 white round objects = parasols or round planters; OSM 472055944 width 8)",
+     "pts_px": [
+      [
+       1088,
+       1079
+      ],
+      [
+       1300,
+       1113
+      ]
+     ],
+     "width_m": 8,
+     "rgb": [
+      73,
+      116,
+      106
+     ]
+    },
+    {
+     "name": "walk east to 중동로 (OSM 472055945, under trees)",
+     "pts_px": [
+      [
+       1300,
+       1113
+      ],
+      [
+       1365,
+       1129
+      ],
+      [
+       1441,
+       1143
+      ]
+     ],
+     "width_m": 6,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "tan path along the north-east pond side (continues north file, OSM 472050728)",
+     "pts_px": [
+      [
+       1315,
+       1024
+      ],
+      [
+       1320,
+       1051
+      ],
+      [
+       1317,
+       1077
+      ],
+      [
+       1311,
+       1112
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "N-S walk from the stream bridge (OSM 472050727)",
+     "pts_px": [
+      [
+       1385,
+       1000
+      ],
+      [
+       1375,
+       1065
+      ],
+      [
+       1365,
+       1129
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "tan walk east of the big pond to the island (photo)",
+     "pts_px": [
+      [
+       1300,
+       1130
+      ],
+      [
+       1292,
+       1195
+      ],
+      [
+       1270,
+       1215
+      ],
+      [
+       1258,
+       1245
+      ],
+      [
+       1262,
+       1285
+      ],
+      [
+       1250,
+       1320
+      ],
+      [
+       1232,
+       1338
+      ]
+     ],
+     "width_m": 5,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "tan walk west of the big pond (photo, OSM 472049566)",
+     "pts_px": [
+      [
+       1080,
+       1128
+      ],
+      [
+       1105,
+       1160
+      ],
+      [
+       1100,
+       1192
+      ],
+      [
+       1062,
+       1213
+      ],
+      [
+       1045,
+       1245
+      ],
+      [
+       1040,
+       1290
+      ],
+      [
+       1050,
+       1330
+      ],
+      [
+       1052,
+       1350
+      ]
+     ],
+     "width_m": 4,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "path west of the splash pad to the dark forecourt (OSM 472049560)",
+     "pts_px": [
+      [
+       960,
+       1420
+      ],
+      [
+       978,
+       1425
+      ],
+      [
+       980,
+       1470
+      ],
+      [
+       1000,
+       1500
+      ],
+      [
+       1040,
+       1525
+      ],
+      [
+       1052,
+       1560
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      195,
+      175,
+      140
+     ]
+    },
+    {
+     "name": "path east of the splash pad (OSM 472049558)",
+     "pts_px": [
+      [
+       1232,
+       1338
+      ],
+      [
+       1225,
+       1360
+      ],
+      [
+       1214,
+       1405
+      ],
+      [
+       1212,
+       1460
+      ],
+      [
+       1205,
+       1500
+      ],
+      [
+       1170,
+       1525
+      ],
+      [
+       1140,
+       1545
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "walk south of the round plaza to the toilet and east (OSM 472049556)",
+     "pts_px": [
+      [
+       991,
+       1738
+      ],
+      [
+       1020,
+       1762
+      ],
+      [
+       1054,
+       1774
+      ],
+      [
+       1092,
+       1774
+      ],
+      [
+       1132,
+       1759
+      ],
+      [
+       1152,
+       1745
+      ],
+      [
+       1286,
+       1772
+      ],
+      [
+       1334,
+       1782
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      200,
+      204,
+      187
+     ]
+    },
+    {
+     "name": "teal rubber walk on the east side (OSM 472049561, photo shows teal surface)",
+     "pts_px": [
+      [
+       1290,
+       1772
+      ],
+      [
+       1297,
+       1699
+      ],
+      [
+       1299,
+       1661
+      ],
+      [
+       1290,
+       1646
+      ],
+      [
+       1288,
+       1606
+      ],
+      [
+       1296,
+       1564
+      ],
+      [
+       1322,
+       1523
+      ],
+      [
+       1350,
+       1491
+      ],
+      [
+       1360,
+       1448
+      ],
+      [
+       1369,
+       1379
+      ],
+      [
+       1344,
+       1377
+      ],
+      [
+       1299,
+       1356
+      ],
+      [
+       1247,
+       1338
+      ],
+      [
+       1232,
+       1338
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      95,
+      140,
+      135
+     ]
+    },
+    {
+     "name": "teal rubber walk north branch (OSM 472049563)",
+     "pts_px": [
+      [
+       1369,
+       1379
+      ],
+      [
+       1375,
+       1341
+      ],
+      [
+       1365,
+       1317
+      ],
+      [
+       1343,
+       1283
+      ],
+      [
+       1338,
+       1253
+      ],
+      [
+       1347,
+       1229
+      ],
+      [
+       1362,
+       1210
+      ],
+      [
+       1375,
+       1201
+      ],
+      [
+       1385,
+       1132
+      ]
+     ],
+     "width_m": 3,
+     "rgb": [
+      95,
+      140,
+      135
+     ]
+    }
+   ],
+   "plazas": [
+    {
+     "c_px": [
+      385,
+      1075
+     ],
+     "r_m": 22,
+     "rgb": [
+      165,
+      120,
+      95
+     ],
+     "kind": "square",
+     "poly_px": [
+      [
+       335,
+       968
+      ],
+      [
+       468,
+       972
+      ],
+      [
+       502,
+       1030
+      ],
+      [
+       500,
+       1090
+      ],
+      [
+       440,
+       1145
+      ],
+      [
+       325,
+       1182
+      ],
+      [
+       267,
+       1085
+      ],
+      [
+       300,
+       1020
+      ]
+     ],
+     "notes": "main body of the brick plaza whose north (hexagon-paver) edge is in the north file at (400,970): red-brown brick pavers in a rotated grid of light bands, with large dark-grey square and triangle insets; the 'Bucheon' letter sign stands on its south edge"
+    },
+    {
+     "c_px": [
+      350,
+      1381
+     ],
+     "r_m": 11.6,
+     "rgb": [
+      190,
+      190,
+      180
+     ],
+     "kind": "round",
+     "notes": "round stone plaza of the 부천시 상징탑 between the two paver axes; ring path round it (OSM 472053934/5); two round tree crowns on its north rim"
+    },
+    {
+     "c_px": [
+      1068,
+      1660
+     ],
+     "r_m": 19,
+     "rgb": [
+      172,
+      172,
+      166
+     ],
+     "kind": "round",
+     "notes": "round plaza at the south end of the water side: concentric rings of light/dark stone (outer ring r ~19 m, white bands at r ~15 and ~10.5 m), grey centre; OSM ring walk 472049557 round it. Not the 야외음악당 (that was demolished)"
+    },
+    {
+     "c_px": [
+      1092,
+      1555
+     ],
+     "r_m": 9,
+     "rgb": [
+      72,
+      72,
+      70
+     ],
+     "kind": "square",
+     "poly_px": [
+      [
+       1035,
+       1515
+      ],
+      [
+       1150,
+       1515
+      ],
+      [
+       1110,
+       1595
+      ],
+      [
+       1070,
+       1595
+      ]
+     ],
+     "notes": "dark asphalt/rubber wedge forecourt between the splash pad and the round plaza"
+    },
+    {
+     "c_px": [
+      1268,
+      1240
+     ],
+     "r_m": 7,
+     "rgb": [
+      200,
+      180,
+      140
+     ],
+     "kind": "round",
+     "notes": "tan paved landing on the island's east side where the east tan walk meets the island"
+    }
+   ],
+   "lawns": [
+    {
+     "poly_px": [
+      [
+       16,
+       1024
+      ],
+      [
+       182,
+       1024
+      ],
+      [
+       170,
+       1070
+      ],
+      [
+       167,
+       1140
+      ],
+      [
+       25,
+       1192
+      ],
+      [
+       8,
+       1120
+      ]
+     ],
+     "notes": "south end of the big open lawn west of the oval (north part in north file, OSM grassland 288412637)"
+    },
+    {
+     "poly_px": [
+      [
+       330,
+       1182
+      ],
+      [
+       438,
+       1146
+      ],
+      [
+       422,
+       1303
+      ],
+      [
+       316,
+       1292
+      ]
+     ],
+     "notes": "open lawn between the axes, south of the brick plaza, looking at the tower (OSM 288412731)"
+    },
+    {
+     "poly_px": [
+      [
+       205,
+       1185
+      ],
+      [
+       298,
+       1160
+      ],
+      [
+       290,
+       1268
+      ],
+      [
+       262,
+       1255
+      ],
+      [
+       230,
+       1225
+      ]
+     ],
+     "notes": "planted bed inside the oval, west (OSM 288412730)"
+    },
+    {
+     "poly_px": [
+      [
+       483,
+       1088
+      ],
+      [
+       615,
+       1044
+      ],
+      [
+       606,
+       1135
+      ],
+      [
+       583,
+       1193
+      ],
+      [
+       551,
+       1236
+      ],
+      [
+       503,
+       1270
+      ],
+      [
+       447,
+       1292
+      ],
+      [
+       470,
+       1140
+      ]
+     ],
+     "notes": "planted beds with shrubs and red flowers inside the oval, east; tan fan paths cross it (OSM 288412732)"
+    },
+    {
+     "poly_px": [
+      [
+       448,
+       1320
+      ],
+      [
+       505,
+       1300
+      ],
+      [
+       559,
+       1262
+      ],
+      [
+       603,
+       1205
+      ],
+      [
+       627,
+       1126
+      ],
+      [
+       640,
+       1036
+      ],
+      [
+       783,
+       1031
+      ],
+      [
+       800,
+       1060
+      ],
+      [
+       795,
+       1169
+      ],
+      [
+       768,
+       1252
+      ],
+      [
+       740,
+       1319
+      ],
+      [
+       701,
+       1374
+      ],
+      [
+       633,
+       1414
+      ],
+      [
+       559,
+       1454
+      ],
+      [
+       493,
+       1480
+      ],
+      [
+       425,
+       1488
+      ]
+     ],
+     "notes": "east fan garden between the oval and the ring walk: low shrubs, flowers, scattered trees (OSM 288412639)"
+    },
+    {
+     "poly_px": [
+      [
+       36,
+       1255
+      ],
+      [
+       63,
+       1310
+      ],
+      [
+       99,
+       1354
+      ],
+      [
+       137,
+       1394
+      ],
+      [
+       189,
+       1431
+      ],
+      [
+       247,
+       1464
+      ],
+      [
+       281,
+       1294
+      ],
+      [
+       242,
+       1263
+      ],
+      [
+       210,
+       1227
+      ],
+      [
+       193,
+       1198
+      ]
+     ],
+     "notes": "west fan garden between the oval and the ring walk (OSM 288412638)"
+    },
+    {
+     "poly_px": [
+      [
+       0,
+       1240
+      ],
+      [
+       40,
+       1300
+      ],
+      [
+       100,
+       1370
+      ],
+      [
+       160,
+       1420
+      ],
+      [
+       230,
+       1462
+      ],
+      [
+       266,
+       1477
+      ],
+      [
+       399,
+       1502
+      ],
+      [
+       478,
+       1496
+      ],
+      [
+       542,
+       1477
+      ],
+      [
+       619,
+       1439
+      ],
+      [
+       701,
+       1374
+      ],
+      [
+       740,
+       1319
+      ],
+      [
+       768,
+       1252
+      ],
+      [
+       796,
+       1169
+      ],
+      [
+       805,
+       1040
+      ],
+      [
+       880,
+       1040
+      ],
+      [
+       960,
+       1060
+      ],
+      [
+       1060,
+       1085
+      ],
+      [
+       1040,
+       1150
+      ],
+      [
+       975,
+       1210
+      ],
+      [
+       955,
+       1300
+      ],
+      [
+       955,
+       1420
+      ],
+      [
+       985,
+       1520
+      ],
+      [
+       1040,
+       1570
+      ],
+      [
+       1000,
+       1610
+      ],
+      [
+       985,
+       1700
+      ],
+      [
+       990,
+       1745
+      ],
+      [
+       930,
+       1775
+      ],
+      [
+       830,
+       1790
+      ],
+      [
+       700,
+       1768
+      ],
+      [
+       380,
+       1705
+      ],
+      [
+       230,
+       1683
+      ],
+      [
+       0,
+       1650
+      ]
+     ],
+     "notes": "dense woodland floor south and east of the gardens (trees come from trees.py); park south edge follows the road kerb"
+    },
+    {
+     "poly_px": [
+      [
+       1300,
+       1135
+      ],
+      [
+       1440,
+       1150
+      ],
+      [
+       1400,
+       1400
+      ],
+      [
+       1350,
+       1700
+      ],
+      [
+       1335,
+       1782
+      ],
+      [
+       1300,
+       1775
+      ],
+      [
+       1290,
+       1560
+      ],
+      [
+       1340,
+       1490
+      ],
+      [
+       1362,
+       1380
+      ],
+      [
+       1300,
+       1355
+      ],
+      [
+       1250,
+       1335
+      ],
+      [
+       1265,
+       1290
+      ],
+      [
+       1260,
+       1240
+      ],
+      [
+       1295,
+       1200
+      ]
+     ],
+     "notes": "woodland strip on the east side along 중동로"
+    },
+    {
+     "poly_px": [
+      [
+       1150,
+       1530
+      ],
+      [
+       1200,
+       1520
+      ],
+      [
+       1215,
+       1460
+      ],
+      [
+       1220,
+       1360
+      ],
+      [
+       1290,
+       1360
+      ],
+      [
+       1290,
+       1560
+      ],
+      [
+       1285,
+       1770
+      ],
+      [
+       1160,
+       1745
+      ],
+      [
+       1175,
+       1673
+      ],
+      [
+       1150,
+       1600
+      ]
+     ],
+     "notes": "woodland east of the splash pad and round plaza"
+    },
+    {
+     "poly_px": [
+      [
+       1252,
+       1265
+      ],
+      [
+       1248,
+       1280
+      ],
+      [
+       1237,
+       1291
+      ],
+      [
+       1222,
+       1295
+      ],
+      [
+       1207,
+       1291
+      ],
+      [
+       1196,
+       1280
+      ],
+      [
+       1192,
+       1265
+      ],
+      [
+       1196,
+       1250
+      ],
+      [
+       1207,
+       1239
+      ],
+      [
+       1222,
+       1235
+      ],
+      [
+       1237,
+       1239
+      ],
+      [
+       1248,
+       1250
+      ]
+     ],
+     "notes": "artificial island in the big pond: planted mound with a light stone ring edge (r ~9 m)"
+    },
+    {
+     "poly_px": [
+      [
+       1148,
+       1347
+      ],
+      [
+       1145,
+       1360
+      ],
+      [
+       1135,
+       1370
+      ],
+      [
+       1122,
+       1373
+      ],
+      [
+       1109,
+       1370
+      ],
+      [
+       1099,
+       1360
+      ],
+      [
+       1096,
+       1347
+      ],
+      [
+       1099,
+       1334
+      ],
+      [
+       1109,
+       1324
+      ],
+      [
+       1122,
+       1321
+      ],
+      [
+       1135,
+       1324
+      ],
+      [
+       1145,
+       1334
+      ]
+     ],
+     "notes": "round planted bed at the north edge of the splash pad (r ~6.5 m)"
+    }
+   ],
+   "water": [
+    {
+     "poly_px": [
+      [
+       1045,
+       1260
+      ],
+      [
+       1050,
+       1230
+      ],
+      [
+       1070,
+       1215
+      ],
+      [
+       1100,
+       1205
+      ],
+      [
+       1115,
+       1180
+      ],
+      [
+       1150,
+       1167
+      ],
+      [
+       1200,
+       1163
+      ],
+      [
+       1260,
+       1162
+      ],
+      [
+       1285,
+       1170
+      ],
+      [
+       1285,
+       1190
+      ],
+      [
+       1270,
+       1205
+      ],
+      [
+       1245,
+       1222
+      ],
+      [
+       1215,
+       1227
+      ],
+      [
+       1193,
+       1240
+      ],
+      [
+       1184,
+       1265
+      ],
+      [
+       1192,
+       1290
+      ],
+      [
+       1205,
+       1302
+      ],
+      [
+       1180,
+       1312
+      ],
+      [
+       1140,
+       1310
+      ],
+      [
+       1110,
+       1318
+      ],
+      [
+       1080,
+       1315
+      ],
+      [
+       1055,
+       1300
+      ]
+     ],
+     "rgb": [
+      52,
+      68,
+      48
+     ],
+     "notes": "big pond (OSM 278736796) with the artificial island in its SE (island lawn drawn separately); dark green water, stone edge, small spray fountains (web photos)"
+    },
+    {
+     "poly_px": [
+      [
+       990,
+       1370
+      ],
+      [
+       1020,
+       1335
+      ],
+      [
+       1075,
+       1322
+      ],
+      [
+       1100,
+       1310
+      ],
+      [
+       1150,
+       1300
+      ],
+      [
+       1200,
+       1325
+      ],
+      [
+       1215,
+       1380
+      ],
+      [
+       1210,
+       1450
+      ],
+      [
+       1200,
+       1495
+      ],
+      [
+       1160,
+       1522
+      ],
+      [
+       1060,
+       1522
+      ],
+      [
+       1012,
+       1495
+      ],
+      [
+       985,
+       1440
+      ]
+     ],
+     "rgb": [
+      150,
+      195,
+      210
+     ],
+     "kind": "splash_pad",
+     "notes": "물놀이장 (summer splash pad, OSM 278736795 tagged water): pale blue rubber floor with sky-blue spray areas; the round planted bed (lawns) sits on its north rim"
+    },
+    {
+     "poly_px": [
+      [
+       1020,
+       1420
+      ],
+      [
+       1055,
+       1395
+      ],
+      [
+       1082,
+       1400
+      ],
+      [
+       1110,
+       1425
+      ],
+      [
+       1132,
+       1452
+      ],
+      [
+       1122,
+       1490
+      ],
+      [
+       1080,
+       1502
+      ],
+      [
+       1040,
+       1490
+      ],
+      [
+       1015,
+       1460
+      ]
+     ],
+     "rgb": [
+      70,
+      140,
+      190
+     ],
+     "kind": "pool",
+     "notes": "hand-shaped deeper-blue pool inside the splash pad, sand-coloured mound/sculpture at (1105,1450)"
+    },
+    {
+     "poly_px": [
+      [
+       1071,
+       1140
+      ],
+      [
+       1078,
+       1150
+      ],
+      [
+       1061,
+       1158
+      ],
+      [
+       1041,
+       1175
+      ],
+      [
+       1023,
+       1185
+      ],
+      [
+       995,
+       1206
+      ],
+      [
+       981,
+       1228
+      ],
+      [
+       971,
+       1252
+      ],
+      [
+       961,
+       1274
+      ],
+      [
+       962,
+       1308
+      ],
+      [
+       967,
+       1349
+      ],
+      [
+       966,
+       1372
+      ],
+      [
+       960,
+       1401
+      ],
+      [
+       950,
+       1445
+      ],
+      [
+       943,
+       1466
+      ],
+      [
+       938,
+       1506
+      ],
+      [
+       929,
+       1532
+      ],
+      [
+       923,
+       1542
+      ],
+      [
+       919,
+       1539
+      ],
+      [
+       924,
+       1517
+      ],
+      [
+       931,
+       1501
+      ],
+      [
+       934,
+       1467
+      ],
+      [
+       947,
+       1433
+      ],
+      [
+       957,
+       1386
+      ],
+      [
+       962,
+       1350
+      ],
+      [
+       958,
+       1320
+      ],
+      [
+       956,
+       1286
+      ],
+      [
+       964,
+       1244
+      ],
+      [
+       983,
+       1210
+      ],
+      [
+       1006,
+       1185
+      ],
+      [
+       1031,
+       1169
+      ],
+      [
+       1065,
+       1144
+      ]
+     ],
+     "rgb": [
+      93,
+      134,
+      120
+     ],
+     "kind": "stream",
+     "notes": "narrow winding stream with stepping stones (OSM 472060357), ~2 m wide, mostly under tree canopy, not traced from the photo"
+    }
+   ],
+   "domes": [],
+   "tower": {
+    "c_px": [
+     342,
+     1384
+    ],
+    "height_m": 32,
+    "shape": "white concrete sail/blade: tall slender right-triangle slab (vertical back edge, sloping front edge rising to a sharp tip), lower flared sail-like fins at its foot",
+    "rgb": [
+     228,
+     226,
+     218
+    ],
+    "yaw_deg": 90,
+    "notes": "base centre read from the photo where the three foot-fins and their shadows meet, about 2 m WNW of the round plaza centre (350,1381); the blade leans north in the photo (image streak from ~(328,1340) to (333,1392)) and casts its shadow north too, so the base is the south end of the streak. Uncertainty ~2 m. Same spot in 1cb's photo = (1366,2152). Web photos: the blade's sharp edge stands roughly N-S (seen edge-on from the 'Bucheon' sign on the brick plaza to the north, broadside from the west lawn), so yaw_deg 90 = blade plane along N-S."
+   },
+   "stage": null,
+   "other": [
+    {
+     "kind": "letter_sign",
+     "c_px": [
+      379,
+      1168
+     ],
+     "w_m": 9.5,
+     "d_m": 1,
+     "height_m": 1.8,
+     "yaw_deg": 16,
+     "rgb": [
+      240,
+      240,
+      236
+     ],
+     "notes": "white 3D 'Bucheon' letter sign on the south edge of the brick plaza, facing south-ish toward the tower (web photos)"
+    },
+    {
+     "kind": "small_pavilion",
+     "c_px": [
+      711,
+      1172
+     ],
+     "w_m": 4.5,
+     "d_m": 4,
+     "rgb": [
+      205,
+      190,
+      160
+     ],
+     "notes": "small square shelter in the east fan garden"
+    },
+    {
+     "kind": "small_pavilion",
+     "c_px": [
+      638,
+      1325
+     ],
+     "w_m": 4.5,
+     "d_m": 4,
+     "rgb": [
+      205,
+      190,
+      160
+     ],
+     "notes": "small square shelter on the tan loop"
+    },
+    {
+     "kind": "parasol_row",
+     "pts_px": [
+      [
+       1095,
+       1078
+      ],
+      [
+       1124,
+       1083
+      ],
+      [
+       1153,
+       1088
+      ],
+      [
+       1182,
+       1093
+      ],
+      [
+       1211,
+       1098
+      ],
+      [
+       1240,
+       1102
+      ],
+      [
+       1268,
+       1107
+      ],
+      [
+       1293,
+       1112
+      ]
+     ],
+     "r_m": 1.3,
+     "rgb": [
+      235,
+      235,
+      230
+     ],
+     "notes": "8 white round objects along the wavy striped walkway, each with a small dark tree/shade beside it"
+    },
+    {
+     "kind": "toilet",
+     "c_px": [
+      1215,
+      1813
+     ],
+     "notes": "OSM 473022822, small white-roof building at the park's south edge"
+    },
+    {
+     "kind": "small_building",
+     "c_px": [
+      1243,
+      1815
+     ],
+     "notes": "OSM 473034467 (commercial), white roof ~8x6 m beside the toilet"
+    },
+    {
+     "kind": "sculpture",
+     "c_px": [
+      1105,
+      1450
+     ],
+     "notes": "sand-coloured mound / play sculpture in the hand-shaped pool"
+    }
+   ]
+  }
  ],
  "sources": [
+  "OpenStreetMap via Overpass (park 221003528, ponds 278736798/278736800, footways, 주차장입구 buildings, toilets), 2026-10-15",
+  "OpenStreetMap via Overpass, 2026-10-15 (park 221003528, pitches/게이트볼장/테니스코트/족구장, 숲속작은도서관, ponds 278736795/796, stream 472060357, footways)",
+  "http://m.bucheontimes.com/news/articleView.html?idxno=41580 (부천타임즈 2023-12-25: 중앙공원 야외음악당 built 1993, demolished after 2014 safety inspection; no stage now)",
+  "https://kyeonggi.com/article/201205170454877 (2012 plan for an arts centre on the 야외음악당 site; it was built elsewhere)",
+  "https://www.bing.com/images/search?q=부천시+상징탑+중앙공원 (thumbnails viewed only: white blade tower behind the 'Bucheon' letter sign on the brick plaza; tower seen from the west lawn)",
+  "https://www.bing.com/images/search?q=부천중앙공원+능소화+터널 (thumbnails: steel lattice arches over a paved walk with rows of tree planters = the diagonal promenade)",
+  "https://www.bing.com/images/search?q=부천중앙공원+분수+연못 (thumbnails: ponds with spray fountains, rocky stream with stepping stones)",
+  "https://www.bing.com/images/search?q=부천중앙공원+상징탑 (thumbnails viewed only: tower photo from a ktourmap-style page, aerial from saebucheon.com '부천시, 2018년 경기정원문화박람회 유치', glass domes photo '부천 중앙공원 – 경기도 부천시 원미구 가볼만한곳')",
   "https://www.ktriptips.com/kor/tourspot/126704",
-  "https://xn--ok0b236bp0a.com/place/6993",
   "https://www.reportera.co.kr/travel/bucheon-central-park-autumn-walk/",
   "https://www.telltrip.com/domestic-travel/bucheon-central-park-trumpet-vine-tunnel/",
-  "https://www.bing.com/images/search?q=부천중앙공원+상징탑 (thumbnails viewed only: tower photo from a ktourmap-style page, aerial from saebucheon.com '부천시, 2018년 경기정원문화박람회 유치', glass domes photo '부천 중앙공원 – 경기도 부천시 원미구 가볼만한곳')",
-  "OpenStreetMap via Overpass (park 221003528, ponds 278736798/278736800, footways, 주차장입구 buildings, toilets), 2026-10-15"
+  "https://www.wikitree.co.kr/articles/1142941 (능소화 tunnel: vines on a rest-shelter frame along a long path)",
+  "https://xn--ok0b236bp0a.com/place/6993",
+  "https://xn--ok0b236bp0a.com/place/6993 (symbol tower at the exact centre, plaza round it, east side water theme: pond with island, winding waterways, stepping-stone stream)"
  ],
- "notes": "Only the north third of 부천중앙공원 lies inside this photo: the grid of lawns and paved walks on the west (tree/grass side), the twin glass geodesic domes, two toilets with small domes, six white-framed underground-parking entrances, the diagonal tree-lined promenade and the start of the east water side (dark pond, teal stream channel, tan paths). The symbol tower, the 야외음악당 shell stage, the central oval lawn, the big fountain/pond with island and the 능소화 tunnel are south of y 2304 and need the cell to the south. Path widths from OSM width tags where present, otherwise measured. Pixel coordinates are traced from the photo; OSM geometry is offset 10-40 px in places (its NW diagonal walk does not match the curved arc seen in the photo). No web image was saved."
+ "notes": "Covers the rest of 부천중앙공원 outside the north-third file. Part 1cb = the west section (1cb x < 1024, i.e. west of the north file's x 0): sports block (clay tennis courts, 족구장, basketball court, sand playground, two 게이트볼장 under white tensile membrane roofs, 장기클럽 hut, outdoor exercise area), 숲속작은도서관 and its paved yards, the wide E-W walk, the tree-lined N-S walks, the south-west woodland trail loop, the west part of the 능소화 tunnel promenade and the SW gate pergola/toilet. Part 153 = everything south of the north file (153 y > 1024, x 0..1520; 153 x == 1cf x, 153 y == 1cf y - 1280; the two photos are pixel-identical where they overlap): the brick plaza main body, the two dotted-paver axes, inner oval walk, west and east fan gardens with tan paths, the outer ring walk, the symbol tower and its round plaza, the Bucheon letter sign, the east water side (big pond with island, 물놀이장 splash pad with hand-shaped pool, winding stream from OSM, wavy striped walkway with 8 white round objects, teal rubber walks), the concentric round plaza and dark forecourt in the south, woodland trails, toilet. No 야외음악당: 부천타임즈 (2023) says the 1993 stage was demolished after the 2014 safety inspection and never rebuilt; the photo shows no shell, so stage is null (the white shell in the north file's old aerial is the pre-2014 stage). No domes south of the north file. Paths follow OSM where it matches the photo within ~10 px (west section, east water side) and are hand-traced where OSM is missing or off (fan paths, oval arcs, west edge walk, pond outline). Doubts: tower base +-2 m and blade yaw (from web thumbnails, medium confidence); the striped walkway may be a shallow water feature rather than painted rubber (OSM calls it a width-8 footway); the stream is OSM-only (hidden by canopy); woodland lawn polygons are coarse and overlap path lines on purpose. A thin teal band runs along the park's west and south kerbs (possibly a cycle lane or a planted channel) and is left out. The park's extreme SW corner below 1cb y 2304 (a few metres) is in neither photo. No web image was saved."
 }

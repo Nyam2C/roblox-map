@@ -105,8 +105,14 @@ def find_trees(rgb: np.ndarray, geo: Georef, cell_id: str, buildings: Sequence[M
     covered = set(under_trees(rgb, geo, cell_id, buildings))  # empty records under the trees are not roofs either (1ab, 2026-10-14)
     roofs = _fill((w, h), [[geo.to_px(*p) for p in b["outline"]] for b in buildings
                            if not layout.is_underground(b) and b.get("building_id") not in covered])
-    roads = _fill((w, h), [list(LineString([geo.to_px(*p) for p in f["geometry"]]).buffer(layout.road_width_m(f, cfg) / 2 / mpp).exterior.coords)
-                           for f in features if len(f["geometry"]) >= 2])
+    # a closed walk is a ring: its buffer has a hole, which must stay open (153, 2026-10-15: park loops filled 91 % of the cell)
+    bands = [LineString([geo.to_px(*p) for p in f["geometry"]]).buffer(layout.road_width_m(f, cfg) / 2 / mpp)
+             for f in features if len(f["geometry"]) >= 2]
+    bands = [g for b in bands for g in getattr(b, "geoms", [b])]
+    roads = _fill((w, h), [list(b.exterior.coords) for b in bands])
+    holes = [list(r.coords) for b in bands for r in b.interiors]
+    if holes:
+        roads &= ~_fill((w, h), holes)
     canopy = canopy_mask(rgb) & ~ndi.binary_dilation(roofs, iterations=2)
     allowed = _fill((w, h), [hexagon]) & ~roofs & ~ndi.binary_dilation(roads, iterations=2)
     small = lambda a: a[: h // DOWN * DOWN, : w // DOWN * DOWN].reshape(h // DOWN, DOWN, w // DOWN, DOWN).mean(axis=(1, 3)) > 0.5

@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af037ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:470096023",
+   "name": "경기국제통상고등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -5835.99,
+   "z": 1729.134,
+   "yaw": 170.646,
+   "w": 378.0,
+   "d": 219.6,
+   "fit": 0.899
+  }
+ ]
+}

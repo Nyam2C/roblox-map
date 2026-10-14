@@ -61,7 +61,7 @@ def test_an_empty_map_still_has_a_bounds_box_and_the_module_text_is_stable():
     assert text == M.module_text([]) and text.startswith("-- generated") and "return {" in text and "bounds = {" in text
     for name, *_ in M.HAND_LABELS:
         assert f'"{name}"' in text
-    assert text.count("\t{") >= len(M.AREAS) + len(M.HAND_LABELS)
+    assert text.count("\n{") >= len(M.AREAS) and text.count("\t{") >= len(M.HAND_LABELS)  # rects are compact rows (2026-10-15)
 
 
 @pytest.mark.parametrize("name, ok", [("청솔하이빌", True), ("광성아파트", True), ("1003동", True), ("중3동행정복지센터", True),

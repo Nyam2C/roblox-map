@@ -1,0 +1,30 @@
+{
+ "cell_id": "8930e0af037ffff",
+ "note": "hand-made rectangles (studs); no satellite tree inside",
+ "clear": [
+  {
+   "name": "plazas",
+   "x": -5120.16,
+   "z": 1395.56,
+   "yaw": 0.0,
+   "w": 104.8,
+   "d": 104.8
+  },
+  {
+   "name": "plazas",
+   "x": -5128.67,
+   "z": 1489.26,
+   "yaw": 0.0,
+   "w": 104.8,
+   "d": 104.8
+  },
+  {
+   "name": "plazas",
+   "x": -5307.55,
+   "z": 1242.24,
+   "yaw": 0.0,
+   "w": 61.6,
+   "d": 61.6
+  }
+ ]
+}

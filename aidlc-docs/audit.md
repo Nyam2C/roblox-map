@@ -1726,3 +1726,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 확장 사이클
 
 ---
+
+## 부천중앙공원 완성(칸 027·037 추가)
+**Timestamp**: 2026-10-14T22:35:00Z
+**User Request**: "153 1cb 칸도 확장해서 중앙공원까지 ㄱㄱ"
+**AI Response**: 공원 남쪽 추적 결과 상징탑과 공원 1/4이 칸 027·037에 있어 두 칸도 사이클로(건물 8·27, 부명초·부명중·경기국제통상고 운동장 키트). Manual/CentralPark(1,758 자손, 상징탑 흰 돛 모양 32 m, 야외음악당은 2014년 철거라 없음; 출처 bucheontimes.com/news/articleView.html?idxno=41580, ktriptips.com, wikitree.co.kr, kyeonggi.com). trees.py 고리 산책로 버그 고침(공원 칸 나무 대폭 증가). 미니맵 정수화, 공원 데이터 JSON 분리. 25칸 verify ok, 미니맵 25칸, 땅이 길 덮음 0. Auto 20만 2천 + Manual 2만 6천 자손.
+**Context**: CONSTRUCTION - 확장 + 수작업
+
+---

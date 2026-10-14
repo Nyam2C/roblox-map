@@ -1,0 +1,102 @@
+{
+  "cell_id": "8930e0af027ffff",
+  "details": [
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11169195",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "trees only, no building visible",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11188944",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "trees only, no building visible",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11188986",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "small gate guard booth",
+      "roof_color": "blue",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11189317",
+      "finish": "glass",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "public office block, glass ribbon windows, glass canopy entrance",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11193333",
+      "finish": "brick",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "red brick church with bell tower, gable roof",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11204413",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "trees only, no building visible",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11466436",
+      "finish": "brick",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "mostly trees; possibly wrong target",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:16251752",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T22:13:44+00:00",
+      "note": "trees only, no building visible",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    }
+  ],
+  "version": 1
+}
