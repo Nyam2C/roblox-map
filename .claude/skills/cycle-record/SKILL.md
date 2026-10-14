@@ -67,6 +67,8 @@ description: roblox-map 세션 흐름의 5단계 "기록". 검증이 끝났을 �
 
 ## 세션을 마칠 때
 
+- 진행 지도: `uv run src/progress.py` → `data/compare/bucheon-progress.png`(부천 752칸의 상태: 완성·판단 끝·수집만), 사용자에게 보낸다.
+
 - 메모리의 `cell-<칸>-session.md`: 칸이 끝났으면 지우고 색인 줄도 지운다. 중간에 멈추면 "진행" 마지막 줄을 다음 할 일로 고쳐 둔다.
 - Studio: 저장 여부를 사용자에게 알린다(저장은 사용자 몫). 로컬 서버를 내렸는지, 카메라를 `Fixed`로 되돌렸는지, `HttpEnabled`가 `false`인지.
 - 사용자에게 짧게: 끝낸 것, 새 lessons, 고친 스킬(또는 "스킬 변경 없음"), 커밋, 다음 세션이 할 일, 사용자 몫.
