@@ -53,6 +53,50 @@ remote.OnServerEvent:Connect(function(player, index)
 	char:PivotTo(CFrame.new(x, y, z) * root.CFrame.Rotation)
 end)
 
+-- H (2026-10-15): the roof of the tallest tower of Manual/Landmark (the towers by the department store), same cooldown
+local landmarkRemote = ReplicatedStorage:WaitForChild("LandmarkTeleport")
+landmarkRemote.OnServerEvent:Connect(function(player)
+	local now = os.clock()
+	if last[player] and now - last[player] < COOLDOWN then
+		return
+	end
+	local manual = workspace:FindFirstChild("Manual")
+	local landmark = manual and manual:FindFirstChild("Landmark")
+	local char = player.Character
+	local humanoid = char and char:FindFirstChildOfClass("Humanoid")
+	local root = char and char:FindFirstChild("HumanoidRootPart")
+	if not landmark or not humanoid or not root or humanoid.Health <= 0 then
+		return
+	end
+	local best, bestTop
+	for _, m in landmark:GetChildren() do
+		if m:IsA("Model") then
+			local cf, size = m:GetBoundingBox()
+			local top = cf.Position.Y + size.Y / 2
+			if not bestTop or top > bestTop then
+				best, bestTop = cf.Position, top
+			end
+		end
+	end
+	if not best then
+		return
+	end
+	last[player] = now
+	pcall(function()
+		player:RequestStreamAroundAsync(Vector3.new(best.X, bestTop, best.Z), 5)
+	end)
+	if humanoid.SeatPart then
+		humanoid.Sit = false
+	end
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = { char }
+	params.RespectCanCollide = true
+	local hit = workspace:Raycast(Vector3.new(best.X, bestTop + 40, best.Z), Vector3.new(0, -80, 0), params)
+	local y = (hit and hit.Position.Y or bestTop) + humanoid.HipHeight + root.Size.Y / 2 + 0.5
+	char:PivotTo(CFrame.new(best.X, y, best.Z) * root.CFrame.Rotation)
+end)
+
 Players.PlayerRemoving:Connect(function(player)
 	last[player] = nil
 end)

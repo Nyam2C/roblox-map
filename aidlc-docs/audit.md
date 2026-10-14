@@ -1606,3 +1606,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 L 규칙
 
 ---
+
+## H = 랜드마크 꼭대기, 묘기 방법 창 삭제
+**Timestamp**: 2026-10-14T15:41:22Z
+**User Request**: "하나만 기능 지금 롯데백화점 옆에 제일 높은 빌딩 있잖아 거기로 갈 수 있는 키 (H) 기존 묘기 방법은 삭제" / "꼭대기 키는 옆에 ui에 띄우지는 말고"
+**AI Response**: H 키 → RemoteEvent LandmarkTeleport → 서버(HexTeleport.server.luau)가 Manual/Landmark에서 가장 높은 탑(49층, 지붕 약 584 stud) 지붕 위로 이동(3초 쿨다운, 스트리밍 요청, 레이캐스트 착지). 묘기 방법 창과 버튼 삭제, 화면 버튼 없음(사용자). 설치 파일에 리모트 추가. Play 시험: H → (-1336, 589, 61) 헬리패드 위 착지 확인.
+**Context**: CONSTRUCTION - U6 조정
+
+---

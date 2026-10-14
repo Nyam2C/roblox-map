@@ -290,7 +290,8 @@ def install_text(data_module: str, studio_dir: Path = STUDIO_DIR) -> str:
               if data_module else "made[#made + 1] = \"MinimapData (installed apart from minimap.luau)\""),
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterToggle\")\nmade[#made + 1] = \"ScooterToggle\"",
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"HexTeleport\")\nmade[#made + 1] = \"HexTeleport\"",
-             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterTrick\")\nmade[#made + 1] = \"ScooterTrick\""]
+             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterTrick\")\nmade[#made + 1] = \"ScooterTrick\"",
+             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"LandmarkTeleport\")\nmade[#made + 1] = \"LandmarkTeleport\""]
     for name, where, cls, fn in SOURCES:
         src = (studio_dir / fn).read_text(encoding="utf-8")
         lines.append(f"local s = ensure(at(\"{where}\"), \"{cls}\", \"{name}\")\ns.Source = {long_string(src)}\nmade[#made + 1] = \"{name}\"")

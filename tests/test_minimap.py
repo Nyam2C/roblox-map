@@ -158,4 +158,4 @@ def test_the_installer_without_data_leaves_the_data_module_to_its_own_step(tmp_p
         (tmp_path / fn).parent.mkdir(parents=True, exist_ok=True)
         (tmp_path / fn).write_text("local x = 1\n", encoding="utf-8")
     text = M.install_text("", tmp_path)
-    assert "data.Source" not in text and '"RemoteEvent", "HexTeleport"' in text
+    assert "data.Source" not in text and '"RemoteEvent", "HexTeleport"' in text and '"RemoteEvent", "LandmarkTeleport"' in text

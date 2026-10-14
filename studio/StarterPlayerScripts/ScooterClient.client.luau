@@ -137,92 +137,17 @@ marker.Parent = gauge
 rounded(marker, 3)
 
 
--- how to do the tricks (user 2026-10-14: "하는 방법 넣고")
-local helpButton = Instance.new("TextButton")
-helpButton.Name = "TrickHelp"
-helpButton.AnchorPoint = Vector2.new(1, 1)
-helpButton.Position = UDim2.new(1, -16, 1, -100)
-helpButton.Size = UDim2.fromOffset(104, 32)
-helpButton.BackgroundColor3 = Color3.fromRGB(40, 44, 54)
-helpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-helpButton.Font = Enum.Font.GothamBold
-helpButton.TextSize = 14
-helpButton.Text = "묘기 방법 (H)"
-helpButton.Parent = gui
-rounded(helpButton, 8)
-local help = Instance.new("Frame")
-help.Name = "TrickHelpPanel"
-help.AnchorPoint = Vector2.new(0.5, 0.5)
-help.Position = UDim2.fromScale(0.5, 0.5)
-help.Size = UDim2.fromOffset(460, 245)
-help.BackgroundColor3 = Color3.fromRGB(28, 30, 38)
-help.BackgroundTransparency = 0.08
-help.Visible = false
-help.ZIndex = 30
-help.Parent = gui
-rounded(help, 12)
-local HELP = {
-	{ "점프대", "칸마다 도로 한가운데에 나무 점프대가 하나 있어요 (지도에 주황색). 둥글게 휘어 올라가는 쪽으로 빠르게 달려 올라가면 금속 모서리에서 공중으로 날아요. 빠를수록 높이 떠요 (30 km/h 약 7 m, 60 km/h 약 15 m)." },
-	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 공중에 있는 동안 계속 누르면 여러 바퀴 돌아요. 마지막 바퀴를 땅에 닿기 전에 다 돌아야 해요. 덜 돌면 넘어져요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
-}
-local y = 14
-local title = Instance.new("TextLabel")
-title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(20, y)
-title.Size = UDim2.new(1, -40, 0, 28)
-title.Font = Enum.Font.GothamBlack
-title.TextSize = 22
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.Text = "킥보드 묘기"
-title.ZIndex = 31
-title.Parent = help
-y += 38
-for _, h in ipairs(HELP) do
-	local head = Instance.new("TextLabel")
-	head.BackgroundTransparency = 1
-	head.Position = UDim2.fromOffset(20, y)
-	head.Size = UDim2.new(1, -40, 0, 20)
-	head.Font = Enum.Font.GothamBold
-	head.TextSize = 16
-	head.TextXAlignment = Enum.TextXAlignment.Left
-	head.TextColor3 = Color3.fromRGB(255, 175, 80)
-	head.Text = h[1]
-	head.ZIndex = 31
-	head.Parent = help
-	local body = Instance.new("TextLabel")
-	body.BackgroundTransparency = 1
-	body.Position = UDim2.fromOffset(20, y + 22)
-	body.Size = UDim2.new(1, -40, 0, 54)
-	body.Font = Enum.Font.Gotham
-	body.TextSize = 14
-	body.TextWrapped = true
-	body.TextXAlignment = Enum.TextXAlignment.Left
-	body.TextYAlignment = Enum.TextYAlignment.Top
-	body.TextColor3 = Color3.fromRGB(225, 225, 230)
-	body.Text = h[2]
-	body.ZIndex = 31
-	body.Parent = help
-	y += 84
+-- H: go to the top of the tallest tower by the department store (user 2026-10-15: key only, no on-screen button; the trick help
+-- panel that H opened is gone)
+local landmarkRemote = ReplicatedStorage:WaitForChild("LandmarkTeleport", 10)
+local lastLandmark = 0
+local function toLandmark()
+	local now = os.clock()
+	if landmarkRemote and now - lastLandmark > 1 then
+		lastLandmark = now
+		landmarkRemote:FireServer()
+	end
 end
-local closeHelp = Instance.new("TextButton")
-closeHelp.AnchorPoint = Vector2.new(1, 0)
-closeHelp.Position = UDim2.new(1, -12, 0, 12)
-closeHelp.Size = UDim2.fromOffset(60, 28)
-closeHelp.BackgroundColor3 = Color3.fromRGB(70, 74, 86)
-closeHelp.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeHelp.Font = Enum.Font.GothamBold
-closeHelp.TextSize = 14
-closeHelp.Text = "닫기"
-closeHelp.ZIndex = 32
-closeHelp.Parent = help
-rounded(closeHelp, 6)
-helpButton.Activated:Connect(function()
-	help.Visible = not help.Visible
-end)
-closeHelp.Activated:Connect(function()
-	help.Visible = false
-end)
 
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
@@ -264,7 +189,7 @@ UserInputService.InputBegan:Connect(function(input, processed)
 	if not processed and input.KeyCode == Enum.KeyCode.K then
 		request()
 	elseif not processed and input.KeyCode == Enum.KeyCode.H then
-		help.Visible = not help.Visible
+		toLandmark()
 	end
 end)
 
