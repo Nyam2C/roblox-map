@@ -1390,3 +1390,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - after U7 step 7.
 
 ---
+
+## Office and Public Building Sign Rules
+**Timestamp**: 2026-10-14T04:04:42Z
+**User Request**: "사무·공공 건물 간판 규칙 고쳐"
+**AI Response**: Root causes: BR-9.1 forced every commercial body (14000 office code, or any building of 5+ floors) to have a shop ground floor, overriding the street-view judgement (house / garage); floor signs then followed for 4+ floors. Changed: BR-9.1 — a commercial body has shops unless the judged ground use (detail row, else note) is house or garage; BR-10.1a — office blocks (14000) get floor signs on the 2nd and 3rd floors only and no rooftop sign. Three cells: 14 buildings change (12 lose wrongly placed storefronts and shop signs: the two reported offices, other public offices, a factory, a car repair shop, two churches, two villas on parking pilotis; 2 office towers keep lower-floor signs only), signs 682 -> 579; every change checked against its judgement note. Tests: P5-8 and P5-9 cases updated to the new rule, new test for BR-9.1 / BR-10.1a, existing sign test moved to code 04000; 671 pass on three seeds. Studio not touched (another session is using it); the cells need a rebuild there.
+**Context**: CONSTRUCTION - U7 exterior quality L.
+
+---

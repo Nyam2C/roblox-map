@@ -533,7 +533,8 @@ def test_br_3_2a_the_first_floor_band_is_thick_and_proud_but_a_school_keeps_the_
 
 @pytest.mark.parametrize("code, use, floors, setback_dy, expect", [
     ("01000", "house", 3, 15, "yard"), ("01000", "shop", 3, 15, "storefront"), ("01000", "house", 3, 4, "neither"),  # setback_s = 4 - 5 - ... < 1.5
-    ("14000", "house", 6, 15, "storefront"), ("03000", "shop", 2, 15, "neither"), ("10000", "shop", 1, 15, "neither")])
+    ("14000", "house", 6, 15, "neither"), ("14000", "shop", 6, 15, "storefront"),  # BR-9.1 (2026-10-14): a judged house ground floor stays
+    ("03000", "shop", 2, 15, "neither"), ("10000", "shop", 1, 15, "neither")])
 def test_p5_9_exactly_one_of_storefront_yard_or_neither(code, use, floors, setback_dy, expect):
     d = 10.0
     row, est, _ = villa(code=code, floors=floors, center=offset(CENTER, 0, setback_dy + d / 2), name="")
@@ -569,7 +570,7 @@ def test_the_yard_wall_stands_between_the_face_and_the_sidewalk():
 # --- signs (BR-10) ------------------------------------------------------------------------------------------------------------------
 
 def test_signs_carry_text_colors_faces_and_distances_and_a_bad_name_removes_them_all():
-    row, est, _ = villa(code="14000", floors=7, fh=3.4, w=30, d=20)
+    row, est, _ = villa(code="04000", floors=7, fh=3.4, w=30, d=20)
     body, eff = resolve(row, est, features=[street()])
     signs, labels = LD.sign_items(body, FRAME, CFG, [])
     kinds = [tail(i)[:3] for i in signs]
@@ -589,6 +590,34 @@ def test_signs_carry_text_colors_faces_and_distances_and_a_bad_name_removes_them
     nbody, _ = resolve(named, villa(3)[1], features=[street()])
     plate, _ = LD.sign_items(nbody, FRAME, CFG, [])
     assert [i.text for i in plate] == ["중앙행정복지센터"]
+
+
+def _ground(i, use):
+    return {"building_id": f"gis:{i}", **{f: None for f in R.DETAIL_FIELDS}, "ground_use": use, "note": None}
+
+
+def _sign_tails(code, floors, use, i):
+    row, est, _ = villa(i, code=code, floors=floors, fh=3.4, w=30, d=20)
+    body, eff = resolve(row, est, _ground(i, use) if use else None, features=[street()])
+    signs, _ = LD.sign_items(body, FRAME, CFG, [])
+    fronts = [x for x in LD.front_items(body, FRAME, CFG, []) if tail(x).startswith("sf")]
+    return body, {tail(x) for x in signs if x.kind == "sign"}, fronts
+
+
+def test_br_9_1_and_10_1a_offices_and_judged_ground_floors_get_fewer_shop_signs():
+    # BR-9.1: a commercial block judged house or garage on the ground floor has no shops, so no storefront and no shop signs
+    for code, floors, use in (("14000", 9, "house"), ("04000", 6, "garage")):
+        body, tails, fronts = _sign_tails(code, floors, use, 40 + floors)
+        assert body.archetype == "commercial" and not body.shop and not tails and not fronts
+    # nothing judged: a commercial block keeps its shops (the default does not change)
+    body, tails, fronts = _sign_tails("04000", 6, None, 50)
+    assert body.shop and fronts and any(t.startswith("sgf5") for t in tails) and "sr0" not in tails  # 6 floors < rooftop-sign floors
+    # BR-10.1a: an office block (14000) with shops: floor signs on the 2nd and 3rd floors only, no rooftop sign
+    body, tails, fronts = _sign_tails("14000", 10, "shop", 51)
+    floors_signed = {int(t[3:].split("-")[0]) for t in tails if t.startswith("sgf")}
+    assert body.shop and fronts and floors_signed == {1, 2} and "sr0" not in tails
+    _, tails, _ = _sign_tails("04000", 10, "shop", 52)
+    assert {int(t[3:].split("-")[0]) for t in tails if t.startswith("sgf")} == {1, 2, 3, 4, 5} and "sr0" in tails
 
 
 # --- P5-11 street slots, P5-12 junctions, P5-13 sidewalk pieces ----------------------------------------------------------------------------

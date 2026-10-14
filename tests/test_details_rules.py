@@ -84,8 +84,9 @@ def test_p5_8_judged_values_win_then_notes_then_defaults(detail, note, wall, arc
     merged = R.merged_details(detail, note, wall, archetype)
     hints = R.from_note(note)
     for f in R.DETAIL_FIELDS:
-        if archetype == "commercial" and f == "ground_use":
-            assert merged[f] == "shop"
+        if archetype == "commercial" and f == "ground_use":  # BR-9.1: a shop unless the judgement (row, else note) says house or garage
+            judged = detail[f] if detail[f] is not None else hints.get(f)
+            assert merged[f] == (judged if judged in ("house", "garage") else "shop")
         elif detail[f] is not None:
             assert merged[f] == detail[f]
         elif f in hints:

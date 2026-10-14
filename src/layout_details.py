@@ -952,6 +952,7 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
         door = _door_along(body)
         if door is not None:
             sign("sn0", door + D["plate_along"], D["plate_y"], D["plate_t"] + 0.02, (D["plate_w"], D["plate_h"], D["plate_t"]), text, "sign_plate", "ink_white", "F", 200)
+    office = body.usability == R.OFFICE_CODE  # BR-10.1a: an office block's shop signs stop at the 3rd floor, no rooftop sign
     if body.shop:
         span = _longest_span(body)
         if span is not None and span[1] - span[0] >= D["span_min"]:
@@ -967,7 +968,7 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
         if body.archetype == "commercial" and F >= int(D["sign_floor_min_floors"]):
             p = max(1, min(int(D["sign_floor_max_panels"]), int(L // D["sign_floor_pitch"])))
             pw = L / p
-            for k in range(1, min(F - 1, int(D["sign_floor_max"])) + 1):
+            for k in range(1, min(F - 1, int(D["sign_floor_max_office"] if office else D["sign_floor_max"])) + 1):
                 for i in range(p):
                     slot = f"f{k}-{i}"
                     text = _name(body, slot, "upper", k)
@@ -979,7 +980,7 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
             text = _name(body, f"p{i}", where, 1 if where == "upper" else 0)
             bg, ink = _sign_colors(body, f"p{i}", text[-3:])
             sign(f"sp{i}", a, y, D["proj_out"] + D["proj_d"], (D["proj_t"], D["proj_h"], D["proj_d"]), text, bg, ink, "LR", 200)
-        if body.archetype == "commercial" and F >= int(D["roof_sign_min_floors"]):
+        if body.archetype == "commercial" and not office and F >= int(D["roof_sign_min_floors"]):
             flat = body.roof_shape not in ("gable", "hip", "shed")
             surface = H + D["cap_h"] - D["cap_sink"] if flat and body.details["rooftop"] != "railing" else H
             text = _name(body, "r", "roof", 0)

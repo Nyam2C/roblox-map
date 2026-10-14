@@ -167,14 +167,16 @@ def merged_details(detail: Mapping[str, Any] | None, note: str | None, wall_colo
         if v is None:
             v = default_finish(wall_color, archetype) if field == "finish" else DEFAULT_DETAILS[field]
         out[field] = v
-    if archetype == "commercial":
-        out["ground_use"] = "shop"  # BR-9.1: commercial bodies always have shops
+    judged = (detail or {}).get("ground_use") or hints.get("ground_use")
+    if archetype == "commercial" and judged not in ("house", "garage"):
+        out["ground_use"] = "shop"  # BR-9.1: a commercial body has shops unless the judgement says house or garage (2026-10-14)
     return out
 
 
 # --- archetypes and public names (BR-1.5, BR-1.6) ------------------------------------------------------------
 
 COMMERCIAL_CODES = ("04000", "09000", "11000", "14000")
+OFFICE_CODE = "14000"  # 업무시설: shop signs only on the lower floors, no rooftop sign (BR-10.1a, street view 2026-10-14)
 PUBLIC_CODES = ("03000", "10000")
 PUBLIC_SUFFIXES = ("학교", "행정복지센터", "주민센터", "경로당")
 
@@ -362,7 +364,7 @@ DIMS: dict[str, float] = {
     "front_door_t": 0.12, "front_door_along": 1.2, "eyebrow_gap": 0.6, "eyebrow_h": 0.15, "eyebrow_d": 0.6, "eyebrow_drop": 0.375,
     "yard_min": 1.5, "yard_max": 8.0, "yard_back": 0.3, "wall_h": 1.4, "wall_t": 0.2, "wall_extra": 2.0, "gate_gap": 2.8, "post_w": 0.5,
     "post_h": 1.8, "gate_h": 1.6, "gate_t": 0.06, "globe_dia": 0.25, "shrub_min": 1.2, "shrub_step": 0.4, "shrub_clear": 0.2,
-    "sign_h": 0.9, "sign_t": 0.15, "sign_out": 0.25, "sign_drop": 0.2, "sign_floor_h": 0.8, "sign_floor_y": 0.15, "sign_floor_max": 5,
+    "sign_h": 0.9, "sign_t": 0.15, "sign_out": 0.25, "sign_drop": 0.2, "sign_floor_h": 0.8, "sign_floor_y": 0.15, "sign_floor_max": 5, "sign_floor_max_office": 2,
     "sign_floor_min_floors": 4, "sign_floor_pitch": 8.0, "sign_floor_max_panels": 3, "proj_t": 0.12, "proj_h": 0.9, "proj_d": 0.6,
     "proj_out": 0.1, "proj_along_in": 1.0, "roof_sign_frac": 0.6, "roof_sign_h": 1.5, "roof_sign_t": 0.2, "roof_sign_post": 0.15,
     "roof_sign_min_floors": 7,
