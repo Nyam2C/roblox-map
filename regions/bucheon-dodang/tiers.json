@@ -210,6 +210,21 @@
    "reason": "landmarks: park:미리내공원, school:계남초등학교",
    "tier": 1
   },
+  "8930e0af157ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 7,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.403,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 중동 6·8 주변): 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af163ffff": {
    "counts": {
     "landmarks": [
@@ -311,6 +326,39 @@
    },
    "manual": false,
    "reason": "landmarks: park:way488839381",
+   "tier": 1
+  },
+  "8930e0af1c7ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 11,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.701,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 중동 6·8 주변): 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af1cfffff": {
+   "counts": {
+    "landmarks": [
+     "park:부청시청 잔디밭",
+     "townhall:부천시청"
+    ],
+    "pois": 2,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.428,
+     "rural": 0.079
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 중동 6·8 주변): 거리뷰 판단까지",
    "tier": 1
   }
  }

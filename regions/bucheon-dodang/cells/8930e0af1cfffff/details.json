@@ -1,0 +1,138 @@
+{
+  "cell_id": "8930e0af1cfffff",
+  "details": [
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11185131",
+      "finish": "stone",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "civic main block, rooftop tower",
+      "roof_color": "dark",
+      "rooftop": "box",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11204901",
+      "finish": "glass",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "shop podium",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11205430",
+      "finish": "stone",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "shop podium, roof terrace",
+      "roof_color": "dark",
+      "rooftop": "railing",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11205566",
+      "finish": "stone",
+      "ground_use": "garage",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "parking exit structure, louvres",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11205969",
+      "finish": "panel",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "commercial block, shops ground",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11206453",
+      "finish": "stone",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "not identifiable",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11207835",
+      "finish": "panel",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "commercial block, shops ground",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:16472476",
+      "finish": "panel",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "towers on shop podium, roof terrace",
+      "roof_color": "dark",
+      "rooftop": "railing",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:17575161",
+      "finish": "glass",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "towers on commercial podium",
+      "roof_color": "dark",
+      "rooftop": "railing",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:18000546",
+      "finish": "stone",
+      "ground_use": "house",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "civic main block, rooftop tower",
+      "roof_color": "dark",
+      "rooftop": "box",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:18111135",
+      "finish": "panel",
+      "ground_use": "shop",
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "public building, glass curtain wall",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    }
+  ],
+  "version": 1
+}

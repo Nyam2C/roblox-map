@@ -356,12 +356,24 @@ def towers_on_podium(frame: Frame, body: LD.Body, sp: Mapping[str, Any], lines: 
     bx = layout.box_of_points(list(hull.exterior.coords)[:-1])
     assert bx is not None
     n, gap = max(1, int(t.get("count", 2))), float(t.get("gap_m", 10.0))
-    size = min(float(t.get("size_m", 25.0)), (bx.width_m - gap * (n - 1)) / n, bx.depth_m)
     boxes = []
-    for j in range(n):
-        u = (j - (n - 1) / 2) * (size + gap)
-        east, north = LD._world(bx, u, 0.0)
-        boxes.append(layout.Box(east, north, size, size, bx.yaw_deg, 1.0))
+    if t.get("grid"):  # towers at the corners of the podium, cols x rows (101·103 동: four towers round a courtyard)
+        cols, rows = t["grid"]
+        tw, td = t.get("size_m", [24.0, 30.0])
+        tw, td = min(tw, bx.width_m / cols - 2), min(td, bx.depth_m / rows - 2)
+        for i in range(cols):
+            for j in range(rows):
+                u = (i - (cols - 1) / 2) * (bx.width_m - tw - 4) / max(1, cols - 1) if cols > 1 else 0.0
+                v = (j - (rows - 1) / 2) * (bx.depth_m - td - 4) / max(1, rows - 1) if rows > 1 else 0.0
+                east, north = LD._world(bx, u, v)
+                boxes.append(layout.Box(east, north, tw, td, bx.yaw_deg, 1.0))
+        n = len(boxes)
+    else:
+        size = min(float(t.get("size_m", 25.0)), (bx.width_m - gap * (n - 1)) / n, bx.depth_m)
+        for j in range(n):
+            u = (j - (n - 1) / 2) * (size + gap)
+            east, north = LD._world(bx, u, 0.0)
+            boxes.append(layout.Box(east, north, size, size, bx.yaw_deg, 1.0))
     tf = body.floors - pf
     tower = dataclasses.replace(body, boxes=tuple(boxes), names=tuple(f"{body.building_id}#t{j}" for j in range(n)), floors=tf,
                                 height_m=tf * fh, occluded=())

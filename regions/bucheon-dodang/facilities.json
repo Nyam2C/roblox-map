@@ -1819,6 +1819,158 @@
     }
    },
    "front": "E"
+  },
+  {
+   "key": "cluster101",
+   "cell": "8930e0af1cfffff",
+   "build": [
+    "gis:16472476"
+   ],
+   "claims": [],
+   "floors": 49,
+   "front": "W",
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     226,
+     222
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.8,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     95,
+     115
+    ],
+    "frame_rgb": [
+     230,
+     230,
+     228
+    ]
+   },
+   "bands": {
+    "rgb": [
+     210,
+     210,
+     206
+    ],
+    "every_floor": true
+   },
+   "accents": [],
+   "entrance": null,
+   "sign": null,
+   "roof": {
+    "features": [
+     "crown",
+     "solar"
+    ],
+    "crown": {
+     "height_m": 5.0,
+     "rgb": [
+      236,
+      232,
+      222
+     ]
+    }
+   },
+   "towers": {
+    "grid": [
+     2,
+     2
+    ],
+    "size_m": [
+     26,
+     34
+    ],
+    "podium_floors": 2
+   },
+   "notes": "automatic stand-in (2026-10-15): one V-World outline covers four towers round a courtyard on a shop podium (satellite); not yet a user-approved detailed facility",
+   "sources": [
+    "data/satellite/8930e0af1cfffff-z19.jpg"
+   ],
+   "seen": "satellite: four towers with white crowns and solar panels at the corners of each block"
+  },
+  {
+   "key": "cluster103",
+   "cell": "8930e0af1cfffff",
+   "build": [
+    "gis:17575161"
+   ],
+   "claims": [],
+   "floors": 47,
+   "front": "W",
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     226,
+     222
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.8,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     95,
+     115
+    ],
+    "frame_rgb": [
+     230,
+     230,
+     228
+    ]
+   },
+   "bands": {
+    "rgb": [
+     210,
+     210,
+     206
+    ],
+    "every_floor": true
+   },
+   "accents": [],
+   "entrance": null,
+   "sign": null,
+   "roof": {
+    "features": [
+     "crown",
+     "solar"
+    ],
+    "crown": {
+     "height_m": 5.0,
+     "rgb": [
+      236,
+      232,
+      222
+     ]
+    }
+   },
+   "towers": {
+    "grid": [
+     2,
+     2
+    ],
+    "size_m": [
+     26,
+     34
+    ],
+    "podium_floors": 2
+   },
+   "notes": "automatic stand-in (2026-10-15): one V-World outline covers four towers round a courtyard on a shop podium (satellite); not yet a user-approved detailed facility",
+   "sources": [
+    "data/satellite/8930e0af1cfffff-z19.jpg"
+   ],
+   "seen": "satellite: four towers with white crowns and solar panels at the corners of each block"
   }
  ]
 }

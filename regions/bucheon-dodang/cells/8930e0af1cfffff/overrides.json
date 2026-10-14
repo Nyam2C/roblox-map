@@ -1,0 +1,160 @@
+{
+  "cell_id": "8930e0af1cfffff",
+  "estimates": [
+    {
+      "building_id": "gis:11185131",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "city hall main block, grand stair in front, rooftop lattice tower, lower wing right",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11204901",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "low shop podium under a high-rise; target floors unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205430",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "2-floor shop podium of apartment complex, patterned screen band, roof terrace with trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205566",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "low stone wall with louvres and parking exit ramp, part of podium",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205969",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "commercial building, shops ground, glass bands; small footprint",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11206453",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "tiny structure not identifiable; crops show podium storefront and a truck",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11207835",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "commercial building, shops and cafe ground, clinic glass bands above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:16472476",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 140.0,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "very tall apartment towers on 2-floor shop podium with roof terrace garden",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17575161",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 140.0,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "very tall towers on 5-floor commercial podium, glass bands, shops and restaurant ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:18000546",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "city hall main block behind trees, rooftop lattice tower",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:18111135",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T18:43:17+00:00",
+      "note": "large public building, panel walls, glass curtain wall north, cafe ground, sloped roof edge",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}
