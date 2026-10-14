@@ -472,6 +472,11 @@ local function driveRide()
 	end)
 	RunService:BindToRenderStep("ScooterDrive", Enum.RenderPriority.Input.Value + 10, function(dt)
 		dt = math.min(dt, 0.1)
+		if char:GetAttribute("Gliding") == true then -- the paraglider flies the rider (2026-10-15); landing is handled as after a ramp
+			r.lift.Enabled = false
+			r.launched, r.air, r.airT = true, true, math.max(r.airT, 0.2)
+			return
+		end
 		r.clock += dt
 		local max = char:GetAttribute("ScooterMaxSpeed") or MAX_SPEED_DEFAULT
 		local move = humanoid.MoveDirection -- keys, thumbstick or pad, turned to the camera

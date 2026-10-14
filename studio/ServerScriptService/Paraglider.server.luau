@@ -74,7 +74,7 @@ remote.OnServerEvent:Connect(function(player, open)
 		return
 	end
 	last[player] = now
-	if open and char:GetAttribute("Riding") ~= true then
+	if open then
 		canopy(char)
 	else
 		remove(char)

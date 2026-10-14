@@ -1622,3 +1622,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U6 추가 기능
 
 ---
+
+## 패러글라이더: 킥보드 중에도, 점프 높이에선 안 되게
+**Timestamp**: 2026-10-14T15:51:26Z
+**User Request**: "킥보드 타는 중에도 가능하게 하고 일단 점프 높이에서는 안되게"
+**AI Response**: 최소 높이 8 → 16 stud(점프 꼭짓점의 루트 약 10 stud보다 높고, 점프대 비행 25 stud+보다 낮음). 킥보드 탄 중에도 F 가능: ParagliderClient가 캐릭터 속성 Gliding(이 클라이언트만)을 켜면 ScooterClient가 주행·리프트를 멈추고 착지는 점프대 착지처럼 처리. 서버의 Riding 막음 제거. Studio가 Play 중(사용자)이라 설치·시험은 Edit으로 돌아온 뒤.
+**Context**: CONSTRUCTION - U6 조정
+
+---
