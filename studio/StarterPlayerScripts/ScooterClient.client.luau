@@ -17,7 +17,7 @@
 --   loop-out (a fall backwards), at -1 the front wheel touches down. RAMP: running up the steep side of a trick ramp (<road>#rampup, one per
 --   cell, made by streets.ramp_items) and off its lip throws the rider up (speed x sin of the ramp x LAUNCH_K) and lightens gravity to AIR_G
 --   until he lands. TAILWHIP: in that air, Q (phone: the 테일윕 button) spins the deck and the back wheel once round the stem in WHIP_TIME;
---   landing before it is round is a fall. The spin is drawn on clones (the welded parts cannot turn), on every client: ours at once, the
+--   landing before it is round is a fall. A success shows no message (user 2026-10-14); a fall still says why. The spin is drawn on clones (the welded parts cannot turn), on every client: ours at once, the
 --   others when the server passes on ScooterTrick.
 -- Rules: aidlc-docs/construction/plans/u6-minimap-scooter-plan.md. The numbers were chosen with a simulation (a player with 0.3 s reaction who pushes
 -- the way it leans keeps balance at 60 to 80; with no steering input the rider falls at 70 after about 7 s and at 80 after about 4.6 s; 60 and below are safe).
@@ -187,7 +187,7 @@ rounded(help, 12)
 local HELP = {
 	{ "매뉴얼 (앞바퀴 들기)", "달리는 중에 Ctrl을 누르고 있어요 (휴대폰: 매뉴얼 버튼). 오른쪽 세로 막대의 표시가 가운데에 있도록 W·S로 조절해요 (휴대폰: 스틱 위·아래). 위 끝에 닿으면 뒤로 넘어지고, 아래 끝에 닿으면 앞바퀴가 내려와요." },
 	{ "점프대", "칸마다 도로 한가운데에 주황색 점프대가 하나 있어요 (지도에도 주황색). 가파른 쪽으로 빠르게 달려 올라가면 공중으로 날아요. 빠를수록 높이, 오래 날아요." },
-	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 땅에 닿기 전에 다 돌아야 성공이에요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
+	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 땅에 닿기 전에 다 돌아야 해요. 덜 돌면 넘어져요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
 }
 local y = 14
 local title = Instance.new("TextLabel")
@@ -675,7 +675,7 @@ local function driveRide()
 			if r.whip then
 				r.whipT += dt
 				if r.whipT >= WHIP_TIME then
-					r.whip, r.landedTrick = nil, "테일윕"
+					r.whip = nil
 				end
 			end
 			if onGround and r.airT > 0.15 then -- down again
@@ -690,10 +690,6 @@ local function driveRide()
 					return
 				end
 				r.wv += (math.random() - 0.5) * 0.8 -- the landing jolts the balance a little
-				if r.landedTrick then
-					showToast(r.landedTrick .. " 성공!")
-					r.landedTrick = nil
-				end
 			end
 		end
 		-- the manual: an unstable pitch the player holds with W/S
@@ -701,10 +697,8 @@ local function driveRide()
 		if wantManual and not r.manual then
 			r.manual, r.m, r.mv, r.manualT = true, -0.2, 0, 0
 		end
-		local function endManual()
-			if r.manualT >= 1 then
-				showToast(string.format("매뉴얼 %.1f초", r.manualT))
-			end
+		local function endManual() -- no message on success (user 2026-10-14); only a fall says what happened
+			player:SetAttribute("ScooterManualTime", r.manualT) -- for testing (this client only)
 			r.manual = false
 		end
 		if r.manual and not wantManual then
