@@ -1678,3 +1678,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 확장 사이클 + 외관 규칙
 
 ---
+
+## 경사를 매 사이클 고정 단계로 + 2·3급 칸 높이
+**Timestamp**: 2026-10-14T18:15:00Z
+**User Request**: "경사 표현을 잘 했네 이건 매 사이클 마다 꼭 되는 과정인가?" → "ㄱㄱ 3번도 같이 해"
+**AI Response**: cycle-build 3b(높이: collect + probe, rebuild 칸 다시 만들기), cycle-verify 2b(terrain-check.luau, covered 0). `elevation.py probe`(칸당 위치 조회 7번, 이미지 없음, 차단이면 멈춤)와 `changed_cells`(0.3 stud 넘게 움직인 칸). 실제로 3칸 probe 1,351점 → 6칸 다시 만듦 verify ok, 땅이 길 덮은 점 0(86,545 rays).
+**Context**: CONSTRUCTION - 사이클 개선
+
+---

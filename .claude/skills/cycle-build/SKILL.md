@@ -41,6 +41,14 @@ uv run src/roofs.py --cells <칸>         # 평지붕 윗면 색(7층 이하): �
 ### 3. 거리뷰 (1급 칸만)
 `uv run src/capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(실행당 새 파노라마 100장 상한). 백그라운드로 돌리고 끝나면 확인. 403/429·형식 이상으로 `stopped`면 **우회하지 말고 멈추고** 사용자에게 알린다.
 
+### 3b. 높이 (모든 칸, 2026-10-15)
+땅 높이는 거리뷰 카메라 고도로 만든다(`regions/<구역>/elevation.json`, 생성할 때 build_luau가 자동으로 쓴다).
+```bash
+uv run src/elevation.py collect --region <구역>                 # 1급: 3단계에서 받은 파노라마의 고도
+uv run src/elevation.py probe --region <구역> --cells <칸...>   # 모든 새 칸(2·3급은 이것만): 칸당 위치 조회 7번, 이미지 없음
+```
+끝 줄 `rebuild (ground moved over 0.3 studs): <칸...>`에 나온 **이미 만든 칸도 6~7단계에서 같이 다시 만든다**(빠뜨리면 칸 경계에 턱). 차단(`blocked`)이면 멈추고 알린다.
+
 ### 4. 판단 (눈가림)
 1. `uv run src/estimate.py pending --cells <칸> --limit 200` 출력의 JSON 줄을 모아 70개 안팎으로 나눈다(200 넘으면 기록 뒤 다시 pending).
 2. 묶음마다 서브에이전트 하나: `judge-prompt.md`(이 폴더)를 지침으로, 목록 파일과 출력 경로를 준다. 서브에이전트는 목록과 묶음 이미지만 읽는다(DB·overrides·details 금지).
@@ -62,7 +70,7 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 1. `get_studio_state` → Edit인지. Play면 멈추고 기다린다.
 2. 큰 변경 전이면 사용자에게 `.rbxl` 복사본을 부탁한다.
 3. `cd data/build && python3 -m http.server 8765 --bind 127.0.0.1`(백그라운드).
-4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행(칸 → 수작업 `Builder.settleManual`까지 한 번에; 땅은 칸의 기울인 판 조각이라 Terrain은 쓰지 않는다). 새 칸이면 먼저 `uv run src/elevation.py collect --region <구역>`으로 그 칸 거리뷰의 고도를 모은다(2026-10-15). `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
+4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행(칸 → 수작업 `Builder.settleManual`까지 한 번에; 땅은 칸의 기울인 판 조각이라 Terrain은 쓰지 않는다). `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. **미니맵·큰 지도 갱신**: Studio에 있는 칸을 모두 적어 `uv run src/minimap.py --cells <칸...>` → 같은 서버로 `minimap.luau`를 받아 `ReplicatedStorage/MinimapData`(ModuleScript)의 `Source`에 넣고, `install-u6.luau`(스크립트만)를 받아 임시 ModuleScript `Source`에 넣고 `require`(둘을 한 파일로 합치면 Studio `Source` 한도 200,000자를 넘는다)(칸을 만들거나 박스가 바뀔 때마다. 빠뜨리면 지도에 새 칸이 안 나온다).
 6. 서버를 내린다: `pkill -f "http.server 8765"`.
 7. 키트 메시(U7 H): Builder는 나무 수관을 `ServerStorage/Kits/crown-1`, `crown-2`(MeshPart)에서 복제한다. 없으면 `MapBuilder: kit ... is not in ServerStorage/Kits`로 멈춘다. 새 장소면 `data/kits/*.obj`(`uv run src/kits.py trees`)를 사용자가 홈 탭 Import로 가져오고, Claude가 MeshId가 `kits.MESH_IDS`와 같은지 본 뒤 그 MeshPart를 `ServerStorage/Kits/<이름>`으로 옮긴다. 새 메시를 올려야 하면 사용자에게 먼저 묻는다(검수).

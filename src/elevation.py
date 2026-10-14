@@ -16,10 +16,14 @@
 Naver gives each panorama the camera altitude in metres; the camera rides a little above the road at about the same height
 everywhere, so the differences are the ground's. `collect` asks Naver for the panoramas in `captures` that have no altitude yet
 (one request a second, the same safety as capture.py: 403/429 or an odd reply stops the run, never worked around) and keeps
-them in regions/<region>/elevation.json (git: positions and heights only). `grid` shows them over the map as a picture.
+them in regions/<region>/elevation.json (git: positions and heights only). `probe` is for a cell without street-view captures
+(tier 2 and 3, 2026-10-15): seven location lookups over the cell, each answering the nearest panorama and about a hundred street
+neighbours with their altitudes, no images. Both end by naming the built cells whose ground moved (rebuild them, or their edges
+step against the new heights). `grid` shows the heights over the map as a picture.
 
 Usage (repo root):
   uv run src/elevation.py collect --region bucheon-dodang [--limit 600]   # run again to go on where it stopped
+  uv run src/elevation.py probe --region bucheon-dodang --cells 8930e0af117ffff   # heights without captures
   uv run src/elevation.py grid --region bucheon-dodang data/compare/elevation.png
 """
 from __future__ import annotations
@@ -88,6 +92,71 @@ def collect(cfg: Mapping[str, Any], region: str, limit: int, source: Any = None)
         time.sleep(PAUSE_S)
     save(path, have)
     return new, reason
+
+
+def probe_points(cell: str, k: float = 0.6) -> list[tuple[float, float]]:
+    """Where to look up panoramas in a cell: the centre and six points `k` of the way to the corners."""
+    import h3
+    c = h3.cell_to_latlng(cell)
+    return [c] + [(c[0] + k * (v[0] - c[0]), c[1] + k * (v[1] - c[1])) for v in h3.cell_to_boundary(cell)]
+
+
+def probe(cfg: Mapping[str, Any], region: str, cells: Sequence[str], source: Any = None) -> tuple[int, str]:
+    """Altitudes of the panoramas around each cell from location lookups (no captures); returns (new count, stop reason)."""
+    import h3
+    path = path_of(cfg, region)
+    have = load(path)
+    if source is None:
+        import panorama_source
+        source = panorama_source._Streetlevel()
+    import panorama_source as ps
+    new, reason = 0, "done"
+    for cell in cells:
+        ring = set(h3.grid_disk(cell, 1))
+        for lat, lon in probe_points(cell):
+            try:
+                found = source.nearby(lat, lon)
+            except Exception as exc:  # noqa: BLE001 - a block stops the run, like capture.py
+                err, _ = ps.classify(exc)
+                if isinstance(err, ps.BlockedError):
+                    save(path, have)
+                    return new, f"blocked: {err}"
+                common.log(logging.WARNING, f"{cell}: lookup failed: {err}")
+                time.sleep(PAUSE_S)
+                continue
+            for p in ([found, *(found.neighbors.street if found.neighbors else [])] if found is not None else []):
+                alt = getattr(p, "altitude", None)
+                if (isinstance(p.id, str) and p.id and p.id not in have and isinstance(alt, (int, float))
+                        and isinstance(p.lat, (int, float)) and isinstance(p.lon, (int, float)) and h3.latlng_to_cell(p.lat, p.lon, cfg["h3_res"]) in ring):
+                    have[p.id] = [float(p.lat), float(p.lon), float(alt)]
+                    new += 1
+            time.sleep(PAUSE_S)
+    save(path, have)
+    return new, reason
+
+
+def changed_cells(cfg: Mapping[str, Any], region: str, before: Mapping[str, Sequence[float]], after: Mapping[str, Sequence[float]],
+                  limit: float = 0.3) -> list[str]:
+    """The region's cells whose ground (terrain.py, studs) moves more than `limit` anywhere at 49 points between the two sets."""
+    import h3
+    import layout
+    import terrain
+    import tomllib
+    with open(common.resolve(cfg["regions_dir"]) / region / "region.toml", "rb") as f:
+        cells = tomllib.load(f)["cells"]
+    if len(after) < 4 or not cells:
+        return []
+    ccfg = common.cell_config(cfg, cells[0])
+    frame, base = layout.Frame.from_cfg(ccfg), float(ccfg.get("ground_base_m", 37.0))
+    ground = lambda pts: terrain.from_points([(*layout.to_studs(frame, a, b), h) for a, b, h in pts.values()], base, frame.studs_per_m)  # noqa: E731
+    g0 = ground(before) if len(before) >= 4 else None
+    g1 = ground(after)
+    out = []
+    for c in cells:
+        pts = [layout.to_studs(frame, *h3.cell_to_latlng(k)) for k in h3.cell_to_children(c, h3.get_resolution(c) + 2)]
+        if g0 is None or max(abs(g1.h(x, z) - g0.h(x, z)) for x, z in pts) > limit:
+            out.append(c)
+    return out
 
 
 def clean(points: Sequence[Sequence[float]], radius: float = 150.0, inner: float = 50.0, limit: float = 2.0) -> list[Sequence[float]]:
@@ -171,14 +240,21 @@ def main(cfg: dict[str, Any]) -> int:
     c = sub.add_parser("collect")
     c.add_argument("--region", required=True)
     c.add_argument("--limit", type=int, default=600)
+    r = sub.add_parser("probe")
+    r.add_argument("--region", required=True)
+    r.add_argument("--cells", nargs="+", required=True)
     g = sub.add_parser("grid")
     g.add_argument("--region", required=True)
     g.add_argument("out")
     a = p.parse_args(sys.argv[1:])
-    if a.cmd == "collect":
-        new, reason = collect(cfg, a.region, a.limit)
-        total = len(load(path_of(cfg, a.region)))
-        common.log(logging.INFO, f"elevation: {new} new, {total} in all, stopped: {reason}")
+    if a.cmd in ("collect", "probe"):
+        before = load(path_of(cfg, a.region))
+        new, reason = collect(cfg, a.region, a.limit) if a.cmd == "collect" else probe(cfg, a.region, a.cells)
+        after = load(path_of(cfg, a.region))
+        common.log(logging.INFO, f"elevation: {new} new, {len(after)} in all, stopped: {reason}")
+        if new:
+            moved = changed_cells(cfg, a.region, before, after)
+            common.log(logging.INFO, f"rebuild (ground moved over 0.3 studs): {' '.join(moved) if moved else 'none'}")
         return 0 if not reason.startswith("blocked") else 2
     common.log(logging.INFO, f"written: {grid_picture(cfg, a.region, Path(a.out))}")
     return 0

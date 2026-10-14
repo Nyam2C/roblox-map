@@ -18,6 +18,9 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 - `data/build/<칸>/manifest.json`: `warnings`를 읽고 하나씩 원인을 안다(예: 가게 앞면을 놓을 자리가 없음).
 - Studio 생성 결과(studio-build.luau의 반환): `verify=true`, `problems` 없음, `http=false`, 가장 느린 덩어리 10 ms 이하(2026-10-15 지금 12~14 ms인 칸이 있음, 덩어리 크기를 50으로 줄여도 그대로라 70 유지). 땅에 묻힌 기둥 검사(`sunk_cylinders`)는 지형 높이 때문에 뺐다.
 
+## 2b. 땅이 길을 덮는지 (모든 칸, 지형)
+`terrain-check.luau`(이 폴더)를 `CELLS`만 바꿔 `execute_luau`(Edit)로. 새 칸과 3b단계 `rebuild`에 나온 칸 모두. 기준: `covered=0`(경사 땅 조각이 도로·인도·보행로 위로 올라온 점). 넘으면 `terrain.py`의 `BEND`·`TILE_UNDER`를 본다.
+
 ## 3. 위성 겹쳐 보기 (모든 칸)
 1. 칸 중심 위 높이 650에서 바로 아래로 `screen_capture`(`camera_position = {x, 650, z}`, `look_at_position = {x, 0, z - 1}`). 70° 시야각이면 px/stud = 캡처 세로 px ÷ 910(= 2·650·tan 35°). 1631 × 882 창이면 0.974, 1528 × 689면 0.757. 캡처 크기를 보고 계산한다.
 2. ```bash
@@ -60,6 +63,7 @@ cycle-build 7b에서 본 사진과 Studio 캡처(같은 방향, 땅 높이)를 �
 |---|---|---|
 | 테스트 | 전부 통과 | |
 | verify / http | ok / false | |
+| 땅이 길 덮음 | covered 0 | |
 | 경고 | 원인 앎 | |
 | 위성 | 큰 차이 없음 | |
 | 도로·인도 겹침 | 차로 위 인도·연석·횡단보도·가로등 0 | |
