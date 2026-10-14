@@ -234,6 +234,21 @@ def shop_house(usability_code: str | None, name: str | None, detail: Mapping[str
     return (usability_code or "") == "03000" and not is_public_name(name) and bool(detail) and detail.get("ground_use") == "shop"
 
 
+PILOTIS_NOTE = re.compile(r"piloti|open[- ]air parking|parking (under|below)|open ground floor|carport", re.I)
+PILOTIS_MIN_FLOORS = 3
+
+
+def pilotis(archetype: str, floors: int, detail: Mapping[str, Any] | None, note: str | None) -> bool:
+    """A villa whose ground floor is open parking under the floors above (필로티): judged a garage ground floor, or a note that says
+    pilotis (street view 2026-10-15: most 4-5 floor villas here stand on columns over cars; the shutter on a closed wall read wrong)."""
+    if archetype != "villa" or floors < PILOTIS_MIN_FLOORS:
+        return False
+    use = (detail or {}).get("ground_use")
+    if use == "shop":
+        return False
+    return use == "garage" or bool(PILOTIS_NOTE.search(note or ""))
+
+
 def is_public_name(name: str | None) -> bool:
     return bool(name) and any(name.endswith(s) for s in PUBLIC_SUFFIXES)
 
@@ -323,9 +338,10 @@ PALETTE: dict[str, tuple[int, int, int]] = {
     "glass_shop": (35, 45, 50), "glass_shop_b": (150, 170, 175), "shop_wood": (125, 90, 60), "glass_stair": (75, 120, 125), "bay": (225, 225, 222), "balcony": (190, 190, 185), "iron": (40, 40, 45),
     "door": (70, 50, 40), "door_shop": (90, 90, 95), "canopy": (60, 60, 65), "eyebrow": (45, 45, 48), "shutter": (150, 150, 150),
     "ac": (225, 225, 222), "gas": (190, 40, 35), "tank": (235, 235, 230), "railing": (235, 235, 235), "lamp_globe": (245, 245, 240),
-    "glass_apt": (52, 58, 64), "apt_beige": (214, 190, 160), "apt_tan": (190, 158, 122), "apt_sand": (226, 212, 186),
+    "glass_apt": (52, 58, 64), "apt_beige": (214, 190, 160), "apt_tan": (190, 158, 122), "apt_sand": (226, 212, 186), "apt_white": (238, 238, 234), "apt_gray": (212, 214, 216),
     "apt_line": (95, 100, 108), "apt_slab": (236, 236, 232), "apt_rail": (60, 62, 66),
     "frame_white": (232, 232, 228), "frame_gray": (140, 142, 145), "frame_dark": (55, 56, 60), "band_ground": (150, 148, 142),
+    "piloti_col": (226, 226, 222), "piloti_guard": (222, 184, 40), "piloti_ceiling": (92, 94, 98), "piloti_floor": (118, 118, 116),
     # flat-roof tops read off the satellite photo (roofs.py SAT_LOOKS times 0.88, like the school grounds)
     "rtop_white": (189, 189, 185), "rtop_light": (154, 154, 151), "rtop_gray": (114, 114, 114), "rtop_dark": (66, 69, 72),
     "rtop_green": (97, 132, 101), "rtop_teal": (84, 145, 132), "rtop_brown": (123, 92, 75), "rtop_red": (150, 75, 62), "rtop_blue": (79, 106, 141),
@@ -400,6 +416,7 @@ DIMS: dict[str, float] = {
     "stair_round_dia": 2.8, "bay_w": 2.4, "bay_d": 0.4, "balcony_frac": 0.4, "balcony_slab_h": 0.15, "balcony_d": 0.6, "balcony_rail_h": 1.0,
     "balcony_rail_t": 0.05, "door_w": 1.0, "door_h": 2.1, "door_t": 0.10, "canopy_w": 1.6, "canopy_h": 0.15, "canopy_d": 0.6, "canopy_y": 2.3,
     "shutter_w": 2.6, "shutter_h": 2.4, "shutter_t": 0.08, "plate_w": 1.2, "plate_h": 0.4, "plate_t": 0.08, "plate_y": 1.6, "plate_along": 1.5,
+    "piloti_pitch": 5.0, "piloti_col": 0.5, "piloti_guard": 0.9, "piloti_ceiling": 0.08, "piloti_core_w": 2.8, "piloti_core_d": 3.6,
     "ac_w": 0.8, "ac_h": 0.6, "ac_d": 0.3, "ac_drop": 0.9, "ac_along": 1.3, "ac_com_y": 0.3, "gas_dia": 0.06, "gas_y": 2.9, "gas_out": 0.08,
     "gas_along": 0.5, "shop_unit_m": 6.0, "shop_units_max": 4, "front_gap": 0.4, "front_drop": 0.6, "front_y": 0.1, "front_t": 0.10,
     "front_door_t": 0.12, "front_door_along": 1.2, "eyebrow_gap": 0.6, "eyebrow_h": 0.15, "eyebrow_d": 0.6, "eyebrow_drop": 0.375,

@@ -263,6 +263,7 @@ class Body:
     officetel: bool = False  # punched-window grid above the shop base (2026-10-14)
     base: str | None = None  # wall colour of a two-floor brick base under a panel body (2026-10-14)
     side_shops: tuple[tuple[int, str], ...] = ()  # other faces of a shop block that front a road: storefront and band signs too
+    pilotis: bool = False  # open parking on columns under the floors above (2026-10-15)
 
     @property
     def shop(self) -> bool:
@@ -317,7 +318,8 @@ def make_body(building: Mapping[str, Any], eff: Any, detail: Mapping[str, Any] |
                 building.get("usability_code") or "", warnings=tuple(warnings),
                 single=archetype == "commercial" and R.single_business(building.get("name"), tags),
                 officetel=archetype == "commercial" and R.is_officetel(building.get("usability_code"), building.get("name"), tags, floors),
-                base=base)
+                base=base,
+                pilotis=is_body and R.pilotis(archetype, floors, merged, note))
 
 
 # --- the road-facing side, occlusion and free spans (BR-5) -----------------------------------------------------------
@@ -548,7 +550,10 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
             items.append(_box_part(frame, body, bi, "facade", f"cap{bi}", seq, 0.0, 0.0, H - D["cap_sink"], (w + lip, D["cap_h"], d + lip), **top))
             seq += 1
             roof_surface = H + D["cap_h"] - D["cap_sink"]
-    if body.archetype in ("villa", "public") and not body.shop:
+    if body.pilotis:
+        items += pilotis_items(body, bi, frame, seq)
+        seq += 100
+    elif body.archetype in ("villa", "public") and not body.shop:
         items.append(_box_part(frame, body, bi, "facade", f"pl{bi}", seq, 0.0, 0.0, 0.0, (w + lip, D["plinth_h"], d + lip),
                                material="Granite", color=R.PALETTE["plinth"], color_name="plinth"))
         seq += 1
@@ -658,6 +663,37 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
     return items
 
 
+def pilotis_items(body: Body, bi: int, frame: Frame, seq: int) -> list[Item]:
+    """필로티 (2026-10-15): the open ground floor of a villa. Columns every `piloti_pitch` along the long sides (and a middle row in a
+    deep box), each with a yellow guard at car height; a dark ceiling under the rooms, a concrete parking floor, and a closed stair
+    core at the rear corner when the front has no stair tower."""
+    box, fh = body.boxes[bi], body.fh
+    w, d = box.width_m, box.depth_m
+    c, g = D["piloti_col"], D["piloti_guard"]
+    col = dict(material="Concrete", color=R.PALETTE["piloti_col"], color_name="piloti_col")
+    guard = dict(material="SmoothPlastic", color=R.PALETTE["piloti_guard"], color_name="piloti_guard")
+    items: list[Item] = [
+        _box_part(frame, body, bi, "facade", f"pc{bi}", seq, 0.0, 0.0, fh - D["piloti_ceiling"], (w, D["piloti_ceiling"], d), collide=False,
+                  material="SmoothPlastic", color=R.PALETTE["piloti_ceiling"], color_name="piloti_ceiling"),
+        _box_part(frame, body, bi, "facade", f"pf{bi}", seq + 1, 0.0, 0.0, 0.0, (w, 0.1, d),
+                  material="Concrete", color=R.PALETTE["piloti_floor"], color_name="piloti_floor")]
+    n_u = max(2, int(round(w / D["piloti_pitch"])) + 1)
+    rows = [-(d / 2 - c / 2), d / 2 - c / 2] + ([0.0] if d > 2 * D["piloti_pitch"] else [])
+    k = 0
+    for v in rows:
+        for j in range(n_u):
+            u = -(w / 2 - c / 2) + (w - c) * j / (n_u - 1)
+            items.append(_box_part(frame, body, bi, "facade", f"pq{bi}-{k}", seq + 2 + 2 * k, u, v, 0.0, (c, fh - D["piloti_ceiling"], c), **col))
+            items.append(_box_part(frame, body, bi, "facade", f"pg{bi}-{k}", seq + 3 + 2 * k, u, v, 0.0, (c + 0.04, g, c + 0.04), collide=False, **guard))
+            k += 1
+    if bi == body.front and body.details["stair"] == "none":
+        su, sv, _ = _rear_corner(body)
+        cw, cd = min(D["piloti_core_w"], w / 2), min(D["piloti_core_d"], d / 2)
+        items.append(_box_part(frame, body, bi, "facade", f"pk{bi}", seq + 3 + 2 * k, su * (w / 2 - cw / 2), sv * (d / 2 - cd / 2), 0.0,
+                               (cw, fh - D["piloti_ceiling"], cd), material=body.material, color=body.wall_rgb, color_name=body.wall_color))
+    return items
+
+
 FRAMES = ("frame_white", "frame_gray", "frame_dark")
 
 
@@ -674,7 +710,7 @@ def _villa_columns(body: Body, bi: int, side: str, is_front: bool) -> tuple[list
         a = L * (j + 0.5) / n - L / 2
         if is_front and not _in_span(spans, a - win_w / 2, a + win_w / 2):
             continue
-        ks = [k for k in range(F) if not (is_front and k == 0 and (body.shop or (door is not None and
+        ks = [k for k in range(F) if not (k == 0 and body.pilotis) and not (is_front and k == 0 and (body.shop or (door is not None and
                                                                                 abs(a - door) < (win_w + D["door_w"]) / 2 + D["span_clear"])))]
         cols.append((a, ks))
     return cols, min(D["win_h"], fh - 1.0)
@@ -731,6 +767,7 @@ def _villa_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: f
 
 
 APT_ACCENTS = ("apt_beige", "apt_tan", "apt_sand")
+APT_PANEL = {"white": "apt_white", "light_gray": "apt_gray", "cream": "apt_sand", "beige": "apt_beige", "brown": "apt_tan"}
 
 
 def _block_no(body: Body) -> int | None:
@@ -745,7 +782,8 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
     band, a rail and a white slab across the face (the ground floor's band split round the entrance), so slabs and mullions draw
     the window grid. The entrance gets a canopy with the block number."""
     L, F, fh, H = face_of(body.boxes[bi], side).length, body.floors, body.fh, body.height_m
-    accent = APT_ACCENTS[R.pick(body.building_id, "apt_accent", len(APT_ACCENTS))]
+    # the judged wall colour first: here 60 of 62 judged apartments are white or light gray, the beige panels read wrong (2026-10-15)
+    accent = APT_PANEL.get(body.wall_color) or APT_ACCENTS[R.pick(body.building_id, "apt_accent", len(APT_ACCENTS))]
     glass = dict(material="SmoothPlastic", color=R.PALETTE["glass_apt"], color_name="glass_apt")  # no reflectance: it mirrors the sky blue
     rail = dict(material="Metal", color=R.PALETTE["apt_rail"], color_name="apt_rail")
     slab = dict(material="Concrete", color=R.PALETTE["apt_slab"], color_name="apt_slab")
@@ -891,7 +929,7 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
             seq += 1
     else:
         door = _door_along(body)
-        if door is not None:
+        if door is not None and not body.pilotis:  # pilotis: the way in is the stair core among the columns
             if det["ground_use"] == "garage":
                 items.append(_wall_part(frame, body, bi, side, "facade", "sh0", seq, door, 0.0, D["door_t"], (D["shutter_w"], D["shutter_h"], D["shutter_t"]),
                                         material="Metal", color=R.PALETTE["shutter"], color_name="shutter"))
@@ -903,12 +941,13 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
             seq += 2
     # AC units (BR-8.5)
     skin = D["skin_out"] if villa_skin_at(body, bi, side, 1, True) else 0.0  # BR-6.6: the AC and the gas pipe sit on the skin
+    ac_y = (2 * fh if body.pilotis else fh) - D["ac_drop"]  # over pilotis the AC hangs on the first floor of rooms
     if body.archetype == "villa":
         count = 1 + R.pick(body.building_id, "ac", 2)
         spans = free_spans(body)
         for i, a in enumerate((L / 4 + D["ac_along"], -(L / 4 + D["ac_along"]))[:count]):
             if _in_span(spans, a - D["ac_w"] / 2, a + D["ac_w"] / 2):
-                items.append(_wall_part(frame, body, bi, side, "facade", f"ac{i}", seq, a, fh - D["ac_drop"], skin + D["ac_d"], (D["ac_w"], D["ac_h"], D["ac_d"]),
+                items.append(_wall_part(frame, body, bi, side, "facade", f"ac{i}", seq, a, ac_y, skin + D["ac_d"], (D["ac_w"], D["ac_h"], D["ac_d"]),
                                         material="Metal", color=R.PALETTE["ac"], color_name="ac"))
                 seq += 1
     elif body.archetype == "commercial":
@@ -922,7 +961,7 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
                         seq += 1
                 break
     # gas pipe (BR-8.6)
-    if det["finish"] == "brick":
+    if det["finish"] == "brick" and not body.pilotis:
         gas = dict(material="Metal", color=R.PALETTE["gas"], color_name="gas")
         go = skin + D["gas_out"]
         items.append(_wall_part(frame, body, bi, side, "facade", "gs0", seq, 0.0, D["gas_y"], go, (L, D["gas_dia"], D["gas_dia"]), **gas))
@@ -1153,8 +1192,9 @@ def box_items(body: Body, building: Mapping[str, Any], eff: Any, frame: Frame) -
     """One `building` item per box with the U2/U4 attributes; multi-box names end in #b<n> and carry the owner."""
     s = frame.studs_per_m
     items = []
+    y0 = body.fh if body.pilotis else 0.0  # pilotis: the rooms start on the first floor, the ground floor is open
     for i, (box, name) in enumerate(zip(body.boxes, body.names)):
-        sy = body.height_m * s
+        sy = (body.height_m - y0) * s
         attrs: dict[str, Any] = {"BuildingId": body.building_id, "CellId": str(building["cell_id"]), "Source": str(building["source"]),
                                  "HeightM": fmt(body.height_m), "FitRatio": fmt(box.fit_ratio), "HeightBasis": eff.height_basis,
                                  "WallColor": body.wall_color}  # the body's (a brick-base block is panel above, 2026-10-14)
@@ -1164,7 +1204,7 @@ def box_items(body: Body, building: Mapping[str, Any], eff: Any, frame: Frame) -
             attrs["FloorsBasis"] = eff.floors_basis
         if eff.flags:
             attrs["Review"] = "-".join(eff.flags)
-        items.append(layout._item("building", name, body.building_id, i, (box.cx_m * s, sy / 2, -box.cy_m * s),
+        items.append(layout._item("building", name, body.building_id, i, (box.cx_m * s, y0 * s + sy / 2, -box.cy_m * s),
                                   (max(box.width_m * s, 1.0), sy, max(box.depth_m * s, 1.0)), box.yaw_deg, attrs, body.wall_rgb,
                                   material=body.material, color_name=body.wall_color, owner=body.building_id if len(body.boxes) > 1 else None))
     return items

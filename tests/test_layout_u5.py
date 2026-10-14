@@ -998,3 +998,28 @@ def test_kickers_go_here_and_there_spaced_apart_and_at_most_per_cell():
         for b in pts[k + 1:]:
             assert math.hypot(a[0] - b[0], a[1] - b[1]) >= ST.RAMP["spacing"] - 10  # centres of segments 100 m apart; lips near them
     assert len({i.name.split("#")[0] for i in lips}) == len(lips)  # one per road here
+
+
+def test_a_villa_over_pilotis_stands_on_columns_with_no_ground_floor_windows_or_shutter():
+    # 2026-10-15 (133 street view): 4-5 floor villas here stand on columns over parked cars
+    row, est, _ = villa(5, floors=5, code="02000", note="villa on pilotis parking, glass stair")
+    body, eff = resolve(row, est, {"building_id": "gis:5", "ground_use": "garage", "stair": "none"}, features=[street()])
+    items, _, _ = all_items(body, row, eff)
+    assert body.pilotis
+    b = next(i for i in items if i.kind == "building")
+    assert (b.cy - b.sy / 2) / S == pytest.approx(body.fh, abs=1e-3) and (b.cy + b.sy / 2) / S == pytest.approx(body.height_m, abs=1e-3)
+    cols = [i for i in items if tail(i).startswith("pq")]
+    assert len(cols) >= 4 and all(i.cy - i.sy / 2 < 0.01 for i in cols)
+    assert not any(tail(i).startswith(("sh", "pl", "gs")) for i in items)
+    assert not any(tail(i).startswith("w") and i.cy / S < body.fh for i in items)  # no glass on the open ground floor
+    assert any(tail(i).startswith("pk") for i in items)  # a stair core when there is no stair tower
+    plain, _, _ = villa(6, floors=5, code="02000", note="villa with shops")
+    pbody, _ = resolve(plain, est, {"building_id": "gis:6", "ground_use": "shop"}, features=[street()])
+    assert not pbody.pilotis
+
+
+def test_an_apartment_panel_takes_the_judged_wall_colour():
+    row, est, _ = villa(7, w=40, d=12, floors=15, code="02000", wall="white")
+    body, eff = resolve(row, est, None, features=[street()])
+    panels = [i for i in all_items(body, row, eff)[0] if tail(i).startswith("au")]
+    assert body.archetype == "apartment" and panels and all(i.color_name == "apt_white" for i in panels)
