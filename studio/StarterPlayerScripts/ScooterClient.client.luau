@@ -12,9 +12,7 @@
 --   SOUND: the footsteps are muted and a rolling-wheels sound plays instead, louder and higher with speed. Every client does this for every
 --   rider it can see, from the rider's replicated velocity, so everybody hears the same scooter.
 --   ARMS: bent to the grip the server worked out (see armsOf); only the rider's own screen shows it, Transform is not replicated.
---   TRICKS (2026-10-14): MANUAL: hold Ctrl (phone: the 매뉴얼 button) while rolling and the front wheel comes up; the pitch m has a
---   balance point it falls away from, W/S (stick up/down) push it back, and neither accelerates nor brakes while in a manual. m at +1 is a
---   loop-out (a fall backwards), at -1 the front wheel touches down. RAMP: running up the curved side of a trick ramp and off its lip (<road>#rampup, one per
+--   TRICKS (2026-10-14; the manual was taken out again by the user the same day): RAMP: running up the curved side of a trick ramp and off its lip (<road>#rampup, one per
 --   cell, made by streets.ramp_items) and off its lip throws the rider up to a height in proportion to the speed (LAUNCH_HEIGHT) and lightens gravity to AIR_G
 --   until he lands. TAILWHIP: in that air, Q (phone: the 테일윕 button) spins the deck and the back wheel once round the stem in WHIP_TIME;
 --   landing before it is round is a fall. A success shows no message (user 2026-10-14); a fall still says why. The spin is drawn on clones (the welded parts cannot turn), on every client: ours at once, the
@@ -58,14 +56,12 @@ local CRASH_FRAC, CRASH_DROP_FRAC = 0.5, 0.35 -- running into something above th
 local FALL_RECOVER = 2.5 -- seconds limp on the ground
 -- tricks
 -- the height of the flight above the lip grows with the speed (user 2026-10-14: "높히 떠지는 효과 ... 속도에 비례해서"):
--- metres per km/h, so 30 km/h flies about 4 m, 60 about 8 m, 120 about 16 m (the speed is in studs/s, shown as km/h)
-local LAUNCH_HEIGHT = 0.13 * 3.6 -- studs of height per stud/s of speed
+-- metres per km/h, so 30 km/h flies about 7.5 m, 60 about 15 m, 120 about 30 m (the speed is in studs/s, shown as km/h).
+-- 0.13 at first, then "효과 더 높혀서" (user, same day)
+local LAUNCH_HEIGHT = 0.25 * 3.6 -- studs of height per stud/s of speed
 local AIR_G = 0.5 -- share of gravity while flying off a ramp: hang time for a trick (40 km/h gives about 0.5 s, 80 about 1 s)
 local MIN_LAUNCH = 15 -- studs/s: slower than this the rider just rolls over the ramp
 local WHIP_TIME = 0.38 -- seconds for the deck to go round once
-local MANUAL_MIN_SPEED = 8
-local MANUAL_PITCH, MANUAL_RANGE = math.rad(13), math.rad(9) -- the front's lift at the balance point and the swing to either end
-local M_GROW, M_DAMP, M_PUSH, M_NOISE = 2.6, 1.6, 5.5, 1.6 -- 1/s^2, 1/s, 1/s^2 for a full push, 1/s^2
 
 -- "Rolling loop" (small wheels rolling, 5.2 s, Creator Store, by Animatedupload). Somebody else's upload: if it is ever taken down the scooter
 -- is just silent. Put your own asset id here to change the sound.
@@ -140,26 +136,6 @@ marker.ZIndex = 2
 marker.Parent = gauge
 rounded(marker, 3)
 
--- the manual gauge, standing up beside the balance gauge: the marker climbs with the front wheel; the top is the loop-out
-local mgauge = Instance.new("Frame")
-mgauge.Name = "Manual"
-mgauge.AnchorPoint = Vector2.new(1, 1)
-mgauge.Position = UDim2.new(1, -126, 1, -150)
-mgauge.Size = UDim2.fromOffset(12, 96)
-mgauge.BackgroundColor3 = Color3.fromRGB(30, 30, 36)
-mgauge.BackgroundTransparency = 0.2
-mgauge.BorderSizePixel = 0
-mgauge.Visible = false
-mgauge.Parent = gui
-rounded(mgauge, 6)
-local mmark = Instance.new("Frame")
-mmark.AnchorPoint = Vector2.new(0.5, 0.5)
-mmark.Position = UDim2.fromScale(0.5, 0.5)
-mmark.Size = UDim2.fromOffset(18, 8)
-mmark.BackgroundColor3 = Color3.fromRGB(80, 200, 110)
-mmark.BorderSizePixel = 0
-mmark.Parent = mgauge
-rounded(mmark, 3)
 
 -- how to do the tricks (user 2026-10-14: "하는 방법 넣고")
 local helpButton = Instance.new("TextButton")
@@ -178,7 +154,7 @@ local help = Instance.new("Frame")
 help.Name = "TrickHelpPanel"
 help.AnchorPoint = Vector2.new(0.5, 0.5)
 help.Position = UDim2.fromScale(0.5, 0.5)
-help.Size = UDim2.fromOffset(460, 330)
+help.Size = UDim2.fromOffset(460, 245)
 help.BackgroundColor3 = Color3.fromRGB(28, 30, 38)
 help.BackgroundTransparency = 0.08
 help.Visible = false
@@ -186,8 +162,7 @@ help.ZIndex = 30
 help.Parent = gui
 rounded(help, 12)
 local HELP = {
-	{ "매뉴얼 (앞바퀴 들기)", "달리는 중에 Ctrl을 누르고 있어요 (휴대폰: 매뉴얼 버튼). 오른쪽 세로 막대의 표시가 가운데에 있도록 W·S로 조절해요 (휴대폰: 스틱 위·아래). 위 끝에 닿으면 뒤로 넘어지고, 아래 끝에 닿으면 앞바퀴가 내려와요." },
-	{ "점프대", "칸마다 도로 한가운데에 나무 점프대가 하나 있어요 (지도에 주황색). 둥글게 휘어 올라가는 쪽으로 빠르게 달려 올라가면 금속 모서리에서 공중으로 날아요. 빠를수록 높이 떠요 (30 km/h 약 4 m, 60 km/h 약 8 m)." },
+	{ "점프대", "칸마다 도로 한가운데에 나무 점프대가 하나 있어요 (지도에 주황색). 둥글게 휘어 올라가는 쪽으로 빠르게 달려 올라가면 금속 모서리에서 공중으로 날아요. 빠를수록 높이 떠요 (30 km/h 약 7 m, 60 km/h 약 15 m)." },
 	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 땅에 닿기 전에 다 돌아야 해요. 덜 돌면 넘어져요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
 }
 local y = 14
@@ -410,7 +385,6 @@ if trickRemote then
 	end)
 end
 
-local manualHeld = false
 local ride -- { char, humanoid, root, idle, animate, walk, autoRotate, speed, dir, w, wv, side, skid, offset, seed, tricks... }
 
 local function stopRide(keepBody)
@@ -421,10 +395,8 @@ local function stopRide(keepBody)
 	ride = nil
 	if r.driving then
 		RunService:UnbindFromRenderStep("ScooterDrive")
-		ContextActionService:UnbindAction("ScooterManual")
 		ContextActionService:UnbindAction("ScooterWhip")
 	end
-	manualHeld = false
 	if r.whip then
 		r.whip.stop()
 		r.whip = nil
@@ -432,7 +404,7 @@ local function stopRide(keepBody)
 	if r.lift then
 		r.lift:Destroy()
 	end
-	mgauge.Visible = false
+
 	if r.armConnection then
 		r.armConnection:Disconnect()
 	end
@@ -509,7 +481,7 @@ local function poseRide(char)
 		char = char, humanoid = humanoid, root = root, idle = idle, animate = animate,
 		walk = humanoid.WalkSpeed, autoRotate = humanoid.AutoRotate, speed = 0, dir = Vector3.new(look.X, 0, look.Z).Unit,
 		w = 0, wv = 0, side = 0, skid = 0, offset = Vector3.zero, seed = math.random() * 100, clock = 0,
-		manual = false, m = 0, mv = 0, manualT = 0, pitch = 0, air = false, launched = false, kicker = nil, airT = 0, whip = nil, whipT = 0, whipped = false,
+		air = false, launched = false, kicker = nil, airT = 0, whip = nil, whipT = 0, whipped = false,
 	}
 	ride = r
 	humanoid.AutoRotate = false -- the facing is ours: the way we roll
@@ -528,9 +500,6 @@ local function driveRide()
 	r.driving = true
 	local char, humanoid, root = r.char, r.humanoid, r.root
 	local arms = armsOf(char)
-	-- where the back wheel touches the ground, in the root's frame: the manual turns about it
-	local back = char:FindFirstChild("Scooter") and char.Scooter:FindFirstChild("WheelBack")
-	r.rearZ = back and root.CFrame:PointToObjectSpace(back.Position).Z or 1.7
 	local att = Instance.new("Attachment")
 	att.Name = "ScooterLiftAttachment"
 	att.Parent = root
@@ -547,12 +516,6 @@ local function driveRide()
 	r.rayParams = RaycastParams.new()
 	r.rayParams.FilterType = Enum.RaycastFilterType.Exclude
 	r.rayParams.FilterDescendantsInstances = { char }
-	ContextActionService:BindAction("ScooterManual", function(_, state)
-		manualHeld = state == Enum.UserInputState.Begin
-		return Enum.ContextActionResult.Sink
-	end, true, Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl, Enum.KeyCode.ButtonL2)
-	ContextActionService:SetTitle("ScooterManual", "매뉴얼")
-	ContextActionService:SetPosition("ScooterManual", UDim2.new(1, -230, 1, -150))
 	ContextActionService:BindAction("ScooterWhip", function(_, state)
 		local rr = ride
 		if state ~= Enum.UserInputState.Begin or not rr or not rr.launched or not rr.air or rr.whip or rr.whipped then
@@ -587,11 +550,6 @@ local function driveRide()
 		local max = char:GetAttribute("ScooterMaxSpeed") or MAX_SPEED_DEFAULT
 		local move = humanoid.MoveDirection -- keys, thumbstick or pad, turned to the camera
 		local want = Vector3.new(move.X, 0, move.Z)
-		local fwd = want.Magnitude > 0.1 and want.Unit:Dot(r.dir) or 0 -- the push along the way we roll (W = +1, S = -1)
-		local manualOn = r.manual
-		if manualOn then -- W/S work the front wheel, not the speed; a sideways push still steers
-			want -= r.dir * want:Dot(r.dir)
-		end
 		local omega, sideRaw = 0, 0 -- turning rate (rad/s, + = left) and the sideways push (+ = left)
 		if want.Magnitude > 0.1 then
 			want = want.Unit
@@ -610,9 +568,7 @@ local function driveRide()
 				r.dir = rotate(r.dir, step)
 				omega = step / dt
 				sideRaw = math.sin(angle)
-				if not manualOn then
-					r.speed += ACCEL * dt
-				end
+				r.speed += ACCEL * dt
 			end
 		else
 			r.speed -= (COAST_BASE + COAST_DRAG * r.speed) * dt
@@ -666,7 +622,7 @@ local function driveRide()
 				root.AssemblyLinearVelocity = Vector3.new(v0.X, math.max(v0.Y, vy), v0.Z)
 				r.lift.Force = Vector3.new(0, root.AssemblyMass * workspace.Gravity * (1 - AIR_G), 0)
 				r.lift.Enabled = true
-				r.launched, r.air, r.airT, r.whipped, r.manual = true, true, 0, false, false
+				r.launched, r.air, r.airT, r.whipped = true, true, 0, false
 				player:SetAttribute("ScooterLaunch", string.format("speed=%.1f vy=%.1f", speed, vy)) -- for testing (this client only)
 			end
 			r.kicker = nil
@@ -693,49 +649,14 @@ local function driveRide()
 				r.wv += (math.random() - 0.5) * 0.8 -- the landing jolts the balance a little
 			end
 		end
-		-- the manual: an unstable pitch the player holds with W/S
-		local wantManual = manualHeld and not r.launched and onGround and speed > MANUAL_MIN_SPEED
-		if wantManual and not r.manual then
-			r.manual, r.m, r.mv, r.manualT = true, -0.2, 0, 0
-		end
-		local function endManual() -- no message on success (user 2026-10-14); only a fall says what happened
-			player:SetAttribute("ScooterManualTime", r.manualT) -- for testing (this client only)
-			r.manual = false
-		end
-		if r.manual and not wantManual then
-			endManual()
-		end
-		if r.manual then
-			local noise = math.clamp(math.noise(r.clock * 2.3, r.seed + 50) * 2, -1, 1) * M_NOISE
-			r.mv += (M_GROW * r.m - M_DAMP * r.mv - M_PUSH * fwd + noise) * dt
-			r.m += r.mv * dt
-			r.manualT += dt
-			if r.m >= 1 then
-				fall(r, 0, "앞바퀴를 너무 들어 뒤로 넘어졌다!", string.format("manual m=%.2f t=%.2f", r.m, r.manualT))
-				return
-			elseif r.m <= -1 then -- the front wheel is down again
-				endManual()
-			end
-		end
-		local pitchGoal = r.manual and (MANUAL_PITCH + math.clamp(r.m, -1, 1) * MANUAL_RANGE) or 0
-		r.pitch += (pitchGoal - r.pitch) * math.min(1, dt * 12)
-		mgauge.Visible = r.manual
-		if r.manual then
-			mmark.Position = UDim2.fromScale(0.5, 0.5 - math.clamp(r.m, -1, 1) * 0.45)
-			local a = math.abs(r.m)
-			mmark.BackgroundColor3 = a < 0.4 and Color3.fromRGB(80, 200, 110) or (a < 0.75 and Color3.fromRGB(240, 170, 50) or Color3.fromRGB(230, 60, 55))
-		end
 		-- drive
 		humanoid.WalkSpeed = speed
 		humanoid:Move(speed > 0.2 and r.dir or Vector3.zero, false)
 		-- lean: into the turn and with the wobble, tilted about where the wheels touch the ground
 		local roll = math.clamp(-0.6 * math.atan(speed * omega / workspace.Gravity) + r.w, -0.7, 0.7)
-		-- and the manual's lift, about where the back wheel touches the ground (a pure lean leaves that point's Z out of it)
-		local upright = CFrame.lookAt(Vector3.zero, r.dir)
-		local rot = upright * CFrame.Angles(r.pitch, 0, -roll)
+		local rot = CFrame.lookAt(Vector3.zero, r.dir) * CFrame.Angles(0, 0, -roll)
 		local base = root.Position - r.offset -- where the body is without last frame's lean
-		local q = Vector3.new(0, -drop, r.rearZ)
-		r.offset = upright:VectorToWorldSpace(q) - rot:VectorToWorldSpace(q)
+		r.offset = rot:VectorToWorldSpace(Vector3.new(0, drop, 0)) - Vector3.new(0, drop, 0)
 		root.CFrame = CFrame.new(base + r.offset) * rot
 		-- the screen
 		meter.Text = string.format("%d km/h", math.floor(speed + 0.5)) -- 80 studs/s is 80 km/h

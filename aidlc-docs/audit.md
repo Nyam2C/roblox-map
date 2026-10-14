@@ -1526,3 +1526,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U6 추가 기능 조정
 
 ---
+
+## 매뉴얼 빼고 더 높이
+**Timestamp**: 2026-10-14T10:40:04Z
+**User Request**: "앞바퀴드는건빼고 높이 오르는거 효과 더 높혀서 ㄱㄱ"
+**AI Response**: 매뉴얼(Ctrl, 게이지, 버튼, 도움말 항목, 앞 들림 계산) 삭제. 발사 높이 0.13 → 0.25 m × km/h. Play: 60 km/h에 도로 위 약 16 m, 2.3 s, 테일윕 착지, 매뉴얼 UI 없음 확인. 계획서·CLAUDE.md 고침.
+**Context**: CONSTRUCTION - U6 추가 기능 조정
+
+---
