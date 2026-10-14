@@ -1,0 +1,338 @@
+{
+  "cell_id": "8930e0af147ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11173627",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "kindergarten mostly hidden by trees, white wall with orange and green bands, large windows",
+      "roof_shape": "other",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11177727",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "school block hidden behind trees, red brick, open column ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11191481",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "apartment tower, white paint, ribbed stair core in middle, balconies, rooftop core box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11191546",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "apartment tower, white paint, ribbed stair core in middle, recessed balconies",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11191549",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "apartment tower, white paint, ribbed core, top washed out by sun; crop 3 shows a different block",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11191611",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, blue-gray lower floors white upper, dark glass stair strip, balconies; top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11192009",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, white with green and yellow panels, window rows, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11192066",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, white paint, balconies with railings, lower floors hidden by truck, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11192337",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "one-storey utility box in apartment yard, white wall with dark gray base, no windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11192338",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "same one-storey utility box as neighbour, white wall dark gray base, likely duplicate footprint",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11192424",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "no target visible: crop shows parking lot and green construction fence",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11192562",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, white with green stripe on end wall, central balcony column, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11195177",
+      "confidence": "medium",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, white upper gray lower, orange accents, balconies, rooftop boxes, entrance canopies",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11195182",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, gray lower white upper, balconies, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11195183",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, gray lower white upper, balconies with railings, rooftop boxes",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11201458",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "school block, red brick with white and color tile accents, blank hall wall, colored canopy at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11218542",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "kindergarten, white with orange and yellow blocks, brown hip roof seen from one side, sign on roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:12403202",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "two-storey shop row, store fronts with awnings, upper floor windows and signs, parapet signs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:12992293",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "tall apartment tower, white with green and yellow panels, window rows, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:15174735",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "one-storey utility box, white wall dark gray base, same structure as nearby footprints",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15229250",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "two-storey complex management office, beige tile, flat roof with overhanging eaves, bike parking under part",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:16131302",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "no small target visible: crops show apartment wall, shrubs and trees",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:16463960",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "school block, red brick with white and color tile accents, colored canopy at ground, same view as neighbour",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:17540761",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:27:14+00:00",
+      "note": "no small target visible: parking lot and construction fence",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

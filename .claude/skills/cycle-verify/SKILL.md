@@ -32,6 +32,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 - 횡단보도가 교차로 한가운데나 다른 도로 위에 있는가, 횡단보도가 겹쳐 두 겹인가
 - 가로등·전봇대·나무가 차로 위에 있는가
 - 칸 경계에서 도로·인도가 어긋나는가
+- 위성 나무가 차도 위에 서 있는가(특히 `road_lanes_by_name`으로 넓힌 큰길)
 규칙(`streets.sidewalk_pieces`의 차로 겹침 자르기, `_on_other_road`, 횡단보도 `on_other`)으로 고치고 `tests/test_layout_u5.py`에 사례를 더한다.
 
 ## 4. 거리뷰 대조 (1급 칸)

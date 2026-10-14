@@ -26,6 +26,7 @@ Do not run sqlite or the project's scripts. The point is an independent count fr
   ground floor (shop, parking pilotis, house door), visible features (glass stair strip, bay window, balconies, rooftop box/tank/railing,
   solar panels, roof terrace). Use these words literally when they apply: shop/store/restaurant/cafe/convenience/pharmacy, stair,
   bay, balcony, garage/carport, roof terrace, solar. NEVER write people, faces, licence plates or real shop/brand names.
+  NEVER write alcohol, tobacco or gambling words (bar, pub, beer, soju, lotto...); call such a ground floor "restaurant" or "shop".
 
 ## Record 2: `detail` (U5)
 - `building_id`: copy.

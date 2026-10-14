@@ -225,6 +225,12 @@ def is_officetel(usability_code: str | None, name: str | None, tags: Mapping[str
     return "오피스텔" in (name or "") or (tags or {}).get("building") == "apartments" or (floors or 0) >= OFFICETEL_MIN_FLOORS
 
 
+def shop_house(usability_code: str | None, name: str | None, detail: Mapping[str, Any] | None) -> bool:
+    """A 제1종 근린생활시설 (03000) the photos judged with shops on the ground floor is a shop block, not a plain public building
+    (147·17b street view 2026-10-14: a row of small shops came out with no storefront and a made-up office plate)."""
+    return (usability_code or "") == "03000" and not is_public_name(name) and bool(detail) and detail.get("ground_use") == "shop"
+
+
 def is_public_name(name: str | None) -> bool:
     return bool(name) and any(name.endswith(s) for s in PUBLIC_SUFFIXES)
 

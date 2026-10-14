@@ -553,7 +553,7 @@ def test_br_3_2a_the_first_floor_band_is_thick_and_proud_but_a_school_keeps_the_
 @pytest.mark.parametrize("code, use, floors, setback_dy, expect", [
     ("01000", "house", 3, 15, "yard"), ("01000", "shop", 3, 15, "storefront"), ("01000", "house", 3, 4, "neither"),  # setback_s = 4 - 5 - ... < 1.5
     ("14000", "house", 6, 15, "neither"), ("14000", "shop", 6, 15, "storefront"),  # BR-9.1 (2026-10-14): a judged house ground floor stays
-    ("03000", "shop", 2, 15, "neither"), ("10000", "shop", 1, 15, "neither")])
+    ("03000", "shop", 2, 15, "storefront"), ("10000", "shop", 1, 15, "neither")])  # 03000 judged shop: a shop block (2026-10-14)
 def test_p5_9_exactly_one_of_storefront_yard_or_neither(code, use, floors, setback_dy, expect):
     d = 10.0
     row, est, _ = villa(code=code, floors=floors, center=offset(CENTER, 0, setback_dy + d / 2), name="")

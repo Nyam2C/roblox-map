@@ -1,0 +1,807 @@
+{
+  "cell_id": "8930e0af16bffff",
+  "estimates": [
+    {
+      "building_id": "gis:11168135",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "dark stone corner office, ground-floor shop and salon, ribbon windows on two upper floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11168936",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "pinkish beige motel-type building, ground floor parking pilotis behind barrier, small windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11168937",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "shop building, ground restaurant, large sign banners on upper floors, glass stair strip at corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11168941",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "cream three-storey building behind trees and gate, vertical green-framed arched stair window",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11171118",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "shop and office building, ground restaurant, glass window bands, church sign on top floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11171888",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "glass curtain wall corner office, ground restaurant, parking entrance on side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:11172658",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "dark stone office with ribbon windows, ground restaurant with red awning, parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11173953",
+      "confidence": "low",
+      "floors_seen": 12,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "office tower, light panel facade with window bands, ground shops and store, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11174181",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey corner shop building, beige tile, restaurant and shops on ground, signs on upper floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11176720",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "large shop and clinic building, tile facade, window bands with AC units, shops and restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11177611",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "small one-storey shed with dark shingle gable roof beside a stone office building",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11177945",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "gas station building, orange two-level block with outdoor stair, teal trim, canopy next to it",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11178604",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "crops show trees, plaza and a pedestrian bridge; no clear building at centre",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11178805",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "tiny footprint; crops show trees and paving, only a brick ground-floor wall of a larger building",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11178940",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "dark stone office block, ground-floor restaurant and cafe under pilotis, ribbon windows above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11178941",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "scrap yard shed behind sheet-metal fence with large yellow sign board",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11179832",
+      "confidence": "low",
+      "floors_seen": 40,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "apartment tower on beige stone shop podium, glass and light panel facade, too tall to count exactly",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11180166",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "officetel tower, two-storey shop podium with restaurants and convenience store, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11185000",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "dark shop building covered with big signs, restaurants on ground, dark glass top floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11187727",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey shop building, red-framed windows and signs, restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11188019",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey corner shop building, beige tile, billiards hall and signs, restaurant and convenience on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11188021",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "long three-storey shop block, beige tile, window rows, restaurants on ground with exhaust ducts",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11188024",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "long three-storey shop block, beige tile, window rows, restaurant on ground, parking booth in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11188453",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "rounded corner shop building, restaurants on ground, church and signs on upper floors, sign band on top",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11190953",
+      "confidence": "low",
+      "floors_seen": 16,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "officetel slab, beige tile, two-storey shop podium, many window rows, stepped fins on top",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11190954",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey shop building covered with signs, PC room upstairs, restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191303",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey shop building, beige tile, glass window rows, restaurant with red awning on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11199044",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "gas station canopy over pumps, white and teal, small orange office behind",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11200258",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "EV charging canopy, white columns and flat roof over chargers",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11200510",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey shop block, beige tile, billiards hall upstairs, cafe and restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11208074",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "one-storey restaurant, green painted walls with mural, dark shingle gable roof part with lanterns",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11208105",
+      "confidence": "low",
+      "floors_seen": 14,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "officetel tower, gray panel facade, dark stone two-storey shop podium, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11211816",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey shop building, billiards hall and gym signs upstairs, restaurant on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11214493",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "shop building behind tree, restaurant and singing room on ground, glass window rows",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11215197",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "apartment tower; only beige stone podium with shops and parking entrance visible, tower top not in crops",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11217924",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "cream stone hotel block, few small windows, glass stair strip, parking entrance, rooftop stair box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11755814",
+      "confidence": "low",
+      "floors_seen": 9,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "shop and office building, tile facade with signs, shops and restaurant on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12398995",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "residential tower with balconies, white and navy panels, dark stone podium with parking entrance, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:12408201",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "office building, white tile with central glass curtain strip, cafe and restaurant on ground, parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12425924",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "office building, light tile facade, window bands, restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12988726",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "office building mostly behind trees, light tile, clinic signs, restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:14635376",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey shop building covered with signs, PC room upstairs, restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:14694509",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "glass curtain wall corner office, ground restaurant, parking entrance on side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:14956948",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "long three-storey shop block, beige tile, window rows, restaurants on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:15000502",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "long three-storey shop block, beige tile, window rows, restaurant on ground, parking booth in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:15152732",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "office building, white tile with central glass curtain strip, restaurant on ground, parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16146105",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "three-storey shop building, billiards hall and gym signs upstairs, restaurant on ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16483487",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "small shed inside scrap yard, sheet-metal walls and sign board",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16623008",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "residential tower with balconies, white and navy panels, dark stone podium with parking entrance, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:17308236",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "dark stone corner office, ground-floor shop and salon, ribbon windows on two upper floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17310497",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "one-storey restaurant, green painted walls with mural and lanterns, shed with dark roof behind",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:17663237",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "EV charging canopy, white columns and flat roof over chargers",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:17778409",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "dark stone office, ground floor cafe under pilotis with parking, ribbon windows above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17860277",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "gas station building, orange two-level block with outdoor stair, teal trim, canopy next to it",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:17900874",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "officetel tower, two-storey shop podium with restaurants and convenience store, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "osm:490144626",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T11:28:33+00:00",
+      "note": "vacant fenced lot with grass and trees; no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    }
+  ],
+  "overrides": [
+    {
+      "building_id": "gis:11215197",
+      "field": "floors_above",
+      "reason": "대장 층수 없음, 사진에 탑이 안 잡힘; 위성에 901동(대장 33층)과 같은 넓이(946 vs 944 m2)의 헬리패드 쌍둥이 탑 (Claude, 2026-10-14)",
+      "set_at": "2026-10-14T11:29:52+00:00",
+      "value": 33
+    }
+  ],
+  "version": 1
+}

@@ -212,3 +212,10 @@ def test_p5_17_the_band_color_is_darker_than_the_wall_on_every_channel(rgb):
 
 def test_dimensions_are_positive_numbers():
     assert all(isinstance(v, (int, float)) and not isinstance(v, bool) and v > 0 for v in R.DIMS.values())
+
+
+def test_a_small_shop_block_judged_with_shops_is_not_a_public_building():
+    # 147·17b street view 2026-10-14: 03000 rows of small shops came out as plain public blocks
+    shop, house = {"ground_use": "shop"}, {"ground_use": "house"}
+    assert R.shop_house("03000", "미리내마을", shop) and not R.shop_house("03000", "미리내마을", house)
+    assert not R.shop_house("03000", "중앙행정복지센터", shop) and not R.shop_house("10000", "", shop) and not R.shop_house("03000", "", None)

@@ -289,6 +289,8 @@ def make_body(building: Mapping[str, Any], eff: Any, detail: Mapping[str, Any] |
     bid = str(building["building_id"])
     in_school = in_school_polygon(building["centroid"], cfg) if building.get("centroid") else False
     archetype = R.archetype(building.get("usability_code"), eff.floors_above, building.get("name"), in_school)
+    if archetype == "public" and R.shop_house(building.get("usability_code"), building.get("name"), detail):
+        archetype = "commercial"
     boxes = outline_to_boxes(building["outline"], frame, cfg, archetype)
     if not boxes:
         return None

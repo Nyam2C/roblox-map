@@ -399,3 +399,13 @@ def test_a_satellite_tree_on_a_carriageway_is_left_out():
         plan = B.plan_cell(CELL, [building(0)], features, CFG, sat_trees=[[*on, 6.0], [*off, 6.0]])
         return len(re.findall(r'sat#\d+#tree"', "".join(t for n, t in plan.files.items() if n.endswith(".luau"))))
     assert trees([]) == 2 and trees([street("way:1")]) == 1
+
+
+def test_an_osm_only_outline_the_photos_show_empty_is_not_built():
+    # 16b, 2026-10-14: an OSM building on what is now a fenced empty lot stood as a big box
+    empty = {"floors_seen": None, "height_est_m": None, "note": "vacant fenced lot with grass and trees; no building visible"}
+    osm, gis = building(0, source="osm"), building(1)
+    plan = B.plan_cell(CELL, [osm, gis], [street("way:1")], CFG, estimates={osm["building_id"]: empty, gis["building_id"]: empty})
+    assert plan.counts["items_building"] == 1 and any("OSM-only" in w for w in plan.warnings)
+    plan = B.plan_cell(CELL, [osm, gis], [street("way:1")], CFG, estimates={osm["building_id"]: {**empty, "floors_seen": 1}})
+    assert plan.counts["items_building"] == 2

@@ -168,6 +168,11 @@ def _texts_ok(item: layout.Item) -> bool:
     return all(SAFE_TEXT.fullmatch(v) for v in texts) and (item.kind != "sign" or bool(details_rules.SIGN_TEXT.fullmatch(item.text or "")))
 
 
+def _seen_empty(est: Mapping[str, Any] | None) -> bool:
+    """A judgement that counted nothing and said so in its note ("no building")."""
+    return bool(est) and est.get("floors_seen") is None and est.get("height_est_m") is None and "no building" in str(est.get("note") or "").lower()
+
+
 def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Sequence[Mapping[str, Any]],
               cfg: Mapping[str, Any], estimates: Mapping[str, Mapping[str, Any]] | None = None,
               overrides: Mapping[str, Mapping[str, Any]] | None = None,
@@ -193,6 +198,10 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         bid = str(b["building_id"])
         if layout.is_underground(b):
             warnings.append(f"{bid}: underground facility (floors below {b.get('floors_below')}, above {b.get('floors_above')}): not built")
+            continue
+        if b.get("source") != "gis" and _seen_empty(estimates.get(bid)):
+            # only OSM has it and the photos show no building: an outline left on a cleared lot (16b, 2026-10-14)
+            warnings.append(f"{bid}: OSM-only outline and the photos show no building: not built")
             continue
         if layout_details.is_skybridge(b, (estimates.get(bid) or {}).get("note"), frame):
             items += layout_details.skybridge_items(b, frame, cfg)
