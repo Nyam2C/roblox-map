@@ -14,7 +14,8 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 import h3
-from shapely.geometry import Point, Polygon
+from shapely.geometry import LineString, Point, Polygon
+from shapely.ops import unary_union
 
 import details_rules as R
 import kits
@@ -151,8 +152,55 @@ def _slots(length: float, spacing: float, clear: Sequence[float], clear_dist: fl
     return out
 
 
-def sidewalk_pieces(st: Street, jcts: Sequence[Junction], frame: Frame, cfg: Mapping[str, Any]) -> list[tuple[int, str, int, float, float]]:
-    """(segment, side, piece index, start, end) of the sidewalk pieces after the alley-mouth gaps (BR-11.10)."""
+def carriageways(streets: Sequence[Street]) -> dict[str, Any]:
+    """Each road's carriageway as a polygon in metres (flat ends), by feature id."""
+    return {st.feature_id: LineString(st.pts).buffer(st.width / 2, cap_style=2) for st in streets if st.kind == "road" and len(st.pts) >= 2}
+
+
+def others_of(st: Street, ways: Mapping[str, Any]) -> Any:
+    """The carriageways of every road but this one (None when there are none)."""
+    rest = [g for fid, g in sorted(ways.items()) if fid != st.feature_id]
+    return unary_union(rest) if rest else None
+
+
+def _clear_spans(p: tuple[float, float], u: tuple[float, float], s0: float, s1: float, lat0: float, lat1: float,
+                 blocked: Any) -> list[tuple[float, float]]:
+    """Parts of [s0, s1] along the segment where the band from lat0 to lat1 metres left of it meets no blocked carriageway (2026-10-14:
+    sidewalks of one carriageway ran across the other half of a divided road and across slip lanes)."""
+    if blocked is None:
+        return [(s0, s1)]
+    step, keep, out, start = D["clip_step"], [], [], None
+    n = max(1, int(math.ceil((s1 - s0) / step)))
+    for k in range(n + 1):
+        s = s0 + (s1 - s0) * k / n
+        a = (p[0] + u[0] * s - u[1] * lat0, p[1] + u[1] * s + u[0] * lat0)
+        b = (p[0] + u[0] * s - u[1] * lat1, p[1] + u[1] * s + u[0] * lat1)
+        keep.append(LineString([a, b]).intersection(blocked).length <= D["clip_overlap"])
+    if all(keep):
+        return [(s0, s1)]  # exactly: a whole piece is recognised by its ends
+    for k, ok in enumerate(keep):
+        s = s1 if k == n else s0 + (s1 - s0) * k / n
+        if ok and start is None:
+            start = s
+        if (not ok or k == n) and start is not None:
+            end = s if ok else s0 + (s1 - s0) * (k - 0.5) / n
+            out.append((start, end))
+            start = None
+    return out
+
+
+def _on_other_road(blocked: Any, p: tuple[float, float], u: tuple[float, float], pos: float, lat: float) -> bool:
+    """True when the point `pos` along and `lat` left of the segment lies on (or within a metre of) another road's carriageway."""
+    if blocked is None:
+        return False
+    return blocked.distance(Point(p[0] + u[0] * pos - u[1] * lat, p[1] + u[1] * pos + u[0] * lat)) < 1.0
+
+
+def sidewalk_pieces(st: Street, jcts: Sequence[Junction], frame: Frame, cfg: Mapping[str, Any],
+                    blocked: Any = None) -> list[tuple[int, str, int, float, float]]:
+    """(segment, side, piece index, start, end) of the sidewalk pieces after the alley-mouth gaps (BR-11.10) and away from other
+    roads' carriageways: a span is cut where the band from the road edge to the sidewalk's outer edge plus median_margin meets
+    another carriageway, so the median of a divided road and the islands between slip lanes get no sidewalk (2026-10-14)."""
     out = []
     jpos = _junction_positions(st, jcts)
     for i, p, q, mid, length in st.owned:
@@ -184,6 +232,10 @@ def sidewalk_pieces(st: Street, jcts: Sequence[Junction], frame: Frame, cfg: Map
                         if b < s1:
                             new.append((b, s1))
                 pieces = new
+            sign = 1.0 if side == "L" else -1.0
+            sw = float(cfg["sidewalk_width_m"])
+            pieces = [c for s0, s1 in pieces
+                      for c in _clear_spans(p, u, s0, s1, sign * (st.width / 2 + 0.05), sign * (st.width / 2 + sw + D["median_margin"]), blocked)]
             for k, (s0, s1) in enumerate(pc for pc in pieces if pc[1] - pc[0] >= D["piece_min"]):
                 out.append((i, side, k, s0, s1))
     return out
@@ -232,12 +284,14 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
     sw = float(cfg["sidewalk_width_m"])
     top_road, top_side = layout.TOPS["road"], layout.TOPS["sidewalk"]
     by_id = {st.feature_id: st for st in streets}
+    ways = carriageways(streets)
     for st in streets:
         fid, w = st.feature_id, st.width
+        blocked = others_of(st, ways)
         jpos = _junction_positions(st, jcts)
         clear = {i: [pos for si, pos, _ in jpos if si == i] for i, *_ in st.owned}
         # sidewalks and curbs (BR-11.10, BR-11.6)
-        pieces = sidewalk_pieces(st, jcts, frame, cfg)
+        pieces = sidewalk_pieces(st, jcts, frame, cfg, blocked)
         for i, side, k, s0, s1 in pieces:
             _, p, q, _, length = next(seg for seg in st.owned if seg[0] == i)
             u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
@@ -291,6 +345,8 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                 u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
                 for j, pos in _slots(length, float(cfg["pole_spacing_m"]), clear[i], D["slot_junction_clear"]):
                     lat = -(w / 2 + D["pole_off"])
+                    if _on_other_road(blocked, p, u, pos, lat):
+                        continue
                     name = f"{fid}#{i}#pole{j}"
                     props.append(_segment_part(frame, "prop", name, fid, 400 + 10 * i + j, p, u, pos, lat, 0.0, (D["pole_h"], D["pole_dia"], D["pole_dia"]),
                                                shape="Cylinder", material="Concrete", color=R.PALETTE["pole"], color_name="pole"))
@@ -318,6 +374,8 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                     side = "L" if j % 2 == 0 else "R"
                     sign = 1.0 if side == "L" else -1.0
                     lat = sign * (w / 2 + sw - D["lamp_in"])
+                    if _on_other_road(blocked, p, u, pos, lat):
+                        continue
                     lamp_slots[side].append((i, pos))
                     props.append(_segment_part(frame, "prop", f"{fid}#{i}#lamp{j}", fid, 600 + 10 * i + j, p, u, pos, lat, 0.0, (D["lamp_h"], D["lamp_dia"], D["lamp_dia"]),
                                                shape="Cylinder", material="Metal", color=R.PALETTE["lamp_post"], color_name="lamp_post"))
@@ -337,6 +395,8 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                         if any(abs(pos - a) <= D["tree_clear"] for a in avoid):
                             continue
                         lat = sign * (w / 2 + D["tree_off"])
+                        if _on_other_road(blocked, p, u, pos, lat):
+                            continue
                         name = f"{fid}#{i}#tree{side}{j}"
                         crown = R.TREE_CROWNS[R.pick(name, "tree", len(R.TREE_CROWNS))]
                         leaf = R.TREE_LEAVES[R.pick(name, "leaf", len(R.TREE_LEAVES))]
@@ -373,10 +433,12 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
         for ai, a in enumerate(j.arms):
             u = a.direction
             p = (j.east, j.north)
-            if a.highway_class in CROSSWALK_CLASSES and a.length >= D["cw_min_arm"]:
+            start = j.w_max / 2 + D["cw_from"]
+            along = start + (D["cw_to"] - D["cw_from"]) / 2
+            # 2026-10-14: the short link between the two halves of a divided road got crosswalks in the middle of the other road
+            on_other = any(g.distance(Point(p[0] + u[0] * along, p[1] + u[1] * along)) < 0.5 for fid, g in ways.items() if fid != a.feature_id)
+            if a.highway_class in CROSSWALK_CLASSES and a.length >= D["cw_min_arm"] and not on_other:
                 n = int(a.width // D["cw_pitch"])
-                start = j.w_max / 2 + D["cw_from"]
-                along = start + (D["cw_to"] - D["cw_from"]) / 2
                 for i in range(n):
                     lat = (i - (n - 1) / 2) * D["cw_pitch"]
                     key = "line_yellow" if j.in_school_zone and i % 2 == 0 else "line_white"

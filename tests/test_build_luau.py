@@ -150,7 +150,8 @@ def test_the_plan_counts_chunks_and_files_match_the_manifest():
     manifest = json.loads(plan.files["manifest.json"])
     c = plan.counts
     assert c["items"] == sum(c[f"items_{k}"] for k in layout.ORDER) and c["items_ground"] == 1 and c["items_road"] == 2
-    assert c["items_sidewalk"] == 4 and c["items_building"] == 45 and c["items_facade"] > 45  # U5: residential sidewalks, facade parts
+    # the two streets lie on one line: the residential one's sidewalks fall inside the wider tertiary carriageway and are cut (2026-10-14)
+    assert c["items_sidewalk"] == 2 and c["items_building"] == 45 and c["items_facade"] > 45
     assert c["chunks"] == math.ceil(c["items"] / 20) and sorted(k for k in plan.files if k.endswith(".luau")) == [f"chunk-{n:03d}.luau" for n in range(1, c["chunks"] + 1)]
     assert manifest["counts"] == c and manifest["cell_id"] == CELL
     assert manifest["files"] == {n: len(t.encode()) for n, t in plan.files.items() if n.endswith(".luau")}
@@ -166,7 +167,7 @@ def test_items_are_written_in_the_fixed_order_across_the_chunk_files():
     ranks = [layout.ORDER[k] for k, _ in order]
     assert ranks == sorted(ranks) and order[0][0] == "ground" and order[-1][0] == "spawn"
     assert [k for k, _ in order if k in ("ground", "road", "path", "sidewalk", "building", "spawn")] == \
-        ["ground", "road", "road", "path", "sidewalk", "sidewalk", "sidewalk", "sidewalk", "building", "building", "building", "spawn"]
+        ["ground", "road", "road", "path", "sidewalk", "sidewalk", "building", "building", "building", "spawn"]  # way:1 lies inside way:9: its sidewalks are cut
     assert [n for k, n in order if k == "building"] == ["gis:1002", "gis:1005", "gis:1007"] and [n for k, n in order if k == "road"] == ["way:1#0", "way:9#0"]
 
 

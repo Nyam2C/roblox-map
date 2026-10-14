@@ -6,6 +6,7 @@ description: roblox-map 세션 흐름의 4단계 "검증". 칸을 Studio에 만�
 # 검증 (세션 흐름 4/5)
 
 각 항목의 기준을 넘는지 본다. 하나라도 못 넘으면 원인을 적고 `cycle-build`(8단계: 공통 문제는 규칙으로)로 돌아간다. 결과는 마지막에 표로 보고한다.
+**작업(칸 생성, 규칙 수정, 키트 추가)이 끝날 때마다 모든 항목을 끝까지 한다**(사용자, 2026-10-14). 일부만 보고 "검증 끝"이라고 하지 않는다. 못 한 항목은 표에 ❌로 남긴다.
 
 ## 1. 코드
 ```bash
@@ -24,6 +25,14 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
    ```
 3. `<칸>_side_by_side.jpg`, `<칸>_blend.jpg`를 보고 확인: 큰길 폭, 건물 위치·모양, 데이터에 없는 시설(운동장, 체육관, 주차장), 건물로 잘못 잡힌 시설, 나무 띠, 높은 건물은 원근으로 커 보인다는 점.
 4. 사용자에게 겹친 그림을 보낸다(`SendUserFile`).
+
+## 3b. 도로·인도 겹침 (모든 칸, 특히 볼 것)
+사용자가 가장 지저분하다고 짚은 곳(2026-10-14). 칸의 교차로마다(특히 상하행이 나뉜 큰길, 회전 차로, 대각선 길, 교통섬) 높이 200~260에서 바로 아래로 `screen_capture`(하나씩). 확인:
+- 인도·연석이 다른 도로의 차로 위나 중앙분리대 안에 있는가
+- 횡단보도가 교차로 한가운데나 다른 도로 위에 있는가, 횡단보도가 겹쳐 두 겹인가
+- 가로등·전봇대·나무가 차로 위에 있는가
+- 칸 경계에서 도로·인도가 어긋나는가
+규칙(`streets.sidewalk_pieces`의 차로 겹침 자르기, `_on_other_road`, 횡단보도 `on_other`)으로 고치고 `tests/test_layout_u5.py`에 사례를 더한다.
 
 ## 4. 거리뷰 대조 (1급 칸)
 1. `uv run src/estimate.py plan --cells <칸>` → `data/build/<칸>/review.json`.
@@ -49,6 +58,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 | verify / sunk / http | ok / 0 / false | |
 | 경고 | 원인 앎 | |
 | 위성 | 큰 차이 없음 | |
+| 도로·인도 겹침 | 차로 위 인도·연석·횡단보도·가로등 0 | |
 | 거리뷰 | 공통 문제 없음 | |
 | FPS | 60 / 55 | |
 

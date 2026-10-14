@@ -802,3 +802,28 @@ def test_subway_entrances_stand_off_the_road_open_away_from_the_station_and_carr
 def B_literal(items):
     import build_luau
     return " ".join(build_luau.item_literal(i, CELL) for i in items)
+
+
+def test_a_divided_road_gets_no_median_sidewalk_and_no_sidewalk_lies_on_another_carriageway():
+    # two one-way halves 8 m apart (centre lines), and a slip road crossing both at an angle (cell 4, 2026-10-14)
+    north = {"feature_id": "way:1", "kind": "road", "highway_class": "primary", "tags": {"oneway": "yes", "lanes": "3"},
+             "geometry": [list(offset(CENTER, -80, 7)), list(offset(CENTER, 80, 7))]}
+    south = {"feature_id": "way:2", "kind": "road", "highway_class": "primary", "tags": {"oneway": "yes", "lanes": "3"},
+             "geometry": [list(offset(CENTER, 80, -7)), list(offset(CENTER, -80, -7))]}
+    slip = {"feature_id": "way:3", "kind": "road", "highway_class": "primary_link", "tags": {"oneway": "yes"},
+            "geometry": [list(offset(CENTER, -40, -40)), list(offset(CENTER, 40, 40))]}
+    (sidewalks, props), _ = props_of([north, south, slip])
+    lines = ST.streets_of([north, south, slip], FRAME, CELL, RES, CFG)
+    ways = ST.carriageways(lines)
+    c = layout.to_meters(FRAME, *CENTER)
+    for i in sidewalks:
+        fid = i.name.split("#")[0]
+        pt = Point(i.cx / S, -i.cz / S)
+        assert all(g.distance(pt) > 0.05 for f, g in ways.items() if f != fid), i.name  # never on another road
+        if fid in ("way:1", "way:2"):
+            assert abs(-i.cz / S - c[1]) > 7, i.name  # only on the outer sides of the pair
+    assert any(i.name.startswith("way:1") for i in sidewalks) and any(i.name.startswith("way:2") for i in sidewalks)
+    for i in props:
+        if "#lamp" in i.name or "#curb" in i.name:
+            pt = Point(i.cx / S, -i.cz / S)
+            assert all(g.distance(pt) > 0.05 for f, g in ways.items() if f != i.name.split("#")[0]), i.name
