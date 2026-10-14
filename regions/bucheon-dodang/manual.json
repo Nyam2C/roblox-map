@@ -21,6 +21,9 @@
    "buildings": []},
   {"name": "DeptStore", "script": "DeptStore.luau", "cell": "8930e0af10fffff", "how": "manual", "status": "done",
    "reason": "백화점(판매시설 11층): 동쪽 끝이 큰 원호(위성·외곽선 15점 중 9점이 호). 박스는 원호 모서리를 네모로 채워 수작업이 외곽선대로 몸체·곡면 유리·띠를 만든다",
-   "buildings": ["gis:11740143"]}
+   "buildings": ["gis:11740143"]},
+  {"name": "Raemian", "script": "Raemian.luau", "cell": "8930e0af133ffff", "how": "manual", "status": "done",
+   "reason": "래미안 부천중동(7개 동, 19~27층): V-World가 동마다 조각 수십 개로 나뉘어 25층 상자 무리가 됨(사용자 2026-10-15). 배치도·위성·거리뷰로 7개 동만 만들고 부지의 다른 기록은 모두 Claims로 비킴. src/raemian.py",
+   "buildings": []}
  ]
 }

@@ -163,7 +163,7 @@ help.Parent = gui
 rounded(help, 12)
 local HELP = {
 	{ "점프대", "칸마다 도로 한가운데에 나무 점프대가 하나 있어요 (지도에 주황색). 둥글게 휘어 올라가는 쪽으로 빠르게 달려 올라가면 금속 모서리에서 공중으로 날아요. 빠를수록 높이 떠요 (30 km/h 약 7 m, 60 km/h 약 15 m)." },
-	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 땅에 닿기 전에 다 돌아야 해요. 덜 돌면 넘어져요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
+	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 공중에 있는 동안 계속 누르면 여러 바퀴 돌아요. 마지막 바퀴를 땅에 닿기 전에 다 돌아야 해요. 덜 돌면 넘어져요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
 }
 local y = 14
 local title = Instance.new("TextLabel")
@@ -481,7 +481,7 @@ local function poseRide(char)
 		char = char, humanoid = humanoid, root = root, idle = idle, animate = animate,
 		walk = humanoid.WalkSpeed, autoRotate = humanoid.AutoRotate, speed = 0, dir = Vector3.new(look.X, 0, look.Z).Unit,
 		w = 0, wv = 0, side = 0, skid = 0, offset = Vector3.zero, seed = math.random() * 100, clock = 0,
-		air = false, launched = false, kicker = nil, airT = 0, whip = nil, whipT = 0, whipped = false,
+		air = false, launched = false, kicker = nil, airT = 0, whip = nil, whipT = 0,
 	}
 	ride = r
 	humanoid.AutoRotate = false -- the facing is ours: the way we roll
@@ -518,11 +518,12 @@ local function driveRide()
 	r.rayParams.FilterDescendantsInstances = { char }
 	ContextActionService:BindAction("ScooterWhip", function(_, state)
 		local rr = ride
-		if state ~= Enum.UserInputState.Begin or not rr or not rr.launched or not rr.air or rr.whip or rr.whipped then
+		-- as many whips as the air time allows, one after another (user, 2026-10-15); not a new one while one is still turning
+		if state ~= Enum.UserInputState.Begin or not rr or not rr.launched or not rr.air or rr.whip then
 			return Enum.ContextActionResult.Sink
 		end
 		rr.whip = playWhip(char, WHIP_TIME)
-		rr.whipT, rr.whipped = 0, true
+		rr.whipT = 0
 		if trickRemote then
 			trickRemote:FireServer("tailwhip")
 		end
@@ -622,7 +623,7 @@ local function driveRide()
 				root.AssemblyLinearVelocity = Vector3.new(v0.X, math.max(v0.Y, vy), v0.Z)
 				r.lift.Force = Vector3.new(0, root.AssemblyMass * workspace.Gravity * (1 - AIR_G), 0)
 				r.lift.Enabled = true
-				r.launched, r.air, r.airT, r.whipped = true, true, 0, false
+				r.launched, r.air, r.airT = true, true, 0
 				player:SetAttribute("ScooterLaunch", string.format("speed=%.1f vy=%.1f", speed, vy)) -- for testing (this client only)
 			end
 			r.kicker = nil
