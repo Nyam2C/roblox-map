@@ -1040,6 +1040,8 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
 
     if body.archetype == "public":
         text = body.name if body.public_name else _name(body, "n", "plate", 0)
+        if body.usability == R.PARKING_CODE:  # a parking building's plate says what it is, not a made-up office name (17b, 2026-10-14)
+            text = "공영주차장" if "공영" in (body.name or "") else "주차장"
         door = _door_along(body)
         if door is not None:
             sign("sn0", door + D["plate_along"], D["plate_y"], D["plate_t"] + 0.02, (D["plate_w"], D["plate_h"], D["plate_t"]), text, "sign_plate", "ink_white", "F", 200)

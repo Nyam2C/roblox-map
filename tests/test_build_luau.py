@@ -388,3 +388,14 @@ def test_an_empty_record_judged_a_skybridge_is_a_raised_deck_and_a_house_stays_a
     assert plan.counts["items_building"] == 1  # the shed is still a building
     deck = [i for i in plan.items if i.name == "gis:1000#dk0"]
     assert len(deck) == 1 and (deck[0].cy - deck[0].sy / 2) / CFG["studs_per_m"] == pytest.approx(5.5, abs=0.01) and deck[0].collide
+
+
+def test_a_satellite_tree_on_a_carriageway_is_left_out():
+    # 10b, 2026-10-14: trees.py masks roads by its own width, so crowns on a widened road or a junction stood on the asphalt
+    frame = layout.Frame.from_cfg(CFG)
+    on = layout.to_studs(frame, *offset(CENTER, 10, 5))
+    off = layout.to_studs(frame, *offset(CENTER, 10, 45))
+    def trees(features):
+        plan = B.plan_cell(CELL, [building(0)], features, CFG, sat_trees=[[*on, 6.0], [*off, 6.0]])
+        return len(re.findall(r'sat#\d+#tree"', "".join(t for n, t in plan.files.items() if n.endswith(".luau"))))
+    assert trees([]) == 2 and trees([street("way:1")]) == 1

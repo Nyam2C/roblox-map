@@ -26,6 +26,8 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 import h3
+from shapely.geometry import Point
+from shapely.ops import unary_union
 
 import common
 import db
@@ -280,7 +282,10 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     props = props + streets.entrance_items(entrances, lines, frame, cell_id, res) + streets.ramp_items(lines, frame)
     if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
         # not on a school ground: new dark turf reads as crowns on the photo (중흥중, 2026-10-14)
-        props = props + streets.tree_items(frame, [t for t in sat_trees if not any(fields.covers(g, t[0], t[1]) for g in grounds or [])])
+        # nor on a carriageway: trees.py masks roads by its own width, a widened road (road_lanes_by_name) or a junction keeps them (10b, 2026-10-14)
+        ways = unary_union(list(streets.carriageways(lines).values())) if lines else None
+        props = props + streets.tree_items(frame, [t for t in sat_trees if not any(fields.covers(g, t[0], t[1]) for g in grounds or [])
+                                                   and not (ways is not None and ways.contains(Point(t[0] / frame.studs_per_m, -t[1] / frame.studs_per_m)))])
     for g in grounds or []:  # U7 J: school grounds of fields.json that no Manual script makes
         props = props + fields.field_items(g, frame)
     items += pieces + sidewalks + props

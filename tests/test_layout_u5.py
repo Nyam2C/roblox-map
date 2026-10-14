@@ -609,6 +609,10 @@ def test_signs_carry_text_colors_faces_and_distances_and_a_bad_name_removes_them
     nbody, _ = resolve(named, villa(3)[1], features=[street()])
     plate, _ = LD.sign_items(nbody, FRAME, CFG, [])
     assert [i.text for i in plate] == ["중앙행정복지센터"]
+    park = villa(4, code=R.PARKING_CODE, floors=6, name="중동 공영노외주차장(6호)")[0]  # 17b: the plate says it is a parking building
+    kbody, _ = resolve(park, villa(4)[1], features=[street()])
+    plate, _ = LD.sign_items(kbody, FRAME, CFG, [])
+    assert kbody.archetype == "public" and [i.text for i in plate] == ["공영주차장"]
 
 
 def _ground(i, use):

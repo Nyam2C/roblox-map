@@ -181,6 +181,7 @@ OFFICETEL_MIN_FLOORS = 12
 BASE_MIN_FLOORS = 6  # a commercial block of six floors or more judged brick: brick on the two lowest floors, panel above (메디타워)
 OFFICE_CODE = "14000"  # 업무시설: shop signs only on the lower floors, no rooftop sign (BR-10.1a, street view 2026-10-14)
 PUBLIC_CODES = ("03000", "10000")
+PARKING_CODE = "20000"  # 자동차관련시설: a public parking building is a plain panel block with no shop signs (cell 17b street view 2026-10-14)
 STORE_CODE = "07000"  # 판매시설: a department store or mart of five floors or more is a windowless stone box (street view 2026-10-14, cell 4)
 PUBLIC_SUFFIXES = ("학교", "행정복지센터", "주민센터", "경로당")
 
@@ -197,6 +198,8 @@ def archetype(usability_code: str | None, floors: int | None, name: str | None, 
         return "apartment" if (floors or 0) >= APARTMENT_MIN_FLOORS else "villa"
     if code == STORE_CODE and (floors or 0) >= 5:
         return "store"
+    if code == PARKING_CODE and (floors or 0) >= 3:
+        return "public"
     if code in COMMERCIAL_CODES or (floors or 0) >= 5:
         return "commercial"
     if code in PUBLIC_CODES:

@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af147ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:490139882",
+   "name": "계남초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -2388.343,
+   "z": 2298.861,
+   "yaw": 80.678,
+   "w": 243.0,
+   "d": 194.4,
+   "fit": 0.983
+  }
+ ]
+}

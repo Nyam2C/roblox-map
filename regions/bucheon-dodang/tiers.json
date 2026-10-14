@@ -19,6 +19,21 @@
    "reason": "landmarks: park:샛별 어린이공원, place_of_worship:수청교회, school:중흥중학교",
    "tier": 1
   },
+  "8930e0af10bffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 13,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "중동 2·4 확장 4칸을 같은 사이클(거리뷰 포함)로; 2급 기본값 분포가 아직 없음",
+   "tier": 1
+  },
   "8930e0af10fffff": {
    "counts": {
     "landmarks": [
@@ -92,6 +107,24 @@
    "reason": "landmarks: community_centre:중3동 주민센터, park:옥산공원, school:부천부흥중학교, school:심원고등학교",
    "tier": 1
   },
+  "8930e0af147ffff": {
+   "counts": {
+    "landmarks": [
+     "park:미리내공원",
+     "school:계남초등학교"
+    ],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.603,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:미리내공원, school:계남초등학교",
+   "tier": 1
+  },
   "8930e0af163ffff": {
    "counts": {
     "landmarks": [
@@ -107,6 +140,23 @@
    },
    "manual": false,
    "reason": "landmarks: park:어울림공원",
+   "tier": 1
+  },
+  "8930e0af16bffff": {
+   "counts": {
+    "landmarks": [
+     "park:way815847418"
+    ],
+    "pois": 14,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.136,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way815847418",
    "tier": 1
   },
   "8930e0af173ffff": {
@@ -142,6 +192,23 @@
    },
    "manual": false,
    "reason": "landmarks: park:어울림공원, police:경기 부천원미경찰서",
+   "tier": 1
+  },
+  "8930e0af17bffff": {
+   "counts": {
+    "landmarks": [
+     "school:계남중학교"
+    ],
+    "pois": 6,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.592,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: school:계남중학교",
    "tier": 1
   }
  }
