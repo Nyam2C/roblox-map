@@ -376,3 +376,15 @@ def test_a_sign_literal_carries_its_max_distance_as_md_and_one_x_only():
                 text="한솔약국", ink="ink_black", faces="F")
     lit = B.item_literal(item, "8930e0af13bffff")
     assert "md=300" in lit and lit.count("x=") == 1 and 't="한솔약국"' in lit
+
+
+def test_an_empty_record_judged_a_skybridge_is_a_raised_deck_and_a_house_stays_a_house():
+    long_thin = [list(p) for p in rect(offset(BASE, 0, 0), 40, 4)]
+    shed = [list(p) for p in rect(offset(BASE, 0, 60), 40, 4)]
+    rows = [building(0, floors_above=None, outline=long_thin), building(1, floors_above=None, outline=shed)]
+    note = {"floors_seen": None, "confidence": "low", "height_est_m": 8.0, "wall_color": None, "roof_shape": None, "views_used": [1]}
+    est = {"gis:1000": {**note, "note": "elevated pedestrian skybridge over the road"}, "gis:1001": {**note, "note": "a long shed"}}
+    plan = B.plan_cell(CELL, rows, [], CFG, est)
+    assert plan.counts["items_building"] == 1  # the shed is still a building
+    deck = [i for i in plan.items if i.name == "gis:1000#dk0"]
+    assert len(deck) == 1 and (deck[0].cy - deck[0].sy / 2) / CFG["studs_per_m"] == pytest.approx(5.5, abs=0.01) and deck[0].collide

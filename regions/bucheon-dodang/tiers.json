@@ -92,6 +92,23 @@
    "reason": "landmarks: community_centre:중3동 주민센터, park:옥산공원, school:부천부흥중학교, school:심원고등학교",
    "tier": 1
   },
+  "8930e0af163ffff": {
+   "counts": {
+    "landmarks": [
+     "park:어울림공원"
+    ],
+    "pois": 15,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.287,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:어울림공원",
+   "tier": 1
+  },
   "8930e0af173ffff": {
    "counts": {
     "landmarks": [

@@ -192,6 +192,10 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         if layout.is_underground(b):
             warnings.append(f"{bid}: underground facility (floors below {b.get('floors_below')}, above {b.get('floors_above')}): not built")
             continue
+        if layout_details.is_skybridge(b, (estimates.get(bid) or {}).get("note"), frame):
+            items += layout_details.skybridge_items(b, frame, cfg)
+            warnings.append(f"{bid}: elevated footbridge: built as a raised deck")
+            continue
         eff = judgement.effective_building(b, estimates.get(bid), overrides.get(bid), cfg)
         outline = b["outline"]
         if not (isinstance(outline, (list, tuple)) and len(outline) >= 3

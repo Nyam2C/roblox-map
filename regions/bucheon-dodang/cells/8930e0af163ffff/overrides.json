@@ -1,0 +1,648 @@
+{
+  "cell_id": "8930e0af163ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11169205",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "officetel tower, glass lower office floors with signs, tiled upper floors; ground shop and cafe; #3 shows the glass neighbor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11172018",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "sign-covered karaoke and restaurant block with round corner, mint ground shopfronts",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11174204",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "small shop building, gray tile, glass stair strip on right, ground shop and restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11175116",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 78.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "blue glass office tower about 19 floors, double-height glass lobby, landscaped forecourt",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:11176578",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "sign-covered shop building, karaoke and restaurant, glass stair strip on right, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11176719",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "shop building with large sign panels, ground restaurant with yellow fascia, sign on parapet",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178945",
+      "confidence": "medium",
+      "floors_seen": null,
+      "height_est_m": 8.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "elevated pedestrian skybridge over the road, panel underside, glass-roofed truss deck",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178946",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 7.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "crops show a paved plaza; footbridge visible in background, target likely that elevated walkway",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178947",
+      "confidence": "medium",
+      "floors_seen": null,
+      "height_est_m": 8.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "elevated pedestrian skybridge over the road, panel underside and bus lane, white truss and glass roof",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178948",
+      "confidence": "medium",
+      "floors_seen": null,
+      "height_est_m": 8.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "elevated pedestrian skybridge over the road, panel underside at intersection, white truss, glass roof",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178949",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 8.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "elevated pedestrian skybridge over the road, panel underside; #3 is a shopfront close-up, not the target",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178951",
+      "confidence": "medium",
+      "floors_seen": null,
+      "height_est_m": 8.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "elevated pedestrian skybridge over the road, panel underside, glass roof with white truss",
+      "roof_shape": "other",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178974",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "residential tower with glass balconies on beige stone podium, ground shops; top not visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11178975",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "residential tower, orange and white upper facade, stone podium with shops under canopy; trees hide much",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11187735",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "small shop building, gray brick tile, signs on every floor, arched top window, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11187752",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "white panel corner building, ground cafe and restaurant, clinic on 2F, glass band top floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11188976",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "officetel, tiled facade with many wall AC units, glass 2F, ground shops and restaurant; #3 shows a glass neighbor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189235",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "sign-covered shop building, karaoke on 2F, ground restaurant and shops, parking passage",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11190639",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "red brick shop building, arched top-floor windows, ground restaurants",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11190643",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "shop building with cafe and restaurant on ground, karaoke signs, white top floor; #3 is a different facade close-up",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190955",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "sign-covered shop building, brick ground floor with shutters; #3 centre is a different dark building",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11195966",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "sign-covered corner shop building, ground restaurant; #2 blocked by truck, #3 shows a different building",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11208104",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "pinkish-beige officetel tower, recessed window grid, ground convenience and shops, glass rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11208107",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "brick tile shop building, karaoke and restaurant signs, rooms on top floor, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11215066",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "residential tower on shared podium; crops show only beige stone podium with shops, cafe, round corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11215157",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "residential tower on podium; only lower floors visible: stone podium, glass upper podium, shops and lobby",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11215192",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "tower on podium; stone podium with cafe and shops, glass lift and stair up to skybridge; towers above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11215195",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "tower on podium; beige stone podium with shops, cafe, parking ramp exit; upper tower not visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11216749",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "sign-covered shop building, live music and karaoke upper floors, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11247541",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "glass curtain-wall office over stone base, ground bank and pharmacy; #3 shows the tiled officetel next door",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:11350355",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "dark gray hotel with few small windows, lobby and shutter at ground; #2 and #3 show other buildings",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11513511",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "two-floor restaurant building, dark brick ground, metal panel upper band, ribbon windows; #2 blocked, #3 other building",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11762390",
+      "confidence": "low",
+      "floors_seen": 13,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "large office and clinic building, glass bands and white panels, row of ground shops and restaurants",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11774271",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "residential tower on podium; stone podium with balcony railing, shops and lobby; tower hidden by trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11783375",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "tall white residential tower with glass balconies, curved stone podium with cafe and shops",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11952130",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "sign-covered shop building, PC room and massage signs, ground restaurants; other crops show neighbors",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:12033333",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "blue glass curtain-wall office tower about 13 floors with dome top, striped stone base, ground cafe",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:14443738",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "residential tower on podium; crops show beige stone podium 3-5 floors with roof planting, shops, parking entry",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:15721667",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "residential tower with glass balconies over stone podium with cafe and shops; skybridge stair nearby",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:15831385",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "tower on podium; crops mostly trees and beige stone podium with shops and parking exit",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:16931702",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 105.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "tower on podium; round beige stone corner, glass upper podium, shops and lobby at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:17141309",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "shop building with cafe and restaurant on ground, karaoke signs, white top floor; #3 is a different facade close-up",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17808873",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 78.0,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "blue glass office tower about 19 floors, glass lobby, landscaped forecourt",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:18299033",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T08:35:44+00:00",
+      "note": "two-floor restaurant building, dark brick ground, metal panel upper band; #2 blocked, #3 other building",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    }
+  ],
+  "overrides": [
+    {
+      "building_id": "gis:11215157",
+      "field": "floors_above",
+      "reason": "Claude 2026-10-14: 602동은 대장 값 없음, 사진은 기단만 보여 105 m로 추정. 위성에서 이웃 601동(12층)·603동(14층)과 같은 낮은 동이라 13층",
+      "set_at": "2026-10-14T08:37:30+00:00",
+      "value": 13
+    }
+  ],
+  "version": 1
+}

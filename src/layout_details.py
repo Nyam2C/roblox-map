@@ -1110,6 +1110,39 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
     return items, labels
 
 
+# --- elevated footbridges (cell 163, 2026-10-14) -------------------------------------------------------------------------------
+
+BRIDGE_WORDS = ("skybridge", "footbridge", "pedestrian bridge", "elevated walkway")
+
+
+def is_skybridge(building: Mapping[str, Any], note: str | None, frame: Frame) -> bool:
+    """An elevated footbridge: nothing in the register, a thin long outline (mean width 2 x area / perimeter at most 6 m, perimeter
+    30 m or more) and a photo judgement that calls it a bridge. Built as a raised deck so it does not wall off the road under it."""
+    if building.get("floors_above") or building.get("usability_code") or building.get("building_area"):
+        return False
+    if not note or not any(w in note.lower() for w in BRIDGE_WORDS):
+        return False
+    poly = _poly_m(building["outline"], frame)
+    return poly is not None and poly.length >= 30.0 and 2 * poly.area / poly.length <= 6.0
+
+
+def skybridge_items(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, Any]) -> list[Item]:
+    """Per box of the outline: a walkable deck 5.5 m up, glass sides and a light roof (the street view: white truss, glass roof)."""
+    bid = str(building["building_id"])
+    items: list[Item] = []
+    for bi, box in enumerate(outline_to_boxes(building["outline"], frame, cfg, "villa")):
+        w, d = box.width_m, box.depth_m
+        parts = (("dk", 0.0, 5.5, (w, 0.6, d), "Concrete", "bridge_deck", dict(collide=True)),
+                 ("gl", d / 2 - 0.05, 6.1, (w, 2.3, 0.1), "Glass", "bridge_glass", dict(transparency=0.5, collide=True)),
+                 ("gr", -(d / 2 - 0.05), 6.1, (w, 2.3, 0.1), "Glass", "bridge_glass", dict(transparency=0.5, collide=True)),
+                 ("rf", 0.0, 8.4, (w + 0.2, 0.2, d + 0.2), "Metal", "bridge_roof", {}))
+        for k, (tail, v, y, size, mat, key, extra) in enumerate(parts):
+            east, north = _world(box, 0.0, v)
+            items.append(_part(frame, "facade", f"{bid}#{tail}{bi}", bid, 10 * bi + k, east, north, y, size, box.yaw_deg, owner=bid,
+                               material=mat, color=R.PALETTE[key], color_name=key, **extra))
+    return items
+
+
 # --- the body boxes as building items (U2 BR-2 with U5 BR-2.3) --------------------------------------------------------------
 
 def box_items(body: Body, building: Mapping[str, Any], eff: Any, frame: Frame) -> list[Item]:

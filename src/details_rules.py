@@ -327,6 +327,7 @@ PALETTE: dict[str, tuple[int, int, int]] = {
     "ink_black": (20, 20, 20), "ink_white": (255, 255, 255), "ink_yellow": (250, 220, 60), "ink_red": (200, 35, 35),
     # streets
     "pole": (150, 150, 148), "transformer": (110, 110, 110), "wire": (30, 30, 30), "lamp_post": (120, 120, 125),
+    "bridge_deck": (170, 168, 162), "bridge_glass": (200, 222, 228), "bridge_roof": (235, 235, 232),
     "sub_glass": (205, 225, 230), "sub_frame": (150, 155, 160), "sub_floor": (150, 148, 142), "sub_void": (18, 18, 20), "sub_nose": (95, 95, 98),
     "lamp_head": (255, 240, 200), "trunk": (90, 70, 50), "curb": (150, 150, 145), "line_yellow": (235, 190, 40),
     "line_white": (235, 235, 230), "car_white": (235, 235, 235), "car_silver": (190, 190, 195), "car_black": (30, 30, 32),
