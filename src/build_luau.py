@@ -189,7 +189,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None,
               roof_tops: Mapping[str, str] | None = None, under_trees: set[str] | None = None,
               ground: "terrain.Ground | None" = None, decks: "bridges.Decks | None" = None,
-              clear: Sequence[Mapping[str, Any]] | None = None) -> Plan:
+              clear: Sequence[Mapping[str, Any]] | None = None, region_roads: Sequence[Mapping[str, Any]] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -307,21 +307,25 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             continue
         ok_features.append(f)
     # footpaths are drawn only off the road carriageways (2026-10-14); junctions and crosswalks still use the whole path
-    for f in streets.paths_off_roads(ok_features, frame, cfg):
-        pieces += layout.road_items(f, frame, cell_id, res, cfg)
+    region_ways = streets.carriageways(streets.streets_of(list(region_roads), frame, "", 0, cfg)) if region_roads else {}
+    own_ids = {str(f["feature_id"]) for f in ok_features}
+    extra_roads = [f for f in region_roads or [] if str(f["feature_id"]) not in own_ids]  # cuts this cell's paths too
+    for f in streets.paths_off_roads(ok_features + extra_roads, frame, cfg):
+        if str(f["feature_id"]).split(".")[0] in own_ids:  # a neighbour's road only cuts, it is built by its own cells
+            pieces += layout.road_items(f, frame, cell_id, res, cfg)
     if decks is not None:  # overpasses: a girder and walls under and beside the road of a bridge way (2026-10-15)
         for f in ok_features:
             if str(f["feature_id"]) in decks.fids:
                 pieces += bridges.deck_items(f, frame, cell_id, res, cfg)
     lines = streets.streets_of(ok_features, frame, cell_id, res, cfg)
     jcts = streets.junctions(lines, frame, cell_id, res, cfg)
-    sidewalks, props = streets.street_items(lines, jcts, frame, cfg, rule_trees=sat_trees is None)
+    sidewalks, props = streets.street_items(lines, jcts, frame, cfg, rule_trees=sat_trees is None, region_ways=region_ways)
     entrances = [f for f in sorted(features, key=lambda f: str(f["feature_id"])) if f["kind"] == "subway_entrance" and SAFE_TEXT.fullmatch(str(f["feature_id"]))]
     props = props + streets.entrance_items(entrances, lines, frame, cell_id, res) + streets.ramp_items(lines, frame)
     if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
         # not on a school ground: new dark turf reads as crowns on the photo (중흥중, 2026-10-14)
         # nor on a carriageway: trees.py masks roads by its own width, a widened road (road_lanes_by_name) or a junction keeps them (10b, 2026-10-14)
-        ways = unary_union(list(streets.carriageways(lines).values())) if lines else None
+        ways = unary_union(list({**region_ways, **streets.carriageways(lines)}.values())) if lines or region_ways else None
         props = props + streets.tree_items(frame, [t for t in sat_trees if not any(fields.covers(g, t[0], t[1]) for g in list(grounds or []) + list(clear or []))
                                                    and not (ways is not None and ways.contains(Point(t[0] / frame.studs_per_m, -t[1] / frame.studs_per_m)))])
     for g in grounds or []:  # U7 J: school grounds of fields.json that no Manual script makes
@@ -517,6 +521,22 @@ def load_clear(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+_ROADS: dict[str, list[dict[str, Any]]] = {}
+
+
+def region_roads(conn, cfg: Mapping[str, Any], cell_id: str) -> list[dict[str, Any]]:
+    """Every road feature of the cell's region, once each (cached per region): a cell keeps its trees, sidewalks and street props
+    off a neighbour's carriageway even when its own data does not hold that road."""
+    folder, data = common.region_of(cfg, cell_id)
+    if folder.name not in _ROADS:
+        seen: dict[str, dict[str, Any]] = {}
+        for f in db.rows_in_cells(conn, "street_features", list(data.get("cells") or [])):
+            if f["kind"] == "road" and SAFE_TEXT.fullmatch(str(f["feature_id"])):
+                seen.setdefault(str(f["feature_id"]), f)
+        _ROADS[folder.name] = [seen[k] for k in sorted(seen)]
+    return _ROADS[folder.name]
+
+
 _DECKS: dict[str, "bridges.Decks"] = {}
 
 
@@ -540,7 +560,7 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
                      load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")),
                      roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")),
                      streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")), terrain.ground_for(cfg), region_decks(conn, cfg, cell_id),
-                     load_clear(common.cell_file(cfg, cell_id, "courts")))
+                     load_clear(common.cell_file(cfg, cell_id, "courts")), region_roads(conn, cfg, cell_id))
     write_plan(plan, root)
     return plan
 

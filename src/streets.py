@@ -307,17 +307,18 @@ def tree_items(frame: Frame, trees: Sequence[Sequence[float]]) -> list[Item]:
 
 
 def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Frame, cfg: Mapping[str, Any],
-                 rule_trees: bool = True) -> tuple[list[Item], list[Item]]:
+                 rule_trees: bool = True, region_ways: Mapping[str, Any] | None = None) -> tuple[list[Item], list[Item]]:
     """(sidewalk pieces replacing U2's, props: curbs, markings, crosswalks, poles, wires, lamps, trees, cars, zone kit, bollards, boxes).
 
-    rule_trees=False leaves the street trees out (the cell has trees read off the satellite photo, see tree_items)."""
+    rule_trees=False leaves the street trees out (the cell has trees read off the satellite photo, see tree_items). region_ways: the
+    carriageways of every road of the region (a neighbour's wide road this cell's data does not hold, 1c7 and 길주로 2026-10-15)."""
     sidewalks: list[Item] = []
     props: list[Item] = []
     s = frame.studs_per_m
     sw = float(cfg["sidewalk_width_m"])
     top_road, top_side = layout.TOPS["road"], layout.TOPS["sidewalk"]
     by_id = {st.feature_id: st for st in streets}
-    ways = carriageways(streets)
+    ways = {**(region_ways or {}), **carriageways(streets)}
     for st in streets:
         fid, w = st.feature_id, st.width
         blocked = others_of(st, ways)
@@ -393,8 +394,9 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                 u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
                 for j, pos in _slots(length, float(cfg["pole_spacing_m"]), clear[i], D["slot_junction_clear"]):
                     lat = -(w / 2 + D["pole_off"])
-                    if _on_other_road(blocked, p, u, pos, lat):
-                        continue
+                    if _on_other_road(blocked, p, u, pos, lat) or (fid in ways and ways[fid].contains(
+                            Point(p[0] + u[0] * pos - u[1] * lat, p[1] + u[1] * pos + u[0] * lat))):
+                        continue  # nor on the inside of its own road's bend
                     name = f"{fid}#{i}#pole{j}"
                     props.append(_segment_part(frame, "prop", name, fid, 400 + 10 * i + j, p, u, pos, lat, 0.0, (D["pole_h"], D["pole_dia"], D["pole_dia"]),
                                                shape="Cylinder", material="Concrete", color=R.PALETTE["pole"], color_name="pole"))

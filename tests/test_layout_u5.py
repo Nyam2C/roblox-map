@@ -1090,3 +1090,18 @@ def test_an_open_canopy_over_pumps_or_chargers_is_columns_and_a_roof():
     roof = [i for i in items if "#cr" in i.name]
     assert len(roof) == 1 and roof[0].cy > 5.0 * FRAME.studs_per_m
     assert sum("#cc" in i.name for i in items) == 2 * round(20 / 8) and sum("#cp" in i.name for i in items) == 4 * round(20 / 8)
+
+
+def test_a_neighbours_wide_road_this_cell_does_not_hold_still_keeps_sidewalks_and_props_off_it():
+    """1c7 and 길주로 (2026-10-15): a cell's sidewalks, curbs and lamps came out on a wide road only its neighbours' data held."""
+    own = [street("way:11", "residential", dy=0.0)]
+    wide = street("way:99", "tertiary", dy=17.5, lanes="8")  # 26 m wide, its south edge 4.5 m north: over way:11 s north sidewalk
+    lines = ST.streets_of(own, FRAME, CELL, RES, CFG)
+    jcts = ST.junctions(lines, FRAME, CELL, RES, CFG)
+    region = ST.carriageways(ST.streets_of([wide], FRAME, CELL, RES, CFG))
+    def on_wide(items):
+        return [i for i in items if region["way:99"].contains(Point(i.cx / FRAME.studs_per_m, -i.cz / FRAME.studs_per_m))]
+    sw0, pr0 = ST.street_items(lines, jcts, FRAME, CFG)
+    sw1, pr1 = ST.street_items(lines, jcts, FRAME, CFG, region_ways=region)
+    assert on_wide(sw0 + pr0) and not on_wide(sw1 + pr1)
+    assert len(sw1) > 0  # the south side keeps its sidewalk
