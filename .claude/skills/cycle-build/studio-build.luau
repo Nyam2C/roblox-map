@@ -11,9 +11,6 @@ for _, CELL in ipairs(CELLS) do
 	HS.HttpEnabled = was
 	if not ok then return "fetch failed: " .. tostring(body) end
 	local data = HS:JSONDecode(body)
-	if data.terrain then -- 2026-10-15: the ground heights first (Terrain), the parts already sit on them
-		Builder.terrain(data.terrain)
-	end
 	Builder.begin(CELL)
 	local created, skipped, slowest = 0, 0, 0
 	for _, ch in ipairs(data.chunks) do

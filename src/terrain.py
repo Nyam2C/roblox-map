@@ -9,7 +9,9 @@ plan items onto it:
     `FLAT_MIN` long) rise to the ground at their middle and tilt with it along both their own axes (keys ax, az);
   - a trick ramp and a subway entrance rise as one, by the ground at their first piece;
   - everything else (trees, lamps, poles, bollards, the spawn) rises by the ground under its middle;
-  - the cell's ground slab goes down out of sight: Studio fills Terrain to the grid instead (MapBuilder.terrain).
+  - long flat pieces are first cut into SEG-stud parts so a long road follows a bending slope instead of cutting into it;
+  - the cell's ground slab becomes TILE-stud tiles, each tilted to its patch, their tops just under the roads (2026-10-15: Studio
+    Terrain stepped 2 studs, came up over road edges on slopes and looked spiky, so the ground is parts again).
 """
 from __future__ import annotations
 
@@ -26,8 +28,12 @@ import layout
 STEP = 8.0  # studs between grid heights (Studio's terrain voxels are 4)
 FLAT_MAX_H = 1.0  # studs: a piece this thin lies on the ground
 FLAT_MIN = 3.0  # studs: and this long along one axis tilts with the ground
-SLAB_DROP = 40.0  # studs the ground slab goes down under the terrain
-POST_SINK = 2.0  # studs a standing prop (tree, lamp, pole) goes into the ground: Studio's terrain lies 0.5 to 2 under the heights
+TILE = 48.0  # studs: the ground is tiles this size, each tilted to its own patch of ground (2026-10-15: Terrain stepped 2 studs,
+#               rose over road edges on slopes and looked spiky, user)
+TILE_T = 6.0  # thick enough that neighbouring tiles' edges overlap where their tilts differ
+TILE_UNDER = 0.6  # studs the tile top stays under the ground heights (roads and sidewalks lie on the heights)
+SEG = 40.0  # studs: a flat piece longer than this is cut so each part follows its own stretch of ground
+POST_SINK = 0.5  # studs a standing prop (tree, lamp, pole) reaches into the ground tiles, so none shows a gap at its foot
 
 
 @dataclasses.dataclass(frozen=True)
@@ -109,6 +115,49 @@ def _unit(i: layout.Item) -> str | None:
     return None
 
 
+def _slopes(ground: Ground, x: float, z: float, yaw: float, lx: float, lz: float) -> tuple[float, float]:
+    """(tilt_x, tilt_z) in degrees for a flat part of size lx by lz at (x, z) turned `yaw` (the Builder's order)."""
+    (ux, uz), (vx, vz) = _axes(yaw)
+    sx = (ground.h(x + ux * lx / 2, z + uz * lx / 2) - ground.h(x - ux * lx / 2, z - uz * lx / 2)) / max(lx, 1e-6)
+    sz = (ground.h(x + vx * lz / 2, z + vz * lz / 2) - ground.h(x - vx * lz / 2, z - vz * lz / 2)) / max(lz, 1e-6)
+    return layout.fmt(-math.degrees(math.atan(sz))), layout.fmt(math.degrees(math.atan(sx)))
+
+
+def tiles(slab: layout.Item, ground: Ground) -> list[layout.Item]:
+    """The cell's ground slab as TILE-stud tiles lying on the heights (their tops TILE_UNDER under them)."""
+    nx, nz = max(1, math.ceil(slab.sx / TILE)), max(1, math.ceil(slab.sz / TILE))
+    w, d = slab.sx / nx, slab.sz / nz
+    x0, z0 = slab.cx - slab.sx / 2, slab.cz - slab.sz / 2
+    out = []
+    for j in range(nz):
+        for i in range(nx):
+            x, z = x0 + (i + 0.5) * w, z0 + (j + 0.5) * d
+            ax, az = _slopes(ground, x, z, 0.0, w, d)
+            top = ground.h(x, z) - TILE_UNDER
+            out.append(dataclasses.replace(slab, name=f"Ground.{j}-{i}", seq=j * nx + i, cx=layout.fmt(x), cz=layout.fmt(z),
+                                           cy=layout.fmt(top - TILE_T / 2), sx=layout.fmt(w + 0.2), sy=TILE_T, sz=layout.fmt(d + 0.2),
+                                           tilt_x=ax, tilt_z=az))
+    return out
+
+
+def _cut(i: layout.Item) -> list[layout.Item]:
+    """A flat piece longer than SEG along its own X or Z, cut into equal parts (names <name>.<k>)."""
+    n = max(1, math.ceil(i.sx / SEG)) if i.sx >= i.sz else 1
+    m = max(1, math.ceil(i.sz / SEG)) if i.sz > i.sx else 1
+    if n * m == 1:
+        return [i]
+    (ux, uz), (vx, vz) = _axes(i.yaw_deg)
+    out = []
+    for a in range(n):
+        for b in range(m):
+            da = (a + 0.5) / n - 0.5
+            db = (b + 0.5) / m - 0.5
+            out.append(dataclasses.replace(i, name=f"{i.name}.{a * m + b}", cx=layout.fmt(i.cx + ux * da * i.sx + vx * db * i.sz),
+                                           cz=layout.fmt(i.cz + uz * da * i.sx + vz * db * i.sz), sx=layout.fmt(i.sx / n + (0.05 if n > 1 else 0)),
+                                           sz=layout.fmt(i.sz / m + (0.05 if m > 1 else 0))))
+    return out
+
+
 def lift(items: Sequence[layout.Item], ground: Ground | None) -> list[layout.Item]:
     if ground is None:
         return list(items)
@@ -119,9 +168,11 @@ def lift(items: Sequence[layout.Item], ground: Ground | None) -> list[layout.Ite
             low = min(ground.h(x, z) for x, z in _corners(i) + [(i.cx, i.cz)])
             by_unit[u] = min(by_unit.get(u, low), low)
     out = []
+    flat = lambda i: i.sy <= FLAT_MAX_H and max(i.sx, i.sz) >= FLAT_MIN and i.shape == "Block" and _unit(i) is None
+    items = [p for i in items for p in (_cut(i) if i.kind != "ground" and flat(i) else [i])]
     for i in items:
         if i.kind == "ground":
-            out.append(dataclasses.replace(i, cy=layout.fmt(i.cy - SLAB_DROP)))
+            out += tiles(i, ground)
             continue
         u = _unit(i)
         if u is not None:
@@ -130,17 +181,14 @@ def lift(items: Sequence[layout.Item], ground: Ground | None) -> list[layout.Ite
             out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + by_unit[u])))
             continue
         dy = ground.h(i.cx, i.cz)
-        if i.sy <= FLAT_MAX_H and max(i.sx, i.sz) >= FLAT_MIN and i.shape == "Block":
-            (ux, uz), (vx, vz) = _axes(i.yaw_deg)
-            sx = (ground.h(i.cx + ux * i.sx / 2, i.cz + uz * i.sx / 2) - ground.h(i.cx - ux * i.sx / 2, i.cz - uz * i.sx / 2)) / max(i.sx, 1e-6)
-            sz = (ground.h(i.cx + vx * i.sz / 2, i.cz + vz * i.sz / 2) - ground.h(i.cx - vx * i.sz / 2, i.cz - vz * i.sz / 2)) / max(i.sz, 1e-6)
-            out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + dy), tilt_x=layout.fmt(-math.degrees(math.atan(sz))),
-                                           tilt_z=layout.fmt(math.degrees(math.atan(sx)))))
+        if flat(i):
+            ax, az = _slopes(ground, i.cx, i.cz, i.yaw_deg, i.sx, i.sz)
+            out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + dy), tilt_x=ax, tilt_z=az))
         else:
             cyl = i.shape == "Cylinder"  # a standing cylinder's height is its first size
             height = i.sx if cyl else i.sy
             if i.kind == "prop" and i.kit is None and height > FLAT_MAX_H and i.cy - height / 2 < 0.5:
-                # standing on the ground: reach POST_SINK further down so no gap shows over the terrain, the top stays
+                # standing on the ground: reach POST_SINK further down so no gap shows over the tiles, the top stays
                 grow = dict(sx=layout.fmt(i.sx + POST_SINK)) if cyl else dict(sy=layout.fmt(i.sy + POST_SINK))
                 out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + dy - POST_SINK / 2), **grow))
             else:

@@ -346,9 +346,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
                                                 "pole_spacing_m", "lamp_spacing_m", "tree_spacing_m", "car_spacing_m", "school_zone_m",
                                                 "roof_pitch_deg", "window_faces")}}
     files["manifest.json"] = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
-    slab = next(i for i in items if i.kind == "ground")
-    land = ground.window(slab.cx - slab.sx / 2, slab.cx + slab.sx / 2, slab.cz - slab.sz / 2, slab.cz + slab.sz / 2) if ground else None
-    files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids, land)
+    files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids)
     return Plan(cell_id, items, files, counts, warnings)
 
 

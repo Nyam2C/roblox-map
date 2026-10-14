@@ -244,7 +244,8 @@ def make_db(buildings, features=()):
     return conn
 
 
-def test_build_cell_reads_the_database_and_ignores_other_kinds_and_not_ok_buildings(tmp_path):
+def test_build_cell_reads_the_database_and_ignores_other_kinds_and_not_ok_buildings(tmp_path, monkeypatch):
+    monkeypatch.setattr(B.terrain, "ground_for", lambda cfg: None)  # flat: the ground heights cut long pieces (terrain tests)
     conn = make_db([building(0), building(1, status="invalid")], [street("way:1", "tertiary"),
                    {**street("way:2", "residential"), "kind": "crossing"}])
     plan = B.build_cell(conn, CFG, CELL, tmp_path)

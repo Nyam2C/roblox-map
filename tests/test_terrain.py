@@ -46,8 +46,21 @@ def test_a_road_piece_tilts_with_the_ground_and_a_tree_just_rises():
     assert t.cy - t.sy / 2 == pytest.approx(4.0 - T.POST_SINK) and t.cy + t.sy / 2 == pytest.approx(6 + 4.0) and t.tilt_x == 0
 
 
-def test_the_slab_goes_down_and_no_heights_means_no_change():
+def test_the_slab_becomes_tilted_tiles_just_under_the_ground_and_no_heights_means_no_change():
     g = ramp_ground()
     slab = item("ground", "Ground", 0, 0, 100, 4, 100, y=-2)
-    assert T.lift([slab], g)[0].cy == pytest.approx(-2 - T.SLAB_DROP)
+    tiles = T.lift([slab], g)
+    assert len(tiles) == 9 and len({t.name for t in tiles}) == 9
+    for t in tiles:
+        assert t.cy + t.sy / 2 == pytest.approx(g.h(t.cx, t.cz) - T.TILE_UNDER, abs=2e-3) and t.tilt_z == pytest.approx(math.degrees(math.atan(0.1)), abs=1e-3)
     assert T.lift([slab], None)[0] == slab
+
+
+def test_a_long_road_is_cut_so_each_part_follows_its_own_stretch():
+    g = ramp_ground()
+    road = item("road", "way:3#0", 0, 0, 150, 0.2, 10)
+    parts = T.lift([road], g)
+    assert len(parts) == 4 and len({p.name for p in parts}) == 4
+    assert sum(p.sx for p in parts) == pytest.approx(150, abs=0.3)
+    for p in parts:
+        assert p.cy == pytest.approx(0.1 + g.h(p.cx, p.cz), abs=2e-3)
