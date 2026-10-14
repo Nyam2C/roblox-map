@@ -907,3 +907,49 @@ def test_bollards_where_a_footpath_meets_a_road_stand_off_the_carriageway():
     way = ST.carriageways(ST.streets_of([road], FRAME, CELL, RES, CFG))["way:11"]
     bol = [i for i in props if "#bol" in i.name]
     assert bol and all(way.distance(Point(i.cx / S, -i.cz / S)) > 0.5 for i in bol)
+
+
+def test_a_lane_centre_line_stops_before_the_crosswalk_of_a_wide_junction():
+    big = {"feature_id": "way:1", "kind": "road", "highway_class": "tertiary", "tags": {"lanes": "8"},
+           "geometry": [list(offset(CENTER, 0, -60)), list(offset(CENTER, 0, 0)), list(offset(CENTER, 0, 60))]}
+    lane = {"feature_id": "way:2", "kind": "road", "highway_class": "residential", "tags": {},
+            "geometry": [list(offset(CENTER, 0, 0)), list(offset(CENTER, -80, 0))]}
+    (_, props), jcts = props_of([big, lane])
+    w_max = max(j.w_max for j in jcts)
+    for i in [i for i in props if i.name.startswith("way:2#") and "#cl" in i.name]:
+        near_end = abs(i.cx / S - layout.to_meters(FRAME, *CENTER)[0]) - i.sx / S / 2
+        assert near_end >= w_max / 2 + D["cw_to"] - 0.01
+
+
+def test_two_junctions_a_few_metres_apart_on_one_road_get_one_crosswalk_there():
+    main = {"feature_id": "way:1", "kind": "road", "highway_class": "tertiary", "tags": {},
+            "geometry": [list(offset(CENTER, -60, 0)), list(offset(CENTER, -4, 0)), list(offset(CENTER, 4, 0)), list(offset(CENTER, 60, 0))]}
+    a = {"feature_id": "way:2", "kind": "road", "highway_class": "tertiary", "tags": {},
+         "geometry": [list(offset(CENTER, -4, 0)), list(offset(CENTER, -4, 50))]}
+    b = {"feature_id": "way:3", "kind": "road", "highway_class": "tertiary", "tags": {},
+         "geometry": [list(offset(CENTER, 4, 0)), list(offset(CENTER, 4, -50))]}
+    (_, props), jcts = props_of([main, a, b])
+    owned = [j for j in jcts if j.owned]
+    assert len(owned) == 2
+    centres = {}
+    for i in props:
+        if "#cw" in i.name:
+            centres.setdefault(i.name.split("#cw")[0] + i.name.split("#cw")[1].split("-")[0], []).append((i.cx / S, -i.cz / S, i.yaw_deg))
+    mids = [(sum(x for x, _, _ in v) / len(v), sum(y for _, y, _ in v) / len(v), v[0][2]) for v in centres.values()]
+    for k, m in enumerate(mids):
+        for o in mids[k + 1:]:
+            parallel = abs(math.cos(math.radians(m[2] - o[2]))) > 0.9
+            assert not parallel or math.hypot(m[0] - o[0], m[1] - o[1]) >= D["cw_merge"]  # no two crosswalks side by side
+    assert len(mids) == 4  # 6 arms: the two along the main road between the junctions merged
+
+
+def test_a_slip_lane_joining_at_a_shallow_angle_gets_no_crosswalks():
+    main = {"feature_id": "way:1", "kind": "road", "highway_class": "tertiary", "tags": {},
+            "geometry": [list(offset(CENTER, -60, 0)), list(offset(CENTER, 0, 0)), list(offset(CENTER, 60, 0))]}
+    slip = {"feature_id": "way:2", "kind": "road", "highway_class": "tertiary", "tags": {"oneway": "yes"},
+            "geometry": [list(offset(CENTER, 0, 0)), list(offset(CENTER, 40, 20))]}  # about 27 degrees off the main road
+    (_, props), _ = props_of([main, slip])
+    assert not [i for i in props if "#cw" in i.name or "#sl" in i.name]
+    cross = {**slip, "geometry": [list(offset(CENTER, 0, 0)), list(offset(CENTER, 0, 40))]}
+    (_, props), _ = props_of([main, cross])
+    assert [i for i in props if "#cw" in i.name]

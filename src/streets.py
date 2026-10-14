@@ -349,14 +349,18 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
         oneway = str((st.feature.get("tags") or {}).get("oneway") or "").strip().lower() == "yes"
         for i, p, q, mid, length in st.owned:
             u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
-            if st.highway_class == "residential" and not oneway and length > w:
+            # lines stop at the widest road of the junction at each end, not inside it (2026-10-14: a lane's centre line ran into 신흥로)
+            cw = D["cw_to"] if st.highway_class in CROSSWALK_CLASSES else 0.0  # and before the crosswalk band on this arm
+            t0 = max([w / 2] + [j.w_max / 2 + cw for si, pos, j in jpos if si == i and pos < 1e-6])
+            t1 = max([w / 2] + [j.w_max / 2 + cw for si, pos, j in jpos if si == i and pos > length - 1e-6])
+            if st.highway_class == "residential" and not oneway and length > t0 + t1:
                 for n, lat in enumerate((D["line_gap"], -D["line_gap"])):
-                    props.append(_segment_part(frame, "prop", f"{fid}#{i}#cl{n}", fid, 200 + 2 * i + n, p, u, length / 2, lat, top_road + D["mark_y_studs"],
-                                               (length - w, D["mark_t_studs"], D["line_w"]), y_studs=True, material="SmoothPlastic",
+                    props.append(_segment_part(frame, "prop", f"{fid}#{i}#cl{n}", fid, 200 + 2 * i + n, p, u, (t0 + length - t1) / 2, lat, top_road + D["mark_y_studs"],
+                                               (length - t0 - t1, D["mark_t_studs"], D["line_w"]), y_studs=True, material="SmoothPlastic",
                                                color=R.PALETTE["line_yellow"], color_name="line_yellow", collide=False))
             if st.highway_class == "tertiary":
-                pos, n = w / 2, 0
-                while pos + D["dash_len"] <= length - w / 2:
+                pos, n = t0, 0
+                while pos + D["dash_len"] <= length - t1:
                     props.append(_segment_part(frame, "prop", f"{fid}#{i}#dash{n}", fid, 300 + 10 * i + n, p, u, pos + D["dash_len"] / 2, 0.0,
                                                top_road + D["mark_y_studs"], (D["dash_len"], D["mark_t_studs"], D["line_w"]), y_studs=True,
                                                material="SmoothPlastic", color=R.PALETTE["line_white"], color_name="line_white", collide=False))
@@ -453,6 +457,7 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                     props.append(_segment_part(frame, "prop", f"{fid}#{i}#cab{j}", fid, 800 + 10 * i + j, p, u, pos, lat, D["car_y"] + D["car_h"], (D["cab_w"], D["cab_h"], D["cab_d"]),
                                                material="SmoothPlastic", color=tuple(int(round(c * 0.7)) for c in rgb), color_name=color_key + "_cab", collide=True))
     # junction kits: crosswalks, stop lines, zone poles, bollards, boxes (BR-11.9, BR-11.12)
+    placed: list[tuple[float, float, float, float]] = []  # crosswalk centres and arm directions: a divided road has several junctions at one crossing (2026-10-14)
     for j in jcts:
         if not j.owned:
             continue
@@ -463,7 +468,11 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
             along = start + (D["cw_to"] - D["cw_from"]) / 2
             # 2026-10-14: the short link between the two halves of a divided road got crosswalks in the middle of the other road
             on_other = any(g.distance(Point(p[0] + u[0] * along, p[1] + u[1] * along)) < 0.5 for fid, g in ways.items() if fid != a.feature_id)
-            if a.highway_class in CROSSWALK_CLASSES and a.length >= D["cw_min_arm"] and not on_other:
+            centre = (p[0] + u[0] * along, p[1] + u[1] * along)
+            # a crosswalk side by side with an earlier one (parallel arms within cw_merge) is the same crossing seen from a second junction
+            near = any(math.hypot(centre[0] - c[0], centre[1] - c[1]) < D["cw_merge"] and abs(u[0] * c[2] + u[1] * c[3]) > 0.9 for c in placed)
+            if a.highway_class in CROSSWALK_CLASSES and a.length >= D["cw_min_arm"] and not on_other and not near and _crossing(j):
+                placed.append((centre[0], centre[1], u[0], u[1]))
                 n = int(a.width // D["cw_pitch"])
                 for i in range(n):
                     lat = (i - (n - 1) / 2) * D["cw_pitch"]
@@ -497,6 +506,17 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
             props.append(_segment_part(frame, "prop", f"{j.name}#box0", j.name, 300, (j.east, j.north), a.direction, j.w_max / 2 + D["box_along"],
                                        -(a.width / 2 + D["box_off"]), 0.0, size, material="Metal", color=R.PALETTE[key], color_name=key))
     return sidewalks, props
+
+
+def _crossing(j: Junction) -> bool:
+    """A real crossing: two of its arms meet at cw_cross_deg or more. A slip lane joining a big road at a shallow angle is not one and
+    gets no crosswalks (cell 4, 2026-10-14: crosswalks across 길주로 at every merge point)."""
+    for k, a in enumerate(j.arms):
+        for b in j.arms[k + 1:]:
+            c = abs(a.direction[0] * b.direction[0] + a.direction[1] * b.direction[1])
+            if math.degrees(math.acos(min(1.0, c))) >= D["cw_cross_deg"]:
+                return True
+    return False
 
 
 def j_w_max_band(st: Street, jcts: Sequence[Junction], pos: float) -> float:

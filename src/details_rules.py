@@ -417,7 +417,7 @@ DIMS: dict[str, float] = {
     "curb_h_studs": 0.5, "curb_w": 0.15, "curb_in": 0.075, "mark_t_studs": 0.05, "mark_y_studs": 0.03, "cw_y_studs": 0.04, "line_w": 0.15,
     "line_gap": 0.15, "dash_len": 3.0, "dash_gap": 5.0, "cw_stripe": 0.45, "cw_len": 4.0, "cw_pitch": 0.9, "cw_from": 1.0, "cw_to": 5.0,
     "cw_min_arm": 15.0, "stop_w": 0.45, "stop_gap": 1.0, "zone_pole_dia": 0.12, "zone_pole_h": 4.0, "zone_sign": 0.6, "zone_pole_off": 0.6,
-    "gap_extra": 1.0, "piece_min": 0.5, "median_margin": 3.0, "clip_step": 0.5, "clip_overlap": 0.05, "collinear_sin": 0.2, "fence_len": 4.0, "fence_h": 1.0, "fence_t": 0.05, "fence_off": 0.1,
+    "gap_extra": 1.0, "piece_min": 0.5, "median_margin": 3.0, "cw_merge": 12.0, "cw_cross_deg": 60.0, "clip_step": 0.5, "clip_overlap": 0.05, "collinear_sin": 0.2, "fence_len": 4.0, "fence_h": 1.0, "fence_t": 0.05, "fence_off": 0.1,
     "fence_end_clear": 3.0, "bollard_dia": 0.15, "bollard_h": 0.9, "bollard_gap": 1.2, "bollard_in": 1.0, "box_along": 1.5, "box_off": 0.8,
     "box_telecom_w": 0.6, "box_telecom_h": 1.2, "box_telecom_d": 0.4, "box_recycle_w": 0.6, "box_recycle_h": 0.9, "box_recycle_d": 0.6,
 }

@@ -158,7 +158,7 @@ def test_the_three_cells_get_the_first_region_keys():
     cfg = common.load_config()
     for cell in ("8930e0af13bffff", "8930e0af123ffff", "8930e0af12bffff"):
         c = common.cell_config(cfg, cell)
-        assert c["region"] == "bucheon-dodang" and len(c["school_polygons"]) == 1 and c["road_lanes_by_name"] == {"길주로": 10}
+        assert c["region"] == "bucheon-dodang" and len(c["school_polygons"]) == 1 and c["road_lanes_by_name"]["길주로"] == 10
         assert c["spawn_lat"] is not None and common.cell_file(cfg, cell, "details").parts[-4:] == ("bucheon-dodang", "cells", cell, "details.json")
 
 
