@@ -6,6 +6,7 @@ import math
 import pytest
 from hypothesis import given, strategies as st
 
+import common
 import layout
 import minimap as M
 
@@ -58,9 +59,50 @@ def test_an_empty_map_still_has_a_bounds_box_and_the_module_text_is_stable():
     assert M.bounds_of([]) == [0.0, 0.0, 1.0, 1.0]
     text = M.module_text([])
     assert text == M.module_text([]) and text.startswith("-- generated") and "return {" in text and "bounds = {" in text
-    for name, _, _ in M.LABELS:
+    for name, *_ in M.HAND_LABELS:
         assert f'"{name}"' in text
-    assert text.count("\t{") >= len(M.AREAS) + len(M.LABELS)
+    assert text.count("\t{") >= len(M.AREAS) + len(M.HAND_LABELS)
+
+
+@pytest.mark.parametrize("name, ok", [("청솔하이빌", True), ("광성아파트", True), ("1003동", True), ("중3동행정복지센터", True),
+                                      ("춘의동 131-16 단독주택 (홍길동)", False), ("정순가", False), ("세븐일레븐", False),
+                                      ("부흥건물(본관)", False), ("", False), (None, False)])
+def test_only_building_and_facility_names_reach_the_map(name, ok):
+    assert (M.map_name(name) is not None) == ok
+
+
+FRAME = layout.Frame.from_cfg(common.DEFAULTS)
+
+
+def bld(bid, name, east, north, area=100.0, floors=3):
+    lat, lon = layout.from_studs(FRAME, east * FRAME.studs_per_m, -north * FRAME.studs_per_m)
+    return {"building_id": bid, "name": name, "centroid": [lat, lon], "building_area": area, "floors_above": floors}
+
+
+def test_one_label_per_complex_levels_by_kind_and_no_two_names_on_one_spot():
+    rows = [bld("gis:1", "한신빌라", 0, 0), bld("gis:2", "한신빌라", 20, 0), bld("gis:3", "한신빌라", 300, 0),
+            bld("gis:4", "심원고등학교", 0, 200, 2000, 5), bld("gis:5", "심원고등학교", 90, 200, 600, 5),
+            bld("gis:6", "중3동 주민센터", 0, 400, 50, 2), bld("gis:7", "중3동행정복지센터", 5, 400, 300, 2),
+            bld("gis:8", "광성아파트", 0, 600, 4000, 13), bld("gis:9", "1003동", 0, 800, 300, 13), bld("gis:10", "단독주택 (홍길동)", 0, 900)]
+    got = M.building_labels(rows, FRAME)
+    names = [l[0] for l in got]
+    assert names.count("한신빌라") == 2 and names.count("심원고등학교") == 1
+    assert "중3동행정복지센터" in names and "중3동 주민센터" not in names
+    lv = {l[0]: (l[3], l[4]) for l in got}
+    assert lv["심원고등학교"] == (1, M.FACILITY) and lv["광성아파트"] == (2, M.BUILDING_NAME) and lv["1003동"][0] == 3
+    assert not any("홍길동" in n for n in names)
+    assert got == M.building_labels(list(reversed(rows)), FRAME)
+
+
+def test_road_names_by_class_along_the_road_and_never_upside_down():
+    def road(name, hw, pts):
+        return {"tags": {"name": name, "highway": hw}, "geometry": [list(layout.from_studs(FRAME, x, z)) for x, z in pts]}
+    got = M.road_labels([road("길주로", "tertiary", [(0, 0), (500, 0)]), road("옥산로113번길", "service", [(0, 100), (-100, 0)]),
+                         road("계남로", "residential", [(0, 300), (0, 600)])], FRAME)
+    lv = {l[0]: l for l in got}
+    assert lv["길주로"][3] == 1 and lv["옥산로113번길"][3] == 3 and lv["계남로"][3] == 2
+    assert all(-90 <= l[5] <= 90 for l in got)
+    assert abs(lv["길주로"][5]) < 1 and abs(abs(lv["계남로"][5]) - 90) < 1
 
 
 @pytest.mark.parametrize("bad", ['a"b', "a\\b", "a]]b", "", "x" * 21, "a\nb", "a--b"])

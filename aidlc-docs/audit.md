@@ -1422,3 +1422,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - after U7.
 
 ---
+
+## Map Place Names (U6 Q1 and Q2 Implemented)
+**Timestamp**: 2026-10-14T04:50:37Z
+**User Request**: "결정 사항에 지도에 정보 표시도 있지 않았어?"
+**AI Response**: Yes: U6 map detail Q1 = A+B+C+D and Q2 = A (zoom levels) were answered by interview but never built (the map had three hand-set names). Built it: minimap.py makes dong names (Nominatim reverse once per cell, regions/bucheon-dodang/places.json: 약대동, 도당동), road names along the road (big roads level 1, others 2, numbered alleys 3), facility and building names from the register (only names ending in a building or facility word; personal names and lot numbers out; one label per complex; one of two names on one spot), and the school ground kit as a map area. MinimapClient: big map zoom 1-8x (wheel, pinch, +/- buttons), drag to pan, level 3 from 2x, names keep their screen size, colliding names hidden by priority. 67 labels (9/25/33). Checked in Play (mini 9, big 34, zoomed 67; captured). Tests 687. cycle-recognize now also looks for answered questions with no implementation note.
+**Context**: CONSTRUCTION - U6 follow-up after U7.
+
+---

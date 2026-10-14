@@ -25,9 +25,13 @@ from typing import Any, Mapping, Sequence
 
 import h3
 
+import json
+
 import build_luau
 import common
 import db
+import details_rules as R
+import fields
 import layout
 import streets
 
@@ -47,8 +51,21 @@ AREAS: tuple[tuple[int, float, float, float, float, float], ...] = (
     (FIELD, -501.0, -283.0, 185.0, 180.0, 170.76),
     (COURT, -635.5, -292.5, 77.0, 115.0, 170.76),
 )
-LABELS: tuple[tuple[str, float, float], ...] = (("심원고등학교", -132.0, -228.0), ("부흥중학교", -453.0, -503.0), ("옥산공원", -411.0, -18.0))
 LABEL_TEXT = re.compile(r"[가-힣A-Za-z0-9 ]{1,20}")  # the only characters that may reach Luau code (N-U2-4)
+
+# place names (U6 map detail Q1 = A+B+C+D, Q2 = A, 2026-10-14): {text, x, z, level, kind, rotation}.
+# level 1 shows on the small map too, 2 on the big map, 3 when the big map is zoomed in; kind 1 dong, 2 road, 3 facility, 4 building.
+DONG, ROAD_NAME, FACILITY, BUILDING_NAME = 1, 2, 3, 4
+HAND_LABELS = (("옥산공원", -411.0, -18.0, 1, FACILITY, 0.0),)  # the park has no building record
+# a register name goes on the map only when it ends like a building or a facility: personal names and lot numbers never do
+# ("<동> 131-16 단독주택 (<사람>)" is in the register, 2026-10-14)
+NAME_ENDS = ("아파트", "빌라", "빌라트", "빌", "맨션", "하이츠", "타운", "홈타운", "캐슬", "팰리스", "프라자", "플라자", "타워", "빌딩", "센터",
+             "상가", "오피스텔", "시장", "병원", "의원", "금고", "은행", "우체국", "교회", "성당", "유치원", "어린이집", "하우스", "힐", "힐스",
+             "뷰", "빌리지", "파크", "랜드", "스페이스빌", "학교", "경로당")
+MAJOR_ENDS = ("학교", "행정복지센터", "주민센터")  # level 1 facilities
+FACILITY_ENDS = MAJOR_ENDS + ("경로당", "금고", "은행", "우체국", "병원", "의원", "교회", "성당", "유치원", "어린이집", "센터", "시장")
+BLOCK_NO = re.compile(r"[0-9]{3,4}동")
+NOMINATIM = "https://nominatim.openstreetmap.org/reverse"
 MARGIN = 40.0  # studs of empty map around the outermost rectangle corner
 
 
@@ -86,11 +103,120 @@ def luau_label(text: str) -> str:
     return '"' + text + '"'
 
 
-def module_text(rects: Sequence[Sequence[float]], labels: Sequence[tuple[str, float, float]] = LABELS) -> str:
+def map_name(name: str | None) -> str | None:
+    """A register name fit for the map, or None (personal names, lot numbers, odd characters)."""
+    if not name:
+        return None
+    n = re.sub(r"\s+", " ", name).strip()
+    if "(" in n or "단독주택" in n or re.search(r"[0-9]+-[0-9]+", n) or not LABEL_TEXT.fullmatch(n):
+        return None
+    if BLOCK_NO.fullmatch(n) or n.endswith(NAME_ENDS):
+        return n
+    return None
+
+
+def building_labels(buildings: Sequence[Mapping[str, Any]], frame: layout.Frame) -> list[tuple]:
+    """One label per name and place: the same name within 150 studs is one complex (four 한신빌라 boxes, the school's wings)."""
+    groups: list[dict[str, Any]] = []
+    for b in sorted(buildings, key=lambda b: str(b["building_id"])):
+        n = map_name(b.get("name"))
+        if n is None or not b.get("centroid"):
+            continue
+        x, z = layout.to_studs(frame, b["centroid"][0], b["centroid"][1])
+        a = float(b.get("building_area") or 0.0)
+        reach = 450 if n.endswith(FACILITY_ENDS) else 150  # a school's wings lie far apart
+        for g in groups:
+            if g["name"] == n and math.hypot(g["x"] - x, g["z"] - z) < reach:
+                w = g["area"] + a + 1e-6
+                g["x"], g["z"] = (g["x"] * (g["area"] + 1e-9) + x * (a + 1e-9)) / (w + 1e-9), (g["z"] * (g["area"] + 1e-9) + z * (a + 1e-9)) / (w + 1e-9)
+                g["area"] += a
+                g["floors"] = max(g["floors"], b.get("floors_above") or 0)
+                break
+        else:
+            groups.append({"name": n, "x": x, "z": z, "area": a, "floors": b.get("floors_above") or 0})
+    out = []
+    for g in groups:
+        n = g["name"]
+        if n.endswith(MAJOR_ENDS):
+            level, kind = 1, FACILITY
+        elif n.endswith(FACILITY_ENDS):
+            level, kind = 2, FACILITY
+        elif BLOCK_NO.fullmatch(n):
+            level, kind = 3, BUILDING_NAME
+        else:
+            level, kind = (2 if g["area"] >= 300 or g["floors"] >= 7 else 3), BUILDING_NAME
+        out.append((n, round(g["x"], 1), round(g["z"], 1), level, kind, 0.0))
+    # two names on one spot (OSM "중3동 주민센터" and the register's "중3동행정복지센터"): keep the more important, then the longer
+    out.sort(key=lambda l: (l[3], -len(l[0]), l[0]))
+    kept: list[tuple] = []
+    for l in out:
+        if not any(math.hypot(l[1] - k[1], l[2] - k[2]) < 60 for k in kept):
+            kept.append(l)
+    return kept
+
+
+def road_labels(features: Sequence[Mapping[str, Any]], frame: layout.Frame) -> list[tuple]:
+    """Road names along their longest piece (and a second one on a long road), turned to read left to right."""
+    pieces: dict[str, list[tuple[float, float, float, float, float]]] = {}
+    level_of: dict[str, int] = {}
+    for f in features:
+        tags = f.get("tags") or {}
+        n = (tags.get("name") or "").strip()
+        if not n or not LABEL_TEXT.fullmatch(n) or len(f["geometry"]) < 2:
+            continue
+        pts = [layout.to_studs(frame, p[0], p[1]) for p in f["geometry"]]
+        for (x0, z0), (x1, z1) in zip(pts, pts[1:]):
+            pieces.setdefault(n, []).append((math.hypot(x1 - x0, z1 - z0), (x0 + x1) / 2, (z0 + z1) / 2, x1 - x0, z1 - z0))
+        hw = str(tags.get("highway") or "")
+        lv = 1 if hw.replace("_link", "") in layout.BIG_ROADS else 3 if re.search(r"번[가-힣]?길$", n) else 2
+        level_of[n] = min(level_of.get(n, 9), lv)
+    out = []
+    for n in sorted(pieces):
+        ps = sorted(pieces[n], key=lambda p: (-p[0], p[1], p[2]))
+        chosen = [ps[0]]
+        if sum(p[0] for p in ps) > 1200:
+            far = [p for p in ps if math.hypot(p[1] - ps[0][1], p[2] - ps[0][2]) > 500]
+            chosen += far[:1]
+        for _, x, z, dx, dz in chosen:
+            rot = math.degrees(math.atan2(dz, dx))  # UI rotation is clockwise and +Z is down on the map: the same angle
+            rot = (rot + 90) % 180 - 90  # never upside down
+            out.append((n, round(x, 1), round(z, 1), level_of[n], ROAD_NAME, round(rot, 1)))
+    return out
+
+
+def dong_labels(cells: Sequence[str], frame: layout.Frame, places: Mapping[str, str]) -> list[tuple]:
+    """A dong name at the middle of the built cells that lie in it."""
+    by: dict[str, list[tuple[float, float]]] = {}
+    for c in cells:
+        n = places.get(c)
+        if n and LABEL_TEXT.fullmatch(n):
+            lat, lon = h3.cell_to_latlng(c)
+            by.setdefault(n, []).append(layout.to_studs(frame, lat, lon))
+    return [(n, round(sum(p[0] for p in ps) / len(ps), 1), round(sum(p[1] for p in ps) / len(ps), 1), 2, DONG, 0.0) for n, ps in sorted(by.items())]
+
+
+def cell_places(cfg: Mapping[str, Any], cells: Sequence[str]) -> dict[str, str]:
+    """The dong of each cell, from regions/<region>/places.json (git), asking Nominatim reverse (zoom 16) once for a missing cell."""
+    out: dict[str, str] = {}
+    for c in cells:
+        path = Path(common.cell_config(cfg, c)["cell_dir"]).parent.parent / "places.json"
+        data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"note": "dong of each cell, Nominatim reverse zoom 16", "cells": {}}
+        if c not in data["cells"]:
+            lat, lon = h3.cell_to_latlng(c)
+            r = common.http_get_json(NOMINATIM, {"format": "jsonv2", "lat": f"{lat:.6f}", "lon": f"{lon:.6f}", "zoom": 16, "accept-language": "ko"},
+                                     waits=cfg["retry_waits_s"], pause_s=1.1)
+            a = r.get("address") or {}
+            data["cells"][c] = a.get("quarter") or a.get("suburb") or a.get("neighbourhood") or ""
+            path.write_text(json.dumps(data, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        out[c] = data["cells"][c]
+    return out
+
+
+def module_text(rects: Sequence[Sequence[float]], labels: Sequence[tuple] = HAND_LABELS, areas: Sequence[Sequence[float]] = ()) -> str:
     """The text of ReplicatedStorage/MinimapData. Areas come first so they are drawn under the roads."""
-    allr = [rect_of(*a) for a in AREAS] + list(rects)
+    allr = [rect_of(*a) for a in AREAS] + [list(a) for a in areas] + list(rects)
     rows = ",\n".join("\t{%d, %g, %g, %g, %g, %g}" % tuple(r) for r in allr)
-    lab = ",\n".join("\t{%s, %g, %g}" % (luau_label(t), x, z) for t, x, z in labels)
+    lab = ",\n".join("\t{%s, %g, %g, %d, %d, %g}" % (luau_label(t), x, z, lv, k, rot) for t, x, z, lv, k, rot in labels)
     return ("-- generated by src/minimap.py, do not edit. Rectangles are {look, x, z, width, depth, rotation} in Studio studs\n"
             "-- (look 1 park, 2 field, 3 court, 4 road, 5 path, 6 building; rotation = yaw degrees counterclockwise from east).\n"
             "return {\n\tbounds = {%s},\n\trects = {\n%s\n\t},\n\tlabels = {\n%s\n\t},\n}\n" % (", ".join("%g" % v for v in bounds_of(allr)), rows, lab))
@@ -160,14 +286,23 @@ def main(cfg: dict[str, Any]) -> int:
         return 0
     conn = db.connect(common.resolve(cfg["db_path"]))
     rects: list[list[float]] = []
+    areas: list[list[float]] = []
     for cell_id in args.cells:
         rects += rects_of_items(cell_items(conn, cfg, cell_id))
+        for g in fields.load_fields(common.cell_file(cfg, cell_id, "fields")):  # the school ground kit (U7 J)
+            areas.append(rect_of(FIELD, g["x"], g["z"], g["w"], g["d"], g["yaw"]))
+    frame = layout.Frame.from_cfg(cfg)
+    buildings = [b for b in db.rows_in_cells(conn, "buildings", args.cells) if b["status"] == "ok"]
+    features = [f for f in db.rows_in_cells(conn, "street_features", args.cells) if f["kind"] in ("road", "path")]
+    labels = list(HAND_LABELS) + dong_labels(args.cells, frame, cell_places(cfg, args.cells)) + road_labels(features, frame) + building_labels(buildings, frame)
     out = common.resolve(BUILD_DIR)
     out.mkdir(parents=True, exist_ok=True)
-    data = module_text(sorted(rects))
+    data = module_text(sorted(rects), labels, areas)
     (out / "minimap.luau").write_text(data, encoding="utf-8")
     (out / "install-u6.luau").write_text(install_text(data), encoding="utf-8")
-    common.log(logging.INFO, f"minimap written: {len(rects)} rectangles from {len(args.cells)} cells, plus {len(AREAS)} areas and {len(LABELS)} labels")
+    by_level = {lv: sum(1 for l in labels if l[3] == lv) for lv in (1, 2, 3)}
+    common.log(logging.INFO, f"minimap written: {len(rects)} rectangles from {len(args.cells)} cells, plus {len(AREAS) + len(areas)} areas and "
+                             f"{len(labels)} labels (level 1/2/3: {by_level[1]}/{by_level[2]}/{by_level[3]})")
     return 0
 
 

@@ -13,7 +13,7 @@ description: roblox-map 세션 흐름의 1단계 "인지". 세션을 시작할 �
 2. `aidlc-docs/lessons.md` 전체. 이전 세션이 겪은 함정과 대처다. 이번 칸에 해당할 항목을 골라 둔다.
 3. `aidlc-docs/aidlc-state.md`의 Next Stage와 유닛 줄.
 4. 이번 작업이 구조 변경이면 `aidlc-docs/architecture.md`, U7 중이면 `aidlc-docs/construction/plans/u7-real-shapes-interiors-plan.md`.
-5. 답을 기다리는 질문 파일(`aidlc-docs/inception/requirements/*-questions.md`에서 빈 `[Answer]:`).
+5. 답을 기다리는 질문 파일(`aidlc-docs/inception/requirements/*-questions.md`에서 빈 `[Answer]:`). **답은 있는데 "구현" 기록이 없는 질문**도 찾는다(정해 놓고 안 만든 것: 2026-10-14 지도 장소 정보).
 
 ## 2. 저장소 상태
 

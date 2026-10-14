@@ -84,23 +84,41 @@ for _, r in ipairs(Data.rects or {}) do
 		f.Parent = world
 	end
 end
+-- place names {text, x, z, level, kind, rotation} (U6 map detail Q1 = A+B+C+D, Q2 = A): level 1 also on the small map, 2 on the big map,
+-- 3 when the big map is zoomed in (ZOOM_DETAIL). Kinds 1 dong, 2 road, 3 facility, 4 building; px is the size on screen whatever the zoom
+local KIND = {
+	[1] = { px = 22, font = Enum.Font.GothamBlack, color = Color3.fromRGB(70, 80, 105) },
+	[2] = { px = 12, font = Enum.Font.Gotham, color = Color3.fromRGB(95, 95, 105) },
+	[3] = { px = 13, font = Enum.Font.GothamBold, color = Color3.fromRGB(25, 70, 150) },
+	[4] = { px = 11, font = Enum.Font.GothamMedium, color = Color3.fromRGB(45, 45, 55) },
+}
+local ZOOM_DETAIL = 2
 local labels = {}
 for _, l in ipairs(Data.labels or {}) do
+	local style = KIND[l[5] or 4] or KIND[4]
 	local t = Instance.new("TextLabel")
 	t.AnchorPoint = Vector2.new(0.5, 0.5)
 	t.Position = UDim2.fromOffset(l[2], l[3])
-	t.Size = UDim2.fromOffset(600, 80)
 	t.BackgroundTransparency = 1
 	t.Text = l[1]
-	t.Font = Enum.Font.GothamBold
-	t.TextColor3 = Color3.fromRGB(30, 30, 38)
+	t.Font = style.font
+	t.TextColor3 = style.color
 	t.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
-	t.TextStrokeTransparency = 0.2
-	t.ZIndex = 8
+	t.TextStrokeTransparency = 0.15
+	t.Rotation = l[6] or 0
+	t.ZIndex = (l[5] == 1) and 7 or 8
 	t.Visible = false
 	t.Parent = world
-	table.insert(labels, t)
+	table.insert(labels, { t = t, level = l[4] or 2, kind = l[5] or 4, x = l[2], z = l[3], px = style.px, chars = utf8.len(l[1]) or #l[1] })
 end
+-- the drawing order when names collide: dong, then level, facility before road before building, then the longer name
+table.sort(labels, function(a, b)
+	local ka, kb = a.kind == 1 and 0 or a.level, b.kind == 1 and 0 or b.level
+	if ka ~= kb then return ka < kb end
+	local ra, rb = ({ 0, 2, 1, 3 })[a.kind], ({ 0, 2, 1, 3 })[b.kind]
+	if ra ~= rb then return ra < rb end
+	return a.chars > b.chars
+end)
 
 -- the small map, top right
 local size = miniSize()
@@ -192,16 +210,62 @@ mapButton.ZIndex = 20 -- above the big map even on a narrow screen
 mapButton.Parent = gui
 round(mapButton, 8)
 
+-- the big map zooms (mouse wheel, pinch, + and - buttons) and pans (drag); it opens on the whole built area
+local userZoom, panX, panZ = 1, (bounds[1] + bounds[3]) / 2, (bounds[2] + bounds[4]) / 2
+local function zoomBy(f)
+	userZoom = math.clamp(userZoom * f, 1, 8)
+end
+for i, b in ipairs({ { "+", 1.5 }, { "-", 1 / 1.5 } }) do
+	local btn = Instance.new("TextButton")
+	btn.Name = "Zoom" .. i
+	btn.AnchorPoint = Vector2.new(0, 1)
+	btn.Position = UDim2.new(0, 10, 1, -10 - (2 - i) * 44)
+	btn.Size = UDim2.fromOffset(38, 38)
+	btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	btn.Text = b[1]
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 24
+	btn.TextColor3 = Color3.fromRGB(40, 40, 48)
+	btn.ZIndex = 16
+	btn.Parent = big
+	round(btn, 8)
+	btn.Activated:Connect(function()
+		zoomBy(b[2])
+	end)
+end
+
 local isBig = false
+local function showLabels(zoom)
+	-- a name that would cover one already shown is left out at this zoom (screen boxes, the rotation ignored)
+	local shown = {}
+	for _, l in ipairs(labels) do
+		local on = (isBig and (l.level <= 2 or userZoom >= ZOOM_DETAIL)) or (not isBig and l.level == 1)
+		if on and zoom then
+			local hw, hh = l.px * (l.chars + 1) * 0.5 * 0.9, l.px * 0.7
+			local sx, sy = l.x * zoom, l.z * zoom
+			for _, o in ipairs(shown) do
+				if math.abs(sx - o[1]) < hw + o[3] and math.abs(sy - o[2]) < hh + o[4] then
+					on = false
+					break
+				end
+			end
+			if on then
+				table.insert(shown, { sx, sy, hw, hh })
+			end
+		end
+		l.t.Visible = on
+	end
+end
 local function setBig(on)
 	isBig = on
 	mini.Visible = not on
 	big.Visible = on
 	world.Parent = on and big or mini
 	marker.Parent = on and big or mini
-	for _, t in ipairs(labels) do
-		t.Visible = on
+	if on then
+		userZoom, panX, panZ = 1, (bounds[1] + bounds[3]) / 2, (bounds[2] + bounds[4]) / 2
 	end
+	showLabels()
 	mapButton.Text = on and "닫기 (M)" or "지도 (M)"
 end
 setBig(false)
@@ -214,22 +278,54 @@ UserInputService.InputBegan:Connect(function(input, processed)
 		setBig(not isBig)
 	end
 end)
+local dragging, lastPos = false, nil
+big.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging, lastPos = true, input.Position
+	end
+end)
+UserInputService.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = false
+	end
+end)
+UserInputService.InputChanged:Connect(function(input)
+	if not isBig then
+		return
+	end
+	if input.UserInputType == Enum.UserInputType.MouseWheel then
+		zoomBy(input.Position.Z > 0 and 1.25 or 1 / 1.25)
+	elseif dragging and lastPos and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+		local d = input.Position - lastPos
+		lastPos = input.Position
+		local vp = big.AbsoluteSize
+		local fit = math.min(vp.X / math.max(bounds[3] - bounds[1], 1), vp.Y / math.max(bounds[4] - bounds[2], 1))
+		panX = math.clamp(panX - d.X / (fit * userZoom), bounds[1], bounds[3])
+		panZ = math.clamp(panZ - d.Y / (fit * userZoom), bounds[2], bounds[4])
+	end
+end)
+UserInputService.TouchPinch:Connect(function(_, scale, _, state)
+	if isBig and state == Enum.UserInputState.Change then
+		zoomBy(math.clamp(scale, 0.9, 1.1))
+	end
+end)
 workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
 	size = miniSize()
 	mini.Size = UDim2.fromOffset(size, size)
 	mapButton.Position = UDim2.new(1, -12, 0, 12 + size + 6)
 end)
 
+local lastZoom, lastBig = nil, nil
 RunService.RenderStepped:Connect(function()
 	local view = isBig and big or mini
 	local vp = view.AbsoluteSize
 	local char = player.Character
 	local root = char and char:FindFirstChild("HumanoidRootPart")
 	local zoom, cx, cz
-	if isBig then -- the whole built area fits the view; the arrow moves
+	if isBig then -- the whole built area fits the view at zoom 1; the arrow moves
 		local w, h = math.max(bounds[3] - bounds[1], 1), math.max(bounds[4] - bounds[2], 1)
-		zoom = math.min(vp.X / w, vp.Y / h)
-		cx, cz = (bounds[1] + bounds[3]) / 2, (bounds[2] + bounds[4]) / 2
+		zoom = math.min(vp.X / w, vp.Y / h) * userZoom
+		cx, cz = panX, panZ
 	elseif root then -- the player stays in the middle; the map moves
 		zoom = MINI_ZOOM
 		cx, cz = root.Position.X, root.Position.Z
@@ -239,10 +335,13 @@ RunService.RenderStepped:Connect(function()
 	zoomScale.Scale = zoom
 	-- positions as a share of the view: an Offset is a whole number of pixels, a Scale moves smoothly
 	world.Position = UDim2.fromScale((vp.X / 2 - cx * zoom) / vp.X, (vp.Y / 2 - cz * zoom) / vp.Y)
-	if isBig then
-		local textSize = math.clamp(math.floor(15 / zoom), 8, 100)
-		for _, t in ipairs(labels) do
-			t.TextSize = textSize
+	if zoom ~= lastZoom or isBig ~= lastBig then -- names keep their size on screen: the world is scaled, so the text is not
+		lastZoom, lastBig = zoom, isBig
+		showLabels(zoom)
+		for _, l in ipairs(labels) do
+			local ts = math.min(l.px / zoom, 100)
+			l.t.TextSize = ts
+			l.t.Size = UDim2.fromOffset(ts * (l.chars + 1), ts * 1.4)
 		end
 	end
 	if root then
