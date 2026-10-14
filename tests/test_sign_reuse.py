@@ -73,3 +73,13 @@ def test_the_library_refuses_a_row_whose_key_does_not_match(tmp_path, monkeypatc
         assert "does not match" in str(e)
     else:
         raise AssertionError("a tampered row was accepted")
+
+
+def test_a_building_never_shows_the_same_reused_name_twice():
+    lib = [row(f"가게{k}", tail="sgf", asset=10 + k) for k in range(3)]
+    items = [sign("gis:9", "sgf", f"원래{k}", w=10.0) for k in range(5)]
+    items = [layout.Item(**{**i.__dict__, "name": f"gis:9#sgf{k}-0"}) for k, i in enumerate(items)]
+    out, n_img, reused = build_luau.apply_sign_images(items, {}, lib)
+    texts = [i.text for i in out if "ImageAsset" in i.attrs]
+    assert len(texts) == len(set(texts)) == 3 and n_img == reused == 3
+    assert sum(1 for i in out if i.text.startswith("원래")) == 2  # the rest stay text signs with their own names

@@ -308,7 +308,8 @@ def apply_sign_images(items: Sequence[layout.Item], own: Mapping[str, int], libr
     """SI-6: a band or floor sign whose image was uploaded (this cell's signs.json or the region library, same key) gets the asset
     id; the text stays as the fallback. U7 K: a building's name (owner + text) none of whose image signs has its own image reuses
     an uploaded image of the region with the first sign's tail (band or floor sign, so a ground-floor name stays one) and panel
-    color and an aspect within 12 %, chosen by pick on that sign's name; every sign of that name then reads the image's text, and
+    color and an aspect within 12 % whose name the building does not show yet, chosen by pick on that sign's name; every sign of
+    that name then reads the image's text, and
     its other image signs take an image of that text with their own tail, aspect and color when there is one. Returns (items,
     signs with an image, of them reused)."""
     exact = {**{r["key"]: int(r["asset_id"]) for r in library}, **own}
@@ -325,6 +326,7 @@ def apply_sign_images(items: Sequence[layout.Item], own: Mapping[str, int], libr
             groups.setdefault((i.owner, i.text), []).append((n, details_rules.sign_tail(i.name), details_rules.aspect_bucket(i.sx, i.sy)))
     picked: dict[int, int] = {}
     renamed: dict[tuple[str | None, str], str] = {}
+    used: dict[str | None, set[str]] = {}  # the reused names of each building: a name appears once (review 2026-10-14: 3 floors read "아람피부과")
     reused = 0
     for (owner, text), signs in groups.items():
         keys = {n: details_rules.sign_image_key(text, tail, items[n].color_name, items[n].ink, aspect) for n, tail, aspect in signs}
@@ -332,11 +334,12 @@ def apply_sign_images(items: Sequence[layout.Item], own: Mapping[str, int], libr
             picked.update({n: exact[k] for n, k in keys.items() if k in exact})
             continue
         n0, tail0, aspect0 = signs[0]
-        rows = near(n0, tail0, aspect0)
+        rows = [r for r in near(n0, tail0, aspect0) if r["text"] not in used.setdefault(owner, set())]
         if not rows:
             continue
         new_text = rows[details_rules.pick(items[n0].name, "sign_reuse", len(rows))]["text"]
         renamed[(owner, text)] = new_text
+        used[owner].add(new_text)
         for n, tail, aspect in signs:
             match = [r for r in near(n, tail, aspect) if r["text"] == new_text]
             if match:
