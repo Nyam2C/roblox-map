@@ -167,7 +167,7 @@ def test_items_are_written_in_the_fixed_order_across_the_chunk_files():
     ranks = [layout.ORDER[k] for k, _ in order]
     assert ranks == sorted(ranks) and order[0][0] == "ground" and order[-1][0] == "spawn"
     assert [k for k, _ in order if k in ("ground", "road", "path", "sidewalk", "building", "spawn")] == \
-        ["ground", "road", "road", "path", "sidewalk", "sidewalk", "building", "building", "building", "spawn"]  # way:1 lies inside way:9: its sidewalks are cut
+        ["ground", "road", "road", "sidewalk", "sidewalk", "building", "building", "building", "spawn"]  # way:1 and the footway lie inside way:9: cut
     assert [n for k, n in order if k == "building"] == ["gis:1002", "gis:1005", "gis:1007"] and [n for k, n in order if k == "road"] == ["way:1#0", "way:9#0"]
 
 

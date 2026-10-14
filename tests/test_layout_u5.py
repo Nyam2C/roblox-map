@@ -11,7 +11,7 @@ import re
 import h3
 import pytest
 from hypothesis import assume, given, settings, strategies as st
-from shapely.geometry import Point, Polygon
+from shapely.geometry import LineString, Point, Polygon
 
 import common
 import details_rules as R
@@ -880,3 +880,30 @@ def test_an_officetel_gets_full_height_piers_above_its_shop_base(floors, name, p
     assert bool(ps) == piers
     for i in ps:
         assert (i.cy - i.sy / 2) / S == pytest.approx(3 * body.fh, abs=1e-2)
+
+
+def test_a_footpath_is_cut_where_it_crosses_a_road_and_kept_on_both_sides():
+    road = street(cls="tertiary")  # east-west through the cell centre
+    path = {"feature_id": "way:7", "kind": "path", "highway_class": "footway", "tags": {},
+            "geometry": [list(offset(CENTER, 0, -40)), list(offset(CENTER, 0, 40))]}
+    out = ST.paths_off_roads([road, path], FRAME, CFG)
+    pieces = [f for f in out if f["kind"] == "path"]
+    assert sorted(f["feature_id"] for f in pieces) == ["way:7.0", "way:7.1"]
+    w = ST.streets_of([road], FRAME, CELL, RES, CFG)[0].width
+    way = ST.carriageways(ST.streets_of([road], FRAME, CELL, RES, CFG))["way:11"]
+    for f in pieces:
+        line = LineString([layout.to_meters(FRAME, *p) for p in f["geometry"]])
+        assert line.intersection(way).length < 0.01 and line.length > 30 - w
+    alone = {**path, "geometry": [list(offset(CENTER, 0, 20)), list(offset(CENTER, 0, 40))]}
+    assert ST.paths_off_roads([road, alone], FRAME, CFG)[1] is alone
+
+
+def test_bollards_where_a_footpath_meets_a_road_stand_off_the_carriageway():
+    road = street(cls="tertiary")
+    path = {"feature_id": "way:7", "kind": "path", "highway_class": "footway", "tags": {},
+            "geometry": [list(offset(CENTER, 0, -40)), list(offset(CENTER, 0, 0)), list(offset(CENTER, 0, 40))]}
+    road = {**road, "geometry": [list(offset(CENTER, -60, 0)), list(offset(CENTER, 0, 0)), list(offset(CENTER, 60, 0))]}
+    (_, props), _ = props_of([road, path])
+    way = ST.carriageways(ST.streets_of([road], FRAME, CELL, RES, CFG))["way:11"]
+    bol = [i for i in props if "#bol" in i.name]
+    assert bol and all(way.distance(Point(i.cx / S, -i.cz / S)) > 0.5 for i in bol)

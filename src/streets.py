@@ -163,6 +163,32 @@ def others_of(st: Street, ways: Mapping[str, Any]) -> Any:
     return unary_union(rest) if rest else None
 
 
+def paths_off_roads(features: Sequence[Mapping[str, Any]], frame: Frame, cfg: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+    """The features with every footpath cut where it crosses a road's carriageway (173, 2026-10-14: a pedestrian street drawn
+    straight across a road covered the carriageway). A cut path becomes pieces "<id>.<n>"; roads and untouched paths stay as they are."""
+    roads = [f for f in features if f["kind"] == "road"]
+    ways = carriageways(streets_of(roads, frame, "", 0, cfg)) if roads else {}
+    if not ways:
+        return list(features)
+    blocked = unary_union(list(ways.values())).buffer(0.3)
+    s = frame.studs_per_m
+    out: list[Mapping[str, Any]] = []
+    for f in features:
+        if f["kind"] != "path":
+            out.append(f)
+            continue
+        pts = [layout.to_meters(frame, p[0], p[1]) for p in f["geometry"] if layout._finite(p[0], p[1])]
+        if len(pts) < 2 or not LineString(pts).intersects(blocked):
+            out.append(f)
+            continue
+        rest = LineString(pts).difference(blocked)
+        parts = [g for g in getattr(rest, "geoms", [rest]) if g.geom_type == "LineString" and g.length >= 1.0]
+        for n, g in enumerate(parts):
+            geometry = [list(layout.from_studs(frame, e * s, -nn * s)) for e, nn in g.coords]
+            out.append({**f, "feature_id": f"{f['feature_id']}.{n}", "geometry": geometry})
+    return out
+
+
 def _clear_spans(p: tuple[float, float], u: tuple[float, float], s0: float, s1: float, lat0: float, lat1: float,
                  blocked: Any) -> list[tuple[float, float]]:
     """Parts of [s0, s1] along the segment where the band from lat0 to lat1 metres left of it meets no blocked carriageway (2026-10-14:
@@ -458,7 +484,9 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                                                color_name="pole_zone", collide=False))
             if a.kind == "path" and any(o.kind == "road" for o in j.arms):
                 for i, lat in enumerate((-D["bollard_gap"], 0.0, D["bollard_gap"])):
-                    props.append(_segment_part(frame, "prop", f"{j.name}#bol{ai}-{i}", j.name, 200 + 10 * ai + i, p, u, D["bollard_in"], lat, 0.0,
+                    # past the widest road's edge, not on its carriageway (173, 2026-10-14: the bollards stood in the road)
+                    road_w = max((o.width for o in j.arms if o.kind == "road"), default=0.0)
+                    props.append(_segment_part(frame, "prop", f"{j.name}#bol{ai}-{i}", j.name, 200 + 10 * ai + i, p, u, road_w / 2 + D["bollard_in"], lat, 0.0,
                                                (D["bollard_h"], D["bollard_dia"], D["bollard_dia"]), shape="Cylinder", material="Metal",
                                                color=R.PALETTE["bollard"], color_name="bollard"))
         if j.arms and all(a.highway_class in ("living_street", "service") for a in j.arms):

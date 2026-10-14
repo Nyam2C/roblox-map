@@ -266,6 +266,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             warnings.append(f"{f['feature_id']}: id has characters that are not allowed in Luau code")
             continue
         ok_features.append(f)
+    # footpaths are drawn only off the road carriageways (2026-10-14); junctions and crosswalks still use the whole path
+    for f in streets.paths_off_roads(ok_features, frame, cfg):
         pieces += layout.road_items(f, frame, cell_id, res, cfg)
     lines = streets.streets_of(ok_features, frame, cell_id, res, cfg)
     jcts = streets.junctions(lines, frame, cell_id, res, cfg)
