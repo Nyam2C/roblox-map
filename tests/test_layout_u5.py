@@ -955,21 +955,29 @@ def test_a_slip_lane_joining_at_a_shallow_angle_gets_no_crosswalks():
     assert [i for i in props if "#cw" in i.name]
 
 
-def test_one_trick_ramp_sits_on_the_middle_of_the_longest_minor_road_with_its_steep_side_and_landing_back_to_back():
-    long_road = {**street(length=120.0), "feature_id": "way:1"}
+def test_one_trick_ramp_is_a_kicker_with_a_curved_transition_a_lip_a_deck_and_a_landing_on_the_longest_minor_road():
+    long_road = {**street(length=120.0), "feature_id": "way:1"}  # east-west through the centre
     short = {"feature_id": "way:2", "kind": "road", "highway_class": "residential", "tags": {},
              "geometry": [list(offset(CENTER, -20, 40)), list(offset(CENTER, 20, 40))]}
     lines = ST.streets_of([long_road, short], FRAME, CELL, RES, CFG)
     items = ST.ramp_items(lines, FRAME)
-    assert sorted(i.name.split("#")[-1] for i in items) == ["rampdn", "rampup"] and all(i.name.startswith("way:1#") for i in items)
-    up, dn = (next(i for i in items if i.name.endswith(t)) for t in ("#rampup", "#rampdn"))
+    assert items and all(i.name.startswith("way:1#") and "#ramp" in i.name and i.collide for i in items)
     c = layout.to_meters(FRAME, *CENTER)
+    assert all(abs(-i.cz / S - c[1]) < 0.01 for i in items)  # on the centre line
+    tops = {}
     for i in items:
-        assert i.shape == "Wedge" and i.collide and abs(-i.cz / S - c[1]) < 0.01  # on the centre line of the east-west road
-        assert i.sy / S == pytest.approx(ST.RAMP["h"], abs=1e-3) and i.sx / S == pytest.approx(ST.RAMP["wid"], abs=1e-3)
-    # the two high ends meet at the middle: the steep side west of it, the landing east of it, each high end toward the middle
-    mid = c[0]
-    assert up.cx / S - mid == pytest.approx(-ST.RAMP["up"] / 2, abs=0.01) and dn.cx / S - mid == pytest.approx(ST.RAMP["down"] / 2, abs=0.01)
-    look_z = lambda i: (math.sin(math.radians(i.yaw_deg)), math.cos(math.radians(i.yaw_deg)))  # local +Z in (x, z) studs
-    assert look_z(up)[0] > 0.99 and look_z(dn)[0] < -0.99
+        x = round(i.cx / S - c[0], 2)
+        tops[i.name.split("#")[-1]] = (x, (i.cy + i.sy / 2) / S - layout.TOPS["road"] / S)
+    # the transition rises step by step toward the lip, the deck is at full height after it, the landing comes down after that
+    steps = [tops[f"rampt{k}"] for k in range(ST.RAMP["segs"] - 1)] + [tops["rampup"]]
+    assert [x for x, _ in steps] == sorted(x for x, _ in steps) and [y for _, y in steps] == sorted(y for _, y in steps)
+    assert tops["rampup"][1] == pytest.approx(ST.RAMP["h"], abs=1e-3) and tops["rampdk"][1] == pytest.approx(ST.RAMP["h"], abs=1e-3)
+    assert tops["rampup"][0] < tops["rampdk"][0] < tops["rampdn"][0]
+    lip = next(i for i in items if i.name.endswith("#rampup"))
+    rise, run = lip.sy / S, lip.sz / S
+    first_rise = next(i for i in items if i.name.endswith("#rampt0"))
+    assert math.degrees(math.atan2(rise, run)) > math.degrees(math.atan2(first_rise.sy / S, first_rise.sz / S)) + 20  # it curves up
+    look_z = lambda i: math.sin(math.radians(i.yaw_deg))  # local +Z east component: wedges rise toward +Z
+    assert look_z(lip) > 0.99 and look_z(next(i for i in items if i.name.endswith("#rampdn"))) < -0.99
+    assert sum(i.sx / S * i.sy / S * i.sz / S for i in items) > 6  # a real kicker, not a speed bump (the first one was 1.9 m3)
     assert ST.ramp_items(ST.streets_of([short], FRAME, CELL, RES, CFG), FRAME) == []  # 40 m: too short

@@ -14,7 +14,7 @@
 --   ARMS: bent to the grip the server worked out (see armsOf); only the rider's own screen shows it, Transform is not replicated.
 --   TRICKS (2026-10-14): MANUAL: hold Ctrl (phone: the 매뉴얼 button) while rolling and the front wheel comes up; the pitch m has a
 --   balance point it falls away from, W/S (stick up/down) push it back, and neither accelerates nor brakes while in a manual. m at +1 is a
---   loop-out (a fall backwards), at -1 the front wheel touches down. RAMP: running up the steep side of a trick ramp (<road>#rampup, one per
+--   loop-out (a fall backwards), at -1 the front wheel touches down. RAMP: running up the curved side of a trick ramp and off its lip (<road>#rampup, one per
 --   cell, made by streets.ramp_items) and off its lip throws the rider up (speed x sin of the ramp x LAUNCH_K) and lightens gravity to AIR_G
 --   until he lands. TAILWHIP: in that air, Q (phone: the 테일윕 button) spins the deck and the back wheel once round the stem in WHIP_TIME;
 --   landing before it is round is a fall. A success shows no message (user 2026-10-14); a fall still says why. The spin is drawn on clones (the welded parts cannot turn), on every client: ours at once, the
@@ -57,8 +57,8 @@ local TURN_G = 0.62 -- the hardest turn at speed, in g (the old curve gave this 
 local CRASH_FRAC, CRASH_DROP_FRAC = 0.5, 0.35 -- running into something above this fraction of the top speed and losing this fraction of it at once
 local FALL_RECOVER = 2.5 -- seconds limp on the ground
 -- tricks
-local RAMP_ANGLE = math.atan2(0.6, 1.1) -- the steep side of a trick ramp (0.6 m up over 1.1 m, streets.RAMP)
-local LAUNCH_K = 1.25 -- take-off speed up = speed x sin(ramp) x this
+local RAMP_ANGLE = math.rad(50) -- the lip of a trick ramp (streets.RAMP lip_deg: a curved transition 1.2 m up)
+local LAUNCH_K = 0.9 -- take-off speed up = speed x sin(lip) x this
 local AIR_G = 0.5 -- share of gravity while flying off a ramp: hang time for a trick (40 km/h gives about 0.5 s, 80 about 1 s)
 local MIN_LAUNCH = 15 -- studs/s: slower than this the rider just rolls over the ramp
 local WHIP_TIME = 0.38 -- seconds for the deck to go round once
@@ -186,7 +186,7 @@ help.Parent = gui
 rounded(help, 12)
 local HELP = {
 	{ "매뉴얼 (앞바퀴 들기)", "달리는 중에 Ctrl을 누르고 있어요 (휴대폰: 매뉴얼 버튼). 오른쪽 세로 막대의 표시가 가운데에 있도록 W·S로 조절해요 (휴대폰: 스틱 위·아래). 위 끝에 닿으면 뒤로 넘어지고, 아래 끝에 닿으면 앞바퀴가 내려와요." },
-	{ "점프대", "칸마다 도로 한가운데에 주황색 점프대가 하나 있어요 (지도에도 주황색). 가파른 쪽으로 빠르게 달려 올라가면 공중으로 날아요. 빠를수록 높이, 오래 날아요." },
+	{ "점프대", "칸마다 도로 한가운데에 나무 점프대가 하나 있어요 (지도에 주황색). 둥글게 휘어 올라가는 쪽으로 빠르게 달려 올라가면 금속 모서리에서 공중으로 날아요. 빠를수록 높이, 오래 날아요." },
 	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 땅에 닿기 전에 다 돌아야 해요. 덜 돌면 넘어져요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
 }
 local y = 14

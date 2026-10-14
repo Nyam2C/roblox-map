@@ -604,17 +604,19 @@ def entrance_items(entrances: Sequence[Mapping[str, Any]], streets_: Sequence[St
     return out
 
 
-# --- trick ramps (user 2026-10-14: "도로 중간에 묘기 하고나 공중 가능하게 경사 있는거 하나씩") ------------------------------------------
+# --- trick ramps (user 2026-10-14: "도로 중간에 묘기 하고나 공중 가능하게 경사 있는거 하나씩"; then "가속방지턱 느낌" -> a real kicker) -----------
 
-RAMP = {"h": 0.6, "up": 1.1, "down": 2.4, "wid": 2.0, "min_seg": 40.0, "classes": ("residential", "tertiary", "unclassified", "living_street")}
-# A kicker in the middle of one road per cell: a steep side (about 29 degrees, the scooter takes off at its lip) and a gentle landing side
-# (about 14 degrees), back to back. Real beginner kickers are about 0.3 m high, 0.6-0.9 m wide, 15-30 degrees (surfertoday.com, skatepro);
-# this one is 0.6 m high and 2 m wide so a rider can hit it at speed, and ScooterClient gives the launch. Parts are named <road>#rampup
-# and <road>#rampdn; ScooterClient finds the kicker by that name.
+RAMP = {"h": 1.2, "lip_deg": 50.0, "segs": 5, "deck": 1.2, "land": 2.8, "wid": 3.0, "coping": 0.12, "min_seg": 50.0,
+        "classes": ("residential", "tertiary", "unclassified", "living_street")}
+# A street kicker in the middle of one road per cell: a curved transition (a circular arc from flat to lip_deg at the top, drawn as segs
+# steps of a box and a wedge) up to h, a metal coping at the lip, a flat deck and a straight landing back to the road. First version was a
+# 0.6 m wedge pair that read as a speed bump (user). Reference measured 2026-10-14: creator store "Skate Board Ramp" 94871893 (funbox,
+# 30 x 8.4 x 21 studs, curved transitions, flat deck, coping; inserted in MCP_Test, measured, deleted). The lip segment is <road>#<i>#rampup;
+# ScooterClient launches the rider when he leaves it going up. All parts are named ...#ramp*, the minimap draws them.
 
 
 def ramp_items(streets_: Sequence[Street], frame: Frame) -> list[Item]:
-    """One ramp on the longest owned segment (at least min_seg) of a minor road in the cell, at its middle, on the road's centre line."""
+    """One kicker on the longest owned segment (at least min_seg) of a minor road in the cell, centred on its middle and centre line."""
     best = None
     for st in streets_:
         if st.kind != "road" or st.highway_class not in RAMP["classes"]:
@@ -627,12 +629,32 @@ def ramp_items(streets_: Sequence[Street], frame: Frame) -> list[Item]:
     st, i, p, q, length = best
     u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
     yaw = math.degrees(math.atan2(u[1], u[0]))
-    top = layout.TOPS["road"] / frame.studs_per_m  # the ramp stands on the road surface
-    out = []
-    for n, (tail, along, length_m, high_toward) in enumerate((("rampup", -RAMP["up"] / 2, RAMP["up"], 90.0),
-                                                              ("rampdn", RAMP["down"] / 2, RAMP["down"], -90.0))):
-        east, north = p[0] + u[0] * (length / 2 + along), p[1] + u[1] * (length / 2 + along)
-        # a wedge is high at its local +Z end; local Z points along u at yaw + 90 and against it at yaw - 90
-        out.append(_part(frame, "prop", f"{st.feature_id}#{i}#{tail}", st.feature_id, 950 + n, east, north, top, (RAMP["wid"], RAMP["h"], length_m),
-                         yaw + high_toward, shape="Wedge", material="WoodPlanks", color=R.PALETTE["ramp"], color_name="ramp", collide=True))
+    top = layout.TOPS["road"] / frame.studs_per_m
+    h, lip, n, wid = RAMP["h"], math.radians(RAMP["lip_deg"]), int(RAMP["segs"]), RAMP["wid"]
+    radius = h / (1 - math.cos(lip))
+    run = radius * math.sin(lip)
+    start = length / 2 - (run + RAMP["deck"] + RAMP["land"]) / 2  # along the segment, where the transition begins
+    out: list[Item] = []
+    base = f"{st.feature_id}#{i}#"
+
+    def put(tail: str, a0: float, a1: float, y0: float, height: float, shape: str = "Block", toward: float = 90.0, **look: Any) -> None:
+        mid_ = start + (a0 + a1) / 2
+        east, north = p[0] + u[0] * mid_, p[1] + u[1] * mid_
+        look.setdefault("material", "WoodPlanks")
+        look.setdefault("color", R.PALETTE["ramp"])
+        look.setdefault("color_name", "ramp")
+        out.append(_part(frame, "prop", base + tail, st.feature_id, 950 + len(out), east, north, top + y0, (look.pop("w", wid), height, a1 - a0),
+                         yaw + toward, shape=shape, collide=True, **look))
+
+    for k in range(n):  # the curved transition: a fill box up to the arc's start, a wedge for the rise across the step
+        t0, t1 = lip * k / n, lip * (k + 1) / n
+        x0, x1 = radius * math.sin(t0), radius * math.sin(t1)
+        y0, y1 = radius * (1 - math.cos(t0)), radius * (1 - math.cos(t1))
+        if y0 > 0.01:
+            put(f"rampb{k}", x0, x1, 0.0, y0)
+        put("rampup" if k == n - 1 else f"rampt{k}", x0, x1, y0, y1 - y0, "Wedge")
+    put("rampdk", run, run + RAMP["deck"], 0.0, h)
+    put("rampdn", run + RAMP["deck"], run + RAMP["deck"] + RAMP["land"], 0.0, h, "Wedge", -90.0)
+    c = RAMP["coping"]
+    put("rampcp", run, run + c, h - c / 2, c, material="Metal", color=R.PALETTE["lamp_post"], color_name="lamp_post", w=wid + 0.1)
     return out

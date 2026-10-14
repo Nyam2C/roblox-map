@@ -85,7 +85,7 @@ def corners(r: Sequence[float]) -> list[tuple[float, float]]:
 def rects_of_items(items: Sequence[layout.Item]) -> list[list[float]]:
     """The map rectangles of a plan: roads, paths and building boxes, in a fixed order."""
     out = [rect_of(ITEM_LOOK[i.kind], i.cx, i.cz, i.sx, i.sz, i.yaw_deg) for i in items if i.kind in ITEM_LOOK]
-    out += [rect_of(RAMP, i.cx, i.cz, i.sx, i.sz, i.yaw_deg) for i in items if i.name.endswith(("#rampup", "#rampdn"))]  # trick ramps
+    out += [rect_of(RAMP, i.cx, i.cz, i.sx, i.sz, i.yaw_deg) for i in items if "#ramp" in i.name]  # trick ramps
     return sorted(out, key=lambda r: (r[0], r[1], r[2], r[3], r[4], r[5]))
 
 
