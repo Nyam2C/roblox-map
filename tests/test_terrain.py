@@ -42,7 +42,8 @@ def test_a_road_piece_tilts_with_the_ground_and_a_tree_just_rises():
     out = {i.name: i for i in T.lift([road, road90, tree], g)}
     assert out["way:1#0"].tilt_z == pytest.approx(math.degrees(math.atan(0.1)), abs=1e-3) and out["way:1#0"].tilt_x == pytest.approx(0, abs=1e-3)
     assert out["way:2#0"].tilt_z == pytest.approx(0, abs=1e-3) and abs(out["way:2#0"].tilt_x) == pytest.approx(math.degrees(math.atan(0.1)), abs=1e-3)
-    assert out["sat#1#tree"].cy == pytest.approx(3 + 4.0) and out["sat#1#tree"].tilt_x == 0 and out["sat#1#tree"].tilt_z == 0
+    t = out["sat#1#tree"]  # a standing prop reaches POST_SINK into the ground, its top where it was
+    assert t.cy - t.sy / 2 == pytest.approx(4.0 - T.POST_SINK) and t.cy + t.sy / 2 == pytest.approx(6 + 4.0) and t.tilt_x == 0
 
 
 def test_the_slab_goes_down_and_no_heights_means_no_change():

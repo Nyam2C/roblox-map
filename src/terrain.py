@@ -27,6 +27,7 @@ STEP = 8.0  # studs between grid heights (Studio's terrain voxels are 4)
 FLAT_MAX_H = 1.0  # studs: a piece this thin lies on the ground
 FLAT_MIN = 3.0  # studs: and this long along one axis tilts with the ground
 SLAB_DROP = 40.0  # studs the ground slab goes down under the terrain
+POST_SINK = 2.0  # studs a standing prop (tree, lamp, pole) goes into the ground: Studio's terrain lies 0.5 to 2 under the heights
 
 
 @dataclasses.dataclass(frozen=True)
@@ -136,5 +137,12 @@ def lift(items: Sequence[layout.Item], ground: Ground | None) -> list[layout.Ite
             out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + dy), tilt_x=layout.fmt(-math.degrees(math.atan(sz))),
                                            tilt_z=layout.fmt(math.degrees(math.atan(sx)))))
         else:
-            out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + dy)))
+            cyl = i.shape == "Cylinder"  # a standing cylinder's height is its first size
+            height = i.sx if cyl else i.sy
+            if i.kind == "prop" and i.kit is None and height > FLAT_MAX_H and i.cy - height / 2 < 0.5:
+                # standing on the ground: reach POST_SINK further down so no gap shows over the terrain, the top stays
+                grow = dict(sx=layout.fmt(i.sx + POST_SINK)) if cyl else dict(sy=layout.fmt(i.sy + POST_SINK))
+                out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + dy - POST_SINK / 2), **grow))
+            else:
+                out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + dy)))
     return out
