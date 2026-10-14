@@ -1614,3 +1614,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U6 조정
 
 ---
+
+## F = 패러글라이딩
+**Timestamp**: 2026-10-14T15:49:47Z
+**User Request**: "공중에서 f 누르면 패러글라이딩 있어서 날라다닐 수 있게"
+**AI Response**: 공개 글라이더 모델(13272421038, 폭 약 22 stud) MCP_Test에서 재고 지움. ParagliderClient(LocalScript): 공중에서 땅 8 stud 이상일 때 F → LinearVelocity로 앞 55 stud/s, 하강 7 stud/s, WASD로 방향(초당 120°까지), F 다시 = 접고 낙하, 땅·지붕에 닿으면 접힘, 킥보드 탄 중엔 안 됨. Paraglider(Script): 리모트 Paraglide로 7칸 아치 캐노피(빨강·노랑, 폭 21 stud)와 줄 4개를 캐릭터에 용접해 모두에게 보임. Play 시험: H로 꼭대기 → 탑 밖 공중에서 F → (-55, -7) stud/s 활공·캐노피 확인, F로 접기, 150 높이에서 펴서 지붕에 닿자 접힘. FloorMaterial이 순간이동 뒤 늦게 바뀌어 레이캐스트 높이로 판단.
+**Context**: CONSTRUCTION - U6 추가 기능
+
+---

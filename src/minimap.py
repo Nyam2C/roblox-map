@@ -259,7 +259,9 @@ def module_text(rects: Sequence[Sequence[float]], labels: Sequence[tuple] = HAND
 SOURCES = (("MinimapClient", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/MinimapClient.client.luau"),
            ("HexTeleport", "ServerScriptService", "Script", "ServerScriptService/HexTeleport.server.luau"),
            ("ScooterClient", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/ScooterClient.client.luau"),
-           ("Scooter", "ServerScriptService", "Script", "ServerScriptService/Scooter.server.luau"))
+           ("Scooter", "ServerScriptService", "Script", "ServerScriptService/Scooter.server.luau"),
+           ("ParagliderClient", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/ParagliderClient.client.luau"),
+           ("Paraglider", "ServerScriptService", "Script", "ServerScriptService/Paraglider.server.luau"))
 
 
 def long_string(text: str) -> str:
@@ -291,7 +293,8 @@ def install_text(data_module: str, studio_dir: Path = STUDIO_DIR) -> str:
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterToggle\")\nmade[#made + 1] = \"ScooterToggle\"",
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"HexTeleport\")\nmade[#made + 1] = \"HexTeleport\"",
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterTrick\")\nmade[#made + 1] = \"ScooterTrick\"",
-             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"LandmarkTeleport\")\nmade[#made + 1] = \"LandmarkTeleport\""]
+             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"LandmarkTeleport\")\nmade[#made + 1] = \"LandmarkTeleport\"",
+             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"Paraglide\")\nmade[#made + 1] = \"Paraglide\""]
     for name, where, cls, fn in SOURCES:
         src = (studio_dir / fn).read_text(encoding="utf-8")
         lines.append(f"local s = ensure(at(\"{where}\"), \"{cls}\", \"{name}\")\ns.Source = {long_string(src)}\nmade[#made + 1] = \"{name}\"")
