@@ -101,7 +101,8 @@ def find_trees(rgb: np.ndarray, geo: Georef, cell_id: str, buildings: Sequence[M
     lat0 = float(h3.cell_to_latlng(cell_id)[0])
     mpp = geo.m_per_px(lat0)
     hexagon = [geo.to_px(*p) for p in h3.cell_to_boundary(cell_id)]
-    roofs = _fill((w, h), [[geo.to_px(*p) for p in b["outline"]] for b in buildings])
+    # an underground car park or station is not a roof: the plaza over it keeps its trees (미관광장, 2026-10-14)
+    roofs = _fill((w, h), [[geo.to_px(*p) for p in b["outline"]] for b in buildings if not layout.is_underground(b)])
     roads = _fill((w, h), [list(LineString([geo.to_px(*p) for p in f["geometry"]]).buffer(layout.road_width_m(f, cfg) / 2 / mpp).exterior.coords)
                            for f in features if len(f["geometry"]) >= 2])
     canopy = canopy_mask(rgb) & ~ndi.binary_dilation(roofs, iterations=2)

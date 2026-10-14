@@ -91,3 +91,20 @@ def test_georef_round_trip():
     px, py = g.to_px(lat, lon)
     assert g.to_latlon(px, py) == pytest.approx((lat, lon), abs=1e-9)
     assert g.m_per_px(lat) == pytest.approx(0.2369, abs=1e-3)
+
+
+def test_an_underground_car_park_outline_does_not_hide_the_trees_of_the_plaza_over_it():
+    # 미관광장 (cell 10f, 2026-10-14): the car park under the plaza (1 floor up, 4 down) masked every crown of the plaza
+    import h3
+    cell = "8930e0af10fffff"
+    lat, lon = h3.cell_to_latlng(cell)
+    g0 = T.Georef(0, 0)
+    px, py = g0.to_px(lat, lon)
+    g = T.Georef(int(px // 256) - 1, int(py // 256) - 1)  # a 3 x 3 tile photo around the cell centre
+    img = np.full((768, 768, 3), (120, 120, 118), dtype=np.uint8)
+    cx, cy = g.to_px(lat, lon)
+    img[int(cy) - 40:int(cy) + 40, int(cx) - 60:int(cx) + 60] = (38, 74, 46)
+    box = [g.to_latlon(cx + dx, cy + dy) for dx, dy in ((-70, -50), (70, -50), (70, 50), (-70, 50))]
+    over = {"outline": box, "floors_above": 1, "floors_below": 4}
+    assert T.find_trees(img, g, cell, [over], [], CFG)
+    assert not T.find_trees(img, g, cell, [{**over, "floors_below": 1}], [], CFG)
