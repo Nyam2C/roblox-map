@@ -1374,3 +1374,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 7 (cells 1 and 3 done; step 8 = cell 2 as the first real run of the cycle).
 
 ---
+
+## Open Decisions Interview
+**Timestamp**: 2026-10-14T03:37:46Z
+**User Request**: "이제 남은 작업 목록" / "결저이 필요한거 나를 인터뷰 해서 정해봐"
+**AI Response**: Listed the remaining work, then asked eight decisions in two rounds: lighting = shadows only (A), PBR wall textures = no (A), sign image uploads = reuse only (A), 옥산초 main building = overrides only (A), MCP_Test leftovers = ask the L session, then delete (A), U6 checks = now (B), P5-3 bug = before cell 2 (A), attribution = big map corner always (U6 Q3 = A). Recorded in aidlc-docs/inception/requirements/u7-open-decisions-questions.md and the U6 question file; decisions in CLAUDE.md.
+**Context**: CONSTRUCTION - after U7 steps 5-7.
+
+---

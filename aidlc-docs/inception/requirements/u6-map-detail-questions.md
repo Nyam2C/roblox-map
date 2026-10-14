@@ -34,4 +34,4 @@ A) **큰 지도 아래 구석에 "© OpenStreetMap contributors, 국토교통부
 
 B) 시작 화면이나 설정에만.
 
-[Answer]:
+[Answer]: A (사용자, 2026-10-14 인터뷰): 큰 지도 구석에 항상.
