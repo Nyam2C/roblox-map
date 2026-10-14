@@ -90,6 +90,22 @@ def collect(cfg: Mapping[str, Any], region: str, limit: int, source: Any = None)
     return new, reason
 
 
+def clean(points: Sequence[Sequence[float]], radius: float = 150.0, inner: float = 50.0, limit: float = 2.0) -> list[Sequence[float]]:
+    """Drop the points whose height is more than `limit` metres off the median of their neighbours between `inner` and `radius`
+    studs (at least four of them; the ring skips the point's own run): the panoramas on the 신흥로 overpass by the department store
+    read 43.6 m among 37 m roads (3 in a row, so their own neighbours agree with them)."""
+    import numpy as np
+    from scipy.spatial import cKDTree
+    a = np.asarray(points, dtype=float)
+    tree = cKDTree(a[:, :2])
+    keep = []
+    for i, p in enumerate(a):
+        near = [j for j in tree.query_ball_point(p[:2], radius) if float(np.hypot(*(a[j, :2] - p[:2]))) >= inner]
+        if len(near) < 4 or abs(p[2] - float(np.median(a[near, 2]))) <= limit:
+            keep.append(points[i])
+    return keep
+
+
 def surface(points: Sequence[Sequence[float]], step: float = 12.0):
     """(xs, zs, heights) on a regular stud grid from scattered (x, z, height) points: linear inside the points' hull, the nearest
     point outside it (the cells' edges). Street-view heights are road heights; blocks between roads take the roads around them."""
@@ -110,7 +126,9 @@ def grid_picture(cfg: Mapping[str, Any], region: str, out: Path) -> Path:
     from PIL import Image, ImageDraw, ImageFont
     import layout
     frame = layout.Frame.from_cfg(cfg)
-    pts = [(*layout.to_studs(frame, lat, lon), alt) for lat, lon, alt in load(path_of(cfg, region)).values()]
+    raw = [(*layout.to_studs(frame, lat, lon), alt) for lat, lon, alt in load(path_of(cfg, region)).values()]
+    pts = clean(raw)
+    common.log(logging.INFO, f"elevation: {len(raw) - len(pts)} of {len(raw)} points left out as off their neighbours")
     lo, hi = min(p[2] for p in pts), max(p[2] for p in pts)
     xs, zs = [p[0] for p in pts], [p[1] for p in pts]
     x0, x1, z0, z1 = min(xs) - 100, max(xs) + 100, min(zs) - 100, max(zs) + 100
