@@ -27,6 +27,10 @@
 
 - (2026-10-14, U7 F) 수작업 스크립트는 Studio에서 손으로 고친 부품과 어긋날 수 있다(학교 `CreamTop`은 Studio에만 있었다). 스크립트를 고친 뒤에는 `MCP_Test` 아래 임시 폴더에 돌려(`local workspace = <임시 폴더>`를 앞에 붙인 ModuleScript를 `require`) 지금 Manual과 부품마다 위치·크기·재질·색을 비교한다. `loadstring`이 없어도 ModuleScript `require`로 받은 소스를 실행할 수 있다.
 - (2026-10-14) `insert_asset`은 모델 안 스크립트를 Sandboxed로 넣는다. 그래도 참고 모델은 넣자마자 `LuaSourceContainer`를 지우고 Play 없이 재고 지운다.
+- (2026-10-14, U7 H) Studio MCP에는 메시 파일을 올리는 도구가 없다(`upload_image`는 이미지만). Python이 만든 `.obj`는 사용자가 홈 탭 **Import**(왼쪽 Terrain Editor의 Import 말고)로 가져온다. 들어온 `Workspace/<파일명>/default` MeshPart의 `MeshId`를 읽어 git에 고정하고, OBJ의 숫자는 stud 그대로 크기가 된다(Builder가 `Size`를 다시 준다). 가져오면 Studio 연결 `studio_id`가 바뀔 수 있다.
+- (2026-10-14) OBJ를 만들 때 축 하나를 뒤집으면(왼쪽 = -Z) 면 방향도 뒤집힌다. 면이 바깥을 보는지 법선과 중심으로 확인한다(`tests/test_kits.py`).
+- (2026-10-14) 실제 Builder로 시험할 때는 `Builder.begin(cell, root)`의 `root`에 `MCP_Test` 아래 폴더를 준다. 진짜 `Auto`를 건드리지 않는다.
+
 ## 생성 규칙
 
 - (2026-10-14) 서 있는 원통(줄기, 전봇대, 볼라드)의 높이를 지름으로 계산하던 버그가 있었다(반쯤 땅에 묻힘, 8fcf123에서 고침). 원통은 길이가 첫 번째 크기다.

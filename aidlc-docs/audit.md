@@ -1358,3 +1358,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 step 5 (F, K, J done; Studio capture of the kit pending).
 
 ---
+
+## U7 Step 6: H Tree Kit Meshes
+**Timestamp**: 2026-10-14T02:56:38Z
+**User Request**: "이제 뭐해야함?" / "어떻게함? 업로드" / (screenshots of the Studio start page and Home tab) "여기서?" / "다 했어"
+**AI Response**: Explained that the Studio MCP uploads images only, so meshes go through the user's Import 3D; offered A (Import 3D, recommended for the first two), B (Open Cloud key), C (keep parts). Made data/kits/crown-1.obj and crown-2.obj with src/kits.py (the crown balls of TREE_CROWNS[0], [1] as one lumpy mesh, 240 triangles, faces checked outwards). The user imported both; MeshIds rbxassetid://95964295607986 and rbxassetid://128934972963239 render (not moderated) and are fixed in kits.MESH_IDS; the MeshParts went to ServerStorage/Kits. Satellite trees are now a trunk and one crown mesh (key kt, Builder clones the kit); a tree is 2 parts instead of 4. New MapBuilder installed (Clone + Destroy). Built 옥산초's ground kit and 76 nearby tree items with the real Builder under MCP_Test (root argument), captured, deleted.
+**Context**: CONSTRUCTION - U7 step 6 (H tree kit done; the villa window cell comparison overlaps the other session's L work).
+
+---

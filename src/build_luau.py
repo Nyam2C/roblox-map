@@ -31,6 +31,7 @@ import common
 import db
 import details_rules
 import fields
+import kits
 import judgement
 import layout
 import layout_details
@@ -68,7 +69,7 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
     s source, e height in m, q fit ratio, f floors, and from U4 b height basis, a floors basis, c wall color name,
     v review flags. U5 adds, only when they differ from the defaults (BR-14.2): i owner, p shape, m material, c color name
     (any kind), o ink, t sign text, u="LR" two-sided, md sign MaxDistance (x is the position), im sign image asset id (SI-6),
-    j reflectance, g shadow, l collide.
+    j reflectance, g shadow, l collide; U7 kt kit mesh name.
     BuildingId and CellId are not sent: Builder takes them from n (or i) and the cell."""
     parts = [f"k={luau_string(item.kind)}", f"n={luau_string(item.name)}", f"x={luau_number(item.cx)}", f"y={luau_number(item.cy)}",
              f"z={luau_number(item.cz)}", f"w={luau_number(item.sx)}", f"h={luau_number(item.sy)}", f"d={luau_number(item.sz)}",
@@ -109,6 +110,10 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
             if item.faces == "LR":
                 raise ValueError(f"{item.name}: a two-sided sign cannot carry an image")
             parts.append(f"im={asset}")
+    if item.kit is not None:  # U7 H: a kit mesh cloned from ServerStorage/Kits
+        if item.kit not in kits.MESH_IDS:
+            raise ValueError(f"not a kit: {item.kit!r}")
+        parts.append(f"kt={luau_string(item.kit)}")
     if item.reflectance:
         parts.append(f"j={luau_number(item.reflectance)}")
     default_shadow, default_collide = layout.KIND_DEFAULTS[item.kind]

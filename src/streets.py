@@ -17,6 +17,7 @@ import h3
 from shapely.geometry import Point, Polygon
 
 import details_rules as R
+import kits
 import layout
 from layout import Frame, Item
 from layout_details import D, _part, _studs
@@ -200,7 +201,8 @@ def load_trees(path: Path) -> list[list[float]] | None:
 
 
 def tree_items(frame: Frame, trees: Sequence[Sequence[float]]) -> list[Item]:
-    """The trees read off the satellite photo: the street-tree shape (trunk + three balls) scaled to the crown diameter, turned by hash (BR-11.4a)."""
+    """The trees read off the satellite photo: a trunk and a crown kit mesh (U7 H; it was three balls) scaled to the crown diameter,
+    turned by hash (BR-11.4a)."""
     out: list[Item] = []
     for n, (x, z, dia) in enumerate(trees):
         name = f"sat#{n}#tree"
@@ -211,10 +213,11 @@ def tree_items(frame: Frame, trees: Sequence[Sequence[float]]) -> list[Item]:
         leaf = R.TREE_LEAVES[R.pick(name, "leaf", len(R.TREE_LEAVES))]
         out.append(_part(frame, "prop", name, "sat", n, east, north, 0.0, (D["trunk_h"] * sc, D["trunk_dia"] * max(sc, 0.8), D["trunk_dia"] * max(sc, 0.8)), yaw,
                          shape="Cylinder", material="Wood", color=R.PALETTE["trunk"], color_name="trunk"))
-        for k, (da, dl, cy, bd) in enumerate(R.TREE_CROWNS[R.pick(name, "tree", len(R.TREE_CROWNS))]):
-            da, dl, cy, bd = da * sc, dl * sc, cy * sc, bd * sc
-            out.append(_part(frame, "prop", f"sat#{n}#crown{'abc'[k]}", "sat", n, east + da * ca - dl * sa, north + da * sa + dl * ca, cy - bd / 2, (bd, bd, bd), yaw,
-                             shape="Ball", material="LeafyGrass", color=R.PALETTE[leaf], color_name=leaf, collide=False))
+        kit = sorted(kits.CROWNS)[R.pick(name, "tree", len(kits.CROWNS))]  # U7 H: one crown mesh instead of three balls
+        da, dl, y0, size = kits.crown_box(kit)
+        da, dl, y0 = da * sc, dl * sc, y0 * sc
+        out.append(_part(frame, "prop", f"sat#{n}#crown", "sat", n, east + da * ca - dl * sa, north + da * sa + dl * ca, y0,
+                         tuple(v * sc for v in size), yaw, material="LeafyGrass", color=R.PALETTE[leaf], color_name=leaf, collide=False, kit=kit))
     return out
 
 

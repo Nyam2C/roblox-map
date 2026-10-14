@@ -122,6 +122,7 @@ class Item:
     reflectance: float = 0.0
     shadow: bool | None = None
     collide: bool | None = None
+    kit: str | None = None  # U7 H: the Builder clones ServerStorage/Kits/<kit> (a MeshPart) instead of making a Part (key kt)
 
     @property
     def casts_shadow(self) -> bool:

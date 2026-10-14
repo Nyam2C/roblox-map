@@ -1,11 +1,14 @@
 """Trees read off the satellite photo (trees.py) and made by layout_details.tree_items / build_luau (BR-11.4a)."""
 from __future__ import annotations
 
+import math
+
 import json
 
 import numpy as np
 import pytest
 
+import kits
 import layout
 import streets as ST
 import trees as T
@@ -41,21 +44,24 @@ def test_crowns_are_packed_along_the_strip_where_a_trunk_may_stand_and_nowhere_e
     assert T.pack_crowns(canopy, np.zeros_like(canopy), M) == []
 
 
-def test_a_tree_is_a_trunk_and_three_balls_scaled_by_the_crown_diameter_and_repeatable():
+def test_a_tree_is_a_trunk_and_a_crown_mesh_scaled_by_the_crown_diameter_and_repeatable():
     frame = layout.Frame.from_cfg(CFG)
     items = ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
-    assert len(items) == 12 and items == ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
-    assert [i.name for i in items[:4]] == ["sat#0#tree", "sat#0#crowna", "sat#0#crownb", "sat#0#crownc"]
-    trunk = items[0]
+    assert len(items) == 6 and items == ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
+    assert [i.name for i in items[:2]] == ["sat#0#tree", "sat#0#crown"]
+    trunk, crown = items[0], items[1]
     assert trunk.shape == "Cylinder" and trunk.cx == pytest.approx(-100.0, abs=0.01) and trunk.cz == pytest.approx(50.0, abs=0.01)
     assert trunk.cy - trunk.sx / 2 == pytest.approx(0.0, abs=0.01)  # a standing cylinder stands on the ground (its length is sx)
-    assert min(b.cy - b.sy / 2 for b in items[1:4]) < trunk.cy + trunk.sx / 2  # the crown sits on the trunk, no gap
-    main = max(items[1:4], key=lambda b: b.sx)
-    assert all(i.shape == "Ball" and i.collide is False for i in items[1:4])
+    assert crown.cy - crown.sy / 2 < trunk.cy + trunk.sx / 2  # the crown sits on the trunk, no gap
+    assert crown.kit in kits.MESH_IDS and crown.collide is False and crown.material == "LeafyGrass"
+    assert math.hypot(crown.cx - trunk.cx, crown.cz - trunk.cz) < crown.sx / 2  # the trunk stands under the crown
     # the 3 m and the 20 m crowns are limited to the scale range 0.55 .. 1.1
-    assert max(b.sx for b in items[5:8]) < main.sx < max(b.sx for b in items[9:12])
-    assert max(b.sx for b in items[9:12]) / max(b.sx for b in items[5:8]) == pytest.approx(1.1 / 0.55, rel=0.01)
-    assert len({i.color_name for i in ST.tree_items(frame, [[i * 10.0, 0.0, 7.0] for i in range(40)]) if "#crown" in i.name}) > 1
+    small, big = items[3], items[5]
+    assert small.sy < crown.sy < big.sy
+    if small.kit == big.kit:
+        assert big.sy / small.sy == pytest.approx(1.1 / 0.55, rel=0.01)
+    many = ST.tree_items(frame, [[i * 10.0, 0.0, 7.0] for i in range(40)])
+    assert len({i.color_name for i in many if "#crown" in i.name}) > 1 and len({i.kit for i in many if i.kit}) == len(kits.MESH_IDS)
 
 
 def test_a_file_of_satellite_trees_replaces_the_rule_based_street_trees():
@@ -64,8 +70,8 @@ def test_a_file_of_satellite_trees_replaces_the_rule_based_street_trees():
     sat = B.plan_cell(CELL, [building(0)], feats, CFG, sat_trees=[[-500.0, -80.0, 6.0], [-520.0, -90.0, 8.0]])
     count = lambda plan, word: sum(1 for i in plan.items if word in i.name)
     assert count(plain, "#tree") > 0 and count(plain, "sat#") == 0
-    assert count(sat, "#tree") == 2 and count(sat, "way:1#") > 0 and count(sat, "sat#") == 8  # street tree gone, other street props stay
-    assert count(sat, "#crown") == 6
+    assert count(sat, "#tree") == 2 and count(sat, "way:1#") > 0 and count(sat, "sat#") == 4  # street tree gone, other street props stay
+    assert count(sat, "#crown") == 2
     empty = B.plan_cell(CELL, [building(0)], feats, CFG, sat_trees=[])
     assert count(empty, "#tree") == 0  # a file with no trees means no trees, not the rule
 

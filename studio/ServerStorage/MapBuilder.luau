@@ -18,6 +18,7 @@
 	          p shape (Wedge, CornerWedge, Cylinder standing with size = height, diameter, diameter, Ball), m material,
 	          c color name of any kind (its RGB is in looks.walls), o ink color name, t sign text, u="LR" two-sided sign,
 	          md sign MaxDistance, im sign image asset id (SI-7), j reflectance, g 0/1 cast shadow, l 0/1 collide.
+	          U7: kt kit mesh, a clone of ServerStorage/Kits/<kt> (a MeshPart) instead of a new Part.
 	Rules:    aidlc-docs/construction/u2-studio-builder/functional-design/business-rules.md (BR-2.8, BR-6, BR-7.5)
 	          aidlc-docs/construction/u5-details/functional-design/business-rules.md (BR-10.5, BR-12.5, BR-14.1, BR-14.3 to BR-14.5)
 ]]
@@ -185,12 +186,22 @@ function Builder.add(cellId, items, looks, root)
 		if owner and manual[owner] then
 			skipped[it.k] = (skipped[it.k] or 0) + 1 -- a hand-made building wins, with everything it owns (BR-2.8, U5 BR-14.4)
 		else
-			local part = Instance.new(it.k == "spawn" and "SpawnLocation" or "Part")
+			local part
+			if it.kt then -- U7 H: a kit mesh, cloned from ServerStorage/Kits (installed once, cycle-build 7)
+				local kitsFolder = game:GetService("ServerStorage"):FindFirstChild("Kits")
+				local template = kitsFolder and kitsFolder:FindFirstChild(it.kt)
+				if not template then
+					error("MapBuilder: kit " .. tostring(it.kt) .. " is not in ServerStorage/Kits", 2)
+				end
+				part = template:Clone()
+			else
+				part = Instance.new(it.k == "spawn" and "SpawnLocation" or "Part")
+			end
 			part.Name = it.n
 			part.Anchored = true
 			part.TopSurface = Enum.SurfaceType.Smooth
 			part.BottomSurface = Enum.SurfaceType.Smooth
-			if it.p then
+			if it.p and not it.kt then
 				local shape = SHAPES[it.p]
 				if not shape then
 					error("MapBuilder: unknown shape " .. tostring(it.p), 2)
