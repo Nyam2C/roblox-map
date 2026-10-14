@@ -86,8 +86,9 @@ for _, r in ipairs(Data.rects or {}) do
 		f.Parent = world
 	end
 end
--- the built cells: six edges each, a line kept 2 px wide on screen whatever the zoom
-local HEX_LINE, HEX_PICK = Color3.fromRGB(90, 100, 130), Color3.fromRGB(240, 120, 30)
+-- the built cells: six edges each, a faint line under the roads and buildings (the map comes first, 2026-10-14 user); the picked cell
+-- is drawn on top in orange. Widths are screen pixels whatever the zoom
+local HEX_LINE, HEX_PICK = Color3.fromRGB(150, 155, 175), Color3.fromRGB(240, 120, 30)
 local hexes = {}
 for i, h in ipairs(Data.hexes or {}) do
 	if type(h) == "table" and #h >= 15 then
@@ -102,8 +103,9 @@ for i, h in ipairs(Data.hexes or {}) do
 			e.Position = UDim2.fromOffset((a[1] + b[1]) / 2, (a[2] + b[2]) / 2)
 			e.Rotation = math.deg(math.atan2(b[2] - a[2], b[1] - a[1]))
 			e.BackgroundColor3 = HEX_LINE
+			e.BackgroundTransparency = 0.45
 			e.BorderSizePixel = 0
-			e.ZIndex = 5
+			e.ZIndex = 1
 			e.Parent = world
 			table.insert(edges, { f = e, len = math.sqrt((b[1] - a[1]) ^ 2 + (b[2] - a[2]) ^ 2) })
 		end
@@ -309,8 +311,9 @@ local function paintHexes(zoom)
 		local on = hx == selected
 		for _, e in ipairs(hx.edges) do
 			e.f.BackgroundColor3 = on and HEX_PICK or HEX_LINE
-			e.f.ZIndex = on and 6 or 5
-			e.f.Size = UDim2.fromOffset(e.len, (on and 4 or 2) / math.max(zoom or 1, 0.01))
+			e.f.BackgroundTransparency = on and 0 or 0.45
+			e.f.ZIndex = on and 6 or 1
+			e.f.Size = UDim2.fromOffset(e.len, (on and 3 or 1.5) / math.max(zoom or 1, 0.01))
 		end
 	end
 end
