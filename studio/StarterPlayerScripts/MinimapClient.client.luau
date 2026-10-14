@@ -130,6 +130,22 @@ big.ZIndex = 1
 big.Parent = gui
 round(big, 12)
 outline(big, 3)
+-- data sources, always on the big map (U6 Q3 = A, 2026-10-14)
+local credit = Instance.new("TextLabel")
+credit.Name = "Credit"
+credit.AnchorPoint = Vector2.new(1, 1)
+credit.Position = UDim2.new(1, -10, 1, -6)
+credit.Size = UDim2.fromOffset(420, 18)
+credit.BackgroundTransparency = 1
+credit.Text = "© OpenStreetMap contributors, 국토교통부 V-World"
+credit.Font = Enum.Font.Gotham
+credit.TextSize = 13
+credit.TextXAlignment = Enum.TextXAlignment.Right
+credit.TextColor3 = Color3.fromRGB(60, 60, 70)
+credit.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+credit.TextStrokeTransparency = 0.4
+credit.ZIndex = 15
+credit.Parent = big
 
 -- the player: a red dot with a pointer that turns with the camera
 local marker = Instance.new("Frame")

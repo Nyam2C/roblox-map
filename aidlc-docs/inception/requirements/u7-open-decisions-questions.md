@@ -10,6 +10,8 @@ C) 지금 그대로
 
 [Answer]: A
 
+적용(2026-10-14, Studio 장소, Builder 밖): `OutdoorAmbient` (70, 70, 70) → (128, 128, 124), `EnvironmentDiffuseScale` 1 → 0.4, `EnvironmentSpecularScale` 1 → 0.5. 그 밖(`Realistic`, `ClockTime 15`, `Brightness 2.5`, `Ambient` (70, 70, 70), Atmosphere)은 그대로. 3번 칸 아파트 그늘 면 전후 캡처로 파란 기가 사라진 것을 확인. 장소 설정이라 사용자가 Roblox에 저장해야 남는다.
+
 ## Question 2 — PBR 벽 질감(SurfaceAppearance)
 A) 안 씀: Roblox 기본 재질만 (추천)
 B) 직접 만든 질감 몇 종 시험 업로드
@@ -38,12 +40,16 @@ C) 둠
 
 [Answer]: A
 
+결과(2026-10-14): 두 세션 모두 안 쓴다고 답해 Auto 시험 건물 2개(775부품), Ref(45,044), Facade(1,348)를 지웠다. MCP_Test는 빈 Auto·Manual만.
+
 ## Question 6 — U6 남은 확인 (지도 켜고 걷기 FPS, 휴대폰·두 명 플레이, 바퀴 소리)
 A) 2번 칸 끝난 뒤 (추천)
 B) 지금
 C) 공개 직전
 
 [Answer]: B
+
+결과(2026-10-14): 지도를 켠 채 1번 칸 빌라 골목(way:222140575)을 609 stud 걸으며 40초 기록: 1초마다 60, 최저 59.9, 가장 느린 프레임 37 ms. 큰 지도 출처 표시 확인. 휴대폰·두 명 플레이·바퀴 소리는 사용자 확인 남음.
 
 ## Question 7 — P5-3 버그 (외곽선 꼭짓점 순서에 따라 박스 쪼개기가 달라짐)
 A) 2번 칸 전에 (추천)
