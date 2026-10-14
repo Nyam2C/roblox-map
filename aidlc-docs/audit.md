@@ -1710,3 +1710,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 가로 규칙 수정
 
 ---
+
+## 1cf 대표 시설 결과
+**Timestamp**: 2026-10-14T19:25:00Z
+**User Request**: (위 "다 ㄱㄱ": 부천시청, 101·103 탑 단지, 부천중앙공원) / "나 자러가도 다 할 수 있나?"
+**AI Response**: 부천시청: 3층 기단(외곽선 전체) + 10층 본관(62×24 m, 위성 위치) + 옥상 철탑, 출처 Wikimedia Commons Bucheon_cityhall.jpg·Bucheoncityhall2025.jpg, 나무위키 부천시청, 경기일보. 101·103: 단지마다 탑 6동(위성에서 기울기 보정한 위치, 48~49층), 103 파란 유리 띠·4층 기단, 101 연어색 띠·3층 기단(단지 이름은 웹 기사로 확인, 맵·데이터에는 안 씀). 부천중앙공원: 대부분이 아직 없는 칸 153·1cb에 있어 보류(스펙·생성기 src/park.py 준비, 상징탑·야외음악당은 그 칸 위성으로). 출처 ktriptips.com/kor/tourspot/126704, reportera.co.kr. 1cf verify ok. 잠자는 동안 진행하려고 화면 꺼짐 방지 요청.
+**Context**: CONSTRUCTION - 수작업 시설
+
+---

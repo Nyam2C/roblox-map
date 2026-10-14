@@ -349,7 +349,7 @@ def towers_on_podium(frame: Frame, body: LD.Body, sp: Mapping[str, Any], lines: 
     fh = body.fh
     podium = dataclasses.replace(body, floors=pf, height_m=pf * fh)
     psp = {**sp, "base": None, "windows": {**(sp.get("windows") or {}), "type": "ribbon"}, "roof": {"parapet_rgb": (sp.get("roof") or {}).get("parapet_rgb")},
-           "accents": [a for a in sp.get("accents") or [] if int(a.get("to_floor", 0)) < pf]}
+           "accents": [a for a in sp.get("accents") or [] if a.get("face") != "roof" and int(a.get("to_floor", 0)) < pf]}
     items = Maker(frame, LD.resolve_body(podium, lines, [], cfg), psp, main=True).make()
     from shapely.ops import unary_union
     hull = unary_union([LD._box_poly(x) for x in body.boxes]).convex_hull  # the whole podium, not its largest piece
@@ -374,6 +374,23 @@ def towers_on_podium(frame: Frame, body: LD.Body, sp: Mapping[str, Any], lines: 
             u = (j - (n - 1) / 2) * (size + gap)
             east, north = LD._world(bx, u, 0.0)
             boxes.append(layout.Box(east, north, size, size, bx.yaw_deg, 1.0))
+    if t.get("list"):  # each tower as read off the satellite: centre (studs), size (m), floors
+        boxes = []
+        out_items: list[Item] = []
+        for j, tw in enumerate(t["list"]):
+            east, north = tw["x"] / frame.studs_per_m, -tw["z"] / frame.studs_per_m
+            bx1 = layout.Box(east, north, float(tw["w_m"]), float(tw["d_m"]), bx.yaw_deg, 1.0)
+            tf = max(1, int(tw.get("floors") or body.floors) - pf)
+            one = dataclasses.replace(body, boxes=(bx1,), names=(f"{body.building_id}#t{j}",), floors=tf, height_m=tf * fh, occluded=(),
+                                      building_id=body.building_id)
+            one = LD.resolve_body(one, lines, [], cfg)
+            roof_acc = [a for a in sp.get("accents") or [] if a.get("face") == "roof"] if j == 0 else []  # a mast on the (first) tower's roof
+            face_acc = [{**a, "from_floor": max(0, int(a.get("from_floor", 0)) - pf), "to_floor": max(0, int(a.get("to_floor", 0)) - pf)}
+                        for a in sp.get("accents") or [] if a.get("face") != "roof" and int(a.get("to_floor", 0)) >= pf]
+            tsp1 = {**sp, "base": None, "entrance": None, "sign": None, "accents": roof_acc + face_acc}
+            for i in Maker(frame, one, tsp1, main=True).make():
+                out_items.append(dataclasses.replace(i, name=i.name.replace("#", f"#t{j}", 1), cy=layout.fmt(i.cy + pf * fh * frame.studs_per_m)))
+        return items + out_items
     tf = body.floors - pf
     tower = dataclasses.replace(body, boxes=tuple(boxes), names=tuple(f"{body.building_id}#t{j}" for j in range(n)), floors=tf,
                                 height_m=tf * fh, occluded=())

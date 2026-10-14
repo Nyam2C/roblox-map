@@ -1821,15 +1821,409 @@
    "front": "E"
   },
   {
-   "key": "cluster101",
+   "wall": {
+    "material": "Granite",
+    "rgb": [
+     216,
+     213,
+     204
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Concrete",
+    "rgb": [
+     236,
+     236,
+     232
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.7,
+    "pitch_m": 3.8,
+    "glass_rgb": [
+     78,
+     118,
+     104
+    ],
+    "frame_rgb": [
+     120,
+     140,
+     130
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 9,
+     "to_floor": 9,
+     "rgb": [
+      62,
+      66,
+      68
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 62.0,
+     "from_floor": 9,
+     "to_floor": 9,
+     "rgb": [
+      222,
+      220,
+      212
+     ],
+     "pitch_m": 3.8
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.17,
+     "width_m": 0.6,
+     "from_floor": 3,
+     "to_floor": 8,
+     "rgb": [
+      120,
+      122,
+      120
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.17,
+     "width_m": 0.6,
+     "from_floor": 3,
+     "to_floor": 8,
+     "rgb": [
+      120,
+      122,
+      120
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 150.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      240,
+      240,
+      236
+     ],
+     "pitch_m": 9.0
+    },
+    {
+     "kind": "clock",
+     "face": "street",
+     "at": 0.0,
+     "from_floor": 9,
+     "to_floor": 9
+    },
+    {
+     "kind": "mast",
+     "face": "roof",
+     "at": -0.1,
+     "width_m": 15.0
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 24.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": {
+    "text": "부천시청",
+    "face": "street",
+    "floor": 9,
+    "bg_rgb": [
+     216,
+     213,
+     204
+    ],
+    "ink_rgb": [
+     40,
+     50,
+     90
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     216,
+     213,
+     204
+    ],
+    "top_rgb": [
+     44,
+     71,
+     66
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "ONE OUTLINE, THREE PARTS (the 169 x 52 m box is the whole complex; satellite px given for data/satellite/8930e0af1cfffff-z19.jpg, 0.237 m/px). (1) MIDDLE: the 10-floor slab, about 62 m E-W x 24 m N-S, centred near sat px (630, 860), standing on a 3-floor podium that runs the full length of the outline. Slab: light warm-grey stone panels, punched green-tinted windows in a regular grid (about 16 bays per long face), two thin darker vertical joints split each long face into thirds; the TOP floor (floor 9) is a loggia band: tall dark recessed openings between white piers (built as a dark stripe with white fins over it), parapet above. A round emblem disc sits at the centre of the top floor on the north face (use the clock part). Roof: dark green-painted deck with white mechanical boxes and four round fan units, plus a STEEL LATTICE MAST (open truss, about 4 x 4 m, 15 m tall, grey [150,152,150]) standing on the roof just west of centre - this is the city hall's signature; 'mast' in features means this. (2) PODIUM, all parts: white concrete, 3 floors (ground floor tall, ~5 m). On the SOUTH (lawn) side the ground+1st floors are a colonnade of tall square white columns (about 9 m pitch) in front of recessed glass doors; the 2nd floor is a band of windows in white panels; podium roof is a roof garden: a row of clipped conical/round evergreen trees all along the podium edge in front of the slab (north and south). (3) WEST PART (x ~245-410, y ~730-960 sat px): council wing, 3-4 floors, roof = a big light glass skylight (rgb [180,198,202]) on the north half and a dark green OCTAGONAL chamber roof on the south half. EAST PART (x ~790-960, y ~840-990): low hall with a green copper hipped/pyramid roof (rgb [73,121,95]) and white walls. A glazed atrium roof links west part and slab. FORECOURT (north, toward Giljuro): terraced garden with clipped shrub mounds, rock edging and red azalea beds; centre axis is red-brick paving leading to wide grey granite stairs (~24 m wide, ~12 steps) up to the podium terrace; two glass ring-arch structures (half-ring glass canopies around a round opening, ~15 m across) at the NW and NE corners of the garden (sat px ~(330,650) and ~(930,750)) - likely sunken/subway entrances; the fountain that used to be on the front plaza was removed in 2024. SOUTH: open lawn in front of the colonnade, flower-bed edging, a round lawn further south (~(590,1080)). DROPPED: gis:18000546 is a duplicate record of the same complex (same name, same south-facing street-view of the north stairs). gis:18111135 is NOT city hall: it is the separate concert/arts hall south of the lawn (grey panel walls with sparse narrow windows, a big sloping glass curtain wall with a swept white roof edge on its south side) - leave it to Auto or a separate facility.",
+   "sources": [
+    "captures/8930e0af1cfffff/sheets/gis_11185131.jpg",
+    "captures/8930e0af1cfffff/crops/gis_11185131__WR-gKqlrJUnSVvqzSXfzxQ.jpg",
+    "captures/8930e0af1cfffff/crops/gis_18000546__ykR4uJTM-1o5X7c1mjwOHQ.jpg",
+    "captures/8930e0af1cfffff/sheets/gis_18111135.jpg",
+    "data/satellite/8930e0af1cfffff-z19.jpg",
+    "https://commons.wikimedia.org/wiki/File:Bucheoncityhall2025.jpg",
+    "https://commons.wikimedia.org/wiki/File:Bucheon_cityhall.jpg",
+    "https://namu.wiki/w/부천시청",
+    "https://kyeonggi.com/article/201306100515648"
+   ],
+   "seen": "Street view from Giljuro (looking south) shows the wide stone stairs and shrub-terraced forecourt below a broad light-grey 10-floor slab with a loggia top floor, a round emblem and a steel lattice mast on the roof. Commons photos show the north face over a white 3-floor podium with trees along its roof, and the south lawn face with a two-storey white colonnade; built 1997, 10 floors above ground.",
+   "key": "city_hall",
+   "cell": "8930e0af1cfffff",
+   "build": [
+    "gis:11185131"
+   ],
+   "claims": [
+    "gis:18000546"
+   ],
+   "floors": 10,
+   "front": "N",
+   "towers": {
+    "podium_floors": 3,
+    "list": [
+     {
+      "x": -4307.57,
+      "z": 252.45,
+      "w_m": 62,
+      "d_m": 24,
+      "floors": 10
+     }
+    ]
+   }
+  },
+  {
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     234,
+     235,
+     234
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.2,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     92,
+     108
+    ],
+    "frame_rgb": [
+     80,
+     84,
+     88
+    ]
+   },
+   "bands": null,
+   "roof": {
+    "parapet_rgb": [
+     234,
+     235,
+     234
+    ],
+    "top_rgb": [
+     196,
+     190,
+     176
+    ],
+    "features": [
+     "crown",
+     "solar",
+     "stair_box"
+    ],
+    "crown": {
+     "height_m": 8.0,
+     "rgb": [
+      238,
+      236,
+      230
+     ]
+    }
+   },
+   "sources": [
+    "captures/8930e0af1cfffff/sheets/gis_16472476.jpg",
+    "captures/8930e0af1cfffff/crops/gis_16472476___-0rruHvzgOTsnyTHZrnKg.jpg",
+    "captures/8930e0af1cfffff/sheets/gis_17575161.jpg",
+    "captures/8930e0af1cfffff/crops/gis_17575161__aHK1P4BJkaTNFtQcvEQywA.jpg",
+    "captures/8930e0af1cfffff/crops/gis_17575161__JaBEge8JxTh9JmZyYXgySQ.jpg",
+    "data/satellite/8930e0af1cfffff-z19.jpg",
+    "https://www.kyeonggi.com/article/201807191000622",
+    "https://m.ekn.kr/view.php?key=232036",
+    "https://m.richgo.ai/realty/danji/a4rrFjv",
+    "https://m.richgo.ai/realty/danji/a9vKkDp"
+   ],
+   "seen": "North block: white 49-floor towers with full-height blue glass strips and white X-lattice roof crowns over a 4-floor beige/blue-glass shop podium with a pixel pattern of dark squares. South block: white towers with dark punched windows and salmon spandrel strips over a 3-floor podium wrapped in a white perforated ornamental screen; both podiums carry roof gardens, and the satellite shows 6 tower roofs per block.",
+   "key": "block103",
+   "cell": "8930e0af1cfffff",
+   "build": [
+    "gis:17575161"
+   ],
+   "claims": [],
+   "floors": 49,
+   "front": "N",
+   "base": {
+    "floors": 4,
+    "material": "Concrete",
+    "rgb": [
+     205,
+     190,
+     165
+    ]
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.25,
+     "width_m": 8.0,
+     "from_floor": 5,
+     "to_floor": 49,
+     "rgb": [
+      72,
+      112,
+      172
+     ]
+    }
+   ],
+   "entrance": null,
+   "sign": null,
+   "towers": {
+    "podium_floors": 4,
+    "list": [
+     {
+      "x": -3728.36,
+      "z": 209.86,
+      "w_m": 54,
+      "d_m": 31,
+      "floors": 49
+     },
+     {
+      "x": -3494.12,
+      "z": 242.23,
+      "w_m": 43,
+      "d_m": 31,
+      "floors": 49
+     },
+     {
+      "x": -3753.06,
+      "z": 371.7,
+      "w_m": 54,
+      "d_m": 28,
+      "floors": 49
+     },
+     {
+      "x": -3501.79,
+      "z": 404.07,
+      "w_m": 54,
+      "d_m": 33,
+      "floors": 49
+     },
+     {
+      "x": -3785.43,
+      "z": 508.84,
+      "w_m": 46,
+      "d_m": 35,
+      "floors": 48
+     },
+     {
+      "x": -3529.9,
+      "z": 561.65,
+      "w_m": 52,
+      "d_m": 35,
+      "floors": 48
+     }
+    ]
+   },
+   "notes": "white/light-grey concrete towers; windows are dark grey horizontal ribbons per floor broken into bays; each tower has one or two FULL-HEIGHT recessed vertical strips of blue glass (curtain glass, rgb [72,112,172], 6-10 m wide) running from just above the podium to the top - the most visible feature from Giljuro; the first ~4 tower floors above the podium are dark grey stone [104,104,106]; small dark tower numbers high on the faces | WHITE X-LATTICE CROWN: an open white steel/concrete screen of big X (diagonal cross) bays, about 2-3 floors (8 m) tall, wrapping one wing of each roof; the rest of the roof is light deck with 2-3 square solar arrays | 4 floors on the whole block: ground floor glass shop fronts in a dark grey stone frame; floors 1-2 a continuous light-blue glass ribbon/curtain [110,160,200] between beige panel bands [205,190,165]; floor 3 beige panels [205,190,165] with a 'pixel' pattern of dark square panels [70,66,62] in clusters; rounded corner at the west end of the north face; roof garden with trees and a glass railing; a 2-floor-high passage into the block on the south face"
+  },
+  {
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     234,
+     235,
+     234
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.2,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     92,
+     108
+    ],
+    "frame_rgb": [
+     80,
+     84,
+     88
+    ]
+   },
+   "bands": null,
+   "roof": {
+    "parapet_rgb": [
+     234,
+     235,
+     234
+    ],
+    "top_rgb": [
+     196,
+     190,
+     176
+    ],
+    "features": [
+     "solar",
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "sources": [
+    "captures/8930e0af1cfffff/sheets/gis_16472476.jpg",
+    "captures/8930e0af1cfffff/crops/gis_16472476___-0rruHvzgOTsnyTHZrnKg.jpg",
+    "captures/8930e0af1cfffff/sheets/gis_17575161.jpg",
+    "captures/8930e0af1cfffff/crops/gis_17575161__aHK1P4BJkaTNFtQcvEQywA.jpg",
+    "captures/8930e0af1cfffff/crops/gis_17575161__JaBEge8JxTh9JmZyYXgySQ.jpg",
+    "data/satellite/8930e0af1cfffff-z19.jpg",
+    "https://www.kyeonggi.com/article/201807191000622",
+    "https://m.ekn.kr/view.php?key=232036",
+    "https://m.richgo.ai/realty/danji/a4rrFjv",
+    "https://m.richgo.ai/realty/danji/a9vKkDp"
+   ],
+   "seen": "North block: white 49-floor towers with full-height blue glass strips and white X-lattice roof crowns over a 4-floor beige/blue-glass shop podium with a pixel pattern of dark squares. South block: white towers with dark punched windows and salmon spandrel strips over a 3-floor podium wrapped in a white perforated ornamental screen; both podiums carry roof gardens, and the satellite shows 6 tower roofs per block.",
+   "key": "block101",
    "cell": "8930e0af1cfffff",
    "build": [
     "gis:16472476"
    ],
    "claims": [],
    "floors": 49,
-   "front": "W",
-   "wall": {
+   "front": "S",
+   "base": {
+    "floors": 3,
     "material": "Concrete",
     "rgb": [
      226,
@@ -1837,140 +2231,97 @@
      222
     ]
    },
-   "base": null,
-   "windows": {
-    "type": "grid",
-    "w_m": 2.4,
-    "h_m": 1.8,
-    "pitch_m": 3.0,
-    "glass_rgb": [
-     70,
-     95,
-     115
-    ],
-    "frame_rgb": [
-     230,
-     230,
-     228
-    ]
-   },
-   "bands": {
-    "rgb": [
-     210,
-     210,
-     206
-    ],
-    "every_floor": true
-   },
-   "accents": [],
-   "entrance": null,
-   "sign": null,
-   "roof": {
-    "features": [
-     "crown",
-     "solar"
-    ],
-    "crown": {
-     "height_m": 5.0,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 0,
+     "to_floor": 0,
      "rgb": [
-      236,
-      232,
+      226,
+      226,
       222
      ]
-    }
-   },
-   "towers": {
-    "grid": [
-     2,
-     2
-    ],
-    "size_m": [
-     26,
-     34
-    ],
-    "podium_floors": 2
-   },
-   "notes": "automatic stand-in (2026-10-15): one V-World outline covers four towers round a courtyard on a shop podium (satellite); not yet a user-approved detailed facility",
-   "sources": [
-    "data/satellite/8930e0af1cfffff-z19.jpg"
-   ],
-   "seen": "satellite: four towers with white crowns and solar panels at the corners of each block"
-  },
-  {
-   "key": "cluster103",
-   "cell": "8930e0af1cfffff",
-   "build": [
-    "gis:17575161"
-   ],
-   "claims": [],
-   "floors": 47,
-   "front": "W",
-   "wall": {
-    "material": "Concrete",
-    "rgb": [
-     226,
-     226,
-     222
-    ]
-   },
-   "base": null,
-   "windows": {
-    "type": "grid",
-    "w_m": 2.4,
-    "h_m": 1.8,
-    "pitch_m": 3.0,
-    "glass_rgb": [
-     70,
-     95,
-     115
-    ],
-    "frame_rgb": [
-     230,
-     230,
-     228
-    ]
-   },
-   "bands": {
-    "rgb": [
-     210,
-     210,
-     206
-    ],
-    "every_floor": true
-   },
-   "accents": [],
-   "entrance": null,
-   "sign": null,
-   "roof": {
-    "features": [
-     "crown",
-     "solar"
-    ],
-    "crown": {
-     "height_m": 5.0,
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.42,
+     "width_m": 3.0,
+     "from_floor": 8,
+     "to_floor": 48,
+     "material": "Plaster",
      "rgb": [
-      236,
-      232,
-      222
+      214,
+      122,
+      86
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.42,
+     "width_m": 3.0,
+     "from_floor": 8,
+     "to_floor": 48,
+     "material": "Plaster",
+     "rgb": [
+      214,
+      122,
+      86
      ]
     }
-   },
-   "towers": {
-    "grid": [
-     2,
-     2
-    ],
-    "size_m": [
-     26,
-     34
-    ],
-    "podium_floors": 2
-   },
-   "notes": "automatic stand-in (2026-10-15): one V-World outline covers four towers round a courtyard on a shop podium (satellite); not yet a user-approved detailed facility",
-   "sources": [
-    "data/satellite/8930e0af1cfffff-z19.jpg"
    ],
-   "seen": "satellite: four towers with white crowns and solar panels at the corners of each block"
+   "entrance": null,
+   "sign": null,
+   "towers": {
+    "podium_floors": 3,
+    "list": [
+     {
+      "x": -3853.57,
+      "z": 695.38,
+      "w_m": 52,
+      "d_m": 26,
+      "floors": 49
+     },
+     {
+      "x": -3566.53,
+      "z": 727.75,
+      "w_m": 50,
+      "d_m": 31,
+      "floors": 49
+     },
+     {
+      "x": -3837.39,
+      "z": 829.11,
+      "w_m": 50,
+      "d_m": 33,
+      "floors": 49
+     },
+     {
+      "x": -3558.86,
+      "z": 873.41,
+      "w_m": 43,
+      "d_m": 26,
+      "floors": 49
+     },
+     {
+      "x": -3874.01,
+      "z": 974.77,
+      "w_m": 45,
+      "d_m": 33,
+      "floors": 48
+     },
+     {
+      "x": -3594.63,
+      "z": 1019.06,
+      "w_m": 40,
+      "d_m": 33,
+      "floors": 48
+     }
+    ]
+   },
+   "notes": "white towers [236,236,234] with a regular grid of dark grey punched windows; dark recessed vertical slots between bays; on corner bays a vertical stack of salmon-orange spandrel strips [214,122,86] under each window; the first ~5 tower floors above the podium are dark grey stone with larger windows [100,100,104] | plain: light parapet, lift/stair boxes and square solar arrays, no lattice (crown height ~3 m, same white) | 3 floors: ground floor mixed glass shop fronts under a grey soffit; above it a continuous WHITE PERFORATED ORNAMENTAL SCREEN band (repeating curved lattice pattern, ~3 m tall, [226,226,222]) on all street faces, then a plain light-grey panel band [192,194,196]; roof garden with trees and glass railing; open passages through the podium to an inner courtyard garden on the south side facing the central park"
   }
  ]
 }

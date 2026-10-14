@@ -1,0 +1,93 @@
+{
+ "photo": "data/satellite/8930e0af1cfffff-z19.jpg",
+ "scale_note": "0.237 m/px, north up. Park occupies x 0..1520, y ~1800..2304 (only its north third; park centroid per OSM way 221003528 is ~(365,2385), south of the photo).",
+ "paths": [
+  {"name": "north edge red-brown bike path along 길주로 side", "pts_px": [[0,1815],[200,1832],[400,1865],[600,1888],[800,1902],[1000,1918],[1300,1942],[1480,1962]], "width_m": 6, "rgb": [105,72,62]},
+  {"name": "west edge walk", "pts_px": [[70,1815],[48,2120],[18,2304]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "west N-S walk A", "pts_px": [[125,1815],[95,2140]], "width_m": 5, "rgb": [200,204,187]},
+  {"name": "big arc walk (NW to NE)", "pts_px": [[170,1815],[230,1878],[290,1925],[350,1958],[420,1988],[500,1998],[600,1993],[650,1978],[700,1958],[750,1938],[800,1912]], "width_m": 7, "rgb": [200,204,187]},
+  {"name": "central N-S axis walk (paving stones)", "pts_px": [[482,1865],[435,2195]], "width_m": 8, "rgb": [200,204,187]},
+  {"name": "N-S walk", "pts_px": [[235,1900],[205,2140]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "E-W short walk", "pts_px": [[110,2015],[300,2008]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "N-S walk past west toilet", "pts_px": [[312,1940],[292,2150]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "south E-W walk (north rim of central area)", "pts_px": [[20,2128],[100,2138],[200,2152],[300,2165],[420,2185],[520,2198],[620,2215],[700,2230]], "width_m": 6, "rgb": [185,188,165]},
+  {"name": "N-S walk south of it", "pts_px": [[205,2160],[185,2304]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "N-S walk from east toilet plaza", "pts_px": [[612,1960],[592,2210]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "E-W short walk", "pts_px": [[598,2103],[682,2108]], "width_m": 3, "rgb": [200,204,187]},
+  {"name": "N-S walk", "pts_px": [[700,1960],[668,2228]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "N-S walk (east edge of west lawns)", "pts_px": [[805,1912],[783,2240]], "width_m": 6, "rgb": [200,204,187]},
+  {"name": "N-S walk by parking entrance", "pts_px": [[866,1965],[838,2185]], "width_m": 4, "rgb": [200,204,187]},
+  {"name": "forest dirt trail", "pts_px": [[935,1925],[922,2150]], "width_m": 3, "rgb": [125,112,90]},
+  {"name": "diagonal tree-lined promenade (two paver lanes + planters, OSM ways 472050741/472050742/473018201)", "pts_px": [[525,2304],[740,2230],[900,2175],[1140,2091],[1360,2015]], "width_m": 14, "rgb": [185,180,165]},
+  {"name": "tan path west of pond", "pts_px": [[1130,2150],[1125,2195],[1100,2240],[1088,2304]], "width_m": 3, "rgb": [195,175,140]},
+  {"name": "tan path along pond east side", "pts_px": [[1222,2125],[1228,2200],[1265,2240],[1300,2270],[1315,2304]], "width_m": 4, "rgb": [195,175,140]},
+  {"name": "light paved walk crossing the stream (small bridge ~(1385,2200))", "pts_px": [[1298,2250],[1340,2225],[1390,2195],[1418,2172]], "width_m": 4, "rgb": [200,204,187]}
+ ],
+ "plazas": [
+  {"c_px": [365,1925], "r_m": 9, "rgb": [181,187,168], "kind": "square", "notes": "paved apron around west toilet (OSM toilets 472053937)"},
+  {"c_px": [590,1945], "r_m": 8, "rgb": [181,187,168], "kind": "square", "notes": "paved apron around east toilet (OSM 472053938)"},
+  {"c_px": [400,2250], "r_m": 16, "rgb": [177,176,152], "kind": "square", "notes": "hexagon-patterned beige pavers x330-470 y2200-2265, red-brown brick pavers below (rgb ~[150,110,90]); this is the north edge of the central plaza that continues south out of the photo"},
+  {"c_px": [915,2172], "r_m": 9, "rgb": [185,180,165], "kind": "square", "notes": "stepped paved landing where the promenade meets the N-S walks"},
+  {"c_px": [1150,2045], "r_m": 11, "rgb": [173,176,153], "kind": "round", "notes": "semicircular paved plaza open to the south, with a dark curved low wall/bench along its north arc (from (1104,2051) over (1146,2008) to (1196,2024)); small seating plaza, not the 야외음악당"},
+  {"c_px": [1440,2018], "r_m": 12, "rgb": [175,175,160], "kind": "round", "notes": "round paved plaza at park NE corner below tower 102 of 센트럴파크 푸르지오, dark ring (r ~7 m) in it"}
+ ],
+ "lawns": [
+  {"poly_px": [[50,2160],[200,2168],[188,2304],[20,2304]], "notes": "open lawn, few trees"},
+  {"poly_px": [[103,2028],[198,2030],[195,2132],[98,2126]], "notes": "open dry lawn"},
+  {"poly_px": [[132,1835],[160,1830],[228,1895],[222,2000],[118,2005]]},
+  {"poly_px": [[200,1830],[318,1845],[315,1925],[292,1918],[235,1870]]},
+  {"poly_px": [[245,1905],[300,1945],[300,2000],[238,2000]]},
+  {"poly_px": [[208,2025],[298,2020],[292,2150],[205,2145]]},
+  {"poly_px": [[318,1990],[425,2000],[418,2178],[300,2163]], "notes": "contains dome 1"},
+  {"poly_px": [[410,1870],[470,1870],[462,1985],[415,1983]]},
+  {"poly_px": [[500,1872],[555,1880],[550,1990],[495,1990]]},
+  {"poly_px": [[448,2008],[598,2005],[590,2195],[438,2190]], "notes": "contains dome 2"},
+  {"poly_px": [[625,1898],[790,1908],[740,1938],[650,1975],[625,1980]]},
+  {"poly_px": [[620,1995],[700,1970],[690,2100],[605,2098]]},
+  {"poly_px": [[605,2112],[685,2112],[670,2225],[595,2210]]},
+  {"poly_px": [[712,1958],[795,1918],[783,2235],[675,2230]], "notes": "contains sculpture"},
+  {"poly_px": [[870,1925],[1100,1930],[1100,2060],[1140,2091],[900,2160],[850,2180]], "notes": "dense woodland floor (trees come from trees.py)"},
+  {"poly_px": [[1200,1950],[1360,1960],[1360,2015],[1140,2091],[1200,2060]], "notes": "woodland north of promenade, east part"},
+  {"poly_px": [[1240,2060],[1400,2010],[1500,2010],[1500,2304],[1320,2304],[1300,2250],[1230,2200],[1225,2120]], "notes": "woodland around the stream (east, water theme side)"}
+ ],
+ "water": [
+  {"poly_px": [[1130,2140],[1215,2132],[1225,2160],[1228,2200],[1220,2240],[1190,2248],[1165,2228],[1158,2190],[1140,2160]], "notes": "dark pond just south of the promenade (OSM ponds 278736798/278736800 continue south past y 2304; OSM outline sits ~40 px east of the visible water, traced from photo)"},
+  {"poly_px": [[1312,2090],[1325,2086],[1365,2148],[1402,2212],[1405,2246],[1393,2246],[1388,2216],[1352,2155]], "notes": "narrow teal concrete stream/cascade channel (~3 m wide), rgb [93,134,120]"}
+ ],
+ "domes": [
+  {"c_px": [375,2085], "r_m": 7.5, "rgb": [85,108,95], "notes": "glass/steel geodesic hemisphere (web photo confirms lattice glass domes), dark green-gray"},
+  {"c_px": [509,2107], "r_m": 7.5, "rgb": [91,115,99], "notes": "twin of the above"},
+  {"c_px": [358,1906], "r_m": 2.5, "rgb": [45,55,55], "notes": "small dark dome beside west toilet"},
+  {"c_px": [583,1938], "r_m": 2.8, "rgb": [45,55,55], "notes": "small dark dome beside east toilet"},
+  {"c_px": [250,1962], "r_m": 2, "rgb": [60,85,95]},
+  {"c_px": [371,2160], "r_m": 2, "rgb": [60,85,95]},
+  {"c_px": [489,2180], "r_m": 2, "rgb": [60,85,95]},
+  {"c_px": [671,2017], "r_m": 2, "rgb": [60,85,95]}
+ ],
+ "tower": {"c_px": null, "height_m": 32, "shape": "white concrete sail/blade: a tall slender right-triangle slab (vertical back edge, sloping front edge rising to a sharp tip), with lower flared sail-like fins at its foot; from some angles the tip reads as a curved horn", "rgb": [228,226,218], "notes": "부천시 상징탑 stands in the central plaza/lawn at the park centre, south of this photo (estimated around (430,2430) extrapolated from OSM's central oval walk 472050737; not in the 2304 px image). No published height found; ~30-35 m estimated from photos (several times tree height, below the 20-storey apartments behind). A large white 'BUCHEON' letter sign stands on the plaza nearby."},
+ "stage": {"c_px": null, "w_m": 25, "d_m": 15, "notes": "야외음악당 not in this photo. Aerial photo (saebucheon.com) shows a white ribbed shell / half-dome bandshell in the big central lawn between the twin domes and the symbol tower, i.e. south of y 2304. Text sources describe a round light-green roof; the aerial shows white. Size is a rough estimate."},
+ "other": [
+  {"kind": "underground_parking_entrance", "c_px": [98,1828], "notes": "white rectangular frame structure ~6x8 m (OSM building 주차장입구 473022825)"},
+  {"kind": "underground_parking_entrance", "c_px": [852,1950], "notes": "OSM 473022826"},
+  {"kind": "underground_parking_entrance", "c_px": [42,2165], "notes": "OSM 473022828"},
+  {"kind": "underground_parking_entrance", "c_px": [302,2214], "notes": "OSM 473033541"},
+  {"kind": "underground_parking_entrance", "c_px": [536,2252], "notes": "OSM 473033542"},
+  {"kind": "underground_parking_entrance", "c_px": [794,2290], "notes": "OSM 473022829"},
+  {"kind": "small_white_structure", "c_px": [1060,2287], "notes": "white frame like the parking entrances, not in OSM"},
+  {"kind": "toilet", "c_px": [365,1870], "notes": "~9x7 m, white walls, green roof (OSM 472053937)"},
+  {"kind": "toilet", "c_px": [585,1912], "notes": "~9x7 m, white walls, green roof (OSM 472053938)"},
+  {"kind": "blue_canopy", "c_px": [265,1782], "notes": "translucent sky-blue arched canopy ~43x8 m along the north road edge, long axis ~8 deg (W-E slightly falling east); likely covers a car ramp to the underground parking"},
+  {"kind": "blue_canopy", "c_px": [712,1850], "notes": "same type ~44x10 m"},
+  {"kind": "sculpture", "c_px": [724,2162], "notes": "metallic hourglass/double-cone object lying on the lawn, ~9 m long, E-W"},
+  {"kind": "small_building", "c_px": [495,2245], "notes": "dark-roof kiosk/park office ~10x15 m with blue tarp, beside the patterned plaza"}
+ ],
+ "sources": [
+  "https://www.ktriptips.com/kor/tourspot/126704",
+  "https://xn--ok0b236bp0a.com/place/6993",
+  "https://www.reportera.co.kr/travel/bucheon-central-park-autumn-walk/",
+  "https://www.telltrip.com/domestic-travel/bucheon-central-park-trumpet-vine-tunnel/",
+  "https://www.bing.com/images/search?q=부천중앙공원+상징탑 (thumbnails viewed only: tower photo from a ktourmap-style page, aerial from saebucheon.com '부천시, 2018년 경기정원문화박람회 유치', glass domes photo '부천 중앙공원 – 경기도 부천시 원미구 가볼만한곳')",
+  "OpenStreetMap via Overpass (park 221003528, ponds 278736798/278736800, footways, 주차장입구 buildings, toilets), 2026-10-15"
+ ],
+ "notes": "Only the north third of 부천중앙공원 lies inside this photo: the grid of lawns and paved walks on the west (tree/grass side), the twin glass geodesic domes, two toilets with small domes, six white-framed underground-parking entrances, the diagonal tree-lined promenade and the start of the east water side (dark pond, teal stream channel, tan paths). The symbol tower, the 야외음악당 shell stage, the central oval lawn, the big fountain/pond with island and the 능소화 tunnel are south of y 2304 and need the cell to the south. Path widths from OSM width tags where present, otherwise measured. Pixel coordinates are traced from the photo; OSM geometry is offset 10-40 px in places (its NW diagonal walk does not match the curved arc seen in the photo). No web image was saved."
+}
