@@ -18,9 +18,9 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 - Studio 생성 결과(studio-build.luau의 반환): `verify=true`, `problems` 없음, `sunk_cylinders=0`, `http=false`, 가장 느린 덩어리 10 ms 이하.
 
 ## 3. 위성 겹쳐 보기 (모든 칸)
-1. 칸 중심 위 높이 650에서 바로 아래로 `screen_capture`(`camera_position = {x, 650, z}`, `look_at_position = {x, 0, z - 1}`). 70° 시야각, 1631 × 882 창이면 0.974 px/stud.
+1. 칸 중심 위 높이 650에서 바로 아래로 `screen_capture`(`camera_position = {x, 650, z}`, `look_at_position = {x, 0, z - 1}`). 70° 시야각이면 px/stud = 캡처 세로 px ÷ 910(= 2·650·tan 35°). 1631 × 882 창이면 0.974, 1528 × 689면 0.757. 캡처 크기를 보고 계산한다.
 2. ```bash
-   uv run --env-file .env src/satellite.py compare <캡처.jpg> <x> <z> 0.974 data/compare/<칸>
+   uv run --env-file .env src/satellite.py compare <캡처.jpg> <x> <z> <px/stud> data/compare/<칸>
    ```
 3. `<칸>_side_by_side.jpg`, `<칸>_blend.jpg`를 보고 확인: 큰길 폭, 건물 위치·모양, 데이터에 없는 시설(운동장, 체육관, 주차장), 건물로 잘못 잡힌 시설, 나무 띠, 높은 건물은 원근으로 커 보인다는 점.
 4. 사용자에게 겹친 그림을 보낸다(`SendUserFile`).
@@ -30,7 +30,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 2. Studio 시야각 83.58로 바꾼다. 쌍 8~12개를 골라(랜드마크, 처음 보는 유형, 확인 목록, 고르게 섞어) **하나씩** `screen_capture`(카메라 위치·바라보는 점은 review.json 그대로).
 3. 캡처 경로를 `{쌍 키: 경로}` JSON으로 → `uv run src/estimate.py compose --cells <칸> --captures <json>` → `captures/<칸>/review/`.
 4. 쌍을 세로로 이어 붙여 보고, 사용자에게 보낸다.
-5. 자주 나온 문제(lessons 참고): 창 크기·수, 난간, 나무가 가림, 가게 앞면, 계단실 색, 건물 유형(아파트·교회·공장), 간판 글자(만든 직후 비어 보이면 1분 뒤 다시).
+5. 자주 나온 문제(lessons 참고): 창 크기·수, 난간, 나무가 가림, 가게 앞면, 계단실 색, 건물 유형(아파트·교회·공장), 간판 글자(만든 직후 비어 보이면 1분 뒤 다시), 처음 보는 유형(백화점 → `store`), 고층 복합 건물(외곽선은 기단 전체: 기단 높이로 보정 + 탑은 Manual), manifest의 `underground facility` 경고(역사·지하주차장이 빠졌는지).
 6. 끝나면 카메라 `Fixed`, 시야각 70으로 되돌린다.
 
 ## 5. 성능

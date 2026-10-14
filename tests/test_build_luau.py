@@ -184,6 +184,14 @@ def test_buildings_that_cannot_be_boxed_are_skipped_and_counted():
     assert any("gis:1001" in w for w in plan.warnings)
 
 
+def test_underground_facilities_are_skipped_and_ordinary_basements_are_built():
+    # a subway station (0 above, 2 below), a car park under a plaza (1 above, 4 below), an office with a deep basement (6 above, 7 below)
+    rows = [building(0, floors_above=None, floors_below=2), building(1, floors_above=1, floors_below=4), building(2, floors_above=6, floors_below=7)]
+    plan = B.plan_cell(CELL, rows, [], CFG)
+    assert plan.counts["buildings_skipped"] == 2 and plan.counts["items_building"] == 1
+    assert sum("underground" in w for w in plan.warnings) == 2
+
+
 def test_without_a_spawn_point_there_is_a_warning_and_no_spawn_with_one_there_is_a_spawn():
     plain = B.plan_cell(CELL, [building(0)], [street()], CFG)
     assert plain.counts["items_spawn"] == 0 and any("no spawn point" in w for w in plain.warnings)

@@ -454,6 +454,16 @@ def test_br_1_5_a_gongdong_jutaek_is_an_apartment_from_seven_floors(floors, arch
     assert body.archetype == archetype  # 5-6 floors: villas over pilotis or with shops (cell 2 street view 2026-10-14)
 
 
+def test_a_store_is_a_windowless_box_with_ground_glass_and_a_tall_bay_and_no_signs():
+    row, est, _ = villa(w=60.0, d=40.0, floors=11, wall="cream", code="07000")
+    body, eff = resolve(row, est, features=[street()])
+    assert body.archetype == "store" and not body.shop
+    items, signs, _ = all_items(body, row, eff)
+    assert not signs and not [i for i in items if i.kind == "sign"]
+    glass = [tail(i) for i in items if tail(i).startswith(("rb", "bay"))]
+    assert len([t for t in glass if t.startswith("rb")]) == 4 and len([t for t in glass if t.startswith("bay")]) == 4  # 60 and 40 m faces
+
+
 @settings(max_examples=30)
 @given(st.integers(5, 30), st.floats(18, 70), st.floats(10, 16))
 def test_br_6_5_any_apartment_keeps_its_units_inside_the_face_and_the_glass_inside_its_floor(floors, w, d):

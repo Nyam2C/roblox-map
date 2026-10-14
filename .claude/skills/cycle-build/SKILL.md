@@ -38,7 +38,7 @@ uv run src/roofs.py --cells <칸>         # 평지붕 윗면 색(7층 이하): �
 ### 4. 판단 (눈가림)
 1. `uv run src/estimate.py pending --cells <칸> --limit 200` 출력의 JSON 줄을 모아 70개 안팎으로 나눈다(200 넘으면 기록 뒤 다시 pending).
 2. 묶음마다 서브에이전트 하나: `judge-prompt.md`(이 폴더)를 지침으로, 목록 파일과 출력 경로를 준다. 서브에이전트는 목록과 묶음 이미지만 읽는다(DB·overrides·details 금지).
-3. 출력의 `judgements`와 `details`를 나눠 `uv run src/estimate.py record --file <j.json>`, `uv run src/details.py record --file <d.json>`.
+3. 출력의 `judgements`와 `details`를 **각각 맨 바깥이 리스트인 파일로** 나눠(`{"judgements": [...]}` 그대로는 거부) `uv run src/estimate.py record --file <j.json>`, `uv run src/details.py record --file <d.json>`.
 4. 메모에 개인 정보(사람, 번호판, 실제 상호)나 술·담배·도박 어휘가 없는지 훑는다.
 5. `uv run src/estimate.py report --cells <칸>` → **확신 high인데 대장과 다른 건물은 묶음 이미지를 직접 다시 본다.** 판단이 틀렸으면 `uv run src/overrides.py set --building <id> --field floors_above --value <대장값> --reason "..."`(사유에 개인 정보 금지).
 

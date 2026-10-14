@@ -12,6 +12,9 @@
    "buildings": []},
   {"name": "Gwangseong", "cell": "8930e0af123ffff", "how": "manual", "status": "candidate",
    "reason": "거리뷰와 크게 다른 한 곳(2026-10-14 2번 칸 대조): 광성아파트는 3층 상가 기단(아치 입구, 간판) 위 아파트인데 자동 생성은 땅까지 아파트 띠",
-   "buildings": ["gis:11177081"]}
+   "buildings": ["gis:11177081"]},
+  {"name": "Landmark", "script": "Landmark.luau", "cell": "8930e0af10fffff", "how": "manual", "status": "done",
+   "reason": "OSM 랜드마크(신중동역 랜드마크 푸르지오 시티, 49층): V-World 외곽선은 6층 상가 기단 전체라 Auto는 기단만(보정 30 m), 탑 2동은 위성 헬리패드 지붕을 항공사진 기울기만큼 되돌린 자리에 얹는다",
+   "buildings": ["gis:11778185"]}
  ]
 }

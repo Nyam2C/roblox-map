@@ -534,6 +534,15 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                 items += more
                 seq += len(more)
                 continue
+            if body.archetype == "store":  # windowless stone walls: glass on the ground floor and one tall glass bay per long face
+                items.append(_wall_part(frame, body, bi, side, "facade", f"rb{bi}{side}0-0", seq, 0.0, D["ribbon_sill"], D["win_out"],
+                                        (L - D["ribbon_inset"], min(D["ribbon_h"], 0.5 * fh) * 1.5, win_t), **glass))
+                seq += 1
+                if L >= D["store_bay_min"] and F >= 3:
+                    items.append(_wall_part(frame, body, bi, side, "facade", f"bay{bi}{side}", seq, 0.0, fh, D["win_out"],
+                                            (min(D["store_bay_w"], L / 4), (F - 2) * fh, win_t), **glass))
+                    seq += 1
+                continue
             if body.archetype == "villa":
                 more = _villa_face(body, bi, side, frame, seq, win_t, glass, is_front)
                 items += more
@@ -767,7 +776,7 @@ SHOP_FRONTS = (("SmoothPlastic", "glass_shop", D["reflect_shop"]), ("SmoothPlast
 
 def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> list[Item]:
     """Stair tower, bay, balconies, door and canopy (or shutter), AC units, gas pipe, storefront: the front box's facing face."""
-    if not body.is_body or body.facing is None or body.archetype in ("school", "apartment"):
+    if not body.is_body or body.facing is None or body.archetype in ("school", "apartment", "store"):
         return []
     bi, side, F, fh, H = body.front, body.facing.side, body.floors, body.fh, body.height_m
     L = body.facing.length
@@ -932,7 +941,7 @@ def _name(body: Body, slot: str, where: str, floor: int) -> str:
 
 def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[str]) -> tuple[list[Item], int]:
     """Band signs, per-floor signs, projecting signs, the rooftop frame and the name plate; (items, label count) (BR-10)."""
-    if not body.is_body or body.facing is None or body.archetype in ("school", "apartment"):
+    if not body.is_body or body.facing is None or body.archetype in ("school", "apartment", "store"):
         return [], 0
     bi, side, F, fh, H, L = body.front, body.facing.side, body.floors, body.fh, body.height_m, body.facing.length
     items: list[Item] = []

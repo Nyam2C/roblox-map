@@ -1,0 +1,14 @@
+{
+"cell_id": "8930e0af10fffff",
+"source": "V-World satellite z19",
+"roofs": {
+"gis:11170118": "rtop_green",
+"gis:11195906": "rtop_gray",
+"gis:11206292": "rtop_green",
+"gis:11206988": "rtop_dark",
+"gis:11214151": "rtop_green",
+"gis:11216427": "rtop_gray",
+"gis:16759296": "rtop_brown",
+"gis:17095100": "rtop_dark"
+}
+}

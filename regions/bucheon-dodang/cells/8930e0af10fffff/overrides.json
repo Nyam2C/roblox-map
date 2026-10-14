@@ -1,0 +1,325 @@
+{
+  "cell_id": "8930e0af10fffff",
+  "estimates": [
+    {
+      "building_id": "gis:11170118",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "electronics store building, gray metal panel walls, glass shop ground floor, ribbon windows, partly hidden by trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11180288",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "medical office tower, brick lower floors with shop ground floor and parking entrance, gray panel upper, trees hide top",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11188992",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "apartment slab block, gray walls with blue accents, small entrance porch, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189218",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "long apartment slab, light gray walls, enclosed balconies, green awning entrances, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189298",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "officetel tower on a 3-floor shop podium, beige stone/panel walls, shop and clinic signs on lower floors",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11195906",
+      "confidence": "medium",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "office building, light gray panel walls, glass stair strip at corner, shop ground floor, parking booth by side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11202502",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "round louvered metal vent tower on stone base in a plaza (underground parking vent), 1 floor, among trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11206292",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "office/shop building, gray panel walls with brick on one side, shop ground floor, many office signs, trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206988",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "curved metal/translucent canopy over an underground parking ramp entrance between office buildings, garage",
+      "roof_shape": "other",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11214151",
+      "confidence": "medium",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "office building, light gray panel, brick ground floor with cafe and shops, ribbon windows, rooftop canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11215048",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "tiny footprint; glass pavilion entrance to underground parking and louvered vent towers in the plaza",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11215243",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "office building, glass curtain wall front, gray panel and brick base, pharmacy shop ground floor, trees hide top",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11216427",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "fast-food restaurant, dark gray walls with red vertical tower, glass 2nd floor, roof terrace with railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11740143",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "department store, curved cream stone wall mostly windowless, glass shop ground floor and canopy, glass corner bays",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11778185",
+      "confidence": "low",
+      "floors_seen": 45,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "mixed-use complex: ~6-floor shop podium (gray panel, terracotta base) under very tall dark/red striped towers",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:12401783",
+      "confidence": "low",
+      "floors_seen": 9,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "office/shop building, gray panel and glass, restaurant and convenience shops on ground floor, many signs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15719920",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "tiny dark kiosk/booth with sign panel in a hedge strip by the plaza; glass entrance structure nearby",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:16566389",
+      "confidence": "low",
+      "floors_seen": 45,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "same complex as near-duplicate footprint: shop podium ~6 floors under very tall dark/red striped towers",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:16759296",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "underground parking under a plaza; only plaza, trees, a parking booth and ramp lane visible, no building above ground",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:17095100",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-14T05:01:43+00:00",
+      "note": "crops taken from an elevated road; centre shows only the overpass deck; target likely the overpass itself, no building",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    }
+  ],
+  "overrides": [
+    {
+      "building_id": "gis:11170118",
+      "field": "height_m",
+      "reason": "Claude 2026-10-14: 가전 매장 층고가 커서(층당 5.3 m, OSM 6층이면 4.4 m) 대장 높이 26.3 m를 쓴다",
+      "set_at": "2026-10-14T05:03:13+00:00",
+      "value": 26.3
+    },
+    {
+      "building_id": "gis:11740143",
+      "field": "height_m",
+      "reason": "Claude 2026-10-14: 백화점은 층고가 커서(층당 5.0 m) 대장 높이 55.35 m를 그대로 쓴다. 위성 그림자 길이와 거리뷰 비율로 확인",
+      "set_at": "2026-10-14T05:03:13+00:00",
+      "value": 55.35
+    },
+    {
+      "building_id": "gis:11778185",
+      "field": "floors_above",
+      "reason": "Claude 2026-10-14: V-World 외곽선은 상가 기단 전체(133x69 m)라 기단 높이로. 49층 탑 2동은 Manual/Landmark가 기단 위에 얹는다(거리뷰 #1 E: 테라코타 2층 + 회색 패널 4층, 위성 헬리패드 2개)",
+      "set_at": "2026-10-14T05:05:01+00:00",
+      "value": 6
+    },
+    {
+      "building_id": "gis:11778185",
+      "field": "height_m",
+      "reason": "Claude 2026-10-14: V-World 외곽선은 상가 기단 전체(133x69 m)라 기단 높이로. 49층 탑 2동은 Manual/Landmark가 기단 위에 얹는다(거리뷰 #1 E: 테라코타 2층 + 회색 패널 4층, 위성 헬리패드 2개)",
+      "set_at": "2026-10-14T05:05:01+00:00",
+      "value": 30.0
+    },
+    {
+      "building_id": "gis:11778185",
+      "field": "wall_color",
+      "reason": "Claude 2026-10-14: 기단 위쪽 4개 층은 밝은 회색 패널(거리뷰 #1 E). 판단의 dark_gray는 위 탑 색",
+      "set_at": "2026-10-14T05:07:32+00:00",
+      "value": "light_gray"
+    }
+  ],
+  "version": 1
+}

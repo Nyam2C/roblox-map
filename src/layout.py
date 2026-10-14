@@ -208,6 +208,13 @@ def box_of_points(pts: Sequence[tuple[float, float]], area: float | None = None)
     return Box(cx, cy, width, depth, yaw, min(1.0, area / rect_area))
 
 
+def is_underground(building: Mapping[str, Any]) -> bool:
+    """A record that is mostly below ground (a subway station, an underground car park under a plaza): floors below at least twice
+    the floors above (0 counts as 1). Its V-World outline is the underground footprint, so a box on it would cover a road or plaza."""
+    below = building.get("floors_below") or 0
+    return below >= 2 * max(building.get("floors_above") or 0, 1)
+
+
 def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, Any],
                   eff: judgement.EffectiveBuilding | None = None) -> tuple[Item | None, str | None]:
     """(item, None) for a good building, (None, reason) for one that is skipped (BR-2.9).

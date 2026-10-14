@@ -1,5 +1,23 @@
 {
  "cells": {
+  "8930e0af10fffff": {
+   "counts": {
+    "landmarks": [
+     "park:way490781493",
+     "station:신중동"
+    ],
+    "pois": 42,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.052,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way490781493, station:신중동",
+   "tier": 1
+  },
   "8930e0af123ffff": {
    "counts": {
     "landmarks": [

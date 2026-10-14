@@ -120,7 +120,7 @@ uv run src/minimap.py --cells 8930e0af13bffff 8930e0af12bffff
 uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 ```
 
-- 설정 값(겹침 기준, 버퍼, 호출 간격, 원점 등 공통)은 `config.toml`, 구역 설정(학교 필지 `school_polygons`, 스폰 `spawn_*`, 이름별 차로 수 `road_lanes_by_name`, 칸 목록 `cells`)은 `regions/<구역>/region.toml`(U7 B, 지금 구역 하나 `bucheon-dodang`), 칸별 판단 파일(details, overrides, signs, trees)은 `regions/<구역>/cells/<칸>/<종류>.json`(git 포함), Studio 소스는 위치별로 `studio/ServerStorage/MapBuilder.luau`(Builder)와 `studio/manual/<구역>/{School,Buheung,Park}.luau`(수작업). 아래 기록에 나오는 예전 경로(`overrides/<칸ID>.json`, `details/`, `signs/`, `trees/`, `studio/Builder.luau`, `studio/Manual*.luau`, `config.toml`의 학교 필지·스폰)는 2026-10-14에 이렇게 옮겨졌다. 비밀값은 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외).
+- 설정 값(겹침 기준, 버퍼, 호출 간격, 원점 등 공통)은 `config.toml`, 구역 설정(학교 필지 `school_polygons`, 스폰 `spawn_*`, 이름별 차로 수 `road_lanes_by_name`, 칸 목록 `cells`)은 `regions/<구역>/region.toml`(U7 B, 지금 구역 하나 `bucheon-dodang`), 칸별 판단 파일(details, overrides, signs, trees)은 `regions/<구역>/cells/<칸>/<종류>.json`(git 포함), Studio 소스는 위치별로 `studio/ServerStorage/MapBuilder.luau`(Builder)와 `studio/manual/<구역>/{School,Buheung,Park,Landmark}.luau`(수작업). 아래 기록에 나오는 예전 경로(`overrides/<칸ID>.json`, `details/`, `signs/`, `trees/`, `studio/Builder.luau`, `studio/Manual*.luau`, `config.toml`의 학교 필지·스폰)는 2026-10-14에 이렇게 옮겨졌다. 비밀값은 `.env`(`VWORLD_KEY`, `DATA_GO_KR_KEY`, git 제외).
 - Overpass와 V-World는 429/502/504와 시간 초과에서 재시도한다(10s, 30s, 60s). 칸 하나가 실패해도 이전 데이터는 유지된다.
 - `build_luau.py`는 칸의 건물과 도로로 `data/build/<칸ID>/chunk-NNN.luau`(항목 70개씩), Studio가 받는 `chunks.json`(덩어리 파일을 데이터로), `manifest.json`을 만든다. 가로·나무 계산은 `streets.py`(U7 B에서 `layout_details.py`에서 떼어 냄). 모든 좌표·박스 계산은 Python(`layout.py`), `studio/Builder.luau`는 부품만 만든다. 건물은 최소 면적 회전 직사각형 박스 1개(맞춤 0.8 미만은 manifest의 `poor_fit`), 원점은 세 칸이 만나는 꼭짓점, 스케일 3.6 stud/m(첫 칸을 만든 뒤 확정). Studio 쪽은 `Workspace/Auto/<칸ID>`만 비우고 다시 만들고 `Workspace/Manual`은 읽기만 한다. 스폰은 `config.toml`의 `spawn_lat`, `spawn_lon`, `spawn_yaw_deg`를 정하면 만들어진다.
 - 학교 건물(`config.toml`의 `school_polygons` 필지 안, 지금은 심원고 필지)은 가까운 순이 아니라 **면마다 파노라마 하나**(최대 6면, 가림 없는 것)를 골라 면의 가운데를 향한 크롭을 만든다. 첫 칸의 학교 건물 8동에 면 사진 22장(본관은 남·북·동·서 네 면). 나무와 차량은 가림으로 판단하지 않아서 서쪽 면 같은 곳은 약하다. 자세한 내용은 `aidlc-docs/construction/u3-street-view-capture/code/school-faces-change.md`.
@@ -137,6 +137,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 ## 현재 상태
 
+- **4번 칸 신중동역(2026-10-14)**: `8930e0af10fffff`(1번 칸 서쪽, 1급, 건물 20개: 49층 랜드마크 푸르지오 시티, 백화점, 업무·오피스텔)를 사이클로 만들었다. Auto 2,821부품(verify ok) + `Manual/Landmark`(탑 2동 124부품). 새 규칙: 지하 시설(역사·지하주차장)은 안 만듦, 판매시설 5층 이상은 `store` 유형. 걷기 FPS는 아직(사용자 Play 필요).
 - **U7 끝(2026-10-14)**: 세 칸 모두 새 사이클로 Studio에 있다(1번 7,169 + 수작업, 2번 8,158, 3번 6,008, 모두 verify, 걷기 60 FPS). 사이클에 들어간 것: 외곽선 따르는 박스(P5-3 고침), 수작업 기준점(`anchors.py`), 학교 운동장 키트(`fields.py`), 간판 재사용, 나무 메시 키트(`ServerStorage/Kits`), 위성 지붕 색(`roofs.py`), 큰 지도 출처 표시, 조명 그늘 보정. 외관 품질(L)은 다른 세션이 계속 다듬는다.
 - U7 단계 3·4(내부)는 취소하고 코드를 지웠다(2026-10-14). 남은 것: Builder가 건물마다 Model(Atomic), 칸의 땅·도로는 `Base`(Persistent), 종류별 개수는 칸 속성 `Made_<kind>`(스트리밍 대비). Studio `ServerStorage/MapBuilder`는 단계 4의 Builder(내부 키가 있던 판, 내부 항목이 없으면 같은 동작), 예전 것은 `MapBuilder_U5`로 남김. 실제 지도 칸(1·3번)은 예전 Builder로 만든 그대로(단계 7에 다시 만듦).
 
@@ -159,7 +160,7 @@ U7 = 기반 세팅(사용자 결정 2026-10-14: "u7에서 모든걸 세팅하고
 
 1. 사용자: Studio를 Roblox에 저장, `.rbxl` 복사본(`LightingStyle`은 `Realistic` 확인됨, 2026-10-14)
 2. U7(계획 승인 2026-10-14): 계획서 5절 순서대로. 단계 2(B 구조, G 등급)·단계 3(내부·성능 Functional Design, 승인) 끝(2026-10-14). 단계 3·4(내부)는 취소(2026-10-14). 다음은 외관 품질(계획서 3절 L, 다른 세션의 "다른 맵의 건물 학습"·"리얼한 건물 제작 방법" 결과로 항목 확정)과 단계 5(F 기준점, J 학교 운동장 키트, K 간판 재사용; 다른 세션이 진행 중).
-3. 세 칸을 사이클로 다시 만들었다(U7 단계 5~8 끝, 2026-10-14). 다음: 새 칸·구역을 같은 사이클로(칸 하나에 세션 하나). 남은 후속: 8층 이상 지붕 색(위성에서 기울어 보임), 광성아파트 상가 기단 수작업 후보(`manual.json`), 옥산초 본관 패널 외관, U6 사용자 확인(휴대폰·두 명·바퀴 소리)
+3. 세 칸을 사이클로 다시 만들었다(U7 단계 5~8 끝, 2026-10-14). 4번 칸(신중동역)도 사이클로 만들었다(2026-10-14, FPS만 남음). 다음: 신중동역 주변 칸을 같은 사이클로(칸 하나에 세션 하나). 4번 칸 후속: 오피스텔 위층 창 격자(U7 L), 랜드마크 기단 창 없는 패널·테라코타 띠, 백화점 둥근 모서리. 남은 후속: 8층 이상 지붕 색(위성에서 기울어 보임), 광성아파트 상가 기단 수작업 후보(`manual.json`), 옥산초 본관 패널 외관, U6 사용자 확인(휴대폰·두 명·바퀴 소리)
 4. 간판 이미지는 멈춤 상태(새 13장 캐시, 업로드 없음). 사이클에 넣을지는 U7에서
 
 ## 주의

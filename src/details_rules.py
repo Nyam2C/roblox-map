@@ -179,11 +179,12 @@ COMMERCIAL_CODES = ("04000", "09000", "11000", "14000")
 APARTMENT_MIN_FLOORS = 7  # BR-1.5 (2026-10-14): 5-6 floor 공동주택 here are villas over pilotis or with shops
 OFFICE_CODE = "14000"  # 업무시설: shop signs only on the lower floors, no rooftop sign (BR-10.1a, street view 2026-10-14)
 PUBLIC_CODES = ("03000", "10000")
+STORE_CODE = "07000"  # 판매시설: a department store or mart of five floors or more is a windowless stone box (street view 2026-10-14, cell 4)
 PUBLIC_SUFFIXES = ("학교", "행정복지센터", "주민센터", "경로당")
 
 
 def archetype(usability_code: str | None, floors: int | None, name: str | None, in_school_polygon: bool) -> str:
-    """school > apartment > commercial > public > villa, first match (BR-1.5). An apartment is a 공동주택 (02000) of seven floors or
+    """school > apartment > store > commercial > public > villa, first match (BR-1.5). An apartment is a 공동주택 (02000) of seven floors or
     more: a dense grid of punched windows and no shop signs (street-view review 2026-10-13). A lower 공동주택 is a villa (the
     five-floor ones over parking pilotis, cell 2 street view 2026-10-14), never a commercial block."""
     name = name or ""
@@ -192,6 +193,8 @@ def archetype(usability_code: str | None, floors: int | None, name: str | None, 
     code = usability_code or ""
     if code == "02000":
         return "apartment" if (floors or 0) >= APARTMENT_MIN_FLOORS else "villa"
+    if code == STORE_CODE and (floors or 0) >= 5:
+        return "store"
     if code in COMMERCIAL_CODES or (floors or 0) >= 5:
         return "commercial"
     if code in PUBLIC_CODES:
@@ -356,6 +359,7 @@ DIMS: dict[str, float] = {
     "win_w": 2.2, "win_h": 1.5, "win_t": 0.10, "win_sill": 0.9, "win_pitch": 3.0, "win_max": 6,  # wide sashes (street view review 2026-10-13)
     "ribbon_h": 1.7, "ribbon_school_h": 1.5,
     "school_win_w": 1.8, "school_win_h": 1.5, "school_win_pitch": 2.4,  # classroom windows: three per bay with 0.6 m piers (street view)
+    "store_bay_min": 30.0, "store_bay_w": 12.0,  # store archetype: a tall glass bay on faces of 30 m or more (cell 4 street view)
     "ribbon_sill": 1.0, "ribbon_inset": 1.0, "win_out": 0.05, "reflect_win": 0.1, "reflect_shop": 0.3, "reflect_glass": 0.2,
     "stair_w": 2.0, "stair_extra": 1.0, "stair_t": 0.3, "stair_out": 0.2, "stair_brick": 2.5, "stair_brick_extra": 1.2, "stair_brick_out": 0.3,
     "stair_round_dia": 2.8, "bay_w": 2.4, "bay_d": 0.4, "balcony_frac": 0.4, "balcony_slab_h": 0.15, "balcony_d": 0.6, "balcony_rail_h": 1.0,

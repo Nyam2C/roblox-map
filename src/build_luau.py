@@ -185,6 +185,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     bodies: list[tuple[layout_details.Body, Mapping[str, Any], Any]] = []
     for b in kept:
         bid = str(b["building_id"])
+        if layout.is_underground(b):
+            warnings.append(f"{bid}: underground facility (floors below {b.get('floors_below')}, above {b.get('floors_above')}): not built")
+            continue
         eff = judgement.effective_building(b, estimates.get(bid), overrides.get(bid), cfg)
         outline = b["outline"]
         if not (isinstance(outline, (list, tuple)) and len(outline) >= 3
