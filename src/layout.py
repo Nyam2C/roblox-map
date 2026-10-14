@@ -172,20 +172,40 @@ def outline_to_box(outline: Sequence[LatLon], frame: Frame) -> Box | None:
 
 def box_of_points(pts: Sequence[tuple[float, float]], area: float | None = None) -> Box | None:
     """Minimum-area rotated rectangle around east/north metre points; `area` is the covered polygon's own area (default: the
-    polygon through the points in order). None when there is no area."""
-    rect = MultiPoint(pts).minimum_rotated_rectangle
+    polygon through the points in order). None when there is no area.
+
+    The rectangle is measured on every convex-hull edge direction. A tie (a right triangle fits its legs and its hypotenuse with
+    the same area) goes to the direction most of the hull's edges run along (the legs, which follow the building grid), then to
+    the smaller angle, so the vertex order and start never change the box (P5-3; GEOS's minimum_rotated_rectangle took the first
+    of equal rectangles, which follows the order)."""
+    hull = MultiPoint(pts).convex_hull
     if area is None:
         area = Polygon(pts).area if len(pts) >= 3 else 0.0
-    if rect.geom_type != "Polygon" or rect.area <= 1e-9 or area <= 1e-9:
+    if hull.geom_type != "Polygon" or hull.area <= 1e-9 or area <= 1e-9:
         return None
-    c = list(rect.exterior.coords)[:4]
-    e1, e2 = (c[1][0] - c[0][0], c[1][1] - c[0][1]), (c[2][0] - c[1][0], c[2][1] - c[1][1])
-    l1, l2 = math.hypot(*e1), math.hypot(*e2)
-    if abs(l1 - l2) <= 1e-9 * max(l1, l2):  # equal sides: the smaller yaw
-        (long_, width, depth) = (e1, l1, l2) if _yaw_of(*e1) <= _yaw_of(*e2) else (e2, l2, l1)
+    ring = list(hull.exterior.coords)[:-1]
+    edges = [(round(math.atan2(y1 - y0, x1 - x0) % (math.pi / 2), 9), math.hypot(x1 - x0, y1 - y0))
+             for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1])]
+    best: tuple[float, ...] | None = None  # (area, -aligned length, angle, c, s, du, dv, centre along u, v)
+    for t in sorted({e[0] for e in edges}):
+        c, s = math.cos(t), math.sin(t)
+        us = [x * c + y * s for x, y in ring]
+        vs = [-x * s + y * c for x, y in ring]
+        du, dv = max(us) - min(us), max(vs) - min(vs)
+        a = du * dv
+        along = sum(n for e, n in edges if abs(e - t) <= 1e-6 or abs(abs(e - t) - math.pi / 2) <= 1e-6)
+        if best is None or a < best[0] * (1 - 1e-9) or (a <= best[0] * (1 + 1e-9) and -along < best[1] - 1e-9):
+            best = (a, -along, t, c, s, du, dv, (max(us) + min(us)) / 2, (max(vs) + min(vs)) / 2)
+    rect_area, _, _, c, s, du, dv, mu, mv = best  # type: ignore[misc]
+    cx, cy = mu * c - mv * s, mu * s + mv * c
+    if abs(du - dv) <= 1e-9 * max(du, dv):  # equal sides: the smaller yaw
+        width, depth = du, dv
+        yaw = min(_yaw_of(c, s), _yaw_of(-s, c))
+    elif du > dv:
+        width, depth, yaw = du, dv, _yaw_of(c, s)
     else:
-        (long_, width, depth) = (e1, l1, l2) if l1 > l2 else (e2, l2, l1)
-    return Box(rect.centroid.x, rect.centroid.y, width, depth, _yaw_of(*long_), min(1.0, area / rect.area))
+        width, depth, yaw = dv, du, _yaw_of(-s, c)
+    return Box(cx, cy, width, depth, yaw, min(1.0, area / rect_area))
 
 
 def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, Any],

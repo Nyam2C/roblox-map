@@ -76,7 +76,8 @@ def test_a_bad_key_input_is_refused(bad):
 def test_the_prompt_carries_the_exact_text_the_colors_and_nothing_secret(text, bg, ink):
     p = R.sign_prompt(text, bg, ink)
     assert f'"{text}"' in p and R.PALETTE_WORDS[bg] in p and R.PALETTE_WORDS[ink] in p
-    assert "key" not in p.lower() and "http" not in p and "rbxasset" not in p
+    assert not any(w in p.lower() for w in ("api_key", "api key", "openai", "bearer", "secret")) and "http" not in p and "rbxasset" not in p
+    # ("key" alone is allowed: the piano school's icon is "a few piano keys")
     icon = R.sign_icon(text)
     assert (icon in p) if icon else ("icon" not in p)
 
