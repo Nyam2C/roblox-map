@@ -1454,3 +1454,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 4번 칸 검증 보충, 가로 규칙 수정
 
 ---
+
+## 외관 공통 문제 넷과 스트리밍
+**Timestamp**: 2026-10-14T06:05:17Z
+**User Request**: "둘 다 ㄱㄱ" (외관 공통 문제 1~4 수정, 스트리밍 켜기) / 중간에 "되면 이번에 만든거 기준으로 3칸 더 만들어봐라"
+**AI Response**: 규칙 넷(details_rules.single_business·is_officetel, layout_details shop_sides·_side_shop_fronts·벽돌 기단 bs·오피스텔 기둥 op, 한 업체 가게 한 칸), 랜드마크 기단 세부 판단을 brick으로 보정(거리뷰 #1 E 테라코타). 테스트 698(+6), 시드 1~3. 네 칸 재생성·Studio 반영 verify ok, 거리뷰 재대조(다운타운빌딩 옆면 가게, 맥도날드 간판 하나, 메디타워 벽돌 기단, 트리플타워 격자, 가전 매장 층 간판 없음). 스트리밍: StreamingEnabled, Builder LevelOfDetail StreamingMesh(교체), 랜드마크 탑 Persistent Model; Play에서 칸별 부품이 위치 따라 바뀌는 것 확인, 콘솔 오류 없음. FPS는 창이 뒤라 무효. 다음: 새 3칸(177, 107, 173).
+**Context**: CONSTRUCTION - 4번 칸 후속, 스트리밍(architecture 6.2)
+
+---

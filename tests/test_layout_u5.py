@@ -827,3 +827,56 @@ def test_a_divided_road_gets_no_median_sidewalk_and_no_sidewalk_lies_on_another_
         if "#lamp" in i.name or "#curb" in i.name:
             pt = Point(i.cx / S, -i.cz / S)
             assert all(g.distance(pt) > 0.05 for f, g in ways.items() if f != i.name.split("#")[0]), i.name
+
+
+# --- cell 4 street-view review (2026-10-14): corner shops, single business, brick base, officetel ---------------------------------
+
+SHOP = {"finish": "panel", "ground_use": "shop", "stair": "none", "bay": 0, "balcony": 0, "roof_color": "dark", "rooftop": "none"}
+
+
+def test_a_corner_shop_block_gets_storefronts_and_band_signs_on_the_side_street_too():
+    row, est, _ = villa(w=24.0, d=20.0, floors=6, wall="light_gray", code="04000", center=offset(CENTER, 0, 4 + 10))  # front 1 m off the road
+    side_road = {"feature_id": "way:5", "kind": "road", "highway_class": "residential", "tags": {},
+                 "geometry": [list(offset(CENTER, 17, -10)), list(offset(CENTER, 17, 60))]}  # north-south, 5 m east of the block
+    body, eff = resolve(row, est, SHOP, features=[street(), side_road])
+    assert body.side_shops and all(s != body.facing.side for _, s in body.side_shops)
+    items, labels, _ = all_items(body, row, eff, )
+    side = body.side_shops[0][1]
+    assert any(tail(i).startswith(f"ss0{side}") for i in items) and any(tail(i).startswith(f"sgs0{side}") for i in items)
+    assert not any(tail(i).startswith(f"rb0{side}0-") for i in items)  # no window ribbon behind the side storefront
+    lone, eff2 = resolve(row, est, SHOP, features=[street()])
+    assert lone.side_shops == ()
+
+
+def test_a_single_business_has_one_name_and_no_floor_signs():
+    row, est, _ = villa(w=24.0, d=20.0, floors=5, wall="light_gray", code="03000", name="LG베스트샵")
+    body, eff = resolve(row, est, SHOP, features=[street()])
+    assert body.single
+    items, _, _ = all_items(body, row, eff)
+    assert not [i for i in items if tail(i).startswith("sgf")] and len([i for i in items if tail(i).startswith("sg") and not tail(i).startswith(("sgf", "sgs"))]) == 1
+    assert len([i for i in items if re.fullmatch(r"sf\d+", tail(i))]) == 1  # one storefront across
+    other, eff2 = resolve(*villa(w=24.0, d=20.0, floors=5, wall="light_gray", code="03000", name="동화빌딩")[:2], SHOP, features=[street()])
+    assert not other.single and [i for i in all_items(other, row, eff2)[0] if tail(i).startswith("sgf")]
+
+
+def test_a_tall_brick_shop_block_is_panel_above_a_two_floor_brick_base():
+    row, est, _ = villa(w=24.0, d=20.0, floors=10, wall="red_brick", code="03000")
+    body, eff = resolve(row, est, {**SHOP, "finish": "brick"}, features=[street()])
+    assert body.base == "red_brick" and body.wall_color == "light_gray"
+    items, _, _ = all_items(body, row, eff)
+    base = [i for i in items if tail(i) == "bs0"]
+    assert len(base) == 1 and base[0].material == "Brick" and base[0].sy == pytest.approx(2 * body.fh * S, rel=1e-3)
+    assert [i for i in items if i.kind == "building"][0].attrs["WallColor"] == "light_gray"
+    low, _ = resolve(*villa(w=24.0, d=20.0, floors=4, wall="red_brick", code="03000")[:2], {**SHOP, "finish": "brick"}, features=[street()])
+    assert low.base is None and low.wall_color == "red_brick"
+
+
+@pytest.mark.parametrize("floors, name, piers", [(15, "", True), (9, "", False), (10, "리치타운 오피스텔", True)])
+def test_an_officetel_gets_full_height_piers_above_its_shop_base(floors, name, piers):
+    row, est, _ = villa(w=30.0, d=18.0, floors=floors, wall="beige", code="14000", name=name)
+    body, eff = resolve(row, est, SHOP, features=[street()])
+    items, _, _ = all_items(body, row, eff)
+    ps = [i for i in items if tail(i).startswith("op")]
+    assert bool(ps) == piers
+    for i in ps:
+        assert (i.cy - i.sy / 2) / S == pytest.approx(3 * body.fh, abs=1e-2)

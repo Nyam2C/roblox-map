@@ -167,6 +167,7 @@ function Builder.add(cellId, items, looks, root)
 				model = Instance.new("Model")
 				model.Name = owner
 				model.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
+				model.LevelOfDetail = Enum.ModelLevelOfDetail.StreamingMesh -- a stand-in mesh beyond the streaming radius: the skyline stays (architecture 6.2)
 				model.Parent = cell.Buildings
 			end
 			return model

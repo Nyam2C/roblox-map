@@ -173,10 +173,10 @@
       "balcony": 0,
       "bay": 0,
       "building_id": "gis:11778185",
-      "finish": "panel",
+      "finish": "brick",
       "ground_use": "shop",
-      "judged_at": "2026-10-14T05:01:43+00:00",
-      "note": "podium shops, very tall towers above",
+      "judged_at": "2026-10-14T05:53:30+00:00",
+      "note": "corrected 2026-10-14 by Claude from street view #1 E: terracotta brick on the two lowest podium floors, grey panel above; towers are Manual",
       "roof_color": "dark",
       "rooftop": "none",
       "stair": "none"

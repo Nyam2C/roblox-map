@@ -139,7 +139,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 ## 현재 상태
 
-- **4번 칸 신중동역(2026-10-14)**: `8930e0af10fffff`(1번 칸 서쪽, 1급, 건물 20개: 49층 랜드마크 푸르지오 시티, 백화점, 업무·오피스텔)를 사이클로 만들었다. Auto 2,821부품(verify ok) + `Manual/Landmark`(탑 2동 124부품). 새 규칙: 지하 시설(역사·지하주차장)은 안 만듦, 판매시설 5층 이상은 `store` 유형, 지하철 출입구 키트(4번 칸 3·4·5·6번, 1번 칸 7번; 1·2번은 남쪽 칸 `8930e0af177ffff`), Builder 투명도 키 `tr`. 걷기 FPS는 아직(사용자 Play 필요).
+- **4번 칸 신중동역(2026-10-14)**: `8930e0af10fffff`(1번 칸 서쪽, 1급, 건물 20개: 49층 랜드마크 푸르지오 시티, 백화점, 업무·오피스텔)를 사이클로 만들었다. Auto 2,821부품(verify ok) + `Manual/Landmark`(탑 2동 124부품). 새 규칙: 지하 시설(역사·지하주차장)은 안 만듦, 판매시설 5층 이상은 `store` 유형, 지하철 출입구 키트(4번 칸 3·4·5·6번, 1번 칸 7번; 1·2번은 남쪽 칸 `8930e0af177ffff`), Builder 투명도 키 `tr`. 외관 규칙 넷(옆면 가게, 한 업체 건물, 벽돌 기단, 오피스텔 격자)과 도로·인도 겹침 정리를 네 칸에 반영. **스트리밍 켬(2026-10-14)**: `StreamingEnabled`, 건물 Model Atomic + `LevelOfDetail = StreamingMesh`, 랜드마크 탑 Persistent, 반경은 기본값(도구로 못 바꿈). 걷기 FPS는 아직(Studio 창이 앞에 있어야 함).
 - **U7 끝(2026-10-14)**: 세 칸 모두 새 사이클로 Studio에 있다(1번 7,169 + 수작업, 2번 8,158, 3번 6,008, 모두 verify, 걷기 60 FPS). 사이클에 들어간 것: 외곽선 따르는 박스(P5-3 고침), 수작업 기준점(`anchors.py`), 학교 운동장 키트(`fields.py`), 간판 재사용, 나무 메시 키트(`ServerStorage/Kits`), 위성 지붕 색(`roofs.py`), 큰 지도 출처 표시, 조명 그늘 보정. 외관 품질(L)은 다른 세션이 계속 다듬는다.
 - U7 단계 3·4(내부)는 취소하고 코드를 지웠다(2026-10-14). 남은 것: Builder가 건물마다 Model(Atomic), 칸의 땅·도로는 `Base`(Persistent), 종류별 개수는 칸 속성 `Made_<kind>`(스트리밍 대비). Studio `ServerStorage/MapBuilder`는 단계 4의 Builder(내부 키가 있던 판, 내부 항목이 없으면 같은 동작), 예전 것은 `MapBuilder_U5`로 남김. 실제 지도 칸(1·3번)은 예전 Builder로 만든 그대로(단계 7에 다시 만듦).
 

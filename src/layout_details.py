@@ -259,6 +259,10 @@ class Body:
     occluded: tuple[frozenset[str], ...] = ()
     far: bool = False
     warnings: tuple[str, ...] = ()
+    single: bool = False  # one business: one name across the front, no floor signs (2026-10-14)
+    officetel: bool = False  # punched-window grid above the shop base (2026-10-14)
+    base: str | None = None  # wall colour of a two-floor brick base under a panel body (2026-10-14)
+    side_shops: tuple[tuple[int, str], ...] = ()  # other faces of a shop block that front a road: storefront and band signs too
 
     @property
     def shop(self) -> bool:
@@ -295,13 +299,23 @@ def make_body(building: Mapping[str, Any], eff: Any, detail: Mapping[str, Any] |
                and single.width_m <= D["body_max_ratio"] * single.depth_m)
     wall_rgb = tuple(int(c) for c in (cfg["wall_colors"].get(eff.wall_color) or cfg["wall_colors"][R.DEFAULT_WALL if hasattr(R, "DEFAULT_WALL") else "light_gray"]))
     merged = R.merged_details(detail, note, eff.wall_color, archetype)
+    tags = building.get("osm_tags") if isinstance(building.get("osm_tags"), Mapping) else {}
+    wall_color, material, base = eff.wall_color, R.wall_material(merged["finish"], eff.wall_color), None
+    if archetype == "commercial" and floors >= R.BASE_MIN_FLOORS and merged["finish"] == "brick":
+        base = eff.wall_color if eff.wall_color in ("red_brick", "brown", "orange") else "red_brick"  # brick only on the base
+        wall_color = "light_gray"
+        material = R.wall_material("panel", wall_color)
+        wall_rgb = tuple(int(c) for c in cfg["wall_colors"][wall_color])
     names = (bid,) if len(boxes) == 1 else tuple(f"{bid}#b{i}" for i in range(len(boxes)))
     warnings: list[str] = []
     if is_body and fh < D["min_fh"]:
         warnings.append(f"{bid}: floor height {fh:.2f} m is below {D['min_fh']} m, no windows")
-    return Body(bid, archetype, is_body, tuple(boxes), names, floors, fh, float(eff.height_m), eff.wall_color, wall_rgb,  # type: ignore[arg-type]
-                R.wall_material(merged["finish"], eff.wall_color), merged, eff.roof_shape, building.get("name") or "",
-                building.get("usability_code") or "", warnings=tuple(warnings))
+    return Body(bid, archetype, is_body, tuple(boxes), names, floors, fh, float(eff.height_m), wall_color, wall_rgb,  # type: ignore[arg-type]
+                material, merged, eff.roof_shape, building.get("name") or "",
+                building.get("usability_code") or "", warnings=tuple(warnings),
+                single=archetype == "commercial" and R.single_business(building.get("name"), tags),
+                officetel=archetype == "commercial" and R.is_officetel(building.get("usability_code"), building.get("name"), tags, floors),
+                base=base)
 
 
 # --- the road-facing side, occlusion and free spans (BR-5) -----------------------------------------------------------
@@ -362,7 +376,29 @@ def resolve_body(body: Body, lines: Sequence[tuple[str, LineString, float, Mappi
     import dataclasses
     front, facing = facing_of(body, lines, cfg) if body.is_body else (0, None)
     body = dataclasses.replace(body, front=front, facing=facing, far=bool(facing and facing.setback > D["far_facing"]))
-    return dataclasses.replace(body, occluded=tuple(occluded_faces(body, i, others, cfg) for i in range(len(body.boxes))))
+    body = dataclasses.replace(body, occluded=tuple(occluded_faces(body, i, others, cfg) for i in range(len(body.boxes))))
+    return dataclasses.replace(body, side_shops=shop_sides(body, lines))
+
+
+def shop_sides(body: Body, lines: Sequence[tuple[str, LineString, float, Mapping[str, Any]]]) -> tuple[tuple[int, str], ...]:
+    """The other faces of a commercial shop block that front a road or footpath (setback at most side_shop_max, the face turned toward it): they
+    get storefronts and band signs like the facing face. A corner block downtown has shops on every street (cell 4, 2026-10-14)."""
+    if body.facing is None or not body.shop or body.archetype != "commercial":
+        return ()
+    roads = [(line, width) for _, line, width, f in lines]  # roads and footpaths: downtown shops face wide pavements and plazas
+    out = []
+    for bi, box in enumerate(body.boxes):
+        for side in SIDES:
+            if (bi, side) == (body.front, body.facing.side) or side in body.occluded[bi]:
+                continue
+            face = face_of(box, side)
+            if face.length < D["side_shop_min"]:
+                continue
+            pt = Point(*_world(box, *face.c))
+            out_pt = Point(*_world(box, face.c[0] + face.n[0] * 2.0, face.c[1] + face.n[1] * 2.0))
+            if any(line.distance(pt) - width / 2 <= D["side_shop_max"] and line.distance(out_pt) < line.distance(pt) for line, width in roads):
+                out.append((bi, side))
+    return tuple(out)
 
 
 def _blocked(body: Body) -> list[tuple[float, float]]:
@@ -567,7 +603,7 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                         seq += 1
                 else:
                     rh = min(D["ribbon_school_h"] if body.archetype == "school" else D["ribbon_h"], 0.5 * fh)
-                    if is_front and k == 0 and (body.shop or body.archetype == "public"):
+                    if k == 0 and ((is_front and (body.shop or body.archetype == "public")) or (bi, side) in body.side_shops):
                         continue
                     ranges = spans if is_front else [(-L / 2 + D["ribbon_inset"] / 2, L / 2 - D["ribbon_inset"] / 2)]
                     for j, (s0, s1) in enumerate(ranges):
@@ -576,6 +612,18 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
                         items.append(_wall_part(frame, body, bi, side, "facade", f"rb{bi}{side}{k}-{j}", seq, (s0 + s1) / 2, k * fh + D["ribbon_sill"],
                                                 D["win_out"], (s1 - s0, rh, win_t), **glass))
                         seq += 1
+            if body.officetel and F > D["otel_base"]:  # full-height piers in front of the ribbons above the shop base: punched windows
+                y0, out = D["otel_base"] * fh, D["win_out"] + 0.05
+                n = max(2, int(L // D["otel_pitch"]))
+                for j in range(1, n):
+                    items.append(_wall_part(frame, body, bi, side, "facade", f"op{bi}{side}{j}", seq, L * j / n - L / 2, y0, out,
+                                            (D["otel_pier_w"], H - y0, out), material=body.material, color=body.wall_rgb, color_name=body.wall_color))
+                    seq += 1
+    if body.base and body.is_body:  # the brick base of a panel block: a skin over the two lowest floors, under windows and shopfronts
+        bo, rgb = D["base_out"], tuple(int(c) for c in cfg["wall_colors"][body.base])
+        items.append(_box_part(frame, body, bi, "facade", f"bs{bi}", seq, 0.0, 0.0, 0.0, (w + 2 * bo, min(D["base_floors"], F) * fh, d + 2 * bo),
+                               material="Brick", color=rgb, color_name=body.base))
+        seq += 1
     if flat and body.archetype == "apartment":  # BR-6.5 crown: a parapet round the roof, above the cap
         ch, ct = D["apt_crown_h"], D["apt_crown_t"]
         for i, (su, sv, size) in enumerate(((0, -1, (w + lip, ch, ct)), (0, 1, (w + lip, ch, ct)), (-1, 0, (ct, ch, d + lip - 2 * ct)),
@@ -823,7 +871,7 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
         else:
             s0, s1 = span
             Lf = s1 - s0
-            units = 1 if body.archetype == "villa" else max(1, min(int(D["shop_units_max"]), int(Lf // D["shop_unit_m"])))
+            units = 1 if body.archetype == "villa" or body.single else max(1, min(int(D["shop_units_max"]), int(Lf // D["shop_unit_m"])))
             uw = Lf / units
             for u in range(units):
                 a0, a1 = s0 + uw * u + D["front_gap"] / 2, s0 + uw * (u + 1) - D["front_gap"] / 2
@@ -878,6 +926,37 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
         items.append(_wall_part(frame, body, bi, side, "facade", "gs0", seq, 0.0, D["gas_y"], go, (L, D["gas_dia"], D["gas_dia"]), **gas))
         items.append(_wall_part(frame, body, bi, side, "facade", "gs1", seq + 1, -L / 2 + D["gas_along"], 0.0, go, (D["gas_dia"], D["gas_y"], D["gas_dia"]), **gas))
         seq += 2
+    items += _side_shop_fronts(body, frame, seq + 100)
+    return items
+
+
+def _shop_units(body: Body, L: float) -> list[tuple[float, float]]:
+    """(start, end) of the shop units across a side face (whole face but the margins; one unit for a single business)."""
+    s0, s1 = -L / 2 + D["span_margin"], L / 2 - D["span_margin"]
+    units = 1 if body.single else max(1, min(int(D["shop_units_max"]), int((s1 - s0) // D["shop_unit_m"])))
+    uw = (s1 - s0) / units
+    return [(s0 + uw * u, s0 + uw * (u + 1)) for u in range(units)]
+
+
+def _side_shop_fronts(body: Body, frame: Frame, seq: int) -> list[Item]:
+    """Storefronts and an eyebrow on the other road-facing faces of a shop block (shop_sides)."""
+    items: list[Item] = []
+    fh = body.fh
+    for bi, side in body.side_shops:
+        L = face_of(body.boxes[bi], side).length
+        units = _shop_units(body, L)
+        for u, (a0, a1) in enumerate(units):
+            a0, a1 = a0 + D["front_gap"] / 2, a1 - D["front_gap"] / 2
+            look = SHOP_FRONTS[R.pick(f"{body.building_id}#ss{bi}{side}{u}", "front", len(SHOP_FRONTS))]
+            if a1 - a0 > 0.3:
+                items.append(_wall_part(frame, body, bi, side, "facade", f"ss{bi}{side}{u}", seq, (a0 + a1) / 2, D["front_y"], D["win_out"],
+                                        (a1 - a0, fh - D["front_drop"], D["front_t"]), material=look[0], color=R.PALETTE[look[1]],
+                                        color_name=look[1], reflectance=look[2]))
+            seq += 1
+        Lf = units[-1][1] - units[0][0]
+        items.append(_wall_part(frame, body, bi, side, "facade", f"es{bi}{side}", seq, 0.0, fh - D["eyebrow_drop"], D["eyebrow_d"],
+                                (Lf - D["eyebrow_gap"], D["eyebrow_h"], D["eyebrow_d"]), material="Metal", color=R.PALETTE["eyebrow"], color_name="eyebrow"))
+        seq += 1
     return items
 
 
@@ -970,14 +1049,26 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
         if span is not None and span[1] - span[0] >= D["span_min"]:
             s0, s1 = span
             Lf = s1 - s0
-            units = 1 if body.archetype == "villa" else max(1, min(int(D["shop_units_max"]), int(Lf // D["shop_unit_m"])))
+            units = 1 if body.archetype == "villa" or body.single else max(1, min(int(D["shop_units_max"]), int(Lf // D["shop_unit_m"])))
             uw = Lf / units
             for u in range(units):
                 text = _name(body, str(u), "gf", 0)
                 bg, ink = _sign_colors(body, str(u), text[-2:] if text.endswith("약국") else text[-3:])
                 # the band sign hangs below the first floor line, on the ground floor's top, so it never meets the floor-1 sign (seen in S-10)
                 sign(f"sg{u}", s0 + uw * (u + 0.5), fh - D["sign_drop"] - D["sign_h"], D["sign_out"], (uw - D["front_gap"], D["sign_h"], D["sign_t"]), text, bg, ink, "F", 300)
-        if body.archetype == "commercial" and F >= int(D["sign_floor_min_floors"]):
+        for bi2, side2 in body.side_shops:  # band signs on the other road-facing faces (2026-10-14)
+            L2 = face_of(body.boxes[bi2], side2).length
+            for u, (a0, a1) in enumerate(_shop_units(body, L2)):
+                slot = "0" if body.single else f"s{bi2}{side2}{u}"  # a single business shows its one name on every street
+                text = _name(body, slot, "gf", 0)
+                bg, ink = _sign_colors(body, slot, text[-2:] if text.endswith("약국") else text[-3:])
+                items.append(_wall_part(frame, body, bi2, side2, "sign", f"sgs{bi2}{side2}{u}", seq, (a0 + a1) / 2, fh - D["sign_drop"] - D["sign_h"],
+                                        D["sign_out"], (a1 - a0 - D["front_gap"], D["sign_h"], D["sign_t"]), material="SmoothPlastic",
+                                        color=R.PALETTE[bg], color_name=bg, text=text, ink=ink, faces="F", attrs={"MaxDistance": 300}))
+                texts.append(text)
+                labels += 1
+                seq += 1
+        if body.archetype == "commercial" and not body.single and F >= int(D["sign_floor_min_floors"]):
             p = max(1, min(int(D["sign_floor_max_panels"]), int(L // D["sign_floor_pitch"])))
             pw = L / p
             for k in range(1, min(F - 1, int(D["sign_floor_max_office"] if office else D["sign_floor_max"])) + 1):
@@ -987,7 +1078,7 @@ def sign_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list[
                     bg, ink = _sign_colors(body, slot, text[-3:])
                     sign(f"sgf{k}-{i}", pw * (i + 0.5) - L / 2, k * fh + D["sign_floor_y"], D["sign_out"], (pw - D["front_gap"], D["sign_floor_h"], D["sign_t"]),
                          text, bg, ink, "F", 200)
-        proj = ((L / 4, 1.5 * fh, "gf"), (-L / 4, 2.5 * fh, "upper")) if body.archetype == "commercial" else ((L / 2 - D["proj_along_in"], 1.5 * fh, "gf"),)
+        proj = ((L / 4, 1.5 * fh, "gf"), (-L / 4, 2.5 * fh, "upper")) if body.archetype == "commercial" and not body.single else ((L / 2 - D["proj_along_in"], 1.5 * fh, "gf"),)
         for i, (a, y, where) in enumerate(proj):
             text = _name(body, f"p{i}", where, 1 if where == "upper" else 0)
             bg, ink = _sign_colors(body, f"p{i}", text[-3:])
@@ -1029,7 +1120,7 @@ def box_items(body: Body, building: Mapping[str, Any], eff: Any, frame: Frame) -
         sy = body.height_m * s
         attrs: dict[str, Any] = {"BuildingId": body.building_id, "CellId": str(building["cell_id"]), "Source": str(building["source"]),
                                  "HeightM": fmt(body.height_m), "FitRatio": fmt(box.fit_ratio), "HeightBasis": eff.height_basis,
-                                 "WallColor": eff.wall_color}
+                                 "WallColor": body.wall_color}  # the body's (a brick-base block is panel above, 2026-10-14)
         if eff.floors_above:
             attrs["Floors"] = int(eff.floors_above)
         if eff.floors_basis:

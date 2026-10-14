@@ -12,7 +12,12 @@ if not manual then manual = Instance.new("Folder") manual.Name = "Manual" manual
 local root = manual:FindFirstChild("Landmark")
 if not root then root = Instance.new("Folder") root.Name = "Landmark" root.Parent = manual end
 local made = 0
-local function folder(n) local f = Instance.new("Folder") f.Name = n if not root:FindFirstChild(n) then f.Parent = root end return f end
+-- a tower is a Persistent Model: a landmark seen from the whole map even with streaming on (architecture 6.2)
+local function folder(n)
+	local f = Instance.new("Model") f.Name = n f.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+	if not root:FindFirstChild(n) then f.Parent = root end
+	return f
+end
 local function part(parent, name, cf, size, material, color, extra)
 	local p = Instance.new("Part")
 	p.Name = name p.Anchored = true
