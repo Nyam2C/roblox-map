@@ -1694,3 +1694,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 수작업 시설 + 확장 사이클
 
 ---
+
+## Places per Gu, Teleport at Gu Borders, Mesh Kits Keep the Detail
+**Timestamp**: 2026-10-14T18:47:32Z
+**User Request**: "부천 다 넣기는 빡셈?" / "근데 딱 지금 정도 디테일 유지하고 싶으면?" / "텔레포트로 하면 어떤 차이가 있지?" / "근데 텔레포트 방식은 살짝 짜칠거 같은데" / "잠깐 부천 전지역 지도 줘봐" / "ㄴㄴ 지금 지도 현황보고 갱신해봐" / "그럼 궁금한게 3구역으로해서 텔레포트를 한다고 했을 때 텔레포트는 어떤식이야?" / "로딩이랑 사람정도는 괜찮은거 같아 그러니까 저 구끼리 맡닿는 면이다 텔레포트란거잖아 그럼 충분해 그럼 18칸도 다 매쉬 적용인가? 그래도 지금 디테일을 살릴 수 있어?" / "그럼 이 사항을 방금까지 작업한 세션에게 전달 가능한가?"
+**AI Response**: Drew all of Bucheon from OSM (city and three gu): 752 res-9 cells (0.072 km² here, not the 0.105 global mean); src/progress.py renders the progress map (18 built, 1 judged, 2 collected; Studio about 159k parts, 8,845 a cell). Explained the teleport design (one Experience, a place per gu, border triggers, TeleportData with position and scooter, the same origin so arrival at the same coordinates, 1-2 cells of overlap, custom loading screen). User decision: three gu places with teleport at shared borders; the 18 cells have meshes only for tree crowns; the detail is kept and repeated pieces become mesh kits (glass and frame meshes by size bucket, street furniture sets; walls and signs stay parts) because Wonmi alone would be about 2.5M parts. Recorded in CLAUDE.md; sent to the cell-expansion session and the L session.
+**Context**: CONSTRUCTION - scale planning after U7.
+
+---
