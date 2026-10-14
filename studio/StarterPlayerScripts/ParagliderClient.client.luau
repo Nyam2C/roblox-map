@@ -1,5 +1,6 @@
 -- Paraglider (2026-10-15, user: "공중에서 f 누르면 패러글라이딩 있어서 날라다닐 수 있게"). LocalScript in StarterPlayerScripts.
--- F while in the air at least MIN_HEIGHT over the ground (not from a jump; on the kick scooter too, user 2026-10-15): the canopy opens (the server shows it to all) and
+-- F while in the air at least MIN_HEIGHT over the ground (not from a jump). On the kick scooter (off a ramp) F gets off the scooter
+-- first and then opens the canopy (user 2026-10-15: "킥보드는 내려야해"): the canopy opens (the server shows it to all) and
 -- the character glides: forward at GLIDE studs/s toward where you steer (WASD / stick, camera-relative; no input keeps the heading),
 -- sinking SINK studs/s, turning at most TURN degrees a second. F again closes it and you fall; reaching the ground (or a roof) closes it.
 -- The client owns its character, so a LinearVelocity on the root here moves it for everyone.
@@ -22,10 +23,6 @@ local function stop()
 	state.lv:Destroy()
 	state.att:Destroy()
 	state = nil
-	local char = player.Character
-	if char then
-		char:SetAttribute("Gliding", nil)
-	end
 	if remote then
 		remote:FireServer(false)
 	end
@@ -49,6 +46,12 @@ local function start()
 	end
 	if heightOver(root, char) < MIN_HEIGHT then -- a ray, not FloorMaterial: that one lags a frame or more after a teleport
 		return
+	end
+	if char:GetAttribute("Riding") == true then -- off the scooter first; the server takes it away
+		local toggle = ReplicatedStorage:FindFirstChild("ScooterToggle")
+		if toggle then
+			toggle:FireServer()
+		end
 	end
 	local standing = hum.HipHeight + root.Size.Y / 2 + 0.6
 	local att = Instance.new("Attachment")
@@ -87,7 +90,6 @@ local function start()
 		lv.VectorVelocity = state.heading * GLIDE + Vector3.new(0, -SINK, 0)
 		root.CFrame = CFrame.lookAt(root.Position, root.Position + state.heading)
 	end)
-	char:SetAttribute("Gliding", true) -- this client only: ScooterClient stops driving while it is set
 	if remote then
 		remote:FireServer(true)
 	end

@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["h3==4.5.0", "shapely==2.2.0"]
+# dependencies = ["h3==4.5.0", "shapely==2.2.0", "numpy==2.5.4", "scipy==1.18.1"]
 # ///
 """C6: turn one cell's buildings and streets into Luau chunk files for the Studio builder.
 
@@ -39,6 +39,7 @@ import judgement
 import layout
 import layout_details
 import streets
+import terrain
 import tiers
 
 BUILD_DIR = "data/build"
@@ -117,6 +118,10 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
         if item.kit not in kits.MESH_IDS:
             raise ValueError(f"not a kit: {item.kit!r}")
         parts.append(f"kt={luau_string(item.kit)}")
+    if item.tilt_x:
+        parts.append(f"ax={luau_number(item.tilt_x)}")
+    if item.tilt_z:
+        parts.append(f"az={luau_number(item.tilt_z)}")
     if item.reflectance:
         parts.append(f"j={luau_number(item.reflectance)}")
     if item.transparency:
@@ -181,7 +186,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               details: Mapping[str, Mapping[str, Any]] | None = None, sign_assets: Mapping[str, int] | None = None,
               sat_trees: Sequence[Sequence[float]] | None = None, tier: int = 1,
               sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None,
-              roof_tops: Mapping[str, str] | None = None, under_trees: set[str] | None = None) -> Plan:
+              roof_tops: Mapping[str, str] | None = None, under_trees: set[str] | None = None,
+              ground: "terrain.Ground | None" = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
@@ -311,6 +317,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     if cfg.get("spawn_lat") is None:
         warnings.append("no spawn point configured (spawn_lat, spawn_lon): no spawn is built")
     items, sign_images, signs_reused = apply_sign_images(items, sign_assets or {}, sign_library or [])
+    items = terrain.lift(items, ground)  # 2026-10-15: onto the street-view ground heights (flat when the region has none)
     items = layout.order_items(items)
     chunks = layout.chunk_items(items, cfg["chunk_size"])
     files = {f"chunk-{n:03d}.luau": render_chunk(cell_id, n, len(chunks), c) for n, c in enumerate(chunks, 1)}
@@ -339,7 +346,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
                                                 "pole_spacing_m", "lamp_spacing_m", "tree_spacing_m", "car_spacing_m", "school_zone_m",
                                                 "roof_pitch_deg", "window_faces")}}
     files["manifest.json"] = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
-    files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids)
+    slab = next(i for i in items if i.kind == "ground")
+    land = ground.window(slab.cx - slab.sx / 2, slab.cx + slab.sx / 2, slab.cz - slab.sz / 2, slab.cz + slab.sz / 2) if ground else None
+    files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids, land)
     return Plan(cell_id, items, files, counts, warnings)
 
 
@@ -415,7 +424,7 @@ def load_sign_library(cfg: Mapping[str, Any], cell_id: str) -> list[dict[str, An
 PAIR = re.compile(r'(\w+)=("([^"]*)"|-?\d+(?:\.\d+)?)')
 
 
-def chunks_json(cell_id: str, chunk_texts: Sequence[str], building_ids: Sequence[str]) -> str:
+def chunks_json(cell_id: str, chunk_texts: Sequence[str], building_ids: Sequence[str], land: Mapping[str, Any] | None = None) -> str:
     """The chunk files as data (chunks.json) for the Studio HttpService path: read back from the Luau text, so both say the same."""
     def table(body: str) -> dict[str, Any]:
         return {k: s if raw.startswith('"') else (float(raw) if "." in raw else int(raw)) for k, raw, s in PAIR.findall(body)}
@@ -429,7 +438,10 @@ def chunks_json(cell_id: str, chunk_texts: Sequence[str], building_ids: Sequence
         for it in items:
             counts[it["k"]] = counts.get(it["k"], 0) + 1
         chunks.append({"looks": looks, "items": items})
-    return json.dumps({"cell_id": cell_id, "chunks": chunks, "counts": counts, "building_ids": list(building_ids)}, ensure_ascii=False)
+    body: dict[str, Any] = {"cell_id": cell_id, "chunks": chunks, "counts": counts, "building_ids": list(building_ids)}
+    if land is not None:  # the ground heights under the cell's slab for MapBuilder.terrain (2026-10-15)
+        body["terrain"] = land
+    return json.dumps(body, ensure_ascii=False)
 
 
 def write_plan(plan: Plan, root: Path) -> list[Path]:
@@ -485,7 +497,7 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier,
                      load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")),
                      roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")),
-                     streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")))
+                     streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")), terrain.ground_for(cfg))
     write_plan(plan, root)
     return plan
 
@@ -532,6 +544,12 @@ def main(cfg: dict[str, Any]) -> int:
             common.log(logging.ERROR, f"cell failed: {message}", cell_id)
             db.record_run(conn, cell_id=cell_id, unit="C6", started_at=started, finished_at=common.now_iso(), status="failed",
                           error=message)
+    # the region's ground for MapBuilder.settleManual (hand-made places sit on it too), 2026-10-15
+    ground = terrain.ground_for(common.cell_config(cfg, args.cells[0])) if args.cells else None
+    if ground is not None:
+        g = ground.coarse(16.0)
+        root.mkdir(parents=True, exist_ok=True)
+        (root / "terrain.json").write_text(json.dumps(g.window(g.x0, g.x0 + g.step * (g.nx - 1), g.z0, g.z0 + g.step * (g.nz - 1))), encoding="utf-8")
     common.log(logging.INFO, f"done: {len(args.cells) - failed} ok, {failed} failed")
     return 1 if failed else 0
 

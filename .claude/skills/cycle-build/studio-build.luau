@@ -11,6 +11,9 @@ for _, CELL in ipairs(CELLS) do
 	HS.HttpEnabled = was
 	if not ok then return "fetch failed: " .. tostring(body) end
 	local data = HS:JSONDecode(body)
+	if data.terrain then -- 2026-10-15: the ground heights first (Terrain), the parts already sit on them
+		Builder.terrain(data.terrain)
+	end
 	Builder.begin(CELL)
 	local created, skipped, slowest = 0, 0, 0
 	for _, ch in ipairs(data.chunks) do
@@ -32,5 +35,12 @@ for _, CELL in ipairs(CELLS) do
 	end
 	table.insert(out, string.format("%s created=%d skipped_manual=%d slowest=%.1fms verify=%s %s sunk_cylinders=%d",
 		CELL, created, skipped, slowest * 1000, tostring(v.ok), HS:JSONEncode(v.problems), sunk))
+end
+-- the hand-made places onto the ground too (data/build/terrain.json, written by build_luau.py)
+HS.HttpEnabled = true
+local okT, land = pcall(function() return HS:GetAsync("http://127.0.0.1:8765/terrain.json") end)
+HS.HttpEnabled = false
+if okT then
+	table.insert(out, "manual moved " .. Builder.settleManual(HS:JSONDecode(land)).moved)
 end
 return "http=" .. tostring(HS.HttpEnabled) .. "\n" .. table.concat(out, "\n")

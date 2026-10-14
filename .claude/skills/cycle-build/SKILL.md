@@ -62,7 +62,7 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 1. `get_studio_state` → Edit인지. Play면 멈추고 기다린다.
 2. 큰 변경 전이면 사용자에게 `.rbxl` 복사본을 부탁한다.
 3. `cd data/build && python3 -m http.server 8765 --bind 127.0.0.1`(백그라운드).
-4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행. `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
+4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행(지형 `Builder.terrain` → 칸 → 수작업 `Builder.settleManual`까지 한 번에). 새 칸이면 먼저 `uv run src/elevation.py collect --region <구역>`으로 그 칸 거리뷰의 고도를 모은다(2026-10-15). `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. **미니맵·큰 지도 갱신**: Studio에 있는 칸을 모두 적어 `uv run src/minimap.py --cells <칸...>` → 같은 서버로 `minimap.luau`를 받아 `ReplicatedStorage/MinimapData`(ModuleScript)의 `Source`에 넣고, `install-u6.luau`(스크립트만)를 받아 임시 ModuleScript `Source`에 넣고 `require`(둘을 한 파일로 합치면 Studio `Source` 한도 200,000자를 넘는다)(칸을 만들거나 박스가 바뀔 때마다. 빠뜨리면 지도에 새 칸이 안 나온다).
 6. 서버를 내린다: `pkill -f "http.server 8765"`.
 7. 키트 메시(U7 H): Builder는 나무 수관을 `ServerStorage/Kits/crown-1`, `crown-2`(MeshPart)에서 복제한다. 없으면 `MapBuilder: kit ... is not in ServerStorage/Kits`로 멈춘다. 새 장소면 `data/kits/*.obj`(`uv run src/kits.py trees`)를 사용자가 홈 탭 Import로 가져오고, Claude가 MeshId가 `kits.MESH_IDS`와 같은지 본 뒤 그 MeshPart를 `ServerStorage/Kits/<이름>`으로 옮긴다. 새 메시를 올려야 하면 사용자에게 먼저 묻는다(검수).

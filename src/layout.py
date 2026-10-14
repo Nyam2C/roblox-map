@@ -123,6 +123,8 @@ class Item:
     shadow: bool | None = None
     collide: bool | None = None
     transparency: float = 0.0  # see-through glass (subway entrance walls), key tr
+    tilt_x: float = 0.0  # degrees about the part's own X after the yaw: a flat piece lying on sloping ground (terrain.py), key ax
+    tilt_z: float = 0.0  # degrees about its own Z, key az
     kit: str | None = None  # U7 H: the Builder clones ServerStorage/Kits/<kit> (a MeshPart) instead of making a Part (key kt)
 
     @property

@@ -34,7 +34,6 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 import common
-import panorama_source
 
 PAUSE_S = 1.0
 
@@ -63,6 +62,7 @@ def collect(cfg: Mapping[str, Any], region: str, limit: int, source: Any = None)
     have = load(path)
     conn = sqlite3.connect(common.resolve(cfg["db_path"]))
     todo = [(p, lat, lon) for p, lat, lon in conn.execute("select pano_id, lat, lon from captures order by pano_id") if p not in have]
+    import panorama_source  # late: the street-view adapter needs Pillow; build_luau reads heights without it
     src = source or panorama_source._Streetlevel()
     new, reason = 0, "done"
     for pid, lat, lon in todo:

@@ -1638,3 +1638,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 지형
 
 ---
+
+## 지형 반영, 패러글라이더 킥보드 하차
+**Timestamp**: 2026-10-14T16:11:29Z
+**User Request**: "ㄱㄱ" (지형 반영) / "아니야 킥보드 중에 패러글라이더를 누르면 킥보드는 내려야해"
+**AI Response**: src/terrain.py(높이 격자 8 stud, 기준 37 m): 건물·부속은 박스 아래 최저 높이만큼, 얇은 평판(도로·인도·표시·연석·횡단보도)은 땅 따라 기울임(ax·az), 점프대·출입구는 한 덩어리로, 나머지는 중심 높이만큼, 땅 판은 40 stud 내림. MapBuilder.terrain(칸마다 Terrain WriteVoxels, 부품보다 3 stud 아래), MapBuilder.settleManual(수작업 Model은 최저 높이, 낱 부품은 중심 높이, GroundLift 속성으로 다시 돌려도 차이만), data/build/terrain.json(구역 16 stud). 15칸 재생성 verify ok, 수작업 1,617개 이동. 검사: 도로·인도 위로 지형이 올라온 곳 0/236, 건물 바닥과 지형 틈 최대 2 stud. 패러글라이더: 킥보드 중 F → ScooterToggle로 내리고 펴기(Play 확인), 제자리 점프 F 안 펴짐 확인. 테스트 737.
+**Context**: CONSTRUCTION - 지형 / U6
+
+---

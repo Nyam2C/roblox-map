@@ -211,6 +211,9 @@ function Builder.add(cellId, items, looks, root)
 			end
 			part.Size = Vector3.new(it.w, it.h, it.d)
 			local cf = CFrame.new(it.x, it.y, it.z) * CFrame.Angles(0, math.rad(it.r), 0)
+			if it.ax or it.az then -- a flat piece lying on sloping ground (terrain.py, 2026-10-15)
+				cf = cf * CFrame.Angles(math.rad(it.ax or 0), 0, math.rad(it.az or 0))
+			end
 			if it.p == "Cylinder" then
 				cf = cf * CFrame.Angles(0, 0, math.rad(90)) -- a cylinder's length runs along X: stand it up (U5 BR-14.3)
 			end
@@ -376,6 +379,119 @@ function Builder.verify(cellId, expected, sampleNames, buildingIds, root)
 		end
 	end
 	return { ok = #problems == 0, problems = problems, folders = found, skipped_manual = skipped, samples = samples, unknown_manual = unknownManual }
+end
+
+-- Fills Terrain to the ground heights of a cell (chunks.json "terrain": x0, z0, step, nx, nz, h row-major by z), 2026-10-15.
+-- The surface sits SINK studs under the heights so the road and sidewalk parts on them stay on top: measured (2026-10-15) the terrain
+-- surface stands 1 to 2.5 studs above the written occupancy (it steps by 2 studs), so 3 keeps it 0.5 to 2 under the parts. Voxels
+-- below are Concrete in the old slab colour, above is Air. Neighbouring cells write the same heights where they overlap.
+local VOXEL, SINK, DEPTH = 4, 3, 16
+function Builder.terrain(land)
+	local T = workspace.Terrain
+	T:SetMaterialColor(Enum.Material.Concrete, Color3.fromRGB(130, 128, 125))
+	local nx, nz, step, hs = land.nx, land.nz, land.step, land.h
+	local function h(x, z)
+		local fx = math.clamp((x - land.x0) / step, 0, nx - 1)
+		local fz = math.clamp((z - land.z0) / step, 0, nz - 1)
+		local i, j = math.min(math.floor(fx), nx - 2), math.min(math.floor(fz), nz - 2)
+		local tx, tz = fx - i, fz - j
+		local a, b = hs[j * nx + i + 1], hs[j * nx + i + 2]
+		local c, d = hs[(j + 1) * nx + i + 1], hs[(j + 1) * nx + i + 2]
+		return (a * (1 - tx) + b * tx) * (1 - tz) + (c * (1 - tx) + d * tx) * tz
+	end
+	local lo, hi = math.huge, -math.huge
+	for _, v in hs do
+		lo, hi = math.min(lo, v), math.max(hi, v)
+	end
+	local x0 = math.floor(land.x0 / VOXEL) * VOXEL
+	local x1 = math.ceil((land.x0 + (nx - 1) * step) / VOXEL) * VOXEL
+	local z0 = math.floor(land.z0 / VOXEL) * VOXEL
+	local z1 = math.ceil((land.z0 + (nz - 1) * step) / VOXEL) * VOXEL
+	local y0 = math.floor((lo - SINK - DEPTH) / VOXEL) * VOXEL
+	local y1 = math.ceil((hi + VOXEL) / VOXEL) * VOXEL
+	local cx, cy = (x1 - x0) / VOXEL, (y1 - y0) / VOXEL
+	local written = 0
+	local ROWS = 24
+	for zs = z0, z1 - VOXEL, ROWS * VOXEL do
+		local ze = math.min(zs + ROWS * VOXEL, z1)
+		local cz = (ze - zs) / VOXEL
+		local mats, occs = table.create(cx), table.create(cx)
+		for ix = 1, cx do
+			local mx, ox = table.create(cy), table.create(cy)
+			for iy = 1, cy do
+				mx[iy], ox[iy] = table.create(cz), table.create(cz)
+			end
+			local x = x0 + (ix - 0.5) * VOXEL
+			for iz = 1, cz do
+				local top = h(x, zs + (iz - 0.5) * VOXEL) - SINK
+				for iy = 1, cy do
+					local bottom = y0 + (iy - 1) * VOXEL
+					local occ = math.clamp((top - bottom) / VOXEL, 0, 1)
+					mx[iy][iz] = occ > 0 and Enum.Material.Concrete or Enum.Material.Air
+					ox[iy][iz] = occ
+				end
+			end
+			mats[ix], occs[ix] = mx, ox
+		end
+		T:WriteVoxels(Region3.new(Vector3.new(x0, y0, zs), Vector3.new(x1, y1, ze)), VOXEL, mats, occs)
+		written += cx * cy * cz
+		task.wait()
+	end
+	return { voxels = written, low = lo, high = hi }
+end
+
+-- Moves the hand-made places (Workspace/Manual) onto the ground (2026-10-15). A Model (a tower, a pavilion, a dong) moves as one by
+-- the lowest ground under its box; a loose part (plaza pavers, park tiles) by the ground at its middle. The offset applied is kept
+-- in the attribute GroundLift, so running this again (or with new heights) moves only by the difference.
+function Builder.settleManual(land, root)
+	local base = rootOf(root)
+	local manual = base:FindFirstChild("Manual")
+	if not manual then
+		return { moved = 0 }
+	end
+	local nx, nz, step, hs = land.nx, land.nz, land.step, land.h
+	local function h(x, z)
+		local fx = math.clamp((x - land.x0) / step, 0, nx - 1)
+		local fz = math.clamp((z - land.z0) / step, 0, nz - 1)
+		local i, j = math.min(math.floor(fx), nx - 2), math.min(math.floor(fz), nz - 2)
+		local tx, tz = fx - i, fz - j
+		local a, b = hs[j * nx + i + 1], hs[j * nx + i + 2]
+		local c, d = hs[(j + 1) * nx + i + 1], hs[(j + 1) * nx + i + 2]
+		return (a * (1 - tx) + b * tx) * (1 - tz) + (c * (1 - tx) + d * tx) * tz
+	end
+	local moved = 0
+	local function move(obj, want)
+		local had = obj:GetAttribute("GroundLift") or 0
+		local dy = want - had
+		if math.abs(dy) > 1e-3 then
+			if obj:IsA("Model") then
+				obj:PivotTo(obj:GetPivot() + Vector3.new(0, dy, 0))
+			else
+				obj.CFrame += Vector3.new(0, dy, 0)
+			end
+			moved += 1
+		end
+		obj:SetAttribute("GroundLift", want)
+	end
+	local function walk(container)
+		for _, child in container:GetChildren() do
+			if child:IsA("Model") then
+				local cf, size = child:GetBoundingBox()
+				local low = math.huge
+				for _, d in ipairs({ { -1, -1 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { 0, 0 } }) do
+					local p = cf:PointToWorldSpace(Vector3.new(d[1] * size.X / 2, 0, d[2] * size.Z / 2))
+					low = math.min(low, h(p.X, p.Z))
+				end
+				move(child, low)
+			elseif child:IsA("BasePart") then
+				move(child, h(child.Position.X, child.Position.Z))
+			elseif child:IsA("Folder") then
+				walk(child)
+			end
+		end
+	end
+	walk(manual)
+	return { moved = moved }
 end
 
 return Builder
