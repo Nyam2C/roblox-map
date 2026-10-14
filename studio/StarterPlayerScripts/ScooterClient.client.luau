@@ -15,7 +15,7 @@
 --   TRICKS (2026-10-14): MANUAL: hold Ctrl (phone: the 매뉴얼 button) while rolling and the front wheel comes up; the pitch m has a
 --   balance point it falls away from, W/S (stick up/down) push it back, and neither accelerates nor brakes while in a manual. m at +1 is a
 --   loop-out (a fall backwards), at -1 the front wheel touches down. RAMP: running up the curved side of a trick ramp and off its lip (<road>#rampup, one per
---   cell, made by streets.ramp_items) and off its lip throws the rider up (speed x sin of the ramp x LAUNCH_K) and lightens gravity to AIR_G
+--   cell, made by streets.ramp_items) and off its lip throws the rider up to a height in proportion to the speed (LAUNCH_HEIGHT) and lightens gravity to AIR_G
 --   until he lands. TAILWHIP: in that air, Q (phone: the 테일윕 button) spins the deck and the back wheel once round the stem in WHIP_TIME;
 --   landing before it is round is a fall. A success shows no message (user 2026-10-14); a fall still says why. The spin is drawn on clones (the welded parts cannot turn), on every client: ours at once, the
 --   others when the server passes on ScooterTrick.
@@ -57,8 +57,9 @@ local TURN_G = 0.62 -- the hardest turn at speed, in g (the old curve gave this 
 local CRASH_FRAC, CRASH_DROP_FRAC = 0.5, 0.35 -- running into something above this fraction of the top speed and losing this fraction of it at once
 local FALL_RECOVER = 2.5 -- seconds limp on the ground
 -- tricks
-local RAMP_ANGLE = math.rad(50) -- the lip of a trick ramp (streets.RAMP lip_deg: a curved transition 1.2 m up)
-local LAUNCH_K = 0.9 -- take-off speed up = speed x sin(lip) x this
+-- the height of the flight above the lip grows with the speed (user 2026-10-14: "높히 떠지는 효과 ... 속도에 비례해서"):
+-- metres per km/h, so 30 km/h flies about 4 m, 60 about 8 m, 120 about 16 m (the speed is in studs/s, shown as km/h)
+local LAUNCH_HEIGHT = 0.13 * 3.6 -- studs of height per stud/s of speed
 local AIR_G = 0.5 -- share of gravity while flying off a ramp: hang time for a trick (40 km/h gives about 0.5 s, 80 about 1 s)
 local MIN_LAUNCH = 15 -- studs/s: slower than this the rider just rolls over the ramp
 local WHIP_TIME = 0.38 -- seconds for the deck to go round once
@@ -186,7 +187,7 @@ help.Parent = gui
 rounded(help, 12)
 local HELP = {
 	{ "매뉴얼 (앞바퀴 들기)", "달리는 중에 Ctrl을 누르고 있어요 (휴대폰: 매뉴얼 버튼). 오른쪽 세로 막대의 표시가 가운데에 있도록 W·S로 조절해요 (휴대폰: 스틱 위·아래). 위 끝에 닿으면 뒤로 넘어지고, 아래 끝에 닿으면 앞바퀴가 내려와요." },
-	{ "점프대", "칸마다 도로 한가운데에 나무 점프대가 하나 있어요 (지도에 주황색). 둥글게 휘어 올라가는 쪽으로 빠르게 달려 올라가면 금속 모서리에서 공중으로 날아요. 빠를수록 높이, 오래 날아요." },
+	{ "점프대", "칸마다 도로 한가운데에 나무 점프대가 하나 있어요 (지도에 주황색). 둥글게 휘어 올라가는 쪽으로 빠르게 달려 올라가면 금속 모서리에서 공중으로 날아요. 빠를수록 높이 떠요 (30 km/h 약 4 m, 60 km/h 약 8 m)." },
 	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 땅에 닿기 전에 다 돌아야 해요. 덜 돌면 넘어져요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
 }
 local y = 14
@@ -659,7 +660,7 @@ local function driveRide()
 			local climb = -r.kicker.CFrame.LookVector -- a wedge is high at its local +Z end
 			climb = Vector3.new(climb.X, 0, climb.Z)
 			if climb.Magnitude > 0.1 and climb.Unit:Dot(r.dir) > 0.5 and speed > MIN_LAUNCH then
-				local vy = speed * math.sin(RAMP_ANGLE) * LAUNCH_K
+				local vy = math.sqrt(2 * workspace.Gravity * AIR_G * LAUNCH_HEIGHT * speed) -- reaches LAUNCH_HEIGHT x speed under AIR_G
 				humanoid:ChangeState(Enum.HumanoidStateType.Freefall)
 				local v0 = root.AssemblyLinearVelocity
 				root.AssemblyLinearVelocity = Vector3.new(v0.X, math.max(v0.Y, vy), v0.Z)

@@ -1518,3 +1518,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U6 추가 기능 조정
 
 ---
+
+## 점프 높이를 속도에 비례해서
+**Timestamp**: 2026-10-14T10:33:31Z
+**User Request**: "아니 그냥 높히 떠지는 효과 추가하자 속도에 비례해서"
+**AI Response**: 발사 높이를 0.13 m × km/h로(30→4 m, 60→8 m, 120→16 m), 위 속도는 그 높이에 맞춰 계산. 도움말·계획서 고침. Studio가 Play 중이라 설치·Play 시험은 Edit으로 돌아온 뒤.
+**Context**: CONSTRUCTION - U6 추가 기능 조정
+
+---
