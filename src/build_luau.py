@@ -277,7 +277,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     jcts = streets.junctions(lines, frame, cell_id, res, cfg)
     sidewalks, props = streets.street_items(lines, jcts, frame, cfg, rule_trees=sat_trees is None)
     entrances = [f for f in sorted(features, key=lambda f: str(f["feature_id"])) if f["kind"] == "subway_entrance" and SAFE_TEXT.fullmatch(str(f["feature_id"]))]
-    props = props + streets.entrance_items(entrances, lines, frame, cell_id, res)
+    props = props + streets.entrance_items(entrances, lines, frame, cell_id, res) + streets.ramp_items(lines, frame)
     if sat_trees is not None:  # trees read off the satellite photo replace the rule-based street trees (BR-11.4a)
         # not on a school ground: new dark turf reads as crowns on the photo (중흥중, 2026-10-14)
         props = props + streets.tree_items(frame, [t for t in sat_trees if not any(fields.covers(g, t[0], t[1]) for g in grounds or [])])

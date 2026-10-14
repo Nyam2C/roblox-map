@@ -236,3 +236,35 @@ Players.PlayerRemoving:Connect(function(player)
 	stop(player)
 	lastRequest[player] = nil
 end)
+
+-- tricks (2026-10-14): a rider's client plays its own tailwhip and tells the server; the server checks and passes it on, and every other
+-- client plays the same deck spin on that rider's scooter (a spin of welded parts is only drawn, it is not physics, so it is not replicated)
+local trick = ReplicatedStorage:FindFirstChild("ScooterTrick")
+if not trick then
+	trick = Instance.new("RemoteEvent")
+	trick.Name = "ScooterTrick"
+	trick.Parent = ReplicatedStorage
+end
+local lastTrick = {}
+trick.OnServerEvent:Connect(function(player, name)
+	if name ~= "tailwhip" then
+		return
+	end
+	local char = player.Character
+	if not char or char:GetAttribute("Riding") ~= true then
+		return
+	end
+	local now = os.clock()
+	if (lastTrick[player] or -math.huge) + 0.3 > now then
+		return
+	end
+	lastTrick[player] = now
+	for _, other in ipairs(Players:GetPlayers()) do
+		if other ~= player then
+			trick:FireClient(other, char, name)
+		end
+	end
+end)
+Players.PlayerRemoving:Connect(function(player)
+	lastTrick[player] = nil
+end)

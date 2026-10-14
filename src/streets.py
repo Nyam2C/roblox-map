@@ -602,3 +602,37 @@ def entrance_items(entrances: Sequence[Mapping[str, Any]], streets_: Sequence[St
                          material="SmoothPlastic", color=R.PALETTE["sign_plate"], color_name="sign_plate", text=text, ink="ink_yellow",
                          faces="F", attrs={"MaxDistance": 200}))
     return out
+
+
+# --- trick ramps (user 2026-10-14: "도로 중간에 묘기 하고나 공중 가능하게 경사 있는거 하나씩") ------------------------------------------
+
+RAMP = {"h": 0.6, "up": 1.1, "down": 2.4, "wid": 2.0, "min_seg": 40.0, "classes": ("residential", "tertiary", "unclassified", "living_street")}
+# A kicker in the middle of one road per cell: a steep side (about 29 degrees, the scooter takes off at its lip) and a gentle landing side
+# (about 14 degrees), back to back. Real beginner kickers are about 0.3 m high, 0.6-0.9 m wide, 15-30 degrees (surfertoday.com, skatepro);
+# this one is 0.6 m high and 2 m wide so a rider can hit it at speed, and ScooterClient gives the launch. Parts are named <road>#rampup
+# and <road>#rampdn; ScooterClient finds the kicker by that name.
+
+
+def ramp_items(streets_: Sequence[Street], frame: Frame) -> list[Item]:
+    """One ramp on the longest owned segment (at least min_seg) of a minor road in the cell, at its middle, on the road's centre line."""
+    best = None
+    for st in streets_:
+        if st.kind != "road" or st.highway_class not in RAMP["classes"]:
+            continue
+        for i, p, q, mid, length in st.owned:
+            if length >= RAMP["min_seg"] and (best is None or (length, st.feature_id) > (best[4], best[0].feature_id)):
+                best = (st, i, p, q, length)
+    if best is None:
+        return []
+    st, i, p, q, length = best
+    u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
+    yaw = math.degrees(math.atan2(u[1], u[0]))
+    top = layout.TOPS["road"] / frame.studs_per_m  # the ramp stands on the road surface
+    out = []
+    for n, (tail, along, length_m, high_toward) in enumerate((("rampup", -RAMP["up"] / 2, RAMP["up"], 90.0),
+                                                              ("rampdn", RAMP["down"] / 2, RAMP["down"], -90.0))):
+        east, north = p[0] + u[0] * (length / 2 + along), p[1] + u[1] * (length / 2 + along)
+        # a wedge is high at its local +Z end; local Z points along u at yaw + 90 and against it at yaw - 90
+        out.append(_part(frame, "prop", f"{st.feature_id}#{i}#{tail}", st.feature_id, 950 + n, east, north, top, (RAMP["wid"], RAMP["h"], length_m),
+                         yaw + high_toward, shape="Wedge", material="WoodPlanks", color=R.PALETTE["ramp"], color_name="ramp", collide=True))
+    return out

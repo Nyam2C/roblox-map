@@ -43,6 +43,9 @@
 - (2026-10-14, 칸 순간 이동) `user_mouse_input`의 x, y는 `InputObject.Position`과 같은 공간(위 메뉴 막대 제외, GUI `AbsolutePosition`과 같음)이다. 큰 지도의 한 점을 누르려면 `big.AbsolutePosition + 크기/2 + (월드 - 중심) × 확대율`. `world.AbsolutePosition`은 UIScale 때문에 쓸 수 없었다.
 - (2026-10-14) MinimapClient의 RenderStepped 안에 `local view`가 있어 같은 이름의 바깥 변수를 가렸다(탭이 늘 엉뚱한 칸). Luau는 경고 없이 가린다. 긴 LocalScript에 새 상태를 더할 때는 이름을 grep해 본다.
 - (2026-10-14) 킥보드 모델(`Scooter`)의 `GetPivot()`은 처음 만든 자리에 남는다(PrimaryPart 없음). 위치는 부품으로 본다.
+- (2026-10-14, 킥보드 묘기) 캐릭터에 용접된 부품은 돌릴 수 없다(돌리면 캐릭터가 같이 돈다). 테일윕은 그 부품을 `LocalTransparencyModifier = 1`로 숨기고 카메라 밑에 고정 복제본을 두어 매 프레임 돌려 그린다. 복제는 각 클라이언트가 원격 신호를 받아 직접 한다.
+- (2026-10-14) Play 시험에서 순간 이동 시작점을 옆 차로로 몇 stud 옮겼더니 담장 안 마당에 떨어져 못 움직였다. 시험 시작점은 도로 중심선 위로 잡는다.
+- (2026-10-14) MinimapClient의 `LOOKS` 표에 없는 종류 번호는 조용히 그려지지 않는다. `minimap.py`에 새 종류를 더하면 클라이언트 표에도 더한다.
 
 ## 생성 규칙
 

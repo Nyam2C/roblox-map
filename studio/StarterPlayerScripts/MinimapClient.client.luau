@@ -20,6 +20,7 @@ local LOOKS = { -- [look] = {colour, ZIndex}
 	[4] = { Color3.fromRGB(255, 255, 255), 3 }, -- road
 	[5] = { Color3.fromRGB(246, 240, 225), 3 }, -- path
 	[6] = { Color3.fromRGB(176, 176, 186), 4 }, -- building
+	[7] = { Color3.fromRGB(240, 140, 50), 5 }, -- trick ramp (orange, like the ramp itself)
 }
 
 -- a missing or broken data module gives an empty map, not an error

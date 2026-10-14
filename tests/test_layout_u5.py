@@ -953,3 +953,23 @@ def test_a_slip_lane_joining_at_a_shallow_angle_gets_no_crosswalks():
     cross = {**slip, "geometry": [list(offset(CENTER, 0, 0)), list(offset(CENTER, 0, 40))]}
     (_, props), _ = props_of([main, cross])
     assert [i for i in props if "#cw" in i.name]
+
+
+def test_one_trick_ramp_sits_on_the_middle_of_the_longest_minor_road_with_its_steep_side_and_landing_back_to_back():
+    long_road = {**street(length=120.0), "feature_id": "way:1"}
+    short = {"feature_id": "way:2", "kind": "road", "highway_class": "residential", "tags": {},
+             "geometry": [list(offset(CENTER, -20, 40)), list(offset(CENTER, 20, 40))]}
+    lines = ST.streets_of([long_road, short], FRAME, CELL, RES, CFG)
+    items = ST.ramp_items(lines, FRAME)
+    assert sorted(i.name.split("#")[-1] for i in items) == ["rampdn", "rampup"] and all(i.name.startswith("way:1#") for i in items)
+    up, dn = (next(i for i in items if i.name.endswith(t)) for t in ("#rampup", "#rampdn"))
+    c = layout.to_meters(FRAME, *CENTER)
+    for i in items:
+        assert i.shape == "Wedge" and i.collide and abs(-i.cz / S - c[1]) < 0.01  # on the centre line of the east-west road
+        assert i.sy / S == pytest.approx(ST.RAMP["h"], abs=1e-3) and i.sx / S == pytest.approx(ST.RAMP["wid"], abs=1e-3)
+    # the two high ends meet at the middle: the steep side west of it, the landing east of it, each high end toward the middle
+    mid = c[0]
+    assert up.cx / S - mid == pytest.approx(-ST.RAMP["up"] / 2, abs=0.01) and dn.cx / S - mid == pytest.approx(ST.RAMP["down"] / 2, abs=0.01)
+    look_z = lambda i: (math.sin(math.radians(i.yaw_deg)), math.cos(math.radians(i.yaw_deg)))  # local +Z in (x, z) studs
+    assert look_z(up)[0] > 0.99 and look_z(dn)[0] < -0.99
+    assert ST.ramp_items(ST.streets_of([short], FRAME, CELL, RES, CFG), FRAME) == []  # 40 m: too short

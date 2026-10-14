@@ -12,6 +12,13 @@
 --   SOUND: the footsteps are muted and a rolling-wheels sound plays instead, louder and higher with speed. Every client does this for every
 --   rider it can see, from the rider's replicated velocity, so everybody hears the same scooter.
 --   ARMS: bent to the grip the server worked out (see armsOf); only the rider's own screen shows it, Transform is not replicated.
+--   TRICKS (2026-10-14): MANUAL: hold Ctrl (phone: the 매뉴얼 button) while rolling and the front wheel comes up; the pitch m has a
+--   balance point it falls away from, W/S (stick up/down) push it back, and neither accelerates nor brakes while in a manual. m at +1 is a
+--   loop-out (a fall backwards), at -1 the front wheel touches down. RAMP: running up the steep side of a trick ramp (<road>#rampup, one per
+--   cell, made by streets.ramp_items) and off its lip throws the rider up (speed x sin of the ramp x LAUNCH_K) and lightens gravity to AIR_G
+--   until he lands. TAILWHIP: in that air, Q (phone: the 테일윕 button) spins the deck and the back wheel once round the stem in WHIP_TIME;
+--   landing before it is round is a fall. The spin is drawn on clones (the welded parts cannot turn), on every client: ours at once, the
+--   others when the server passes on ScooterTrick.
 -- Rules: aidlc-docs/construction/plans/u6-minimap-scooter-plan.md. The numbers were chosen with a simulation (a player with 0.3 s reaction who pushes
 -- the way it leans keeps balance at 60 to 80; with no steering input the rider falls at 70 after about 7 s and at 80 after about 4.6 s; 60 and below are safe).
 -- Since 2026-10-14 those speeds scale with the top speed: at 120 read 90 to 120, 105 and 120, and 90 and below safe.
@@ -20,8 +27,11 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 
+local ContextActionService = game:GetService("ContextActionService")
+
 local player = Players.LocalPlayer
 local remote = ReplicatedStorage:WaitForChild("ScooterToggle")
+local trickRemote = ReplicatedStorage:WaitForChild("ScooterTrick", 10)
 
 -- speed: studs per second (80 studs/s is 80 km/h at 3.6 studs per metre), studs per second squared, degrees per second
 local MAX_SPEED_DEFAULT = 120 -- the server sends ScooterMaxSpeed; this is only the fallback (user raised 80 -> 120, 2026-10-14)
@@ -46,6 +56,15 @@ local SKID_LIMIT, SKID_TIME = 0.7, 0.45 -- sideways acceleration in g that the t
 local TURN_G = 0.62 -- the hardest turn at speed, in g (the old curve gave this at 80; above 80 the rate is capped to keep it)
 local CRASH_FRAC, CRASH_DROP_FRAC = 0.5, 0.35 -- running into something above this fraction of the top speed and losing this fraction of it at once
 local FALL_RECOVER = 2.5 -- seconds limp on the ground
+-- tricks
+local RAMP_ANGLE = math.atan2(0.6, 1.1) -- the steep side of a trick ramp (0.6 m up over 1.1 m, streets.RAMP)
+local LAUNCH_K = 1.25 -- take-off speed up = speed x sin(ramp) x this
+local AIR_G = 0.5 -- share of gravity while flying off a ramp: hang time for a trick (40 km/h gives about 0.5 s, 80 about 1 s)
+local MIN_LAUNCH = 15 -- studs/s: slower than this the rider just rolls over the ramp
+local WHIP_TIME = 0.38 -- seconds for the deck to go round once
+local MANUAL_MIN_SPEED = 8
+local MANUAL_PITCH, MANUAL_RANGE = math.rad(13), math.rad(9) -- the front's lift at the balance point and the swing to either end
+local M_GROW, M_DAMP, M_PUSH, M_NOISE = 2.6, 1.6, 5.5, 1.6 -- 1/s^2, 1/s, 1/s^2 for a full push, 1/s^2
 
 -- "Rolling loop" (small wheels rolling, 5.2 s, Creator Store, by Animatedupload). Somebody else's upload: if it is ever taken down the scooter
 -- is just silent. Put your own asset id here to change the sound.
@@ -120,6 +139,115 @@ marker.ZIndex = 2
 marker.Parent = gauge
 rounded(marker, 3)
 
+-- the manual gauge, standing up beside the balance gauge: the marker climbs with the front wheel; the top is the loop-out
+local mgauge = Instance.new("Frame")
+mgauge.Name = "Manual"
+mgauge.AnchorPoint = Vector2.new(1, 1)
+mgauge.Position = UDim2.new(1, -126, 1, -150)
+mgauge.Size = UDim2.fromOffset(12, 96)
+mgauge.BackgroundColor3 = Color3.fromRGB(30, 30, 36)
+mgauge.BackgroundTransparency = 0.2
+mgauge.BorderSizePixel = 0
+mgauge.Visible = false
+mgauge.Parent = gui
+rounded(mgauge, 6)
+local mmark = Instance.new("Frame")
+mmark.AnchorPoint = Vector2.new(0.5, 0.5)
+mmark.Position = UDim2.fromScale(0.5, 0.5)
+mmark.Size = UDim2.fromOffset(18, 8)
+mmark.BackgroundColor3 = Color3.fromRGB(80, 200, 110)
+mmark.BorderSizePixel = 0
+mmark.Parent = mgauge
+rounded(mmark, 3)
+
+-- how to do the tricks (user 2026-10-14: "하는 방법 넣고")
+local helpButton = Instance.new("TextButton")
+helpButton.Name = "TrickHelp"
+helpButton.AnchorPoint = Vector2.new(1, 1)
+helpButton.Position = UDim2.new(1, -16, 1, -100)
+helpButton.Size = UDim2.fromOffset(104, 32)
+helpButton.BackgroundColor3 = Color3.fromRGB(40, 44, 54)
+helpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+helpButton.Font = Enum.Font.GothamBold
+helpButton.TextSize = 14
+helpButton.Text = "묘기 방법 (H)"
+helpButton.Parent = gui
+rounded(helpButton, 8)
+local help = Instance.new("Frame")
+help.Name = "TrickHelpPanel"
+help.AnchorPoint = Vector2.new(0.5, 0.5)
+help.Position = UDim2.fromScale(0.5, 0.5)
+help.Size = UDim2.fromOffset(460, 330)
+help.BackgroundColor3 = Color3.fromRGB(28, 30, 38)
+help.BackgroundTransparency = 0.08
+help.Visible = false
+help.ZIndex = 30
+help.Parent = gui
+rounded(help, 12)
+local HELP = {
+	{ "매뉴얼 (앞바퀴 들기)", "달리는 중에 Ctrl을 누르고 있어요 (휴대폰: 매뉴얼 버튼). 오른쪽 세로 막대의 표시가 가운데에 있도록 W·S로 조절해요 (휴대폰: 스틱 위·아래). 위 끝에 닿으면 뒤로 넘어지고, 아래 끝에 닿으면 앞바퀴가 내려와요." },
+	{ "점프대", "칸마다 도로 한가운데에 주황색 점프대가 하나 있어요 (지도에도 주황색). 가파른 쪽으로 빠르게 달려 올라가면 공중으로 날아요. 빠를수록 높이, 오래 날아요." },
+	{ "테일윕 (발판 한 바퀴)", "점프대에서 날아오른 동안 Q를 눌러요 (휴대폰: 테일윕 버튼). 발판이 손잡이를 축으로 한 바퀴 돌아요. 땅에 닿기 전에 다 돌아야 성공이에요. 40 km/h 넘게 달려서 뛰면 여유가 있어요." },
+}
+local y = 14
+local title = Instance.new("TextLabel")
+title.BackgroundTransparency = 1
+title.Position = UDim2.fromOffset(20, y)
+title.Size = UDim2.new(1, -40, 0, 28)
+title.Font = Enum.Font.GothamBlack
+title.TextSize = 22
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Text = "킥보드 묘기"
+title.ZIndex = 31
+title.Parent = help
+y += 38
+for _, h in ipairs(HELP) do
+	local head = Instance.new("TextLabel")
+	head.BackgroundTransparency = 1
+	head.Position = UDim2.fromOffset(20, y)
+	head.Size = UDim2.new(1, -40, 0, 20)
+	head.Font = Enum.Font.GothamBold
+	head.TextSize = 16
+	head.TextXAlignment = Enum.TextXAlignment.Left
+	head.TextColor3 = Color3.fromRGB(255, 175, 80)
+	head.Text = h[1]
+	head.ZIndex = 31
+	head.Parent = help
+	local body = Instance.new("TextLabel")
+	body.BackgroundTransparency = 1
+	body.Position = UDim2.fromOffset(20, y + 22)
+	body.Size = UDim2.new(1, -40, 0, 54)
+	body.Font = Enum.Font.Gotham
+	body.TextSize = 14
+	body.TextWrapped = true
+	body.TextXAlignment = Enum.TextXAlignment.Left
+	body.TextYAlignment = Enum.TextYAlignment.Top
+	body.TextColor3 = Color3.fromRGB(225, 225, 230)
+	body.Text = h[2]
+	body.ZIndex = 31
+	body.Parent = help
+	y += 84
+end
+local closeHelp = Instance.new("TextButton")
+closeHelp.AnchorPoint = Vector2.new(1, 0)
+closeHelp.Position = UDim2.new(1, -12, 0, 12)
+closeHelp.Size = UDim2.fromOffset(60, 28)
+closeHelp.BackgroundColor3 = Color3.fromRGB(70, 74, 86)
+closeHelp.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeHelp.Font = Enum.Font.GothamBold
+closeHelp.TextSize = 14
+closeHelp.Text = "닫기"
+closeHelp.ZIndex = 32
+closeHelp.Parent = help
+rounded(closeHelp, 6)
+helpButton.Activated:Connect(function()
+	help.Visible = not help.Visible
+end)
+closeHelp.Activated:Connect(function()
+	help.Visible = false
+end)
+
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
 toast.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -159,6 +287,8 @@ button.Activated:Connect(request)
 UserInputService.InputBegan:Connect(function(input, processed)
 	if not processed and input.KeyCode == Enum.KeyCode.K then
 		request()
+	elseif not processed and input.KeyCode == Enum.KeyCode.H then
+		help.Visible = not help.Visible
 	end
 end)
 
@@ -217,7 +347,70 @@ local function reach(arm, s, grip)
 	return math.atan2(forward, down) - lift, flex
 end
 
-local ride -- { char, humanoid, root, idle, animate, walk, autoRotate, speed, dir, w, wv, side, skid, offset, seed }
+-- ---- the tailwhip, drawn ----------------------------------------------------------------------------------------------------------
+-- The deck and the back wheel are welded to the rider, so they cannot turn. For WHIP_TIME they are hidden on this screen and clones go
+-- round the stem's axis in their place, following the scooter; then the clones go and the real parts show again.
+local function playWhip(char, duration)
+	local scooter = char and char:FindFirstChild("Scooter")
+	local stem = scooter and scooter:FindFirstChild("Stem")
+	if not stem then
+		return nil
+	end
+	local pairs_ = {}
+	for _, name in ipairs({ "Deck", "WheelBack" }) do
+		local part = scooter:FindFirstChild(name)
+		if part then
+			local copy = part:Clone()
+			for _, d in ipairs(copy:GetChildren()) do
+				d:Destroy()
+			end
+			copy.Anchored = true
+			copy.CanCollide, copy.CanQuery, copy.CanTouch = false, false, false
+			copy.Parent = workspace.CurrentCamera
+			part.LocalTransparencyModifier = 1
+			table.insert(pairs_, { part = part, copy = copy })
+		end
+	end
+	local t0, conn = os.clock(), nil
+	local handle = {}
+	function handle.stop()
+		if conn then
+			conn:Disconnect()
+			conn = nil
+		end
+		for _, p in ipairs(pairs_) do
+			p.copy:Destroy()
+			if p.part.Parent then
+				p.part.LocalTransparencyModifier = 0
+			end
+		end
+		pairs_ = {}
+	end
+	conn = RunService.RenderStepped:Connect(function()
+		local t = (os.clock() - t0) / duration
+		if t >= 1 or not stem.Parent then
+			handle.stop()
+			return
+		end
+		local e = t * t * (3 - 2 * t) -- smoothstep: a kick, a fast spin, a catch
+		local pivot = stem.Position
+		local spin = CFrame.new(pivot) * CFrame.fromAxisAngle(stem.CFrame.UpVector, -2 * math.pi * e) * CFrame.new(-pivot)
+		for _, p in ipairs(pairs_) do
+			p.copy.CFrame = spin * p.part.CFrame
+		end
+	end)
+	return handle
+end
+if trickRemote then
+	trickRemote.OnClientEvent:Connect(function(char, name)
+		if name == "tailwhip" and typeof(char) == "Instance" and char ~= player.Character then
+			playWhip(char, WHIP_TIME)
+		end
+	end)
+end
+
+local manualHeld = false
+local ride -- { char, humanoid, root, idle, animate, walk, autoRotate, speed, dir, w, wv, side, skid, offset, seed, tricks... }
 
 local function stopRide(keepBody)
 	local r = ride
@@ -227,7 +420,18 @@ local function stopRide(keepBody)
 	ride = nil
 	if r.driving then
 		RunService:UnbindFromRenderStep("ScooterDrive")
+		ContextActionService:UnbindAction("ScooterManual")
+		ContextActionService:UnbindAction("ScooterWhip")
 	end
+	manualHeld = false
+	if r.whip then
+		r.whip.stop()
+		r.whip = nil
+	end
+	if r.lift then
+		r.lift:Destroy()
+	end
+	mgauge.Visible = false
 	if r.armConnection then
 		r.armConnection:Disconnect()
 	end
@@ -263,7 +467,11 @@ local function fall(r, direction, reason, detail) -- direction: +1 to the right,
 	player:SetAttribute("ScooterFall", detail) -- for testing: what the numbers were (this client only)
 	humanoid:ChangeState(Enum.HumanoidStateType.Ragdoll)
 	root.AssemblyLinearVelocity = velocity
-	root.AssemblyAngularVelocity = look * (direction * 6) -- clockwise seen from behind = to the right
+	if direction == 0 then -- a loop-out: over the back wheel
+		root.AssemblyAngularVelocity = root.CFrame.RightVector * 6
+	else
+		root.AssemblyAngularVelocity = look * (direction * 6) -- clockwise seen from behind = to the right
+	end
 	task.delay(FALL_RECOVER, function()
 		if humanoid.Parent and humanoid:GetState() == Enum.HumanoidStateType.Ragdoll then
 			humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
@@ -300,6 +508,7 @@ local function poseRide(char)
 		char = char, humanoid = humanoid, root = root, idle = idle, animate = animate,
 		walk = humanoid.WalkSpeed, autoRotate = humanoid.AutoRotate, speed = 0, dir = Vector3.new(look.X, 0, look.Z).Unit,
 		w = 0, wv = 0, side = 0, skid = 0, offset = Vector3.zero, seed = math.random() * 100, clock = 0,
+		manual = false, m = 0, mv = 0, manualT = 0, pitch = 0, air = false, launched = false, kicker = nil, airT = 0, whip = nil, whipT = 0, whipped = false,
 	}
 	ride = r
 	humanoid.AutoRotate = false -- the facing is ours: the way we roll
@@ -318,6 +527,45 @@ local function driveRide()
 	r.driving = true
 	local char, humanoid, root = r.char, r.humanoid, r.root
 	local arms = armsOf(char)
+	-- where the back wheel touches the ground, in the root's frame: the manual turns about it
+	local back = char:FindFirstChild("Scooter") and char.Scooter:FindFirstChild("WheelBack")
+	r.rearZ = back and root.CFrame:PointToObjectSpace(back.Position).Z or 1.7
+	local att = Instance.new("Attachment")
+	att.Name = "ScooterLiftAttachment"
+	att.Parent = root
+	r.lift = Instance.new("VectorForce") -- takes part of gravity away while flying off a ramp
+	r.lift.Name = "ScooterLift"
+	r.lift.Attachment0 = att
+	r.lift.RelativeTo = Enum.ActuatorRelativeTo.World
+	r.lift.ApplyAtCenterOfMass = true
+	r.lift.Enabled = false
+	r.lift.Parent = root
+	r.lift.Destroying:Connect(function()
+		att:Destroy()
+	end)
+	r.rayParams = RaycastParams.new()
+	r.rayParams.FilterType = Enum.RaycastFilterType.Exclude
+	r.rayParams.FilterDescendantsInstances = { char }
+	ContextActionService:BindAction("ScooterManual", function(_, state)
+		manualHeld = state == Enum.UserInputState.Begin
+		return Enum.ContextActionResult.Sink
+	end, true, Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl, Enum.KeyCode.ButtonL2)
+	ContextActionService:SetTitle("ScooterManual", "매뉴얼")
+	ContextActionService:SetPosition("ScooterManual", UDim2.new(1, -230, 1, -150))
+	ContextActionService:BindAction("ScooterWhip", function(_, state)
+		local rr = ride
+		if state ~= Enum.UserInputState.Begin or not rr or not rr.launched or not rr.air or rr.whip or rr.whipped then
+			return Enum.ContextActionResult.Sink
+		end
+		rr.whip = playWhip(char, WHIP_TIME)
+		rr.whipT, rr.whipped = 0, true
+		if trickRemote then
+			trickRemote:FireServer("tailwhip")
+		end
+		return Enum.ContextActionResult.Sink
+	end, true, Enum.KeyCode.Q, Enum.KeyCode.ButtonR2)
+	ContextActionService:SetTitle("ScooterWhip", "테일윕")
+	ContextActionService:SetPosition("ScooterWhip", UDim2.new(1, -230, 1, -220))
 	r.armConnection = RunService.PreSimulation:Connect(function()
 		local grip = char:GetAttribute("ScooterGrip")
 		if typeof(grip) ~= "Vector3" then
@@ -338,6 +586,11 @@ local function driveRide()
 		local max = char:GetAttribute("ScooterMaxSpeed") or MAX_SPEED_DEFAULT
 		local move = humanoid.MoveDirection -- keys, thumbstick or pad, turned to the camera
 		local want = Vector3.new(move.X, 0, move.Z)
+		local fwd = want.Magnitude > 0.1 and want.Unit:Dot(r.dir) or 0 -- the push along the way we roll (W = +1, S = -1)
+		local manualOn = r.manual
+		if manualOn then -- W/S work the front wheel, not the speed; a sideways push still steers
+			want -= r.dir * want:Dot(r.dir)
+		end
 		local omega, sideRaw = 0, 0 -- turning rate (rad/s, + = left) and the sideways push (+ = left)
 		if want.Magnitude > 0.1 then
 			want = want.Unit
@@ -356,7 +609,9 @@ local function driveRide()
 				r.dir = rotate(r.dir, step)
 				omega = step / dt
 				sideRaw = math.sin(angle)
-				r.speed += ACCEL * dt
+				if not manualOn then
+					r.speed += ACCEL * dt
+				end
 			end
 		else
 			r.speed -= (COAST_BASE + COAST_DRAG * r.speed) * dt
@@ -394,15 +649,98 @@ local function driveRide()
 			fall(r, omega > 0 and -1 or 1, "너무 빠르게 꺾어서 미끄러졌다!", string.format("skid omega=%.2f speed=%.1f", omega, speed)) -- the tyres let go: down on the inside of the turn
 			return
 		end
+		-- tricks
+		local drop = humanoid.HipHeight + root.Size.Y / 2
+		local onGround = humanoid.FloorMaterial ~= Enum.Material.Air
+		local hit = workspace:Raycast(root.Position, Vector3.new(0, -(drop + 4), 0), r.rayParams)
+		if hit and hit.Instance.Name:sub(-7) == "#rampup" then
+			r.kicker = hit.Instance
+		elseif r.kicker and not r.launched then -- just left the steep side of a ramp: take off if we were going up it
+			local climb = -r.kicker.CFrame.LookVector -- a wedge is high at its local +Z end
+			climb = Vector3.new(climb.X, 0, climb.Z)
+			if climb.Magnitude > 0.1 and climb.Unit:Dot(r.dir) > 0.5 and speed > MIN_LAUNCH then
+				local vy = speed * math.sin(RAMP_ANGLE) * LAUNCH_K
+				humanoid:ChangeState(Enum.HumanoidStateType.Freefall)
+				local v0 = root.AssemblyLinearVelocity
+				root.AssemblyLinearVelocity = Vector3.new(v0.X, math.max(v0.Y, vy), v0.Z)
+				r.lift.Force = Vector3.new(0, root.AssemblyMass * workspace.Gravity * (1 - AIR_G), 0)
+				r.lift.Enabled = true
+				r.launched, r.air, r.airT, r.whipped, r.manual = true, true, 0, false, false
+				player:SetAttribute("ScooterLaunch", string.format("speed=%.1f vy=%.1f", speed, vy)) -- for testing (this client only)
+			end
+			r.kicker = nil
+		end
+		if r.launched then
+			r.airT += dt
+			if r.whip then
+				r.whipT += dt
+				if r.whipT >= WHIP_TIME then
+					r.whip, r.landedTrick = nil, "테일윕"
+				end
+			end
+			if onGround and r.airT > 0.15 then -- down again
+				r.launched, r.air = false, false
+				r.lift.Enabled = false
+				player:SetAttribute("ScooterAirTime", r.airT)
+				if r.whip then
+					local h = r.whip
+					r.whip = nil
+					h.stop()
+					fall(r, r.w >= 0 and 1 or -1, "테일윕을 다 못 돌리고 떨어졌다!", string.format("whip air=%.2f whip=%.2f", r.airT, r.whipT))
+					return
+				end
+				r.wv += (math.random() - 0.5) * 0.8 -- the landing jolts the balance a little
+				if r.landedTrick then
+					showToast(r.landedTrick .. " 성공!")
+					r.landedTrick = nil
+				end
+			end
+		end
+		-- the manual: an unstable pitch the player holds with W/S
+		local wantManual = manualHeld and not r.launched and onGround and speed > MANUAL_MIN_SPEED
+		if wantManual and not r.manual then
+			r.manual, r.m, r.mv, r.manualT = true, -0.2, 0, 0
+		end
+		local function endManual()
+			if r.manualT >= 1 then
+				showToast(string.format("매뉴얼 %.1f초", r.manualT))
+			end
+			r.manual = false
+		end
+		if r.manual and not wantManual then
+			endManual()
+		end
+		if r.manual then
+			local noise = math.clamp(math.noise(r.clock * 2.3, r.seed + 50) * 2, -1, 1) * M_NOISE
+			r.mv += (M_GROW * r.m - M_DAMP * r.mv - M_PUSH * fwd + noise) * dt
+			r.m += r.mv * dt
+			r.manualT += dt
+			if r.m >= 1 then
+				fall(r, 0, "앞바퀴를 너무 들어 뒤로 넘어졌다!", string.format("manual m=%.2f t=%.2f", r.m, r.manualT))
+				return
+			elseif r.m <= -1 then -- the front wheel is down again
+				endManual()
+			end
+		end
+		local pitchGoal = r.manual and (MANUAL_PITCH + math.clamp(r.m, -1, 1) * MANUAL_RANGE) or 0
+		r.pitch += (pitchGoal - r.pitch) * math.min(1, dt * 12)
+		mgauge.Visible = r.manual
+		if r.manual then
+			mmark.Position = UDim2.fromScale(0.5, 0.5 - math.clamp(r.m, -1, 1) * 0.45)
+			local a = math.abs(r.m)
+			mmark.BackgroundColor3 = a < 0.4 and Color3.fromRGB(80, 200, 110) or (a < 0.75 and Color3.fromRGB(240, 170, 50) or Color3.fromRGB(230, 60, 55))
+		end
 		-- drive
 		humanoid.WalkSpeed = speed
 		humanoid:Move(speed > 0.2 and r.dir or Vector3.zero, false)
 		-- lean: into the turn and with the wobble, tilted about where the wheels touch the ground
 		local roll = math.clamp(-0.6 * math.atan(speed * omega / workspace.Gravity) + r.w, -0.7, 0.7)
-		local rot = CFrame.lookAt(Vector3.zero, r.dir) * CFrame.Angles(0, 0, -roll)
-		local drop = humanoid.HipHeight + root.Size.Y / 2
+		-- and the manual's lift, about where the back wheel touches the ground (a pure lean leaves that point's Z out of it)
+		local upright = CFrame.lookAt(Vector3.zero, r.dir)
+		local rot = upright * CFrame.Angles(r.pitch, 0, -roll)
 		local base = root.Position - r.offset -- where the body is without last frame's lean
-		r.offset = rot:VectorToWorldSpace(Vector3.new(0, drop, 0)) - Vector3.new(0, drop, 0)
+		local q = Vector3.new(0, -drop, r.rearZ)
+		r.offset = upright:VectorToWorldSpace(q) - rot:VectorToWorldSpace(q)
 		root.CFrame = CFrame.new(base + r.offset) * rot
 		-- the screen
 		meter.Text = string.format("%d km/h", math.floor(speed + 0.5)) -- 80 studs/s is 80 km/h
