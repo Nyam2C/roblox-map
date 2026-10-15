@@ -136,6 +136,8 @@ class Maker:
                 self.accent(a)
             self.entrance(sp.get("entrance"))
             self.sign(sp.get("sign"))
+            for extra in sp.get("signs") or []:
+                self.sign(extra)
         self.roof(sp.get("roof") or {})
         return self.items
 
@@ -251,6 +253,22 @@ class Maker:
                 self.wall(bi, side, "ag", at, y0, 0.2, (wdt, rect, 0.1), glass)
                 self.wall(bi, side, "ad", at, y0 + rect - wdt / 2 - 0.3, 0.12, (wdt + 0.6, wdt + 0.6, 0.15), dict(lk, shape="Disc"))
                 self.wall(bi, side, "ae", at, y0 + rect - wdt / 2, 0.2, (wdt, wdt, 0.1), dict(glass, shape="Disc"))
+            elif kind == "fascia":  # a shop fascia band over the ground-floor glass, with an optional coloured strip at one end (GS25)
+                fh0 = min(b.fh, 4.0)
+                self.wall(bi, side, "fa", at, fh0 - 1.5, 0.45, (wdt, 1.4, 0.35), lk)
+                if a.get("strip_rgb"):
+                    sw = wdt * float(a.get("strip_frac", 0.4))
+                    self.wall(bi, side, "fs", at - wdt / 2 + sw / 2 + 0.3, fh0 - 1.1, 0.65, (sw, 0.6, 0.1),
+                              look("SmoothPlastic", a.get("strip_rgb")))
+                self.wall(bi, side, "fg", at, 0.2, 0.3, (wdt - 0.6, fh0 - 1.8, 0.1),  # out past a 0.15 m stone base
+                          look("SmoothPlastic", (150, 190, 200), transparency=0.35, reflectance=0.25))
+            elif kind == "tires":  # stacks of tyres out front at ground level (타이어뱅크, 2026-10-16): heights 3-6 tyres, varied by place
+                n = max(1, int(wdt // 1.1))
+                for j in range(n):
+                    h = 0.26 * (3 + (j * 7 + 3) % 4)
+                    self.items.append(LD._cyl(self.frame, b, bi, side, "facade", f"ty-{len(self.items)}", len(self.items),
+                                              at - wdt / 2 + wdt * (j + 0.5) / n, 0.0, float(a.get("out_m", 1.6)), 0.7, h,
+                                              **look("SmoothPlastic", a.get("rgb"), (28, 28, 30))))
             elif kind == "clock":
                 y = (f0 + 0.5) * fh - 1.0
                 self.wall(bi, side, "ck", at, y, 0.15, (2.2, 2.2, 0.12), look("SmoothPlastic", (245, 245, 240), shape="Disc"))
@@ -310,13 +328,14 @@ class Maker:
         if not __import__("details_rules").SIGN_TEXT.fullmatch(text):
             raise ValueError(f"{self.body.building_id}: sign text not allowed: {text!r}")
         b = self.body
-        L = b.facing.length
+        bi, side = self.faces(s.get("face", "street"))[0]  # a sign on another face too (GS25's long side, 2026-10-16)
+        L = LD.face_of(b.boxes[bi], side).length
         w = min(0.7 * L, 1.3 * len(text) + 1.0)
         floor = max(0, min(b.floors - 1, int(s.get("floor", 1))))
         y = floor * b.fh + (b.fh - 1.3) / 2 if floor else min(3.6, b.fh) + 0.4
         if floor == 0 and y + 1.3 > b.fh:
             y = b.fh - 1.4
-        self.wall(b.front, b.facing.side, "sg", 0.0, y, 0.25, (w, 1.3, 0.12),
+        self.wall(bi, side, "sg", float(s.get("at", 0.0)) * (L - w), y, float(s.get("out_m", 0.25)), (w, 1.3, 0.12),
                   dict(look("SmoothPlastic", s.get("bg_rgb"), (40, 50, 70)), text=text, ink=None, faces="F",
                        attrs={"MaxDistance": 500, "Ink": list(_rgb(s.get("ink_rgb"), (255, 255, 255)))}), kind="sign")
 

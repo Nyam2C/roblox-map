@@ -5381,6 +5381,366 @@
    ],
    "claims": [],
    "cell": "8930e0af187ffff"
+  },
+  {
+   "key": "gs25_yakdae",
+   "cell": "8930e0ae24fffff",
+   "build": [
+    "gis:11179961"
+   ],
+   "claims": [
+    "gis:17126475"
+   ],
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     130,
+     98,
+     84
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     176,
+     172,
+     164
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.8,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     110,
+     160,
+     165
+    ],
+    "frame_rgb": [
+     90,
+     95,
+     98
+    ]
+   },
+   "bands": {
+    "rgb": [
+     96,
+     74,
+     64
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 40.0,
+     "rgb": [
+      64,
+      66,
+      70
+     ],
+     "strip_rgb": [
+      80,
+      185,
+      195
+     ],
+     "strip_frac": 0.45
+    },
+    {
+     "kind": "fascia",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 40.0,
+     "rgb": [
+      64,
+      66,
+      70
+     ],
+     "strip_rgb": [
+      80,
+      185,
+      195
+     ],
+     "strip_frac": 0.35
+    },
+    {
+     "kind": "fascia",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 40.0,
+     "rgb": [
+      64,
+      66,
+      70
+     ],
+     "strip_rgb": [
+      80,
+      185,
+      195
+     ],
+     "strip_frac": 0.35
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.15,
+    "width_m": 3.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": {
+    "text": "GS25",
+    "face": "street",
+    "floor": 0,
+    "at": 0.3,
+    "out_m": 0.85,
+    "bg_rgb": [
+     64,
+     66,
+     70
+    ],
+    "ink_rgb": [
+     245,
+     245,
+     245
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     120,
+     92,
+     80
+    ],
+    "top_rgb": [
+     150,
+     150,
+     146
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "User 2026-10-16: \"gs 편의점으로 디테일 살리고\" and chose the real name on the sign (text only, no logo; IP risk accepted by the user). Street view 24f gis_11179961: brown tile 4-storey with teal glass ribbon bands, granite-pier ground floor with a glass shop front, a dark fascia band with a mint strip and white GS25 letters, a teal awning on the corner. gis:17126475 is the same building (no area).",
+   "sources": [
+    "captures/8930e0ae24fffff/sheets/gis_11179961.jpg",
+    "user screenshot 2026-10-16"
+   ],
+   "seen": "Corner convenience store under a brown tile office block with teal glass bands.",
+   "signs": [
+    {
+     "text": "GS25",
+     "face": "left",
+     "floor": 0,
+     "at": 0.3,
+     "out_m": 0.85,
+     "bg_rgb": [
+      64,
+      66,
+      70
+     ],
+     "ink_rgb": [
+      245,
+      245,
+      245
+     ]
+    },
+    {
+     "text": "GS25",
+     "face": "right",
+     "floor": 0,
+     "at": 0.3,
+     "out_m": 0.85,
+     "bg_rgb": [
+      64,
+      66,
+      70
+     ],
+     "ink_rgb": [
+      245,
+      245,
+      245
+     ]
+    }
+   ]
+  },
+  {
+   "key": "tirebank_naedong",
+   "cell": "8930e0af1b7ffff",
+   "build": [
+    "gis:11208138"
+   ],
+   "claims": [
+    "gis:18348137"
+   ],
+   "floors": 3,
+   "height_m": 13.0,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     240,
+     200,
+     40
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     60,
+     80,
+     100
+    ],
+    "frame_rgb": [
+     210,
+     50,
+     40
+    ]
+   },
+   "bands": {
+    "rgb": [
+     215,
+     60,
+     45
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      38,
+      38,
+      42
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.5,
+     "width_m": 7.0,
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      245,
+      245,
+      240
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.5,
+     "width_m": 7.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      60,
+      90,
+      200
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.5,
+     "width_m": 0.7,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      215,
+      60,
+      45
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.5,
+     "width_m": 0.7,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      215,
+      60,
+      45
+     ]
+    },
+    {
+     "kind": "tires",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 6.0,
+     "rgb": [
+      28,
+      28,
+      30
+     ],
+     "out_m": 2.0
+    },
+    {
+     "kind": "tires",
+     "face": "street",
+     "at": 0.4,
+     "width_m": 5.0,
+     "rgb": [
+      28,
+      28,
+      30
+     ],
+     "out_m": 2.0
+    }
+   ],
+   "entrance": null,
+   "sign": {
+    "text": "타이어뱅크",
+    "face": "street",
+    "floor": 2,
+    "at": 0.45,
+    "out_m": 0.6,
+    "bg_rgb": [
+     210,
+     40,
+     40
+    ],
+    "ink_rgb": [
+     255,
+     255,
+     255
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     215,
+     60,
+     45
+    ],
+    "top_rgb": [
+     150,
+     150,
+     146
+    ],
+    "features": []
+   },
+   "notes": "User 2026-10-16: \"타이어뱅크 디테일 살려줘\" with the real name on the sign (text only, no logo; IP risk accepted by the user). Street view 1b7 gis_18348137: a 3-storey box wrapped in yellow ribbed metal panels with red edge trims, a tall open service bay on the ground floor, white and blue promo banners on the upper face, stacks of tyres on the forecourt. The V-World record gis:18348137 (no area) is the same building as gis:11208138.",
+   "sources": [
+    "captures/8930e0af1b7ffff/sheets/gis_18348137.jpg",
+    "user screenshot 2026-10-16"
+   ],
+   "seen": "Yellow panel tyre shop with an open service bay and tyre stacks."
   }
  ]
 }

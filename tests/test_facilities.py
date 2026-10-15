@@ -89,3 +89,17 @@ def test_a_long_face_with_a_small_annex_in_front_of_its_middle_still_gets_window
     b2 = dataclasses.replace(b, boxes=(main, annex), occluded=(frozenset({"f"}), frozenset({"b"})))
     assert not FA.Maker.hidden(b2, 0, "f")
     assert FA.Maker.hidden(b2, 1, "b")  # the annex's face against the main box is mostly inside it
+
+
+def test_a_shop_fascia_tyre_stacks_and_signs_on_more_than_one_face():
+    b = body()
+    spec = {"wall": {"material": "Brick"}, "windows": {"type": "none"},
+            "accents": [{"kind": "fascia", "face": "street", "width_m": 20.0, "rgb": [64, 66, 70], "strip_rgb": [80, 185, 195]},
+                        {"kind": "tires", "face": "street", "width_m": 5.0}],
+            "sign": {"text": "GS25", "face": "street", "floor": 0}, "signs": [{"text": "GS25", "face": "left", "floor": 0}]}
+    items = FA.Maker(FRAME, b, spec, main=True).make()
+    tails = [i.name.split("#", 1)[1].split("-")[0] for i in items]
+    assert {"fa", "fs", "fg", "ty"} <= set(tails)
+    signs = [i for i in items if i.kind == "sign"]
+    assert [s.text for s in signs] == ["GS25", "GS25"] and len({s.yaw_deg for s in signs}) == 2
+    assert all(i.shape == "Cylinder" for i in items if "#ty-" in i.name)
