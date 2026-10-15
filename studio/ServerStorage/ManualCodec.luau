@@ -143,4 +143,112 @@ function Codec.centre(inst)
 	return (inst:GetBoundingBox()).Position
 end
 
+Codec.KEEP = { Landmark = true } -- places that stay in Workspace/Manual (the landmark towers are the skyline)
+local PART = 190000 -- a StringValue takes under 200,000 characters
+
+-- base64 zstd JSON in StringValues <prefix>1, <prefix>2, ... of a folder; nil when there are none
+function Codec.read(folder, prefix)
+	local HS, ES = game:GetService("HttpService"), game:GetService("EncodingService")
+	local parts, k = {}, 1
+	while folder:FindFirstChild(prefix .. k) do
+		table.insert(parts, folder[prefix .. k].Value)
+		k += 1
+	end
+	if #parts == 0 then
+		return nil
+	end
+	local raw = ES:DecompressBuffer(ES:Base64Decode(buffer.fromstring(table.concat(parts))), Enum.CompressionAlgorithm.Zstd)
+	return HS:JSONDecode(buffer.tostring(raw))
+end
+
+function Codec.write(folder, prefix, value)
+	local HS, ES = game:GetService("HttpService"), game:GetService("EncodingService")
+	for _, v in ipairs(folder:GetChildren()) do
+		if v:IsA("StringValue") and v.Name:match("^" .. prefix .. "%d+$") then
+			v:Destroy()
+		end
+	end
+	if value == nil then
+		return 0
+	end
+	local packed = buffer.tostring(ES:Base64Encode(ES:CompressBuffer(buffer.fromstring(HS:JSONEncode(value)),
+		Enum.CompressionAlgorithm.Zstd, 9)))
+	for k = 1, math.ceil(#packed / PART) do
+		local v = Instance.new("StringValue")
+		v.Name = prefix .. k
+		v.Value = string.sub(packed, (k - 1) * PART + 1, k * PART)
+		v.Parent = folder
+	end
+	return #packed
+end
+
+-- (Edit) the hand-made places of the cells built in Edit (Workspace/Auto/<cell> present) into CellData/<cell>/m1, ...: each unit to
+-- the cell nearest its centre. A cell not built in Edit (packed) keeps its data: its places are not in Workspace/Manual to write.
+-- ManualIds keeps the ids it had and adds the ones seen.
+function Codec.export(data, manual, auto)
+	local present, cells = {}, {}
+	for _, c in ipairs(auto:GetChildren()) do
+		present[c.Name] = true
+	end
+	for _, f in ipairs(data:GetChildren()) do
+		if f:IsA("Folder") then
+			table.insert(cells, { f, f:GetAttribute("x"), f:GetAttribute("z") })
+		end
+	end
+	local ids = {}
+	for _, b in ipairs(string.split(data:GetAttribute("ManualIds") or "", ",")) do
+		if b ~= "" then
+			ids[b] = true
+		end
+	end
+	for _, d in ipairs(manual:GetDescendants()) do
+		local b = d:GetAttribute("BuildingId")
+		if b then
+			ids[b] = true
+		end
+	end
+	local byCell, units, strays = {}, 0, 0
+	for _, u in ipairs(Codec.units(manual, Codec.KEEP)) do
+		local c = Codec.centre(u.inst)
+		local best, bd
+		for _, row in ipairs(cells) do
+			local d = (row[2] - c.X) ^ 2 + (row[3] - c.Z) ^ 2
+			if not bd or d < bd then
+				best, bd = row[1], d
+			end
+		end
+		if best and present[best.Name] then
+			local list = byCell[best] or { units = {}, parts = 0 }
+			byCell[best] = list
+			table.insert(list.units, { path = u.path, node = Codec.encode(u.inst) })
+			list.parts += (u.inst:IsA("BasePart") and 1 or 0) + #u.inst:GetDescendants()
+			units += 1
+		else
+			strays += 1 -- its cell is packed: unpack the cell before editing its places
+		end
+	end
+	local bytes, written = 0, 0
+	for _, row in ipairs(cells) do
+		local f = row[1]
+		if present[f.Name] then
+			local list = byCell[f]
+			f:SetAttribute("manualParts", list and list.parts or 0)
+			bytes += Codec.write(f, "m", list and list.units)
+			written += 1
+		end
+	end
+	local idList = {}
+	for b in pairs(ids) do
+		table.insert(idList, b)
+	end
+	table.sort(idList)
+	data:SetAttribute("ManualIds", table.concat(idList, ","))
+	local keep = {}
+	for k in pairs(Codec.KEEP) do
+		table.insert(keep, k)
+	end
+	data:SetAttribute("ManualKeep", table.concat(keep, ","))
+	return { cells = written, units = units, strays = strays, bytes = bytes }
+end
+
 return Codec

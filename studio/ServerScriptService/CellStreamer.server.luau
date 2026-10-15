@@ -81,19 +81,7 @@ local function showLite(id, on)
 	end
 end
 
-local function unpack(folder, prefix)
-	local parts, k = {}, 1
-	while folder:FindFirstChild(prefix .. k) do
-		table.insert(parts, folder[prefix .. k].Value)
-		k += 1
-	end
-	if #parts == 0 then
-		return nil
-	end
-	local raw = EncodingService:DecompressBuffer(EncodingService:Base64Decode(buffer.fromstring(table.concat(parts))),
-		Enum.CompressionAlgorithm.Zstd)
-	return HttpService:JSONDecode(buffer.tostring(raw))
-end
+local unpack = Codec.read
 
 local function cellData(id)
 	return unpack(dataFolder:FindFirstChild(id), "")

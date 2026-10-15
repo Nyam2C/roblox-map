@@ -67,56 +67,7 @@ for _, f in ipairs(data:GetChildren()) do
 	if not index[f.Name] then f:Destroy() end
 end
 
--- the hand-made places by cell (ServerStorage/ManualCodec): each unit to the cell nearest its centre, in StringValues m1, m2, ...
--- of the cell's folder; the places in KEEP stay in Workspace/Manual (the landmark towers are the skyline)
-local KEEP = { Landmark = true }
-local Codec = require(SS:WaitForChild("ManualCodec"))
-local cells = {}
-for _, f in ipairs(data:GetChildren()) do
-	table.insert(cells, { f, f:GetAttribute("x"), f:GetAttribute("z") })
-end
-local byCell, ids, unitCount = {}, {}, 0
-for _, d in ipairs(workspace.Manual:GetDescendants()) do
-	local b = d:GetAttribute("BuildingId")
-	if b then ids[b] = true end
-end
-for _, u in ipairs(Codec.units(workspace.Manual, KEEP)) do
-	local c = Codec.centre(u.inst)
-	local best, bd
-	for _, row in ipairs(cells) do
-		local d = (row[2] - c.X) ^ 2 + (row[3] - c.Z) ^ 2
-		if not bd or d < bd then best, bd = row[1], d end
-	end
-	local list = byCell[best] or { units = {}, parts = 0 }
-	byCell[best] = list
-	table.insert(list.units, { path = u.path, node = Codec.encode(u.inst) })
-	list.parts += (u.inst:IsA("BasePart") and 1 or 0) + #u.inst:GetDescendants()
-	unitCount += 1
-end
-local mbytes = 0
-for _, f in ipairs(data:GetChildren()) do
-	for _, v in ipairs(f:GetChildren()) do
-		if v.Name:match("^m%d+$") then v:Destroy() end
-	end
-	local list = byCell[f]
-	f:SetAttribute("manualParts", list and list.parts or 0)
-	if list then
-		local packed = buffer.tostring(ES:Base64Encode(ES:CompressBuffer(buffer.fromstring(HS:JSONEncode(list.units)),
-			Enum.CompressionAlgorithm.Zstd, 9)))
-		for k = 1, math.ceil(#packed / PART) do
-			local v = Instance.new("StringValue")
-			v.Name = "m" .. k
-			v.Value = string.sub(packed, (k - 1) * PART + 1, k * PART)
-			v.Parent = f
-		end
-		mbytes += #packed
-	end
-end
-local idList = {}
-for b in pairs(ids) do table.insert(idList, b) end
-table.sort(idList)
-data:SetAttribute("ManualIds", table.concat(idList, ","))
-local keepList = {}
-for k in pairs(KEEP) do table.insert(keepList, k) end
-data:SetAttribute("ManualKeep", table.concat(keepList, ","))
-return string.format("cells %d, data %.1f MB base64, manual %d units %.1f MB, http=%s", n, bytes / 1e6, unitCount, mbytes / 1e6, tostring(HS.HttpEnabled))
+-- the hand-made places of the cells built in Edit, by cell (ServerStorage/ManualCodec)
+local r = require(SS:WaitForChild("ManualCodec")).export(data, workspace.Manual, workspace.Auto)
+return string.format("cells %d, data %.1f MB base64, manual %d cells %d units (%d left to packed cells) %.1f MB, http=%s", n,
+	bytes / 1e6, r.cells, r.units, r.strays, r.bytes / 1e6, tostring(HS.HttpEnabled))
