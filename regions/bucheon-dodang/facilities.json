@@ -6582,6 +6582,543 @@
    "claims": [
     "gis:18698973"
    ]
+  },
+  {
+   "key": "jindalae_park",
+   "cell": "8930e0af547ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/jindalae_park.json",
+   "build": [],
+   "claims": [],
+   "notes": "진달래공원 (user-approved 2026-10-16): ground layout traced on the 547 satellite mosaic (no web photos found): round brick plaza with ring and granite disk, white shade tent, two tennis courts with a 4 m fence, woods as lawn, curving paths, south brick avenue with round planters. Trees stay the satellite's."
+  },
+  {
+   "key": "byzantium_sangdong",
+   "floors": 37,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     220,
+     206
+    ]
+   },
+   "base": {
+    "floors": 7,
+    "material": "Granite",
+    "rgb": [
+     104,
+     104,
+     108
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     120,
+     168,
+     166
+    ],
+    "frame_rgb": [
+     70,
+     72,
+     76
+    ]
+   },
+   "bands": {
+    "rgb": [
+     240,
+     238,
+     232
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 8.0,
+     "from_floor": 7,
+     "to_floor": 37,
+     "rgb": [
+      96,
+      150,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      110,
+      160,
+      160
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.25,
+     "width_m": 9.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      150,
+      82,
+      62
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.25,
+    "width_m": 8.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     210,
+     206,
+     196
+    ],
+    "top_rgb": [
+     200,
+     202,
+     200
+    ],
+    "features": [
+     "helipad",
+     "tank"
+    ],
+    "crown": {
+     "height_m": 3.0,
+     "rgb": [
+      226,
+      220,
+      206
+     ]
+    }
+   },
+   "notes": "Street view shows a dark-granite podium (about 7 floors: floors 1-2 glass shopfronts with grey mullions, floors 3-7 dark grey granite panel grid with punched teal-glass windows) and TWO residential towers rising above it. Podium corner at the crossing is rounded (curved granite/glass corner); on the other street face a two-bay red-brown brick arched passage (arches about 2 floors tall on a brick pier) leads under the podium. Podium roof is a planted roof garden (trees/shrubs at the edge). Towers: cream/off-white concrete frame, each face has a full-height blue-green glass curtain strip in the middle (about 8 m wide), the rest punched windows with white horizontal balcony/slab lines every floor; corners slightly chamfered; top is a plain parapet frame, no lighting box. Satellite: each tower roof is a light grey square about 30 x 30 m with a green helipad pad and white H circle; the two towers stand side by side about 35 m apart (centre to centre) on the 길주로 side. LOCATION CHECK: the helipad towers stand at the 길주로 x 상동로 corner next to a glass subway entrance (also in the street-view crop), whereas the white rounded-corner roof one block north shows a short shadow and looks like a lower building; check that the gis:11215742 outline is the helipad block. If the outline covers only the podium, put two 30 x 30 m towers of floors 8-37 on it rather than extruding the whole footprint to 37 floors. Podium faces are covered in tenant signboards in reality; use generic sign plates only (no brand text). Gold lettering over the arch is the brand name: leave out. Build 2026-10-16: the record outline is the helipad block at the 길주로 x 상동로 corner (checked on the satellite: two helipad towers with long north shadows inside its box; the white rounded roof to the north is another building), so a 7-floor podium with two 28 m towers to floor 37.",
+   "sources": [
+    "captures/8930e0af54bffff/sheets/gis_11215742.jpg",
+    "captures/8930e0af54bffff/crops/gis_11215742__qnTiq_gdtDFkMC31ypgbiQ.jpg",
+    "captures/8930e0af54bffff/crops/gis_11215742__uPoSDjzTMYXQFpAkengnkQ.jpg",
+    "captures/8930e0af54bffff/crops/gis_11215742__b7eze4kd6jVgjF5jPYwoLw.jpg",
+    "data/satellite/8930e0af54bffff-z19.jpg",
+    "https://zippoom.com/browse/%EA%B2%BD%EA%B8%B0-%EB%B6%80%EC%B2%9C%EC%8B%9C-%EC%9B%90%EB%AF%B8%EA%B5%AC-%EC%83%81%EB%8F%99?page=2 (address 길주로 91 near 상동역, no facade photos)"
+   ],
+   "seen": "Three street-view crops: a 7-floor dark granite podium with rounded corner, glass shopfront base and brick arched passage, with two tall cream towers with central blue-green glass strips. Satellite shows two square tower roofs with helipads. No web facade photos were found.",
+   "cell": "8930e0af54bffff",
+   "build": [
+    "gis:11215742"
+   ],
+   "claims": [],
+   "front": "S",
+   "towers": {
+    "podium_floors": 7,
+    "count": 2,
+    "size_m": 28,
+    "gap_m": 12,
+    "podium_wall": {
+     "material": "Granite",
+     "rgb": [
+      104,
+      104,
+      108
+     ]
+    }
+   }
+  },
+  {
+   "key": "sinsang_119",
+   "floors": 2,
+   "height_m": 10.0,
+   "wall": {
+    "material": "Granite",
+    "rgb": [
+     202,
+     200,
+     194
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.0,
+    "h_m": 1.3,
+    "pitch_m": 2.2,
+    "glass_rgb": [
+     60,
+     80,
+     100
+    ],
+    "frame_rgb": [
+     70,
+     72,
+     76
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 11.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "SmoothPlastic",
+     "rgb": [
+      232,
+      132,
+      116
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 13.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "material": "Metal",
+     "rgb": [
+      96,
+      98,
+      102
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.3,
+     "width_m": 8.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      80,
+      120,
+      110
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      200,
+      30,
+      40
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.05,
+    "width_m": 2.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": {
+    "text": "신상119안전센터",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     245,
+     245,
+     245
+    ],
+    "ink_rgb": [
+     200,
+     30,
+     40
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     205,
+     203,
+     198
+    ],
+    "top_rgb": [
+     170,
+     170,
+     168
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Two parts side by side on the street face. LEFT (about 60% of the width): the engine bay, with 2 large coral/salmon roller doors (each about 4.5 m wide and 4.2 m tall, light grey stone frame and pier between them, a row of small black oval windows across each door at mid-height). Above it the upper floor is clad in dark grey standing-seam metal with a ROUNDED top edge (the parapet curves back like a barrel) and a row of about 8 small square windows. In front is an asphalt apron with yellow parking lines. RIGHT: a slightly taller light grey granite block with a large 2-floor glass curtain grid (green-blue glass, grey mullions) facing the street, a narrow stair box on top with a red '119' emblem (three red vertical bars over red '119' letters) and a short antenna. Three flagpoles stand on the roof. Small white sign board with red '119' and the centre name hangs over the entrance door between the bays and the glass block. Back and side faces: plain light grey stone with punched windows. No web photos found ('신상119안전센터' only in news text).",
+   "sources": [
+    "captures/8930e0af54bffff/sheets/gis_12997900.jpg",
+    "captures/8930e0af54bffff/crops/gis_12997900__oe7JPT1WwypjunbMBfz83w.jpg",
+    "captures/8930e0af54bffff/crops/gis_11201038__GV3tL3MlsOlf3IToF9kymg.jpg",
+    "https://www.kyeonggi.com/article/202005221126735 (confirms 부천소방서 신상119안전센터, text only)"
+   ],
+   "seen": "Street view shows a two-floor fire station: two coral bay doors under a dark grey metal upper floor with rounded top, and a light grey stone block with a large glass grid, a red 119 emblem and flagpoles. The neighbouring centre's crop shows the bay side close up.",
+   "cell": "8930e0af54bffff",
+   "build": [
+    "gis:12997900"
+   ],
+   "claims": []
+  },
+  {
+   "key": "sang3dong_centre",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     196,
+     188,
+     176
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Brick",
+    "rgb": [
+     184,
+     134,
+     98
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 1.6,
+    "h_m": 1.6,
+    "pitch_m": 1.8,
+    "glass_rgb": [
+     90,
+     140,
+     120
+    ],
+    "frame_rgb": [
+     70,
+     80,
+     80
+    ]
+   },
+   "bands": {
+    "rgb": [
+     220,
+     214,
+     200
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.2,
+     "width_m": 2.5,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      80,
+      140,
+      120
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 8.0,
+     "from_floor": 2,
+     "to_floor": 2,
+     "material": "SmoothPlastic",
+     "rgb": [
+      228,
+      190,
+      40
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      214,
+      208,
+      194
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": {
+    "text": "상3동행정복지센터",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     235,
+     235,
+     232
+    ],
+    "ink_rgb": [
+     40,
+     70,
+     140
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     200,
+     192,
+     180
+    ],
+    "top_rgb": [
+     176,
+     176,
+     172
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "per_building": {
+    "gis:11207199": {
+     "wall": {
+      "material": "CeramicTiles",
+      "rgb": [
+       226,
+       216,
+       196
+      ]
+     },
+     "base": {
+      "floors": 1,
+      "material": "Concrete",
+      "rgb": [
+       200,
+       196,
+       188
+      ]
+     },
+     "windows": {
+      "type": "ribbon",
+      "w_m": 2.0,
+      "h_m": 1.8,
+      "pitch_m": 2.0,
+      "glass_rgb": [
+       100,
+       140,
+       175
+      ],
+      "frame_rgb": [
+       86,
+       106,
+       126
+      ]
+     },
+     "bands": {
+      "rgb": [
+       86,
+       106,
+       126
+      ],
+      "every_floor": false
+     },
+     "accents": [
+      {
+       "kind": "glass_strip",
+       "face": "right",
+       "at": 0.4,
+       "width_m": 3.5,
+       "from_floor": 0,
+       "to_floor": 3,
+       "rgb": [
+        70,
+        120,
+        130
+       ]
+      },
+      {
+       "kind": "stripe",
+       "face": "all",
+       "from_floor": 1,
+       "to_floor": 1,
+       "rgb": [
+        86,
+        106,
+        126
+       ]
+      }
+     ],
+     "entrance": {
+      "face": "street",
+      "at": -0.3,
+      "width_m": 4.0,
+      "canopy": true,
+      "canopy_rgb": [
+       86,
+       106,
+       126
+      ],
+      "steps": false
+     },
+     "sign": null,
+     "roof": {
+      "parapet_rgb": [
+       70,
+       74,
+       80
+      ],
+      "top_rgb": [
+       176,
+       176,
+       172
+      ],
+      "features": [
+       "stair_box"
+      ],
+      "crown": null
+     }
+    }
+   },
+   "notes": "Read as TWO buildings. gis:11201038 (centre): greige stone-panel walls with a warm tan brick ground floor around the central glass entrance; stepped massing: a taller box at one end (stair/lift tower rising about half a floor above the roof, with a ribbon of green glass under its top) and a lower main block; a vertical green glass stair strip next to the tower; a bright yellow eave/fascia over the central upper volume; green-tinted window bands in grey frames. Forecourt: red-brown brick paving with round stone planters and big pine trees; a small blue-and-white kiosk at the corner (leave out or plain box). gis:11207199 (joint office, election committee offices): cream ceramic-tile walls with slate blue-grey framed window bays (each bay boxed by a blue-grey surround), a blue-grey band over the ground floor carried by a round blue-grey column at the entrance corner (pilotis/covered parking under part of the ground floor), a full-height glass stair tower on the street corner, a dark metal roof cornice with a light railing and two flagpoles on the roof. A slogan board runs along its top floor (not a name, leave out); a vertical stone name pillar stands by the entrance (public body name, optional). No web photos found for either building.",
+   "sources": [
+    "captures/8930e0af54bffff/sheets/gis_11201038.jpg",
+    "captures/8930e0af54bffff/crops/gis_11201038__lQ5TmNR51YgsWRHN2AN8Eg.jpg",
+    "captures/8930e0af54bffff/sheets/gis_11207199.jpg",
+    "captures/8930e0af54bffff/crops/gis_11207199__uj-xZ6NdwwwEPbVDF6MecQ.jpg",
+    "captures/8930e0af54bffff/crops/gis_11207199__GV3tL3MlsOlf3IToF9kymg.jpg",
+    "captures/8930e0af54bffff/crops/gis_11207199__4brtvy2vMVS-1MRdvtv2Pg.jpg"
+   ],
+   "seen": "The centre is a 3-floor greige stone building with a brick ground floor, a taller stair/lift tower, a green glass strip and a yellow eave behind a pine-planted brick forecourt. The joint office next to it is a separate 3-floor cream-tile building with blue-grey framed window bays, pilotis with a round column, a glass corner stair tower and a dark roof cornice with flags.",
+   "cell": "8930e0af54bffff",
+   "build": [
+    "gis:11201038",
+    "gis:11207199"
+   ],
+   "claims": []
   }
  ]
 }

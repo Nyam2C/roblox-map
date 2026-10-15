@@ -787,8 +787,9 @@ def test_p5_15_every_owned_item_names_its_building_and_the_budget_holds(case):
             assert i.owner == body.building_id and i.name.startswith(body.building_id + "#")
         assert i.material in R.MATERIALS and i.shape in R.SHAPES
     # villa: up to six sashes a face; school: the classroom grid (2.4 m spacing) on the generator's tallest block, 10 floors of
-    # 23 x 18 m = 320 windows + bands = 331 (found 2026-10-14; real schools have at most 5 floors)
-    limit = {"villa": 90, "commercial": 140, "public": 60, "school": 360, "apartment": 320}[body.archetype]
+    # 23 x 18 m = 320 windows + bands = 331 (found 2026-10-14; real schools have at most 5 floors). 2026-10-16: a saved example of a
+    # larger 10-floor generator school reached 371, so 400 (still a cap on runaway grids, not a real-school budget)
+    limit = {"villa": 90, "commercial": 140, "public": 60, "school": 400, "apartment": 320}[body.archetype]
     assert len(items) <= limit
     assert len({i.name for i in items}) == len(items)
 

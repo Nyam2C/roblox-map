@@ -1,0 +1,54 @@
+{
+  "cell_id": "8930e0af563ffff",
+  "details": [
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11175444",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-15T17:41:58+00:00",
+      "note": "trees only; apartment hidden behind trees and fence",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11175445",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-15T17:41:58+00:00",
+      "note": "trees only; apartment hidden behind trees and fence",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11175446",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-15T17:41:58+00:00",
+      "note": "trees only; apartment hidden behind trees and fence",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11183699",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-15T17:41:58+00:00",
+      "note": "trees and slope only; building not visible",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    }
+  ],
+  "version": 1
+}

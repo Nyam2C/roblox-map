@@ -436,6 +436,8 @@ def towers_on_podium(frame: Frame, body: LD.Body, sp: Mapping[str, Any], lines: 
     podium = dataclasses.replace(body, floors=pf, height_m=pf * fh)
     psp = {**sp, "base": None, "windows": {**(sp.get("windows") or {}), "type": "ribbon"}, "roof": {"parapet_rgb": (sp.get("roof") or {}).get("parapet_rgb")},
            "accents": [a for a in sp.get("accents") or [] if a.get("face") != "roof" and int(a.get("to_floor", 0)) < pf]}
+    if t.get("podium_wall"):  # a podium in its own skin under the towers (비잔티움: dark granite, 2026-10-16)
+        psp["wall"] = t["podium_wall"]
     items = Maker(frame, LD.resolve_body(podium, lines, [], cfg), psp, main=True).make()
     from shapely.ops import unary_union
     hull = unary_union([LD._box_poly(x) for x in body.boxes]).convex_hull  # the whole podium, not its largest piece
@@ -531,7 +533,7 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
         if sp.get("custom") == "pxpark":  # 안중근공원: a traced ground layout, a Folder so each part settles on the ground
             import anjunggeun
             out.append({"key": sp["key"], "cell": cell, "claims": [], "folder": True,
-                        "parts": [item_row(i) for i in anjunggeun.build(frame, sp["key"])]})
+                        "parts": [item_row(i) for i in anjunggeun.build(frame, sp["key"], sp.get("layout"))]})
             continue
         if sp.get("custom") in ("sopoong", "factory", "savezone"):  # 부천종합터미널 소풍 (rotunda, bus bays, footbridge), the big factory in 1a7, 세이브존
             bid = sp["build"][0]

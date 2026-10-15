@@ -1,0 +1,1099 @@
+{
+ "note": "진달래공원 (상동, inside 진달래마을) ground layout traced on the V-World z19 mosaic of cell 8930e0af547ffff (pixels of that mosaic, tile_x0/tile_y0 below), 2026-10-16; satellite only (no web photos found). Built by src/anjunggeun.py with spec \"layout\".",
+ "tile_x0": 446740,
+ "tile_y0": 203128,
+ "seen": "Satellite z19 mosaic (0.237 m/px): the park is a wooded block (~111 x 115 m, px x 1225-1666, y 1695-2182) between 진달래마을 apartment rows (north: their gardens with sand playgrounds and a compass-rose corner plaza, treated as apartment grounds and not traced), the west road (with a black-roofed building and its parking lot in the SW corner, excluded), the green-roof building in the SE (excluded) and the south road. A round pink-brown brick plaza (~28 m) with a light grey central disk in a dark ring sits west of centre; a white shade tent stands on its north edge and curved step bands lead up to it. A brick avenue with three round tree planters runs south from the plaza to the south road. Two green hard tennis courts (fenced) lie just east of the plaza, with checkered paving on their north and west. Curving tan/grey paths loop around a central wooded mound (red-leaf maples) and join a wide grey greenway along the east edge; a small paved rest square and a bare-earth patch sit in the west wood. No children's playground is visible inside the park itself (the sand playgrounds are in the apartment gardens to the north). Paths under dense canopy are partly inferred. Benches not resolvable. Trees are left to trees.py. Web: no page or photo naming a 진달래공원 in 상동 was found (searches returned 원미산 진달래동산 and the 진달래마을 apartments only).",
+ "sources": [
+  "data/satellite/8930e0af547ffff-z19.jpg (+json)",
+  "web search '진달래공원 부천 상동', '상동 진달래공원 놀이터 테니스장', '부천 \"진달래공원\" 상동': no park page or photo found (results: 원미산 진달래동산 e.g. https://bravo.etoday.co.kr/view/atc_view/13482; 진달래마을 apartment listings e.g. https://m.richgo.ai/auctionMobile/C17OFQWW)"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1225,
+     1695
+    ],
+    [
+     1430,
+     1700
+    ],
+    [
+     1425,
+     1740
+    ],
+    [
+     1360,
+     1765
+    ],
+    [
+     1335,
+     1815
+    ],
+    [
+     1342,
+     1895
+    ],
+    [
+     1318,
+     1935
+    ],
+    [
+     1318,
+     2025
+    ],
+    [
+     1225,
+     2028
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    58,
+    84,
+    46
+   ],
+   "material": "Grass",
+   "note": "west wood between the west road sidewalk and the inner loop: dense mixed canopy over grass, ~90% cover"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1420,
+     1700
+    ],
+    [
+     1665,
+     1700
+    ],
+    [
+     1655,
+     1842
+    ],
+    [
+     1600,
+     1836
+    ],
+    [
+     1580,
+     1803
+    ],
+    [
+     1540,
+     1768
+    ],
+    [
+     1475,
+     1752
+    ],
+    [
+     1425,
+     1737
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    58,
+    84,
+    46
+   ],
+   "material": "Grass",
+   "note": "north wood between the apartment gardens and the north arc path, dense canopy"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1345,
+     1815
+    ],
+    [
+     1365,
+     1785
+    ],
+    [
+     1425,
+     1740
+    ],
+    [
+     1475,
+     1755
+    ],
+    [
+     1500,
+     1815
+    ],
+    [
+     1515,
+     1850
+    ],
+    [
+     1535,
+     1882
+    ],
+    [
+     1530,
+     1905
+    ],
+    [
+     1440,
+     1910
+    ],
+    [
+     1435,
+     1895
+    ],
+    [
+     1385,
+     1888
+    ],
+    [
+     1342,
+     1895
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    74,
+    100,
+    52
+   ],
+   "material": "Grass",
+   "note": "central mound inside the loop paths: grass under trees incl. several red-leaf maples; the white shade tent sits on its south edge"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1500,
+     1815
+    ],
+    [
+     1540,
+     1770
+    ],
+    [
+     1580,
+     1803
+    ],
+    [
+     1600,
+     1838
+    ],
+    [
+     1655,
+     1842
+    ],
+    [
+     1645,
+     1950
+    ],
+    [
+     1632,
+     2035
+    ],
+    [
+     1540,
+     2032
+    ],
+    [
+     1537,
+     1945
+    ],
+    [
+     1535,
+     1912
+    ],
+    [
+     1540,
+     1880
+    ],
+    [
+     1515,
+     1850
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    58,
+    84,
+    46
+   ],
+   "material": "Grass",
+   "note": "east wood between the loop paths, the tennis court and the east greenway"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1300,
+     2030
+    ],
+    [
+     1348,
+     2025
+    ],
+    [
+     1345,
+     2180
+    ],
+    [
+     1305,
+     2180
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    58,
+    84,
+    46
+   ],
+   "material": "Grass",
+   "note": "tree strip between the west building's parking lot and the south avenue"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1432,
+     2040
+    ],
+    [
+     1600,
+     2038
+    ],
+    [
+     1605,
+     2070
+    ],
+    [
+     1495,
+     2072
+    ],
+    [
+     1490,
+     2180
+    ],
+    [
+     1435,
+     2180
+    ],
+    [
+     1425,
+     2140
+    ],
+    [
+     1440,
+     2070
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    74,
+    100,
+    52
+   ],
+   "material": "Grass",
+   "note": "south-east wood: trees east of the south avenue and in the shade north of the green-roof building"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     1377,
+     1963
+    ],
+    [
+     60,
+     0
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    142,
+    126
+   ],
+   "material": "Brick",
+   "note": "main round plaza (~28 m across): pink-brown block paving with curved step bands on its north edge rising to the shade tent"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     1377,
+     1965
+    ],
+    [
+     32,
+     0
+    ]
+   ],
+   "height_m": 0.16,
+   "rgb": [
+    118,
+    116,
+    110
+   ],
+   "material": "Granite",
+   "note": "dark grey ring line around the central disk (~15 m across)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     1377,
+     1965
+    ],
+    [
+     29,
+     0
+    ]
+   ],
+   "height_m": 0.18,
+   "rgb": [
+    186,
+    184,
+    174
+   ],
+   "material": "Granite",
+   "note": "light grey central disk; small dark marks around it (benches or seats) not resolvable"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1350,
+     2015
+    ],
+    [
+     1415,
+     2015
+    ],
+    [
+     1412,
+     2060
+    ],
+    [
+     1410,
+     2100
+    ],
+    [
+     1422,
+     2140
+    ],
+    [
+     1432,
+     2182
+    ],
+    [
+     1345,
+     2182
+    ],
+    [
+     1347,
+     2100
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    140,
+    124
+   ],
+   "material": "Brick",
+   "note": "south avenue from the round plaza to the south road: pink-brown blocks with grey cross bands every ~10 m, widening at the road entrance"
+  },
+  {
+   "kind": "bed",
+   "shape": "circle",
+   "px": [
+    [
+     1382,
+     2062
+    ],
+    [
+     11,
+     0
+    ]
+   ],
+   "height_m": 0.45,
+   "rgb": [
+    70,
+    95,
+    50
+   ],
+   "material": "Grass",
+   "note": "round raised planter with a tree on the south avenue (~5 m across)"
+  },
+  {
+   "kind": "bed",
+   "shape": "circle",
+   "px": [
+    [
+     1376,
+     2102
+    ],
+    [
+     11,
+     0
+    ]
+   ],
+   "height_m": 0.45,
+   "rgb": [
+    70,
+    95,
+    50
+   ],
+   "material": "Grass",
+   "note": "round raised planter with a tree on the south avenue"
+  },
+  {
+   "kind": "bed",
+   "shape": "circle",
+   "px": [
+    [
+     1383,
+     2150
+    ],
+    [
+     12,
+     0
+    ]
+   ],
+   "height_m": 0.45,
+   "rgb": [
+    70,
+    95,
+    50
+   ],
+   "material": "Grass",
+   "note": "round raised planter with a tree on the south avenue"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1432,
+     1912
+    ],
+    [
+     1515,
+     1905
+    ],
+    [
+     1535,
+     1915
+    ],
+    [
+     1537,
+     1945
+    ],
+    [
+     1462,
+     1945
+    ],
+    [
+     1462,
+     1990
+    ],
+    [
+     1438,
+     1990
+    ],
+    [
+     1440,
+     1960
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    166,
+    152
+   ],
+   "material": "Pavement",
+   "note": "checkered grey/beige block paving north and west of the tennis court, joining the round plaza"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1462,
+     1945
+    ],
+    [
+     1537,
+     1945
+    ],
+    [
+     1537,
+     2025
+    ],
+    [
+     1462,
+     2025
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    70,
+    120,
+    80
+   ],
+   "material": "Concrete",
+   "note": "tennis court: two hard courts side by side (green surface, white lines), ~18 x 19 m"
+  },
+  {
+   "kind": "fence",
+   "shape": "poly",
+   "px": [
+    [
+     1461,
+     1944
+    ],
+    [
+     1538,
+     1944
+    ],
+    [
+     1538,
+     2026
+    ],
+    [
+     1461,
+     2026
+    ],
+    [
+     1461,
+     1945
+    ]
+   ],
+   "height_m": 4.0,
+   "rgb": [
+    40,
+    70,
+    50
+   ],
+   "material": "Metal",
+   "note": "tennis court enclosure fence (dark green mesh)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1288,
+     1772
+    ],
+    [
+     1325,
+     1768
+    ],
+    [
+     1335,
+     1790
+    ],
+    [
+     1330,
+     1815
+    ],
+    [
+     1295,
+     1812
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    160,
+    158,
+    146
+   ],
+   "material": "Pavement",
+   "note": "small paved rest square at the west end of the loop (checkered grey blocks, dark spots = benches/shrubs)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1276,
+     1743
+    ],
+    [
+     1302,
+     1742
+    ],
+    [
+     1304,
+     1760
+    ],
+    [
+     1278,
+     1762
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    150,
+    118
+   ],
+   "material": "Concrete",
+   "note": "small bare-earth patch north of the rest square (maybe exercise equipment); colour is packed earth"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1331,
+     1812
+    ],
+    [
+     1333,
+     1850
+    ],
+    [
+     1337,
+     1891
+    ],
+    [
+     1340,
+     1913
+    ],
+    [
+     1350,
+     1911
+    ],
+    [
+     1347,
+     1889
+    ],
+    [
+     1343,
+     1850
+    ],
+    [
+     1341,
+     1812
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "west loop path from the rest square down to the round plaza (~2.4 m)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1327,
+     1795
+    ],
+    [
+     1364,
+     1769
+    ],
+    [
+     1427,
+     1742
+    ],
+    [
+     1423,
+     1734
+    ],
+    [
+     1360,
+     1761
+    ],
+    [
+     1323,
+     1789
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    176,
+    162,
+    132
+   ],
+   "material": "Pavement",
+   "note": "link from the rest square to the north arc path, mostly under canopy (inferred)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1423,
+     1742
+    ],
+    [
+     1474,
+     1760
+    ],
+    [
+     1538,
+     1775
+    ],
+    [
+     1576,
+     1808
+    ],
+    [
+     1598,
+     1842
+    ],
+    [
+     1655,
+     1847
+    ],
+    [
+     1655,
+     1837
+    ],
+    [
+     1602,
+     1834
+    ],
+    [
+     1584,
+     1802
+    ],
+    [
+     1542,
+     1765
+    ],
+    [
+     1476,
+     1750
+    ],
+    [
+     1427,
+     1732
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    176,
+    162,
+    132
+   ],
+   "material": "Pavement",
+   "note": "north arc path curving from the NW wood to the east greenway (~2.4 m, tan-grey)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1496,
+     1817
+    ],
+    [
+     1511,
+     1852
+    ],
+    [
+     1531,
+     1881
+    ],
+    [
+     1526,
+     1904
+    ],
+    [
+     1534,
+     1906
+    ],
+    [
+     1539,
+     1879
+    ],
+    [
+     1519,
+     1848
+    ],
+    [
+     1504,
+     1813
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "inner path along the east side of the central mound down to the tennis paving"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1596,
+     1836
+    ],
+    [
+     1577,
+     1853
+    ],
+    [
+     1536,
+     1876
+    ],
+    [
+     1523,
+     1903
+    ],
+    [
+     1503,
+     1917
+    ],
+    [
+     1468,
+     1925
+    ],
+    [
+     1440,
+     1935
+    ],
+    [
+     1444,
+     1945
+    ],
+    [
+     1472,
+     1935
+    ],
+    [
+     1507,
+     1927
+    ],
+    [
+     1531,
+     1911
+    ],
+    [
+     1544,
+     1884
+    ],
+    [
+     1583,
+     1863
+    ],
+    [
+     1604,
+     1844
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "path from the east greenway junction south-west to the paving north of the tennis court"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1420,
+     2037
+    ],
+    [
+     1465,
+     2036
+    ],
+    [
+     1541,
+     2034
+    ],
+    [
+     1575,
+     2019
+    ],
+    [
+     1599,
+     1992
+    ],
+    [
+     1604,
+     1961
+    ],
+    [
+     1596,
+     1959
+    ],
+    [
+     1591,
+     1988
+    ],
+    [
+     1569,
+     2011
+    ],
+    [
+     1539,
+     2026
+    ],
+    [
+     1465,
+     2028
+    ],
+    [
+     1420,
+     2029
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "path south of the tennis court curving north-east into the east wood"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1656,
+     1699
+    ],
+    [
+     1642,
+     1859
+    ],
+    [
+     1630,
+     1949
+    ],
+    [
+     1620,
+     2019
+    ],
+    [
+     1600,
+     2181
+    ],
+    [
+     1620,
+     2183
+    ],
+    [
+     1640,
+     2021
+    ],
+    [
+     1650,
+     1951
+    ],
+    [
+     1662,
+     1861
+    ],
+    [
+     1676,
+     1701
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    150,
+    150,
+    142
+   ],
+   "material": "Pavement",
+   "note": "east greenway: wide grey pedestrian walk (~5 m) along the park's east edge, from the apartment gardens to the south road"
+  },
+  {
+   "kind": "pergola",
+   "shape": "rect",
+   "px": [
+    [
+     1390,
+     1868
+    ],
+    [
+     1432,
+     1872
+    ],
+    [
+     1428,
+     1897
+    ],
+    [
+     1388,
+     1892
+    ]
+   ],
+   "height_m": 3.5,
+   "rgb": [
+    236,
+    236,
+    230
+   ],
+   "material": "SmoothPlastic",
+   "note": "white membrane shade tent (~10 x 6 m) at the north edge of the round plaza (stage/shade); NOT a brick hut: the generator's dark hipped roof will be wrong",
+   "open": true
+  },
+  {
+   "kind": "pergola",
+   "shape": "rect",
+   "px": [
+    [
+     1415,
+     2042
+    ],
+    [
+     1435,
+     2042
+    ],
+    [
+     1435,
+     2065
+    ],
+    [
+     1415,
+     2065
+    ]
+   ],
+   "height_m": 3.0,
+   "rgb": [
+    120,
+    100,
+    80
+   ],
+   "material": "Wood",
+   "note": "small dark-roofed kiosk/shelter east of the south avenue (~5 x 5 m, use unknown)"
+  }
+ ]
+}

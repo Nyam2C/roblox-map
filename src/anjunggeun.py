@@ -33,8 +33,9 @@ def to_latlon(tile_x0: int, tile_y0: int, px: float, py: float, zoom: int = 19) 
     return math.degrees(math.atan(math.sinh(math.pi * (1 - 2 * ty / n)))), tx / n * 360 - 180
 
 
-def build(frame: Frame, key: str) -> list[Item]:
-    data = json.loads(LAYOUT.read_text(encoding="utf-8"))
+def build(frame: Frame, key: str, layout_path: str | None = None) -> list[Item]:
+    """The parts of a traced park; `layout_path` names another park's layout (spec "layout", 진달래공원 2026-10-16)."""
+    data = json.loads(Path(layout_path or LAYOUT).read_text(encoding="utf-8"))
     items: list[Item] = []
 
     def m(px: float, py: float) -> tuple[float, float]:
@@ -113,6 +114,15 @@ def build(frame: Frame, key: str) -> list[Item]:
             pts = list(r.exterior.coords)[:4]
             w, d = math.dist(pts[0], pts[1]), math.dist(pts[1], pts[2])
             yaw = -math.degrees(math.atan2(pts[1][1] - pts[0][1], pts[1][0] - pts[0][0]))
+            if f.get("open"):  # an open shade tent (진달래공원, 2026-10-16): four posts under a thin membrane roof in its own colour
+                for su in (-1, 1):
+                    for sv in (-1, 1):
+                        a = math.radians(-yaw)
+                        du, dv = su * (w / 2 - 0.2), sv * (d / 2 - 0.2)
+                        put("tp", c.x + du * math.cos(a) - dv * math.sin(a), c.y + du * math.sin(a) + dv * math.cos(a), 0.0,
+                            (0.15, h or 3.5, 0.15), {"rgb": (200, 200, 200), "material": "Metal"})
+                put("tr", c.x, c.y, (h or 3.5), (w + 0.4, 0.15, d + 0.4), f, yaw=yaw)
+                continue
             put("hu", c.x, c.y, 0.0, (w, (h or 3.5) - 1.0, d), f, yaw=yaw, collide=True)
             put("hr", c.x, c.y, (h or 3.5) - 1.0, (w + 0.6, 1.0, d + 0.6), {"rgb": (60, 60, 64), "material": "Slate"}, yaw=yaw)
     return items

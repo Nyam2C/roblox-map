@@ -755,6 +755,41 @@
    "reason": "landmarks: station:부천시청",
    "tier": 1
   },
+  "8930e0af547ffff": {
+   "counts": {
+    "landmarks": [
+     "park:진달래공원(Jindalae park)",
+     "school:상인초등학교"
+    ],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.668,
+     "rural": 0.006
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 상동 3·4 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af54bffff": {
+   "counts": {
+    "landmarks": [
+     "fire_station:신상119안전센터"
+    ],
+    "pois": 36,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.267,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 상동 3·4 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af54fffff": {
    "counts": {
     "landmarks": [
@@ -770,6 +805,24 @@
    },
    "manual": true,
    "reason": "사용자 확장 요청(2026-10-16, 중동 20 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af563ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way490781469",
+     "park:way490781470"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.477,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 상동 3·4 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af56bffff": {

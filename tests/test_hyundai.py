@@ -103,3 +103,16 @@ def test_savezone_finds_its_round_corner_and_its_walls_do_not_overhang_the_outli
     stray = [i.name for i in items if not i.name.split("#", 1)[1].startswith(("fp", "ff"))
              and not near.contains(Point(i.cx / k, -i.cz / k))]
     assert not stray, stray[:5]
+
+
+def test_an_open_pergola_is_four_posts_and_a_thin_roof(tmp_path):
+    """진달래공원 (2026-10-16): a traced shade tent marked open has posts and a membrane roof in its own colour, no hut or slate roof."""
+    import json
+    import anjunggeun
+    f = {"kind": "pergola", "shape": "rect", "px": [[100, 100], [140, 100], [140, 125], [100, 125]], "height_m": 3.5, "rgb": [236, 236, 230],
+         "material": "SmoothPlastic", "open": True}
+    p = tmp_path / "park.json"
+    p.write_text(json.dumps({"tile_x0": 446740, "tile_y0": 203128, "features": [f, {**f, "open": False}]}), encoding="utf-8")
+    tails = [i.name.split("#", 1)[1].split("-")[0] for i in anjunggeun.build(FRAME, "park", str(p))]
+    assert tails.count("tp") == 4 and tails.count("tr") == 1
+    assert tails.count("hu") == 1 and tails.count("hr") == 1  # the closed one is still the hut
