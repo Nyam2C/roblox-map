@@ -69,10 +69,10 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 ### 7. Studio 반영
 1. `get_studio_state` → Edit인지. Play면 멈추고 기다린다.
 2. 큰 변경 전이면 사용자에게 `.rbxl` 복사본을 부탁한다.
-3. `cd data/build && python3 -m http.server 8765 --bind 127.0.0.1`(백그라운드).
+3. `cd data/build && python3 -m http.server 8766 --bind 127.0.0.1`(백그라운드). 포트는 칸 사이클 8766, 키트·스트리밍 세션 8765(2026-10-15 두 세션 합의, 동시에 돌아도 안 겹치게).
 4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행(칸 → 수작업 `Builder.settleManual`까지 한 번에; 땅은 칸의 기울인 판 조각이라 Terrain은 쓰지 않는다). `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. **미니맵·큰 지도 갱신**: Studio에 있는 칸을 모두 적어 `uv run src/minimap.py --cells <칸...>` → 같은 서버로 `minimap.luau`를 받아 `ReplicatedStorage/MinimapData`(ModuleScript)의 `Source`에 넣고, `install-u6.luau`(스크립트만)를 받아 임시 ModuleScript `Source`에 넣고 `require`(둘을 한 파일로 합치면 Studio `Source` 한도 200,000자를 넘는다)(칸을 만들거나 박스가 바뀔 때마다. 빠뜨리면 지도에 새 칸이 안 나온다).
-6. 서버를 내린다: `pkill -f "http.server 8765"`.
+6. 서버를 내린다: `pkill -f "http.server 8766"`.
 7. 키트 메시(U7 H): Builder는 나무 수관을 `ServerStorage/Kits/crown-1`, `crown-2`(MeshPart)에서 복제한다. 없으면 `MapBuilder: kit ... is not in ServerStorage/Kits`로 멈춘다. 새 장소면 `data/kits/*.obj`(`uv run src/kits.py trees`)를 사용자가 홈 탭 Import로 가져오고, Claude가 MeshId가 `kits.MESH_IDS`와 같은지 본 뒤 그 MeshPart를 `ServerStorage/Kits/<이름>`으로 옮긴다. 새 메시를 올려야 하면 사용자에게 먼저 묻는다(검수). 줄 메시 키트(`stk-*`, `uv run src/kits.py stacks` → `data/kits/stacks.obj` 한 파일에 52개)는 `kits.MESH_IDS`에 들어간 것만 `build_luau.py`가 쓰고, 그 MeshPart도 `ServerStorage/Kits/<이름>`에 있어야 한다(충돌 끔, `CollisionFidelity = Box`).
 8. Builder(`studio/ServerStorage/MapBuilder.luau`)나 게임 스크립트(`studio/ServerScriptService/*.server.luau`)를 바꿨다면 먼저 교체한다: 그 파일 복사본만 둔 폴더를 같은 서버로 내놓고 Studio에서 `HttpService:GetAsync`로 받아 새 인스턴스의 `Source`에 넣고 원본 Destroy(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`를 바로 실행하지 않고 `uv run src/anchors.py build --region <구역>` → `uv run src/anchors.py script --region <구역> --name <이름>`이 만든 `data/build/manual/<이름>.luau`(기준점 앞부분 + 스크립트)를 같은 서버로 내놓고 ModuleScript `Source`에 넣어 `require`한다. 스크립트에는 박스 좌표를 숫자로 쓰지 않고 `A.box`·`A.frame`·`A.boxes`를 쓴다(U7 F).
 

@@ -1,4 +1,4 @@
--- Studio (Edit) build of one or more cells from data/build/<cell>/chunks.json served on 127.0.0.1:8765 (cycle-build step 7).
+-- Studio (Edit) build of one or more cells from data/build/<cell>/chunks.json served on 127.0.0.1:8766 (cycle-build step 7).
 -- Change CELLS, run with execute_luau (Edit). HttpEnabled is on only while fetching. Verify keys are items_<kind>.
 local CELLS = { "<cell id>" }
 local HS = game:GetService("HttpService")
@@ -7,7 +7,7 @@ local out = {}
 for _, CELL in ipairs(CELLS) do
 	local was = HS.HttpEnabled
 	HS.HttpEnabled = true
-	local ok, body = pcall(function() return HS:GetAsync("http://127.0.0.1:8765/" .. CELL .. "/chunks.json") end)
+	local ok, body = pcall(function() return HS:GetAsync("http://127.0.0.1:8766/" .. CELL .. "/chunks.json") end)
 	HS.HttpEnabled = was
 	if not ok then return "fetch failed: " .. tostring(body) end
 	local data = HS:JSONDecode(body)
@@ -31,7 +31,7 @@ for _, CELL in ipairs(CELLS) do
 end
 -- the hand-made places onto the ground too (data/build/terrain.json, written by build_luau.py)
 HS.HttpEnabled = true
-local okT, land = pcall(function() return HS:GetAsync("http://127.0.0.1:8765/terrain.json") end)
+local okT, land = pcall(function() return HS:GetAsync("http://127.0.0.1:8766/terrain.json") end)
 HS.HttpEnabled = false
 if okT then
 	table.insert(out, "manual moved " .. Builder.settleManual(HS:JSONDecode(land)).moved)
