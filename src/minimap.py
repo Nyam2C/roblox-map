@@ -267,8 +267,7 @@ SOURCES = (("MinimapClient", "StarterPlayer.StarterPlayerScripts", "LocalScript"
            ("CellStreamer", "ServerScriptService", "Script", "ServerScriptService/CellStreamer.server.luau"),
            ("CellLoading", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/CellLoading.client.luau"),
            ("PlayerMap", "ServerScriptService", "Script", "ServerScriptService/PlayerMap.server.luau"),
-           ("ManualCodec", "ServerStorage", "ModuleScript", "ServerStorage/ManualCodec.luau"),
-           ("LiteSwap", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/LiteSwap.client.luau"))
+           ("ManualCodec", "ServerStorage", "ModuleScript", "ServerStorage/ManualCodec.luau"))
 
 
 def long_string(text: str) -> str:

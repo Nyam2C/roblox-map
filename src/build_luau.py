@@ -34,7 +34,6 @@ import db
 import details_rules
 import fields
 import kits
-import lite
 import roofs
 import judgement
 import layout
@@ -376,9 +375,6 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               "flagged": sum(1 for i in items if i.kind == "building" and "Review" in i.attrs),
               "signs": signs, "labels": labels, "sign_images": sign_images, "signs_reused": signs_reused, "parts_total": len(items), "boxes": len(boxes_report),
               "no_facing": len(no_facing), "far_facing": len(far_facing), "tier": tier}
-    # the far view of the B plan (lite.py): building boxes, roofs and coarse ground, always loaded while the full cell comes and goes
-    lite_list = layout.order_items(lite.lite_items(cell_id, frame, items, ground, layout.ground_item(cell_id, frame, cfg)))
-    counts["lite_items"] = len(lite_list)
     if len(items) > CELL_PART_BUDGET:
         warnings.append(f"{len(items)} parts: over the cell budget of {CELL_PART_BUDGET} (architecture.md section 5)")
         counts["warnings"] = len(warnings)
@@ -391,7 +387,6 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
                                                 "roof_pitch_deg", "window_faces")}}
     files["manifest.json"] = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
     files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids)
-    files["lite.json"] = chunks_json(cell_id, [render_chunk(cell_id, 1, 1, lite_list)], [])
     return Plan(cell_id, items, files, counts, warnings)
 
 

@@ -1,7 +1,6 @@
 -- Edit install of the cell data for ServerScriptService/CellStreamer (2026-10-15, cycle-build 7). Serve data/build on 127.0.0.1
--- (BASE below: cellindex.json, <cell>/chunks.json, <cell>/lite.json, all written by build_luau.py) and run this with execute_luau.
+-- (BASE below: cellindex.json and <cell>/chunks.json, written by build_luau.py) and run this with execute_luau.
 -- Writes ServerStorage/CellData/<cell> (zstd + base64 in StringValues under 200,000 characters; attributes x, z, ring1, ring2) and
--- rebuilds ServerStorage/Lite/Auto/<cell> from lite.json (no collision, persistent). The scripts
 -- come with install-u6.luau (minimap.py); the hand-made places go in by cell too (ManualCodec). Only HttpEnabled while fetching.
 local HS = game:GetService("HttpService")
 local ES = game:GetService("EncodingService")
@@ -19,9 +18,6 @@ local index = HS:JSONDecode(get("cellindex.json")).cells
 local data = SS:FindFirstChild("CellData") or Instance.new("Folder")
 data.Name = "CellData"
 data.Parent = SS
-local liteRoot = SS:FindFirstChild("Lite") or Instance.new("Folder")
-liteRoot.Name = "Lite"
-liteRoot.Parent = SS
 local Builder = require(SS.MapBuilder)
 local n, bytes = 0, 0
 for id, row in pairs(index) do
@@ -47,18 +43,6 @@ for id, row in pairs(index) do
 	f:SetAttribute("parts", row.parts)
 	f.Parent = data
 	bytes += #packed
-	local lite = HS:JSONDecode(get(id .. "/lite.json"))
-	Builder.begin(id, liteRoot)
-	for _, ch in ipairs(lite.chunks) do Builder.add(id, ch.items, ch.looks, liteRoot) end
-	Builder.finish(id, liteRoot)
-	for _, p in ipairs(liteRoot.Auto[id]:GetDescendants()) do
-		if p:IsA("Model") then
-			p.ModelStreamingMode = Enum.ModelStreamingMode.Persistent -- every client keeps the far view (LiteSwap hides the near ones)
-		elseif p:IsA("BasePart") then
-			p.CanCollide = false; p.CanTouch = false; p.CanQuery = false
-			-- a building a hand-made place owns keeps its box too: far away it is the only sign of it (LiteSwap hides it near)
-		end
-	end
 	n += 1
 	task.wait()
 end

@@ -4,8 +4,7 @@
 -- Data (installed in Edit by studio/install/cell-data.luau): ServerStorage/CellData/<cell> holds the cell's chunks.json, zstd
 -- compressed and base64, in StringValues "1", "2", ... (a StringValue takes under 200,000 characters and no binary); the folder's
 -- attributes x, z (centre in studs), ring1 and ring2 (comma-separated cell ids, data/build/cellindex.json) place it. The far view:
--- ServerStorage/Lite/Auto/<cell> (lite.py), moved to Workspace/Lite at start and left there for every client: each client hides a
--- building's lite parts while that building of the full cell is streamed in (StarterPlayerScripts/LiteSwap). The hand-made places (ServerStorage/ManualCodec):
+-- Past the clients' streaming radius nothing of a full cell shows but its ground (user 2026-10-15: no far boxes). The hand-made places (ServerStorage/ManualCodec):
 -- the cell's units in StringValues m1, m2, ... are built with the cell and go with it; the folder's ManualIds attribute lists the
 -- buildings they own (the Builder leaves those out), ManualKeep the places that stay in Workspace/Manual.
 --
@@ -30,7 +29,7 @@ local BUDGET_MS = 8 -- a frame's building while players move (the B test: 21 ms 
 local PREPARE_BUDGET_MS = 12 -- behind the loading screen (the B test: the target cell in under a second)
 local PIN = 10
 local GUARD_MB = 5500
-local BUDGET_PARTS = 500000 -- 5 GB target: about 1.8 GB fixed (server, cell data, lite cells), the rest for full cells
+local BUDGET_PARTS = 500000 -- 5 GB target: about 1.1 GB fixed (server, cell data), the rest for full cells
 local LOOKAHEAD = 6 -- seconds of travel the chooser looks ahead
 local MIN_SPEED, MAX_SPEED = 16, 120 -- studs/s: walking, and a cap for the look-ahead (a teleport is not a speed)
 
@@ -52,11 +51,6 @@ for _, f in ipairs(dataFolder:GetChildren()) do
 	end
 end
 local auto = workspace:WaitForChild("Auto")
-local liteRoot = ServerStorage:FindFirstChild("Lite")
-local liteAuto = liteRoot and liteRoot:FindFirstChild("Auto")
-local liteView = Instance.new("Folder")
-liteView.Name = "Lite"
-liteView.Parent = workspace
 
 local loaded, building, pinned, failed, manualRoots = {}, {}, {}, {}, {}
 local loadedParts = 0
@@ -251,7 +245,7 @@ local function evict(chosen, score, budget, room)
 	end
 end
 
--- start: the far view everywhere, then the cells saved in the place go (they stay in the place file for editing), and the
+-- start: the cells saved in the place go (they stay in the place file for editing), and the
 -- hand-made places but the kept ones (they come back with their cells)
 if manualOn then
 	local skip = {}
@@ -268,11 +262,6 @@ if manualOn then
 		for _, u in ipairs(Codec.units(manual, keep)) do
 			u.inst:Destroy()
 		end
-	end
-end
-if liteAuto then
-	for _, m in ipairs(liteAuto:GetChildren()) do
-		m.Parent = liteView
 	end
 end
 for _, c in ipairs(auto:GetChildren()) do
