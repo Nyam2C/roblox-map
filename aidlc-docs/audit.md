@@ -1790,3 +1790,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 부품 줄이기
 
 ---
+
+## 나무 한 메시, 땅 판 합치기 결과
+**Timestamp**: 2026-10-15T04:07:25Z
+**User Request**: "둘 다 해" (Q2)
+**AI Response**: 땅: 칸 확장 세션 87a74cb(TILE 48 → 192, 칸당 땅 조각 1,031 → 332, 25칸 Studio 재생성 verify ok, 길 덮음 0). 나무: kits.TREES 8개(모양 2 × 초록 4, 줄기 팔각기둥 + 수관), 색 그림 data/kits/tree-texture.png(5칸, 잎 덩어리 무늬). Studio 미리보기(EditableMesh/EditableImage) 3번 고침: 꼭짓점마다 무작위 → 대리석 소용돌이, 면마다 한 색 → 매끈한 로우폴리, 각도·높이로 펼친 잎 무늬 → 지금 나무와 비슷. 비교 data/compare/trees/trees-compare.jpg. 줄기 충돌은 없어진다(메시 상자 충돌이 수관 밑을 막아서). 업로드: batch2.obj(52 + 8) Import 3D 한 번, tree-texture.png 이미지 한 장. 커밋 5dce8c9, 테스트 760.
+**Context**: CONSTRUCTION - 부품 줄이기
+
+---
