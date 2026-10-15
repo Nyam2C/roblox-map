@@ -211,8 +211,8 @@ remote.OnServerEvent:Connect(function(player, fell)
 	local char = player.Character
 	local humanoid = char and char:FindFirstChildOfClass("Humanoid")
 	local root = char and char:FindFirstChild("HumanoidRootPart")
-	if not humanoid or not root or humanoid.Health <= 0 or humanoid.SeatPart then
-		return
+	if not humanoid or not root or humanoid.Health <= 0 or humanoid.SeatPart or char:GetAttribute("Carting") == true then
+		return -- not out of the shopping cart (Cart.server.luau)
 	end
 	start(player, char, humanoid, root)
 end)

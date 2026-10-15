@@ -4,6 +4,7 @@
 쓰는 기준: 코드나 문서만 봐서는 모르는 것, 다시 겪으면 시간이 드는 것. 결정은 `CLAUDE.md`, 입력 기록은 `audit.md`, 여기는 **겪어서 알게 된 사실과 대처**. 항목마다 날짜와 칸. 해결되어 더는 필요 없으면 지운다.
 
 ## Studio·MCP
+- (2026-10-16, 카트) 이 장소의 PlayerScripts에는 `PlayerModule`이 없다(`WaitForChild`가 끝나지 않음). 조작 입력은 `Humanoid.MoveDirection`(카메라 기준)을 카메라 방향으로 풀어서 읽는다. 스크립트가 카메라를 Scriptable로 쓰려면 `RenderPriority.Camera` 뒤에 묶고 내릴 때는 늘 Custom으로 돌린다(MCP `execute_luau`·`screen_capture`가 카메라 종류를 바꿔 두는 일이 있다).
 
 - (2026-10-13, 첫 칸) 캡처를 만든 직후에는 SurfaceGui(간판 글자·이미지)가 비어 보인다. 1분쯤 뒤 다시 찍는다. 2026-10-14에 간판 이미지가 "불러오기 실패"로 보였던 것도 이것이었다(`PreloadAsync`가 Edit에서 `Failure`를 내도 화면에는 나온다).
 - (2026-10-13) `screen_capture`는 한 번에 하나씩. 동시에 여러 개 부르면 시간 초과가 난다.

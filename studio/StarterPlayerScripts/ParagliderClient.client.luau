@@ -53,6 +53,12 @@ local function start()
 			toggle:FireServer()
 		end
 	end
+	if char:GetAttribute("Carting") == true then -- and out of the shopping cart (off a ramp)
+		local cart = ReplicatedStorage:FindFirstChild("CartToggle")
+		if cart then
+			cart:FireServer()
+		end
+	end
 	local standing = hum.HipHeight + root.Size.Y / 2 + 0.6
 	local att = Instance.new("Attachment")
 	att.Name = "GlideAttachment"

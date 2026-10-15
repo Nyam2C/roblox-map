@@ -304,6 +304,9 @@ SOURCES = (("MinimapClient", "StarterPlayer.StarterPlayerScripts", "LocalScript"
            ("Scooter", "ServerScriptService", "Script", "ServerScriptService/Scooter.server.luau"),
            ("ParagliderClient", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/ParagliderClient.client.luau"),
            ("Paraglider", "ServerScriptService", "Script", "ServerScriptService/Paraglider.server.luau"),
+           # the rocket shopping cart (2026-10-16)
+           ("CartClient", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/CartClient.client.luau"),
+           ("Cart", "ServerScriptService", "Script", "ServerScriptService/Cart.server.luau"),
            # the server builds only the cells near players (2026-10-15); its data comes from studio/install/cell-data.luau
            ("CellStreamer", "ServerScriptService", "Script", "ServerScriptService/CellStreamer.server.luau"),
            ("CellLoading", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/CellLoading.client.luau"),
@@ -341,7 +344,9 @@ def install_text(data_module: str, studio_dir: Path = STUDIO_DIR) -> str:
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"HexTeleport\")\nmade[#made + 1] = \"HexTeleport\"",
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"ScooterTrick\")\nmade[#made + 1] = \"ScooterTrick\"",
              "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"LandmarkTeleport\")\nmade[#made + 1] = \"LandmarkTeleport\"",
-             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"Paraglide\")\nmade[#made + 1] = \"Paraglide\""]
+             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"Paraglide\")\nmade[#made + 1] = \"Paraglide\"",
+             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"CartToggle\")\nmade[#made + 1] = \"CartToggle\"",
+             "ensure(game:GetService(\"ReplicatedStorage\"), \"RemoteEvent\", \"CartFx\")\nmade[#made + 1] = \"CartFx\""]
     for name, where, cls, fn in SOURCES:
         src = (studio_dir / fn).read_text(encoding="utf-8")
         lines.append(f"local s = ensure(at(\"{where}\"), \"{cls}\", \"{name}\")\ns.Source = {long_string(src)}\nmade[#made + 1] = \"{name}\"")

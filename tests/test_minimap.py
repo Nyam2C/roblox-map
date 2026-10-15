@@ -128,6 +128,7 @@ def test_the_installer_holds_every_script_the_data_and_the_remote(tmp_path):
         assert f'ensure(at("{where}"), "{cls}", "{name}")' in text and f"-- {fn}" in text
     assert all((M.STUDIO_DIR / fn).exists() for _, _, _, fn in M.SOURCES)  # the repository holds every source where SOURCES says
     assert '"ModuleScript", "MinimapData"' in text and '"RemoteEvent", "ScooterToggle"' in text and text.rstrip().endswith("return made")
+    assert '"RemoteEvent", "CartToggle"' in text and '"RemoteEvent", "CartFx"' in text  # the shopping cart (2026-10-16)
 
 
 # --- teleport by hexagon (2026-10-14) ---------------------------------------------------------------------------------------
