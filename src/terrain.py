@@ -28,6 +28,7 @@ import layout
 STEP = 8.0  # studs between grid heights (Studio's terrain voxels are 4)
 FLAT_MAX_H = 1.0  # studs: a piece this thin lies on the ground
 FLAT_MIN = 3.0  # studs: and this long along one axis tilts with the ground
+FRONT_TAILS = ("dr", "sf")  # a building's door and shopfront parts (layout_details): they stand on its street side
 TILE = 192.0  # studs: the ground starts as tiles this size, each tilted to its own patch of ground, and is quartered where it bends
 #               (2026-10-15: Terrain stepped 2 studs and covered road edges, user; 48 studs gave about 1,030 tiles a cell, the server
 #               holds every part: 192 where flat, user decision on place-split Q2)
@@ -225,11 +226,21 @@ def lift(items: Sequence[layout.Item], ground: Ground | None, decks: Any = None)
     if ground is None:
         return list(items)
     by_unit: dict[str, float] = {}
-    for i in items:  # a building's lift: the lowest ground under its boxes
+    high: dict[str, float] = {}
+    front: dict[str, float] = {}
+    for i in items:  # a building's lift: the lowest ground under its boxes ...
         u = _unit(i)
         if u and u.startswith("b:") and i.kind == "building":
-            low = min(ground.h(x, z) for x, z in _corners(i) + [(i.cx, i.cz)])
-            by_unit[u] = min(by_unit.get(u, low), low)
+            hs = [ground.h(x, z) for x, z in _corners(i) + [(i.cx, i.cz)]]
+            by_unit[u] = min(by_unit.get(u, min(hs)), min(hs))
+            high[u] = max(high.get(u, max(hs)), max(hs))
+        elif u and u.startswith("b:") and "#" in i.name and i.name.split("#", 1)[1].split("-")[0].rstrip("0123456789") in FRONT_TAILS:
+            front[u] = max(front.get(u, -1e9), ground.h(i.cx, i.cz))
+    # ... or, with a door or a shopfront, the street at its front: on a slope the lowest corner sank the shops a floor under the
+    # sidewalk (user 2026-10-15); the boxes then reach down to the ground under them as a plinth so the low side does not float
+    lifted = {u: min(front[u], high[u]) for u in front if u in by_unit and front[u] > by_unit[u] + 0.05}
+    for u, h in lifted.items():
+        by_unit[u] = h
     out = []
     flat = lambda i: i.sy <= FLAT_MAX_H and max(i.sx, i.sz) >= FLAT_MIN and i.shape == "Block" and _unit(i) is None
     items = [p for i in items for p in (_cut(i, ground) if i.kind != "ground" and flat(i) else [i])]
@@ -241,6 +252,11 @@ def lift(items: Sequence[layout.Item], ground: Ground | None, decks: Any = None)
         if u is not None:
             if u not in by_unit:
                 by_unit[u] = ground.h(i.cx, i.cz)
+            if u in lifted and i.kind == "building":
+                down = by_unit[u] - min(ground.h(x, z) for x, z in _corners(i) + [(i.cx, i.cz)])
+                if down > 0.05:  # the plinth: the box grows down to the ground under it
+                    out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + by_unit[u] - down / 2), sy=layout.fmt(i.sy + down)))
+                    continue
             out.append(dataclasses.replace(i, cy=layout.fmt(i.cy + by_unit[u])))
             continue
         dy = ground.h(i.cx, i.cz)

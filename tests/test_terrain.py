@@ -90,3 +90,14 @@ def test_a_long_road_is_cut_so_each_part_follows_its_own_stretch():
     assert sum(p.sx for p in parts) == pytest.approx(150, abs=0.3)
     for p in parts:
         assert p.cy == pytest.approx(0.1 + g.h(p.cx, p.cz), abs=2e-3)
+
+
+def test_a_shop_building_stands_at_its_street_front_and_its_box_reaches_down_on_the_low_side():
+    g = ramp_ground()  # the street is on the high (east) side: x = 50
+    b = item("building", "gis:1", 40, 0, 20, 30, 10)
+    door = item("facade", "gis:1#sf0", 50, 0, 0.2, 3, 2, owner="gis:1", y=1.5)  # layout_details names a shopfront sf0, sf1, ...
+    out = {i.name: i for i in T.lift([b, door], g)}
+    m = out["gis:1"]
+    assert m.cy + m.sy / 2 == pytest.approx(30 + 5.0)  # the top follows the front (ground 5.0), not the lowest corner (3.0)
+    assert m.cy - m.sy / 2 == pytest.approx(3.0)  # the bottom reaches the ground on the low side: no floating corner
+    assert out["gis:1#sf0"].cy == pytest.approx(1.5 + 5.0)  # the shopfront at street level
