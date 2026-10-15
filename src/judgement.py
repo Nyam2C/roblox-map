@@ -190,6 +190,10 @@ def effective_building(building: Mapping[str, Any], estimate: Mapping[str, Any] 
         else:
             height, h_basis = floors * floor_h, "from_floors"
             flags.add("height_out_of_range")
+    elif reg_h is not None and floors is not None and reg_f is not None and floors < reg_f and f_basis == "photo_count":
+        # the photo counted fewer floors than the register: a tall shop or hall floor, or pilotis, read as one; the register's
+        # measured height still stands (a 2-floor 8.8 m market hall came out 3.4 m and looked sunk, 1a3 2026-10-15)
+        height, h_basis = float(reg_h), "register"
     elif reg_h is not None and floors is not None:
         height, h_basis = floors * floor_h, "from_floors"
     elif reg_h is not None:

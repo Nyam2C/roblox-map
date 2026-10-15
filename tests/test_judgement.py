@@ -81,6 +81,8 @@ def test_p4_2_height_is_positive_and_follows_the_rules(case):
     band = reg_h is not None and floors is not None and LO <= reg_h / floors <= HI
     if reg_h is not None and floors is not None and same and band:
         assert (e.height_m, e.height_basis) == (reg_h, "register")
+    elif reg_h is not None and floors is not None and reg_f is not None and floors < reg_f and e.floors_basis == "photo_count":
+        assert (e.height_m, e.height_basis) == (reg_h, "register")  # fewer floors seen: a tall floor, the measured height stands
     elif reg_h is not None and floors is None:
         assert (e.height_m, e.height_basis) == (reg_h, "register")
     elif floors is not None:
@@ -312,3 +314,10 @@ def test_a_good_export_parses_and_bad_ones_are_refused_whole():
             J.parse_export(text, CFG)
     with pytest.raises(ValueError):
         J.parse_export(" " * (J.MAX_EXPORT_BYTES + 1) + good_export(), CFG)
+
+
+def test_a_photo_with_fewer_floors_keeps_the_register_height_of_a_tall_hall():
+    b = {"building_id": "gis:1", "floors_above": 2, "height_m": 8.8}
+    j = {"building_id": "gis:1", "floors_seen": 1, "confidence": "high", "height_est_m": None, "wall_color": None, "roof_shape": None}
+    e = J.effective_building(b, j, None, CFG)
+    assert (e.floors_above, e.height_m, e.height_basis) == (1, 8.8, "register")

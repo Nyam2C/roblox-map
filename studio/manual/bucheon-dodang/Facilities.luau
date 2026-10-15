@@ -1,6 +1,8 @@
 -- Manual facilities the user approved (2026-10-15), built from data/build/manual/facilities.json (src/facilities.py).
--- Run with execute_luau after putting the JSON text in DATA (the runner fetches it from the local server). One Model per facility
--- under Manual/Facilities; a Configuration per claimed building id carries BuildingId so the Auto building steps aside.
+-- Run with execute_luau after putting the JSON text in DATA (the runner fetches it from the local server). One Folder per facility
+-- under Manual/Facilities; a Configuration per claimed building id carries BuildingId so the Auto building steps aside. A facility
+-- of several buildings has one Model per building (the part names' "gis:N" before "#"), so settleManual sets each building on
+-- its own ground (2026-10-15: one Model for the whole facility sank its uphill buildings up to 2 m).
 -- Makes a facility only when its Model is missing; to redo one, delete Manual/Facilities/<key> and run again.
 return function(DATA)
 	local HS = game:GetService("HttpService")
@@ -18,11 +20,21 @@ return function(DATA)
 			table.insert(made, f.key .. " kept")
 			continue
 		end
-		-- a park is a Folder: settleManual then lifts each of its parts onto the ground under it (안중근공원, 2026-10-15)
-		local model = Instance.new(f.folder and "Folder" or "Model")
+		-- a park is a Folder of loose parts: settleManual lifts each part onto the ground under it (안중근공원, 2026-10-15)
+		local model = Instance.new("Folder")
 		model.Name = f.key
-		if not f.folder then
-			model.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
+		local groups = {}
+		local function holder(name)
+			if f.folder then return model end
+			local key = string.match(name, "^([^#]+)#") or name
+			if not groups[key] then
+				local g = Instance.new("Model")
+				g.Name = key
+				g.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
+				g.Parent = model
+				groups[key] = g
+			end
+			return groups[key]
 		end
 		for _, id in ipairs(f.claims) do
 			local c = Instance.new("Configuration")
@@ -71,7 +83,7 @@ return function(DATA)
 				label.Parent = gui
 				gui.Parent = p
 			end
-			p.Parent = model
+			p.Parent = holder(it.n)
 			if i % 400 == 0 then task.wait() end
 		end
 		model.Parent = root

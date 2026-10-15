@@ -137,7 +137,9 @@ def probe(cfg: Mapping[str, Any], region: str, cells: Sequence[str], source: Any
 
 def changed_cells(cfg: Mapping[str, Any], region: str, before: Mapping[str, Sequence[float]], after: Mapping[str, Sequence[float]],
                   limit: float = 0.3) -> list[str]:
-    """The region's cells whose ground (terrain.py, studs) moves more than `limit` anywhere at 49 points between the two sets."""
+    """The region's cells whose ground (terrain.py, studs) moves more than `limit` anywhere at 343 points between the two sets: the
+    cell and its first ring, since a cell's square ground tiles reach past its hexagon (2026-10-15: points inside the cell only missed
+    117, 18b, 19b and 1d7, whose tiles moved up to 7.5 studs at the border with the new 1bb and 18f, a step and a buried house)."""
     import h3
     import layout
     import terrain
@@ -153,7 +155,7 @@ def changed_cells(cfg: Mapping[str, Any], region: str, before: Mapping[str, Sequ
     g1 = ground(after)
     out = []
     for c in cells:
-        pts = [layout.to_studs(frame, *h3.cell_to_latlng(k)) for k in h3.cell_to_children(c, h3.get_resolution(c) + 2)]
+        pts = [layout.to_studs(frame, *h3.cell_to_latlng(k)) for n in h3.grid_disk(c, 1) for k in h3.cell_to_children(n, h3.get_resolution(c) + 2)]
         if g0 is None or max(abs(g1.h(x, z) - g0.h(x, z)) for x, z in pts) > limit:
             out.append(c)
     return out

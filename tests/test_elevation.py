@@ -70,3 +70,20 @@ def test_probe_keeps_neighbours_round_the_cell_with_altitudes_and_stops_on_a_blo
     assert reason.startswith("blocked") and len(calls) == 3
     assert set(got) == {"c", "n1"} and new == 2  # far off the cell's ring and no altitude are left out, a repeat is not new
     assert len(E.probe_points(cell)) == 7 and all(h3.latlng_to_cell(a, b, 9) == cell for a, b in E.probe_points(cell))
+
+
+def test_a_change_just_past_the_cell_border_still_asks_to_rebuild_the_cell(tmp_path, monkeypatch):
+    import h3
+    monkeypatch.setattr(E.common, "resolve", lambda p: __import__("pathlib").Path(p))
+    cell = "8930e0af117ffff"
+    (tmp_path / "r").mkdir()
+    (tmp_path / "r" / "region.toml").write_text(f'name = "r"\ncells = ["{cell}"]\n', encoding="utf-8")
+    cfg = {**E.common.DEFAULTS, "regions_dir": str(tmp_path), "h3_res": 9}
+    lat, lon = h3.cell_to_latlng(cell)
+    ring = [p for p in h3.grid_ring(cell, 1)]
+    base = {f"p{i}": (*h3.cell_to_latlng(c), 37.0) for i, c in enumerate([cell] + ring + list(h3.grid_ring(cell, 2)))}
+    c2 = h3.cell_to_latlng(ring[0])
+    nb = (lat + (c2[0] - lat) * 0.6, lon + (c2[1] - lon) * 0.6)  # just past the border, in the neighbour
+    assert h3.latlng_to_cell(nb[0], nb[1], 9) != cell
+    moved = {**base, "x": (nb[0], nb[1], 40.0)}  # a new camera there, 3 m higher
+    assert E.changed_cells(cfg, "r", {**base, "x": (nb[0], nb[1], 37.0)}, moved) == [cell]
