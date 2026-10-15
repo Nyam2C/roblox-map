@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af57bffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:263924197",
+   "name": "석천중학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -7100.904,
+   "z": -2178.54,
+   "yaw": 80.4,
+   "w": 226.8,
+   "d": 187.2,
+   "fit": 0.993
+  }
+ ]
+}

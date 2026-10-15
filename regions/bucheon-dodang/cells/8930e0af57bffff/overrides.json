@@ -1,0 +1,85 @@
+{
+  "cell_id": "8930e0af57bffff",
+  "estimates": [
+    {
+      "building_id": "gis:11183541",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T16:14:31+00:00",
+      "note": "crop shows only trees and shrubs on a slope; target building hidden",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11183543",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T16:14:31+00:00",
+      "note": "apartment tower top visible above dense trees; floors cannot be counted",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11194993",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T16:14:31+00:00",
+      "note": "crop shows only trees and shrubs on a slope; target building hidden",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11204148",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T16:14:31+00:00",
+      "note": "crop shows only trees and shrubs on a slope; target building hidden",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206189",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T16:14:31+00:00",
+      "note": "crop shows only trees and shrubs on a slope; target building hidden",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:18521989",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T16:14:31+00:00",
+      "note": "crop shows only trees and shrubs on a slope; target building hidden",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

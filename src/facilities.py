@@ -139,7 +139,34 @@ class Maker:
             for extra in sp.get("signs") or []:
                 self.sign(extra)
         self.roof(sp.get("roof") or {})
+        if self.main and sp.get("rotunda"):
+            self.rotunda(sp["rotunda"])
         return self.items
+
+    def rotunda(self, r: Mapping[str, Any]) -> None:
+        """A glass cylinder on one compass corner of the body, rings every few metres, a drum and an open white ring on top
+        (세이브존 상동점 SW corner, 2026-10-16)."""
+        b = self.body
+        want = [sum(self.COMPASS[c][k] for c in str(r.get("corner", "SW")).upper() if c in self.COMPASS) for k in (0, 1)]
+        corners = [LD._world(bx, su * bx.width_m / 2, sv * bx.depth_m / 2) for bx in b.boxes for su in (-1, 1) for sv in (-1, 1)]
+        e, n = max(corners, key=lambda p: p[0] * want[0] + p[1] * want[1])
+        dia = float(r.get("diameter_m") or 14.0)
+        top = float(r.get("height_m") or b.height_m + 4.0)
+        body_h = min(top - 1.0, b.height_m)
+        yaw = b.boxes[0].yaw_deg
+
+        def cyl(tail: str, y: float, h: float, d: float, lk: Mapping[str, Any], kind: str = "facade") -> None:
+            self.items.append(LD._part(self.frame, kind, f"{b.building_id}#{tail}-{len(self.items)}", b.building_id, len(self.items), e, n, y,
+                                       (h, d, d), yaw, owner=b.building_id, shape="Cylinder", **lk))
+
+        cyl("rg", 0.0, body_h, dia, look("Glass", r.get("glass_rgb"), (78, 107, 123), transparency=0.15, collide=True), kind="building")
+        step = float(r.get("bands_every_m") or 0)
+        if step >= 2.0:
+            for k in range(1, int(body_h / step) + 1):
+                cyl("rb", k * step - 0.15, 0.3, dia + 0.8, look("Metal", r.get("rgb"), (200, 206, 212)))
+        cyl("rd", body_h, top - body_h, dia, look("Metal", r.get("crown_rgb"), (106, 107, 108)))
+        cyl("rt", top, 0.2, dia, look("SmoothPlastic", (235, 236, 236)))
+        cyl("rw", top + 0.05, 0.2, dia - 5.4, look("SmoothPlastic", (40, 42, 44)))
 
     def windows(self, base_h: float) -> None:
         b, w = self.body, self.spec.get("windows") or {}

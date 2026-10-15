@@ -116,6 +116,25 @@ def test_p5_3_an_l_shape_gets_two_boxes_that_fit_and_a_rectangle_stays_one():
     assert len(single) == 1 and single[0].fit_ratio >= 0.999
 
 
+def test_arc_block_is_cut_into_wedges_that_follow_the_curve():
+    """region.toml arc_buildings (2026-10-16): a 60 degree band between radii 22 and 31 m round a centre 25 m south-west of it."""
+    cx, cy = -25.0, -25.0
+    arc = [(cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))) for r, rng in ((31, range(15, 76, 10)), (22, range(75, 14, -10))) for a in rng]
+    centre = offset(CENTER, 0, 0)
+    outline = [list(offset(centre, x, y)) for x, y in arc]
+    pts = [layout.to_meters(FRAME, lat, lon) for lat, lon in outline]
+    ex, ey = LD.arc_centre(pts)
+    c0 = Polygon(pts).centroid
+    assert math.hypot(ex - c0.x - (cx - Polygon(arc).centroid.x), ey - c0.y - (cy - Polygon(arc).centroid.y)) < 1.0
+    boxes = LD.arc_boxes(outline, FRAME, 5)
+    assert len(boxes) == 5 and covers(boxes, pts, tol=0.3)
+    yaws = sorted(b.yaw_deg % 180 for b in boxes)
+    assert yaws[-1] - yaws[0] > 35  # the boxes turn with the curve
+    assert Polygon(pts).area / sum(b.width_m * b.depth_m for b in boxes) >= 0.8  # 12 degree wedges of a 9 m band fit about 0.84
+    cfg = {**CFG, "arc_buildings": {"gis:1": 5}}
+    assert "arc_buildings" in common.REGION_KEYS and (cfg.get("arc_buildings") or {}).get("gis:1") == 5
+
+
 @settings(max_examples=40)
 @given(star_outlines(spread_m=200, min_r=12, max_r=30), st.integers(0, 7), st.booleans())
 def test_p5_3_boxes_cover_the_outline_use_less_area_than_one_box_and_ignore_the_vertex_order(outline, shift, reverse):

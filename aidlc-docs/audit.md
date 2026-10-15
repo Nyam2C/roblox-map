@@ -2050,3 +2050,19 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION, 시설 상세(사용자 지적)
 
 ---
+
+## 48~50번 칸: 중동 20(0b7) 둘레 3칸과 대표 시설
+**Timestamp**: 2026-10-15T15:59:33Z
+**User Request**: "일단 그럼 중동 20 주변 3칸 ㄱㄱ" → 시설 질문에 "세이브존 (추천), 석천중학교, 진달래마을 원호 동, 평화교회 + 상동국천빌딩"
+**AI Response**: 중동 20(0b7)의 안 만든 이웃 3칸 8930e0af0b3ffff(길주로 상가: 세이브존·메가플러스, 건물 27), 8930e0af57bffff(석천중·진달래마을, 35), 8930e0af54fffff(진달래마을·평화교회, 32)를 region.toml에 넣고 1급으로 사이클 시작. 후보 넷(세이브존 10층 원통 탑, 석천중 본관·체육관·운동장, 진달래마을 원호 동 2242·2245, 평화교회 + 상동국천빌딩 옥상 풋살장)을 위성·대장 근거로 물었고 넷 다 승인.
+**Context**: CONSTRUCTION - cycle-build 0b
+
+---
+
+## 48~50번 칸 완료
+**Timestamp**: 2026-10-15T16:27:01Z
+**User Request**: "일단 그럼 중동 20 주변 3칸 ㄱㄱ"(위 승인 그대로)
+**AI Response**: 0b3·57b·54f 사이클 끝. 판단 50건(0b3 27, 57b·54f 23; high 불일치 없음, 대장 유지). 시설 4곳 Manual/Facilities: savezone_sangdong 95부품(새 rotunda: SW 모서리 유리 원통 16 m, 링, 드럼), kukcheon_bldg 60(옥상 court, 거리뷰 대조 뒤 1층 fascia·2층 유리 띠 추가), seokcheon_middle 831(본관·체육관·스탠드 4), pyeonghwa_church 231(gis:18698973은 72% 겹쳐 claims). 진달래마을 원호 동 gis:11195747은 region.toml arc_buildings = 5(새 코드 layout_details.arc_boxes, 테스트 추가). 세이브존은 상호 글자 없음(브랜드 결정 그대로). 땅 바뀐 이웃 16칸(elevation.py moved, 새 명령) unpack·재생성, 19칸 verify ok, 땅이 길 덮음 0, 위성 3칸 확인(data/compare), 거리뷰 9쌍. 미니맵 50칸, cell-data 50칸, pack(strays 0). 테스트 781 통과. 계남로 차로는 위성에서 약 4차로라 기본 폭 유지. 웹 출처: seokcheon-m.goebc.kr(학교 배너), peace-ch.cc(교회 연혁·옛 사진), 세이브존·국천빌딩은 웹 사진 없음.
+**Context**: CONSTRUCTION - cycle-build/verify/record
+
+---

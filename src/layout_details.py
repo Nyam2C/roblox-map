@@ -227,6 +227,54 @@ def outline_to_boxes(outline: Sequence[Sequence[float]], frame: Frame, cfg: Mapp
     return [b for _, b in sorted(pieces, key=lambda pb: (round(pb[1].cx_m, 3), round(pb[1].cy_m, 3)))]
 
 
+def arc_centre(pts: Sequence[tuple[float, float]]) -> tuple[float, float]:
+    """The common centre of a curved block's inner and outer walls: the point whose distances to the outline vertices fall into two
+    tight groups (split at the largest gap). Coarse-to-fine grid, 150 m round the centroid (an algebraic circle fit lands
+    between the two walls)."""
+    def cost(cx: float, cy: float) -> float:
+        d = sorted(math.hypot(x - cx, y - cy) for x, y in pts)
+        k = max(range(1, len(d)), key=lambda i: d[i] - d[i - 1])
+        return sum((v - sum(g) / len(g)) ** 2 for g in (d[:k], d[k:]) for v in g)
+    c = Polygon(pts).centroid
+    best = (cost(c.x, c.y), c.x, c.y)
+    for span, step in ((150.0, 10.0), (12.0, 1.0), (1.2, 0.1)):
+        _, bx, by = best
+        n = int(round(span / step))
+        for i in range(-n, n + 1):
+            for j in range(-n, n + 1):
+                v = cost(bx + i * step, by + j * step)
+                if v < best[0]:
+                    best = (v, bx + i * step, by + j * step)
+    return best[1], best[2]
+
+
+def arc_boxes(outline: Sequence[Sequence[float]], frame: Frame, n: int) -> list[Box]:
+    """A curved block (region.toml `arc_buildings`, 2026-10-16 진달래마을) cut into n equal wedges round its centre, one box
+    each, so the boxes follow the curve instead of the vertex cuts' ragged chain."""
+    poly = _poly_m(outline, frame)
+    if poly is None:
+        return []
+    pts = list(poly.exterior.coords)[:-1]
+    cx, cy = arc_centre(pts)
+    c0 = poly.centroid
+    a0 = math.atan2(c0.y - cy, c0.x - cx)
+    ang = [(math.atan2(y - cy, x - cx) - a0 + math.pi) % (2 * math.pi) - math.pi for x, y in pts]
+    lo, hi = min(ang), max(ang)
+    reach = 4 * max(math.hypot(x - cx, y - cy) for x, y in pts)
+    out: list[Box] = []
+    for k in range(n):
+        t0, t1 = a0 + lo + (hi - lo) * k / n, a0 + lo + (hi - lo) * (k + 1) / n
+        wedge = Polygon([(cx, cy)] + [(cx + reach * math.cos(t0 + (t1 - t0) * j / 4), cy + reach * math.sin(t0 + (t1 - t0) * j / 4))
+                                      for j in range(5)])
+        pieces = _pieces_sorted(getattr(poly.intersection(wedge), "geoms", [poly.intersection(wedge)]))
+        if pieces:
+            p = max(pieces, key=lambda g: g.area)
+            b = layout.box_of_points(list(p.exterior.coords)[:-1], p.area)
+            if b is not None:
+                out.append(b)
+    return out
+
+
 # --- bodies (BR-1.3 to BR-1.6, BR-3.1, BR-7.2) ----------------------------------------------------------------------
 
 @dataclass(frozen=True)
@@ -294,7 +342,8 @@ def make_body(building: Mapping[str, Any], eff: Any, detail: Mapping[str, Any] |
     archetype = R.archetype(building.get("usability_code"), eff.floors_above, building.get("name"), in_school)
     if archetype == "public" and R.shop_house(building.get("usability_code"), building.get("name"), detail):
         archetype = "commercial"
-    boxes = outline_to_boxes(building["outline"], frame, cfg, archetype)
+    arc = (cfg.get("arc_buildings") or {}).get(bid)
+    boxes = arc_boxes(building["outline"], frame, int(arc)) if arc else outline_to_boxes(building["outline"], frame, cfg, archetype)
     if not boxes:
         return None
     single = layout.box_of_points(list(_poly_m(building["outline"], frame).exterior.coords)[:-1])  # type: ignore[union-attr]

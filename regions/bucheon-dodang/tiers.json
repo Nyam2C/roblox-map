@@ -87,6 +87,23 @@
    "reason": "사용자 확장 요청(2026-10-15, 중동 18 둘레), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0af0b3ffff": {
+   "counts": {
+    "landmarks": [
+     "station:상동"
+    ],
+    "pois": 26,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 중동 20 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af0b7ffff": {
    "counts": {
     "landmarks": [],
@@ -738,6 +755,23 @@
    "reason": "landmarks: station:부천시청",
    "tier": 1
   },
+  "8930e0af54fffff": {
+   "counts": {
+    "landmarks": [
+     "park:진달래공원(Jindalae park)"
+    ],
+    "pois": 4,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.618,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 중동 20 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af56bffff": {
    "counts": {
     "landmarks": [],
@@ -751,6 +785,25 @@
    },
    "manual": true,
    "reason": "사용자 확장 요청(2026-10-15, 중동 18 둘레), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af57bffff": {
+   "counts": {
+    "landmarks": [
+     "park:way490781470",
+     "park:진달래공원(Jindalae park)",
+     "school:석천중학교"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.572,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 중동 20 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   }
  }

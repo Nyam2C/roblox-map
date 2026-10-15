@@ -56,7 +56,11 @@ uv run src/roofs.py --cells <칸>         # 평지붕 윗면 색(7층 이하): �
 uv run src/elevation.py collect --region <구역>                 # 1급: 3단계에서 받은 파노라마의 고도
 uv run src/elevation.py probe --region <구역> --cells <칸...>   # 모든 새 칸(2·3급은 이것만): 칸당 위치 조회 7번, 이미지 없음
 ```
-끝 줄 `rebuild (ground moved over 0.3 studs): <칸...>`에 나온 **이미 만든 칸도 6~7단계에서 같이 다시 만든다**(빠뜨리면 칸 경계에 턱). 차단(`blocked`)이면 멈추고 알린다.
+collect는 `stopped: done`이 나올 때까지 반복. 그다음 다시 만들 칸 목록은 커밋된 고도와 비교해 한 번에 낸다:
+```bash
+uv run src/elevation.py moved --region <구역>                   # rebuild (... since HEAD): <칸...>
+```
+여기 나온 **이미 만든 칸도 unpack해서 6~7단계에서 같이 다시 만든다**(빠뜨리면 칸 경계에 턱). 차단(`blocked`)이면 멈추고 알린다. 칸 목록을 셸 변수로 넘길 때는 bash로(zsh는 `$C`를 낱말로 안 나눈다).
 
 ### 4. 판단 (눈가림)
 1. `uv run src/estimate.py pending --cells <칸> --limit 200` 출력의 JSON 줄을 모아 70개 안팎으로 나눈다(200 넘으면 기록 뒤 다시 pending).
@@ -70,7 +74,7 @@ uv run src/elevation.py probe --region <구역> --cells <칸...>   # 모든 새 
 새로 만들지 않고 이미 올린 이미지를 재사용한다(사용자 결정 2026-10-14, U7 K가 끝나기 전에는 글자 간판). 새 이미지는 정말 큰 랜드마크만, 칸당 최대 2장: 사용자에게 어떤 건물인지 알리고, 술·담배·도박 어휘·아이콘이 없는지 본 뒤 `signs.py generate` → 업로드 → `record`. 막히면(`403 User is moderated`) 재시도하지 않고 멈춘다.
 
 ### 6. 생성
-먼저 새 칸의 이름 있는 큰길(secondary·tertiary 이상)에 `lanes` 태그가 없고 `region.toml`의 `[road_lanes_by_name]`에도 없으면, 위성에서 차로를 세어 넣는다(없으면 기본 폭이라 10차로 큰길이 2차로로 나온다; 2026-10-15 송내대로).
+활처럼 휜 동(위성·외곽선)은 `region.toml`의 `[arc_buildings]`에 `"gis:N" = 쐐기 수`(4~6)를 넣는다(자동 분할은 곡선을 못 따름, 2026-10-16). 먼저 새 칸의 이름 있는 큰길(secondary·tertiary 이상)에 `lanes` 태그가 없고 `region.toml`의 `[road_lanes_by_name]`에도 없으면, 위성에서 차로를 세어 넣는다(없으면 기본 폭이라 10차로 큰길이 2차로로 나온다; 2026-10-15 송내대로).
 ```bash
 sqlite3 data/map.db "select distinct json_extract(tags,'$.name') from street_features where cell_id='<칸>' and kind='road' and json_extract(tags,'$.highway') in ('primary','secondary','tertiary') and json_extract(tags,'$.lanes') is null"
 ```

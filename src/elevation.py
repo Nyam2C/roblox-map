@@ -248,7 +248,19 @@ def main(cfg: dict[str, Any]) -> int:
     g = sub.add_parser("grid")
     g.add_argument("--region", required=True)
     g.add_argument("out")
+    m = sub.add_parser("moved", help="built cells whose ground moved since a git revision of elevation.json (default HEAD)")
+    m.add_argument("--region", required=True)
+    m.add_argument("--since", default="HEAD")
     a = p.parse_args(sys.argv[1:])
+    if a.cmd == "moved":  # the whole rebuild list at once (2026-10-16: collect/probe lines get cut by limits and log tails)
+        import subprocess
+        path = path_of(cfg, a.region)
+        rel = path.relative_to(common.resolve("."))
+        old = subprocess.run(["git", "show", f"{a.since}:{rel.as_posix()}"], capture_output=True, text=True, check=True).stdout
+        before = {k: [float(x) for x in v] for k, v in json.loads(old)["points"].items()}
+        moved = changed_cells(cfg, a.region, before, load(path))
+        common.log(logging.INFO, f"rebuild (ground moved over 0.3 studs since {a.since}): {' '.join(moved) if moved else 'none'}")
+        return 0
     if a.cmd in ("collect", "probe"):
         before = load(path_of(cfg, a.region))
         new, reason = collect(cfg, a.region, a.limit) if a.cmd == "collect" else probe(cfg, a.region, a.cells)

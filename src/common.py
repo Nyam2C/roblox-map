@@ -117,7 +117,7 @@ RANGES: dict[str, tuple[float, float, bool]] = {
 }
 
 # U7 B: keys that belong to one region (regions/<region>/region.toml), not to config.toml
-REGION_KEYS = ("school_polygons", "spawn_lat", "spawn_lon", "spawn_yaw_deg", "road_lanes_by_name")
+REGION_KEYS = ("school_polygons", "spawn_lat", "spawn_lon", "spawn_yaw_deg", "road_lanes_by_name", "arc_buildings")
 
 RETRY_CODES = {429, 502, 504}
 MASK = "<KEY>"
