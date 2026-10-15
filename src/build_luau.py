@@ -211,8 +211,14 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     names: dict[str, str] = {}
     judged = 0
     bodies: list[tuple[layout_details.Body, Mapping[str, Any], Any]] = []
+    exits = [layout.to_meters(frame, *f["geometry"][0]) for f in features if f["kind"] == "subway_entrance"]
     for b in kept:
         bid = str(b["building_id"])
+        poly = layout_details._poly_m(b["outline"], frame)
+        if exits and poly is not None and poly.area < 40 and any(poly.centroid.distance(Point(x, y)) < 8 for x, y in exits):
+            # the glass box over a subway stair is a V-World record too: the entrance kit builds it (부천시청역 4번, 1c3, 2026-10-15)
+            warnings.append(f"{bid}: small record on a subway entrance: the entrance kit builds it")
+            continue
         if layout.is_underground(b):
             warnings.append(f"{bid}: underground facility (floors below {b.get('floors_below')}, above {b.get('floors_above')}): not built")
             continue

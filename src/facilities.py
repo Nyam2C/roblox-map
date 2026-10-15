@@ -209,14 +209,17 @@ class Maker:
             at = max(-0.5, min(0.5, float(a.get("at", 0.0)))) * (L - wdt)
             if kind in ("glass_strip", "panel"):
                 lk2 = look("SmoothPlastic", a.get("rgb"), (90, 140, 170), reflectance=0.2) if kind == "glass_strip" else lk
-                self.wall(bi, side, "ac", at, y0, 0.35, (wdt, max(1.0, y1 - y0), 0.3), lk2)
+                if a.get("skin"):  # a change of wall skin: flush, the windows stay on top of it (부흥초 plaster thirds, 2026-10-15)
+                    self.wall(bi, side, "ac", at, y0, 0.02, (wdt, max(1.0, y1 - y0), 0.03), lk2)
+                else:
+                    self.wall(bi, side, "ac", at, y0, 0.35, (wdt, max(1.0, y1 - y0), 0.3), lk2)
             elif kind == "fins":
                 p = max(0.8, float(a.get("pitch_m", 1.5)))
                 n = min(MAX_COLS, max(1, int(wdt // p)))
                 for j in range(n):
                     self.wall(bi, side, "fn", at - wdt / 2 + p * (j + 0.5), y0, 0.5, (0.2, max(1.0, y1 - y0), 0.5), lk)
             elif kind == "stripe":
-                for k in range(f0, f1 + 1):
+                for k in range(min(f0, F - 1), min(f1, F - 1) + 1):  # a stripe "on floor F" is the top floor's, not above the roof (중흥고)
                     self.wall(bi, side, "sp", 0.0, k * fh + fh - 0.6, 0.12, (L + 0.1, 0.5, 0.12), lk)
             elif kind == "round_windows":
                 dia = max(0.8, min(2.4, fh * 0.65))
@@ -331,6 +334,19 @@ class Maker:
                                            color=(60, 130, 90), color_name=None))
                 self.box(bi, "hh", 0.0, 0.0, H + 0.27, (dia * 0.45, 0.06, dia * 0.45),
                          dict(look("SmoothPlastic", (60, 130, 90)), text="H", faces="T", attrs={"MaxDistance": 2000, "Ink": [245, 245, 240]}), kind="sign")
+            if "court" in feats and r.get("court"):  # a rooftop futsal court: turf, white lines, a tall net fence (이마트 중동점, 2026-10-15)
+                c = r["court"]
+                cw, cd = min(float(c.get("w_m", 40)), w - 2), min(float(c.get("d_m", 20)), d - 2)
+                cu = max(-1.0, min(1.0, float(c.get("at_u", 0.0)) * 2)) * (w - cw) / 2
+                turf = look("SmoothPlastic", c.get("rgb"), (60, 130, 70))
+                line = look("SmoothPlastic", (240, 240, 236))
+                net = look("Metal", (40, 60, 50), transparency=0.6)
+                self.box(bi, "ct", cu, 0.0, H + 0.15, (cw, 0.1, cd), turf)
+                for i, (u, v, size) in enumerate(((0, -cd / 2 + 0.4, (cw - 0.8, 0.02, 0.1)), (0, cd / 2 - 0.4, (cw - 0.8, 0.02, 0.1)),
+                                                  (-cw / 2 + 0.4, 0, (0.1, 0.02, cd - 0.8)), (cw / 2 - 0.4, 0, (0.1, 0.02, cd - 0.8)), (0, 0, (0.1, 0.02, cd - 0.8)))):
+                    self.box(bi, "cl", cu + u, v, H + 0.25, size, line)
+                for i, (u, v, size) in enumerate(((0, -cd / 2, (cw, 5.0, 0.05)), (0, cd / 2, (cw, 5.0, 0.05)), (-cw / 2, 0, (0.05, 5.0, cd)), (cw / 2, 0, (0.05, 5.0, cd)))):
+                    self.box(bi, "cf", cu + u, v, H + 0.15, size, net)
             if "solar" in feats:
                 rows, cols = max(1, int((d - 4) // 2.2)), max(1, int((w - 4) // 1.4))
                 rows, cols = min(rows, 6), min(cols, 12)

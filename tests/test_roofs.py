@@ -36,6 +36,14 @@ def test_a_drawn_white_roof_reads_white_a_tall_one_and_a_tiny_one_are_left_to_th
     assert looks == {"gis:1": "rtop_white"}
 
 
+def test_the_tall_overlay_draws_only_the_tall_outlines(tmp_path):
+    geo, img = geo_and_photo()
+    a = building_on(geo, img, 0, 0, 20, 14, (212, 212, 208), bid="gis:1")
+    b = building_on(geo, img, 40, 0, 20, 14, (212, 212, 208), floors=12, bid="gis:2")
+    assert roofs.tall_overlay(img, geo, [a, b], tmp_path / "t.jpg") == 1 and (tmp_path / "t.jpg").exists()
+    assert roofs.tall_overlay(img, geo, [a], tmp_path / "n.jpg") == 0 and not (tmp_path / "n.jpg").exists()
+
+
 def test_the_cap_of_a_flat_roof_takes_the_roof_top_and_a_pitched_roof_ignores_it():
     row, est, _ = villa(wall="red_brick", roof="flat")
     body, eff = resolve(row, est)

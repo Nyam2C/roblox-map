@@ -1,0 +1,439 @@
+{
+  "cell_id": "8930e0af1d7ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11173173",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "one-storey gray concrete utility building in pine trees, small high windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176782",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "high-rise apartment slab, lower floors hidden by trees, balconies with outdoor units",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11176788",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "high-rise apartment slab behind one-storey shop strip, bottom floors hidden",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11176791",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "one-storey shop row of apartment complex, shop fronts with large signboards",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11176849",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "high-rise apartment slab, lower floors hidden by trees, balconies",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11176856",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "long high-rise apartment slab, green accent strips, lower floors behind noise wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11178802",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "apartment tower entrance side, top cut off, green balcony glazing, entrance canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11179699",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "brick school block with stair tower, teal canopy at entrance, behind trees and fence",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11205921",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "small white one-storey block in apartment grounds, utility or guard room, open side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11205972",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "two-storey management office, gray tile with blue band, entrance canopy, overhanging mono-pitch roof",
+      "roof_shape": "shed",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206419",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "narrow low structure by school fence, hidden by trees; teal canopy visible, brick school block behind",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11206517",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "small open wooden pavilion with brown hip roof by playground",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11206600",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "small low structure at school front behind fence and trees, teal canopy roof",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11206757",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "long narrow teal-roofed shelter in schoolyard, open sides, partly hidden by trees",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11206909",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "narrow structure along school fence, teal canopy at front; tall school block behind, target unclear",
+      "roof_shape": "shed",
+      "views_used": [
+        1
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11207970",
+      "confidence": "medium",
+      "floors_seen": 23,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "high-rise apartment tower, glazed balconies in gray frames, entrance canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11207972",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "three-storey shop building plus mansard attic floor, brown mansard roof, shops on ground floor",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11207975",
+      "confidence": "low",
+      "floors_seen": 19,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "high-rise apartment slab, glazed balconies with dark frames, lower floors behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11207981",
+      "confidence": "medium",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "apartment tower, curved balconies with railings, gray end wall with number",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11207982",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "apartment slab, curved balconies, top cut off, gable entrance porch",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11207983",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "apartment slab, curved balconies with railings, top not counted, entrance with steps",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11207984",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "corridor-type apartment slab, gray and white, curved balconies on other face, gable entrance porch",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208037",
+      "confidence": "low",
+      "floors_seen": 17,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "apartment slab, curved balconies, gable entrance porch, gray end wall with number",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11214665",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "one-storey shop row, cafe and real estate shops with big signboards",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11231070",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 8.0,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "trees only; low structure with green arched roof glimpsed behind fence",
+      "roof_shape": "other",
+      "views_used": [
+        1
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:12992773",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 65.0,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "high-rise apartment towers behind trees, glazed balconies, top hard to count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:12992802",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "high-rise apartment tower, glazed balconies in gray frames, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:12992821",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 60.0,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "apartment tower, gray and teal bands, top cut off, entrance canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17687971",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "tiny booth or kiosk by sidewalk among trees, target hard to see",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17766566",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:34:22+00:00",
+      "note": "one-storey gray concrete utility building in pine trees, small high windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    }
+  ],
+  "overrides": [
+    {
+      "building_id": "gis:11207972",
+      "field": "floors_above",
+      "reason": "사진 4층은 맨사드 다락을 센 것, 대장 3층 13.4 m가 맞고 다락은 맨사드 지붕으로 보임(Claude, 2026-10-15)",
+      "set_at": "2026-10-15T05:34:43+00:00",
+      "value": 3
+    }
+  ],
+  "version": 1
+}

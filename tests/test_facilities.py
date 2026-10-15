@@ -43,3 +43,28 @@ def test_front_follows_the_compass_side_of_the_photos_and_a_brand_sign_is_refuse
         raise AssertionError("bad sign text accepted")
     except ValueError:
         pass
+
+
+def test_a_rooftop_court_is_turf_lines_and_a_net_inside_the_roof():
+    b = body()
+    items = FA.Maker(FRAME, b, {**SPEC, "roof": {"features": ["court"], "court": {"w_m": 99, "d_m": 12}}}, main=True).make()
+    tails = [i.name.split("#", 1)[1].split("-")[0] for i in items]
+    assert tails.count("ct") == 1 and tails.count("cl") == 5 and tails.count("cf") == 4
+    turf = next(i for i in items if "#ct-" in i.name)
+    assert max(turf.sx, turf.sz) <= max(b.boxes[b.front].width_m, b.boxes[b.front].depth_m) * FRAME.studs_per_m
+
+
+def test_a_stripe_on_floor_n_stays_on_the_wall():
+    b = body(floors=5)
+    items = FA.Maker(FRAME, b, {**SPEC, "accents": [{"kind": "stripe", "face": "all", "from_floor": 5, "to_floor": 5}]}, main=True).make()
+    stripes = [i for i in items if "#sp-" in i.name]
+    assert stripes and all(i.cy + i.sy / 2 <= b.height_m * FRAME.studs_per_m + 0.01 for i in stripes)
+
+
+def test_a_skin_panel_sits_under_the_windows():
+    b = body()
+    acc = {"kind": "panel", "face": "street", "width_m": 20.0, "from_floor": 1, "to_floor": 4, "material": "Plaster", "rgb": [235, 200, 90]}
+    raised = FA.Maker(FRAME, b, {**SPEC, "accents": [acc]}, main=True).make()
+    flush = FA.Maker(FRAME, b, {**SPEC, "accents": [{**acc, "skin": True}]}, main=True).make()
+    thick = lambda items: [min(i.sx, i.sz) for i in items if "#ac-" in i.name]
+    assert max(thick(flush)) < max(thick(raised))

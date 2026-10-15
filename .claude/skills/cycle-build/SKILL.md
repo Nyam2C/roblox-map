@@ -36,7 +36,7 @@ uv run src/trees.py --cells <칸>
 uv run src/fields.py --cells <칸>        # 학교 운동장 키트(U7 J): OSM 학교 영역 + 위성 -> regions/<구역>/cells/<칸>/fields.json
 uv run src/roofs.py --cells <칸>         # 평지붕 윗면 색(7층 이하): 위성 -> regions/<구역>/cells/<칸>/roofs.json
 ```
-`roofs.py`는 7층 이하만 읽는다(높은 건물은 위성에서 기울어 보임). 8층 이상 아파트 지붕 색은 외곽선을 위성에 겹친 그림을 보고 `roofs.json`의 `"hand"`에 손으로 적는다(다시 돌려도 유지). 수작업이 위성 나무 자리에 있으면(코트·광장) 그 사각형을 `cells/<칸>/courts.json`의 `clear`에 둔다(`courts.py` 참고, build_luau가 그 안 나무를 뺀다). `fields.py` 출력에 학교마다 `way:... sand|turf W x D studs`가 나오는지 본다(Overpass 504가 이어지면 결과가 그대로 남는다). 수작업이 있는 학교는 `manual.json`의 `osm`으로 `made_by: manual`이 되어 생성하지 않는다. 새 학교는 위성 겹쳐 보기(cycle-verify)에서 운동장 사각형을 확인한다.
+`roofs.py`는 7층 이하만 읽는다(높은 건물은 위성에서 기울어 보임). 8층 이상 지붕 색은 `roofs.py`가 그리는 `data/compare/<칸>-tall-roofs.jpg`(높은 외곽선과 "gis 번호 층수")를 보고 `roofs.json`의 `"hand"`에 손으로 적는다(다시 돌려도 유지, 높을수록 지붕이 외곽선에서 비껴 보임). 수작업이 위성 나무 자리에 있거나 위성이 포장 광장·물놀이터를 수관으로 읽으면(겹쳐 보기에서 나무가 광장을 덮음) 그 사각형을 `cells/<칸>/courts.json`의 `clear`에 둔다(`courts.py` 참고, build_luau가 그 안 나무를 뺀다). `fields.py` 출력에 학교마다 `way:... sand|turf W x D studs`가 나오는지 본다(Overpass 504가 이어지면 결과가 그대로 남는다). 수작업이 있는 학교는 `manual.json`의 `osm`으로 `made_by: manual`이 되어 생성하지 않는다. 새 학교는 위성 겹쳐 보기(cycle-verify)에서 운동장 사각형을 확인한다.
 
 ### 2c. 지하철 출구 맞추기 (역이 칸 안이나 옆에 있을 때, 2026-10-15)
 1. 이 칸과 이웃의 OSM 출구를 역별로 센다:

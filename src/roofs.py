@@ -85,6 +85,23 @@ def load_roofs(path) -> dict[str, str]:
     return rows
 
 
+def tall_overlay(photo, geo, buildings: Sequence[Mapping[str, Any]], out) -> int:
+    """The outlines of the buildings above MAX_FLOORS drawn on the photo with "<gis number> <floors>", for setting "hand" by eye
+    (the photo shows their tops leaning off the outline). Returns how many."""
+    from PIL import ImageDraw
+    im = photo.copy()
+    draw = ImageDraw.Draw(im)
+    tall = [b for b in buildings if (b.get("floors_above") or 0) > MAX_FLOORS]
+    for b in tall:
+        px = [geo.to_px(p[0], p[1]) for p in b["outline"]]
+        draw.polygon(px, outline=(255, 0, 0))
+        draw.text((sum(x for x, _ in px) / len(px), sum(y for _, y in px) / len(px)), f"{str(b['building_id']).split(':')[-1]} {b['floors_above']}", fill=(255, 255, 0))
+    if tall:
+        im.thumbnail((1500, 1500))
+        im.save(out, quality=88)
+    return len(tall)
+
+
 def parse_args(argv: Sequence[str], res: int) -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="roofs.py", description=__doc__.split("\n")[0])
     parser.add_argument("--cells", nargs="+", metavar="ID")
@@ -113,7 +130,12 @@ def main(cfg: dict[str, Any]) -> int:
         sat = common.resolve(SAT_DIR) / f"{cell_id}-z19"
         meta = json.loads(sat.with_suffix(".json").read_text(encoding="utf-8"))
         buildings = [b for b in db.rows_in_cells(conn, "buildings", [cell_id]) if b["status"] == "ok"]
-        looks = roof_looks(Image.open(sat.with_suffix(".jpg")).convert("RGB"), Georef(int(meta["tile_x0"]), int(meta["tile_y0"])), buildings)
+        photo, geo = Image.open(sat.with_suffix(".jpg")).convert("RGB"), Georef(int(meta["tile_x0"]), int(meta["tile_y0"]))
+        looks = roof_looks(photo, geo, buildings)
+        overlay = common.resolve("data/compare") / f"{cell_id}-tall-roofs.jpg"
+        overlay.parent.mkdir(parents=True, exist_ok=True)
+        if tall_overlay(photo, geo, buildings, overlay):
+            common.log(logging.INFO, f"buildings above {MAX_FLOORS} floors drawn on the photo for roofs.json hand -> {overlay}", cell_id)
         path = common.cell_file(cfg, cell_id, "roofs")
         path.parent.mkdir(parents=True, exist_ok=True)
         hand = json.loads(path.read_text(encoding="utf-8")).get("hand", {}) if path.exists() else {}

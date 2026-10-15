@@ -1,0 +1,799 @@
+{
+  "cell_id": "8930e0af1dbffff",
+  "estimates": [
+    {
+      "building_id": "gis:11148627",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "tiny footprint; crops show neighboring officetel tower with shop ground floor, target unclear",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11170885",
+      "confidence": "low",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial office tower, glass and panel bands, clinic signs, ground shop and restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11172843",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey shop building, tile walls, ground restaurant and shop, rooftop box with round window",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11176472",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, sign bands on every floor, ground shop and restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178311",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "officetel tower over low stone podium, small balconies, ground shop and parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11179849",
+      "confidence": "medium",
+      "floors_seen": 10,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "10-storey commercial building, tile walls, clinic and academy signs, ground cafe, rooftop greenery railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11181260",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "department store, windowless stone walls with glass corner strips and arched tops",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11181945",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building with sign bands, ground shop and restaurant, arched windows on side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11181986",
+      "confidence": "medium",
+      "floors_seen": null,
+      "height_est_m": 4.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "ventilation louvre box beside store wall on brick planter, not a building with floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11185379",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, tile walls, glass band on upper floor, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11185381",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "corner commercial building with rounded front, arched glass stair strip, clinic signs, ground cafe",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11185840",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "long 4-storey shop row, sign bands, ground restaurants, rooftop sign frames",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11186488",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "corner commercial building with curved glass corner, sign bands, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190878",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "blue glass office building, ground shop and restaurant, entry stair",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:11191900",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey commercial building, tile walls, brick ground shop, restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191902",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building with billboard top floor, ground restaurant and shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11192917",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building with sign bands, ground restaurant with terrace awning",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11193107",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 55.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "tall white officetel tower, ground row of shops and cafe",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11195100",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "tall white officetel tower, ground shops and parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11195101",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "tall white officetel tower, ground shops, convenience store",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11195103",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "corner commercial building, pink panel bands, curved corner, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11195699",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey commercial building, tile walls, sign bands, ground shop, rooftop tree",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11201052",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey commercial building, sign bands, ground restaurant and shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11203056",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "corner commercial building with curved front, clinic sign bands, ground shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11205225",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "hotel building, stone base with brick-like piers, small windows, parking entrance and lobby",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11206218",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey commercial building, glass top floor, ground convenience store and shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206250",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "department store block, stone walls with glass curtain strips, arched entrance plaza, ground shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11206374",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "narrow covered parking passage canopy between shop buildings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11206985",
+      "confidence": "medium",
+      "floors_seen": null,
+      "height_est_m": 4.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "ventilation louvre box beside store wall on brick planter, bike shelter nearby",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11208176",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, sign bands, ground shop and cafe with awning",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208178",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey commercial building, ground restaurant, external metal stair on roof",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11211490",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, glass second floor, purple sign band on top floor, ground shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11217033",
+      "confidence": "medium",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "corner commercial building, many sign bands, glass corner, ground convenience store",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11217147",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, beige tile with brick part, ground restaurant with awning",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11217674",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey commercial building, sign bands, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11217970",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building with glass curtain front, ground restaurant and shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11218241",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey commercial building, pink sign band at top, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11320944",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building with arched upper windows, ground restaurant and shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11329668",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "corner commercial building, clinic sign bands, ground shop, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11627351",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "brick commercial building with dark gray base, large windows, ground cafe and shops",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11653707",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "3-storey shop building, orange-red upper walls, gray middle band, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11713474",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, stone walls, many sign bands, ground restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11782085",
+      "confidence": "medium",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "7-storey commercial building, academy and clinic signs, ground bank",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11892594",
+      "confidence": "medium",
+      "floors_seen": 9,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building with glass stair strip, gym and academy signs, ground shop and parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12068429",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "corner commercial building with rounded front, clinic signs, ground shop and fruit store",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12146269",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 80.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "tall white residential tower on 4-storey dark brick podium with large windows, ground shops",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:12219881",
+      "confidence": "medium",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, sign bands on every floor, ground shop and cafe",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12505105",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 35.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "dark glass hotel tower with blue glass stair strip, stone entrance portal",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:14506689",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "small white sidewalk kiosk booth next to glass subway entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:15230038",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "brick commercial building with dark gray base, large windows, ground cafe and shops",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:15460872",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "4-storey shop row, sign bands, ground restaurant, metal stair on roof",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15541259",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "small sidewalk kiosk booth at street corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:15923438",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building with arched upper windows, ground restaurant and shop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:16227566",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "commercial building, dark stone lower floors, light upper floors, ground shop and parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17671331",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 80.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "tall white residential tower on 4-storey dark brick podium with large windows, ground convenience store",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:18009522",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-15T05:53:14+00:00",
+      "note": "officetel tower over low stone podium, small balconies, ground shop and parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

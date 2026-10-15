@@ -21,10 +21,14 @@
   "8930e0af173ffff": "중동",
   "8930e0af177ffff": "중동",
   "8930e0af17bffff": "중동",
+  "8930e0af18bffff": "약대동",
   "8930e0af1abffff": "약대동",
+  "8930e0af1c3ffff": "중동",
   "8930e0af1c7ffff": "중동",
   "8930e0af1cbffff": "중동",
-  "8930e0af1cfffff": "중동"
+  "8930e0af1cfffff": "중동",
+  "8930e0af1d7ffff": "약대동",
+  "8930e0af1dbffff": "중동"
  },
  "note": "dong of each cell, Nominatim reverse zoom 16"
 }

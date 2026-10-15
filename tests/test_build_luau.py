@@ -457,3 +457,12 @@ def test_load_exits_reads_rows_and_refuses_unsafe_ids(tmp_path):
     p.write_text(json.dumps({"exits": [{"id": "exit\")--", "ref": "6", "lat": 37.5, "lon": 126.77}]}), encoding="utf-8")
     with pytest.raises(ValueError):
         B.load_exits(p)
+
+
+def test_a_small_record_on_a_subway_entrance_is_left_to_the_entrance_kit():
+    exit_pt = offset(BASE, 60, 0)
+    kiosk = building(1, center=exit_pt, outline=[list(p) for p in rect(exit_pt, 3, 2.5)])
+    ent = {"feature_id": "node:9", "kind": "subway_entrance", "geometry": [list(offset(exit_pt, 2, 0))], "tags": {"ref": "4"}}
+    plan = B.plan_cell(CELL, [building(0), kiosk], [ent], CFG)
+    assert {i.name for i in plan.items if i.kind == "building"} == {"gis:1000"}
+    assert any("subway entrance" in w for w in plan.warnings)

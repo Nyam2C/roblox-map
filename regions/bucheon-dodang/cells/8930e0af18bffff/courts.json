@@ -1,0 +1,22 @@
+{
+ "cell_id": "8930e0af18bffff",
+ "note": "hand-made rectangles (studs); no satellite tree inside. 덕유어린이공원 paved plaza, basketball court and wading pool read as crowns (satellite overlay 2026-10-15)",
+ "clear": [
+  {
+   "name": "park plaza",
+   "x": -3816.87,
+   "z": -1825.97,
+   "yaw": 0.0,
+   "w": 133.47,
+   "d": 82.14
+  },
+  {
+   "name": "park pool",
+   "x": -3814.31,
+   "z": -1692.5,
+   "yaw": 0.0,
+   "w": 138.6,
+   "d": 123.2
+  }
+ ]
+}
