@@ -65,6 +65,7 @@
 - (2026-10-15) `EditableMesh`·`EditableImage`로 만든 미리보기 MeshPart는 사용자가 저장하면 장소에 같이 저장되고, 다시 열면 모양 없는 메시가 된다. 진짜 키트와 이름이 같으면 Builder가 그것을 복제한다. 캡처가 끝나면 바로 지우고(`PreviewKit` 속성으로 찾음) 보고 전에 `ServerStorage/Kits`를 확인한다.
 - (2026-10-15, CellStreamer) 게임 스크립트(Script)는 `Model.LevelOfDetail`을 못 바꾼다(PluginOrOpenCloud 권한). `execute_luau`로 한 시험에서는 플러그인 권한이라 몰랐다. 실행 중에 만드는 칸은 그 속성 없이 만들고(Builder가 pcall), 먼 경치는 가벼운 판이 맡는다. 실행 코드는 Play에서 진짜 Script로 시험한다.
 - (2026-10-15, CellStreamer) Studio에서 `Stats:GetTotalMemoryUsageMb()`는 Studio 전체(8~9 GB)라 메모리 안전장치가 늘 켜졌다. 안전장치는 `RunService:IsStudio()`가 아닐 때만. `StringValue`는 20만 자 미만, 바이너리는 깨진다(base64로). 시작할 때 Auto를 지우면 `config.toml` 스폰도 지워지니 SpawnLocation은 꺼내 둔다.
+- (2026-10-15, CellStreamer) 고정(앵커) 캐릭터는 `AssemblyLinearVelocity`가 0이라 이동 예측이 안 된다. 서버에서 PivotTo로 달리는 시험은 속도를 직접 넣어 준다. 실제 플레이어(물리로 움직임)는 속도가 나온다.
 
 ## 생성 규칙
 
