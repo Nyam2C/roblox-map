@@ -1734,3 +1734,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 확장 + 수작업
 
 ---
+
+## 메시 키트와 규모 시험 (밤, 사용자 자리 비움)
+**Timestamp**: 2026-10-15T03:14:00Z
+**User Request**: "그럼 이렇게 하고 원미구/소사구/오정구 나누면 다 구현 가능?" → "ㄱㄱ 규모 시험까지 해줘" (자기 전, 다른 세션이 끝나면 혼자 진행)
+**AI Response**: 다른 두 세션(칸 확장, U7 단계 2 인지)에 layout_details·kits·MapBuilder를 이 세션만 고친다고 알리고 확인받음. (1) 25칸 FPS: 걷기 39/39초 60(최악 37 ms), 킥보드 속도 41/41초 60(최악 27 ms). (2) 줄 메시 키트 kits.STACKS 52개(실외기·발코니 유리·난간·바닥판·창 격자·띠창·층 띠·빌라 창 사이 벽, 16/8/4/2층 묶음, 조각 위치 오차 8 cm 이내만): 가짜 ID로 25칸 204,361 → 158,203(-22.6%), ID 없으면 결과 동일(113칸 덩어리 파일 비교). EditableMesh로 117칸 아파트(1,195 → 200)·11b 상가(376 → 120)를 Studio MCP_Test에 나란히 만들어 비교(면 공유 꼭짓점이 상자를 둥글게 칠해 면마다 꼭짓점 따로로 고침), 사진 data/compare/mesh-kit/. fields 45° 운동장 버그(가장자리 픽셀 [::2]) 고침. 테스트 756 통과. 커밋 34b5b09. (3) 규모 시험: Play 서버에서 실제 칸 57만 5천 부품 복제 → 부품당 6.1 KB로 일정, 104만 자손에서 서버 heartbeat 60 Hz. Roblox 서버 한도 약 6 GB(create.roblox.com/docs/projects/performance-optimization/memory) → 장소당 약 80만 부품(약 90~110칸). 구 3개 장소는 원미구(288칸)가 약 13~16 GB로 넘는다 → 질문 place-split-questions.md(Q1 장소 약 100칸씩 / 서버가 근처 칸만 만들기 / 시험 후 결정, Q2 나무·땅 합치기). 클라이언트 FPS(104만 서버)는 Studio 창이 뒤로 밀려 무효. 복제(ScaleTest)는 Play 중 서버에만 있어 Play 종료로 사라짐, 임시 메시·미리보기 지움, 카메라 Fixed, HttpEnabled false, 로컬 서버 내림.
+**Context**: CONSTRUCTION - U7 이후 메시 키트·규모 시험
+
+---
