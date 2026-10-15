@@ -7,8 +7,8 @@
 Usage (repo root):
   uv run src/kits.py trees      # crown-1.obj, crown-2.obj: the three crown balls of details_rules.TREE_CROWNS[0] and [1] as one lumpy
                                 # mesh (about 240 triangles) in metres, centred on the cluster, ground at the lowest point
-  uv run src/kits.py batch2     # batch2.obj: every column-stack kit (STACKS) and whole tree (TREES), one object each, for one
-                                # Import 3D; tree-texture.png for the trees (uploaded as an image, TREE_TEXTURE_ID)
+  uv run src/kits.py batch2     # batch2/<kit>.obj: every column-stack kit (STACKS) and whole tree (TREES), a file each (select
+                                # them all in one Import 3D); tree-texture.png for the trees (uploaded as an image)
 
 The Studio MCP can upload images but not meshes, so the user imports the files (Home > Import 3D) and Claude reads the MeshId of the
 imported MeshPart and fixes it in git. A crown mesh replaces three Ball parts per tree; the trunk stays a Cylinder part. Variety stays
@@ -310,11 +310,19 @@ def main(argv: list[str]) -> int:
             path.write_text(crown_obj(name), encoding="utf-8")
             print(f"-> {path}")
         return 0
-    if argv == ["batch2"]:  # one Import 3D: the column stacks and the whole trees, plus the trees' texture to upload as an image
-        path = OUT_DIR / "batch2.obj"
-        path.write_text(stacks_obj() + trees_obj(), encoding="utf-8")
+    if argv == ["batch2"]:  # the column stacks and the whole trees, plus the trees' texture to upload as an image
+        # one file per kit (data/kits/batch2/<kit>.obj): Import 3D merged the objects of one OBJ into a single "default" mesh
+        # (2026-10-15), so the user selects all the files at once and each becomes its own MeshPart, named by its file
+        folder = OUT_DIR / "batch2"
+        folder.mkdir(parents=True, exist_ok=True)
+        for old in folder.glob("*.obj"):
+            old.unlink()
+        for name in sorted(STACKS):
+            (folder / f"{name}.obj").write_text(stacks_obj([name]), encoding="utf-8")
+        for name in sorted(TREES):
+            (folder / f"{name}.obj").write_text(trees_obj([name]), encoding="utf-8")
         tree_texture().save(OUT_DIR / "tree-texture.png")
-        print(f"{len(STACKS)} stack kits + {len(TREES)} trees -> {path}, texture -> {OUT_DIR / 'tree-texture.png'}")
+        print(f"{len(STACKS)} stack kits + {len(TREES)} trees -> {folder}/, texture -> {OUT_DIR / 'tree-texture.png'}")
         return 0
     print(__doc__)
     return 2
