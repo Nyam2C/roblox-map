@@ -1,13 +1,14 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = []
+# dependencies = ["pillow==12.3.0"]
 # ///
 """H: kit meshes made in Python -> data/kits/<name>.obj, uploaded once by the user with Studio's Import 3D (U7 H).
 
 Usage (repo root):
   uv run src/kits.py trees      # crown-1.obj, crown-2.obj: the three crown balls of details_rules.TREE_CROWNS[0] and [1] as one lumpy
                                 # mesh (about 240 triangles) in metres, centred on the cluster, ground at the lowest point
-  uv run src/kits.py stacks     # stacks.obj: every column-stack kit (STACKS) as one object each, for one Import 3D
+  uv run src/kits.py batch2     # batch2.obj: every column-stack kit (STACKS) and whole tree (TREES), one object each, for one
+                                # Import 3D; tree-texture.png for the trees (uploaded as an image, TREE_TEXTURE_ID)
 
 The Studio MCP can upload images but not meshes, so the user imports the files (Home > Import 3D) and Claude reads the MeshId of the
 imported MeshPart and fixes it in git. A crown mesh replaces three Ball parts per tree; the trunk stays a Cylinder part. Variety stays
@@ -90,6 +91,100 @@ def crown_obj(name: str) -> str:
     lines += [f"f {a + 1} {b + 1} {c + 1}" for a, b, c in faces]  # counter-clockwise seen from outside (tests/test_kits.py)
     return "\n".join(lines) + "\n"
 
+
+
+# Whole trees (2026-10-15, user "둘 다 해"): trunk and crown as one mesh, so a tree is one part instead of two. A mesh has one colour,
+# so the colours come from one small texture: the trunk's brown and the four greens of details_rules.TREE_LEAVES side by side, the
+# greens dappled (each crown vertex samples a hashed spot of its green). Shapes x greens are separate kits; the pick stays the same.
+TREE_SINK_M = 0.15  # the trunk reaches this far under the ground tiles (terrain.POST_SINK for a kit-less post)
+TREE_SIDES = 8
+TREE_COLS = 1 + len(R.TREE_LEAVES)  # texture columns: trunk, then the greens
+LEAF_SHADE = 0.78
+TREES: dict[str, tuple[str, int]] = {f"tree-{k + 1}{'abcd'[g]}": (crown, g) for k, crown in enumerate(sorted(CROWNS))
+                                     for g in range(len(R.TREE_LEAVES))}
+
+
+def _uv(col: int, x: float, y: float, z: float, y0: float, y1: float) -> tuple[float, float]:
+    """Texture coordinates inside column col from the point's angle round the trunk (mirrored, so no seam) and its height."""
+    u = abs(math.atan2(z, x)) / math.pi
+    v = (y - y0) / max(y1 - y0, 1e-6)
+    return (col + 0.04 + 0.92 * u) / TREE_COLS, 0.04 + 0.92 * v
+
+
+def tree_mesh(name: str) -> tuple[list[tuple[float, float, float]], list[tuple[int, int, int]], list[tuple[float, float]]]:
+    """Vertices (crown frame, metres, trunk foot at the origin), triangles and texture coordinates of a whole-tree kit. The leaf
+    pattern spreads over the crown by angle and height (a hashed spot per corner or per face blended into swirls or flat facets,
+    Studio previews 2026-10-15)."""
+    crown, green = TREES[name]
+    r, top = R.DIMS["trunk_dia"] / 2, R.DIMS["trunk_h"]
+    verts: list[tuple[float, float, float]] = []
+    faces: list[tuple[int, int, int]] = []
+    for k in range(TREE_SIDES):  # the trunk: an octagonal prism, bottom ring then top ring
+        a = 2 * math.pi * k / TREE_SIDES
+        verts += [(r * math.cos(a), -TREE_SINK_M, -r * math.sin(a)), (r * math.cos(a), top, -r * math.sin(a))]
+    for k in range(TREE_SIDES):
+        b0, t0, b1, t1 = 2 * k, 2 * k + 1, 2 * ((k + 1) % TREE_SIDES), 2 * ((k + 1) % TREE_SIDES) + 1
+        faces += [(b0, b1, t1), (b0, t1, t0)]  # counter-clockwise seen from outside
+    n_trunk = len(verts)
+    cv, cf = crown_mesh(crown)
+    off = len(verts)
+    verts += cv
+    faces += [(a + off, b + off, c + off) for a, b, c in cf]
+    cy0, cy1 = min(p[1] for p in cv), max(p[1] for p in cv)
+    uvs = [_uv(0, x, y, z, -TREE_SINK_M, top) if i < n_trunk else _uv(1 + green, x, y, z, cy0, cy1) for i, (x, y, z) in enumerate(verts)]
+    return verts, faces, uvs
+
+
+def tree_box(name: str) -> tuple[float, float, float, tuple[float, float, float]]:
+    """(along, left, bottom height, size) in metres of a whole-tree kit's box, trunk foot at the origin, at scale 1."""
+    v = tree_mesh(name)[0]
+    lo = [min(p[i] for p in v) for i in range(3)]
+    hi = [max(p[i] for p in v) for i in range(3)]
+    return (lo[0] + hi[0]) / 2, -(lo[2] + hi[2]) / 2, lo[1], (hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2])
+
+
+def tree_texture(px: int = 128):
+    """The trees' texture (PIL image): one px-wide column per colour. The greens carry leaf clumps, lighter on top and darker in the
+    gaps (in place of LeafyGrass's pattern, which a texture hides); the trunk a faint bark grain."""
+    from PIL import Image, ImageDraw
+    img = Image.new("RGB", (px * TREE_COLS, px))
+    dr = ImageDraw.Draw(img)
+    cols = [R.PALETTE["trunk"]] + [R.PALETTE[g] for g in R.TREE_LEAVES]
+    shade = lambda rgb, k: tuple(max(0, min(255, round(v * k))) for v in rgb)
+    for c, rgb in enumerate(cols):
+        x0 = c * px
+        if c == 0:
+            dr.rectangle((x0, 0, x0 + px - 1, px - 1), fill=rgb)
+            for k in range(px // 2):  # vertical bark streaks
+                h = zlib.crc32(f"bark|{k}".encode())
+                x = x0 + h % px
+                dr.line((x, 0, x, px - 1), fill=shade(rgb, 0.85 + 0.25 * ((h >> 10) % 100) / 99), width=1)
+            continue
+        dr.rectangle((x0, 0, x0 + px - 1, px - 1), fill=shade(rgb, LEAF_SHADE * 0.7))  # the gaps between clumps
+        for k in range(px * 3):  # clumps, drawn bottom to top so the upper ones overlap
+            h = zlib.crc32(f"leaf|{c}|{k}".encode())
+            x, y = x0 + h % px, (h >> 8) % px
+            rr = 2 + (h >> 16) % 5
+            light = LEAF_SHADE * (0.8 + 0.45 * ((h >> 20) % 100) / 99)
+            dr.ellipse((max(x0, x - rr), y - rr, min(x0 + px - 1, x + rr), y + rr), fill=shade(rgb, light))
+    return img
+
+
+def trees_obj(names: Sequence[str] | None = None) -> str:
+    """OBJ objects of the whole-tree kits (Y up, centred on each box, lowest point at y = 0) with texture coordinates."""
+    lines: list[str] = []
+    base = 0
+    for name in names or sorted(TREES):
+        verts, faces, uvs = tree_mesh(name)
+        cx = (min(p[0] for p in verts) + max(p[0] for p in verts)) / 2
+        cz = (min(p[2] for p in verts) + max(p[2] for p in verts)) / 2
+        y0 = min(p[1] for p in verts)
+        lines.append(f"o {name}")
+        lines += [f"v {x - cx:.4f} {y - y0:.4f} {z - cz:.4f}" for x, y, z in verts]
+        lines += [f"vt {u:.4f} {v:.4f}" for u, v in uvs]
+        lines += [f"f {a + base + 1}/{a + base + 1} {b + base + 1}/{b + base + 1} {c + base + 1}/{c + base + 1}" for a, b, c in faces]
+        base += len(verts)
+    return "\n".join(lines) + "\n"
 
 # Column stacks (2026-10-15, user decision: keep the detail, fewer parts). A face repeats the same piece once per floor (an AC box, a
 # balcony glass band, a rail panel, a slab, a window): n of them one above the other at the floor pitch become one MeshPart of n boxes,
@@ -215,10 +310,11 @@ def main(argv: list[str]) -> int:
             path.write_text(crown_obj(name), encoding="utf-8")
             print(f"-> {path}")
         return 0
-    if argv == ["stacks"]:
-        path = OUT_DIR / "stacks.obj"
-        path.write_text(stacks_obj(), encoding="utf-8")
-        print(f"{len(STACKS)} stack kits -> {path}")
+    if argv == ["batch2"]:  # one Import 3D: the column stacks and the whole trees, plus the trees' texture to upload as an image
+        path = OUT_DIR / "batch2.obj"
+        path.write_text(stacks_obj() + trees_obj(), encoding="utf-8")
+        tree_texture().save(OUT_DIR / "tree-texture.png")
+        print(f"{len(STACKS)} stack kits + {len(TREES)} trees -> {path}, texture -> {OUT_DIR / 'tree-texture.png'}")
         return 0
     print(__doc__)
     return 2

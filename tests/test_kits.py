@@ -94,3 +94,37 @@ def test_every_stack_face_points_out_and_has_its_own_corners():
             assert sum(n[i] * m[i] for i in range(3)) > 0
     text = kits.stacks_obj()
     assert text.count("\no stk-") == len(kits.STACKS)
+
+
+def test_every_whole_tree_face_points_out_and_its_texture_spots_stay_in_its_column():
+    for name in kits.TREES:
+        v, f, uv = kits.tree_mesh(name)
+        _, green = kits.TREES[name]
+        assert len(uv) == len(v)
+        trunk = 2 * kits.TREE_SIDES
+        for i, (u, w) in enumerate(uv):
+            col = 0 if i < trunk else 1 + green
+            assert col / kits.TREE_COLS < u < (col + 1) / kits.TREE_COLS and 0 < w < 1
+        c = [sum(p[i] for p in v[trunk:]) / len(v[trunk:]) for i in range(3)]
+        for a, b, d in f[2 * kits.TREE_SIDES:]:  # the crown's faces point away from its centre
+            A, B, C = v[a], v[b], v[d]
+            u_ = [B[i] - A[i] for i in range(3)]
+            w_ = [C[i] - A[i] for i in range(3)]
+            n = (u_[1] * w_[2] - u_[2] * w_[1], u_[2] * w_[0] - u_[0] * w_[2], u_[0] * w_[1] - u_[1] * w_[0])
+            assert sum(n[i] * ((A[i] + B[i] + C[i]) / 3 - c[i]) for i in range(3)) > -1e-9
+    assert kits.trees_obj().count("\no tree-") + kits.trees_obj().startswith("o tree-") == len(kits.TREES)
+
+
+def test_a_tree_is_one_kit_part_once_the_whole_trees_are_uploaded(monkeypatch):
+    frame = layout.Frame.from_cfg(common.DEFAULTS)
+    two = streets.tree_items(frame, [[0.0, 0.0, 7.0], [30.0, 0.0, 5.0]])
+    assert len(two) == 4  # no whole-tree kit yet: trunk + crown
+    monkeypatch.setitem(kits.MESH_IDS, "tree-1a", 1)
+    for t in kits.TREES:
+        monkeypatch.setitem(kits.MESH_IDS, t, 1)
+    one = streets.tree_items(frame, [[0.0, 0.0, 7.0], [30.0, 0.0, 5.0]])
+    assert len(one) == 2 and all(i.kit in kits.TREES and i.collides is False for i in one)
+    # the same shape and green as before: the crown kit and leaf of the two-part tree
+    for old_crown, new in zip(two[1::2], one):
+        shape, green = kits.TREES[new.kit]
+        assert shape == old_crown.kit and new.color_name == old_crown.color_name

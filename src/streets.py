@@ -295,10 +295,19 @@ def tree_items(frame: Frame, trees: Sequence[Sequence[float]]) -> list[Item]:
         sc = min(1.1, max(0.55, dia / TREE_SPAN))  # big satellite crowns hid the houses (review 2026-10-13)
         yaw = 45.0 * R.pick(name, "yaw", 8)
         ca, sa = math.cos(math.radians(yaw)), math.sin(math.radians(yaw))
-        leaf = R.TREE_LEAVES[R.pick(name, "leaf", len(R.TREE_LEAVES))]
+        leaf_i = R.pick(name, "leaf", len(R.TREE_LEAVES))
+        leaf = R.TREE_LEAVES[leaf_i]
+        shape_i = R.pick(name, "tree", len(kits.CROWNS))
+        whole = f"tree-{shape_i + 1}{'abcd'[leaf_i]}"
+        if all(t in kits.MESH_IDS for t in kits.TREES):  # 2026-10-15: trunk and crown as one textured mesh, one part a tree
+            da, dl, y0, size = kits.tree_box(whole)
+            out.append(_part(frame, "prop", name, "sat", n, east + da * sc * ca - dl * sc * sa, north + da * sc * sa + dl * sc * ca, y0 * sc,
+                             tuple(v * sc for v in size), yaw, material="LeafyGrass", color=R.PALETTE[leaf], color_name=leaf, collide=False,
+                             kit=whole))
+            continue
         out.append(_part(frame, "prop", name, "sat", n, east, north, 0.0, (D["trunk_h"] * sc, D["trunk_dia"] * max(sc, 0.8), D["trunk_dia"] * max(sc, 0.8)), yaw,
                          shape="Cylinder", material="Wood", color=R.PALETTE["trunk"], color_name="trunk"))
-        kit = sorted(kits.CROWNS)[R.pick(name, "tree", len(kits.CROWNS))]  # U7 H: one crown mesh instead of three balls
+        kit = sorted(kits.CROWNS)[shape_i]  # U7 H: one crown mesh instead of three balls
         da, dl, y0, size = kits.crown_box(kit)
         da, dl, y0 = da * sc, dl * sc, y0 * sc
         out.append(_part(frame, "prop", f"sat#{n}#crown", "sat", n, east + da * ca - dl * sa, north + da * sa + dl * ca, y0,
