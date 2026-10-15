@@ -66,6 +66,7 @@
 - (2026-10-15, CellStreamer) 게임 스크립트(Script)는 `Model.LevelOfDetail`을 못 바꾼다(PluginOrOpenCloud 권한). `execute_luau`로 한 시험에서는 플러그인 권한이라 몰랐다. 실행 중에 만드는 칸은 그 속성 없이 만들고(Builder가 pcall), 먼 경치는 가벼운 판이 맡는다. 실행 코드는 Play에서 진짜 Script로 시험한다.
 - (2026-10-15, CellStreamer) Studio에서 `Stats:GetTotalMemoryUsageMb()`는 Studio 전체(8~9 GB)라 메모리 안전장치가 늘 켜졌다. 안전장치는 `RunService:IsStudio()`가 아닐 때만. `StringValue`는 20만 자 미만, 바이너리는 깨진다(base64로). 시작할 때 Auto를 지우면 `config.toml` 스폰도 지워지니 SpawnLocation은 꺼내 둔다.
 - (2026-10-15, CellStreamer) 고정(앵커) 캐릭터는 `AssemblyLinearVelocity`가 0이라 이동 예측이 안 된다. 서버에서 PivotTo로 달리는 시험은 속도를 직접 넣어 준다. 실제 플레이어(물리로 움직임)는 속도가 나온다.
+- (2026-10-15, pack) 정리된 장소에서 수작업을 고치려면 그 칸을 먼저 꺼낸다. 꺼내지 않은 칸의 수작업 데이터는 pack이 덮어쓰지 않고, 꺼내지 않은 칸 자리에 새로 놓은 수작업은 "strays"로 세어지고 저장되지 않는다(pack 결과에 strays가 0인지 본다).
 
 ## 생성 규칙
 

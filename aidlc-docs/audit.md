@@ -1878,3 +1878,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - B 정식판
 
 ---
+
+## 장소 파일 정리
+**Timestamp**: 2026-10-15T06:22:24Z
+**User Request**: "저장함 지금 장소 파일 정리 ㄱㄱ"
+**AI Response**: studio/install/pack.luau(꺼내 둔 칸의 수작업을 먼저 데이터로, Auto·Manual 비움, Landmark·스폰 유지)·unpack.luau(편집할 칸만 꺼냄), 수작업 내보내기는 ManualCodec.export로 옮기고 꺼내지 않은 칸 데이터는 유지. 29칸 왕복: 정리 뒤 Workspace 163개, Play에서 152,935 + 27,417 그대로, unpack 뒤 종류별 같음. Studio는 정리된 상태로 둠(사용자 저장 필요). cycle-build 5c. 커밋 637d9b0.
+**Context**: CONSTRUCTION - B 정식판
+
+---
