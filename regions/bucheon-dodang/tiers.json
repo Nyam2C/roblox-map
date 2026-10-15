@@ -12,6 +12,25 @@
    "reason": "사용자 확장 요청(2026-10-15, 부천중앙공원 칸): 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0af0a7ffff": {
+   "counts": {
+    "landmarks": [
+     "park:계남공원",
+     "park:안중근공원",
+     "school:경기예술고등학교"
+    ],
+    "pois": 4,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:계남공원, park:안중근공원, school:경기예술고등학교",
+   "tier": 1
+  },
   "8930e0af103ffff": {
    "counts": {
     "landmarks": [
@@ -348,6 +367,23 @@
    "reason": "landmarks: fire_station:서부 119소방서, park:덕유어린이공원, school:중흥고등학교",
    "tier": 1
   },
+  "8930e0af19bffff": {
+   "counts": {
+    "landmarks": [
+     "park:덕유마을 체육공원"
+    ],
+    "pois": 2,
+    "share": {
+     "commercial": 0.011,
+     "industrial": 0.0,
+     "residential": 0.974,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:덕유마을 체육공원",
+   "tier": 1
+  },
   "8930e0af1abffff": {
    "counts": {
     "landmarks": [
@@ -420,6 +456,25 @@
    },
    "manual": true,
    "reason": "사용자 확장 요청(2026-10-15, 중동 6·8 주변): 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af1d3ffff": {
+   "counts": {
+    "landmarks": [
+     "park:금강어린이공원",
+     "school:경기예술고등학교",
+     "school:부광초등학교"
+    ],
+    "pois": 7,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.214,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:금강어린이공원, school:경기예술고등학교, school:부광초등학교",
    "tier": 1
   },
   "8930e0af1d7ffff": {

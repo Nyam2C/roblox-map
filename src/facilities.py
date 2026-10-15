@@ -443,14 +443,36 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
     out = []
     for sp in specs:
         cell = sp["cell"]
+        cells = list(sp.get("cells") or [cell])  # a facility across a cell border (현대백화점: 1db and 0a7)
         ccfg = common.cell_config(cfg, cell)
         frame = Frame.from_cfg(ccfg)
-        rows = {b["building_id"]: b for b in db.rows_in_cells(conn, "buildings", [cell])}
-        est = {e["building_id"]: e for e in db.estimates_in_cell(conn, cell)}
-        ovr, det = db.overrides_by_building(conn, cell), db.details_by_building(conn, cell)
-        features = [f for f in db.rows_in_cells(conn, "street_features", [cell]) if f["kind"] in ("road", "path")]
+        rows = {b["building_id"]: b for b in db.rows_in_cells(conn, "buildings", cells)}
+        est = {e["building_id"]: e for c in cells for e in db.estimates_in_cell(conn, c)}
+        ovr = {k: v for c in cells for k, v in db.overrides_by_building(conn, c).items()}
+        det = {k: v for c in cells for k, v in db.details_by_building(conn, c).items()}
+        features = [f for f in db.rows_in_cells(conn, "street_features", cells) if f["kind"] in ("road", "path")]
         lines = LD._feature_lines(features, frame, ccfg)
         items: list[Item] = []
+        if sp.get("custom") == "pxpark":  # 안중근공원: a traced ground layout, a Folder so each part settles on the ground
+            import anjunggeun
+            out.append({"key": sp["key"], "cell": cell, "claims": [], "folder": True,
+                        "parts": [item_row(i) for i in anjunggeun.build(frame, sp["key"])]})
+            continue
+        if sp.get("custom") == "hyundai":
+            import hyundai
+            polys = {bid: LD._poly_m(rows[bid]["outline"], frame) for bid in list(sp["build"]) + list(sp.get("atrium") or [])}
+            for bid in sp["build"]:
+                b = rows[bid]
+                eff = judgement.effective_building(b, est.get(bid), ovr.get(bid), ccfg)
+                body = LD.make_body(b, eff, det.get(bid), None, frame, ccfg)
+                body = LD.resolve_body(dataclasses.replace(body, is_body=True), lines, [], ccfg)
+                others = [p for k2, p in polys.items() if k2 != bid and p is not None]
+                items += hyundai.Store(frame, body, sp.get("per_building", {}).get(bid, {}), others).make()
+            for bid in sp.get("atrium") or []:
+                items += hyundai.atrium(frame, bid, polys[bid], [polys[k] for k in sp["build"] if polys.get(k) is not None])
+            out.append({"key": sp["key"], "cell": cell, "claims": sorted(set(sp["build"]) | set(sp.get("atrium") or []) | set(sp.get("claims") or [])),
+                        "parts": [item_row(i) for i in items]})
+            continue
         for k, bid in enumerate(sp["build"]):
             b = rows[bid]
             own = sp.get("per_building", {}).get(bid, {})

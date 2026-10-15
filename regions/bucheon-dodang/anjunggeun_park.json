@@ -1,0 +1,1779 @@
+{
+ "note": "안중근공원 ground layout traced on the V-World z19 mosaic of cell 8930e0af0a7ffff (pixels of that mosaic, tile_x0/tile_y0 below), 2026-10-15; street view and one news photo (viewed only). src/anjunggeun.py",
+ "tile_x0": 446747,
+ "tile_y0": 203140,
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     770,
+     1180
+    ],
+    [
+     1160,
+     1212
+    ],
+    [
+     1160,
+     1340
+    ],
+    [
+     1060,
+     1320
+    ],
+    [
+     960,
+     1300
+    ],
+    [
+     905,
+     1300
+    ],
+    [
+     830,
+     1325
+    ],
+    [
+     800,
+     1290
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    92,
+    108,
+    60
+   ],
+   "material": "Grass",
+   "note": "north lawn between the 길주로 edge and the upper red path; rows of small trees/shrubs and scattered big trees"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     600,
+     1300
+    ],
+    [
+     690,
+     1300
+    ],
+    [
+     770,
+     1330
+    ],
+    [
+     775,
+     1375
+    ],
+    [
+     700,
+     1440
+    ],
+    [
+     665,
+     1560
+    ],
+    [
+     650,
+     1690
+    ],
+    [
+     600,
+     1700
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    60,
+    85,
+    45
+   ],
+   "material": "Grass",
+   "note": "west wood: dense mixed canopy (pines, broadleaf) over grass, about 90% cover"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     700,
+     1450
+    ],
+    [
+     770,
+     1400
+    ],
+    [
+     800,
+     1465
+    ],
+    [
+     775,
+     1500
+    ],
+    [
+     758,
+     1600
+    ],
+    [
+     760,
+     1688
+    ],
+    [
+     665,
+     1688
+    ],
+    [
+     668,
+     1560
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    60,
+    85,
+    45
+   ],
+   "material": "Grass",
+   "note": "inner west wood between the grey arc path and the red loop, dense trees"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     880,
+     1330
+    ],
+    [
+     1100,
+     1342
+    ],
+    [
+     1095,
+     1420
+    ],
+    [
+     1065,
+     1425
+    ],
+    [
+     1035,
+     1403
+    ],
+    [
+     980,
+     1394
+    ],
+    [
+     920,
+     1396
+    ],
+    [
+     870,
+     1410
+    ],
+    [
+     900,
+     1360
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    92,
+    108,
+    60
+   ],
+   "material": "Grass",
+   "note": "lawn inside the upper arc with scattered trees (about 50% cover)"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1080,
+     1345
+    ],
+    [
+     1150,
+     1368
+    ],
+    [
+     1135,
+     1400
+    ],
+    [
+     1100,
+     1500
+    ],
+    [
+     1075,
+     1505
+    ],
+    [
+     1078,
+     1440
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    92,
+    108,
+    60
+   ],
+   "material": "Grass",
+   "note": "east lawn strip west of the east diagonal path, scattered trees"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1135,
+     1400
+    ],
+    [
+     1200,
+     1380
+    ],
+    [
+     1198,
+     1720
+    ],
+    [
+     1060,
+     1700
+    ],
+    [
+     1060,
+     1630
+    ],
+    [
+     1100,
+     1600
+    ],
+    [
+     1100,
+     1500
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    60,
+    85,
+    45
+   ],
+   "material": "Grass",
+   "note": "east wood along the east road, dense trees and shrubs (some red-leaf maples)"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     870,
+     1755
+    ],
+    [
+     920,
+     1760
+    ],
+    [
+     1000,
+     1725
+    ],
+    [
+     1060,
+     1700
+    ],
+    [
+     1198,
+     1720
+    ],
+    [
+     1198,
+     1770
+    ],
+    [
+     600,
+     1770
+    ],
+    [
+     600,
+     1700
+    ],
+    [
+     760,
+     1700
+    ],
+    [
+     840,
+     1695
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    60,
+    85,
+    45
+   ],
+   "material": "Grass",
+   "note": "south wood belt, dense canopy; south of it is the public parking lot (outside the park)"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     905,
+     1400
+    ],
+    [
+     980,
+     1398
+    ],
+    [
+     985,
+     1440
+    ],
+    [
+     960,
+     1500
+    ],
+    [
+     935,
+     1515
+    ],
+    [
+     910,
+     1460
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    60,
+    85,
+    45
+   ],
+   "material": "Grass",
+   "note": "tree island inside the red loop between the central disk and the amphitheatre"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     784,
+     1294
+    ],
+    [
+     989,
+     1671
+    ],
+    [
+     1011,
+     1659
+    ],
+    [
+     806,
+     1286
+    ],
+    [
+     787,
+     1183
+    ],
+    [
+     763,
+     1187
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    182,
+    184,
+    176
+   ],
+   "material": "Granite",
+   "note": "main ceremonial axis: wide light-grey stone walk from the NW corner entrance (road crossing) straight SE to the statue; crosses the central disk"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     772,
+     1295
+    ],
+    [
+     845,
+     1290
+    ],
+    [
+     900,
+     1330
+    ],
+    [
+     925,
+     1390
+    ],
+    [
+     870,
+     1410
+    ],
+    [
+     830,
+     1437
+    ],
+    [
+     800,
+     1465
+    ],
+    [
+     775,
+     1440
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    174,
+    166
+   ],
+   "material": "Pavement",
+   "note": "upper NW terrace plaza, grey block paving with rectangular planters, gentle slope down to the SE"
+  },
+  {
+   "kind": "bed",
+   "shape": "rect",
+   "px": [
+    [
+     806,
+     1410
+    ],
+    [
+     836,
+     1396
+    ],
+    [
+     840,
+     1405
+    ],
+    [
+     810,
+     1419
+    ]
+   ],
+   "height_m": 0.4,
+   "rgb": [
+    70,
+    95,
+    50
+   ],
+   "material": "Grass",
+   "note": "planter row on the NW terrace (low hedge, granite curb)"
+  },
+  {
+   "kind": "bed",
+   "shape": "rect",
+   "px": [
+    [
+     842,
+     1372
+    ],
+    [
+     880,
+     1355
+    ],
+    [
+     884,
+     1364
+    ],
+    [
+     846,
+     1381
+    ]
+   ],
+   "height_m": 0.4,
+   "rgb": [
+    70,
+    95,
+    50
+   ],
+   "material": "Grass",
+   "note": "planter row on the NW terrace (low hedge, granite curb)"
+  },
+  {
+   "kind": "bed",
+   "shape": "rect",
+   "px": [
+    [
+     868,
+     1344
+    ],
+    [
+     890,
+     1334
+    ],
+    [
+     894,
+     1343
+    ],
+    [
+     872,
+     1353
+    ]
+   ],
+   "height_m": 0.4,
+   "rgb": [
+    70,
+    95,
+    50
+   ],
+   "material": "Grass",
+   "note": "small planter on the NW terrace"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     862,
+     1328
+    ],
+    [
+     911,
+     1311
+    ],
+    [
+     960,
+     1311
+    ],
+    [
+     1009,
+     1318
+    ],
+    [
+     1059,
+     1328
+    ],
+    [
+     1109,
+     1342
+    ],
+    [
+     1157,
+     1351
+    ],
+    [
+     1159,
+     1339
+    ],
+    [
+     1111,
+     1330
+    ],
+    [
+     1061,
+     1316
+    ],
+    [
+     1011,
+     1306
+    ],
+    [
+     960,
+     1299
+    ],
+    [
+     909,
+     1299
+    ],
+    [
+     858,
+     1316
+    ],
+    [
+     797,
+     1345
+    ],
+    [
+     803,
+     1355
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    92,
+    72
+   ],
+   "material": "Brick",
+   "note": "upper arc walk: red-brown block with a light grey zigzag/chevron pattern"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     760,
+     1600
+    ],
+    [
+     767,
+     1541
+    ],
+    [
+     780,
+     1502
+    ],
+    [
+     804,
+     1468
+    ],
+    [
+     833,
+     1441
+    ],
+    [
+     872,
+     1415
+    ],
+    [
+     921,
+     1401
+    ],
+    [
+     980,
+     1399
+    ],
+    [
+     1033,
+     1408
+    ],
+    [
+     1061,
+     1428
+    ],
+    [
+     1070,
+     1460
+    ],
+    [
+     1064,
+     1492
+    ],
+    [
+     1039,
+     1505
+    ],
+    [
+     984,
+     1507
+    ],
+    [
+     948,
+     1517
+    ],
+    [
+     903,
+     1540
+    ],
+    [
+     856,
+     1556
+    ],
+    [
+     825,
+     1644
+    ],
+    [
+     820,
+     1681
+    ],
+    [
+     830,
+     1683
+    ],
+    [
+     835,
+     1646
+    ],
+    [
+     864,
+     1564
+    ],
+    [
+     907,
+     1550
+    ],
+    [
+     952,
+     1527
+    ],
+    [
+     986,
+     1517
+    ],
+    [
+     1041,
+     1515
+    ],
+    [
+     1072,
+     1498
+    ],
+    [
+     1080,
+     1460
+    ],
+    [
+     1069,
+     1422
+    ],
+    [
+     1037,
+     1398
+    ],
+    [
+     980,
+     1389
+    ],
+    [
+     919,
+     1391
+    ],
+    [
+     868,
+     1405
+    ],
+    [
+     827,
+     1433
+    ],
+    [
+     796,
+     1462
+    ],
+    [
+     770,
+     1498
+    ],
+    [
+     757,
+     1539
+    ],
+    [
+     750,
+     1600
+    ],
+    [
+     760,
+     1691
+    ],
+    [
+     770,
+     1689
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    92,
+    72
+   ],
+   "material": "Brick",
+   "note": "main red-brown loop walk around the playground, central disk and amphitheatre"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     796,
+     1530
+    ],
+    [
+     828,
+     1534
+    ],
+    [
+     858,
+     1552
+    ],
+    [
+     862,
+     1544
+    ],
+    [
+     832,
+     1526
+    ],
+    [
+     794,
+     1520
+    ],
+    [
+     760,
+     1536
+    ],
+    [
+     764,
+     1544
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    92,
+    72
+   ],
+   "material": "Brick",
+   "note": "red walk across the top of the playground ring"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     880,
+     1480
+    ],
+    [
+     45,
+     0
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    192,
+    192,
+    182
+   ],
+   "material": "Granite",
+   "note": "central round plaza (light stone disk, ~21 m across), the main axis cuts through it"
+  },
+  {
+   "kind": "water",
+   "shape": "poly",
+   "px": [
+    [
+     857,
+     1476
+    ],
+    [
+     869,
+     1471
+    ],
+    [
+     880,
+     1482
+    ],
+    [
+     892,
+     1503
+    ],
+    [
+     886,
+     1512
+    ],
+    [
+     866,
+     1509
+    ],
+    [
+     857,
+     1495
+    ]
+   ],
+   "height_m": 0.2,
+   "rgb": [
+    200,
+    200,
+    195
+   ],
+   "material": "Granite",
+   "note": "D-shaped sunken oval with a dark rim on the central disk; looks like a dry floor fountain or inscribed stone basin (not confirmed)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     1000,
+     1455
+    ],
+    [
+     42,
+     0
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    160,
+    162,
+    155
+   ],
+   "material": "Concrete",
+   "note": "amphitheatre: grey circle with concentric step rings (seating terraces) facing the stage on its east side"
+  },
+  {
+   "kind": "stage",
+   "shape": "poly",
+   "px": [
+    [
+     1012,
+     1425
+    ],
+    [
+     1040,
+     1418
+    ],
+    [
+     1060,
+     1424
+    ],
+    [
+     1058,
+     1460
+    ],
+    [
+     1046,
+     1490
+    ],
+    [
+     1030,
+     1496
+    ],
+    [
+     1012,
+     1470
+    ]
+   ],
+   "height_m": 0.8,
+   "rgb": [
+    112,
+    112,
+    108
+   ],
+   "material": "Concrete",
+   "note": "D-shaped dark stage floor at the east side of the amphitheatre"
+  },
+  {
+   "kind": "wall",
+   "shape": "poly",
+   "px": [
+    [
+     1061,
+     1455
+    ],
+    [
+     1055,
+     1477
+    ],
+    [
+     1045,
+     1496
+    ],
+    [
+     1047,
+     1498
+    ],
+    [
+     1057,
+     1479
+    ],
+    [
+     1065,
+     1455
+    ],
+    [
+     1061,
+     1420
+    ],
+    [
+     1059,
+     1420
+    ]
+   ],
+   "height_m": 3.0,
+   "rgb": [
+    230,
+    230,
+    225
+   ],
+   "material": "Concrete",
+   "note": "curved white back wall of the stage"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     925,
+     1520
+    ],
+    [
+     960,
+     1515
+    ],
+    [
+     975,
+     1570
+    ],
+    [
+     1000,
+     1580
+    ],
+    [
+     1035,
+     1625
+    ],
+    [
+     1060,
+     1670
+    ],
+    [
+     1040,
+     1690
+    ],
+    [
+     1020,
+     1662
+    ],
+    [
+     990,
+     1658
+    ],
+    [
+     950,
+     1660
+    ],
+    [
+     905,
+     1665
+    ],
+    [
+     915,
+     1610
+    ],
+    [
+     910,
+     1555
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    174,
+    166
+   ],
+   "material": "Granite",
+   "note": "long sloping memorial plaza from the central disk down to the statue; grey stone with darker cross bands every ~2.5 m (shallow steps / paving bands); ceremonies are held here (news photo: wide light grey paved space in front of the statue)"
+  },
+  {
+   "kind": "stair",
+   "shape": "poly",
+   "px": [
+    [
+     930,
+     1610
+    ],
+    [
+     1000,
+     1600
+    ],
+    [
+     1015,
+     1612
+    ],
+    [
+     935,
+     1625
+    ]
+   ],
+   "height_m": 0.15,
+   "rgb": [
+    130,
+    132,
+    126
+   ],
+   "material": "Granite",
+   "note": "example of the darker cross bands on the memorial plaza: repeat every ~10 px along the axis as shallow steps"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1018,
+     1656
+    ],
+    [
+     1040,
+     1692
+    ],
+    [
+     1008,
+     1715
+    ],
+    [
+     980,
+     1683
+    ]
+   ],
+   "height_m": 0.5,
+   "rgb": [
+    50,
+    80,
+    45
+   ],
+   "material": "Grass",
+   "note": "square (rotated ~45 deg) statue court with four corner shrub beds around the round platform"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     1009,
+     1686
+    ],
+    [
+     15,
+     0
+    ]
+   ],
+   "height_m": 0.3,
+   "rgb": [
+    178,
+    172,
+    160
+   ],
+   "material": "Granite",
+   "note": "round statue platform (~7 m across), pale stone"
+  },
+  {
+   "kind": "statue",
+   "shape": "circle",
+   "px": [
+    [
+     1009,
+     1686
+    ],
+    [
+     5,
+     0
+    ]
+   ],
+   "height_m": 2.0,
+   "rgb": [
+    205,
+    200,
+    188
+   ],
+   "material": "Granite",
+   "note": "statue pedestal: pale granite block (news photo), about 2 m tall"
+  },
+  {
+   "kind": "statue",
+   "shape": "circle",
+   "px": [
+    [
+     1009,
+     1686
+    ],
+    [
+     2,
+     0
+    ]
+   ],
+   "height_m": 4.5,
+   "rgb": [
+    140,
+    108,
+    58
+   ],
+   "material": "Metal",
+   "note": "bronze standing figure on the pedestal (2009, brought from Harbin), about 2.5 m; likely faces NW up the axis toward the plaza"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     870,
+     1689
+    ],
+    [
+     950,
+     1657
+    ],
+    [
+     982,
+     1700
+    ],
+    [
+     940,
+     1730
+    ],
+    [
+     917,
+     1755
+    ],
+    [
+     900,
+     1745
+    ]
+   ],
+   "height_m": 0.5,
+   "rgb": [
+    182,
+    180,
+    172
+   ],
+   "material": "Concrete",
+   "note": "raised light-grey terrace SW of the statue holding the memorial wall; two small dark squares on it (planters or skylights)"
+  },
+  {
+   "kind": "wall",
+   "shape": "rect",
+   "px": [
+    [
+     910,
+     1680
+    ],
+    [
+     978,
+     1702
+    ],
+    [
+     975,
+     1712
+    ],
+    [
+     907,
+     1691
+    ]
+   ],
+   "height_m": 2.5,
+   "rgb": [
+    228,
+    228,
+    222
+   ],
+   "material": "Marble",
+   "note": "long white wall ~17 m (white top/face, shadow on the north side); likely the memorial/inscription wall or exhibit of writings mentioned by visitors; exact use not confirmed"
+  },
+  {
+   "kind": "bench_row",
+   "shape": "poly",
+   "px": [
+    [
+     940,
+     1717
+    ],
+    [
+     957,
+     1715
+    ],
+    [
+     957,
+     1713
+    ],
+    [
+     940,
+     1715
+    ],
+    [
+     922,
+     1721
+    ],
+    [
+     922,
+     1723
+    ]
+   ],
+   "height_m": 0.5,
+   "rgb": [
+    90,
+    90,
+    88
+   ],
+   "material": "Granite",
+   "note": "curved low dark wall/bench south of the memorial wall"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     732,
+     1407
+    ],
+    [
+     696,
+     1442
+    ],
+    [
+     676,
+     1489
+    ],
+    [
+     661,
+     1559
+    ],
+    [
+     650,
+     1640
+    ],
+    [
+     650,
+     1694
+    ],
+    [
+     700,
+     1703
+    ],
+    [
+     760,
+     1700
+    ],
+    [
+     870,
+     1692
+    ],
+    [
+     870,
+     1684
+    ],
+    [
+     760,
+     1692
+    ],
+    [
+     700,
+     1693
+    ],
+    [
+     660,
+     1686
+    ],
+    [
+     660,
+     1640
+    ],
+    [
+     669,
+     1561
+    ],
+    [
+     684,
+     1491
+    ],
+    [
+     704,
+     1448
+    ],
+    [
+     738,
+     1413
+    ],
+    [
+     778,
+     1378
+    ],
+    [
+     772,
+     1372
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    160,
+    160,
+    150
+   ],
+   "material": "Pavement",
+   "note": "grey block perimeter walk through the west wood, joins the south walk to the memorial terrace"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1161,
+     1344
+    ],
+    [
+     1146,
+     1366
+    ],
+    [
+     1131,
+     1398
+    ],
+    [
+     1096,
+     1498
+    ],
+    [
+     1082,
+     1528
+    ],
+    [
+     1044,
+     1574
+    ],
+    [
+     1050,
+     1580
+    ],
+    [
+     1088,
+     1532
+    ],
+    [
+     1104,
+     1502
+    ],
+    [
+     1139,
+     1402
+    ],
+    [
+     1154,
+     1370
+    ],
+    [
+     1169,
+     1346
+    ],
+    [
+     1172,
+     1210
+    ],
+    [
+     1164,
+     1210
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    160,
+    160,
+    150
+   ],
+   "material": "Pavement",
+   "note": "grey block walk from the NE corner down the east side to the memorial plaza"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1150,
+     1363
+    ],
+    [
+     1150,
+     1373
+    ],
+    [
+     1212,
+     1375
+    ],
+    [
+     1212,
+     1365
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    165,
+    165,
+    155
+   ],
+   "material": "Pavement",
+   "note": "east entrance: grey block walk in from the east road sidewalk between hedge beds (street view)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1166,
+     1600
+    ],
+    [
+     1125,
+     1582
+    ],
+    [
+     1057,
+     1621
+    ],
+    [
+     1037,
+     1636
+    ],
+    [
+     1043,
+     1644
+    ],
+    [
+     1063,
+     1629
+    ],
+    [
+     1125,
+     1594
+    ],
+    [
+     1164,
+     1610
+    ],
+    [
+     1205,
+     1610
+    ],
+    [
+     1205,
+     1600
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    92,
+    72
+   ],
+   "material": "Brick",
+   "note": "SE entrance: red-brown walk from the east road to the statue court (street view)"
+  },
+  {
+   "kind": "pergola",
+   "shape": "rect",
+   "px": [
+    [
+     1105,
+     1558
+    ],
+    [
+     1132,
+     1558
+    ],
+    [
+     1132,
+     1580
+    ],
+    [
+     1105,
+     1580
+    ]
+   ],
+   "height_m": 3.5,
+   "rgb": [
+    150,
+    80,
+    60
+   ],
+   "material": "Brick",
+   "note": "small red-brick hut with a dark hipped roof (street view, likely toilet/storage)"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1200,
+     1365
+    ],
+    [
+     1206,
+     1365
+    ],
+    [
+     1206,
+     1205
+    ],
+    [
+     1200,
+     1205
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    55,
+    90,
+    45
+   ],
+   "material": "Grass",
+   "note": "boxwood hedge on a low granite-edged raised bed along the east edge (street view)"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1198,
+     1720
+    ],
+    [
+     1202,
+     1720
+    ],
+    [
+     1205,
+     1378
+    ],
+    [
+     1201,
+     1378
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    55,
+    90,
+    45
+   ],
+   "material": "Grass",
+   "note": "boxwood hedge on a low granite-edged raised bed along the east edge; gaps at the two entrances"
+  },
+  {
+   "kind": "fence",
+   "shape": "poly",
+   "px": [
+    [
+     1212,
+     1330
+    ],
+    [
+     1214,
+     1450
+    ],
+    [
+     1214,
+     1330
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    40,
+    40,
+    40
+   ],
+   "material": "Metal",
+   "note": "low black steel pedestrian railing at the sidewalk curb in front of the east entrance (street view)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     850,
+     1595
+    ],
+    [
+     848,
+     1612
+    ],
+    [
+     841,
+     1627
+    ],
+    [
+     831,
+     1639
+    ],
+    [
+     819,
+     1647
+    ],
+    [
+     805,
+     1650
+    ],
+    [
+     791,
+     1647
+    ],
+    [
+     779,
+     1639
+    ],
+    [
+     769,
+     1627
+    ],
+    [
+     762,
+     1612
+    ],
+    [
+     760,
+     1595
+    ],
+    [
+     762,
+     1578
+    ],
+    [
+     769,
+     1563
+    ],
+    [
+     779,
+     1551
+    ],
+    [
+     791,
+     1543
+    ],
+    [
+     805,
+     1540
+    ],
+    [
+     819,
+     1543
+    ],
+    [
+     831,
+     1551
+    ],
+    [
+     841,
+     1563
+    ],
+    [
+     848,
+     1578
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    200,
+    188,
+    158
+   ],
+   "material": "Concrete",
+   "note": "playground: sandy/rubber surface ring-bounded by the red loop, play equipment (a large dark central structure and colored small items)"
+  }
+ ],
+ "seen": "Satellite z19 mosaic (0.237 m/px) of the park west of the department store: the park lies between 길주로 (north, elevated road) and the public parking lot (south), east of the west road and west of the road beside the store. A straight light-stone axis runs from the NW corner entrance SE through a round plaza to the statue court; a red-brown block loop walk circles a playground, the round plaza and an amphitheatre with a D-shaped stage; a long sloping banded plaza leads down to the statue on a round platform in a square court with four corner beds; a white wall on a raised terrace sits SW of the statue. Woods (dense trees) fill the west, south and east edges; lawn with tree rows in the north. Street view from the east road: grey block entrance walk, boxwood hedges on granite-edged beds, pines, red brick walk and a small brick hut with dark roof, black low railing at the curb. News photo (ceremony 2022): bronze standing figure on a pale granite pedestal in a wide light grey paved plaza. Not located: the 2016 girl statue/comic-art memorial (3.7 x 1.8 m panel work with LED) and inscription stones mentioned by a visitor page; likely near the statue court or the white wall, not visible from above. Benches not resolvable at this resolution. Trees are left to trees.py.",
+ "sources": [
+  "data/satellite/8930e0af0a7ffff-z19.jpg (+json)",
+  "street view panoramas t-fpM8ltJg0E14a5xqAvZA, WO8e4iijUTIaQWDCRXbY8w, dutXimtuCfVHvWvGAKWRlQ (west-facing faces)",
+  "https://mom-mom.net/travel/places/64193939f2f1cef887f059fd (statue at centre, inscription stones, girl statue, wide gently sloping plaza)",
+  "https://news.tf.co.kr/read/ogmeta/1974647.htm (photo viewed: bronze statue on pale pedestal, grey paved plaza)",
+  "https://kyeonggi.com/article/201403260563919 (memorial art piece 3.7 x 1.8 m)",
+  "https://m.go.seoul.co.kr/news/2016/01/30/20160130021021 (girl statue placed in the park, 2016)",
+  "https://newsseoul.co.kr/news/view/1065606008184414 (address 송내대로 236, statue from Harbin 2009)"
+ ]
+}

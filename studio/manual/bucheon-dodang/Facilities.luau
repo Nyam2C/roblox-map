@@ -18,9 +18,12 @@ return function(DATA)
 			table.insert(made, f.key .. " kept")
 			continue
 		end
-		local model = Instance.new("Model")
+		-- a park is a Folder: settleManual then lifts each of its parts onto the ground under it (안중근공원, 2026-10-15)
+		local model = Instance.new(f.folder and "Folder" or "Model")
 		model.Name = f.key
-		model.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
+		if not f.folder then
+			model.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
+		end
 		for _, id in ipairs(f.claims) do
 			local c = Instance.new("Configuration")
 			c.Name = "Claim"

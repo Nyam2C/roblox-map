@@ -2897,198 +2897,733 @@
   },
   {
    "key": "hyundai_dept",
-   "floors": 10,
-   "height_m": 45,
-   "wall": {
-    "material": "Limestone",
-    "rgb": [
-     214,
-     201,
-     186
-    ]
-   },
-   "base": {
-    "floors": 2,
-    "material": "Granite",
-    "rgb": [
-     222,
-     209,
-     193
-    ]
-   },
-   "windows": {
-    "type": "none",
-    "w_m": 0,
-    "h_m": 0,
-    "pitch_m": 0,
-    "glass_rgb": [
-     95,
-     150,
-     175
-    ],
-    "frame_rgb": [
-     200,
-     200,
-     198
-    ]
-   },
-   "bands": null,
-   "accents": [
-    {
-     "kind": "glass_strip",
-     "face": "street",
-     "at": -0.46,
-     "width_m": 7.0,
-     "from_floor": 2,
-     "to_floor": 9,
-     "rgb": [
-      80,
-      150,
-      170
-     ]
-    },
-    {
-     "kind": "glass_strip",
-     "face": "left",
-     "at": 0.44,
-     "width_m": 6.0,
-     "from_floor": 2,
-     "to_floor": 9,
-     "rgb": [
-      80,
-      150,
-      170
-     ]
-    },
-    {
-     "kind": "glass_strip",
-     "face": "left",
-     "at": -0.44,
-     "width_m": 6.0,
-     "from_floor": 2,
-     "to_floor": 9,
-     "rgb": [
-      80,
-      150,
-      170
-     ]
-    },
-    {
-     "kind": "glass_strip",
-     "face": "back",
-     "at": -0.46,
-     "width_m": 7.0,
-     "from_floor": 2,
-     "to_floor": 9,
-     "rgb": [
-      80,
-      150,
-      170
-     ]
-    },
-    {
-     "kind": "arch",
-     "face": "left",
-     "at": 0.05,
-     "width_m": 8.0,
-     "from_floor": 2,
-     "to_floor": 9,
-     "rgb": [
-      120,
-      170,
-      200
-     ]
-    },
-    {
-     "kind": "stripe",
-     "face": "street",
-     "from_floor": 9,
-     "to_floor": 9,
-     "rgb": [
-      100,
-      150,
-      180
-     ]
-    },
-    {
-     "kind": "stripe",
-     "face": "back",
-     "from_floor": 9,
-     "to_floor": 9,
-     "rgb": [
-      100,
-      150,
-      180
-     ]
-    },
-    {
-     "kind": "panel",
-     "face": "left",
-     "at": -0.2,
-     "width_m": 6.0,
-     "from_floor": 2,
-     "to_floor": 2,
-     "material": "Metal",
-     "rgb": [
-      72,
-      72,
-      74
-     ]
-    }
+   "custom": "hyundai",
+   "cell": "8930e0af1dbffff",
+   "cells": [
+    "8930e0af1dbffff",
+    "8930e0af0a7ffff"
    ],
-   "entrance": {
-    "face": "left",
-    "at": 0.3,
-    "width_m": 4.0,
-    "canopy": true,
-    "canopy_rgb": [
-     70,
-     72,
-     75
-    ],
-    "steps": false
-   },
-   "sign": null,
-   "roof": {
-    "parapet_rgb": [
-     238,
-     236,
-     230
-    ],
-    "top_rgb": [
-     150,
-     148,
-     142
-    ],
-    "features": [
-     "crown",
-     "tank"
-    ],
-    "crown": {
-     "height_m": 2.5,
-     "rgb": [
-      226,
-      216,
-      202
-     ]
+   "build": [
+    "gis:11181260",
+    "gis:11011115"
+   ],
+   "atrium": [
+    "gis:11206250"
+   ],
+   "claims": [],
+   "per_building": {
+    "gis:11181260": {
+     "plain": [
+      "N"
+     ],
+     "roof": "plant"
+    },
+    "gis:11011115": {
+     "entrance": "W",
+     "roof": "garden"
     }
    },
-   "notes": "Main facade faces N, onto 길주로 (the long ~100 m side; the satellite shows the 8-lane road along the north edge). Face mapping used above, standing on 길주로 looking south: street = N, left = E (the cross street and a small plaza with an outdoor sculpture), right = W, back = S (a narrow back street with the parking entrance). For 'at', negative = the east end of the N and S faces and the south end of the E face. Style: a beige stone box in a classical style, almost all blank wall. Two-storey base of large pale granite blocks topped by a projecting moulded cornice; the upper wall is smaller beige stone tiles. Corners: the NE and SE corners have a tall teal glass curtain-wall bay that wraps both faces from the cornice of the base (floor 2) up to the top cornice. That is the most recognisable feature. Between the corners there are vertical rusticated stone pilaster strips (slightly darker, ~[190,180,168], ~1.5 m wide), and the S face has big recessed blank square panels with a thin raised frame (no glass). E face: one tall arched glass window with dark grey mullions in the middle, flanked by blind arch mouldings near the corners, and a few dark grey metal louvre panels at floor 2 and the ground floor. N and S faces: a band of recessed glazing on the top floor, set between the pilasters. Top: a heavy projecting classical cornice (crown) with the brand lettering below it on the N and E faces; leave it blank. Ground floor on E: small display windows with dark grey awnings and a side door with a dark canopy. The N ground floor is hidden by street trees in the photos, so its entrance was not seen. The station link (부천시청역 exit 3, line 7) is underground, so nothing is built for it. Roof (satellite): thick white parapet; the NW half is a roof garden (dark green planting, round white umbrellas); the east third is one dark brown-grey flat deck ~[110,100,95]; the middle-south has two rows of round cooling-tower fans (tank) and a small light-blue water feature; the rest is grey concrete. The west end of the outline curves (concave) around a round glass-domed atrium that links to the neighbouring block to the west. The dome is not part of this record. Height: department-store floors are tall (the base of two floors is ~10 m against the street trees), so about 45 m rather than 10 x 3.5.",
+   "notes": "User 2026-10-15 \"현백 디테일하게 진짜로\": both blocks and the atrium by src/hyundai.py (street-view crops of both blocks, satellite). Earlier spec notes: Main facade faces N, onto 길주로 (the long ~100 m side; the satellite shows the 8-lane road along the north edge). Face mapping used above, standing on 길주로 looking south: street = N, left = E (the cross street and a small plaza with an outdoor sculpture), right = W, back = S (a narrow back street with the parking entrance). For 'at', negative = the east end of the N and S faces and the south end of the E face. Style: a beige stone box in a classical style, almost all blank wall. Two-storey base of large pale granite blocks topped by a projecting moulded cornice; the upper wall is smaller beige st",
    "sources": [
     "captures/8930e0af1dbffff/sheets/gis_11181260.jpg",
     "captures/8930e0af1dbffff/crops/gis_11181260__JiOdeOqP3HWwIXvmOZy1VA.jpg",
     "captures/8930e0af1dbffff/crops/gis_11181260__kdAzpYCEypxe4l7n9Y4GVA.jpg",
     "captures/8930e0af1dbffff/crops/gis_11181260__9mXcO1vSvB4xtMwtdPzZFA.jpg",
     "data/satellite/8930e0af1dbffff-z19.jpg",
-    "https://byline.network/2024/04/%ea%b2%bd%ea%b8%b0-%ec%84%9c%eb%b6%80-%ec%a7%80%ec%97%ad-%ea%bd%89-%ec%9e%a1%ea%b2%a0%eb%8b%a4%ed%98%84%eb%8c%80%eb%b0%b1%ed%99%94%ec%a0%90-%ec%a4%91%eb%8f%99%ec%a0%90-%eb%8c%80%eb%8c%80/ (renovation news, confirms the line-7 link, no facade description)"
+    "https://byline.network/2024/04/%ea%b2%bd%ea%b8%b0-%ec%84%9c%eb%b6%80-%ec%a7%80%ec%97%ad-%ea%bd%89-%ec%9e%a1%ea%b2%a0%eb%8b%a4%ed%98%84%eb%8c%80%eb%b0%b1%ed%99%94%ec%a0%90-%ec%a4%91%eb%8f%99%ec%a0%90-%eb%8c%80%eb%8c%80/ (renovation news, confirms the line-7 link, no facade description)",
+    "captures/8930e0af0a7ffff/sheets/gis_11011115.jpg"
+   ]
+  },
+  {
+   "key": "gyeonggi_arts_high",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     178,
+     110,
+     90
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.5,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     60,
+     75,
+     85
+    ],
+    "frame_rgb": [
+     232,
+     230,
+     224
+    ]
+   },
+   "bands": {
+    "rgb": [
+     226,
+     216,
+     196
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.05,
+     "width_m": 50.0,
+     "from_floor": 4,
+     "to_floor": 4,
+     "material": "Concrete",
+     "rgb": [
+      228,
+      220,
+      202
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.42,
+     "width_m": 2.5,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      150,
+      165,
+      150
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      226,
+      216,
+      196
+     ]
+    }
    ],
-   "seen": "Three street-view crops (looking N at the S face, NW at the SE corner, SW at the NE corner) show a blank beige stone box: a two-storey granite base, teal glass corner bays, a tall arched window on the east face, and a heavy top cornice. The satellite shows a white parapet, a roof garden, cooling towers and a dark deck. A web search found renovation news only, with no facade photos or descriptions the tool could read.",
-   "cell": "8930e0af1dbffff",
+   "entrance": {
+    "face": "street",
+    "at": 0.05,
+    "width_m": 6.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": {
+    "text": "경기예술고등학교",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     150,
+     85,
+     70
+    ],
+    "ink_rgb": [
+     245,
+     240,
+     230
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     70,
+     72,
+     74
+    ],
+    "top_rgb": [
+     70,
+     140,
+     120
+    ],
+    "features": [
+     "solar",
+     "stair_box"
+    ]
+   },
+   "notes": "Faces: 'street' = NORTH face for gis:11121839 and gis:11196056 (school gate and the school-zone road are on the north side), 'street' = WEST face for gis:11214899 (west road). 'at' is left-to-right as seen from outside looking at that face (so on a north face, negative = east). All three ids are real separate buildings, none is a duplicate. gis:11121839 = main block (본관): salmon/orange-red brick, five floors, cream concrete line at every floor slab, top (5th) floor is a cream panel band with long ribbon-like white-framed windows, recessed ground-floor gate passage at the centre of the north face, glass-strip stair tower at the east end of the north face, low dark roof edge with a light rooftop railing. Its V-World outline (85x71 m) is an irregular complex: north brick bar, a middle block with solar panels on a teal-green roof, and a big SEMICIRCULAR / ring building on the south with a round inner courtyard (satellite); if possible build the ring as a curved granite-and-brick wall, same brick skin, teal-green roof. gis:11196056 (east, 61x27 m): white metal-panel walls with very few small windows, several angular grey standing-seam metal roofs that slope steeply down the facade (folded-plate look), a teal-blue glass curtain block at the west end over orange wood-look cladding on the ground floor, a terracotta-red panel block and a grey low box with roller shutters at the east end; its south-east corner has white slanted round columns and a curved white base wall. gis:11214899 (west, 60x31 m): dark grey slate-clad front with a dark sloped metal roof, white letters of the school name on the roof fascia at the north end of the west face, glass curtain wall on the north half of the west face, green-tinted vertical glass fins along the ground floor, recessed pilotis entrance with white round columns behind an ornamental gate; behind it (north part of the outline) a tall plain light-grey stage fly tower about two floors higher than the hall (roughly 22-25 m) with a terracotta-red top section about 3 m; satellite shows the north part with a dark roof and the south part flat teal-green with a small round rooftop tank. School gates: north gate = brick pillars and a folding gate; east gate (on the road toward the labour office) = two dark granite pylons joined by a beam with a colourful glass canopy. Ornamental white 'leaf' railings with hedges along all three roads; ginkgo rows. The empty area east of the main block is a construction site in the satellite (a new hall), not part of these records.",
+   "sources": [
+    "captures/8930e0af1d3ffff/sheets/gis_11121839.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11121839__7YP2Aj6AbSfM6BvG4IM5XA.jpg",
+    "captures/8930e0af1d3ffff/sheets/gis_11196056.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11196056__iGQu-47rSk-0mYo_d0wtjQ.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11196056__1HFu3bwqlPeHODV9RxbI8g.jpg",
+    "captures/8930e0af0a7ffff/sheets/gis_11214899.jpg",
+    "captures/8930e0af0a7ffff/crops/gis_11214899__fErkD7zX6r5iuqBRLFDOcQ.jpg",
+    "data/satellite/8930e0af0a7ffff-z19.jpg",
+    "https://namu.wiki/w/경기예술고등학교 (building names: 본관, 음악관, 아트홀, 화이트홀, 드림홀 2026; no photos or colours described)"
+   ],
+   "seen": "From the north gate: a five-floor salmon brick main block with cream floor lines and a cream top-floor band, flanked on the east by a white block with angular grey metal roofs and a teal glass corner. From the west road: a dark slate theatre front with glass wall, green glass fins, pilotis entrance and the school name, with a tall light-grey fly tower topped in terracotta behind it.",
+   "cell": "8930e0af1d3ffff",
+   "cells": [
+    "8930e0af1d3ffff",
+    "8930e0af0a7ffff"
+   ],
    "build": [
-    "gis:11181260"
+    "gis:11121839",
+    "gis:11196056",
+    "gis:11214899"
+   ],
+   "claims": [],
+   "front": "N",
+   "per_building": {
+    "gis:11196056": {
+     "floors": 4,
+     "wall": {
+      "material": "SmoothPlastic",
+      "rgb": [
+       226,
+       226,
+       222
+      ]
+     },
+     "base": null,
+     "windows": {
+      "type": "grid",
+      "w_m": 1.2,
+      "h_m": 1.4,
+      "pitch_m": 7.0,
+      "glass_rgb": [
+       60,
+       70,
+       80
+      ],
+      "frame_rgb": [
+       90,
+       95,
+       100
+      ]
+     },
+     "bands": null,
+     "accents": [
+      {
+       "kind": "glass_strip",
+       "face": "street",
+       "at": -0.35,
+       "width_m": 14.0,
+       "from_floor": 1,
+       "to_floor": 3,
+       "rgb": [
+        70,
+        150,
+        170
+       ]
+      },
+      {
+       "kind": "panel",
+       "face": "street",
+       "at": -0.35,
+       "width_m": 14.0,
+       "from_floor": 0,
+       "to_floor": 0,
+       "material": "Plaster",
+       "rgb": [
+        200,
+        140,
+        70
+       ]
+      },
+      {
+       "kind": "panel",
+       "face": "street",
+       "at": 0.3,
+       "width_m": 8.0,
+       "from_floor": 1,
+       "to_floor": 2,
+       "material": "Brick",
+       "rgb": [
+        160,
+        82,
+        62
+       ]
+      },
+      {
+       "kind": "panel",
+       "face": "street",
+       "at": 0.35,
+       "width_m": 14.0,
+       "from_floor": 0,
+       "to_floor": 0,
+       "material": "Metal",
+       "rgb": [
+        200,
+        202,
+        200
+       ]
+      }
+     ],
+     "roof": {
+      "parapet_rgb": [
+       110,
+       112,
+       116
+      ],
+      "top_rgb": [
+       150,
+       154,
+       158
+      ],
+      "features": [
+       "pitched"
+      ]
+     }
+    },
+    "gis:11214899": {
+     "floors": 4,
+     "height_m": null,
+     "wall": {
+      "material": "Slate",
+      "rgb": [
+       96,
+       98,
+       100
+      ]
+     },
+     "base": {
+      "floors": 1,
+      "material": "Glass",
+      "rgb": [
+       70,
+       130,
+       110
+      ]
+     },
+     "windows": {
+      "type": "curtain",
+      "w_m": 1.5,
+      "h_m": 3.0,
+      "pitch_m": 1.5,
+      "glass_rgb": [
+       120,
+       170,
+       170
+      ],
+      "frame_rgb": [
+       150,
+       155,
+       155
+      ]
+     },
+     "bands": null,
+     "accents": [
+      {
+       "kind": "glass_strip",
+       "face": "street",
+       "at": 0.3,
+       "width_m": 18.0,
+       "from_floor": 1,
+       "to_floor": 3,
+       "rgb": [
+        120,
+        170,
+        170
+       ]
+      },
+      {
+       "kind": "fins",
+       "face": "street",
+       "at": -0.25,
+       "width_m": 22.0,
+       "from_floor": 0,
+       "to_floor": 0,
+       "rgb": [
+        70,
+        130,
+        110
+       ],
+       "pitch_m": 1.2
+      },
+      {
+       "kind": "arch",
+       "face": "street",
+       "at": 0.05,
+       "width_m": 8.0,
+       "from_floor": 0,
+       "to_floor": 0,
+       "rgb": [
+        235,
+        235,
+        232
+       ]
+      }
+     ],
+     "entrance": {
+      "face": "street",
+      "at": 0.05,
+      "width_m": 8.0,
+      "canopy": true,
+      "canopy_rgb": [
+       96,
+       98,
+       100
+      ],
+      "steps": true
+     },
+     "sign": {
+      "text": "경기예술고등학교",
+      "face": "street",
+      "floor": 4,
+      "bg_rgb": [
+       60,
+       62,
+       66
+      ],
+      "ink_rgb": [
+       245,
+       245,
+       245
+      ]
+     },
+     "roof": {
+      "parapet_rgb": [
+       60,
+       62,
+       66
+      ],
+      "top_rgb": [
+       150,
+       154,
+       158
+      ],
+      "features": [
+       "pitched",
+       "crown"
+      ],
+      "crown": {
+       "height_m": 10.0,
+       "rgb": [
+        215,
+        212,
+        205
+       ]
+      }
+     },
+     "front": "W"
+    }
+   }
+  },
+  {
+   "key": "bugwang_elem",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     140,
+     72,
+     58
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 3.0,
+    "h_m": 1.6,
+    "pitch_m": 4.0,
+    "glass_rgb": [
+     90,
+     110,
+     120
+    ],
+    "frame_rgb": [
+     236,
+     236,
+     232
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     200,
+     190
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 5,
+     "to_floor": 5,
+     "rgb": [
+      40,
+      110,
+      205
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "Metal",
+     "rgb": [
+      220,
+      222,
+      222
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.2,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     225,
+     225,
+     222
+    ],
+    "steps": false
+   },
+   "sign": {
+    "text": "부광초등학교",
+    "face": "back",
+    "floor": 4,
+    "bg_rgb": [
+     140,
+     72,
+     58
+    ],
+    "ink_rgb": [
+     245,
+     245,
+     240
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     40,
+     110,
+     205
+    ],
+    "top_rgb": [
+     80,
+     150,
+     130
+    ],
+    "features": [
+     "solar",
+     "pitched"
+    ]
+   },
+   "notes": "Main block gis:11214781 (108x22 m, long east-west): 'street' = NORTH face (parking street, the only face photographed head-on); 'back' = SOUTH face toward the sand playground (no street-view photo). 'at' is left-to-right seen from outside. Dark red-brown brick, five floors, light concrete line at each floor, white-framed paired windows, a bright blue metal fascia band about 1.5 m tall all round the roof edge (very visible from the east), roof is a low teal-green roof with a long row of solar panels on the south side (satellite). A light-grey/white metal-panel stair-elevator tower rises on the north face toward the east (shown as the grey panel accent). gis:11205925 (20x9 m) is the north wing/annex block that sticks out of the middle-east of the main bar (separate green-roof block in the satellite); real building part, same brick skin and blue fascia, not a pure duplicate, but its ledger values (5 floors, 1,691 m²) are copied from the main block. gis:11184722 = multipurpose hall east of the playground: 'street' = SOUTH face (seen from the south road through the green fence): recessed dark-brick ground floor with a pale green column, bright yellow upper wall, a tall blue vertical band at the west end, white-framed clerestory windows under a blue roof fascia, white outdoor stair climbing diagonally across the south face to a door on floor 2; light grey metal roof; a small flat-roof annex on its north side (satellite). DROPPED: gis:16518152 (36x24 m) overlaps the hall outline almost entirely = duplicate outline of the same hall; gis:11206754 (6x4 m) and gis:11206755 (12x3 m) are tiny structures under the trees at the east fence, not visible in any photo (likely sheds), leave them to the auto builder. The school name sign was not visible in the photos (assumed on the south face toward the playground). Site: green vertical-bar steel fence on all sides, metasequoia/zelkova rows, sand playground, a colourful dome play structure at the NE corner of the playground.",
+   "sources": [
+    "captures/8930e0af1d3ffff/sheets/gis_11214781.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11214781__XC_tpCvBBbwSIBkLdg4qLg.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11214781__kqM_MygeFFD1930i6ejj9g.jpg",
+    "captures/8930e0af1d3ffff/sheets/gis_11205925.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11205925__Sr4IiSWH7qZXZfO7ezU1Rg.jpg",
+    "captures/8930e0af1d3ffff/sheets/gis_11184722.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11184722__sAeNBjm_s_pDtjVfIkdmYQ.jpg",
+    "captures/8930e0af1d3ffff/sheets/gis_16518152.jpg",
+    "captures/8930e0af1d3ffff/sheets/gis_11206754.jpg",
+    "data/satellite/8930e0af1d3ffff-z19.jpg"
+   ],
+   "seen": "A long five-floor dark red-brown brick school block with white-framed windows and a bright blue roof fascia, behind trees and a green fence; east of the playground a hall with a bright yellow upper wall, blue edge band, brick ground floor and a white diagonal outdoor stair. No web photos found.",
+   "cell": "8930e0af1d3ffff",
+   "build": [
+    "gis:11214781",
+    "gis:11205925",
+    "gis:11184722"
+   ],
+   "claims": [
+    "gis:16518152"
+   ],
+   "front": "N",
+   "per_building": {
+    "gis:11184722": {
+     "floors": 2,
+     "height_m": 12.0,
+     "wall": {
+      "material": "SmoothPlastic",
+      "rgb": [
+       236,
+       212,
+       40
+      ]
+     },
+     "base": {
+      "floors": 1,
+      "material": "Brick",
+      "rgb": [
+       110,
+       62,
+       50
+      ]
+     },
+     "windows": {
+      "type": "ribbon",
+      "w_m": 2.0,
+      "h_m": 1.6,
+      "pitch_m": 2.2,
+      "glass_rgb": [
+       200,
+       210,
+       215
+      ],
+      "frame_rgb": [
+       240,
+       240,
+       238
+      ]
+     },
+     "bands": null,
+     "accents": [
+      {
+       "kind": "panel",
+       "face": "street",
+       "at": -0.45,
+       "width_m": 2.5,
+       "from_floor": 0,
+       "to_floor": 2,
+       "material": "SmoothPlastic",
+       "rgb": [
+        30,
+        80,
+        200
+       ]
+      },
+      {
+       "kind": "stripe",
+       "face": "all",
+       "from_floor": 2,
+       "to_floor": 2,
+       "rgb": [
+        40,
+        100,
+        210
+       ]
+      },
+      {
+       "kind": "glass_strip",
+       "face": "street",
+       "at": -0.33,
+       "width_m": 3.0,
+       "from_floor": 1,
+       "to_floor": 1,
+       "rgb": [
+        200,
+        215,
+        205
+       ]
+      }
+     ],
+     "entrance": {
+      "face": "street",
+      "at": 0.1,
+      "width_m": 3.0,
+      "canopy": false,
+      "steps": true
+     },
+     "roof": {
+      "parapet_rgb": [
+       40,
+       100,
+       210
+      ],
+      "top_rgb": [
+       190,
+       196,
+       200
+      ],
+      "features": []
+     },
+     "front": "S"
+    }
+   }
+  },
+  {
+   "key": "labor_office",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "CeramicTiles",
+    "rgb": [
+     190,
+     192,
+     192
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.6,
+    "pitch_m": 4.5,
+    "glass_rgb": [
+     90,
+     140,
+     150
+    ],
+    "frame_rgb": [
+     120,
+     125,
+     128
+    ]
+   },
+   "bands": null,
+   "accents": [],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.5,
+    "canopy": true,
+    "canopy_rgb": [
+     175,
+     178,
+     178
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     185,
+     188,
+     188
+    ],
+    "top_rgb": [
+     80,
+     150,
+     110
+    ],
+    "features": []
+   },
+   "notes": "Real single building (no duplicate). 'street' = NORTH face (main entrance: glass double door under a small flat canopy, a few steps with railings, on the parking street); the SOUTH face (sidewalk side) has a smaller back door with a metal stair and railing left of centre and dark security grilles on the ground-floor windows. Whole box is clad in small light-grey square tiles with a visible darker grout grid (about 0.3 m squares) - the tile grid is the main look. Plain flat facade, no floor bands, small punched dark-teal windows irregularly spaced, a couple of thin downpipes. The upper west part of the north face looks rounded (curved corner) in one photo; unsure. Roof: flat, painted green, with a lighter grey square plant area in the middle (satellite). Low ornamental railing fence with square stone pillars on both streets. The sign was not visible in the photos (placed on the entrance as a guess); no web photos found, only the official address page.",
+   "sources": [
+    "captures/8930e0af1d3ffff/sheets/gis_11200553.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11200553__OI-OKZpC9M-2RVTEbxz8FQ.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11200553__-wT1JS1Pd6E8Udis1RT2mA.jpg",
+    "captures/8930e0af1d3ffff/crops/gis_11200553__2UoTfMd-s9JnhohCsS13aA.jpg",
+    "data/satellite/8930e0af1d3ffff-z19.jpg",
+    "https://www.moel.go.kr/local/bucheon/introduce/direction/list.do?gubun=1 (address only)"
+   ],
+   "seen": "A plain three-floor box clad in light-grey square tiles with dark grout lines, small dark-teal windows, a glass entrance with canopy and steps on the north and a back door on the south, behind a low railing fence.",
+   "cell": "8930e0af1d3ffff",
+   "build": [
+    "gis:11200553"
    ],
    "claims": [],
    "front": "N"
+  },
+  {
+   "key": "anjunggeun_park",
+   "custom": "pxpark",
+   "cell": "8930e0af0a7ffff",
+   "build": [],
+   "claims": [],
+   "notes": "User-approved 2026-10-15. Layout regions/bucheon-dodang/anjunggeun_park.json (satellite trace, street view, a news photo viewed only), built by src/anjunggeun.py."
   }
  ]
 }

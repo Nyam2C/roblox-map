@@ -143,6 +143,7 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/
 
 ## 현재 상태
 
+- **30~32번 칸 0a7·1d3·19b(2026-10-15, 사용자 "0a7 이랑 중동 16 약대동 8쪽으로 해서 총 3칸")**: 현대백화점 서쪽 절반·경기예고·부광초·노동부 지청·안중근공원(0a7·1d3)과 덕유마을(19b). 현대백화점은 사용자 "현백 디테일하게 진짜로"로 전용 생성기 `src/hyundai.py`(두 동+아트리움), 공원은 `src/anjunggeun.py`(위성 배치, Folder). 정리된 장소 순서로 넣고 pack까지, 32칸. 미니맵 데이터가 20만 자 한도 바로 아래(다음 확장 전에 나눔). 걷기 FPS 아직.
 - **26~29번 칸 부천시청역·중동 10·11 주변(2026-10-15, 다른 세션이 전달한 사용자 요청)**: `8930e0af1c3ffff`(부천시청역·이마트), `8930e0af1d7ffff`(부흥초), `8930e0af18bffff`(중흥고·서부119), `8930e0af1dbffff`(현대백화점 동쪽 절반)를 사이클로(건물 28·30·37·56, 1급). 대표 시설 6곳 Manual/Facilities(사용자 승인). 출구 맞추기 단계(cycle-build 2c, `regions/<구역>/exits.json`): 부천시청역 5/5·신중동역 7/7이라 파일 없음. 지하철 출구 위 작은 V-World 기록은 키트에 맡김. 29칸 Studio·미니맵·cell-data, 5칸 verify ok, 땅이 길 덮음 0. 걷기 FPS 아직.
 - **장소는 정리된 상태로 저장(2026-10-15, 637d9b0)**: 저장 전 `studio/install/pack.luau`(칸 데이터만 남김, Workspace 163개), 편집할 칸은 `unpack.luau`로 꺼낸다(cycle-build 5c). 서버 시작 때 상세 칸을 다 불러왔다 지우는 일이 없어져 칸 수 한계(약 100칸)가 풀렸다.
 - **수작업 시설도 칸 단위(2026-10-15, 58a1681)**: 칸 데이터 설치(7-5b)가 `Workspace/Manual`을 칸별 데이터로도 넣고(`ManualCodec`), Play에서는 칸과 함께 만들어지고 지워진다. `Manual/Landmark`만 늘 남는다(스카이라인). 수작업을 고치면 5b를 다시 돌려야 Play에 반영된다.

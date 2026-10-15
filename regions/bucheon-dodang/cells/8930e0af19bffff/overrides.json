@@ -1,0 +1,606 @@
+{
+  "cell_id": "8930e0af19bffff",
+  "estimates": [
+    {
+      "building_id": "gis:11174709",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "low-rise brick apartment villa behind trees, small balconies, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11176089",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "shop house, ground floor shop with blue awning, two floors above, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11176848",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "apartment slab almost fully hidden by trees, balconies visible, top not visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176850",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 75.0,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "tall apartment tower, ~25 floors est; W crop shows a low brick hall in front instead",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11176851",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "no apartment visible: crop centre is an open parking lot and fenced site with trees",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11180766",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick villa, three floors, small windows, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11181424",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brick villa partly behind trees, side wall close-up in W crop",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11181426",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "low-rise brick apartment villa, small balconies, small hoods over windows, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11181453",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick apartment villa, balconies, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11182327",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brown brick low-rise apartment villa, balconies, pitched roof, trees in front",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11182960",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick villa with glass balcony strip, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11186386",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "apartment slab behind noise barrier, about 6 floors visible, top cut off",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190875",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brown brick low-rise apartment villa, balconies and small hoods, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11196590",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "gray brick low-rise apartment villa between brick blocks, balconies, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11197089",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "gray brick low-rise apartment villa, balcony, pitched roof, trees in front",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11200846",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "gray brick low-rise apartment villa, balcony, pitched roof, trees in front",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11203962",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brick low-rise villa near corner, crops mixed, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11203996",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "crop shows only a painted noise barrier wall and trees; target hidden",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11204152",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "small hut by a sports field with green net fence, mostly hidden by trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11204158",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "low white-roofed shelter inside the fenced sports field, behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11204310",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "tiny hut at the sports field gate behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11204859",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "small commercial block, ground floor shop and convenience, signs on upper floors, rooftop sign box",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206832",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "small low annex beside the commercial block at the parking lot edge",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11209003",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brown brick apartment villa, balconies with small hoods, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11211693",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brick low-rise apartment villa, balconies, pitched roof, pine trees in front",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11214338",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "shop building behind tree at corner, ground shop, signs on upper floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11215671",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "apartment slab with dark window bands, ~15 floors est, lower part behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11215749",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "gray apartment tower with name on top, ~15 floors est, lower part behind trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11216467",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brown brick low-rise apartment villa, balconies, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216468",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brick low-rise apartment villa, balconies, pitched roof, pines in front",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216469",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brown brick low-rise apartment villa, balconies, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216473",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brown brick apartment villa, balconies with small hoods, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216474",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brown brick apartment villa, balconies with small hoods, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216477",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "gray brick low-rise apartment villa, balcony, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11216507",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brick low-rise apartment villa, balconies, pitched roof, pines in front",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216512",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brick villa, crops mixed (corner shop street / side wall close-up)",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11216513",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "brick low-rise villa, small hoods over windows, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216514",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "gray brick low-rise apartment villa, balcony, pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11216558",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "shop house on side street, ground shop, two floors above, pitched roof; crops mixed",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11216559",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick villa, three floors, balcony with railing, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11216560",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick villa, three floors, glass balcony, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11216601",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick villa, three floors, balconies, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11216602",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick villa with central glass bay strip, three floors, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11216606",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T06:48:30+00:00",
+      "note": "red brick villa, three floors, small balconies, dark pitched roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

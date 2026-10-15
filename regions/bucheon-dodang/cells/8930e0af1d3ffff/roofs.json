@@ -1,0 +1,30 @@
+{
+ "cell_id": "8930e0af1d3ffff",
+ "source": "V-World satellite z19",
+ "roofs": {
+  "gis:11121839": "rtop_dark",
+  "gis:11178485": "rtop_green",
+  "gis:11184722": "rtop_light",
+  "gis:11196056": "rtop_gray",
+  "gis:11200553": "rtop_green",
+  "gis:11203995": "rtop_green",
+  "gis:11205538": "rtop_gray",
+  "gis:11205925": "rtop_green",
+  "gis:11206178": "rtop_green",
+  "gis:11206589": "rtop_white",
+  "gis:11206754": "rtop_dark",
+  "gis:11206760": "rtop_dark",
+  "gis:11206977": "rtop_dark",
+  "gis:11214781": "rtop_green",
+  "gis:11216403": "rtop_dark",
+  "gis:11216429": "rtop_white",
+  "gis:12995149": "rtop_green",
+  "gis:16518152": "rtop_light"
+ },
+ "hand": {
+  "gis:11182323": "rtop_teal",
+  "gis:11183362": "rtop_teal",
+  "gis:12992563": "rtop_teal",
+  "gis:11207974": "rtop_brown"
+ }
+}

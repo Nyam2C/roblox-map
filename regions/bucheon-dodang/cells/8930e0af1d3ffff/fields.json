@@ -1,0 +1,30 @@
+{
+ "cell_id": "8930e0af1d3ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:264030009",
+   "name": "경기예술고등학교",
+   "made_by": "kit",
+   "surface": "turf",
+   "x": -5865.977,
+   "z": -508.817,
+   "yaw": 171.361,
+   "w": 417.6,
+   "d": 79.2,
+   "fit": 0.401
+  },
+  {
+   "osm": "way:472427256",
+   "name": "부광초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -5636.553,
+   "z": -1006.462,
+   "yaw": 169.998,
+   "w": 291.6,
+   "d": 156.6,
+   "fit": 0.999
+  }
+ ]
+}
