@@ -1782,3 +1782,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 부품 줄이기
 
 ---
+
+## 땅 판 합치기 (place-split Q2 = A)
+**Timestamp**: 2026-10-15T04:10:00Z
+**User Request**: (다른 맵의 건물 학습 세션이 전달) Q2 "둘 다 해" — 땅 판은 칸 확장 세션이 terrain.py에서
+**AI Response**: terrain.TILE 48 → 192(평지는 큰 판, 휘는 곳만 4등분), BEND_TILE 0.3 → 0.55(TILE_UNDER 0.6 미만). 칸당 땅 조각 1,031 → 332, 칸당 항목 8,174 → 약 7,480. 25칸 Studio verify ok, 땅이 길 덮음 0(382,195점). lite.py가 쓰는 이름(TILE_UNDER, TILE_T, _slopes)은 그대로.
+**Context**: CONSTRUCTION - 부품 줄이기
+
+---

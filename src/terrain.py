@@ -28,13 +28,14 @@ import layout
 STEP = 8.0  # studs between grid heights (Studio's terrain voxels are 4)
 FLAT_MAX_H = 1.0  # studs: a piece this thin lies on the ground
 FLAT_MIN = 3.0  # studs: and this long along one axis tilts with the ground
-TILE = 48.0  # studs: the ground is tiles this size, each tilted to its own patch of ground (2026-10-15: Terrain stepped 2 studs,
-#               rose over road edges on slopes and looked spiky, user)
+TILE = 192.0  # studs: the ground starts as tiles this size, each tilted to its own patch of ground, and is quartered where it bends
+#               (2026-10-15: Terrain stepped 2 studs and covered road edges, user; 48 studs gave about 1,030 tiles a cell, the server
+#               holds every part: 192 where flat, user decision on place-split Q2)
 TILE_T = 6.0  # thick enough that neighbouring tiles' edges overlap where their tilts differ
 TILE_UNDER = 0.6  # studs the tile top stays under the ground heights (roads and sidewalks lie on the heights)
 SEG = 40.0  # studs: a flat piece longer than this is cut so each part follows its own stretch of ground
 BEND = 0.12  # studs: where the ground bends more than this off a road piece's plane, it is halved again (user 2026-10-15: "곡선으로")
-BEND_TILE = 0.3  # studs: the same for a ground tile (between the roads, a little more is not seen)
+BEND_TILE = 0.55  # studs: the same for a ground tile; under TILE_UNDER (0.6) so a tile never rises over a road on the heights (Q2 2026-10-15: was 0.3)
 SMOOTH = 16.0  # studs: the heights are smoothed this much (Gaussian sigma) before use
 SEG_MIN = 10.0  # studs: no piece or tile is cut shorter than this
 POST_SINK = 0.5  # studs a standing prop (tree, lamp, pole) reaches into the ground tiles, so none shows a gap at its foot

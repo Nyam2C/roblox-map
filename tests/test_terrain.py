@@ -50,7 +50,8 @@ def test_the_slab_becomes_tilted_tiles_just_under_the_ground_and_no_heights_mean
     g = ramp_ground()
     slab = item("ground", "Ground", 0, 0, 100, 4, 100, y=-2)
     tiles = T.lift([slab], g)
-    assert len(tiles) == 9 and len({t.name for t in tiles}) == 9  # a plane: no tile is cut finer
+    n = math.ceil(100 / T.TILE) ** 2
+    assert len(tiles) == n and len({t.name for t in tiles}) == n  # a plane: no tile is cut finer than the starting size
     for t in tiles:
         assert t.cy + t.sy / 2 == pytest.approx(g.h(t.cx, t.cz) - T.TILE_UNDER, abs=2e-3) and t.tilt_z == pytest.approx(math.degrees(math.atan(0.1)), abs=1e-3)
     assert T.lift([slab], None)[0] == slab
