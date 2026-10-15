@@ -1742,3 +1742,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - U7 이후 메시 키트·규모 시험
 
 ---
+
+## 장소 나누기 Q1 답과 B 시험
+**Timestamp**: 2026-10-15T03:27:02Z
+**User Request**: "C로 하자, B 시험 먼저 해줘"
+**AI Response**: place-split-questions Q1 = C로 기록. B 시험(Play 서버만, 저장 안 됨): 25칸 chunks.json을 zstd로 압축(1.69 MB → 116 KB, 풀기 0.7 ms, 읽기 6~10 ms), 서버 Auto를 비우고 플레이어 1,500 stud 안 칸만 만들고 2,000 stud 밖은 지움. 킥보드 속도 162초 왕복: 칸 15개 만들고 8개 지움(한 칸 1.2~3.5초, 덩어리 최대 21 ms, 지우기 최대 0.22초), 동시에 3~7칸, 메모리는 칸 수만큼 오르내림. 클라이언트: 가는 길 985 ms 멈춤 한 번, 오는 길 158초 평균 59.9·최저 55.6. 판단: 된다. 남은 일 6개는 aidlc-docs/construction/plans/b-cell-streaming-test.md, 스크립트는 b-cell-streaming-test.luau.
+**Context**: CONSTRUCTION - 장소 나누기 시험
+
+---

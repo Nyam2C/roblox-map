@@ -59,6 +59,8 @@
 - (2026-10-15, 25칸) Studio 창이 뒤로 가면 FPS를 잴 수 없다. `osascript -e 'tell application "RobloxStudio" to activate'`로 앞으로 가져오면 바로 60이 된다. 사용자가 다른 창을 쓰는 중에는 곧 다시 15로 묶인다(HIDIdleTime이 작으면 사용자가 쓰는 중). 그때는 `Stats.RenderCPUFrameTime`으로 CPU 여유만 본다(GPU는 0으로 나옴).
 - (2026-10-15, 규모 시험) Studio의 `Stats:GetTotalMemoryUsageMb()`·태그 값은 편집·서버·클라이언트를 합친 프로세스 전체이고, 하루 동안 칸을 다시 만든 되돌리기 기록까지 쌓여 25칸에 17 GB였다. 맵 무게는 **Play의 서버에서 실제 칸을 복제해 늘어난 양**으로 잰다(57만 개 복제: 부품당 6.1 KB로 일정). 3만 개짜리 빈 부품 시험은 앞 시험의 GC 때문에 음수가 나와 믿을 수 없다.
 - (2026-10-15, 메시 키트) `AssetService:CreateEditableMesh` → `CreateMeshPartAsync(Content.fromObject(em))`로 업로드 없이 Edit에서 메시를 미리 볼 수 있고 `Clone`도 된다(장소에 저장되지 않으니 보고 나면 지운다). 삼각형은 밖에서 볼 때 반시계 방향. 꼭짓점을 면끼리 같이 쓰면 Roblox가 부드럽게 칠해 상자가 번들거리는 덩어리로 보인다. 면마다 꼭짓점을 따로 두고 OBJ에는 `vn`을 준다.
+- (2026-10-15, B 시험) Play 중 `execute_luau`의 Server에서 바꾼 것(칸 지우기, 모듈 추가)은 Play를 멈추면 사라진다. 장소를 건드리지 않고 큰 시험을 할 때 쓴다. Studio에서는 서버와 클라이언트가 한 프로세스라 `os.clock()`이 같아, 서버 기록과 클라이언트 끊김 시각을 바로 맞춰 볼 수 있다. `EncodingService:CompressBuffer/DecompressBuffer`(zstd)가 된다.
+- (2026-10-15) 셸 heredoc을 `<<EOF`(따옴표 없이)로 쓰면 문서 안의 백틱이 명령으로 실행되어 파이썬 수정이 통째로 실패한다. 문서를 고치는 heredoc은 항상 `<<'EOF'`, 값은 환경 변수로 넘긴다.
 
 ## 생성 규칙
 

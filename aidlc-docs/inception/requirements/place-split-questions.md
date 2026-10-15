@@ -25,6 +25,8 @@ X) Other (please describe after [Answer]: tag below)
 
 [Answer]: C (사용자 2026-10-15: "C로 하자, B 시험 먼저 해줘")
 
+B 시험 결과(2026-10-15): 된다. 칸 하나를 만드는 데 1.2~3.5초, 킥보드 속도로 달려도 클라이언트 평균 59.9 FPS(985 ms 멈춤이 한 번). 서버는 플레이어 1명에 3~7칸만 든다. 남은 일은 먼 경치(건물 상자만 깐 가벼운 판), 데이터를 장소에 넣기, 정식 스크립트 등. 자세한 것은 `aidlc-docs/construction/plans/b-cell-streaming-test.md`.
+
 ## Question 2
 부품을 더 줄일까요? 둘 다 지금 디테일은 그대로입니다.
 
