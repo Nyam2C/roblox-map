@@ -79,3 +79,22 @@ def test_the_factory_has_a_ring_a_core_corner_towers_cooling_towers_and_a_portic
     assert {"m", "c", "t", "tf", "cf", "ct", "tk", "pc", "pk", "rs", "rg"} <= set(tails)
     assert tails.count("t") == 4 and tails.count("pc") == 2
     assert all(i.group == "gis:2" for i in items)
+
+
+def test_savezone_finds_its_round_corner_and_its_walls_do_not_overhang_the_outline():
+    """세이브존 (2026-10-16): the rotunda sits on the fitted rounded corner, and the clipped fill keeps the mass inside the outline
+    (plaza.strips' full-depth bands overhung a wall along x and buried its details)."""
+    import math
+    import savezone
+    from shapely.geometry import Point, Polygon
+    arc = [(10 * math.cos(math.radians(a)) + 10, 10 * math.sin(math.radians(a)) + 10) for a in range(180, 271, 15)]
+    poly = Polygon([(100.0, 0.0), (100.0, 45.0), (0.0, 45.0)] + arc[:-1] + [(10.0, 0.0)])
+    cx, cy, r = savezone.corner_circle(poly)
+    assert math.hypot(cx - 10, cy - 10) < 0.5 and abs(r - 10) < 0.5
+    boxes = savezone.fill(poly, 1.0)
+    corners = [Point(x + sx * w / 2, z + sz * d / 2) for x, z, w, d in boxes for sx in (-1, 1) for sz in (-1, 1)]
+    assert all(poly.buffer(0.01).contains(p) for p in corners if p.distance(Point(cx, cy)) > r + 2)  # straight walls: no overhang
+    items = savezone.build(FRAME, "gis:3", poly)
+    tails = {i.name.split("#", 1)[1].split("-")[0] for i in items}
+    assert {"m", "jv", "sl", "ds", "dy", "pt", "po", "rg", "rm", "rd", "fp", "bn"} <= tails
+    assert all(i.group == "gis:3" for i in items)
