@@ -61,7 +61,7 @@ def test_a_tree_is_a_trunk_and_a_crown_mesh_scaled_by_the_crown_diameter_and_rep
     if small.kit == big.kit:
         assert big.sy / small.sy == pytest.approx(1.1 / 0.55, rel=0.01)
     many = ST.tree_items(frame, [[i * 10.0, 0.0, 7.0] for i in range(40)])
-    assert len({i.color_name for i in many if "#crown" in i.name}) > 1 and len({i.kit for i in many if i.kit}) == len(kits.MESH_IDS)
+    assert len({i.color_name for i in many if "#crown" in i.name}) > 1 and len({i.kit for i in many if i.kit}) == len(kits.CROWNS)
 
 
 def test_a_file_of_satellite_trees_replaces_the_rule_based_street_trees():

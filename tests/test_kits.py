@@ -78,7 +78,7 @@ def test_a_column_of_15_ac_boxes_becomes_four_stacks_covering_the_same_span():
 
 def test_no_uploaded_stack_leaves_the_parts_and_a_column_no_stack_fits_stays_parts():
     run = [ac(k) for k in range(1, 9)]
-    assert kits.stack_items(run, S) == run  # MESH_IDS has no stk- kit yet
+    assert kits.stack_items(run, S, {"crown-1": 1}) == run  # no stk- kit uploaded
     tall = [ac(k, pitch_m=5.0) for k in range(1, 9)]  # a 5 m pitch stretches the 0.6 m boxes past the tolerance
     assert kits.stack_items(tall, S, FAKE) == tall
 

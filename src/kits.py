@@ -54,6 +54,28 @@ def icosphere(level: int = 1) -> tuple[list[tuple[float, float, float]], list[tu
 # uploaded with Studio Import 3D by the user on 2026-10-14 (both shown in Studio, not moderated); Studio keeps a MeshPart of each
 # in ServerStorage/Kits/<name> for the Builder to clone (cycle-build 7)
 MESH_IDS = {"crown-1": 95964295607986, "crown-2": 128934972963239}
+# column stacks, uploaded with Import 3D by the user on 2026-10-15 (data/kits/batch2/, one file each)
+STACK_IDS = {
+    "stk-aa31-16": 123680237466894, "stk-aa31-2": 113156880968256, "stk-aa31-4": 110356400585783,
+    "stk-aa31-8": 99204897528114, "stk-ag28-16": 88929270863692, "stk-ag28-2": 96744200450508,
+    "stk-ag28-4": 130358451184051, "stk-ag28-8": 101598494689852, "stk-ag34-16": 138867277219151,
+    "stk-ag34-2": 116751262257788, "stk-ag34-4": 129074321783162, "stk-ag34-8": 132480573892023,
+    "stk-ar31-16": 90037601115261, "stk-ar31-2": 85365368238608, "stk-ar31-4": 93444656362241,
+    "stk-ar31-8": 136386122973960, "stk-as31-16": 139556479720148, "stk-as31-2": 71483201372243,
+    "stk-as31-4": 81861797061695, "stk-as31-8": 104476452205658, "stk-fl31-16": 80176843378779,
+    "stk-fl31-2": 113580023041137, "stk-fl31-4": 129463632581406, "stk-fl31-8": 95260730943529,
+    "stk-rb38-16": 137765414322407, "stk-rb38-2": 103230887390544, "stk-rb38-4": 111949403441012,
+    "stk-rb38-8": 133129892884067, "stk-rb50-16": 120483905690181, "stk-rb50-2": 88782033834212,
+    "stk-rb50-4": 103284162726617, "stk-rb50-8": 130739807405051, "stk-w34-16": 85784601021014,
+    "stk-w34-2": 121024929556227, "stk-w34-4": 97341110364262, "stk-w34-8": 101831245327269,
+    "stk-w37-16": 119723893075263, "stk-w37-2": 139761622827278, "stk-w37-4": 108596176234159,
+    "stk-w37-8": 111285440436477, "stk-w41-16": 90364240079105, "stk-w41-2": 119664017714836,
+    "stk-w41-4": 91855502222336, "stk-w41-8": 127443013363021, "stk-ws30-16": 134733894695004,
+    "stk-ws30-2": 104409639792773, "stk-ws30-4": 104141231975335, "stk-ws30-8": 88568437250029,
+    "stk-ws34-16": 78904893659116, "stk-ws34-2": 110018726719724, "stk-ws34-4": 111823305790125,
+    "stk-ws34-8": 136820514602475,
+}
+MESH_IDS.update(STACK_IDS)
 CROWNS = {"crown-1": 0, "crown-2": 1}  # kit -> its details_rules.TREE_CROWNS layout
 
 
