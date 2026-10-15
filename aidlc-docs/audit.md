@@ -1926,3 +1926,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - B 정식판
 
 ---
+
+## 먼 상자 제거
+**Timestamp**: 2026-10-15T07:43:45Z
+**User Request**: "멀리서 상자 보이는거 그냥 제거해"
+**AI Response**: 가벼운 판 전부 제거: src/lite.py·tests/test_lite.py·LiteSwap 삭제, build_luau의 lite.json, cell-data.luau의 가벼운 판 만들기, CellStreamer의 Workspace/Lite 삭제. Studio에서 ServerStorage/Lite(6,105개)와 LiteSwap 지움, CellStreamer 새로 설치(문법 확인), Play: 32칸·수작업 32,036개, 스폰 정상. CLAUDE.md B 결정 문장 고침.
+**Context**: CONSTRUCTION - B 정식판
+
+---
