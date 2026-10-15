@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af1b3ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:483467558",
+   "name": "약대초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -2050.649,
+   "z": -3806.318,
+   "yaw": 6.263,
+   "w": 257.4,
+   "d": 189.0,
+   "fit": 0.977
+  }
+ ]
+}

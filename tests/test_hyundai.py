@@ -69,3 +69,13 @@ def test_the_terminal_has_a_rotunda_checker_panels_a_named_hall_bays_and_a_footb
     assert [i.text for i in items if i.kind == "sign"] == ["부천터미널"]
     assert tails.count("dk") == len(data["bridge"]["px"]) - 1 and tails.count("py") == len(data["bridge"]["pylons"])
     assert {i.group for i in items} == {"gis:1", "sopoong-bays", "sopoong-bridge"}
+
+
+def test_the_factory_has_a_ring_a_core_corner_towers_cooling_towers_and_a_portico():
+    import factory
+    from shapely.geometry import box as rect
+    items = factory.build(FRAME, "gis:2", rect(0.0, 0.0, 140.0, 120.0))
+    tails = [i.name.split("#", 1)[1].split("-")[0] for i in items]
+    assert {"m", "c", "t", "tf", "cf", "ct", "tk", "pc", "pk", "rs", "rg"} <= set(tails)
+    assert tails.count("t") == 4 and tails.count("pc") == 2
+    assert all(i.group == "gis:2" for i in items)

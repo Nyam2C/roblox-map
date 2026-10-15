@@ -4396,6 +4396,554 @@
     "captures/8930e0af0a3ffff/crops/gis_12062576__YB4FvxRtf68dIzfD0kNt-w.jpg",
     "data/satellite/8930e0af0a3ffff-z19.jpg"
    ]
+  },
+  {
+   "key": "yakdae_school",
+   "cell": "8930e0af1b3ffff",
+   "front": "E",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     224,
+     224,
+     222
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     80,
+     100,
+     115
+    ],
+    "frame_rgb": [
+     235,
+     235,
+     232
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     62,
+     58
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 12.0,
+     "from_floor": 0,
+     "to_floor": 3,
+     "material": "Plaster",
+     "rgb": [
+      215,
+      160,
+      170
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "right",
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      230,
+      200,
+      90
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 4.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      90,
+      120,
+      135
+     ]
+    },
+    {
+     "kind": "clock",
+     "face": "street",
+     "at": -0.25,
+     "from_floor": 3,
+     "to_floor": 3
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.4,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     205,
+     55,
+     50
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "약대초등학교",
+    "face": "street",
+    "floor": 0,
+    "bg_rgb": [
+     240,
+     238,
+     230
+    ],
+    "ink_rgb": [
+     30,
+     30,
+     30
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     210,
+     212,
+     214
+    ],
+    "top_rgb": [
+     95,
+     150,
+     120
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Three different buildings; the top-level skin above is the NORTH WING. Record mapping (decided from crops + roofs.json satellite roof colours + footprint sizes, differs from the given guesses): gis:11205722 = north wing along the north street (crops look at it from that street; green roof). gis:11329330 = the hall/gym block SOUTH of the playground (its crops look NW at its south face; roofs.json 'rtop_light' = the light blue-gray vaulted roof). gis:11205219 = the long WEST wing (roofs.json 'rtop_green'; no own photos, its crops only show neighbouring houses). No duplicates to drop. NORTH WING (11205722): 4 floors, light gray/white walls, a thin red stripe under every window row, white-framed classroom window grid, a corridor stair tower projecting slightly above the roof line near the west third of the north face with a round clock on its top floor, roof railing (pipe guard rail) all along; its EAST end wall is a painted mural of vertical pastel stripes (pink, yellow, green, blue, beige, gray) with a small red triangular emblem near the top; a red box canopy marks the entrance on the north face near the east end. Along the whole north street the school is screened by a tall pale-green perforated sound-barrier fence (about 5 m) on a white wall painted with a green/yellow/teal pixel-block pattern; big letter tiles '초', '등', '학' hang on that fence, so the sign can also be fence letters. GYM/HALL (11329330): 4 floors, about 18 m to the arch top; the vault axis runs north-south so the SOUTH face ends in a wide shallow arch trimmed with a teal-green metal eave (orange tip at the east end); below the eave a glass clerestory band, then two bands of gray metal panels with a row of red, yellow, blue and sky-blue square panels between windows, a brown wood-tone horizontal louvre screen covering the east part of the south face, and a beige brick ground floor with small barred windows. Roof is light blue-gray metal with three orange seam lines. A gray 4-floor stair/annex box with beige brick sits on its east side. WEST WING (11205219): long 4-floor block, green flat roof with a lighter corridor strip on its playground side; seen at its south end from the southern street it is orange-brown brick with small punched windows and a full-height green-glass stair strip; use orange brick [200, 120, 80] for this wing (the given 2 floors looks wrong: it reads as 3-4 floors). School perimeter on the south/west: picket fence in alternating yellow, green, red and orange bars on a white wall with pastel tile pattern. Front: the gate is at the NE corner off the red-paved school-zone road (east side); the street-facing sign is on the north fence. Sand playground and sports kit are made by another kit. per_building (Claude 2026-10-15): the gym gis:11329330 as gray metal over a brick base with a teal eave stripe and a pitched (vault-like) light roof; the west wing gis:11205219 orange brick, 4 floors.",
+   "sources": [
+    "captures/8930e0af1b3ffff/sheets/gis_11205722.jpg",
+    "captures/8930e0af1b3ffff/crops/gis_11205722__4dyJQZu57ul1QRuWQdD0Rw.jpg",
+    "captures/8930e0af1b3ffff/crops/gis_11205722__8m8a6WtNqVfvPnMg-RHTPA.jpg",
+    "captures/8930e0af1b3ffff/crops/gis_11205722__Vu7R0Q6gGkSAcFrkXP_GEw.jpg",
+    "captures/8930e0af1b3ffff/sheets/gis_11329330.jpg",
+    "captures/8930e0af1b3ffff/crops/gis_11329330__Mb2P0JxM4KNjkTqzYbkJGg.jpg",
+    "captures/8930e0af1b3ffff/crops/gis_11329330__fR34Ch9RcwXXWQ6S0P1H2Q.jpg",
+    "captures/8930e0af1b3ffff/sheets/gis_11205219.jpg",
+    "data/satellite/8930e0af1b3ffff-z19.jpg",
+    "regions/bucheon-dodang/cells/8930e0af1b3ffff/roofs.json",
+    "web: searched '부천 약대초등학교 건물 외관 강당' and '약대초등학교 부천 다목적강당 증축' - no photos or facade descriptions found"
+   ],
+   "seen": "North wing: gray-white 4-floor classroom block with red sill stripes, a clock stair tower and a pastel-striped mural end wall, behind a green sound-barrier fence with school letter tiles. South hall: arched teal eave over a glass clerestory, gray panels with colour squares and a wood louvre screen; west wing orange brick with a glass stair strip.",
+   "build": [
+    "gis:11205722",
+    "gis:11329330",
+    "gis:11205219"
+   ],
+   "claims": [],
+   "per_building": {
+    "gis:11329330": {
+     "floors": 4,
+     "height_m": 18.0,
+     "wall": {
+      "material": "Metal",
+      "rgb": [
+       150,
+       156,
+       162
+      ]
+     },
+     "base": {
+      "floors": 1,
+      "material": "Brick",
+      "rgb": [
+       196,
+       168,
+       128
+      ]
+     },
+     "windows": {
+      "type": "ribbon",
+      "w_m": 2.0,
+      "h_m": 1.4,
+      "pitch_m": 2.5,
+      "glass_rgb": [
+       90,
+       115,
+       130
+      ],
+      "frame_rgb": [
+       200,
+       200,
+       200
+      ]
+     },
+     "bands": null,
+     "accents": [
+      {
+       "kind": "stripe",
+       "face": "all",
+       "from_floor": 3,
+       "to_floor": 3,
+       "rgb": [
+        60,
+        150,
+        140
+       ]
+      }
+     ],
+     "roof": {
+      "parapet_rgb": [
+       60,
+       150,
+       140
+      ],
+      "top_rgb": [
+       150,
+       170,
+       185
+      ],
+      "features": [
+       "pitched"
+      ]
+     }
+    },
+    "gis:11205219": {
+     "floors": 4,
+     "wall": {
+      "material": "Brick",
+      "rgb": [
+       200,
+       120,
+       80
+      ]
+     },
+     "windows": {
+      "type": "grid",
+      "w_m": 1.6,
+      "h_m": 1.4,
+      "pitch_m": 3.0,
+      "glass_rgb": [
+       80,
+       100,
+       115
+      ],
+      "frame_rgb": [
+       235,
+       235,
+       232
+      ]
+     },
+     "bands": null,
+     "roof": {
+      "parapet_rgb": [
+       200,
+       120,
+       80
+      ],
+      "top_rgb": [
+       95,
+       150,
+       120
+      ],
+      "features": []
+     }
+    }
+   }
+  },
+  {
+   "key": "big_factory",
+   "cell": "8930e0af1a7ffff",
+   "front": "E",
+   "floors": 6,
+   "height_m": 30.0,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     220,
+     220,
+     224
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "none",
+    "w_m": 0,
+    "h_m": 0,
+    "pitch_m": 0,
+    "glass_rgb": [
+     80,
+     95,
+     110
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     204
+    ]
+   },
+   "bands": {
+    "rgb": [
+     215,
+     140,
+     130
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 5,
+     "to_floor": 5,
+     "rgb": [
+      205,
+      165,
+      85
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      150,
+      152,
+      156
+     ],
+     "pitch_m": 0.6
+    },
+    {
+     "kind": "fins",
+     "face": "back",
+     "at": 0.35,
+     "width_m": 10.0,
+     "from_floor": 2,
+     "to_floor": 5,
+     "rgb": [
+      200,
+      155,
+      70
+     ],
+     "pitch_m": 3.0
+    },
+    {
+     "kind": "fins",
+     "face": "back",
+     "at": -0.4,
+     "width_m": 10.0,
+     "from_floor": 2,
+     "to_floor": 5,
+     "rgb": [
+      200,
+      155,
+      70
+     ],
+     "pitch_m": 3.0
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 8.0,
+    "canopy": true,
+    "canopy_rgb": [
+     205,
+     205,
+     208
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     225,
+     225,
+     228
+    ],
+    "top_rgb": [
+     222,
+     222,
+     220
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Windowless clean-room style factory: walls are a fine grid of pale gray metal sandwich panels (about 1.2 x 3 m), with thin salmon-pink horizontal pin-stripes roughly every floor and an ochre/gold stripe near the top; the only openings are a few service doors at ground level and wide gray louvre bands. EAST face (front): a two-storey portico of two square gray columns carrying a flat canopy box with a thin gold edge, over a glass lobby door; the wall steps back in tall setbacks so the upper volume rises above lower plant blocks. NORTH face: a long horizontal gray louvre band at mid-height, and at the corners projecting service/stair blocks with stacked gold horizontal fins (3-4 per block), a steel ladder cage, and thin chimney stacks on the roof edge. Roof: very large white flat roof rotated with the outline, taller corner boxes (stair/plant towers) at all corners and along the south side; the WEST edge carries a long row of cooling towers (two lines of round fan tops in blue-framed ducts) and a row of white round scrubber/tank cylinders - put the 'tank' feature along the west roof edge. North of the building (outside the outline, separate records): round water-treatment tanks. West of it (separate): long glass-roofed teal parking canopies. Low perimeter wall: red-brick piers with white concrete posts and diagonal-lattice gates. No company name anywhere. Built by src/factory.py (2026-10-15): the plain spec made one 80-part box; the generator adds the stepped ring and core, panel joints and stripes, corner towers with gold fins, the west cooling-tower row and tanks, and the east portico.",
+   "sources": [
+    "captures/8930e0af1a7ffff/sheets/gis_11195602.jpg",
+    "captures/8930e0af1a7ffff/crops/gis_11195602__aDrC1wrGBnGS8IeRuZL1YQ.jpg",
+    "captures/8930e0af1a7ffff/crops/gis_11195602__P3-Q8BztvO26sNkn3qs_Pg.jpg",
+    "data/satellite/8930e0af1a7ffff-z19.jpg",
+    "web: not searched (company must not be named)"
+   ],
+   "seen": "A huge windowless pale-gray panel box with salmon pin-stripes, a two-column portico entrance, louvre bands and gold-finned corner service blocks. Satellite shows a white flat roof with cooling towers and tanks on its west edge.",
+   "build": [
+    "gis:11195602"
+   ],
+   "claims": [
+    "gis:16680276"
+   ],
+   "custom": "factory"
+  },
+  {
+   "key": "daewoo_technopark_north",
+   "cell": "8930e0af1a7ffff",
+   "front": "N",
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     236,
+     236,
+     232
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Plaster",
+    "rgb": [
+     205,
+     188,
+     100
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 3.0,
+    "h_m": 1.6,
+    "pitch_m": 3.6,
+    "glass_rgb": [
+     70,
+     110,
+     160
+    ],
+    "frame_rgb": [
+     195,
+     197,
+     200
+    ]
+   },
+   "bands": {
+    "rgb": [
+     150,
+     152,
+     156
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fins",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 2,
+     "to_floor": 14,
+     "rgb": [
+      245,
+      244,
+      241
+     ],
+     "pitch_m": 7.0
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.1,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 14,
+     "rgb": [
+      110,
+      130,
+      150
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      245,
+      244,
+      241
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 9.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     60,
+     62
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     235,
+     235,
+     232
+    ],
+    "top_rgb": [
+     100,
+     152,
+     120
+    ],
+    "features": [
+     "crown",
+     "stair_box"
+    ],
+    "crown": {
+     "height_m": 3.0,
+     "rgb": [
+      235,
+      236,
+      238
+     ]
+    }
+   },
+   "notes": "Northern blocks of the same complex as the specced southern twin towers; same skin (white aluminium panel walls, blue glass, white pilasters, green roof with white open-frame crown). Record mapping by satellite footprint: gis:11200003 = the larger EAST block (about 55 x 57 m, L-shaped with a north wing), gis:11200566 = the WEST block (about 55 x 25 m, its own crown). DROP gis:14419658: no area, its crops share the same panorama (NRFI...) and show the same undercroft as gis:11200003 - duplicate of 11200003. gis:11202575 not included: roofs.json reads its roof as 'rtop_dark' and the satellite shows a low dark ribbed strip/annex at the west edge of the west block, not a green-roof tower; its crops only show the west block from the side street - leave it to the auto builder. Ground level: NOT shops; an open undercroft car park on square gray columns (dark navy band at the column foot, dark tiled soffit about 4.2 m clear) with a two-way drive aisle running through under the complex (signs for the C and D blocks) and glass lobby doors inside; the vehicle portal opens to the north road (front N). On the west and south sides the 2-floor podium/parking deck is walled in a flat ochre-yellow render with a white pipe railing on top, and a white ornamental cast-iron fence at street level - this is the 'base'. Long faces: blue-glass window ribbons every floor with gray spandrel panels, split into bays by white pilaster strips. End/short faces: plain white panel wall with punched blue windows (about 2 m wide, a few per floor) and one recessed vertical column of small balconies with glass rail (the glass_strip accent). Crowns: white open steel frame/pergola around the roof edge of each block, about 3 m tall.",
+   "sources": [
+    "captures/8930e0af1a7ffff/sheets/gis_11200003.jpg",
+    "captures/8930e0af1a7ffff/sheets/gis_11200566.jpg",
+    "captures/8930e0af1a7ffff/crops/gis_11200566__VTy4a912HMzQbY__axTkew.jpg",
+    "captures/8930e0af1a7ffff/crops/gis_11200566__qr0yWv7U7IfI0bE-xaYE6w.jpg",
+    "captures/8930e0af1a7ffff/sheets/gis_14419658.jpg",
+    "captures/8930e0af1a7ffff/sheets/gis_11202575.jpg",
+    "captures/8930e0af1a7ffff/crops/gis_11202575__BNhAbVYw58dhS0YS4ppqtw.jpg",
+    "data/satellite/8930e0af1a7ffff-z19.jpg",
+    "regions/bucheon-dodang/cells/8930e0af1a7ffff/roofs.json",
+    "regions/bucheon-dodang/facilities.json (daewoo_technopark, southern twins)",
+    "web: earlier search '부천대우테크노파크 외관' found no facade photos"
+   ],
+   "seen": "White panel towers of about 15 floors with blue glass ribbons, white pilasters and white open roof crowns, standing on a dark pillared undercroft car park; the west/south podium is an ochre-yellow wall with a railing. Satellite: green roofs with white frame crowns on both blocks.",
+   "build": [
+    "gis:11200003",
+    "gis:11200566"
+   ],
+   "claims": [
+    "gis:14419658"
+   ]
   }
  ]
 }

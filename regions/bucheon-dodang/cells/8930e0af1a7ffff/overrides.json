@@ -1,0 +1,667 @@
+{
+  "cell_id": "8930e0af1a7ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11171004",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "red brick two-floor workshop with gray panel shutter doors, gable roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11171412",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "pink stone-tile small office-factory, granite base, glass stair strip, garage shutter",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11173945",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "brick and white frame factory with low panel front annex, shutter on ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11181838",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "brick factory with white floor bands and green parapet edge, panel shed in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11182991",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "red brick three-floor factory with vertical glass stair strip, low brick wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11183000",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "red brick two-floor factory, two rows of windows, low brick wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11185730",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "dark brick four-floor building with white frame, shop ground floor, outside concrete stair",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11186752",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "cluttered two-floor brick workshop with sign band and open ground workshop",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11190781",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "dark gray modern panel factory-office, garage shutter ground floor, vertical metal panels",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11190932",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "long pink warehouse, loading dock under red canopy, window band above, glass stair corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11195601",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "small blue-roof shed behind hedge in factory yard, mostly hidden",
+      "roof_shape": "shed",
+      "views_used": [
+        1
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11195602",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "very large panel factory, pink lines, yellow fins on glazed stair strip, roof stacks",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11196446",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "tall single-storey gray panel shed with shutter, blue roof edge, behind slatted fence",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11196450",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "small structure hidden behind slatted fence, target not visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11196452",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "two stacked rusty storage containers beside parking",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11196540",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "brown panel four-floor office-factory with glass stair strip and glass entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11197507",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "single-storey panel storage shed with double doors in front of brick factory",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11198323",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "low white factory block with blue roof edge, mostly hidden behind topiary hedge and pallets",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11198625",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "cluttered panel annex with outside steel stair and rusty panels, workshop yard below",
+      "roof_shape": "shed",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11198747",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "small white panel shed on raised yard beside brick building",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11198802",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white factory block behind trees and hedge, rooftop ducts; target partly hidden",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11198821",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "tiny footprint; crops centre on neighbouring brick-and-glass 4-floor factory, target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11199016",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "low white annex along fence at base of large panel factory",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199036",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "small single-storey white panel shed with door and vent, brown roof edge",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199116",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white two-storey panel workshop with red band, low gable, door on ground floor",
+      "roof_shape": "gable",
+      "views_used": [
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199375",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "small entrance annex at base of tall tower, glass doors with awning, parking in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11199394",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "tall panel utility shed behind brick wall, next to a steel frame tower",
+      "roof_shape": "shed",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199469",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white three-floor factory block with roof ladder, behind brick wall and hedge",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11200003",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white high-rise industrial tower, pilotis drive-through ground floor; top not in crop",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11200566",
+      "confidence": "low",
+      "floors_seen": 14,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white high-rise industrial tower on yellow podium wall, pilotis parking, roof frame crown",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11201626",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "long loading-dock canopy along pink warehouse, shutter doors under red canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11201704",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "long narrow strip of pink warehouse front, loading-dock canopy with shutter doors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11201918",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "curved translucent teal parking entrance canopy over gate lanes and booths",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11202322",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "low white gable shed on raised yard behind railing",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11202324",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "low shed with blue roof and red walls behind hedge in factory yard",
+      "roof_shape": "shed",
+      "views_used": [
+        1
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11202575",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "timber-frame shed with tarp near tower podium and small park; target uncertain",
+      "roof_shape": "shed",
+      "views_used": [
+        2
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11202579",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "small single-storey white panel box with door and vent, red roof edge",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11209071",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white two-storey panel workshop with gable roof, red band, door with awning",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11211650",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "low blue-roof shed behind hedge in factory yard, mostly hidden",
+      "roof_shape": "shed",
+      "views_used": [
+        1
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:14419658",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "all crops taken under pilotis drive-through of a tower; floors not visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:14946925",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white factory block behind brick wall and hedges; white panel workshop in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:14985283",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "pink stone-tile office-factory, granite base, glass stair strips, garage shutter",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:16546656",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "red brick two-floor workshop with gray panel shutter doors, gable roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:16680276",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "very large panel factory, pink lines, yellow fins, roof ladder, windowless tall walls",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17610796",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "tall single-storey gray panel shed with blue edge; steel loading canopy next to it",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17658941",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "white factory block behind trees and hedge, rooftop ducts; target partly hidden",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:18606662",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T13:21:37+00:00",
+      "note": "dark gray modern panel factory-office, garage shutter ground floor, vertical metal panels",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

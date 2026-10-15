@@ -2,6 +2,7 @@
 import dataclasses
 
 import facilities as FA
+import layout_details as LD
 from test_layout_u5 import FRAME, villa, resolve, street
 
 
@@ -76,3 +77,15 @@ def test_a_bell_tower_stands_from_the_ground_with_a_cross_on_top():
                      main=True).make()
     tw = [i for i in items if "#tw-" in i.name]
     assert len(tw) == 1 and abs(tw[0].sy - 26.0 * FRAME.studs_per_m) < 0.01 and any("#xv-" in i.name for i in items)
+
+
+def test_a_long_face_with_a_small_annex_in_front_of_its_middle_still_gets_windows():
+    from layout import Box
+    b = body()
+    main = b.boxes[0]
+    f = LD.face_of(main, "f")
+    e, n = LD._world(main, f.c[0] + f.n[0] * 2.0, f.c[1] + f.n[1] * 2.0)
+    annex = Box(e, n, 8.0, 4.0, main.yaw_deg, 1.0)  # small box in front of the middle of the long face
+    b2 = dataclasses.replace(b, boxes=(main, annex), occluded=(frozenset({"f"}), frozenset({"b"})))
+    assert not FA.Maker.hidden(b2, 0, "f")
+    assert FA.Maker.hidden(b2, 1, "b")  # the annex's face against the main box is mostly inside it

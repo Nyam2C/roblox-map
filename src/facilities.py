@@ -20,6 +20,8 @@ import math
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from shapely.geometry import Point
+
 import common
 import db
 import judgement
@@ -70,12 +72,24 @@ class Maker:
         b = self._fronted()
         if which == "all" or b.facing is None:
             return [(bi, s) for bi in range(len(b.boxes)) for s in LD.SIDES
-                    if s not in (b.occluded[bi] if bi < len(b.occluded) else ()) and LD.face_of(b.boxes[bi], s).length >= 3.0]
+                    if not self.hidden(b, bi, s) and LD.face_of(b.boxes[bi], s).length >= 3.0]
         s = b.facing.side
         side = {"street": s, "back": LD.OPPOSITE[s], "right": LD.NEXT_FACE[s][0], "left": LD.NEXT_FACE[s][2]}.get(which, s)
         if self.spec.get("accents_faces_all_towers"):  # twin towers: the same face of each
             return [(bi, side) for bi in range(len(b.boxes))]
         return [(b.front, side)]
+
+    @staticmethod
+    def hidden(b: LD.Body, bi: int, side: str) -> bool:
+        """A face mostly inside a sibling box: 3 of 5 points along it, pushed out 0.3 m (2026-10-15: the midpoint alone hid the
+        whole 약대초 north wing behind a small annex in front of its middle; windows behind a sibling stay hidden inside it)."""
+        if side not in (b.occluded[bi] if bi < len(b.occluded) else ()):
+            return False
+        box, f = b.boxes[bi], LD.face_of(b.boxes[bi], side)
+        sib = [LD._box_poly(x) for i, x in enumerate(b.boxes) if i != bi]
+        pts = [LD._world(box, f.c[0] + f.t[0] * f.length * a + f.n[0] * 0.3, f.c[1] + f.t[1] * f.length * a + f.n[1] * 0.3)
+               for a in (-0.4, -0.2, 0.0, 0.2, 0.4)]
+        return sum(any(p.covers(Point(e, n)) for p in sib) for e, n in pts) >= 3
 
     COMPASS = {"N": (0.0, 1.0), "E": (1.0, 0.0), "S": (0.0, -1.0), "W": (-1.0, 0.0)}
 
@@ -473,10 +487,9 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
             out.append({"key": sp["key"], "cell": cell, "claims": [], "folder": True,
                         "parts": [item_row(i) for i in anjunggeun.build(frame, sp["key"])]})
             continue
-        if sp.get("custom") == "sopoong":  # 부천종합터미널 소풍: the whole record, its rotunda, bus bays and footbridge
-            import sopoong
+        if sp.get("custom") in ("sopoong", "factory"):  # 부천종합터미널 소풍 (rotunda, bus bays, footbridge), the big factory in 1a7
             bid = sp["build"][0]
-            parts = sopoong.build(frame, bid, LD._poly_m(rows[bid]["outline"], frame))
+            parts = __import__(sp["custom"]).build(frame, bid, LD._poly_m(rows[bid]["outline"], frame))
             out.append({"key": sp["key"], "cell": cell, "claims": sorted(set(sp["build"]) | set(sp.get("claims") or [])),
                         "parts": [item_row(i) for i in parts]})
             continue

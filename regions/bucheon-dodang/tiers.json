@@ -484,6 +484,21 @@
    "reason": "landmarks: place_of_worship:약대교회",
    "tier": 1
   },
+  "8930e0af1a7ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 약대동 14 쪽 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af1abffff": {
    "counts": {
     "landmarks": [
@@ -516,6 +531,38 @@
    },
    "manual": false,
    "reason": "landmarks: sports_centre:현대골프",
+   "tier": 1
+  },
+  "8930e0af1b3ffff": {
+   "counts": {
+    "landmarks": [
+     "school:약대초등학교"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.893,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 약대동 14 쪽 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af1b7ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 5,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.824,
+     "residential": 0.169,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 약대동 14 쪽 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af1bbffff": {
