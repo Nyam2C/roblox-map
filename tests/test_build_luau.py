@@ -441,9 +441,9 @@ def test_an_empty_record_under_the_trees_that_the_photos_show_empty_is_not_built
 
 def test_the_cell_index_gives_every_built_cell_its_two_rings_of_built_cells():
     import h3 as H
-    cells = sorted(H.grid_disk(CELL, 2))[:15]
+    cells = {c: 1000 + k for k, c in enumerate(sorted(H.grid_disk(CELL, 2))[:15])}
     idx = B.cell_index(cells, layout.Frame.from_cfg(CFG))["cells"]
-    assert set(idx) == set(cells)
+    assert set(idx) == set(cells) and all(idx[c]["parts"] == cells[c] for c in cells)
     for c, row in idx.items():
         assert c in row["ring1"] and set(row["ring1"]) <= set(row["ring2"]) <= set(cells)
         assert set(row["ring2"]) == set(cells) & set(H.grid_disk(c, 2))

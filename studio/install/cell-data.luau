@@ -46,6 +46,7 @@ for id, row in pairs(index) do
 	f:SetAttribute("z", row.z)
 	f:SetAttribute("ring1", table.concat(row.ring1, ","))
 	f:SetAttribute("ring2", table.concat(row.ring2, ","))
+	f:SetAttribute("parts", row.parts)
 	f.Parent = data
 	bytes += #packed
 	local lite = HS:JSONDecode(get(id .. "/lite.json"))

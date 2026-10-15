@@ -481,21 +481,21 @@ def chunks_json(cell_id: str, chunk_texts: Sequence[str], building_ids: Sequence
     return json.dumps(body, ensure_ascii=False)
 
 
-def cell_index(cells: Sequence[str], frame: layout.Frame) -> dict[str, Any]:
-    """Every built cell's centre in studs and its rings (itself and the built cells one and two steps away) for
-    ServerScriptService/CellStreamer, which builds a player's cell and two rings (user decision 2026-10-15)."""
+def cell_index(cells: Mapping[str, int], frame: layout.Frame) -> dict[str, Any]:
+    """Every built cell's centre in studs, its part count (the streamer's memory budget is in parts) and its rings (itself and
+    the built cells one and two steps away) for ServerScriptService/CellStreamer (2026-10-15)."""
     built = set(cells)
     out = {}
     for c in sorted(built):
         x, z = layout.to_studs(frame, *h3.cell_to_latlng(c))
-        out[c] = {"x": round(x, 1), "z": round(z, 1), "ring1": sorted(built & set(h3.grid_disk(c, 1))),
+        out[c] = {"x": round(x, 1), "z": round(z, 1), "parts": int(cells[c]), "ring1": sorted(built & set(h3.grid_disk(c, 1))),
                   "ring2": sorted(built & set(h3.grid_disk(c, 2)))}
     return {"cells": out}
 
 
 def write_cell_index(root: Path, cfg: Mapping[str, Any]) -> Path:
     """root/cellindex.json over every cell that has a manifest under root."""
-    cells = sorted(p.parent.name for p in root.glob("*/manifest.json"))
+    cells = {p.parent.name: json.loads(p.read_text(encoding="utf-8"))["counts"]["items"] for p in sorted(root.glob("*/manifest.json"))}
     path = root / "cellindex.json"
     root.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(cell_index(cells, layout.Frame.from_cfg(cfg))), encoding="utf-8")

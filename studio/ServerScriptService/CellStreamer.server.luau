@@ -6,10 +6,15 @@
 -- attributes x, z (centre in studs), ring1 and ring2 (comma-separated cell ids, data/build/cellindex.json) place it. The far view:
 -- ServerStorage/Lite/Auto/<cell> (lite.py), shown while the full cell is not built.
 --
--- At start the cells saved in the place (Workspace/Auto, for editing) are removed; from then on a cell is built when a player's
--- two rings take it in and removed UNLOAD_AFTER seconds after none does. Over GUARD_MB of server memory the rings shrink to one
--- (the documented server limit is about 6 GB). ServerStorage/CellPrepare(x, z) builds the cell nearest a point first (teleports,
--- spawning) and keeps it PIN seconds; ReplicatedStorage/CellLoading tells a client to cover the screen while that runs.
+-- At start the cells saved in the place (Workspace/Auto, for editing) are removed. Then, every half second (user 2026-10-15: all four):
+-- 1 choose: every player's cell and ring 1 first, then the other cells by distance from all players at once (the nearest player's
+--   position now or LOOKAHEAD s ahead), so players together share cells and the saved budget reaches farther;
+-- 2 the budget is parts (BUDGET_PARTS, about 3 GB at 6.1 KB a part on the server), not cells: a dense cell costs more;
+-- 3 a built cell stays while there is room; only when a chosen cell needs room do the farthest unchosen cells go;
+-- 4 the next cell built is the chosen one the players reach soonest (distance / speed).
+-- Over GUARD_MB of memory on a live server the budget drops by a fifth (the documented limit is about 6 GB).
+-- ServerStorage/CellPrepare(x, z) builds the cell nearest a point first (teleports, spawning) and keeps it PIN seconds;
+-- ReplicatedStorage/CellLoading tells a client to cover the screen while that runs.
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -20,9 +25,11 @@ local Stats = game:GetService("Stats")
 
 local BUDGET_MS = 8 -- a frame's building while players move (the B test: 21 ms chunks made 34-64 ms server frames)
 local PREPARE_BUDGET_MS = 12 -- behind the loading screen (the B test: the target cell in under a second)
-local UNLOAD_AFTER = 8
 local PIN = 10
 local GUARD_MB = 5500
+local BUDGET_PARTS = 500000 -- 5 GB target: about 1.8 GB fixed (server, cell data, lite cells), the rest for full cells
+local LOOKAHEAD = 6 -- seconds of travel the chooser looks ahead
+local MIN_SPEED, MAX_SPEED = 16, 120 -- studs/s: walking, and a cap for the look-ahead (a teleport is not a speed)
 
 local dataFolder = ServerStorage:FindFirstChild("CellData")
 if not dataFolder then
@@ -33,7 +40,7 @@ local Builder = require(ServerStorage:WaitForChild("MapBuilder"))
 local index = {}
 for _, f in ipairs(dataFolder:GetChildren()) do
 	if f:IsA("Folder") then
-		index[f.Name] = { x = f:GetAttribute("x"), z = f:GetAttribute("z"),
+		index[f.Name] = { x = f:GetAttribute("x"), z = f:GetAttribute("z"), parts = f:GetAttribute("parts") or 8000,
 			ring1 = string.split(f:GetAttribute("ring1"), ","), ring2 = string.split(f:GetAttribute("ring2"), ",") }
 	end
 end
@@ -44,7 +51,8 @@ local liteView = Instance.new("Folder")
 liteView.Name = "Lite"
 liteView.Parent = workspace
 
-local loaded, building, lastWanted, pinned, failed = {}, {}, {}, {}, {}
+local loaded, building, pinned, failed = {}, {}, {}, {}
+local loadedParts = 0
 local stats = Instance.new("Folder")
 stats.Name = "CellStreamerStats"
 stats.Parent = ServerStorage
@@ -98,6 +106,7 @@ local function build(id, budgetMs)
 	building[id] = nil
 	if ok then
 		loaded[id] = true
+		loadedParts += index[id].parts
 		showLite(id, false)
 	else
 		failed[id] = os.clock() + 30 -- not again for a while (one warning, not one a frame)
@@ -111,6 +120,7 @@ end
 
 local function unload(id)
 	loaded[id] = nil
+	loadedParts -= index[id].parts
 	local f = auto:FindFirstChild(id)
 	if f then
 		local t0 = os.clock()
@@ -139,25 +149,74 @@ local function nearestCell(x, z)
 	return best, math.sqrt(bd)
 end
 
-local function wanted()
-	-- in Studio the figure is the whole Studio process (8-9 GB with the editor), so the guard only runs on a live server
-	local rings = not RunService:IsStudio() and Stats:GetTotalMemoryUsageMb() > GUARD_MB and "ring1" or "ring2"
-	local want, near = {}, {}
+local function plan()
+	local ps = {}
 	for _, p in ipairs(Players:GetPlayers()) do
 		local root = p.Character and p.Character:FindFirstChild("HumanoidRootPart")
 		if root then
-			local id = nearestCell(root.Position.X, root.Position.Z)
-			if id then
-				for _, n in ipairs(index[id][rings]) do
-					want[n] = true
-					local c = index[n]
-					local d = (c.x - root.Position.X) ^ 2 + (c.z - root.Position.Z) ^ 2
-					near[n] = math.min(near[n] or math.huge, d)
-				end
+			local v = root.AssemblyLinearVelocity
+			local flat = Vector3.new(v.X, 0, v.Z)
+			local speed = math.min(flat.Magnitude, MAX_SPEED)
+			local ahead = speed > 1 and root.Position + flat.Unit * speed * LOOKAHEAD or root.Position
+			table.insert(ps, { x = root.Position.X, z = root.Position.Z, ax = ahead.X, az = ahead.Z, speed = math.max(speed, MIN_SPEED),
+				cell = nearestCell(root.Position.X, root.Position.Z) })
+		end
+	end
+	-- in Studio the memory figure is the whole Studio process (8-9 GB with the editor), so the guard only runs on a live server
+	local budget = (dataFolder:GetAttribute("BudgetParts") or BUDGET_PARTS) * ((not RunService:IsStudio() and Stats:GetTotalMemoryUsageMb() > GUARD_MB) and 0.8 or 1)
+	local score, eta = {}, {}
+	for id, c in pairs(index) do
+		local best, t = math.huge, math.huge
+		for _, p in ipairs(ps) do
+			local d = math.min(math.sqrt((c.x - p.x) ^ 2 + (c.z - p.z) ^ 2), math.sqrt((c.x - p.ax) ^ 2 + (c.z - p.az) ^ 2))
+			best = math.min(best, d)
+			t = math.min(t, d / p.speed)
+		end
+		score[id], eta[id] = best, t
+	end
+	local chosen, used = {}, 0
+	for _, p in ipairs(ps) do
+		for _, n in ipairs(p.cell and index[p.cell].ring1 or {}) do
+			if not chosen[n] then
+				chosen[n], used = 2, used + index[n].parts -- 2: required, built even over the budget
 			end
 		end
 	end
-	return want, near
+	local order = {}
+	for id in pairs(index) do
+		if not chosen[id] then
+			table.insert(order, id)
+		end
+	end
+	table.sort(order, function(a, b)
+		return score[a] < score[b]
+	end)
+	for _, id in ipairs(order) do
+		if used + index[id].parts > budget then
+			break -- the first that does not fit ends the choice, so the chosen area stays a whole disc round the players
+		end
+		chosen[id], used = true, used + index[id].parts
+	end
+	return chosen, eta, score, budget
+end
+
+-- the farthest built cells not chosen go until `room` more parts fit under the budget
+local function evict(chosen, score, budget, room)
+	local victims = {}
+	for id in pairs(loaded) do
+		if not chosen[id] and not building[id] and (pinned[id] or 0) < os.clock() then
+			table.insert(victims, id)
+		end
+	end
+	table.sort(victims, function(a, b)
+		return (score[a] or 0) > (score[b] or 0)
+	end)
+	for _, id in ipairs(victims) do
+		if loadedParts + room <= budget then
+			break
+		end
+		unload(id)
+	end
 end
 
 -- start: the far view everywhere, then the cells saved in the place go (they stay in the place file for editing)
@@ -190,6 +249,9 @@ prepare.OnInvoke = function(x, z)
 		RunService.Heartbeat:Wait()
 	end
 	if not loaded[id] then
+		local chosen, _, score, budget = plan()
+		chosen[id] = true
+		evict(chosen, score, budget, index[id].parts)
 		build(id, PREPARE_BUDGET_MS)
 	end
 	pinned[id] = os.clock() + PIN
@@ -228,31 +290,32 @@ end
 
 task.spawn(function()
 	while true do
-		local want, near = wanted()
+		local chosen, eta, score, budget = plan()
 		local now = os.clock()
-		for id in pairs(want) do
-			lastWanted[id] = now
-		end
-		-- the nearest wanted cell not built yet, one at a time
-		local best, bd = nil, math.huge
-		for id, d in pairs(near) do
-			if not loaded[id] and not building[id] and (failed[id] or 0) < os.clock() and d < bd then
-				best, bd = id, d
+		local best, bt = nil, math.huge
+		for id, kind in pairs(chosen) do
+			local t = kind == 2 and -1 or eta[id] -- required cells first
+			if not loaded[id] and not building[id] and (failed[id] or 0) < now and t < bt then
+				best, bt = id, t
 			end
 		end
-		if best then
+		evict(chosen, score, budget, best and index[best].parts or 0)
+		if best and (loadedParts + index[best].parts <= budget or chosen[best] == 2) then
 			build(best, BUDGET_MS)
+		else
+			best = nil
 		end
-		for id in pairs(loaded) do
-			if not want[id] and not building[id] and now - (lastWanted[id] or 0) > UNLOAD_AFTER and (pinned[id] or 0) < now then
-				unload(id)
-			end
-		end
-		local n = 0
+		local n, c = 0, 0
 		for _ in pairs(loaded) do
 			n += 1
 		end
+		for _ in pairs(chosen) do
+			c += 1
+		end
 		stats:SetAttribute("Loaded", n)
+		stats:SetAttribute("Chosen", c)
+		stats:SetAttribute("LoadedParts", loadedParts)
+		stats:SetAttribute("Budget", budget)
 		stats:SetAttribute("MemoryMb", math.floor(Stats:GetTotalMemoryUsageMb()))
 		if not best then
 			task.wait(0.5)
