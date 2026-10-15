@@ -1758,3 +1758,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 장소 나누기 시험
 
 ---
+
+## 가벼운 판(먼 경치)
+**Timestamp**: 2026-10-15T03:42:46Z
+**User Request**: "칸만들때  지도에 맞게 가벼운판 같이 넣으면 안됨?" → "응 그렇게 진행해"
+**AI Response**: src/lite.py + build_luau가 칸마다 lite.json(건물 박스·지붕 + 구역 공통 192 stud 격자 땅, 판 가운데가 속한 칸이 가짐)을 같이 쓴다. 25칸 평균 148부품(3,702). Studio ServerStorage/Lite에 25칸(수작업 건물 뺀 3,534부품). 랜드마크 꼭대기에서 1,500 stud 밖 18칸을 가벼운 판으로 바꿔 캡처(data/compare/lite/landmark-west.jpg) 뒤 되돌림: 스카이라인은 이어지고, 큰길이 끊기고 먼 건물은 창 없는 상자. 커밋 98d9dd8, 65c01c7(테스트 758).
+**Context**: CONSTRUCTION - B 먼 경치
+
+---
