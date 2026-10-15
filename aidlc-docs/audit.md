@@ -1814,3 +1814,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 메시 키트 적용
 
 ---
+
+## 서버 근처 칸 만들기 정식판, 다른 사용자 위치, 1c3·중동 확장 전달
+**Timestamp**: 2026-10-15T05:27:15Z
+**User Request**: "아니야 3번은 하지말고 하나더 지금 부천시청역이 없는데 이걸 역도 계속 넣는 방법 없나?" → "일단 서버 근처 칸 만들기 작업까지 하고 1c3 같이 진행가능하면 ㄱㄱ" → "이거 부천 시청역까지 다 끝나면 다른 세션 시켜서 중동 10 11칸 주변 3칸 만들어 놔라" → "너는 하나 더 패치해 맵에 다른 사용자 위치 보이게"
+**AI Response**: 부천 전체 가벼운 판은 하지 않음(사용자). 부천시청역 출구 1·2·5는 미생성 칸 1c3에 있음 → 칸 확장 세션에 1c3 확장과 출구 확인 단계 요청(그쪽이 exits.json 로더·2c 단계 추가, OSM 출구 5개 다 있음 확인), 이어서 중동 10·11 주변 3칸 요청 전달. CellStreamer·CellLoading·PlayerMap 새 스크립트, HexTeleport·H 도착 칸 먼저, MinimapClient 다른 사용자 파란 점, MapBuilder LevelOfDetail pcall(게임 스크립트 권한), cellindex.json, studio/install/cell-data.luau, cycle-build 5b. Play 시험: 스폰 주변 13칸 8초, 육각형 이동 0.30초·H 0.38초(로딩 화면), 떠난 칸 지워짐, 스폰 유지. 4386cff에 칸 확장 세션의 미커밋 변경이 섞여 그 세션에 알림.
+**Context**: CONSTRUCTION - B 정식판
+
+---

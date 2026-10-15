@@ -63,6 +63,8 @@
 - (2026-10-15) 셸 heredoc을 `<<EOF`(따옴표 없이)로 쓰면 문서 안의 백틱이 명령으로 실행되어 파이썬 수정이 통째로 실패한다. 문서를 고치는 heredoc은 항상 `<<'EOF'`, 값은 환경 변수로 넘긴다.
 - (2026-10-15, 메시 키트) Studio Import 3D는 OBJ 한 파일 안의 물체(`o`)들을 메시 하나("default")로 합친다. 키트는 **파일 하나에 메시 하나**로 내보내고(`kits.py batch2` → `data/kits/batch2/<kit>.obj`) 사용자가 파일을 전부 골라 한 번에 가져온다. 대기열(Import Queue)은 **Start Import**를 눌러야 올라가고, Studio를 끄면 대기열이 사라진다. 들어온 것은 `Workspace/<파일명>`(MeshPart). 텍스처 좌표(`vt`)가 든 나무 OBJ 8개는 첫 묶음에서 빠졌고, 따로 다시 가져오니 들어왔다.
 - (2026-10-15) `EditableMesh`·`EditableImage`로 만든 미리보기 MeshPart는 사용자가 저장하면 장소에 같이 저장되고, 다시 열면 모양 없는 메시가 된다. 진짜 키트와 이름이 같으면 Builder가 그것을 복제한다. 캡처가 끝나면 바로 지우고(`PreviewKit` 속성으로 찾음) 보고 전에 `ServerStorage/Kits`를 확인한다.
+- (2026-10-15, CellStreamer) 게임 스크립트(Script)는 `Model.LevelOfDetail`을 못 바꾼다(PluginOrOpenCloud 권한). `execute_luau`로 한 시험에서는 플러그인 권한이라 몰랐다. 실행 중에 만드는 칸은 그 속성 없이 만들고(Builder가 pcall), 먼 경치는 가벼운 판이 맡는다. 실행 코드는 Play에서 진짜 Script로 시험한다.
+- (2026-10-15, CellStreamer) Studio에서 `Stats:GetTotalMemoryUsageMb()`는 Studio 전체(8~9 GB)라 메모리 안전장치가 늘 켜졌다. 안전장치는 `RunService:IsStudio()`가 아닐 때만. `StringValue`는 20만 자 미만, 바이너리는 깨진다(base64로). 시작할 때 Auto를 지우면 `config.toml` 스폰도 지워지니 SpawnLocation은 꺼내 둔다.
 
 ## 생성 규칙
 
@@ -162,6 +164,8 @@
 - (2026-10-15, 25칸) Studio ModuleScript Source 한도 20만 자를 미니맵 데이터(25칸)와 공원 스크립트가 넘었다. 미니맵 사각형은 정수 stud로 줄였고(22만 → 15만), 수작업 데이터는 JSON으로 따로 받아 함수에 넘긴다(Facilities와 같은 방식). 칸이 더 늘면 미니맵도 나눠야 한다(구 단위 장소 분리 때).
 - (2026-10-15, 25칸) 땅 판을 48 → 192 stud로 시작하고 휘는 곳만 쪼개니 칸당 땅 조각 1,031 → 622, 휨 기준을 0.3 → 0.55 stud로 올리니 332(−68 %). 기준은 TILE_UNDER(0.6)보다 작아야 판이 높이 위의 도로를 덮지 않는다(25칸 382,195점 덮음 0). 기본 포트 8765는 다른 세션 서버가 쓰고 있을 수 있다(그 세션 폴더를 서빙) → 404면 lsof로 cwd를 보고 다른 포트(8766)를 쓴다.
 ## 작업 방식
+
+- (2026-10-15) 칸 확장 세션과 같은 작업 트리를 쓴다. `git add <파일>`은 그쪽의 미커밋 부분까지 커밋한다(4386cff에 그쪽 출구 로더가 섞임). 같은 파일을 둘이 고치는 중이면 `git diff <파일>`로 내 부분만 패치로 만들어 `git apply --cached`로 올린다.
 
 - (2026-10-14, BR-6.6) 창 규칙을 바꿔 P5-7(창이 한 층 안에 있다)이 깨져야 했는데 기본 시드로는 통과했다. 속성 테스트가 걸린 규칙을 바꾸면 `pytest --hypothesis-seed=1..5`로 몇 번 돌린다.
 
