@@ -466,7 +466,8 @@ def test_br_6_5_nothing_on_the_ground_floor_covers_the_entrance_and_the_block_nu
 
 
 def test_br_6_5_the_block_number_is_the_register_name_of_a_complex_building_only():
-    for name, number in (("1005동", 1005), ("101동", 101), ("광성아파트", None), ("데오스힐", None), ("", None), ("가동", None)):
+    for name, number in (("1005동", 1005), ("101동", 101), ("2205", 2205), ("608", 608), ("7", None), ("12345", None), ("광성아파트", None),
+                         ("데오스힐", None), ("", None), ("가동", None)):  # a bare number names an apartment block too (2026-10-16)
         body, eff = resolve(*apartment(name=name)[:2], features=[street()])
         assert LD._block_no(body) == number, name
         items, _, _ = all_items(body, apartment(name=name)[0], eff)

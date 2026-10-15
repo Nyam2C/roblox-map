@@ -888,8 +888,11 @@ APT_PANEL = {"white": "apt_white", "light_gray": "apt_gray", "cream": "apt_sand"
 
 
 def _block_no(body: Body) -> int | None:
-    """BR-6.5 (2026-10-14): the block number of a complex building, read off its register name "<number>동"; none otherwise."""
+    """BR-6.5 (2026-10-14): the block number of a complex building, read off its register name "<number>동"; none otherwise.
+    An apartment named by its bare number ("2205", 진달래마을 and 94 blocks in 16 cells, 2026-10-16) reads the same."""
     name = body.name or ""
+    if body.archetype == "apartment" and name.isdigit() and 2 <= len(name) <= 4:
+        return int(name)
     return int(name[:-1]) if name.endswith("동") and name[:-1].isdigit() and len(name) <= 6 else None
 
 
