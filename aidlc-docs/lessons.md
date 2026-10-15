@@ -61,6 +61,8 @@
 - (2026-10-15, 메시 키트) `AssetService:CreateEditableMesh` → `CreateMeshPartAsync(Content.fromObject(em))`로 업로드 없이 Edit에서 메시를 미리 볼 수 있고 `Clone`도 된다(장소에 저장되지 않으니 보고 나면 지운다). 삼각형은 밖에서 볼 때 반시계 방향. 꼭짓점을 면끼리 같이 쓰면 Roblox가 부드럽게 칠해 상자가 번들거리는 덩어리로 보인다. 면마다 꼭짓점을 따로 두고 OBJ에는 `vn`을 준다.
 - (2026-10-15, B 시험) Play 중 `execute_luau`의 Server에서 바꾼 것(칸 지우기, 모듈 추가)은 Play를 멈추면 사라진다. 장소를 건드리지 않고 큰 시험을 할 때 쓴다. Studio에서는 서버와 클라이언트가 한 프로세스라 `os.clock()`이 같아, 서버 기록과 클라이언트 끊김 시각을 바로 맞춰 볼 수 있다. `EncodingService:CompressBuffer/DecompressBuffer`(zstd)가 된다.
 - (2026-10-15) 셸 heredoc을 `<<EOF`(따옴표 없이)로 쓰면 문서 안의 백틱이 명령으로 실행되어 파이썬 수정이 통째로 실패한다. 문서를 고치는 heredoc은 항상 `<<'EOF'`, 값은 환경 변수로 넘긴다.
+- (2026-10-15, 메시 키트) Studio Import 3D는 OBJ 한 파일 안의 물체(`o`)들을 메시 하나("default")로 합친다. 키트는 **파일 하나에 메시 하나**로 내보내고(`kits.py batch2` → `data/kits/batch2/<kit>.obj`) 사용자가 파일을 전부 골라 한 번에 가져온다. 대기열(Import Queue)은 **Start Import**를 눌러야 올라가고, Studio를 끄면 대기열이 사라진다. 들어온 것은 `Workspace/<파일명>`(MeshPart). 텍스처 좌표(`vt`)가 든 나무 OBJ 8개는 같은 묶음에서 들어오지 않았다(원인 미확인).
+- (2026-10-15) `EditableMesh`·`EditableImage`로 만든 미리보기 MeshPart는 사용자가 저장하면 장소에 같이 저장되고, 다시 열면 모양 없는 메시가 된다. 진짜 키트와 이름이 같으면 Builder가 그것을 복제한다. 캡처가 끝나면 바로 지우고(`PreviewKit` 속성으로 찾음) 보고 전에 `ServerStorage/Kits`를 확인한다.
 
 ## 생성 규칙
 
