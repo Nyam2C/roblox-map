@@ -67,6 +67,7 @@
 - (2026-10-15, CellStreamer) Studio에서 `Stats:GetTotalMemoryUsageMb()`는 Studio 전체(8~9 GB)라 메모리 안전장치가 늘 켜졌다. 안전장치는 `RunService:IsStudio()`가 아닐 때만. `StringValue`는 20만 자 미만, 바이너리는 깨진다(base64로). 시작할 때 Auto를 지우면 `config.toml` 스폰도 지워지니 SpawnLocation은 꺼내 둔다.
 - (2026-10-15, CellStreamer) 고정(앵커) 캐릭터는 `AssemblyLinearVelocity`가 0이라 이동 예측이 안 된다. 서버에서 PivotTo로 달리는 시험은 속도를 직접 넣어 준다. 실제 플레이어(물리로 움직임)는 속도가 나온다.
 - (2026-10-15, pack) 정리된 장소에서 수작업을 고치려면 그 칸을 먼저 꺼낸다. 꺼내지 않은 칸의 수작업 데이터는 pack이 덮어쓰지 않고, 꺼내지 않은 칸 자리에 새로 놓은 수작업은 "strays"로 세어지고 저장되지 않는다(pack 결과에 strays가 0인지 본다).
+- (2026-10-15, 먼 경치) 실행 중에 만든 건물 모델은 `LevelOfDetail`을 템플릿 복제로 넣어도 먼 메시(StreamingMesh)가 나오지 않았다. 먼 경치는 Persistent 가벼운 판 + 클라이언트에서 건물마다 바꿔치기(`LiteSwap`, `LocalTransparencyModifier`)로 한다. Play 화면은 `screen_capture`를 인자 없이 부르면 클라이언트 화면이 찍히고, 카메라는 `BindToRenderStep`으로 붙잡아야 게임 카메라가 되돌리지 않는다.
 
 ## 생성 규칙
 
