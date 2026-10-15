@@ -1,5 +1,35 @@
 {
  "cells": {
+  "8930e0ac4cbffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.694,
+     "residential": 0.306,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 도당동 1·2·3 둘레 6칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac4dbffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 도당동 1·2·3 둘레 6칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0ac693ffff": {
    "counts": {
     "landmarks": [
@@ -272,6 +302,23 @@
    },
    "manual": false,
    "reason": "landmarks: school:심원고등학교",
+   "tier": 1
+  },
+  "8930e0af127ffff": {
+   "counts": {
+    "landmarks": [
+     "school:부천신흥초등학교"
+    ],
+    "pois": 4,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.17,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 도당동 1·2·3 둘레 6칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af12bffff": {

@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af127ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:490139668",
+   "name": "부천신흥초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": 1549.67,
+   "z": -1075.802,
+   "yaw": 179.934,
+   "w": 194.4,
+   "d": 167.4,
+   "fit": 0.998
+  }
+ ]
+}

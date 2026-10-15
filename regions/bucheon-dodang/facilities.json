@@ -8988,6 +8988,1595 @@
     "gis:11170331"
    ],
    "claims": []
+  },
+  {
+   "key": "sinheung_elem",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     220,
+     204
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.6,
+    "h_m": 1.7,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     90,
+     120,
+     130
+    ],
+    "frame_rgb": [
+     225,
+     225,
+     222
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     198,
+     182
+    ],
+    "every_floor": true
+   },
+   "accents": [],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     220,
+     220,
+     216
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     220,
+     204
+    ],
+    "top_rgb": [
+     84,
+     168,
+     140
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "LOW CONFIDENCE on the walls: in the current street view (banner for the next school year's intake, so recent) the whole main block is wrapped in scaffolding and grey-green mesh netting for an exterior renovation, so the facade colour and window layout could not be seen; wall/window values above are a plain cream school default, only the beige tone glimpsed through the mesh at ground level supports it. If the builder wants to show what the street actually looks like now, an option is to drape the block in dark grey-green mesh [96,100,92] over a scaffold frame. What is certain: flat roof painted green (satellite) with a few small blue-grey rooftop boxes, a long E-W main block with a short wing/stair projection at the middle of the north side (toward the sand playground) and stubs at both ends; parking lot along the south side. At the street: a low concrete retaining wall topped by a green steel picket fence (east side) and a white arched railing fence with leaf pattern (west side, by the gate); gate posts are grey stone with dark horizontal bands. Lettering seen only on a small gate plate and on banners, not on the building, so sign is null. The grey-roofed gym to the NE is a separate record and not part of this spec.",
+   "sources": [
+    "captures/8930e0af127ffff/sheets/gis_11175761.jpg",
+    "captures/8930e0af127ffff/crops/gis_11175761__RLVnb7ULszKRog3FWSftaA.jpg",
+    "captures/8930e0af127ffff/crops/gis_11175761__0yiw6hoeTxlssEok78kYaw.jpg",
+    "data/satellite/8930e0af127ffff-z19.jpg",
+    "web search (no facade photo found): https://academy.prompie.com/schools/elementary-school/detail/927ww06/부천신흥초등학교/, https://m.go.seoul.co.kr/news/2016/09/08/20160908500183"
+   ],
+   "seen": "The main block is fully under scaffolding and mesh in street view (E and W views); the N crop is a neighbouring house. Satellite shows a long flat green roof with a middle projection on the playground side.",
+   "cell": "8930e0af127ffff",
+   "build": [
+    "gis:11175761"
+   ],
+   "claims": []
+  },
+  {
+   "key": "walkup_complex",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     228,
+     228,
+     224
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.6,
+    "h_m": 1.3,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     120,
+     158,
+     156
+    ],
+    "frame_rgb": [
+     185,
+     188,
+     190
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "Plaster",
+     "rgb": [
+      140,
+      152,
+      172
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.25,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "Plaster",
+     "rgb": [
+      140,
+      152,
+      172
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": -0.25,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "Plaster",
+     "rgb": [
+      140,
+      152,
+      172
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.25,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "Plaster",
+     "rgb": [
+      140,
+      152,
+      172
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.25,
+    "width_m": 2.6,
+    "canopy": true,
+    "canopy_rgb": [
+     45,
+     98,
+     170
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     88,
+     96,
+     108
+    ],
+    "top_rgb": [
+     86,
+     160,
+     118
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ]
+   },
+   "notes": "1980s 5-floor walk-up slabs, all eight records share one look. Off-white painted concrete, flat roof with a thin dark grey-blue cornice line at the top edge. Each stair core is a full-height grey-blue (periwinkle) painted strip about 3 m wide with one small square window per half-landing, ending at the ground in an open stair doorway under a small blue glazed-tile (traditional giwa-style) hipped canopy; long blocks have 3-4 cores (the panels above are two per face, repeat at the same pitch if the block is long). Stair cores and entrances appear on both long faces depending on the block. One long face has full-width balconies on every unit: aluminium sliding windows with pale green glass behind black steel railings, air-conditioner boxes on brackets. The other long face has punched horizontal sliding windows (about 2.6 x 1.3 m, some pairs) with black steel security grilles on the first floor, white plumbing pipes and small utility boxes at ground level, and a semi-basement vent line just above grade. End (gable) walls are blank white with large painted block lettering near the top (drawn automatically, no text here); a short dark roof hatch box sits on the ridge line. Roof from satellite: green waterproof paint, small yellow round tank caps (one or two per block) and dark stair hatches. Ground: parking aisles between the blocks, shrubs and pines along the walls; a painted mural retaining wall on the north edge of the complex.",
+   "sources": [
+    "captures/8930e0af127ffff/sheets/gis_11193171.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11213464.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11193182.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11213474.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11200023.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11193184.jpg",
+    "data/satellite/8930e0af127ffff-z19.jpg",
+    "web search (complex built 1984; no facade photos found): https://dapt.kr/apt/BmA458.html"
+   ],
+   "seen": "Several blocks from N, S, SW, NW and E: white 5-floor slabs, grey-blue stair strips with blue tile entrance canopies, black-railed balconies on one side, grilled punched windows on the other, blank gable walls with big block lettering. Satellite: green flat roofs with yellow round caps.",
+   "accents_everywhere": true,
+   "cell": "8930e0af127ffff",
+   "build": [
+    "gis:11193171",
+    "gis:11213464",
+    "gis:11193182",
+    "gis:11200023",
+    "gis:11215812",
+    "gis:11213474",
+    "gis:11193183",
+    "gis:11193184"
+   ],
+   "claims": []
+  },
+  {
+   "key": "welfare_4f",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "CeramicTiles",
+    "rgb": [
+     232,
+     234,
+     234
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "SmoothPlastic",
+    "rgb": [
+     78,
+     82,
+     86
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.2,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     130,
+     160,
+     168
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     198
+    ]
+   },
+   "bands": null,
+   "accents": [],
+   "entrance": {
+    "face": "street",
+    "at": 0.3,
+    "width_m": 1.5,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     232,
+     234,
+     234
+    ],
+    "top_rgb": [
+     110,
+     150,
+     128
+    ],
+    "features": [
+     "tank"
+    ]
+   },
+   "notes": "Not a stand-alone public facility: this is a small mixed-use building in a covered traditional-market street. White small square mosaic tile on all upper walls, small aluminium windows; the second floor has a window covered with cartoon-character decals (a small home-type daycare upstairs, which explains the welfare use), no public name visible so sign is null. Ground floor: shopfronts (dark frames, glass, shop signboards with fake names) under the market's continuous translucent arched arcade canopy on steel trusses and a green fabric awning; an exhaust duct runs up the wall. gis:11178396 (17 m east) is a SEPARATE 4-floor shop building, not part of this facility: mauve-purple glazed tile walls [120,104,128], green-tinted windows, a ground floor of shopfronts under a teal striped awning, a dark long fascia signboard and a tall vertical red signboard, rooftop phone mast; the side lane shows cream tile and dark brick walls. gis:11186048 (about 60 m east) is also separate: a single-storey house with beige plaster walls and a low pitched roof behind a flower garden and a white baluster fence. Leave both on auto unless they are wanted.",
+   "sources": [
+    "captures/8930e0af127ffff/sheets/gis_11186051.jpg",
+    "captures/8930e0af127ffff/crops/gis_11186051__YF_lA7n3mhTJIJGJ_vbTCQ.jpg",
+    "captures/8930e0af127ffff/crops/gis_11186051__gn0dBJn9kdzN6OnrQMHZYg.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11178396.jpg",
+    "captures/8930e0af127ffff/crops/gis_11178396__Q5EjCMX1uU6PbU7DpTZpMQ.jpg",
+    "captures/8930e0af127ffff/crops/gis_11178396__vRdsBa9Q-68pCcmAYyDrrw.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11186048.jpg"
+   ],
+   "seen": "A white mosaic-tile market building with shops under the arcade and cartoon decals on a second-floor window; the neighbour 11178396 is a purple-tile shop building and 11186048 a one-storey garden house, neither looking like one facility with it.",
+   "cell": "8930e0af127ffff",
+   "build": [
+    "gis:11186051"
+   ],
+   "claims": []
+  },
+  {
+   "key": "elcity_villas",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     178,
+     172,
+     162
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Brick",
+    "rgb": [
+     78,
+     76,
+     78
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.2,
+    "h_m": 1.3,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     78,
+     98,
+     105
+    ],
+    "frame_rgb": [
+     225,
+     224,
+     218
+    ]
+   },
+   "bands": {
+    "rgb": [
+     64,
+     64,
+     68
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      64,
+      64,
+      68
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Concrete",
+     "rgb": [
+      196,
+      176,
+      150
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 3.0,
+     "from_floor": 1,
+     "to_floor": 5,
+     "material": "Plaster",
+     "rgb": [
+      236,
+      236,
+      232
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 9.0,
+     "from_floor": 2,
+     "to_floor": 5,
+     "rgb": [
+      222,
+      222,
+      218
+     ],
+     "pitch_m": 0.5
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.3,
+    "width_m": 3.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     168,
+     164,
+     156
+    ],
+    "top_rgb": [
+     130,
+     132,
+     134
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Four identical 5-floor villa blocks. Ground floor is open pilotis parking: only a few square columns (light grey upper half, dark brown/charcoal lower half with yellow-black hazard stripe) hold the building up; no wall at ground floor except a small entrance core clad in dark polished stone with a gold name plate and glass door. A dark charcoal glazed-brick beam band (floor 1 height) runs along the underside of the upper floors. Upper floors: light grey-beige bricks with scattered dark bricks (speckled), small sliding windows with a darker grey surround, widely spaced. Balconies: black/grey metal railing with horizontal white slats stacked 3 high, some with white lattice grilles and green/teal awnings; put on the long faces, roughly every second bay on floors 2-5 (use the fins accent as slatted balcony fronts). Window grilles (white lattice) on some windows. Block 104 (gis:11199679) is the same look but its pilotis side has a beige stone-tiled panel wall in places (a closed stair/entrance core) and is slightly narrower on the street end; block 103 also shows the beige stone panel wall. Short side ends are plain speckled brick with a few small windows and a slightly curved/dark parapet cap. Flat roof with low parapet.",
+   "sources": [
+    "captures/8930e0af127ffff/sheets/gis_11186708.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11175742.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11170997.jpg",
+    "captures/8930e0af127ffff/sheets/gis_11199679.jpg"
+   ],
+   "seen": "Street-view sheets of all four blocks show the same speckled grey brick villa on pilotis with a dark glazed-brick beam, slatted balcony railings and polished-stone entrance cores. No web search done.",
+   "accents_everywhere": true,
+   "cell": "8930e0af127ffff",
+   "build": [
+    "gis:11186708",
+    "gis:11175742",
+    "gis:11170997",
+    "gis:11199679"
+   ],
+   "claims": []
+  },
+  {
+   "key": "technopark2",
+   "floors": 7,
+   "height_m": 29,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     208,
+     200,
+     188
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     96,
+     86,
+     82
+    ]
+   },
+   "windows": {
+    "type": "none",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     110,
+     160
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     198
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": -0.25,
+     "width_m": 4.5,
+     "from_floor": 1,
+     "to_floor": 6,
+     "rgb": [
+      70,
+      115,
+      170
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.25,
+     "width_m": 4.5,
+     "from_floor": 1,
+     "to_floor": 6,
+     "rgb": [
+      70,
+      115,
+      170
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.45,
+     "width_m": 3.5,
+     "from_floor": 1,
+     "to_floor": 6,
+     "material": "Granite",
+     "rgb": [
+      96,
+      86,
+      82
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 20.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      110,
+      130,
+      140
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      90,
+      120,
+      190
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.35,
+    "width_m": 3.5,
+    "canopy": true,
+    "canopy_rgb": [
+     96,
+     86,
+     82
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     208,
+     200,
+     188
+    ],
+    "top_rgb": [
+     165,
+     165,
+     160
+    ],
+    "features": [
+     "stair_box",
+     "solar"
+    ],
+    "crown": null
+   },
+   "notes": "Knowledge-industry (apartment-factory) block. Above a dark brown polished-granite ground floor (shopfronts with blue/striped awnings, a granite name-box canopy over the lobby door), the upper floors are warm beige stone-look panels with two tall vertical bands of blue reflective curtain glass running from floor 1 to the parapet on the two street faces (west and south). One corner (east/back side) is a dark-granite column with stacked small balconies with white metal railings and white air-con units on every floor; the east face has cantilevered balcony slabs with railings, a steel shutter (freight lift door) next to the lobby, and two tall grey downpipes. Building-name lettering in blue on the top of the west face (do not write text: a thin blue band is enough). Floors: register says 6; the photos read as a tall ground floor plus about six upper floors, so 7 floors, ~29 m. Roof: grey deck, a row of solar panels along the north edge, stair/lift boxes, a small rooftop tree/greenery at one corner. Ground-floor shop signs are plain yellow/white/red colour panels (no text).",
+   "sources": [
+    "captures/8930e0ac4cbffff/sheets/gis_12996979.jpg",
+    "captures/8930e0ac4cbffff/crops/gis_12996979__WS-4V9BKgvZ1e98bBkN47A.jpg",
+    "captures/8930e0ac4cbffff/crops/gis_12996979__VOWwqbulESa_rjivgjZYaQ.jpg",
+    "captures/8930e0ac4cbffff/crops/gis_12996979__1RTLOc6fppU1EPVsf3wv6g.jpg",
+    "data/satellite/8930e0ac4cbffff-z19.jpg",
+    "web search (no usable exterior description found)"
+   ],
+   "seen": "Beige panel tower with two vertical blue glass bands on the west and south faces, dark granite ground floor with shops, balcony stack with railings on the east side; roof has solar panels and stair boxes.",
+   "cell": "8930e0ac4cbffff",
+   "build": [
+    "gis:12996979"
+   ],
+   "claims": []
+  },
+  {
+   "key": "factory_big",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     78,
+     62
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Brick",
+    "rgb": [
+     140,
+     72,
+     58
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.3,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     95,
+     115,
+     120
+    ],
+    "frame_rgb": [
+     75,
+     115,
+     90
+    ]
+   },
+   "bands": {
+    "rgb": [
+     236,
+     236,
+     232
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      236,
+      236,
+      232
+     ],
+     "pitch_m": 7.0
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Glass",
+     "rgb": [
+      55,
+      135,
+      110
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 1.6,
+     "from_floor": 1,
+     "to_floor": 3,
+     "material": "Metal",
+     "rgb": [
+      215,
+      215,
+      210
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      75,
+      115,
+      90
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.3,
+    "width_m": 4.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     70,
+     150,
+     165
+    ],
+    "top_rgb": [
+     178,
+     180,
+     180
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Red-brick 3-storey factory with crisp white horizontal bands at every floor line and white vertical pilasters (some are white duct/stack columns) every ~7 m; the parapet is capped with a teal-blue metal coping. Windows are white or green aluminium frames, two per bay; on the south face the middle floor has a near-continuous ribbon of green-framed windows (stripe accent), the ground floor there is solid brick. Along the north street the ground floor is hidden behind a ~2.5 m grey stone-block retaining/boundary wall topped by a long arched green translucent polycarbonate canopy running the whole length (the green Glass panel at floor 0; ideally make it a half-round vault). A white sheet-metal exhaust duct climbs the north wall and rises above the parapet. Roof (satellite) is a light-grey flat deck, not dark; a blue tarp patch and a few rooftop units. The blue-hip-roofed hall immediately west is a different building.",
+   "sources": [
+    "captures/8930e0ac4cbffff/sheets/gis_11181600.jpg",
+    "captures/8930e0ac4cbffff/crops/gis_11181600__VxZnym6czwEC1zD2RaIWbg.jpg",
+    "data/satellite/8930e0ac4cbffff-z19.jpg"
+   ],
+   "seen": "Long brick factory with white floor bands and pilasters, teal parapet coping, green/white framed windows, and a green arched polycarbonate canopy over a stone wall along the north lane; light-grey flat roof.",
+   "cell": "8930e0ac4cbffff",
+   "build": [
+    "gis:11181600"
+   ],
+   "claims": []
+  },
+  {
+   "key": "factory_shed",
+   "floors": 2,
+   "height_m": 8,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     150,
+     156,
+     162
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     118,
+     122,
+     125
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 0.9,
+    "pitch_m": 5.0,
+    "glass_rgb": [
+     60,
+     70,
+     75
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     196
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      140,
+      146,
+      152
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.3,
+    "width_m": 5.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     150,
+     156,
+     162
+    ],
+    "top_rgb": [
+     150,
+     160,
+     168
+    ],
+    "features": [
+     "pitched"
+    ],
+    "crown": null
+   },
+   "notes": "Register says 1 storey: it is a single tall shed (~8 m eaves) read as two visual tiers. Lower ~3.5 m is grey-painted concrete block with small barred windows; above it vertical corrugated grey metal cladding (whitish-grey on the north side) with a row of small windows near the top. Roof: low-pitch gable of light blue-grey corrugated metal, ridge running east-west, with 4 small round roof ventilators along the ridge. A small two-level annex with a white flat roof sits at the east end; a lean-to with grey tarp sides on the west. North and south sides are mostly behind grey block boundary walls; no loading shutter was visible in the photos (the yard/parking to the south and east is where access must be).",
+   "sources": [
+    "captures/8930e0ac4cbffff/sheets/gis_11218115.jpg",
+    "captures/8930e0ac4cbffff/crops/gis_11218115__4pp09ogno2zR8wlI-aexiQ.jpg",
+    "data/satellite/8930e0ac4cbffff-z19.jpg"
+   ],
+   "seen": "Grey corrugated-metal shed over a painted concrete-block lower wall with barred windows, behind block boundary walls; satellite shows a light blue-grey low gable roof with ridge ventilators.",
+   "cell": "8930e0ac4cbffff",
+   "build": [
+    "gis:11218115"
+   ],
+   "claims": []
+  },
+  {
+   "key": "special_3f",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     140,
+     78,
+     62
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.2,
+    "pitch_m": 4.0,
+    "glass_rgb": [
+     150,
+     170,
+     175
+    ],
+    "frame_rgb": [
+     228,
+     228,
+     224
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.2,
+     "width_m": 2.6,
+     "from_floor": 1,
+     "to_floor": 2,
+     "rgb": [
+      70,
+      75,
+      70
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Concrete",
+     "rgb": [
+      45,
+      45,
+      45
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "all",
+     "at": -0.4,
+     "width_m": 4.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      175,
+      205,
+      205
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      235,
+      235,
+      230
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.2,
+    "width_m": 2.6,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     140,
+     78,
+     62
+    ],
+    "top_rgb": [
+     185,
+     185,
+     182
+    ],
+    "features": [],
+    "crown": null
+   },
+   "notes": "Not a parking structure or plant: one numbered block of an older red-brick small-workshop / tool-market complex (machining, milling, lathe and laser shops). Three floors of red-brown brick with recessed brick window surrounds and white aluminium sliding windows. Each stair core has a tall dark steel-grid window (stair glazing) above a concrete lintel with a block number, over a glass shop-style door. A ~5 m wide open drive-through passage (dark opening, the black panel) at ground floor leads to a parking court behind. Ground-floor units have glass shopfronts, plain colour sign panels (white, red, blue, no text) in a band above the doors, and a green scalloped awning on one unit. The north corner has an arched ground-floor opening with pale aqua glass doors. Flat light-grey roof.",
+   "sources": [
+    "captures/8930e0ac4cbffff/sheets/gis_11176058.jpg",
+    "captures/8930e0ac4cbffff/crops/gis_11176058__aV-nXdA5AXoJrWc_aRSwiA.jpg",
+    "captures/8930e0ac4cbffff/crops/gis_11176058__oNId7MSs5DiZ5msUSMiROw.jpg",
+    "data/satellite/8930e0ac4cbffff-z19.jpg",
+    "https://m.cafe.daum.net/gongjangworld/QIaE/486 (area context: tool-market workshop district spanning 내동/도당동)"
+   ],
+   "seen": "Three-storey red-brick workshop row with white windows, a tall steel-grid stair window, a drive-through passage to a back parking court, small machine-shop fronts with colour sign boards and an arched corner door.",
+   "cell": "8930e0ac4cbffff",
+   "build": [
+    "gis:11176058"
+   ],
+   "claims": []
+  },
+  {
+   "key": "technoworld",
+   "floors": 6,
+   "height_m": 24,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     222,
+     172,
+     186
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.6,
+    "h_m": 1.5,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     90,
+     140,
+     125
+    ],
+    "frame_rgb": [
+     205,
+     210,
+     205
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "rgb": [
+      80,
+      130,
+      125
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.07,
+     "width_m": 1.8,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Granite",
+     "rgb": [
+      192,
+      182,
+      166
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.07,
+     "width_m": 1.8,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Granite",
+     "rgb": [
+      192,
+      182,
+      166
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 7.0,
+     "from_floor": 5,
+     "to_floor": 5,
+     "material": "Concrete",
+     "rgb": [
+      228,
+      226,
+      220
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      110,
+      130,
+      135
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.3,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      110,
+      130,
+      135
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.3,
+     "width_m": 9.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      235,
+      235,
+      240
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Metal",
+     "rgb": [
+      225,
+      228,
+      225
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     192,
+     182,
+     166
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     222,
+     172,
+     186
+    ],
+    "top_rgb": [
+     95,
+     135,
+     100
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Apartment-type factory (6 floors + B1, 2004). The whole building is painted mortar in a soft pink (the ground floor on the side/back reads a darker mauve-pink, about [180,135,155]). Street face (south, toward the E-W road): long green-tinted aluminium ribbon windows on floors 1-5, a recessed central glass stair/lobby atrium (5 m wide, full height) flanked by two narrow beige stone-tile piers, and above it on the top floor a projecting light box with its own glass band and a steel antenna/flag frame on the roof above. The lobby door sits at the foot of the atrium behind two steps, under a beige stone canopy box (the building name on it: do not write text). Ground floor either side: glass shopfronts; on the east half a white shop sign band at floor 1 (plain white panel with a small blue block, no text). West face: pink floors alternating with cream sandwich-panel strips with small punched windows (pink spandrel bands between cream window bands), a tall pink blank ground floor with service doors and a rooftop-high white sign box at the NW corner. Back (north): a one-storey cream sandwich-panel annex with a dark-blue corrugated lean-to roof and louvres along the parking lot. Roof (satellite): green-painted deck with planted rooftop garden (shrubs and a few small trees, one visible from the street at the NE corner), railings round the edge.",
+   "sources": [
+    "https://m.richgo.ai/auctionMobile/C91CUHUP (auction appraisal: RC, B1/6F, mortar + water-based paint, aluminium sash, approved 2004)",
+    "captures/8930e0ac4dbffff/sheets/gis_11195615.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11195615__gD79KLXKU-H2rHJ9ZmqOZw.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11195615__KS91sdwj6nvl9tyjANhIOg.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11195615__sjYGq2QFRRi8usfUEia4FQ.jpg",
+    "data/satellite/8930e0ac4dbffff-z19.jpg"
+   ],
+   "seen": "Pink-painted 6-storey block with green ribbon windows, a central full-height glass atrium between beige stone piers over the lobby, glass shopfronts on the ground floor; west side pink and cream bands; green rooftop garden on satellite.",
+   "cell": "8930e0ac4dbffff",
+   "build": [
+    "gis:11195615"
+   ],
+   "claims": [],
+   "front": "S"
+  },
+  {
+   "key": "factory_4f",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     228,
+     228
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 1.6,
+    "h_m": 1.1,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     100,
+     125,
+     135
+    ],
+    "frame_rgb": [
+     200,
+     202,
+     204
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 60.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "material": "Metal",
+     "rgb": [
+      176,
+      180,
+      184
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      120,
+      124,
+      128
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      100,
+      125,
+      135
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      100,
+      125,
+      135
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.3,
+    "width_m": 2.0,
+    "canopy": false,
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     168,
+     173,
+     178
+    ],
+    "top_rgb": [
+     85,
+     135,
+     200
+    ],
+    "features": [
+     "pitched"
+    ],
+    "crown": null
+   },
+   "notes": "Two-faced factory. Street face here = NORTH, toward the lane it nearly touches (about 3 m away): red-brown brick, 4 floors, small white-framed sliding windows in pairs with brick soldier lintels/sills, and a white-painted steel exterior stair with white railings zig-zagging up the NE end (the white Metal panel; ideally open landings). SOUTH face (behind a brick-pier + black steel railing fence and a small green-floored yard, about 15 m from the E-W road): ground and 1st floor white-painted concrete block with grey pilaster lines and a grey floor band, punched windows with air-con units; floors 2-3 clad in grey corrugated metal panels with a continuous window ribbon on floor 2; a black steel exterior stair at the west end; a small blue sign panel by the east-end door (plain colour, no text). If the generator picks the south as 'street', swap 'street'/'back' above. Roof (satellite): several low-pitch light-blue corrugated metal roofs in sections, hidden behind the parapet from the street, so keep the pitch very low. The pink building to the west is technoworld.",
+   "sources": [
+    "captures/8930e0ac4dbffff/sheets/gis_11164690.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11164690__yVPWIULFqQuX-GFyoVAm3A.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11164690__nIYoyS1YJ_V9yQYMS7HrVQ.jpg",
+    "data/satellite/8930e0ac4dbffff-z19.jpg"
+   ],
+   "seen": "North side: red brick 4-storey wall with small white windows and a white steel exterior stair. South side: white block lower floors with air-cons, grey metal-clad upper floors with a ribbon window, black steel stair. Satellite: blue low-pitch metal roofs.",
+   "cell": "8930e0ac4dbffff",
+   "build": [
+    "gis:11164690"
+   ],
+   "claims": []
+  },
+  {
+   "key": "factory_8f",
+   "floors": 8,
+   "height_m": 31,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     218,
+     208,
+     190
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Limestone",
+    "rgb": [
+     196,
+     190,
+     178
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.8,
+    "pitch_m": 7.0,
+    "glass_rgb": [
+     70,
+     85,
+     95
+    ],
+    "frame_rgb": [
+     225,
+     225,
+     220
+    ]
+   },
+   "bands": {
+    "rgb": [
+     224,
+     218,
+     206
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.05,
+     "width_m": 4.5,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Metal",
+     "rgb": [
+      188,
+      190,
+      193
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.35,
+     "width_m": 4.5,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Metal",
+     "rgb": [
+      188,
+      190,
+      193
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": -0.42,
+     "width_m": 1.5,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      45,
+      60,
+      60
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.35,
+     "width_m": 7.0,
+     "from_floor": 2,
+     "to_floor": 2,
+     "material": "SmoothPlastic",
+     "rgb": [
+      40,
+      80,
+      170
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.3,
+     "width_m": 5.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      45,
+      90,
+      185
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.3,
+     "width_m": 4.0,
+     "from_floor": 3,
+     "to_floor": 3,
+     "material": "SmoothPlastic",
+     "rgb": [
+      120,
+      190,
+      80
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.45,
+    "width_m": 2.5,
+    "canopy": true,
+    "canopy_rgb": [
+     180,
+     182,
+     185
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     210,
+     202,
+     188
+    ],
+    "top_rgb": [
+     190,
+     192,
+     190
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "8-storey apartment-type factory clad in light beige stone-look panels with a visible panel-joint grid. East and west faces look alike: on the left (south) half, deep cantilevered concrete balcony slabs at each floor from floor 2 up, with grey bracket ribs underneath and white/grey metal railings in the middle; the right half has one tall window per floor with thin projecting ledges at every floor line. Ground floor: two large grey roller shutters (loading bays), small steel service doors, a narrow metal canopy at the corner door, and a tall dark glass stair window running up floors 1-3 near the left corner. Many tenant sign boards on floors 1-3: render only as plain coloured panels (blue, green, red/white), no text. Roof (satellite): light-grey deck used as rooftop parking (about a dozen cars parked; access must be a car lift), a lighter square stair/lift core at the NW corner and a raised box at the SE corner. The brick two-storey building with white bands seen to the north is a different building.",
+   "sources": [
+    "captures/8930e0ac4dbffff/sheets/gis_11207781.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11207781__YARsmGJLO1bXHTlL7o3e6g.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11207781__bvwBPUe2kEPV5gYPrwbHWA.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11207781__y7vyywlsSDwpexaws5Umng.jpg",
+    "data/satellite/8930e0ac4dbffff-z19.jpg"
+   ],
+   "seen": "Beige stone-panel 8-storey block with a stack of deep cantilevered balconies on half of each long face, two grey loading shutters at ground level, many coloured tenant boards; satellite shows cars parked on the light-grey roof.",
+   "cell": "8930e0ac4dbffff",
+   "build": [
+    "gis:11207781"
+   ],
+   "claims": []
+  },
+  {
+   "key": "factory_3f",
+   "floors": 3,
+   "height_m": 11,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     222,
+     226,
+     228
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.0,
+    "h_m": 1.2,
+    "pitch_m": 5.0,
+    "glass_rgb": [
+     60,
+     66,
+     66
+    ],
+    "frame_rgb": [
+     125,
+     100,
+     75
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 34.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "material": "Concrete",
+     "rgb": [
+      200,
+      198,
+      192
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": -0.38,
+     "width_m": 7.5,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      95,
+      115,
+      118
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": -0.15,
+     "width_m": 6.5,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      70,
+      80,
+      82
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.08,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Metal",
+     "rgb": [
+      62,
+      64,
+      66
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.25,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Metal",
+     "rgb": [
+      190,
+      192,
+      195
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.42,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Metal",
+     "rgb": [
+      205,
+      207,
+      210
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      40,
+      110,
+      180
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.08,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     198,
+     192
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     40,
+     110,
+     180
+    ],
+    "top_rgb": [
+     118,
+     114,
+     106
+    ],
+    "features": [],
+    "crown": null
+   },
+   "notes": "A compound: the street face here = WEST (the lane about 5 m away) and the south side are white corrugated sandwich-panel wings, two rows of brown-framed sliding windows, a blue metal fascia/gutter with brackets along the eaves (the blue stripe/parapet), white downpipes and a small vent fan. The EAST face toward the 4-lane main road (about 20 m away, behind a sidewalk and a long clipped hedge) is the main block: smooth light-grey concrete, two large glass shopfront/showroom bays on the left (floors 0-1 tall glazing), a deep recessed loading bay with a thin flat concrete canopy frame in the middle, a small door with a white awning, and a grey roller shutter on a slightly lower right-hand wing; one row of small square green-tinted windows high up (floor 2) along the left half. Treat the east parapet as plain grey concrete, not blue. The south annex has a blue fascia too and a low grey block boundary wall at the corner. Roof (satellite): dark grey flat concrete deck with a few small white rooftop units; blue metal strips along the west and SW edge (the panel wings). If the generator picks the east as 'street', swap 'street'/'back'.",
+   "sources": [
+    "captures/8930e0ac4dbffff/sheets/gis_11213468.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11213468__WWDFS77MtRkXaheh_GaPvA.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11213468__i0FT4YayRbJshEPqxsunhw.jpg",
+    "captures/8930e0ac4dbffff/crops/gis_11213468__iVGB9h2KktAF5IRAdA-h5Q.jpg",
+    "data/satellite/8930e0ac4dbffff-z19.jpg"
+   ],
+   "seen": "West/south: white corrugated metal two-storey wings with a blue eaves fascia and brown-framed windows. East (main road): grey concrete block with big glass showroom bays, a recessed loading bay and a roller shutter behind a hedge. Satellite: dark flat roof with blue edge strips.",
+   "cell": "8930e0ac4dbffff",
+   "build": [
+    "gis:11213468"
+   ],
+   "claims": []
   }
  ]
 }
