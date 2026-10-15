@@ -1830,3 +1830,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - B 정식판
 
 ---
+
+## 서버 인원 5명
+**Timestamp**: 2026-10-15T05:54:03Z
+**User Request**: "5명으로 바꿈" (Creator Dashboard 플레이스 서버 크기)
+**AI Response**: 서버 크기 5 확인으로 기록. CellStreamer 예산(부품 50만)은 5명 기준.
+**Context**: CONSTRUCTION - B 정식판
+
+---
