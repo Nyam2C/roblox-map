@@ -230,8 +230,8 @@ def test_write_plan_writes_the_files_and_removes_chunk_files_of_an_earlier_longe
     assert len(list((tmp_path / CELL).glob("chunk-*.luau"))) == long.counts["chunks"] > 3
     short = B.plan_cell(CELL, [building(0)], [], CFG)
     paths = B.write_plan(short, tmp_path)
-    assert sorted(p.name for p in (tmp_path / CELL).iterdir()) == [f"chunk-{n:03d}.luau" for n in range(1, short.counts["chunks"] + 1)] + ["chunks.json", "manifest.json"]
-    assert len(paths) == short.counts["chunks"] + 2 and short.counts["chunks"] < long.counts["chunks"]
+    assert sorted(p.name for p in (tmp_path / CELL).iterdir()) == [f"chunk-{n:03d}.luau" for n in range(1, short.counts["chunks"] + 1)] + ["chunks.json", "lite.json", "manifest.json"]
+    assert len(paths) == short.counts["chunks"] + 3 and short.counts["chunks"] < long.counts["chunks"]
     assert (tmp_path / CELL / "chunk-001.luau").read_text(encoding="utf-8") == short.files["chunk-001.luau"]
     data = json.loads(long.files["chunks.json"])  # the chunk files as data, read back from the Luau text
     assert len(data["chunks"]) == long.counts["chunks"] and data["building_ids"] == json.loads(long.files["manifest.json"])["building_ids"]
