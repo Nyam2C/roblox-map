@@ -36,7 +36,7 @@
 
 - (2026-10-14, 2번 칸) 처음 걷는 길에서 1초 동안 43 FPS(가장 느린 프레임 333 ms)가 한 번 나왔고, 같은 길을 다시 걸으니 40초 내내 60이었다. 간판 이미지·메시 첫 로딩이다. → cycle-verify에 반영
 - (2026-10-14, 4번 칸) 위성 겹쳐 보기 배율 0.974는 1631×882 창일 때만 맞다. 이번 창은 1528×689라 0.757이었다 → cycle-verify에 반영.
-- (2026-10-14) `Workspace.StreamingTargetRadius`·`StreamingMinRadius`·`StreamOutBehavior`는 `execute_luau`에서 읽고 쓸 수 없다("not a valid member"). `StreamingEnabled`만 된다. 반경은 기본값(목표 1024, 최소 64)이고, 바꾸려면 사용자가 속성 창에서. 스트리밍 확인은 Play 중 Client에서 칸별 `#GetDescendants()`가 캐릭터 위치에 따라 바뀌는지 본다.
+- (2026-10-14) `Workspace.StreamingTargetRadius`·`StreamingMinRadius`·`StreamOutBehavior`는 `execute_luau`에서 읽고 쓸 수 없다("not a valid member"). `StreamingEnabled`만 된다. 반경은 사용자가 속성 창에서 바꾼다(2026-10-15에 목표 2048로 올림, 최소 64). 스트리밍 확인은 Play 중 Client에서 칸별 `#GetDescendants()`가 캐릭터 위치에 따라 바뀌는지 본다.
 - (2026-10-14) 걷기 FPS 측정은 클라이언트 스크립트 하나에서 `MoveTo`로 걸리고 같은 스크립트에서 잰다(서버의 `task.delay` 걷기는 `execute_luau`가 끝나면 돌지 않았다).
 - (2026-10-14, 5~7번 칸) 작업 중 Studio 장소가 닫히면 `list_roblox_studios`는 새 id에 `name: null`, `get_studio_state`는 "Place is not open"을 낸다. 사용자가 다시 열기 전에는 할 수 없으니 Studio 없이 되는 일(커밋)을 하고 기다린다. 다시 열면 칸별 부품 수·Builder 판·Manual·스트리밍을 먼저 확인한다(저장했으면 그대로 있었다).
 - (2026-10-14) `screen_capture`를 한 응답에 여러 개 보내면 첫 하나만 되고 나머지는 시간 초과다(10개 중 1개). 거리뷰 대조는 반드시 한 번에 하나. 창 크기가 바뀌면 겹쳐 보기 배율도 바뀐다(1610×1080 → 1.187).

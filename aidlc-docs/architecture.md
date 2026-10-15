@@ -99,9 +99,9 @@ OSM, V-World  →   data/map.db    →   regions/<구역>/      →  src/layout*
 ### 6.2 스트리밍 (U7에서 켬)
 
 - `Workspace.StreamingEnabled = true`: 서버는 다 가지고, 플레이어에게는 가까운 부분만 보낸다. 메모리·그리기·접속 시간이 함께 준다.
-- 값: `StreamingTargetRadius` 512 stud(약 140 m), `StreamingMinRadius` 128, `StreamOutBehavior = Opportunistic`(멀어진 것을 내린다).
+- 값: `StreamingTargetRadius` 2048 stud(약 570 m, 사용자 2026-10-15: 서버가 만드는 두 바퀴가 보이게), `StreamingMinRadius` 64(기본). 처음 계획은 512였다.
 - 건물을 `Model`로 묶고 `ModelStreamingMode`를 정한다: 건물 하나는 통째로(`Atomic`) 오고 가게 해서 반쪽만 보이는 일을 막는다. 스폰 주변·랜드마크는 `Persistent`.
-- 먼 경치: `Model.LevelOfDetail = StreamingMesh`를 켜면 스트리밍 반경 밖의 건물이 간단한 대리 메시로 보인다. 도시 스카이라인이 비지 않는다.
+- 먼 경치: `Model.LevelOfDetail = StreamingMesh`는 게임 스크립트(CellStreamer)가 못 켜서 쓰지 못한다. 반경 밖은 땅·길(서버가 만든 칸)과 랜드마크만 보인다(가벼운 판은 사용자가 뺌).
 - 주의: 클라이언트 스크립트(미니맵 등)는 멀리 있는 부품이 없을 수 있다고 가정한다. 맵 정보가 필요하면 부품을 찾지 말고 데이터(예: `minimap.py`가 만든 표)를 쓴다.
 
 ### 6.3 거리별 상세도 (LOD)
