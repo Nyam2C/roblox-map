@@ -459,8 +459,9 @@ function Builder.terrain(land)
 end
 
 -- Moves the hand-made places (Workspace/Manual) onto the ground (2026-10-15). A Model (a tower, a pavilion, a dong) moves as one by
--- the lowest ground under its box; a loose part (plaza pavers, park tiles) by the ground at its middle. The offset applied is kept
+-- the lowest ground under its footing parts; a loose part (plaza pavers, park tiles) by the ground at its middle. The offset applied is kept
 -- in the attribute GroundLift, so running this again (or with new heights) moves only by the difference.
+local FOOT = 2 -- studs above a model's lowest bottom that still count as its footing (a step, a plinth's edge)
 function Builder.settleManual(land, root)
 	local base = rootOf(root)
 	local manual = base:FindFirstChild("Manual")
@@ -494,15 +495,34 @@ function Builder.settleManual(land, root)
 	local function walk(container)
 		for _, child in container:GetChildren() do
 			if child:IsA("Model") then
-				local cf, size = child:GetBoundingBox()
-				-- a building stands on its lowest corner; a flat ground piece (Settle = "high", e.g. a court on a deep slab) on its highest
+				-- a building stands on the lowest ground under the bottom corners of its footing parts (those within FOOT of the
+				-- model's lowest bottom), like terrain.lift's boxes; the bounding box's corners fell outside long or L-shaped
+				-- buildings onto lower roads (2026-10-15, gis:11796845, 11180532). A flat ground piece (Settle = "high", e.g. a court
+				-- on a deep slab) on its highest.
 				local high = child:GetAttribute("Settle") == "high"
-				local pick = high and -math.huge or math.huge
-				for _, d in ipairs({ { -1, -1 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { 0, 0 } }) do
-					local p = cf:PointToWorldSpace(Vector3.new(d[1] * size.X / 2, 0, d[2] * size.Z / 2))
-					pick = high and math.max(pick, h(p.X, p.Z)) or math.min(pick, h(p.X, p.Z))
+				local feet, low = {}, math.huge
+				for _, p in child:GetDescendants() do
+					if p:IsA("BasePart") then
+						local pts = {}
+						for _, d in ipairs({ { -1, -1 }, { 1, -1 }, { 1, 1 }, { -1, 1 }, { 0, 0 } }) do
+							table.insert(pts, p.CFrame:PointToWorldSpace(Vector3.new(d[1] * p.Size.X / 2, -p.Size.Y / 2, d[2] * p.Size.Z / 2)))
+						end
+						local y = math.min(pts[1].Y, pts[2].Y, pts[3].Y, pts[4].Y)
+						table.insert(feet, { y, pts })
+						low = math.min(low, y)
+					end
 				end
-				move(child, pick)
+				local pick = high and -math.huge or math.huge
+				for _, f in feet do
+					if f[1] <= low + FOOT then
+						for _, q in f[2] do
+							pick = high and math.max(pick, h(q.X, q.Z)) or math.min(pick, h(q.X, q.Z))
+						end
+					end
+				end
+				if #feet > 0 then
+					move(child, pick)
+				end
 			elseif child:IsA("BasePart") then
 				move(child, h(child.Position.X, child.Position.Z))
 			elseif child:IsA("Folder") then
