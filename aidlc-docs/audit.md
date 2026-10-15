@@ -1806,3 +1806,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - 메시 키트 적용
 
 ---
+
+## 나무 한 메시 적용
+**Timestamp**: 2026-10-15T05:01:23Z
+**User Request**: "저장함 이제 해야할거는?" → "8개 넣음 확인 ㄱㄱ"
+**AI Response**: 나무 메시 8개 확인(각 1 MeshPart), 색 그림 upload_image → rbxassetid://74567381012314, TextureID 입혀 ServerStorage/Kits로(충돌 끔). ID 고정(3c32500). 25칸 재생성 125,905부품(-14,830), Studio 25칸 verify ok. 줄기 위치 레이캐스트로 뜬 나무 284/581 발견 → 0.3 m 내려 0. 전후 캡처(나무 많은 두 곳) 이상 없음. FPS는 Studio 창이 뒤로 밀려 무효(나무만 줄어 부품이 적어진 변경). 칸 확장 세션에 재생성 중 멈춤 요청·확인.
+**Context**: CONSTRUCTION - 메시 키트 적용
+
+---
