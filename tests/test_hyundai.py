@@ -98,3 +98,8 @@ def test_savezone_finds_its_round_corner_and_its_walls_do_not_overhang_the_outli
     tails = {i.name.split("#", 1)[1].split("-")[0] for i in items}
     assert {"m", "jv", "sl", "ds", "dy", "pt", "po", "rg", "rm", "rd", "fp", "bn"} <= tails
     assert all(i.group == "gis:3" for i in items)
+    k = FRAME.studs_per_m  # nothing strays off the building (2026-10-16: the north mullions marched off its west end into the plaza)
+    near = poly.buffer(3.0)
+    stray = [i.name for i in items if not i.name.split("#", 1)[1].startswith(("fp", "ff"))
+             and not near.contains(Point(i.cx / k, -i.cz / k))]
+    assert not stray, stray[:5]

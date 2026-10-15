@@ -139,7 +139,8 @@ def build(frame: Frame, bid: str, poly: Polygon) -> list[Item]:
         on("ds", bx, u, s * 0.2, 0.0, (6.0, H + 0.5, 0.4), CHAR)  # the charcoal strip with two yellow lines
         for du in (-1.0, 1.0):
             on("dy", bx, u + du, s * 0.42, 2 * FH, (0.5, H - 2 * FH, 0.1), YELLOW)
-        u1, u2 = u + 3.5, at(south, 1.0)
+        u2 = at(south, 1.0)
+        u1 = u + math.copysign(3.5, u2 - u)
         for f in range(2, FLOORS):  # the east part: dark window bands
             on("wb", bx, (u1 + u2) / 2, s * 0.1, f * FH + 1.3, (abs(u2 - u1) - 1.0, 1.6, 0.12), (52, 64, 76), material="Glass")
         on("sg", bx, 0.0, s * 0.15, 0.0, (L - 1.0, 2 * FH - 0.4, 0.2), GLASS, material="Glass")  # glass shop floors
@@ -153,8 +154,8 @@ def build(frame: Frame, bid: str, poly: Polygon) -> list[Item]:
     if north:
         _, bx, s, L, _, _ = north
         on("ng", bx, at(north, 0.35), s * 0.15, 0.0, (L * 0.5, 2 * FH - 0.4, 0.2), GLASS, material="Glass")
-        for j in range(int(L * 0.5 // 3.0)):  # its mullions
-            on("nm", bx, at(north, 0.10) + j * 3.0, s * 0.3, 0.0, (0.2, 2 * FH - 0.4, 0.2), (226, 230, 232))
+        for j in range(int(L * 0.5 // 3.0) + 1):  # its mullions, by fraction: +u may run either way along the face
+            on("nm", bx, at(north, 0.10 + j * 3.0 / L), s * 0.3, 0.0, (0.2, 2 * FH - 0.4, 0.2), (226, 230, 232))
         on("aw", bx, at(north, 0.22), s * 1.2, FH - 0.8, (12.0, 0.4, 2.4), (96, 104, 60), material="Fabric")  # olive awning
         u = at(north, 0.6)
         on("pt", bx, u, s * 0.4, 0.0, (9.0, 3 * FH, 0.8), DARK, material="Marble", reflectance=0.15)  # the black portal
