@@ -57,11 +57,12 @@ def test_only_roads_paths_and_buildings_become_rectangles_in_a_fixed_order():
 
 def test_an_empty_map_still_has_a_bounds_box_and_the_module_text_is_stable():
     assert M.bounds_of([]) == [0.0, 0.0, 1.0, 1.0]
-    text = M.module_text([])
-    assert text == M.module_text([]) and text.startswith("-- generated") and "return {" in text and "bounds = {" in text
+    text, parts = M.module_text([])
+    assert (text, parts) == M.module_text([]) and text.startswith("-- generated") and "return {" in text and "bounds = {" in text
+    assert len(parts) == 1 and "return {r = {" in parts[0]
     for name, *_ in M.HAND_LABELS:
-        assert f'"{name}"' in text
-    assert text.count("\n{") >= len(M.AREAS) and text.count("\t{") >= len(M.HAND_LABELS)  # rects are compact rows (2026-10-15)
+        assert f'"{name}"' in parts[0]
+    assert parts[0].count("\n{") >= len(M.AREAS)  # rects are compact rows (2026-10-15)
 
 
 @pytest.mark.parametrize("name, ok", [("청솔하이빌", True), ("광성아파트", True), ("1003동", True), ("중3동행정복지센터", True),
@@ -148,7 +149,7 @@ def test_a_hex_has_six_corners_and_lands_on_the_sidewalk_nearest_the_cell_centre
 def test_hex_names_count_within_a_dong_and_reach_the_module_text():
     names = M.hex_names(["a", "b", "c", "d"], {"a": "도당동", "b": "중동", "c": "도당동", "d": ""})
     assert names == ["도당동 1", "중동 1", "도당동 2", "칸 1"]
-    text = M.module_text([], [], [], [("중동 1", 1.0, 2.0, *range(12))])
+    text, _ = M.module_text([], [], [], [("중동 1", 1.0, 2.0, *range(12))])
     assert 'hexes = {\n\t{"중동 1", 1, 2, 0, 1, 2, 3' in text
     assert "HexTeleport" in M.install_text(text)
 
@@ -159,3 +160,12 @@ def test_the_installer_without_data_leaves_the_data_module_to_its_own_step(tmp_p
         (tmp_path / fn).write_text("local x = 1\n", encoding="utf-8")
     text = M.install_text("", tmp_path)
     assert "data.Source" not in text and '"RemoteEvent", "HexTeleport"' in text and '"RemoteEvent", "LandmarkTeleport"' in text
+
+
+def test_the_data_is_split_into_parts_under_the_limit_and_keeps_every_row_in_order():
+    rects = [[6, i * 10.0, 0.0, 5.0, 5.0, 0.0] for i in range(2000)]
+    main, parts = M.module_text(rects, [("가", 1.0, 2.0, 1, 1, 0.0)], limit=5000)
+    assert len(parts) > 3 and all(len(p) < 5000 + 200 for p in parts)
+    assert "for k = 1, %d do" % len(parts) in main
+    joined = "".join(parts)
+    assert joined.count("{6,") == 2000 and joined.index("{6,0,") < joined.index("{6,19990,")
