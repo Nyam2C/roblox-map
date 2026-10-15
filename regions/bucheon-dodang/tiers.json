@@ -1,5 +1,29 @@
 {
  "cells": {
+  "8930e0ae24bffff": {
+   "counts": {},
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 약대동 16 쪽 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ae24fffff": {
+   "counts": {
+    "landmarks": [
+     "park:근린공원",
+     "school:내동중학교"
+    ],
+    "pois": 7,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 1.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 약대동 16 쪽 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af027ffff": {
    "counts": {},
    "manual": true,
@@ -411,6 +435,25 @@
    },
    "manual": false,
    "reason": "landmarks: school:계남중학교",
+   "tier": 1
+  },
+  "8930e0af187ffff": {
+   "counts": {
+    "landmarks": [
+     "hospital:다니엘종합병원",
+     "place_of_worship:원불교 약대교당",
+     "townhall:약대동 주민센터"
+    ],
+    "pois": 10,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.876,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 약대동 16 쪽 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af18bffff": {

@@ -4944,6 +4944,443 @@
    "claims": [
     "gis:14419658"
    ]
+  },
+  {
+   "key": "daniel_hospital",
+   "front": "S",
+   "floors": 8,
+   "height_m": 30.6,
+   "wall": {
+    "material": "CeramicTiles",
+    "rgb": [
+     226,
+     226,
+     220
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     196,
+     194,
+     188
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     80,
+     135,
+     120
+    ],
+    "frame_rgb": [
+     235,
+     235,
+     232
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      70,
+      125,
+      115
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.05,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 7,
+     "rgb": [
+      80,
+      140,
+      125
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 2.5,
+     "from_floor": 1,
+     "to_floor": 7,
+     "rgb": [
+      80,
+      140,
+      125
+     ]
+    },
+    {
+     "kind": "round_windows",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 20.0,
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      205,
+      203,
+      198
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.15,
+    "width_m": 14.0,
+    "canopy": true,
+    "canopy_rgb": [
+     205,
+     205,
+     202
+    ],
+    "steps": false
+   },
+   "sign": {
+    "text": "다니엘종합병원",
+    "face": "all",
+    "floor": 8,
+    "bg_rgb": [
+     235,
+     235,
+     232
+    ],
+    "ink_rgb": [
+     200,
+     40,
+     50
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     226,
+     226,
+     220
+    ],
+    "top_rgb": [
+     150,
+     152,
+     150
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Faces by compass: front S (main entrance, small road south), E face is 중동로 (in this spec 'right' = E, seen from outside looking at the S face). Main entrance: a deep flat metal canopy (about 14 m wide, 6 m deep) over the S ground floor, its outer edge held by one round white column; under it a glass entrance wall. West half of the S face: green-glass curtain wall over the lower 3 floors. Upper floors: off-white square tiles with punched green-tinted windows. A narrow vertical green-glass stair strip runs up the middle of the S face and up the E face. SW corner (seen from the west, camera facing E): a rounded drum, light grey tile, 4 floors high, with tall green windows; above it the slab steps back. The lower 2 floors are a grey granite-tile podium with small round medallion ornaments on the panels; the E podium carries a small red emergency-care sign board. Rooftop: red hospital name with a red logo above the top floor on the E and S faces. Ground on E side: red-brick paved forecourt, AC units along the W side. Duplicates: none - no other V-World record overlaps the outline (-71..-18 m E, 244..276 m N of the origin used); neighbours 11200283 (car service, north) and the 교당 11203675 (NW) are separate buildings. Satellite: grey roof with rooftop units, plus a large blue-painted roof patch on the north part (possibly the top slab) - check before colouring.",
+   "sources": [
+    "captures/8930e0af187ffff/sheets/gis_11215385.jpg",
+    "captures/8930e0af187ffff/crops/gis_11215385__oLnsLHkkTsUcx80vHKHe6A.jpg (camera N, S face)",
+    "captures/8930e0af187ffff/crops/gis_11215385__eBi-i4E1LSuDwWicY9f1mA.jpg (camera E, SW drum)",
+    "captures/8930e0af187ffff/crops/gis_11215385__VrnRLJ1LMSh3smhBpsuZbA.jpg (camera W, E face on 중동로)",
+    "data/satellite/8930e0af187ffff-z19.jpg",
+    "https://overpass-api.de (OSM way 490938573 / 488820092: building=hospital, levels 8, 중동로 361)"
+   ],
+   "seen": "An 8-floor off-white tiled slab with green-tinted punched windows and a vertical green glass stair strip, a 2-floor grey granite podium, a big flat metal entrance canopy on one round column on the south, a green glass curtain on the lower west part and a rounded 4-floor drum at the SW corner; red name sign on top. Web search found no facade photos or descriptions.",
+   "build": [
+    "gis:11215385"
+   ],
+   "claims": [],
+   "cell": "8930e0af187ffff"
+  },
+  {
+   "key": "yakdae_centre",
+   "front": "S",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     238,
+     238,
+     232
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     70,
+     95,
+     100
+    ],
+    "frame_rgb": [
+     90,
+     95,
+     98
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.2,
+     "width_m": 15.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      110,
+      180,
+      170
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      150,
+      205,
+      175
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "right",
+     "at": -0.3,
+     "width_m": 4.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      110,
+      170,
+      165
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.2,
+    "width_m": 4.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": {
+    "text": "약대동행정복지센터",
+    "face": "street",
+    "floor": 3,
+    "bg_rgb": [
+     238,
+     238,
+     232
+    ],
+    "ink_rgb": [
+     40,
+     70,
+     130
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     150,
+     205,
+     175
+    ],
+    "top_rgb": [
+     70,
+     140,
+     115
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "The centre is set back inside the block between 수도로 (north) and 수도로48번길 (south); it has no street frontage of its own. Front S faces a small paved forecourt plaza reached by a short lane from 수도로48번길 (benches, a wooden pergola, a small 1-floor beige stone-tile annex with a pine tree, a blue round notice board on a post, and a small 'family library' signpost). The S face: white plaster upper floor with a row of punched windows and a light mint-green roof edge; under it the east part of the S face is a CURVED two-floor curtain wall of turquoise/mint glass (the outline bulges slightly on the south between x 110..125). Satellite: flat mint/teal-green painted roof, curved glass edge on the south, a diagonal glass stair element at the SE/E side ('right' = E here). North and west sides back onto 4-5 floor housing (태영홈타운 is directly west), so they are plain white walls with few windows. A tall purple-navy vertical totem with the Korean and English centre name stands at the lane entrance on 수도로 (north side, next to a shop) - worth a small sign post there. Building sign position on the facade was not seen (trees hide it); placed on the top floor as a guess. Duplicates: none overlap. gis:17622100 has no area/date in the register but its outline matches the OSM townhall way 488831179 and the photos. The nearby small no-area records gis:14753143 (2F, 120..133 E / 336..349 N) and gis:11176785 (2F house, overlapping it) sit in the forecourt area south of the centre - 14753143 duplicates 11176785; the forecourt shows only a 1-floor annex there, so drop 14753143 (and treat 11176785 as a 1-floor annex) if the builder handles neighbours. gis:11207672 (no data, 56 m2) is a separate small record by 태영홈타운.",
+   "sources": [
+    "captures/8930e0af187ffff/7EOnwotWazwrIF_hJb_SmQ/zoom1.jpg (face 1, looking N from 수도로48번길)",
+    "captures/8930e0af187ffff/kZfxKanSFQ1qQlrZwl1WPA/zoom1.jpg (face 1)",
+    "captures/8930e0af187ffff/3QSr12m3EJk79VrJaQ9QkA/zoom1.jpg (face 1, totem on 수도로)",
+    "captures/8930e0af187ffff/sheets/gis_17622100.jpg (crops only show neighbours)",
+    "data/satellite/8930e0af187ffff-z19.jpg",
+    "https://nominatim.openstreetmap.org (bus stop 약대동행정복지센터.약대초등학교 on 중동로)",
+    "https://overpass-api.de (OSM way 488831179 amenity=townhall 약대동 주민센터)",
+    "https://m.richgo.ai/auctionMobile/C84IOMVN (태영홈타운 is west-adjacent to the centre)"
+   ],
+   "seen": "Seen from the south over a small garden plaza: a 3-floor white building whose lower two floors on the east part are a curved turquoise glass wall, a white top floor with punched windows and a mint-green roof edge; the roof is mint-green paint. The record's own crops miss it (neighbours block the view).",
+   "build": [
+    "gis:17622100"
+   ],
+   "claims": [],
+   "cell": "8930e0af187ffff"
+  },
+  {
+   "key": "wonbul_yakdae",
+   "front": "W",
+   "floors": 2,
+   "height_m": 9.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     78,
+     76,
+     80
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Plaster",
+    "rgb": [
+     236,
+     236,
+     230
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.5,
+    "h_m": 1.2,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     70,
+     90,
+     100
+    ],
+    "frame_rgb": [
+     240,
+     240,
+     238
+    ]
+   },
+   "bands": {
+    "rgb": [
+     215,
+     215,
+     210
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.4,
+     "width_m": 3.6,
+     "from_floor": 0,
+     "to_floor": 2,
+     "material": "Brick",
+     "rgb": [
+      70,
+      68,
+      72
+     ]
+    },
+    {
+     "kind": "round_windows",
+     "face": "street",
+     "at": 0.4,
+     "width_m": 1.6,
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      215,
+      175,
+      40
+     ]
+    },
+    {
+     "kind": "round_windows",
+     "face": "street",
+     "at": 0.4,
+     "width_m": 2.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      110,
+      115,
+      120
+     ]
+    },
+    {
+     "kind": "round_windows",
+     "face": "left",
+     "at": -0.4,
+     "width_m": 1.2,
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      240,
+      240,
+      236
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.25,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     140,
+     125
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "원불교 약대교당",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     35,
+     45,
+     80
+    ],
+    "ink_rgb": [
+     240,
+     240,
+     236
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     220,
+     220,
+     215
+    ],
+    "top_rgb": [
+     130,
+     195,
+     170
+    ],
+    "features": [],
+    "crown": null
+   },
+   "notes": "Front W faces a small asphalt parking forecourt off the street. A square tower (about 3.6 m wide) sits at the SW corner ('at' +0.4 on the W face = south end) and rises about 3 m above the 2-floor roof: charcoal brick with white edge trim, a yellow/gold ring emblem (a plain circle outline, the order's symbol) near the top, a white plate with '원불교' under it, and a large round grey window below; a small white ring also on its south face. Main body: semi-basement ground storey painted white (the base), then charcoal-grey brick upper floors with white-framed windows; a small light tan top storey at the north end. Entrance: a white porch box at the south end of the W face with a teal-green sloped awning, reached by a short stair with rails and a ramp from the parking lot. In front: a low white planter wall decorated with colourful painted pebble shapes, and a free-standing navy sign post with the yellow ring and the name (use this for the sign: a vertical post near the street rather than a facade plate). North part of the W face has a small ground-floor shop (no name used). Satellite: light teal-green flat roof, a small blue roof on the SW tower/porch area and a white strip on the SE edge. Duplicates: none overlap the outline; no extra records found.",
+   "sources": [
+    "captures/8930e0af187ffff/sheets/gis_11203675.jpg",
+    "captures/8930e0af187ffff/crops/gis_11203675__UsGLsbBMQu-WkWH_t7Jx5g.jpg (camera E, W face)",
+    "captures/8930e0af187ffff/crops/gis_11203675__s1FrnHQT2PpCdf6GLmkBAQ.jpg (camera N, S face)",
+    "data/satellite/8930e0af187ffff-z19.jpg",
+    "https://overpass-api.de (OSM way 489787162 place_of_worship 원불교 약대교당)"
+   ],
+   "seen": "A small 2-floor charcoal-brick building on a white semi-basement, with a taller square brick tower at the SW corner carrying a gold ring emblem, a round window and a '원불교' plate; teal awning over a stepped entrance porch. Web search found nothing about this building. The third crop (camera SE) shows a neighbour and was not used.",
+   "build": [
+    "gis:11203675"
+   ],
+   "claims": [],
+   "cell": "8930e0af187ffff"
   }
  ]
 }
