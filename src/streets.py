@@ -301,7 +301,7 @@ def tree_items(frame: Frame, trees: Sequence[Sequence[float]]) -> list[Item]:
         whole = f"tree-{shape_i + 1}{'abcd'[leaf_i]}"
         if all(t in kits.MESH_IDS for t in kits.TREES):  # 2026-10-15: trunk and crown as one textured mesh, one part a tree
             da, dl, y0, size = kits.tree_box(whole)
-            out.append(_part(frame, "prop", name, "sat", n, east + da * sc * ca - dl * sc * sa, north + da * sc * sa + dl * sc * ca, y0 * sc,
+            out.append(_part(frame, "prop", name, "sat", n, east + da * sc * ca - dl * sc * sa, north + da * sc * sa + dl * sc * ca, y0 * sc - kits.TREE_DROP_M,
                              tuple(v * sc for v in size), yaw, material="LeafyGrass", color=R.PALETTE[leaf], color_name=leaf, collide=False,
                              kit=whole))
             continue

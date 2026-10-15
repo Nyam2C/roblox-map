@@ -51,7 +51,7 @@ def test_a_tree_is_one_textured_mesh_on_the_ground_scaled_by_the_crown_diameter(
     tree = items[0]
     da, dl, y0, size = kits.tree_box(tree.kit)
     sc = 7.2 / ST.TREE_SPAN
-    assert tree.cy - tree.sy / 2 == pytest.approx(y0 * sc * frame.studs_per_m, abs=0.01)  # the trunk foot a little under the ground
+    assert tree.cy - tree.sy / 2 == pytest.approx((y0 * sc - kits.TREE_DROP_M) * frame.studs_per_m, abs=0.01)  # the foot under the tiles
     assert tree.sy == pytest.approx(size[1] * sc * frame.studs_per_m, abs=0.01)
     assert items[1].sy < tree.sy < items[2].sy  # the scale range 0.55 .. 1.1
 

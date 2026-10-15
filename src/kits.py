@@ -125,6 +125,8 @@ def crown_obj(name: str) -> str:
 # so the colours come from one small texture: the trunk's brown and the four greens of details_rules.TREE_LEAVES side by side, the
 # greens dappled (each crown vertex samples a hashed spot of its green). Shapes x greens are separate kits; the pick stays the same.
 TREE_SINK_M = 0.15  # the trunk reaches this far under the ground tiles (terrain.POST_SINK for a kit-less post)
+TREE_DROP_M = 0.3  # and the placed tree sits this much lower: the tiles lie 0.6 stud under the heights and the lift reads the height at
+                   # the box centre, not the trunk, so half the feet showed up to 0.7 stud over the tiles (25 cells, 2026-10-15)
 TREE_SIDES = 8
 TREE_COLS = 1 + len(R.TREE_LEAVES)  # texture columns: trunk, then the greens
 LEAF_SHADE = 0.78
