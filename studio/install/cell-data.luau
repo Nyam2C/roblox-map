@@ -54,7 +54,9 @@ for id, row in pairs(index) do
 	for _, ch in ipairs(lite.chunks) do Builder.add(id, ch.items, ch.looks, liteRoot) end
 	Builder.finish(id, liteRoot)
 	for _, p in ipairs(liteRoot.Auto[id]:GetDescendants()) do
-		if p:IsA("BasePart") then
+		if p:IsA("Model") then
+			p.ModelStreamingMode = Enum.ModelStreamingMode.Persistent -- every client keeps the far view (LiteSwap hides the near ones)
+		elseif p:IsA("BasePart") then
 			p.CanCollide = false; p.CanTouch = false; p.CanQuery = false
 			local b = p:GetAttribute("BuildingId")
 			if b and manual[b] then p:Destroy() end

@@ -4,7 +4,8 @@
 -- Data (installed in Edit by studio/install/cell-data.luau): ServerStorage/CellData/<cell> holds the cell's chunks.json, zstd
 -- compressed and base64, in StringValues "1", "2", ... (a StringValue takes under 200,000 characters and no binary); the folder's
 -- attributes x, z (centre in studs), ring1 and ring2 (comma-separated cell ids, data/build/cellindex.json) place it. The far view:
--- ServerStorage/Lite/Auto/<cell> (lite.py), shown while the full cell is not built. The hand-made places (ServerStorage/ManualCodec):
+-- ServerStorage/Lite/Auto/<cell> (lite.py), moved to Workspace/Lite at start and left there for every client: each client hides a
+-- building's lite parts while that building of the full cell is streamed in (StarterPlayerScripts/LiteSwap). The hand-made places (ServerStorage/ManualCodec):
 -- the cell's units in StringValues m1, m2, ... are built with the cell and go with it; the folder's ManualIds attribute lists the
 -- buildings they own (the Builder leaves those out), ManualKeep the places that stay in Workspace/Manual.
 --
@@ -71,16 +72,6 @@ local function frameWait(budgetMs, t0)
 	return t0
 end
 
-local function showLite(id, on)
-	if not liteAuto then
-		return
-	end
-	local m = on and liteAuto:FindFirstChild(id) or liteView:FindFirstChild(id)
-	if m then
-		m.Parent = on and liteView or liteAuto
-	end
-end
-
 local unpack = Codec.read
 
 local function cellData(id)
@@ -142,7 +133,6 @@ local function build(id, budgetMs)
 	if ok then
 		loaded[id] = true
 		loadedParts += index[id].parts
-		showLite(id, false)
 	else
 		failed[id] = os.clock() + 30 -- not again for a while (one warning, not one a frame)
 		for _, inst in ipairs(manualRoots[id] or {}) do
@@ -178,7 +168,6 @@ local function unload(id)
 		end
 		f:Destroy()
 	end
-	showLite(id, true)
 end
 
 local function nearestCell(x, z)
