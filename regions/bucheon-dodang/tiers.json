@@ -1,5 +1,23 @@
 {
  "cells": {
+  "8930e0ac693ffff": {
+   "counts": {
+    "landmarks": [
+     "school:심원중학교",
+     "school:심원초등학교"
+    ],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.853,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: school:심원중학교, school:심원초등학교",
+   "tier": 1
+  },
   "8930e0ae24bffff": {
    "counts": {},
    "manual": true,
@@ -274,6 +292,21 @@
    "reason": "landmarks: school:심원고등학교, school:옥산초등학교",
    "tier": 1
   },
+  "8930e0af12fffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 1.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 도당동 1·2·3 둘레 6칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af133ffff": {
    "counts": {
     "landmarks": [
@@ -383,6 +416,23 @@
    },
    "manual": false,
    "reason": "landmarks: park:어울림공원",
+   "tier": 1
+  },
+  "8930e0af167ffff": {
+   "counts": {
+    "landmarks": [
+     "school:심원초등학교"
+    ],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.832,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: school:심원초등학교",
    "tier": 1
   },
   "8930e0af16bffff": {

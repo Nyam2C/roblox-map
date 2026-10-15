@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0af167ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:489864174",
+   "name": "심원초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": 714.806,
+   "z": 1956.877,
+   "yaw": 10.516,
+   "w": 282.6,
+   "d": 228.6,
+   "fit": 0.987
+  }
+ ]
+}

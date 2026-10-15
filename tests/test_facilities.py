@@ -103,3 +103,16 @@ def test_a_shop_fascia_tyre_stacks_and_signs_on_more_than_one_face():
     signs = [i for i in items if i.kind == "sign"]
     assert [s.text for s in signs] == ["GS25", "GS25"] and len({s.yaw_deg for s in signs}) == 2
     assert all(i.shape == "Cylinder" for i in items if "#ty-" in i.name)
+
+
+def test_base_floor_windows_stand_out_past_the_base_skin():
+    """2026-10-16 (12f KD타워, 693 리치빌): the base box is 0.15 m thicker each side, windows on its floors were buried in it."""
+    b = body(floors=5)
+    plain = [i for i in FA.Maker(FRAME, b, {**SPEC, "accents": []}, main=True).make() if "#w-" in i.name]
+    based = [i for i in FA.Maker(FRAME, b, {**SPEC, "accents": [], "base": {"floors": 2, "material": "Granite"}}, main=True).make()
+             if "#w-" in i.name]
+    assert len(plain) == len(based)
+    low = b.fh * 2 * FRAME.studs_per_m
+    for p, q in zip(plain, based):
+        moved = ((p.cx - q.cx) ** 2 + (p.cz - q.cz) ** 2) ** 0.5
+        assert (abs(moved - 0.15 * FRAME.studs_per_m) < 1e-6) if p.cy < low else moved < 1e-6

@@ -194,22 +194,21 @@ class Maker:
             ribbon = kind == "ribbon" or F > TALL
             for k in range(F):
                 y = k * fh + 0.9
-                if kind != "curtain" and k * fh < base_h and front and k == 0 and door:
-                    pass
+                po = 0.15 if k * fh < base_h else 0.0  # base floors: out past the base skin (0.15 m thicker each side), not buried in it
                 if ribbon:
                     spans = [(-L / 2 + 0.5, L / 2 - 0.5)]
                     if front and k == 0 and door:
                         spans = [(s0, s1) for s0, s1 in ((-L / 2 + 0.5, door[0] - 0.3), (door[1] + 0.3, L / 2 - 0.5)) if s1 - s0 > 1.0]
                     for s0, s1 in spans:
-                        self.wall(bi, side, "rb", (s0 + s1) / 2, y, 0.06, (s1 - s0, wh, 0.1), glass)
+                        self.wall(bi, side, "rb", (s0 + s1) / 2, y, 0.06 + po, (s1 - s0, wh, 0.1), glass)
                     continue
                 n = min(MAX_COLS, max(1, int((L - 1.0) // pitch)))
                 for j in range(n):
                     a = L * (j + 0.5) / n - L / 2
                     if front and k == 0 and door and door[0] - ww / 2 < a < door[1] + ww / 2:
                         continue
-                    self.wall(bi, side, "wf", a, y - 0.1, 0.05, (ww + 0.2, wh + 0.2, 0.06), frame_lk)
-                    self.wall(bi, side, "w", a, y, 0.09, (ww, wh, 0.06), glass)
+                    self.wall(bi, side, "wf", a, y - 0.1, 0.05 + po, (ww + 0.2, wh + 0.2, 0.06), frame_lk)
+                    self.wall(bi, side, "w", a, y, 0.09 + po, (ww, wh, 0.06), glass)
             if ribbon and kind == "grid":  # full-height piers between the window columns over the glass bands
                 n = min(MAX_COLS, max(2, int(L // pitch)))
                 for j in range(1, n):
