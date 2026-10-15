@@ -266,7 +266,8 @@ SOURCES = (("MinimapClient", "StarterPlayer.StarterPlayerScripts", "LocalScript"
            # the server builds only the cells near players (2026-10-15); its data comes from studio/install/cell-data.luau
            ("CellStreamer", "ServerScriptService", "Script", "ServerScriptService/CellStreamer.server.luau"),
            ("CellLoading", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/CellLoading.client.luau"),
-           ("PlayerMap", "ServerScriptService", "Script", "ServerScriptService/PlayerMap.server.luau"))
+           ("PlayerMap", "ServerScriptService", "Script", "ServerScriptService/PlayerMap.server.luau"),
+           ("ManualCodec", "ServerStorage", "ModuleScript", "ServerStorage/ManualCodec.luau"))
 
 
 def long_string(text: str) -> str:

@@ -4,7 +4,9 @@
 -- Data (installed in Edit by studio/install/cell-data.luau): ServerStorage/CellData/<cell> holds the cell's chunks.json, zstd
 -- compressed and base64, in StringValues "1", "2", ... (a StringValue takes under 200,000 characters and no binary); the folder's
 -- attributes x, z (centre in studs), ring1 and ring2 (comma-separated cell ids, data/build/cellindex.json) place it. The far view:
--- ServerStorage/Lite/Auto/<cell> (lite.py), shown while the full cell is not built.
+-- ServerStorage/Lite/Auto/<cell> (lite.py), shown while the full cell is not built. The hand-made places (ServerStorage/ManualCodec):
+-- the cell's units in StringValues m1, m2, ... are built with the cell and go with it; the folder's ManualIds attribute lists the
+-- buildings they own (the Builder leaves those out), ManualKeep the places that stay in Workspace/Manual.
 --
 -- At start the cells saved in the place (Workspace/Auto, for editing) are removed. Then, every half second (user 2026-10-15: all four):
 -- 1 choose: every player's cell and ring 1 first, then the other cells by distance from all players at once (the nearest player's
@@ -37,10 +39,14 @@ if not dataFolder then
 	return
 end
 local Builder = require(ServerStorage:WaitForChild("MapBuilder"))
+local Codec = require(ServerStorage:WaitForChild("ManualCodec"))
+local kits = ServerStorage:FindFirstChild("Kits")
+local manualOn = dataFolder:GetAttribute("ManualIds") ~= nil
 local index = {}
 for _, f in ipairs(dataFolder:GetChildren()) do
 	if f:IsA("Folder") then
-		index[f.Name] = { x = f:GetAttribute("x"), z = f:GetAttribute("z"), parts = f:GetAttribute("parts") or 8000,
+		index[f.Name] = { x = f:GetAttribute("x"), z = f:GetAttribute("z"),
+			parts = (f:GetAttribute("parts") or 8000) + (manualOn and f:GetAttribute("manualParts") or 0),
 			ring1 = string.split(f:GetAttribute("ring1"), ","), ring2 = string.split(f:GetAttribute("ring2"), ",") }
 	end
 end
@@ -51,7 +57,7 @@ local liteView = Instance.new("Folder")
 liteView.Name = "Lite"
 liteView.Parent = workspace
 
-local loaded, building, pinned, failed = {}, {}, {}, {}
+local loaded, building, pinned, failed, manualRoots = {}, {}, {}, {}, {}
 local loadedParts = 0
 local stats = Instance.new("Folder")
 stats.Name = "CellStreamerStats"
@@ -75,20 +81,61 @@ local function showLite(id, on)
 	end
 end
 
-local function cellData(id)
-	local folder = dataFolder:FindFirstChild(id)
-	local parts = {}
-	for k = 1, #folder:GetChildren() do
-		table.insert(parts, folder[tostring(k)].Value)
+local function unpack(folder, prefix)
+	local parts, k = {}, 1
+	while folder:FindFirstChild(prefix .. k) do
+		table.insert(parts, folder[prefix .. k].Value)
+		k += 1
+	end
+	if #parts == 0 then
+		return nil
 	end
 	local raw = EncodingService:DecompressBuffer(EncodingService:Base64Decode(buffer.fromstring(table.concat(parts))),
 		Enum.CompressionAlgorithm.Zstd)
 	return HttpService:JSONDecode(buffer.tostring(raw))
 end
 
+local function cellData(id)
+	return unpack(dataFolder:FindFirstChild(id), "")
+end
+
+local function manualFolder(path)
+	local f = workspace:FindFirstChild("Manual") or Instance.new("Folder")
+	f.Name = "Manual"
+	f.Parent = workspace
+	for _, name in ipairs(path) do
+		local nxt = f:FindFirstChild(name)
+		if not nxt then
+			nxt = Instance.new("Folder")
+			nxt.Name = name
+			nxt.Parent = f
+		end
+		f = nxt
+	end
+	return f
+end
+
+-- the cell's share of the hand-made places, built before the cell so the Builder already sees nothing to leave out
+local function buildManual(id, budgetMs)
+	local units = manualOn and unpack(dataFolder:FindFirstChild(id), "m")
+	local made = {}
+	manualRoots[id] = made
+	if not units then
+		return
+	end
+	local t0 = os.clock()
+	for _, u in ipairs(units) do
+		local inst = Codec.decode(u.node, kits)
+		inst.Parent = manualFolder(u.path)
+		table.insert(made, inst)
+		t0 = frameWait(budgetMs, t0)
+	end
+end
+
 local function build(id, budgetMs)
 	building[id] = true
 	local ok, err = pcall(function()
+		buildManual(id, budgetMs)
 		local data = cellData(id)
 		Builder.begin(id)
 		local t0 = os.clock()
@@ -110,6 +157,10 @@ local function build(id, budgetMs)
 		showLite(id, false)
 	else
 		failed[id] = os.clock() + 30 -- not again for a while (one warning, not one a frame)
+		for _, inst in ipairs(manualRoots[id] or {}) do
+			inst:Destroy()
+		end
+		manualRoots[id] = nil
 		warn("CellStreamer: " .. id .. ": " .. tostring(err))
 		local f = auto:FindFirstChild(id)
 		if f then
@@ -121,6 +172,10 @@ end
 local function unload(id)
 	loaded[id] = nil
 	loadedParts -= index[id].parts
+	for _, inst in ipairs(manualRoots[id] or {}) do
+		inst:Destroy()
+	end
+	manualRoots[id] = nil
 	local f = auto:FindFirstChild(id)
 	if f then
 		local t0 = os.clock()
@@ -219,7 +274,25 @@ local function evict(chosen, score, budget, room)
 	end
 end
 
--- start: the far view everywhere, then the cells saved in the place go (they stay in the place file for editing)
+-- start: the far view everywhere, then the cells saved in the place go (they stay in the place file for editing), and the
+-- hand-made places but the kept ones (they come back with their cells)
+if manualOn then
+	local skip = {}
+	for _, b in ipairs(string.split(dataFolder:GetAttribute("ManualIds"), ",")) do
+		skip[b] = true
+	end
+	Builder.manualSkip = skip
+	local keep = {}
+	for _, k in ipairs(string.split(dataFolder:GetAttribute("ManualKeep") or "", ",")) do
+		keep[k] = true
+	end
+	local manual = workspace:FindFirstChild("Manual")
+	if manual then
+		for _, u in ipairs(Codec.units(manual, keep)) do
+			u.inst:Destroy()
+		end
+	end
+end
 if liteAuto then
 	for _, m in ipairs(liteAuto:GetChildren()) do
 		m.Parent = liteView

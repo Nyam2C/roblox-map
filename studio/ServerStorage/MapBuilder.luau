@@ -73,6 +73,9 @@ end
 
 -- ids of buildings someone built by hand: a part or model under Manual with a BuildingId attribute
 local function manualIds(root)
+	if Builder.manualSkip then -- CellStreamer (2026-10-15): the hand-made places are built by cell, so the ids come as a list
+		return Builder.manualSkip
+	end
 	local ids = {}
 	for _, d in ipairs(ensure(rootOf(root), "Manual"):GetDescendants()) do
 		local id = d:GetAttribute("BuildingId")
