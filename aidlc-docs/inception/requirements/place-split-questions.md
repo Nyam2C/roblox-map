@@ -37,4 +37,4 @@ B) 나무만 한다.
 C) 지금은 안 한다.
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A (사용자 2026-10-15: "둘 다 해"). 땅 판은 칸 확장 세션(terrain.py), 나무 한 메시는 이 세션(kits.py, 색 그림 1장 업로드).

@@ -1774,3 +1774,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - B 설계 결정
 
 ---
+
+## Q2 답: 나무·땅 합치기
+**Timestamp**: 2026-10-15T04:00:55Z
+**User Request**: "나무 땅 합치기는 뭔데?" → "둘 다 해"
+**AI Response**: Q2 = A 기록. 땅 판 합치기는 칸 확장 세션에 넘김(terrain.py tiles, terrain-check.luau). 나무는 이 세션: 줄기+수관 한 메시(색 그림 1장, 잎 색 4가지), ID가 없으면 지금처럼 두 부품.
+**Context**: CONSTRUCTION - 부품 줄이기
+
+---
