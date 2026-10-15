@@ -34,7 +34,9 @@ def test_every_crown_face_points_out_and_the_box_is_the_file_size():
         assert min(p[1] for p in v) == 0.0
 
 
-def test_a_crown_item_becomes_a_kt_key_and_an_unknown_kit_refuses():
+def test_a_crown_item_becomes_a_kt_key_and_an_unknown_kit_refuses(monkeypatch):
+    for t in kits.TREES:
+        monkeypatch.delitem(kits.MESH_IDS, t)
     frame = layout.Frame.from_cfg(common.DEFAULTS)
     crown = streets.tree_items(frame, [[0.0, 0.0, 7.0]])[1]
     text = build_luau.item_literal(crown, "8930e0af13bffff")
@@ -117,12 +119,11 @@ def test_every_whole_tree_face_points_out_and_its_texture_spots_stay_in_its_colu
 
 def test_a_tree_is_one_kit_part_once_the_whole_trees_are_uploaded(monkeypatch):
     frame = layout.Frame.from_cfg(common.DEFAULTS)
-    two = streets.tree_items(frame, [[0.0, 0.0, 7.0], [30.0, 0.0, 5.0]])
-    assert len(two) == 4  # no whole-tree kit yet: trunk + crown
-    monkeypatch.setitem(kits.MESH_IDS, "tree-1a", 1)
-    for t in kits.TREES:
-        monkeypatch.setitem(kits.MESH_IDS, t, 1)
     one = streets.tree_items(frame, [[0.0, 0.0, 7.0], [30.0, 0.0, 5.0]])
+    for t in kits.TREES:
+        monkeypatch.delitem(kits.MESH_IDS, t)
+    two = streets.tree_items(frame, [[0.0, 0.0, 7.0], [30.0, 0.0, 5.0]])
+    assert len(two) == 4  # without the whole-tree kits: trunk + crown
     assert len(one) == 2 and all(i.kit in kits.TREES and i.collides is False for i in one)
     # the same shape and green as before: the crown kit and leaf of the two-part tree
     for old_crown, new in zip(two[1::2], one):

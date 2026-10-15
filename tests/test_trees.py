@@ -44,7 +44,21 @@ def test_crowns_are_packed_along_the_strip_where_a_trunk_may_stand_and_nowhere_e
     assert T.pack_crowns(canopy, np.zeros_like(canopy), M) == []
 
 
-def test_a_tree_is_a_trunk_and_a_crown_mesh_scaled_by_the_crown_diameter_and_repeatable():
+def test_a_tree_is_one_textured_mesh_on_the_ground_scaled_by_the_crown_diameter():
+    frame = layout.Frame.from_cfg(CFG)
+    items = ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
+    assert len(items) == 3 and all(i.kit in kits.TREES and i.collide is False for i in items)
+    tree = items[0]
+    da, dl, y0, size = kits.tree_box(tree.kit)
+    sc = 7.2 / ST.TREE_SPAN
+    assert tree.cy - tree.sy / 2 == pytest.approx(y0 * sc * frame.studs_per_m, abs=0.01)  # the trunk foot a little under the ground
+    assert tree.sy == pytest.approx(size[1] * sc * frame.studs_per_m, abs=0.01)
+    assert items[1].sy < tree.sy < items[2].sy  # the scale range 0.55 .. 1.1
+
+
+def test_a_tree_is_a_trunk_and_a_crown_mesh_scaled_by_the_crown_diameter_and_repeatable(monkeypatch):
+    for t in kits.TREES:  # a place without the whole-tree kits keeps trunk + crown
+        monkeypatch.delitem(kits.MESH_IDS, t)
     frame = layout.Frame.from_cfg(CFG)
     items = ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
     assert len(items) == 6 and items == ST.tree_items(frame, [[-100.0, 50.0, 7.2], [-300.0, 80.0, 3.0], [10.0, 10.0, 20.0]])
@@ -64,7 +78,9 @@ def test_a_tree_is_a_trunk_and_a_crown_mesh_scaled_by_the_crown_diameter_and_rep
     assert len({i.color_name for i in many if "#crown" in i.name}) > 1 and len({i.kit for i in many if i.kit}) == len(kits.CROWNS)
 
 
-def test_a_file_of_satellite_trees_replaces_the_rule_based_street_trees():
+def test_a_file_of_satellite_trees_replaces_the_rule_based_street_trees(monkeypatch):
+    for t in kits.TREES:
+        monkeypatch.delitem(kits.MESH_IDS, t)
     feats = [street("way:1", "residential")]
     plain = B.plan_cell(CELL, [building(0)], feats, CFG)
     sat = B.plan_cell(CELL, [building(0)], feats, CFG, sat_trees=[[-500.0, -80.0, 6.0], [-520.0, -90.0, 8.0]])

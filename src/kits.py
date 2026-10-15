@@ -76,6 +76,12 @@ STACK_IDS = {
     "stk-ws34-8": 136820514602475,
 }
 MESH_IDS.update(STACK_IDS)
+# whole trees, uploaded with Import 3D by the user on 2026-10-15 (data/kits/batch2/tree-*.obj); the texture
+# (data/kits/tree-texture.png) uploaded with the Studio MCP; ServerStorage/Kits/tree-* carry it as TextureID
+TREE_IDS = {"tree-1a": 101526430277444, "tree-1b": 73822142599201, "tree-1c": 106799137008000, "tree-1d": 105769560812952,
+            "tree-2a": 112018528419334, "tree-2b": 78235645335276, "tree-2c": 89793387515943, "tree-2d": 75657357507167}
+TREE_TEXTURE_ID = 74567381012314
+MESH_IDS.update(TREE_IDS)
 CROWNS = {"crown-1": 0, "crown-2": 1}  # kit -> its details_rules.TREE_CROWNS layout
 
 
