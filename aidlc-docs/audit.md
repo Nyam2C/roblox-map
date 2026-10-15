@@ -1992,3 +1992,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: 공개 준비
 
 ---
+
+## V-World 출처 표시
+**Timestamp**: 2026-10-15T12:07:46Z
+**User Request**: "출처 표시만 ㄱ"
+**AI Response**: 큰 지도 구석 글자를 "© OpenStreetMap contributors · 건물: 국토교통부 GIS건물통합정보 (공간정보 오픈플랫폼 브이월드)"로(지도 폭, 좁은 화면은 13 px 아래로 줄어듦). Studio MinimapClient에 같은 변경(저장소와 바이트 같음), Play에서 TextFits 확인. 테스트 777 통과. 커밋 bddacad. 게임 설명 줄은 사용자 몫.
+**Context**: 공개 준비
+
+---

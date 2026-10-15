@@ -37,4 +37,4 @@ B) A + 운영기관에 서면 확인을 받는다: vworld@spacen.or.kr(1661-0115
 C) 게임을 비공개로 돌리고 답을 받은 뒤 공개한다.
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A (사용자 2026-10-15: "출처 표시만 ㄱ"). 큰 지도 구석 글자를 바꿈(bddacad). 게임 설명 줄은 사용자가 Creator Dashboard에서. 메일 확인은 안 함. 수익화를 넣기 전에 다시 본다.
