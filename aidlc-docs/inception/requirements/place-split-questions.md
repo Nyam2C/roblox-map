@@ -23,7 +23,7 @@ B) 서버가 플레이어 근처 칸만 만들고 먼 칸은 지운다. 장소 �
 C) B를 먼저 시험해 보고, 안 되면 A로 간다. Claude 추천: 사용자가 텔레포트를 "살짝 짜칠 것 같다"고 했고, B는 지금 Builder를 그대로 쓰기 때문이다.
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: C (사용자 2026-10-15: "C로 하자, B 시험 먼저 해줘")
 
 ## Question 2
 부품을 더 줄일까요? 둘 다 지금 디테일은 그대로입니다.
