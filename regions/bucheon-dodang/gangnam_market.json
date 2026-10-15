@@ -1,0 +1,176 @@
+{
+ "note": "강남종합시장 covered arcade traced on the V-World z19 mosaic of cell 8930e0af137ffff (pixels of that mosaic), 2026-10-15; news photos viewed only. src/market.py",
+ "tile_x0": 446778,
+ "tile_y0": 203134,
+ "type": "arcade",
+ "alleys": [
+  {
+   "name": "main E-W arcade (north of the 9 m road)",
+   "px": [
+    [
+     1125,
+     1516
+    ],
+    [
+     1263,
+     1516
+    ]
+   ],
+   "length_m": 33,
+   "width_m": 4.3,
+   "roof": {
+    "kind": "arch",
+    "height_m": 6.5,
+    "spring_m": 5.0,
+    "rgb": [
+     236,
+     230,
+     210
+    ],
+    "transparency": 0.45,
+    "ribs_rgb": [
+     90,
+     90,
+     95
+    ]
+   }
+  },
+  {
+   "name": "west arm (N-S, opens onto the road)",
+   "px": [
+    [
+     1168,
+     1525
+    ],
+    [
+     1168,
+     1608
+    ]
+   ],
+   "length_m": 20,
+   "width_m": 3.4,
+   "roof": {
+    "kind": "arch",
+    "height_m": 6.0,
+    "spring_m": 4.8,
+    "rgb": [
+     236,
+     230,
+     210
+    ],
+    "transparency": 0.45,
+    "ribs_rgb": [
+     90,
+     90,
+     95
+    ]
+   }
+  },
+  {
+   "name": "east arm (N-S, opens onto the road)",
+   "px": [
+    [
+     1218,
+     1525
+    ],
+    [
+     1218,
+     1608
+    ]
+   ],
+   "length_m": 20,
+   "width_m": 3.5,
+   "roof": {
+    "kind": "arch",
+    "height_m": 6.0,
+    "spring_m": 4.8,
+    "rgb": [
+     236,
+     230,
+     210
+    ],
+    "transparency": 0.45,
+    "ribs_rgb": [
+     90,
+     90,
+     95
+    ]
+   }
+  }
+ ],
+ "gates": [
+  {
+   "px": [
+    1125,
+    1516
+   ],
+   "facing_deg": 270,
+   "width_m": 4.3,
+   "height_m": 6.8,
+   "rgb": [
+    70,
+    85,
+    110
+   ],
+   "sign": "강남시장",
+   "note": "west end onto the N-S street (x~1091-1123)"
+  },
+  {
+   "px": [
+    1168,
+    1608
+   ],
+   "facing_deg": 180,
+   "width_m": 3.4,
+   "height_m": 6.3,
+   "rgb": [
+    70,
+    85,
+    110
+   ],
+   "sign": "강남시장",
+   "note": "south end onto the E-W road (y~1609-1648)"
+  },
+  {
+   "px": [
+    1218,
+    1608
+   ],
+   "facing_deg": 180,
+   "width_m": 3.5,
+   "height_m": 6.3,
+   "rgb": [
+    70,
+    85,
+    110
+   ],
+   "sign": "강남시장",
+   "note": "south end onto the E-W road"
+  },
+  {
+   "px": [
+    1263,
+    1516
+   ],
+   "facing_deg": 90,
+   "width_m": 4.3,
+   "height_m": 6.8,
+   "rgb": [
+    70,
+    85,
+    110
+   ],
+   "sign": null,
+   "note": "east end meets a dark narrow lane (x 1264-1275); may be a plain end wall, low confidence"
+  }
+ ],
+ "stalls": "From the one public photo (inside a straight covered alley): continuous 1-2 floor shop fronts on both sides, ~3-4 m bays, open fronts or grey roll shutters, goods on low tables/crates pushed ~0.8-1.2 m into the alley leaving ~2-2.5 m walkway. No fabric awnings or parasols under the roof; instead flat fascia signboards above each front (mixed white, yellow, red, green panels) plus projecting round white signs with red lettering and red paper lanterns hung at ~3 m. Strings of small international flags (bunting) criss-cross the alley under the arch; LED lights on the ceiling (2017 night-lighting project). Floor light grey concrete/tile with a darker centre drainage strip. Gate colours were not seen in any source: [70,85,110] steel-blue frame with a white sign board is a default guess.",
+ "seen": "Satellite z19: north of the 9 m E-W road (y 1609-1648) a comb-shaped run of uniform white roofs exactly alley-wide: E-W strip x 1125-1263 at y 1507-1525 (4.3 m, two brightness halves split at y~1516 = curved/two-slope roof) and two N-S arms at x 1161-1175 and 1211-1225 from y 1525 down to the road edge at 1608; north of the E-W strip is a cleared lot (the area has been in redevelopment for 15+ years). These match a translucent barrel-vault 비가림 arcade. The OSM outline south of the road is a grey flat-roofed hall with skylights. News (2017): market grew out of a '강남상가' building, ~110 shops, alleys split N/S/E/W with a large crossing used for events, ceiling LED lights; later news: merchants asked for repair of the 비가림막 (rain cover) and lighting. Newdaily 2016 overall photo (looked at in browser, not saved): long straight alley under a low pale translucent arched roof on dark ribs, flags and lanterns hung beneath, shops both sides. Street view: no panorama within ~50 m (nearest at px y~1352 and SE alley at 1349,1835 show only residential lanes), so gates/colours unverified. Which satellite alley the photo shows is not certain; the exact link between the north arcade and the OSM hall is inferred.",
+ "sources": [
+  "data/satellite/8930e0af137ffff-z19.jpg (crops in scratchpad/market/)",
+  "captures/8930e0af137ffff/sheets/gis_11199868.jpg and panoramas LBsg0_Z76k-TaaB8CKeKug, ZCnskvm8Hqg6mNd2voLTYw (not facing the market)",
+  "https://biz.newdaily.co.kr/site/data/html/2016/06/01/2016060110066.html (overall alley photo, viewed only)",
+  "https://kyeonggi.com/article/201705240924423 (layout: 강남상가, ~110 shops, N/S/E/W alleys, ceiling LEDs)",
+  "https://www.dt.co.kr/article/11564488 (비가림막 repair, lighting)"
+ ]
+}

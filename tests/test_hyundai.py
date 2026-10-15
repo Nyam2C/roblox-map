@@ -34,3 +34,19 @@ def test_the_park_layout_builds_flat_layers_a_statue_and_hedge_curbs():
     tails = {i.name.split("#", 1)[1].split("-")[0] for i in items}
     assert {"la", "pa", "pl", "sp", "sh", "cb"} <= tails and len(items) < 2000
     assert all(i.sy > 0 and i.sx > 0 and i.sz > 0 for i in items)
+
+
+def test_the_market_arcade_has_roofs_ribs_stalls_and_named_gates():
+    import market
+    items = market.build(FRAME, "gangnam_market")
+    tails = {i.name.split("#", 1)[1].split("-")[0] for i in items}
+    assert {"rw", "rc", "rb", "gt", "fb", "gp", "gb"} <= tails and len(items) < 600
+    assert any(i.kind == "sign" and i.text == "강남시장" for i in items)
+
+
+def test_the_driving_range_has_net_walls_poles_a_top_net_and_turf():
+    import golf
+    items = golf.build(FRAME, "hyundai_golf")
+    tails = {i.name.split("#", 1)[1].split("-")[0] for i in items}
+    assert {"nt", "pl", "pa", "nr", "tf"} <= tails and len(items) < 600
+    assert max(i.cy + i.sy / 2 for i in items) > 25 * FRAME.studs_per_m  # the net stands about 30 m

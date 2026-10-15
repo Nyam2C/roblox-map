@@ -1,0 +1,85 @@
+{
+ "note": "현대골프 driving range traced on the V-World z19 mosaic of cell 8930e0af1afffff (pixels of that mosaic), 2026-10-15; street view. src/golf.py",
+ "tile_x0": 446774,
+ "tile_y0": 203131,
+ "net": {
+  "px": [
+   [
+    1180,
+    985
+   ],
+   [
+    1550,
+    985
+   ],
+   [
+    1555,
+    1425
+   ],
+   [
+    1358,
+    1432
+   ],
+   [
+    1192,
+    1080
+   ]
+  ],
+  "height_m": 30,
+  "pole_spacing_m": 14,
+  "net_rgb": [
+   70,
+   150,
+   125
+  ],
+  "pole_rgb": [
+   225,
+   228,
+   230
+  ]
+ },
+ "field": {
+  "px": [
+   [
+    1184,
+    988
+   ],
+   [
+    1547,
+    988
+   ],
+   [
+    1551,
+    1420
+   ],
+   [
+    1361,
+    1427
+   ],
+   [
+    1195,
+    1083
+   ]
+  ],
+  "rgb": [
+   60,
+   120,
+   85
+  ]
+ },
+ "bays": {
+  "building_id": "gis:11193149",
+  "floors": 3,
+  "facing_deg": 180,
+  "note": "The hitting-bay building is the long low block across the whole NORTH end of the net (mosaic about x 1185-1545, y 935-985, about 85 x 12 m, flat gray concrete roof [139,147,126]); gis:11193149's centroid lies in it. Its NORTH face onto the east-west road is an office-like facade: light gray panel wall, punched windows, a vertical blue-green glass strip and a glazed ground-floor entrance, rock garden and pines along the sidewalk. The three bay tiers open SOUTH onto the field (not visible from the street). gis:16094889 and gis:17425670 have centroids inside the netted field, so they are not bay buildings: treat them as the net enclosure records (or drop); their street crops actually show the neighbouring buildings and the bay block."
+ },
+ "seen": "Satellite: a five-sided field about 87 m wide and 103 m long (west side runs diagonally along a road), fully netted, with net cables crossing over the top; white lattice pole shadows every ~14 m on the west edge. Street view: very tall white/silver steel lattice truss poles with horizontal truss arms carrying translucent green netting, rising well above 5-7 storey neighbours; height ~30 m is an estimate.",
+ "sources": [
+  "data/satellite/8930e0af1afffff-z19.jpg",
+  "captures/8930e0af1afffff/sheets/gis_11193149.jpg",
+  "captures/8930e0af1afffff/sheets/gis_16094889.jpg",
+  "captures/8930e0af1afffff/sheets/gis_17425670.jpg",
+  "captures/8930e0af1afffff/crops/gis_17425670__8AAiU3alnepETMEy8qWKWg.jpg",
+  "web: searched '부천 현대골프연습장 약대동' - no photos or descriptions found"
+ ]
+}

@@ -3624,6 +3624,403 @@
    "build": [],
    "claims": [],
    "notes": "User-approved 2026-10-15. Layout regions/bucheon-dodang/anjunggeun_park.json (satellite trace, street view, a news photo viewed only), built by src/anjunggeun.py."
+  },
+  {
+   "key": "gangnam_market",
+   "custom": "market",
+   "cell": "8930e0af137ffff",
+   "build": [],
+   "claims": [],
+   "notes": "User-approved 2026-10-15. Arcade layout regions/bucheon-dodang/gangnam_market.json (satellite comb of white alley roofs, news photos viewed only), built by src/market.py."
+  },
+  {
+   "key": "daewoo_technopark",
+   "floors": 13,
+   "height_m": null,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     238,
+     238,
+     235
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     226,
+     218,
+     208
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 3.0,
+    "h_m": 1.6,
+    "pitch_m": 3.6,
+    "glass_rgb": [
+     106,
+     140,
+     170
+    ],
+    "frame_rgb": [
+     200,
+     202,
+     204
+    ]
+   },
+   "bands": {
+    "rgb": [
+     95,
+     92,
+     88
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 6.0,
+     "from_floor": 2,
+     "to_floor": 12,
+     "material": "Metal",
+     "rgb": [
+      120,
+      121,
+      122
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 2,
+     "to_floor": 12,
+     "rgb": [
+      245,
+      244,
+      241
+     ],
+     "pitch_m": 7.0
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      245,
+      244,
+      241
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.3,
+     "width_m": 9.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      60,
+      60,
+      62
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.3,
+    "width_m": 9.0,
+    "canopy": true,
+    "canopy_rgb": [
+     235,
+     232,
+     226
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     235,
+     235,
+     232
+    ],
+    "top_rgb": [
+     105,
+     152,
+     122
+    ],
+    "features": [
+     "crown",
+     "stair_box"
+    ],
+    "crown": {
+     "height_m": 3.0,
+     "rgb": [
+      225,
+      228,
+      230
+     ]
+    }
+   },
+   "notes": "Twin 12-13 storey knowledge-industry towers on a shared podium; both towers have the same skin. gis:11195388 = east tower (13 fl), gis:11195616 = west tower (12 fl). gis:17281676 (12 fl, no area, centroid inside the west tower footprint on the satellite) is a duplicate of gis:11195616 - drop it. Main facades: east tower EAST face (onto the tree-lined north-south road) carries a full row of ground-floor shops with coloured awnings and a 2nd-floor shop-window band; both towers' SOUTH faces front the southern road/plaza. West tower SOUTH-EAST corner has a wide vehicle portal (drive-through into a huge pillared ground-level car park that runs under the complex; columns white with a dark navy band at the foot) with the lettering 'DAEWOO TECHNO PARK' (Latin, light-blue on cream fascia) above it at floor 2 level; the same lettering repeats small on the rooftop crown of the south face. Upper floors: white aluminium panel grid walls, each floor a blue-glass window ribbon alternating with gray louvre/vent panels, thin dark spandrel line under each ribbon, white vertical pilaster strips splitting the face into bays; corners have stepped balcony-like setbacks with recessed glass. A thick white band separates the 2-floor stone/cream base from the tower. Roof: green (painted) flat roof with a white open-frame crown/pergola around a rooftop plant square. A spiral car ramp sits at the west end of the west tower (satellite). Sign text is the Latin lettering seen on the building given in Korean; use null if Latin-only is required.",
+   "sources": [
+    "captures/8930e0af1afffff/sheets/gis_11195388.jpg",
+    "captures/8930e0af1afffff/sheets/gis_11195616.jpg",
+    "captures/8930e0af1afffff/sheets/gis_17281676.jpg",
+    "captures/8930e0af1afffff/crops/gis_11195616__dM-BHw4zlOtrgIc6L_PLow.jpg",
+    "captures/8930e0af1afffff/crops/gis_11195388__bvwBPUe2kEPV5gYPrwbHWA.jpg",
+    "data/satellite/8930e0af1afffff-z19.jpg",
+    "web: searched '부천대우테크노파크 외관' - no facade photos found (only appraisal text: RC structure, aluminium sash)"
+   ],
+   "seen": "Street view shows two near-identical 12-13 storey white-panel towers with blue glass ribbon windows and gray louvres, a 2-floor shop base with awnings and a drive-through portal under the 'DAEWOO TECHNO PARK' lettering; most ground level is an open pillared car park. Satellite shows green flat roofs with white frame crowns.",
+   "cell": "8930e0af1afffff",
+   "build": [
+    "gis:11195388",
+    "gis:11195616"
+   ],
+   "claims": [
+    "gis:17281676"
+   ],
+   "front": "S"
+  },
+  {
+   "key": "hyundai_golf",
+   "custom": "golf",
+   "cell": "8930e0af1afffff",
+   "build": [],
+   "claims": [
+    "gis:16094889",
+    "gis:17425670"
+   ],
+   "notes": "User-approved 2026-10-15. Net, poles and field from regions/bucheon-dodang/hyundai_golf.json (satellite, street view), src/golf.py; the two records inside the field are the net, not buildings."
+  },
+  {
+   "key": "yakdae_church",
+   "floors": 3,
+   "height_m": 17.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     118,
+     92,
+     86
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 0.7,
+    "h_m": 9.0,
+    "pitch_m": 4.5,
+    "glass_rgb": [
+     60,
+     80,
+     90
+    ],
+    "frame_rgb": [
+     70,
+     72,
+     72
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      112,
+      86,
+      80
+     ],
+     "pitch_m": 4.5
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 8.0,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      80,
+      120,
+      140
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      80,
+      120,
+      140
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.25,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      80,
+      120,
+      140
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": -0.42,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      80,
+      120,
+      140
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 0.8,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      175,
+      170,
+      162
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 0.8,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      175,
+      170,
+      162
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": -0.1,
+     "width_m": 2.5,
+     "rgb": [
+      235,
+      235,
+      232
+     ]
+    },
+    {
+     "kind": "tower",
+     "face": "roof",
+     "at": -0.45,
+     "size_m": 5.0,
+     "height_m": 26.0,
+     "rgb": [
+      235,
+      235,
+      232
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": {
+    "text": "약대교회",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     150,
+     148,
+     144
+    ],
+    "ink_rgb": [
+     245,
+     245,
+     240
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     112,
+     86,
+     80
+    ],
+    "top_rgb": [
+     138,
+     80,
+     62
+    ],
+    "features": [
+     "pitched"
+    ]
+   },
+   "notes": "Main facade faces EAST onto the big road (street = east): wide sidewalk, 5-6 broad granite-grey steps up to a 4-leaf glass door under one huge fan-topped arched window (about 8 m wide, floors 1-3, dark green mullions in a radiating fan), flanked by two tall narrow round-arched stained-glass windows each side (dark green frames), with light grey cast-stone vertical strips between the bays and small grey corbel/drip blocks under the parapet. Small grey sign band '약대교회' right above the door. The rest of the hall (north, west, south walls) is a FOLDED / sawtooth brick wall: tall vertical brick piers 3-5 m wide stepping in and out like organ pipes, flat tops at slightly different heights, with very tall slit windows (0.6-0.8 m wide, nearly full height) in the re-entrant folds and a low gabled brick projection (about 2/3 of wall height, gable with a dark metal coping) in the middle of the west and north sides. Walls are dark purple-brown brick everywhere. Tower: a tall plain square brick tower (about 5 x 5 m, about 9 m above the hall, total about 26 m) at the SOUTH-EAST corner of the hall, behind and left of the main arch when seen from the east; a thin white cross on its top. A second, free-standing white cross (about 4 m) stands on the roof ridge toward the north-west, seen from the parking lot. Roof (satellite): one big red-brown pitched roof (two planes, ridge roughly N-S) hidden behind the sawtooth parapets. West side: glass vestibule entrance with a flat white canopy band carrying '약대교회' (white letters on brick above), plus a low 1-floor brick wing and green-painted steps with a green mesh fence climbing south to the deck. North: open parking lot. gis:11203989 is NOT a duplicate or a bell tower: it is the low annex south of the hall whose flat roof is a green-painted raised deck/yard (rgb about [70,150,100], white parking lines) edged by a brick parapet wall about 2.5 m high topped with a green bar fence; its east end has a brick round-arched stair passage up to the deck next to two more arched stained-glass windows; its south-east street corner carries a vertical yellow name plaque. Build it as 1 floor (about 4 m), brick walls, green flat top, green fence on top. A small blue-roofed shed sits on its east edge.",
+   "sources": [
+    "captures/8930e0af1a3ffff/sheets/gis_11203987.jpg",
+    "captures/8930e0af1a3ffff/crops/gis_11203987__jcgGMirF-5y-sOMmA3_rdQ.jpg",
+    "captures/8930e0af1a3ffff/crops/gis_11203987__tPkaFbo_X29lVG8cdmbTvw.jpg",
+    "captures/8930e0af1a3ffff/crops/gis_11203987__0omuGNUuqdNnH6riYL69fA.jpg",
+    "captures/8930e0af1a3ffff/sheets/gis_11203989.jpg",
+    "captures/8930e0af1a3ffff/crops/gis_11203989__SM9qYrEzdBXRiK02EW_xfA.jpg",
+    "captures/8930e0af1a3ffff/crops/gis_11203989__17FtzLCCxmH3B8lyk_HmHg.jpg",
+    "data/satellite/8930e0af1a3ffff-z19.jpg",
+    "web: searched '부천 약대교회 건물', '약대교회 기독교대한감리회 부천 외관' - no photos or facade pages found"
+   ],
+   "seen": "A dark purple-brown brick hall with organ-pipe sawtooth walls and full-height slit windows, a tall square brick tower with a cross at the south-east corner and a free-standing cross on the roof; the east street front has a huge fan-arched window over glass doors and steps, flanked by tall arched stained-glass windows. Satellite shows a red-brown pitched roof and, to the south, a green-painted raised deck (the annex gis:11203989).",
+   "cell": "8930e0af1a3ffff",
+   "build": [
+    "gis:11203987",
+    "gis:11203989"
+   ],
+   "claims": [],
+   "front": "E",
+   "per_building": {
+    "gis:11203989": {
+     "floors": 1,
+     "height_m": 4.0,
+     "accents": [],
+     "roof": {
+      "features": [],
+      "top_rgb": [
+       90,
+       140,
+       90
+      ]
+     }
+    }
+   }
   }
  ]
 }

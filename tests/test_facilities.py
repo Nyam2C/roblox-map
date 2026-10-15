@@ -68,3 +68,11 @@ def test_a_skin_panel_sits_under_the_windows():
     flush = FA.Maker(FRAME, b, {**SPEC, "accents": [{**acc, "skin": True}]}, main=True).make()
     thick = lambda items: [min(i.sx, i.sz) for i in items if "#ac-" in i.name]
     assert max(thick(flush)) < max(thick(raised))
+
+
+def test_a_bell_tower_stands_from_the_ground_with_a_cross_on_top():
+    b = body()
+    items = FA.Maker(FRAME, b, {**SPEC, "accents": [{"kind": "tower", "face": "roof", "at": -0.45, "size_m": 5.0, "height_m": 26.0}]},
+                     main=True).make()
+    tw = [i for i in items if "#tw-" in i.name]
+    assert len(tw) == 1 and abs(tw[0].sy - 26.0 * FRAME.studs_per_m) < 0.01 and any("#xv-" in i.name for i in items)

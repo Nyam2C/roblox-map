@@ -259,6 +259,16 @@ class Maker:
                 self.box(bi, "ms", u, v, b.height_m + k * hm / n, (0.6, hm / n, 0.6),
                          look("Metal", (200, 50, 45) if k % 2 == 0 else (240, 240, 236)))
             return
+        if a.get("kind") == "tower":  # a square bell tower from the ground at a corner of the front face, a cross on top (약대교회)
+            size, ht = float(a.get("size_m", 5.0)), float(a.get("height_m", 24.0))
+            wl = self.spec.get("wall", {})
+            uc = face.c[0] - face.n[0] * (size / 2) + face.t[0] * at
+            vc = face.c[1] - face.n[1] * (size / 2) + face.t[1] * at
+            self.box(bi, "tw", uc, vc, 0.0, (size, ht, size), look(wl.get("material"), wl.get("rgb"), collide=True))
+            self.box(bi, "tc", uc, vc, ht, (size + 0.6, 0.6, size + 0.6), look("Concrete", (200, 196, 190)))
+            self.box(bi, "xv", uc, vc, ht + 0.6, (0.35, 4.0, 0.35), lk)
+            self.box(bi, "xh", uc, vc, ht + 2.9, (2.2, 0.35, 0.35), lk, yaw=LD.FACE_YAW[side])
+            return
         if a.get("kind") == "cross":
             s = max(1.0, float(a.get("width_m", 2.0)))
             self.box(bi, "xt", u, v, b.height_m, (1.6, 2.5 * s, 1.6), look(self.spec.get("wall", {}).get("material"), self.spec.get("wall", {}).get("rgb")))
@@ -453,6 +463,11 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
         features = [f for f in db.rows_in_cells(conn, "street_features", cells) if f["kind"] in ("road", "path")]
         lines = LD._feature_lines(features, frame, ccfg)
         items: list[Item] = []
+        if sp.get("custom") in ("market", "golf"):  # 강남종합시장 arcade, the driving range: Folders like the park
+            mod = __import__(sp["custom"])
+            out.append({"key": sp["key"], "cell": cell, "claims": sorted(sp.get("claims") or []), "folder": True,
+                        "parts": [item_row(i) for i in mod.build(frame, sp["key"])]})
+            continue
         if sp.get("custom") == "pxpark":  # 안중근공원: a traced ground layout, a Folder so each part settles on the ground
             import anjunggeun
             out.append({"key": sp["key"], "cell": cell, "claims": [], "folder": True,

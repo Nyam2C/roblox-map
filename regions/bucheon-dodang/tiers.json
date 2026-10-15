@@ -203,6 +203,24 @@
    "reason": "landmarks: place_of_worship:여수마을교화",
    "tier": 1
   },
+  "8930e0af137ffff": {
+   "counts": {
+    "landmarks": [
+     "marketplace:강남종합시장",
+     "park:way490139745"
+    ],
+    "pois": 6,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.243,
+     "residential": 0.755,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: marketplace:강남종합시장, park:way490139745",
+   "tier": 1
+  },
   "8930e0af13bffff": {
    "counts": {
     "landmarks": [
@@ -367,6 +385,24 @@
    "reason": "landmarks: fire_station:서부 119소방서, park:덕유어린이공원, school:중흥고등학교",
    "tier": 1
   },
+  "8930e0af18fffff": {
+   "counts": {
+    "landmarks": [
+     "park:way488839380",
+     "park:설악어린이공원"
+    ],
+    "pois": 5,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.77,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way488839380, park:설악어린이공원",
+   "tier": 1
+  },
   "8930e0af19bffff": {
    "counts": {
     "landmarks": [
@@ -384,6 +420,23 @@
    "reason": "landmarks: park:덕유마을 체육공원",
    "tier": 1
   },
+  "8930e0af1a3ffff": {
+   "counts": {
+    "landmarks": [
+     "place_of_worship:약대교회"
+    ],
+    "pois": 5,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.811,
+     "residential": 0.01,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: place_of_worship:약대교회",
+   "tier": 1
+  },
   "8930e0af1abffff": {
    "counts": {
     "landmarks": [
@@ -399,6 +452,42 @@
    },
    "manual": false,
    "reason": "landmarks: park:way488839381",
+   "tier": 1
+  },
+  "8930e0af1afffff": {
+   "counts": {
+    "landmarks": [
+     "sports_centre:현대골프"
+    ],
+    "pois": 2,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.931,
+     "residential": 0.068,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: sports_centre:현대골프",
+   "tier": 1
+  },
+  "8930e0af1bbffff": {
+   "counts": {
+    "landmarks": [
+     "park:way488839381",
+     "park:원골 어린이공원",
+     "place_of_worship:약대교회"
+    ],
+    "pois": 6,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.889,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way488839381, park:원골 어린이공원, place_of_worship:약대교회",
    "tier": 1
   },
   "8930e0af1c3ffff": {
