@@ -104,7 +104,8 @@ def find_ground(rgb, geo, school: Sequence[Sequence[float]], roofs: Sequence[Seq
     ys, xs = np.nonzero(comp)
     edge = comp & ~ndi.binary_erosion(comp)
     ey, ex = np.nonzero(edge)
-    pts = [layout.to_meters(frame, *geo.to_latlon(x + 0.5, y + 0.5)) for x, y in zip(ex[::2], ey[::2])]
+    # every edge pixel: taking every other one in row order kept only the left edge of a 45-degree ground (2026-10-15)
+    pts = [layout.to_meters(frame, *geo.to_latlon(x + 0.5, y + 0.5)) for x, y in zip(ex, ey)]
     box = layout.box_of_points(pts, area)
     if box is None:
         return None

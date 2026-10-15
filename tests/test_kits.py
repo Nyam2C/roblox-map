@@ -46,3 +46,51 @@ def test_a_crown_item_becomes_a_kt_key_and_an_unknown_kit_refuses():
         pass
     else:
         raise AssertionError("an unknown kit reached Luau")
+
+
+S = 3.6
+FAKE = {n: 1 for n in kits.STACKS}
+
+
+def ac(k, pitch_m=2.8, x=10.0):
+    return layout._item("facade", f"gis:7#aa0f{k}-1", "gis:7", k, (x, (k * pitch_m + 0.3) * S, 5.0), (0.85 * S, 0.6 * S, 0.4 * S), 30.0,
+                        material="Metal", owner="gis:7", color_name="ac")
+
+
+def test_a_column_of_15_ac_boxes_becomes_four_stacks_covering_the_same_span():
+    run = [ac(k) for k in range(1, 16)]
+    out = kits.stack_items(run + [ac(3, x=40.0)], S, FAKE)
+    stacks = [i for i in out if i.kit]
+    assert sorted(kits.STACKS[i.kit][2] for i in stacks) == [2, 4, 8] and len(out) == 5  # 8+4+2, one left as a part, the lone box stays
+    lo = min(i.cy - i.sy / 2 for i in out if i.cx == 10.0)
+    hi = max(i.cy + i.sy / 2 for i in out if i.cx == 10.0)
+    assert abs(lo - (run[0].cy - run[0].sy / 2)) < 1e-6 and abs(hi - (run[-1].cy + run[-1].sy / 2)) < 2e-3
+    for i in stacks:  # every box lands within the tolerance of its part
+        h, p, n = kits.STACKS[i.kit]
+        scale = i.sy / S / ((n - 1) * p + h)
+        first = next(r for r in run if abs((r.cy - r.sy / 2) - (i.cy - i.sy / 2)) < 2e-3)
+        k0 = run.index(first)
+        for j in range(n):
+            want = run[k0 + j].cy - run[k0 + j].sy / 2
+            got = i.cy - i.sy / 2 + j * p * scale * S
+            assert abs(got - want) / S <= kits.STACK_TOL_M + 1e-6
+
+
+def test_no_uploaded_stack_leaves_the_parts_and_a_column_no_stack_fits_stays_parts():
+    run = [ac(k) for k in range(1, 9)]
+    assert kits.stack_items(run, S) == run  # MESH_IDS has no stk- kit yet
+    tall = [ac(k, pitch_m=5.0) for k in range(1, 9)]  # a 5 m pitch stretches the 0.6 m boxes past the tolerance
+    assert kits.stack_items(tall, S, FAKE) == tall
+
+
+def test_every_stack_face_points_out_and_has_its_own_corners():
+    for name in kits.STACKS:
+        v, f, nrm = kits.stack_mesh(name)
+        assert len(v) == 2 * len(f)  # 4 corners per 2 triangles: no corner shared between faces
+        for (a, b, c), m in zip(f, nrm):
+            u = [v[b][i] - v[a][i] for i in range(3)]
+            w = [v[c][i] - v[a][i] for i in range(3)]
+            n = (u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0])
+            assert sum(n[i] * m[i] for i in range(3)) > 0
+    text = kits.stacks_obj()
+    assert text.count("\no stk-") == len(kits.STACKS)

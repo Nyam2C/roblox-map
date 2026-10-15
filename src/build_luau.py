@@ -349,6 +349,7 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         warnings.append("no spawn point configured (spawn_lat, spawn_lon): no spawn is built")
     items, sign_images, signs_reused = apply_sign_images(items, sign_assets or {}, sign_library or [])
     items = terrain.lift(items, ground, decks)  # 2026-10-15: onto the street-view ground heights (flat when the region has none)
+    items = kits.stack_items(items, frame.studs_per_m)  # column stacks of uploaded kits (kits.STACKS); none uploaded leaves the parts
     if decks is not None:
         items += bridges.pier_items(decks, ok_features, ground, cell_id, res, cfg)
     items = layout.order_items(items)
