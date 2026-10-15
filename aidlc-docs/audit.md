@@ -1870,3 +1870,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: Construction, cycle-verify·record(26~29번 칸)
 
 ---
+
+## 수작업 시설 칸 단위
+**Timestamp**: 2026-10-15T06:05:32Z
+**User Request**: (계획 1번, "ㅇㅋ") 칸 확장 세션이 1c3·1d7·18b·1db를 끝낸 뒤 진행
+**AI Response**: ServerStorage/ManualCodec(부품·키트 메시·모델·폴더·간판 글자·조명을 글자 데이터로), cell-data.luau가 Workspace/Manual을 칸별로 내보냄(29칸 1,782 단위 0.7 MB, ManualIds·ManualKeep=Landmark), CellStreamer가 칸을 만들 때 그 칸 몫을 먼저 만들고 지울 때 같이 지움, MapBuilder.manualSkip. Play: 29칸 다 만든 뒤 수작업 27,417개가 편집 상태와 종류별로 같음, 예산 6만이면 먼 곳(중앙공원·코트) 같이 사라지고 랜드마크는 남음. 커밋 58a1681.
+**Context**: CONSTRUCTION - B 정식판
+
+---
