@@ -2000,3 +2000,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: 공개 준비
 
 ---
+
+## 38~41번 칸 검증·Studio
+**Timestamp**: 2026-10-15T12:12:12Z
+**User Request**: (같은 요청 이어서) "중동 18 맞대고 있는 4칸 작업 가자"
+**AI Response**: 다른 세션(공중 사진)이 Studio를 쓰는 동안 Python만 하고, 끝난 뒤 13칸 unpack → 시설 4곳 → studio-build 13칸(verify 모두 true, 가장 느린 덩어리 17.7 ms 137) → 미니맵 41칸 → cell-data 41칸 → pack(strays 0, Spawn 유지, 카메라 Fixed, http=false). 위성 겹쳐 보기 4칸: 56b에서 송내대로가 좁게 나와 region.toml에 "송내대로" = 10을 넣고 0a3·0a7·0b7·56b 다시 만듦. 소풍은 로톤다가 외곽선 고리에 가려 몸체에서 원통 둘레를 빼고 반지름 10 m·높이 38 m로, 버스 차양은 외곽선 밖으로 밀어냄. 땅이 길 덮음 7칸 0. 거리뷰 대조 10쌍(소풍·참빛교회·호텔·다승프라자·우체국·KT·823동·YMCA 건물·금강마을·407동): 공통 문제는 Granite가 어두운 회색 반점이라 참빛교회·우체국 벽을 Limestone으로. 스킬: cycle-build 6에 lanes 없는 큰길 확인 명령. 테스트 777 통과.
+**Context**: CONSTRUCTION, cycle-verify·cycle-record (38~41번 칸)
+
+---

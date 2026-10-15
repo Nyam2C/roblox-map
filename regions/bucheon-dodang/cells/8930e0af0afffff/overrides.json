@@ -1,0 +1,561 @@
+{
+  "cell_id": "8930e0af0afffff",
+  "estimates": [
+    {
+      "building_id": "gis:11169911",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, top not fully visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11182066",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "open wooden pavilion (gazebo) in apartment park, brown shingle hip roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11189237",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "public office block (post office), beige stone side wall, glass curtain front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11191912",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "officetel tower, two floors of shop/store signs at base, light panel facade",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11193720",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "officetel tower, shop base with store signs, gray stone entrance portal",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11195106",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "officetel tower, two-storey shop base with restaurant/cafe signs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11198620",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, ribbed gray end wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11198634",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, teal balcony bands",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11198635",
+      "confidence": "low",
+      "floors_seen": 17,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, ribbed gray metal end wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199273",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, ribbed gray end wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199275",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, teal balcony glass",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11199276",
+      "confidence": "low",
+      "floors_seen": 17,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, ribbed gray end wall with teal stripe",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11199801",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11201358",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, two entrances, ribbed end wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11201474",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, teal stripe on end wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11201480",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11203940",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "guard booth with windowed front, white walls, teal trim, small hip tile roof, red roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11204232",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "low utility/recycling shed, white upper and gray lower wall with teal stripe, flat top",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11204233",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "guard booth with windowed front, white walls, teal trim, small hip tile roof, maroon roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11204235",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "low utility/recycling shed, white upper and gray lower wall with teal stripe, flat top, recycling bins in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11205501",
+      "confidence": "low",
+      "floors_seen": 20,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11205567",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "guard booth with windowed front, white walls, teal trim, small hip tile roof, maroon roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11205568",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "guard booth with windowed front, white walls, teal trim, small hip tile roof, maroon roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11205770",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "low utility structure behind trees, white top, ribbed gray panel wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11206505",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "recycling shelter with curved translucent roof, stone base wall, dark wood slats",
+      "roof_shape": "other",
+      "views_used": [
+        2
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11206506",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "low utility/recycling shed, white upper and gray lower wall with teal stripe, flat top, recycling bins in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11206537",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "crops show parking yard with delivery trucks; no clear building at target",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11206590",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "low utility/recycling shed, white upper and gray lower wall with teal stripe, flat top",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11206595",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "low utility/recycling shed, white upper and gray lower wall with teal stripe, flat top, small flat canopy at door",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11206656",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "open park pavilion, red-brown wooden posts, gray shingle pyramid roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11206676",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "old one-storey prefab office/shed with pale yellow siding and barred windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "yellow"
+    },
+    {
+      "building_id": "gis:11206834",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "likely one-storey shop front annex under an officetel, mostly hidden by street trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11206835",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "likely one-storey shop front strip at officetel base, shop signs, street trees",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11206836",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "open park pavilion, red-brown wooden posts, gray shingle pyramid roof",
+      "roof_shape": "hip",
+      "views_used": [
+        1
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11206837",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "open park pavilion with green shingle pyramid roof and wooden posts",
+      "roof_shape": "hip",
+      "views_used": [
+        1
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11206838",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 3.0,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "target unclear; parking yard entrance, maybe a low canopy/shed by an office block",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11207148",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "one-storey prefab container office, cream siding, small windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11217250",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "large low office/telecom block mostly hidden by trees, parking lot in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11895100",
+      "confidence": "high",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "office/community block, beige stone, pilotis parking under part, round glass corner stair tower",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    }
+  ],
+  "overrides": [
+    {
+      "building_id": "gis:11895100",
+      "field": "floors_above",
+      "reason": "Claude 2026-10-15: 동쪽 사진에서 1층 + 창 5줄 = 6층, 사진 판단 5층(high)이 1층을 빼먹음, 대장 유지",
+      "set_at": "2026-10-15T11:47:00+00:00",
+      "value": 6
+    }
+  ],
+  "version": 1
+}

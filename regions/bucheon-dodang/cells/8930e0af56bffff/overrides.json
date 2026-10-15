@@ -1,0 +1,243 @@
+{
+  "cell_id": "8930e0af56bffff",
+  "estimates": [
+    {
+      "building_id": "gis:11176226",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, green vertical stripe, gray side core",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11182756",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "two-storey shopping block, ground shop/restaurant row, blue tile walls, red tile roof edge",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:11185229",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "red brick hall, arched windows, four floors plus mansard attic with dormers, dark green roof",
+      "roof_shape": "other",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11190461",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, round glass-block stair tower at entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190462",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, green tile guard booth in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190464",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, mostly hidden by trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190465",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, round glass-block stair tower",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190606",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, round stair tower, ribbed metal end wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190607",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, guard booth in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190608",
+      "confidence": "low",
+      "floors_seen": 25,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, round stair tower, ribbed metal end wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190609",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191298",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, green tile entrance porch",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11204303",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "kindergarten/community hall, red brick, red tile roof edges, bike shed beside",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11206369",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "guard booth with green tile walls and brown hip roof at apartment entrance",
+      "roof_shape": "hip",
+      "views_used": [
+        1
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11206681",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "crop blocked by a truck; no building visible at target",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11207901",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, green tile entrance porch, two-tone gray",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11207913",
+      "confidence": "low",
+      "floors_seen": 18,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:34+00:00",
+      "note": "apartment slab tower, entrance canopies, balcony rows with AC units, rooftop box, mostly hidden by trees",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

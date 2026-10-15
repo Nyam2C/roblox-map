@@ -4021,6 +4021,381 @@
      }
     }
    }
+  },
+  {
+   "key": "chambit_church",
+   "front": "N",
+   "floors": 7,
+   "height_m": null,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     196,
+     182,
+     166
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Glass",
+    "rgb": [
+     40,
+     52,
+     50
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.0,
+    "h_m": 0.6,
+    "pitch_m": 3.6,
+    "glass_rgb": [
+     50,
+     70,
+     70
+    ],
+    "frame_rgb": [
+     90,
+     100,
+     96
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.38,
+     "width_m": 12.0,
+     "from_floor": 0,
+     "to_floor": 7,
+     "material": "Plaster",
+     "rgb": [
+      232,
+      230,
+      222
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.22,
+     "width_m": 5.0,
+     "from_floor": 5,
+     "to_floor": 7,
+     "rgb": [
+      120,
+      200,
+      170
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": -0.15,
+     "width_m": 2.5,
+     "rgb": [
+      238,
+      238,
+      234
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 24.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      235,
+      235,
+      230
+     ],
+     "pitch_m": 7.0
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.38,
+    "width_m": 5.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": {
+    "text": "참빛교회",
+    "face": "street",
+    "floor": 6,
+    "bg_rgb": [
+     196,
+     182,
+     166
+    ],
+    "ink_rgb": [
+     190,
+     150,
+     60
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     196,
+     182,
+     166
+    ],
+    "top_rgb": [
+     110,
+     150,
+     120
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Front (main entrance) faces N. Two parts on the street face: (1) the right/east two-thirds is a big windowless-looking sanctuary block clad in warm beige-grey granite, top edge slightly curved/rounded at the east corner, with one row of small horizontal slit windows at about floor 3 and a second sparse row near the top; the name in gold letters high on this wall. Its ground floor is recessed behind dark glass with round white columns (pilotis), so the stone mass floats over a dark glazed base. (2) the left/west third is a white plaster wing a little taller, with a thin cantilevered white flat roof slab sticking out at the top, a sloped green-tinted glass skylight/curtain between the wing and the stone block, and the entrance with a few steps at its foot. At the junction of the two parts stands a slender white concrete tower (about 2.5 m wide) rising roughly 8 m above the roof with a white cross on top; a narrow white cross also runs down its face. A tall thin metal sculpture/post stands in front of the ground floor. Roof top green per roofs.json. Neighbours are 5-6 floor shop buildings full of signs on both sides. Crop #2 (W) shows a neighbouring shop building, not the church. Wall material Limestone, not Granite (2026-10-15 street-view check: Roblox Granite reads dark grey speckle, the stone is pale beige).",
+   "sources": [
+    "captures/8930e0af0b7ffff/sheets/gis_11185256.jpg",
+    "captures/8930e0af0b7ffff/crops/gis_11185256__XKHjg1W7LnEp6iet-VnG9Q.jpg",
+    "captures/8930e0af0b7ffff/crops/gis_11185256__h7h6ipX7RIJGMBfTPNawFw.jpg",
+    "regions/bucheon-dodang/cells/8930e0af0b7ffff/roofs.json",
+    "https://safehomes.kr/risk-map/경기도/부천시-원미구/상동/기타/building/참빛교회/1097120358 (address and approval year only, no photos)"
+   ],
+   "seen": "A beige granite sanctuary block with gold name letters and slit windows over a dark glass ground floor with white round columns, beside a white plaster wing with a cantilevered roof slab and a white cross tower. No web photos found.",
+   "cell": "8930e0af0b7ffff",
+   "build": [
+    "gis:11185256"
+   ],
+   "claims": []
+  },
+  {
+   "key": "bucheon_post",
+   "front": "S",
+   "floors": 4,
+   "height_m": 20.0,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     214,
+     208,
+     196
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 6.0,
+    "glass_rgb": [
+     60,
+     80,
+     95
+    ],
+    "frame_rgb": [
+     70,
+     75,
+     80
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "rgb": [
+      80,
+      110,
+      135
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "rgb": [
+      150,
+      160,
+      170
+     ],
+     "pitch_m": 2.0
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 8.0,
+    "canopy": true,
+    "canopy_rgb": [
+     220,
+     60,
+     40
+    ],
+    "steps": false
+   },
+   "sign": {
+    "text": "부천우체국",
+    "face": "street",
+    "floor": 0,
+    "bg_rgb": [
+     225,
+     60,
+     40
+    ],
+    "ink_rgb": [
+     255,
+     255,
+     255
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     214,
+     208,
+     196
+    ],
+    "top_rgb": [
+     90,
+     160,
+     130
+    ],
+    "features": [
+     "solar",
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Front (main entrance) faces S, onto the E-W road, with a driveway straight in and a parking strip of 2-3 rows between road and building (low granite planter walls and hedges each side of the driveway). Street face: a wide blue-grey glass curtain wall (mullion grid) over most of the width, framed by solid pale beige granite end bays on both sides; tall storeys (curtain wall reads taller than 4 x 3.5 m, about 20 m). Two flagpoles in front of the glass. At the ground floor centre a flat red canopy with the name in white, and a second smaller red-and-white canopy to the right (east). Other faces: pale beige granite tile with small punched windows, barred windows on the ground floor, and a rounded corner on the east side; low red-brick and iron fence along the east road. ROOF CORRECTION: the satellite (and roofs.json rtop_green) puts the solar panels on THIS building (teal-green roof with a large blue solar array and a round vent), not on the telecom building. North of it is a big parking lot with a solar carport along the north edge and a curved covered ramp (dark half-tube) on the west side of the lot. Wall material Limestone, not Granite (2026-10-15 street-view check: Roblox Granite reads dark grey speckle, the stone is pale beige).",
+   "sources": [
+    "captures/8930e0af0afffff/sheets/gis_11189237.jpg",
+    "captures/8930e0af0afffff/crops/gis_11189237__q0QLoOOMb05vswgTIhvQ1w.jpg",
+    "captures/8930e0af0afffff/crops/gis_11189237__LqsXd4bNijpHZhOAhBpp-g.jpg",
+    "data/satellite/8930e0af0afffff-z19.jpg",
+    "regions/bucheon-dodang/cells/8930e0af0afffff/roofs.json",
+    "https://kyeonggi.com/article/201209190473196 (news, no facade info)"
+   ],
+   "seen": "South front: blue-grey glass curtain wall between beige granite end bays, red post office canopies at the door, flagpoles and front parking. East side: beige granite tile, few small windows, rounded corner. No web photos found.",
+   "cell": "8930e0af0afffff",
+   "build": [
+    "gis:11189237"
+   ],
+   "claims": []
+  },
+  {
+   "key": "kt_bucheon",
+   "front": "S",
+   "floors": 6,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     228,
+     228
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     170,
+     172,
+     170
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.4,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     120,
+     160,
+     150
+    ],
+    "frame_rgb": [
+     210,
+     214,
+     214
+    ]
+   },
+   "bands": {
+    "rgb": [
+     200,
+     204,
+     206
+    ],
+    "every_floor": true
+   },
+   "accents": [],
+   "entrance": {
+    "face": "street",
+    "at": -0.4,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     204,
+     206
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     235,
+     235,
+     232
+    ],
+    "top_rgb": [
+     175,
+     172,
+     160
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Front (main entrance) faces S, onto the E-W road, behind a parking strip of 2 rows and a hedge line; the entrance is at the west end of the south face under a projecting canopy on two round columns. A long low-looking slab: white/light grey panel walls with continuous greenish ribbon windows each floor, a darker grey granite ground floor band. ROOF CORRECTION: the satellite (and roofs.json rtop_gray) shows NO solar panels here; the roof is pale grey/beige tiled paving with two round vents in the middle, a white penthouse box along the east end and a smaller box at the NW corner, white parapet. The solar roof belongs to the post office next door (east). A large parking lot lies north of this building. West face is hidden behind a row of tall plane trees.",
+   "sources": [
+    "captures/8930e0af0afffff/sheets/gis_11217250.jpg",
+    "captures/8930e0af0afffff/crops/gis_11217250__t36UsoXVr3oS9-MBXxK-CA.jpg",
+    "captures/8930e0af0afffff/crops/gis_11217250__8cMcn4YKOLt4MOD-HaT_XA.jpg",
+    "data/satellite/8930e0af0afffff-z19.jpg",
+    "regions/bucheon-dodang/cells/8930e0af0afffff/roofs.json"
+   ],
+   "seen": "Through trees: a long white building with green ribbon windows, grey stone ground floor and an entrance canopy at the west end of the south face, parking in front. Satellite: grey tiled roof with two round vents, no solar.",
+   "cell": "8930e0af0afffff",
+   "build": [
+    "gis:11217250"
+   ],
+   "claims": []
+  },
+  {
+   "key": "sopoong",
+   "custom": "sopoong",
+   "cell": "8930e0af0a3ffff",
+   "build": [
+    "gis:12062576"
+   ],
+   "claims": [],
+   "notes": "User 2026-10-15 approved: 부천종합터미널 소풍 by src/sopoong.py (layout regions/bucheon-dodang/sopoong.json from the satellite; look from the namu.wiki photos and the west street-view crop).",
+   "sources": [
+    "https://namu.wiki/w/부천종합터미널 (photos viewed only)",
+    "captures/8930e0af0a3ffff/crops/gis_12062576__YB4FvxRtf68dIzfD0kNt-w.jpg",
+    "data/satellite/8930e0af0a3ffff-z19.jpg"
+   ]
   }
  ]
 }

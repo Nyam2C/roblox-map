@@ -1,0 +1,54 @@
+{
+  "cell_id": "8930e0af0a3ffff",
+  "details": [
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11206197",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-15T11:46:39+00:00",
+      "note": "not identifiable",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:12062576",
+      "finish": "tile",
+      "ground_use": "shop",
+      "judged_at": "2026-10-15T11:46:39+00:00",
+      "note": "bus terminal and mall, parking decks",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:14628445",
+      "finish": "panel",
+      "ground_use": "shop",
+      "judged_at": "2026-10-15T11:46:39+00:00",
+      "note": "one-storey kiosk",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:17520379",
+      "finish": "glass",
+      "ground_use": "shop",
+      "judged_at": "2026-10-15T11:46:39+00:00",
+      "note": "one-storey glass kiosk",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    }
+  ],
+  "version": 1
+}

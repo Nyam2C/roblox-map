@@ -12,6 +12,23 @@
    "reason": "사용자 확장 요청(2026-10-15, 부천중앙공원 칸): 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0af0a3ffff": {
+   "counts": {
+    "landmarks": [
+     "park:안중근공원"
+    ],
+    "pois": 22,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:안중근공원",
+   "tier": 1
+  },
   "8930e0af0a7ffff": {
    "counts": {
     "landmarks": [
@@ -29,6 +46,36 @@
    },
    "manual": false,
    "reason": "landmarks: park:계남공원, park:안중근공원, school:경기예술고등학교",
+   "tier": 1
+  },
+  "8930e0af0afffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 5,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.483,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 중동 18 둘레), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af0b7ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 9,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.295,
+     "rural": 0.007
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 중동 18 둘레), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af103ffff": {
@@ -599,6 +646,21 @@
    },
    "manual": false,
    "reason": "landmarks: station:부천시청",
+   "tier": 1
+  },
+  "8930e0af56bffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.654,
+     "rural": 0.024
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-15, 중동 18 둘레), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   }
  }

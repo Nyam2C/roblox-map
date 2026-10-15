@@ -1,0 +1,62 @@
+{
+  "cell_id": "8930e0af0a3ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11206197",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:38+00:00",
+      "note": "long thin structure on the terminal plaza, not identifiable (planter or bike shelter)",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:12062576",
+      "confidence": "low",
+      "floors_seen": 8,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:38+00:00",
+      "note": "large terminal and mall block, beige tile wall, glass parking deck floors, bus platform canopy at ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:14628445",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:38+00:00",
+      "note": "small booth or kiosk on the plaza; gray booth and glass kiosk stand side by side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17520379",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-15T11:46:38+00:00",
+      "note": "small glass-walled kiosk next to a gray booth on the plaza",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

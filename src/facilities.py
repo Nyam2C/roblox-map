@@ -473,6 +473,13 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
             out.append({"key": sp["key"], "cell": cell, "claims": [], "folder": True,
                         "parts": [item_row(i) for i in anjunggeun.build(frame, sp["key"])]})
             continue
+        if sp.get("custom") == "sopoong":  # 부천종합터미널 소풍: the whole record, its rotunda, bus bays and footbridge
+            import sopoong
+            bid = sp["build"][0]
+            parts = sopoong.build(frame, bid, LD._poly_m(rows[bid]["outline"], frame))
+            out.append({"key": sp["key"], "cell": cell, "claims": sorted(set(sp["build"]) | set(sp.get("claims") or [])),
+                        "parts": [item_row(i) for i in parts]})
+            continue
         if sp.get("custom") == "hyundai":
             import hyundai
             polys = {bid: LD._poly_m(rows[bid]["outline"], frame) for bid in list(sp["build"]) + list(sp.get("atrium") or [])}

@@ -70,6 +70,10 @@ uv run src/elevation.py probe --region <구역> --cells <칸...>   # 모든 새 
 새로 만들지 않고 이미 올린 이미지를 재사용한다(사용자 결정 2026-10-14, U7 K가 끝나기 전에는 글자 간판). 새 이미지는 정말 큰 랜드마크만, 칸당 최대 2장: 사용자에게 어떤 건물인지 알리고, 술·담배·도박 어휘·아이콘이 없는지 본 뒤 `signs.py generate` → 업로드 → `record`. 막히면(`403 User is moderated`) 재시도하지 않고 멈춘다.
 
 ### 6. 생성
+먼저 새 칸의 이름 있는 큰길(secondary·tertiary 이상)에 `lanes` 태그가 없고 `region.toml`의 `[road_lanes_by_name]`에도 없으면, 위성에서 차로를 세어 넣는다(없으면 기본 폭이라 10차로 큰길이 2차로로 나온다; 2026-10-15 송내대로).
+```bash
+sqlite3 data/map.db "select distinct json_extract(tags,'$.name') from street_features where cell_id='<칸>' and kind='road' and json_extract(tags,'$.highway') in ('primary','secondary','tertiary') and json_extract(tags,'$.lanes') is null"
+```
 ```bash
 uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, manifest.json
 ```

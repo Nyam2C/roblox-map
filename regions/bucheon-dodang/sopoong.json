@@ -1,0 +1,14 @@
+{
+  "note": "부천종합터미널 소풍 (cell 8930e0af0a3ffff, user-approved 2026-10-15), read off data/satellite/8930e0af0a3ffff-z19.jpg: pixel = offset + px. Heights from the register (9 floors, 52 m) and the namu.wiki photos (viewed only).",
+  "tile_x0": 446743,
+  "tile_y0": 203142,
+  "offset": [542, 494],
+  "rotunda": {"px": [655, 268], "r_m": 10.0, "height_m": 38.0},
+  "arc": {"px": [[520, 248], [585, 275], [625, 320], [640, 380], [636, 450], [622, 520], [600, 600], [570, 660], [550, 690]], "width_m": 5.0, "height_m": 30.0},
+  "skylight": {"px": [[415, 335], [560, 500]], "height_m": 6.0},
+  "white_roof": {"px": [[338, 300], [430, 522]]},
+  "solar": {"px": [[355, 655], [505, 742]]},
+  "hall": {"px": [[318, 768], [522, 985]], "height_m": 52.0},
+  "bays": [{"px": [[183, 455], [225, 612]]}, {"px": [[195, 190], [232, 335]]}],
+  "bridge": {"px": [[668, 655], [760, 660], [860, 668], [960, 676], [1065, 678]], "width_m": 5.0, "deck_m": 7.0, "pylons": [0.12, 0.3]}
+}

@@ -50,3 +50,22 @@ def test_the_driving_range_has_net_walls_poles_a_top_net_and_turf():
     tails = {i.name.split("#", 1)[1].split("-")[0] for i in items}
     assert {"nt", "pl", "pa", "nr", "tf"} <= tails and len(items) < 600
     assert max(i.cy + i.sy / 2 for i in items) > 25 * FRAME.studs_per_m  # the net stands about 30 m
+
+
+def test_the_terminal_has_a_rotunda_checker_panels_a_named_hall_bays_and_a_footbridge():
+    import json
+    import layout
+    import sopoong
+    from anjunggeun import to_latlon
+    from shapely.geometry import MultiPoint
+    data = json.loads(sopoong.LAYOUT.read_text(encoding="utf-8"))
+    ox, oy = data["offset"]
+    px = [data["rotunda"]["px"], *data["hall"]["px"], *data["skylight"]["px"], *data["arc"]["px"], [338, 300]]
+    poly = MultiPoint([layout.to_meters(FRAME, *to_latlon(data["tile_x0"], data["tile_y0"], ox + x, oy + y)) for x, y in px]).convex_hull
+    items = sopoong.build(FRAME, "gis:1", poly.buffer(6.0))
+    tails = [i.name.split("#", 1)[1].split("-")[0] for i in items]
+    assert {"rd", "rc", "rk", "ck", "ag", "hl", "sk", "aw", "bw", "dk", "py"} <= set(tails)
+    assert [i.shape for i in items if "#rd-" in i.name] == ["Cylinder"]
+    assert [i.text for i in items if i.kind == "sign"] == ["부천터미널"]
+    assert tails.count("dk") == len(data["bridge"]["px"]) - 1 and tails.count("py") == len(data["bridge"]["pylons"])
+    assert {i.group for i in items} == {"gis:1", "sopoong-bays", "sopoong-bridge"}
