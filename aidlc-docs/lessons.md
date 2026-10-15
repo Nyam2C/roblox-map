@@ -68,6 +68,7 @@
 - (2026-10-15, CellStreamer) 고정(앵커) 캐릭터는 `AssemblyLinearVelocity`가 0이라 이동 예측이 안 된다. 서버에서 PivotTo로 달리는 시험은 속도를 직접 넣어 준다. 실제 플레이어(물리로 움직임)는 속도가 나온다.
 - (2026-10-15, pack) 정리된 장소에서 수작업을 고치려면 그 칸을 먼저 꺼낸다. 꺼내지 않은 칸의 수작업 데이터는 pack이 덮어쓰지 않고, 꺼내지 않은 칸 자리에 새로 놓은 수작업은 "strays"로 세어지고 저장되지 않는다(pack 결과에 strays가 0인지 본다).
 - (2026-10-15, 먼 경치) 실행 중에 만든 건물 모델은 `LevelOfDetail`을 템플릿 복제로 넣어도 먼 메시(StreamingMesh)가 나오지 않았다. 먼 경치는 Persistent 가벼운 판 + 클라이언트에서 건물마다 바꿔치기(`LiteSwap`, `LocalTransparencyModifier`)로 한다. Play 화면은 `screen_capture`를 인자 없이 부르면 클라이언트 화면이 찍히고, 카메라는 `BindToRenderStep`으로 붙잡아야 게임 카메라가 되돌리지 않는다.
+- (2026-10-15, 사고) 정리된 장소에서는 `ServerStorage/CellData`의 m 데이터가 수작업 시설의 **유일한 원본**이다. 설치·정리 스크립트는 칸 폴더를 지우거나 새로 만들지 않는다(cell-data.luau가 그렇게 해서 29칸이 지워졌다). 이 장소는 공동 편집이라 웹·Studio에서 버전을 복원해도 열린 편집 세션이 예전 상태를 다시 연다. Studio Version History의 **Open local copy**로 옛 버전을 다른 창에 열고, 필요한 데이터만 HttpService POST로 로컬에 받아 옮긴다.
 
 ## 생성 규칙
 

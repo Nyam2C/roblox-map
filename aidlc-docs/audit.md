@@ -1894,3 +1894,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: CONSTRUCTION - B 정식판
 
 ---
+
+## 수작업 데이터 유실과 복구
+**Timestamp**: 2026-10-15T07:27:48Z
+**User Request**: (칸 확장 세션 보고: CellData m 데이터 0) → "확인 ㄱ" → "file에 안보이는데" → (버전 기록 화면) → "열림"
+**AI Response**: 원인: 먼 경치 고침 때(15:38~15:43) Claude가 돌린 cell-data.luau가 칸 폴더를 지우고 새로 만들어 29칸의 m 데이터를 지움(장소가 정리된 상태라 원본 없음). 스크립트 고침(ca2cb29: 폴더 유지·숫자 값만 교체, 색인에 없는 폴더도 유지, 비어 있는 수작업으로 덮으면 export가 멈춤). 복구: 공동 편집이라 버전 복원은 열린 세션에 반영되지 않음 → Studio Version History에서 v175(15:23, pack 직후 게시) "Open local copy" → 그 창에서 칸별 m 데이터를 127.0.0.1:8767로 보내 지금 장소에 다시 넣음(23칸 27,096부품, ManualIds 62), 꺼내 둔 4칸의 수작업 5단위도 다시 놓음. Play: 수작업 27,417개 종류별 원래와 같음. 백업 data/backups/manual-v175/(git 제외).
+**Context**: CONSTRUCTION - 사고 복구
+
+---
