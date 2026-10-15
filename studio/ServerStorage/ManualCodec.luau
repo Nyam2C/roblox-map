@@ -227,6 +227,14 @@ function Codec.export(data, manual, auto)
 			strays += 1 -- its cell is packed: unpack the cell before editing its places
 		end
 	end
+	-- a cell built in Edit that had places and now has none: stop before writing over them (an empty Manual is never meant)
+	for _, row in ipairs(cells) do
+		local f = row[1]
+		if present[f.Name] and not byCell[f] and (f:GetAttribute("manualParts") or 0) > 0 then
+			error("ManualCodec.export: " .. f.Name .. " had " .. f:GetAttribute("manualParts") .. " hand-made parts and Workspace/Manual has "
+				.. "none of them: unpack.luau the cell (or set its manualParts to 0 if they were removed on purpose)")
+		end
+	end
 	local bytes, written = 0, 0
 	for _, row in ipairs(cells) do
 		local f = row[1]

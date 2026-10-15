@@ -32,10 +32,13 @@ local n, bytes = 0, 0
 for id, row in pairs(index) do
 	local raw = get(id .. "/chunks.json")
 	local packed = buffer.tostring(ES:Base64Encode(ES:CompressBuffer(buffer.fromstring(raw), Enum.CompressionAlgorithm.Zstd, 9)))
-	local old = data:FindFirstChild(id)
-	if old then old:Destroy() end
-	local f = Instance.new("Folder")
+	-- the folder stays: its m1, m2, ... (the hand-made places) belong to ManualCodec.export, and a packed cell has no other copy
+	-- (2026-10-15: destroying the folder here lost every packed cell's places). Only the chunk values "1", "2", ... are replaced.
+	local f = data:FindFirstChild(id) or Instance.new("Folder")
 	f.Name = id
+	for _, v in ipairs(f:GetChildren()) do
+		if v:IsA("StringValue") and v.Name:match("^%d+$") then v:Destroy() end
+	end
 	for k = 1, math.ceil(#packed / PART) do
 		local v = Instance.new("StringValue")
 		v.Name = tostring(k)
@@ -65,8 +68,9 @@ for id, row in pairs(index) do
 	n += 1
 	task.wait()
 end
+local notInIndex = 0
 for _, f in ipairs(data:GetChildren()) do
-	if not index[f.Name] then f:Destroy() end
+	if f:IsA("Folder") and not index[f.Name] then notInIndex += 1 end -- kept: a cell missing from cellindex.json loses nothing here
 end
 
 -- the hand-made places of the cells built in Edit, by cell (ServerStorage/ManualCodec)
