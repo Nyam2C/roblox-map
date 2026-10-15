@@ -198,18 +198,31 @@ def dong_labels(cells: Sequence[str], frame: layout.Frame, places: Mapping[str, 
     return [(n, round(sum(p[0] for p in ps) / len(ps), 1), round(sum(p[1] for p in ps) / len(ps), 1), 2, DONG, 0.0) for n, ps in sorted(by.items())]
 
 
+def subdistrict(cfg: Mapping[str, Any], cell_id: str) -> str:
+    """The most common OSM addr:subdistrict among the cell's buildings, or ""."""
+    conn = db.connect(common.resolve(cfg["db_path"]))
+    row = conn.execute("""select json_extract(osm_tags, '$."addr:subdistrict"') s, count(*) n from buildings
+                          where cell_id = ? and s is not null group by s order by n desc, s limit 1""", (cell_id,)).fetchone()
+    return str(row[0]) if row else ""
+
+
 def cell_places(cfg: Mapping[str, Any], cells: Sequence[str]) -> dict[str, str]:
     """The dong of each cell, from regions/<region>/places.json (git), asking Nominatim reverse (zoom 16) once for a missing cell."""
     out: dict[str, str] = {}
     for c in cells:
         path = Path(common.cell_config(cfg, c)["cell_dir"]).parent.parent / "places.json"
         data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"note": "dong of each cell, Nominatim reverse zoom 16", "cells": {}}
-        if c not in data["cells"]:
-            lat, lon = h3.cell_to_latlng(c)
-            r = common.http_get_json(NOMINATIM, {"format": "jsonv2", "lat": f"{lat:.6f}", "lon": f"{lon:.6f}", "zoom": 16, "accept-language": "ko"},
-                                     waits=cfg["retry_waits_s"], pause_s=1.1)
-            a = r.get("address") or {}
-            data["cells"][c] = a.get("quarter") or a.get("suburb") or a.get("neighbourhood") or ""
+        if not data["cells"].get(c):
+            name = ""
+            if c not in data["cells"]:
+                lat, lon = h3.cell_to_latlng(c)
+                r = common.http_get_json(NOMINATIM, {"format": "jsonv2", "lat": f"{lat:.6f}", "lon": f"{lon:.6f}", "zoom": 16, "accept-language": "ko"},
+                                         waits=cfg["retry_waits_s"], pause_s=1.1)
+                a = r.get("address") or {}
+                name = a.get("quarter") or a.get("suburb") or a.get("neighbourhood") or ""
+            # a centre on a road gets no dong from Nominatim (2026-10-16: 0b3, 57b, 54f showed as "칸 n" on the map):
+            # the most common addr:subdistrict of the cell's buildings
+            data["cells"][c] = name or subdistrict(cfg, c)
             path.write_text(json.dumps(data, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
         out[c] = data["cells"][c]
     return out
