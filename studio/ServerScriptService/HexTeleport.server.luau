@@ -13,6 +13,24 @@ local hexes = (ok and type(Data) == "table" and Data.hexes) or {}
 
 local last = {}
 
+-- with ServerScriptService/CellStreamer (2026-10-15) the target cell may not be built yet: cover the screen, build it, then move
+local function prepared(player, x, z)
+	local prepare = game:GetService("ServerStorage"):FindFirstChild("CellPrepare")
+	local loading = ReplicatedStorage:FindFirstChild("CellLoading")
+	if not prepare then
+		return function() end
+	end
+	if loading then
+		loading:FireClient(player, true)
+	end
+	prepare:Invoke(x, z)
+	return function()
+		if loading then
+			loading:FireClient(player, false)
+		end
+	end
+end
+
 local function groundAt(x, z, char)
 	-- the top of whatever a player can stand on (crowns, glass and signs do not collide), else the slab top at Y = 0
 	local params = RaycastParams.new()
@@ -43,6 +61,7 @@ remote.OnServerEvent:Connect(function(player, index)
 	end
 	last[player] = now
 	local x, z = hex[2], hex[3]
+	local done = prepared(player, x, z)
 	pcall(function() -- streaming: send the place to the player before the character arrives
 		player:RequestStreamAroundAsync(Vector3.new(x, 0, z), 5)
 	end)
@@ -51,6 +70,7 @@ remote.OnServerEvent:Connect(function(player, index)
 	end
 	local y = groundAt(x, z, char) + humanoid.HipHeight + root.Size.Y / 2 + 0.5
 	char:PivotTo(CFrame.new(x, y, z) * root.CFrame.Rotation)
+	done()
 end)
 
 -- H (2026-10-15): the roof of the tallest tower of Manual/Landmark (the towers by the department store), same cooldown
@@ -82,6 +102,7 @@ landmarkRemote.OnServerEvent:Connect(function(player)
 		return
 	end
 	last[player] = now
+	local done = prepared(player, best.X, best.Z)
 	pcall(function()
 		player:RequestStreamAroundAsync(Vector3.new(best.X, bestTop, best.Z), 5)
 	end)
@@ -95,6 +116,7 @@ landmarkRemote.OnServerEvent:Connect(function(player)
 	local hit = workspace:Raycast(Vector3.new(best.X, bestTop + 40, best.Z), Vector3.new(0, -80, 0), params)
 	local y = (hit and hit.Position.Y or bestTop) + humanoid.HipHeight + root.Size.Y / 2 + 0.5
 	char:PivotTo(CFrame.new(best.X, y, best.Z) * root.CFrame.Rotation)
+	done()
 end)
 
 Players.PlayerRemoving:Connect(function(player)

@@ -178,7 +178,11 @@ function Builder.add(cellId, items, looks, root)
 				model = Instance.new("Model")
 				model.Name = owner
 				model.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
-				model.LevelOfDetail = Enum.ModelLevelOfDetail.StreamingMesh -- a stand-in mesh beyond the streaming radius: the skyline stays (architecture 6.2)
+				-- a stand-in mesh beyond the streaming radius: the skyline stays (architecture 6.2). Only Studio (plugin) code may set it;
+				-- a game script (CellStreamer, 2026-10-15) skips it and the far view is the lite cells
+				pcall(function()
+					model.LevelOfDetail = Enum.ModelLevelOfDetail.StreamingMesh
+				end)
 				model.Parent = cell.Buildings
 			end
 			return model

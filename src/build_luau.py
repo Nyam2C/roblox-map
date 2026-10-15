@@ -481,6 +481,27 @@ def chunks_json(cell_id: str, chunk_texts: Sequence[str], building_ids: Sequence
     return json.dumps(body, ensure_ascii=False)
 
 
+def cell_index(cells: Sequence[str], frame: layout.Frame) -> dict[str, Any]:
+    """Every built cell's centre in studs and its rings (itself and the built cells one and two steps away) for
+    ServerScriptService/CellStreamer, which builds a player's cell and two rings (user decision 2026-10-15)."""
+    built = set(cells)
+    out = {}
+    for c in sorted(built):
+        x, z = layout.to_studs(frame, *h3.cell_to_latlng(c))
+        out[c] = {"x": round(x, 1), "z": round(z, 1), "ring1": sorted(built & set(h3.grid_disk(c, 1))),
+                  "ring2": sorted(built & set(h3.grid_disk(c, 2)))}
+    return {"cells": out}
+
+
+def write_cell_index(root: Path, cfg: Mapping[str, Any]) -> Path:
+    """root/cellindex.json over every cell that has a manifest under root."""
+    cells = sorted(p.parent.name for p in root.glob("*/manifest.json"))
+    path = root / "cellindex.json"
+    root.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(cell_index(cells, layout.Frame.from_cfg(cfg))), encoding="utf-8")
+    return path
+
+
 def write_plan(plan: Plan, root: Path) -> list[Path]:
     """Write the files of one cell to root/<cell>/. Chunk files of an earlier run that are no longer needed are removed."""
     folder = root / plan.cell_id
@@ -523,6 +544,20 @@ def load_cell_inputs(conn, cell_id: str) -> tuple[list, list, dict, dict, dict]:
     features = [f for f in db.rows_in_cells(conn, "street_features", [cell_id]) if f["kind"] in ("road", "path", "subway_entrance")]
     estimates = {e["building_id"]: e for e in db.estimates_in_cell(conn, cell_id)}
     return buildings, features, estimates, db.overrides_by_building(conn, cell_id), db.details_by_building(conn, cell_id)
+
+
+def load_exits(path: Path) -> list[dict[str, Any]]:
+    """Subway exits OSM lacks, read off the satellite and street view (regions/<region>/exits.json, cycle-build 2c, 2026-10-15), as
+    subway_entrance rows like the OSM ones; none without the file. Row: {"id": "exit:<station>-<ref>", "ref": "6", "lat", "lon"}."""
+    if not path.exists():
+        return []
+    out = []
+    for r in json.loads(path.read_text(encoding="utf-8"))["exits"]:
+        if not (SAFE_TEXT.fullmatch(str(r.get("id"))) and str(r.get("ref")).isdigit()
+                and all(isinstance(r.get(k), (int, float)) and math.isfinite(r[k]) for k in ("lat", "lon"))):
+            raise ValueError(f"{path.name}: bad exit {str(r.get('id'))[:30]!r}")
+        out.append({"feature_id": r["id"], "kind": "subway_entrance", "geometry": [[r["lat"], r["lon"]]], "tags": {"ref": str(r["ref"])}})
+    return out
 
 
 def load_clear(path: Path) -> list[dict[str, Any]]:
@@ -568,6 +603,7 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     cfg = common.cell_config(cfg, cell_id)
     tier = tiers.tier_of(cfg, cell_id) or 1  # never classified: treated as tier 1 (cycle-build step 0)
     buildings, features, estimates, overrides, details = load_cell_inputs(conn, cell_id)
+    features = features + load_exits(common.region_of(cfg, cell_id)[0] / "exits.json")
     sign_assets = load_sign_assets(common.cell_file(cfg, cell_id, "signs"))
     sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))
     plan = plan_cell(cell_id, buildings, features, cfg, estimates, overrides, details, sign_assets, sat_trees, tier,
@@ -621,6 +657,7 @@ def main(cfg: dict[str, Any]) -> int:
             common.log(logging.ERROR, f"cell failed: {message}", cell_id)
             db.record_run(conn, cell_id=cell_id, unit="C6", started_at=started, finished_at=common.now_iso(), status="failed",
                           error=message)
+    write_cell_index(root, cfg)  # CellStreamer's index of every built cell (2026-10-15)
     # the region's ground for MapBuilder.settleManual (hand-made places sit on it too), 2026-10-15
     ground = terrain.ground_for(common.cell_config(cfg, args.cells[0])) if args.cells else None
     if ground is not None:

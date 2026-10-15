@@ -437,3 +437,23 @@ def test_an_empty_record_under_the_trees_that_the_photos_show_empty_is_not_built
     assert B.plan_cell(CELL, [blank], [street("way:1")], CFG, estimates=seen).counts["items_building"] == 0
     seen_one = {bare["building_id"]: {"floors_seen": 1, "height_est_m": None, "note": "kiosk"}}
     assert B.plan_cell(CELL, [bare], [street("way:1")], CFG, estimates=seen_one, under_trees={bare["building_id"]}).counts["items_building"] == 1
+
+
+def test_the_cell_index_gives_every_built_cell_its_two_rings_of_built_cells():
+    import h3 as H
+    cells = sorted(H.grid_disk(CELL, 2))[:15]
+    idx = B.cell_index(cells, layout.Frame.from_cfg(CFG))["cells"]
+    assert set(idx) == set(cells)
+    for c, row in idx.items():
+        assert c in row["ring1"] and set(row["ring1"]) <= set(row["ring2"]) <= set(cells)
+        assert set(row["ring2"]) == set(cells) & set(H.grid_disk(c, 2))
+
+
+def test_load_exits_reads_rows_and_refuses_unsafe_ids(tmp_path):
+    p = tmp_path / "exits.json"
+    assert B.load_exits(p) == []
+    p.write_text(json.dumps({"exits": [{"id": "exit:test-6", "ref": "6", "lat": 37.5, "lon": 126.77}]}), encoding="utf-8")
+    assert B.load_exits(p) == [{"feature_id": "exit:test-6", "kind": "subway_entrance", "geometry": [[37.5, 126.77]], "tags": {"ref": "6"}}]
+    p.write_text(json.dumps({"exits": [{"id": "exit\")--", "ref": "6", "lat": 37.5, "lon": 126.77}]}), encoding="utf-8")
+    with pytest.raises(ValueError):
+        B.load_exits(p)

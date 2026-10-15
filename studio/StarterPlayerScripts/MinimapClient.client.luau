@@ -239,6 +239,61 @@ ring.Color = Color3.fromRGB(255, 255, 255)
 ring.Thickness = 2
 ring.Parent = dot
 
+-- the other players (2026-10-15, user: "맵에 다른 사용자 위치 보이게"): a blue dot and the display name. A character far away is
+-- not streamed to this client, so the position is the character when it is here, else the Player's MapX/MapZ (ServerScriptService/
+-- PlayerMap writes them every half second).
+local others = {}
+local function otherMarker(p)
+	local m = others[p]
+	if m then
+		return m
+	end
+	m = Instance.new("Frame")
+	m.Name = "Other"
+	m.AnchorPoint = Vector2.new(0.5, 0.5)
+	m.Size = UDim2.fromOffset(10, 10)
+	m.BackgroundColor3 = Color3.fromRGB(40, 120, 230)
+	m.BorderSizePixel = 0
+	m.ZIndex = 9
+	round(m, 5)
+	local edge = Instance.new("UIStroke")
+	edge.Color = Color3.fromRGB(255, 255, 255)
+	edge.Thickness = 1.5
+	edge.Parent = m
+	local name = Instance.new("TextLabel")
+	name.AnchorPoint = Vector2.new(0.5, 1)
+	name.Position = UDim2.new(0.5, 0, 0, -2)
+	name.Size = UDim2.fromOffset(120, 14)
+	name.BackgroundTransparency = 1
+	name.Text = p.DisplayName
+	name.TextSize = 12
+	name.Font = Enum.Font.GothamMedium
+	name.TextColor3 = Color3.fromRGB(30, 60, 140)
+	name.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+	name.TextStrokeTransparency = 0.3
+	name.ZIndex = 9
+	name.Parent = m
+	others[p] = m
+	return m
+end
+Players.PlayerRemoving:Connect(function(p)
+	if others[p] then
+		others[p]:Destroy()
+		others[p] = nil
+	end
+end)
+local function otherPosition(p)
+	local r = p.Character and p.Character:FindFirstChild("HumanoidRootPart")
+	if r then
+		return r.Position.X, r.Position.Z
+	end
+	local x, z = p:GetAttribute("MapX"), p:GetAttribute("MapZ")
+	if x and z then
+		return x, z
+	end
+	return nil
+end
+
 local mapButton = Instance.new("TextButton")
 mapButton.Name = "MapButton"
 mapButton.AnchorPoint = Vector2.new(1, 0)
@@ -354,6 +409,9 @@ local function setBig(on)
 	big.Visible = on
 	world.Parent = on and big or mini
 	marker.Parent = on and big or mini
+	for _, m in pairs(others) do
+		m.Parent = on and big or mini
+	end
 	if on then
 		userZoom, panX, panZ = 1, (bounds[1] + bounds[3]) / 2, (bounds[2] + bounds[4]) / 2
 	end
@@ -474,5 +532,16 @@ RunService.RenderStepped:Connect(function()
 		marker.Position = UDim2.fromScale(0.5 + (root.Position.X - cx) * zoom / vp.X, 0.5 + (root.Position.Z - cz) * zoom / vp.Y)
 		local look = workspace.CurrentCamera.CFrame.LookVector
 		marker.Rotation = math.deg(math.atan2(look.X, -look.Z)) -- clockwise from north
+	end
+	for _, p in ipairs(Players:GetPlayers()) do
+		if p ~= player then
+			local x, z = otherPosition(p)
+			local m = otherMarker(p)
+			m.Visible = x ~= nil
+			if x then
+				m.Parent = view
+				m.Position = UDim2.fromScale(0.5 + (x - cx) * zoom / vp.X, 0.5 + (z - cz) * zoom / vp.Y)
+			end
+		end
 	end
 end)

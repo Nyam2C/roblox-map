@@ -262,7 +262,11 @@ SOURCES = (("MinimapClient", "StarterPlayer.StarterPlayerScripts", "LocalScript"
            ("ScooterClient", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/ScooterClient.client.luau"),
            ("Scooter", "ServerScriptService", "Script", "ServerScriptService/Scooter.server.luau"),
            ("ParagliderClient", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/ParagliderClient.client.luau"),
-           ("Paraglider", "ServerScriptService", "Script", "ServerScriptService/Paraglider.server.luau"))
+           ("Paraglider", "ServerScriptService", "Script", "ServerScriptService/Paraglider.server.luau"),
+           # the server builds only the cells near players (2026-10-15); its data comes from studio/install/cell-data.luau
+           ("CellStreamer", "ServerScriptService", "Script", "ServerScriptService/CellStreamer.server.luau"),
+           ("CellLoading", "StarterPlayer.StarterPlayerScripts", "LocalScript", "StarterPlayerScripts/CellLoading.client.luau"),
+           ("PlayerMap", "ServerScriptService", "Script", "ServerScriptService/PlayerMap.server.luau"))
 
 
 def long_string(text: str) -> str:

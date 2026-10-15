@@ -38,6 +38,15 @@ uv run src/roofs.py --cells <칸>         # 평지붕 윗면 색(7층 이하): �
 ```
 `roofs.py`는 7층 이하만 읽는다(높은 건물은 위성에서 기울어 보임). 8층 이상 아파트 지붕 색은 외곽선을 위성에 겹친 그림을 보고 `roofs.json`의 `"hand"`에 손으로 적는다(다시 돌려도 유지). 수작업이 위성 나무 자리에 있으면(코트·광장) 그 사각형을 `cells/<칸>/courts.json`의 `clear`에 둔다(`courts.py` 참고, build_luau가 그 안 나무를 뺀다). `fields.py` 출력에 학교마다 `way:... sand|turf W x D studs`가 나오는지 본다(Overpass 504가 이어지면 결과가 그대로 남는다). 수작업이 있는 학교는 `manual.json`의 `osm`으로 `made_by: manual`이 되어 생성하지 않는다. 새 학교는 위성 겹쳐 보기(cycle-verify)에서 운동장 사각형을 확인한다.
 
+### 2c. 지하철 출구 맞추기 (역이 칸 안이나 옆에 있을 때, 2026-10-15)
+1. 이 칸과 이웃의 OSM 출구를 역별로 센다:
+   ```bash
+   sqlite3 data/map.db "select distinct json_extract(tags,'$.description'), json_extract(tags,'$.ref'), geometry from street_features where kind='subway_entrance' order by 1"
+   ```
+2. 그 역의 출구 수를 웹(나무위키 "<역>" 문서의 출구 목록 등)으로 확인하고 번호를 비교한다. 출구가 칸 경계 밖(이웃 칸)에 있을 수 있으니 이웃까지 본다.
+3. 빠진 번호는 위성 모자이크(유리 지붕 사각형)와 거리뷰(번호판)로 위치를 읽어 `regions/<구역>/exits.json`에 적는다: `{"exits": [{"id": "exit:<역 영문>-<번호>", "ref": "6", "lat": ..., "lon": ..., "seen": "위성 유리 지붕 + 거리뷰 번호판"}]}`. `build_luau`가 OSM 출구처럼 유리 출입구를 만든다(자기 칸 것만). 출처는 audit에.
+4. 다 맞으면 파일을 만들지 않고 audit에 "<역> 출구 N/N"만 남긴다.
+
 ### 3. 거리뷰 (1급 칸만)
 `uv run src/capture.py --cells <칸>`을 `cell done`이 나올 때까지 반복(실행당 새 파노라마 100장 상한). 백그라운드로 돌리고 끝나면 확인. 403/429·형식 이상으로 `stopped`면 **우회하지 말고 멈추고** 사용자에게 알린다.
 
@@ -72,6 +81,7 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 3. `cd data/build && python3 -m http.server 8766 --bind 127.0.0.1`(백그라운드). 포트는 칸 사이클 8766, 키트·스트리밍 세션 8765(2026-10-15 두 세션 합의, 동시에 돌아도 안 겹치게).
 4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행(칸 → 수작업 `Builder.settleManual`까지 한 번에; 땅은 칸의 기울인 판 조각이라 Terrain은 쓰지 않는다). `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. **미니맵·큰 지도 갱신**: Studio에 있는 칸을 모두 적어 `uv run src/minimap.py --cells <칸...>` → 같은 서버로 `minimap.luau`를 받아 `ReplicatedStorage/MinimapData`(ModuleScript)의 `Source`에 넣고, `install-u6.luau`(스크립트만)를 받아 임시 ModuleScript `Source`에 넣고 `require`(둘을 한 파일로 합치면 Studio `Source` 한도 200,000자를 넘는다)(칸을 만들거나 박스가 바뀔 때마다. 빠뜨리면 지도에 새 칸이 안 나온다).
+5b. **칸 데이터(서버 근처 칸 만들기, 2026-10-15)**: 같은 서버로 `studio/install/cell-data.luau`를 `execute_luau`(Edit)에 그대로 실행한다. `ServerStorage/CellData/<칸>`(압축 데이터와 이웃 두 바퀴)과 `ServerStorage/Lite/Auto/<칸>`(가벼운 판)이 갱신된다. 스크립트(`CellStreamer`, `CellLoading`, `PlayerMap`)는 5의 `install-u6.luau`가 넣는다. Play에서는 `CellStreamer`가 저장된 Auto 칸을 지우고 플레이어 주변 19칸만 만드니, 칸을 새로 만들고 이 단계를 빠뜨리면 Play에서 그 칸이 보이지 않는다.
 6. 서버를 내린다: `pkill -f "http.server 8766"`.
 7. 키트 메시(U7 H): Builder는 나무 수관을 `ServerStorage/Kits/crown-1`, `crown-2`(MeshPart)에서 복제한다. 없으면 `MapBuilder: kit ... is not in ServerStorage/Kits`로 멈춘다. 새 장소면 `data/kits/*.obj`(`uv run src/kits.py trees`)를 사용자가 홈 탭 Import로 가져오고, Claude가 MeshId가 `kits.MESH_IDS`와 같은지 본 뒤 그 MeshPart를 `ServerStorage/Kits/<이름>`으로 옮긴다. 새 메시를 올려야 하면 사용자에게 먼저 묻는다(검수). 줄 메시 키트(`stk-*`, `uv run src/kits.py stacks` → `data/kits/stacks.obj` 한 파일에 52개)는 `kits.MESH_IDS`에 들어간 것만 `build_luau.py`가 쓰고, 그 MeshPart도 `ServerStorage/Kits/<이름>`에 있어야 한다(충돌 끔, `CollisionFidelity = Box`).
 8. Builder(`studio/ServerStorage/MapBuilder.luau`)나 게임 스크립트(`studio/ServerScriptService/*.server.luau`)를 바꿨다면 먼저 교체한다: 그 파일 복사본만 둔 폴더를 같은 서버로 내놓고 Studio에서 `HttpService:GetAsync`로 받아 새 인스턴스의 `Source`에 넣고 원본 Destroy(require 캐시). 수작업은 `studio/manual/<구역>/*.luau`를 바로 실행하지 않고 `uv run src/anchors.py build --region <구역>` → `uv run src/anchors.py script --region <구역> --name <이름>`이 만든 `data/build/manual/<이름>.luau`(기준점 앞부분 + 스크립트)를 같은 서버로 내놓고 ModuleScript `Source`에 넣어 `require`한다. 스크립트에는 박스 좌표를 숫자로 쓰지 않고 `A.box`·`A.frame`·`A.boxes`를 쓴다(U7 F).
