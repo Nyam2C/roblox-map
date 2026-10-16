@@ -11,6 +11,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local MAX_SPEED = 105 -- studs per second (shown as km/h): the top on the throttle; boosts go past it (CartClient)
 local SEAT = 0.8 -- studs: the rider sits this much lower than he stands
+local MIN_HIP = 0.5 -- ...but never below this HipHeight: a small avatar (0.72) at -0.8 stood on nothing and never left Freefall (2026-10-17)
 local COOLDOWN = 0.6
 
 local function remoteNamed(name)
@@ -116,7 +117,8 @@ local function start(player, char, humanoid, root)
 	params.FilterDescendantsInstances = { char }
 	local hit = workspace:Raycast(root.Position, Vector3.new(0, -12, 0), params)
 	local stand = hit and hit.Distance or (humanoid.HipHeight + root.Size.Y / 2) -- root centre above the ground now
-	local sit = stand - SEAT -- and once seated
+	local drop = math.min(SEAT, math.max(0, humanoid.HipHeight - MIN_HIP))
+	local sit = stand - drop -- and once seated
 	local look = root.CFrame.LookVector
 	local frame = CFrame.lookAt(root.Position, root.Position + Vector3.new(look.X, 0, look.Z)) -- upright, the way he faces
 	local model = Instance.new("Model")
@@ -140,7 +142,7 @@ local function start(player, char, humanoid, root)
 		part.Massless = true
 		part.CanCollide, part.CanQuery, part.CanTouch = false, false, false
 		part.CastShadow = p[8] == 0
-		part.CFrame = frame * CFrame.new(p[3], p[4] - sit, p[5]) * turn -- in place once the root has come down SEAT
+		part.CFrame = frame * CFrame.new(p[3], p[4] - sit, p[5]) * turn -- in place once the root has come down by drop
 		part.Parent = model
 		parts[p[1]] = part
 	end
@@ -193,7 +195,7 @@ local function start(player, char, humanoid, root)
 	glow.Parent = floor
 	model.Parent = char
 	state[player] = { model = model, humanoid = humanoid, hip = humanoid.HipHeight }
-	humanoid.HipHeight -= SEAT
+	humanoid.HipHeight -= drop
 	char:SetAttribute("CartMaxSpeed", MAX_SPEED)
 	char:SetAttribute("Carting", true) -- the client sits and drives when it sees this
 end
