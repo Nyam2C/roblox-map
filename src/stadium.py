@@ -13,6 +13,7 @@ from typing import Any
 
 from shapely import affinity
 from shapely.geometry import LineString, Point, Polygon
+from shapely.ops import unary_union
 
 import layout_details as LD
 from layout import Frame, Item
@@ -37,6 +38,8 @@ SOLAR = (40, 46, 58)
 APRON = (62, 112, 172)  # the blue apron round the track and the blue jogging ring outside (satellite)
 CONCOURSE = (176, 150, 122)
 RED_SEAT = (178, 52, 58)  # the east straight's red seats with BUCHEON in white (satellite)
+GATE_W = 8.0        # m, the walk-in tunnels under the stands (user 2026-10-16 "경기장 들어갈 수 있음?" -> "ㄱㄱ")
+GATE_H = 4.0        # m, their headroom
 
 
 def capsule(c: Point, yaw: float, straight: float, r: float) -> Polygon:
@@ -51,6 +54,19 @@ def axis(poly: Polygon) -> float:
     sides = [(math.dist(pts[i], pts[i + 1]), pts[i], pts[i + 1]) for i in range(2)]
     _, a, b = max(sides)
     return math.degrees(math.atan2(b[1] - a[1], b[0] - a[0]))
+
+
+def footprint(x: float, n: float, length: float, depth: float, yaw: float) -> Polygon:
+    """The ground box of a piece centred at (x, n) metres, `length` along the maths angle `yaw`."""
+    t = math.radians(yaw)
+    u, v = (math.cos(t) * length / 2, math.sin(t) * length / 2), (-math.sin(t) * depth / 2, math.cos(t) * depth / 2)
+    return Polygon([(x + su * u[0] + sv * v[0], n + su * u[1] + sv * v[1]) for su, sv in ((-1, -1), (1, -1), (1, 1), (-1, 1))])
+
+
+def gates(c: Point, yaw: float, width: float) -> Polygon:
+    """Four corridors from the centre out through the bowl: both ends of the long axis and the middle of both long sides."""
+    return unary_union([LineString([(c.x, c.y), (c.x + math.cos(math.radians(yaw + q)) * 400, c.y + math.sin(math.radians(yaw + q)) * 400)])
+                        .buffer(width / 2, cap_style=2) for q in (0, 90, 180, 270)])
 
 
 def ring_m(poly) -> list[tuple[float, float, float, float]]:
@@ -97,6 +113,7 @@ def build(frame: Frame, bid: str, poly: Polygon) -> list[Item]:
 
     # the bowl: rings of seats rising outward from the track to the white back wall, blue with a lighter ring every third row
     stands = poly.buffer(-1.2)  # pieces stay inside the back wall
+    gate = gates(c, yaw, GATE_W - 2.0)  # a piece touching the gate's middle 6 m stands on the tunnel roof instead of the ground
     a = math.radians(yaw)
     east = (math.cos(a - math.pi / 2), math.sin(a - math.pi / 2))  # the side to the right of the long axis
     if east[0] < 0:
@@ -112,14 +129,17 @@ def build(frame: Frame, bid: str, poly: Polygon) -> list[Item]:
         made = 0
         for x, z, length, wyaw in ring_m(mid):
             red = k < 12 and red_zone.contains(Point(x, z))
-            t = math.radians(wyaw)  # the piece's footprint must sit inside the wall
-            u, v = (math.cos(t) * length / 2, math.sin(t) * length / 2), (-math.sin(t) * STEP / 2, math.cos(t) * STEP / 2)
-            box = Polygon([(x + su * u[0] + sv * v[0], z + su * u[1] + sv * v[1]) for su, sv in ((-1, -1), (1, -1), (1, 1), (-1, 1))])
+            box = footprint(x, z, length, STEP, wyaw)
             if not stands.covers(box):
+                continue
+            made += 1
+            if box.intersects(gate):
+                if top > GATE_H + 0.5:
+                    put("building", "sg", x, z, GATE_H, (length, top - GATE_H, STEP), RED_SEAT if red else rgb, wyaw,
+                        material="Concrete", collide=True)
                 continue
             put("building", "sr" if red else "st", x, z, 0.0, (length, top, STEP), RED_SEAT if red else rgb, wyaw, material="Concrete",
                 collide=True)
-            made += 1
         if not made:
             break
         k += 1
@@ -127,6 +147,9 @@ def build(frame: Frame, bid: str, poly: Polygon) -> list[Item]:
 
     # the outside: a white back wall to the top row and white buttress columns every other piece of the outline
     for n_, (x, z, length, wyaw) in enumerate(ring_m(poly)):
+        if footprint(x, z, length, 1.0, wyaw).intersects(gate):  # a doorway: the wall starts over the tunnel
+            put("facade", "bw", x, z, GATE_H, (length, bowl_top + 1.0 - GATE_H, 1.0), WHITE, wyaw, material="Concrete")
+            continue
         put("facade", "bw", x, z, 0.0, (length, bowl_top + 1.0, 1.0), WHITE, wyaw, material="Concrete")
         if n_ % 2 == 0:
             put("facade", "co", x, z, 0.0, (1.2, ROOF_Y, 1.6), WHITE, wyaw, material="Concrete")

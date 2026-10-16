@@ -162,3 +162,11 @@ def test_the_stadium_has_a_track_round_the_pitch_and_a_bowl_rising_outward():
         rx, rz = w.cx - cx, w.cz - cz
         t = math.radians(w.yaw_deg)
         assert abs(math.cos(t) * rx - math.sin(t) * rz) / math.hypot(rx, rz) < 0.3
+    # four walk-in tunnels: no seat stands on the ground in the middle of a gate; the seats there sit on the tunnel roof
+    s = FA.layout.Frame.from_cfg(FA.common.DEFAULTS).studs_per_m
+    for gx, gz in ((0, 1), (0, -1), (1, 0), (-1, 0)):  # studs: +z is south
+        for i in items:
+            if "#st-" in i.name or "#sr-" in i.name:
+                rx, rz = i.cx - cx, i.cz - cz
+                assert not (rx * gx + rz * gz > 0 and abs(rx * gz - rz * gx) < 2.0 * s), i.name
+    assert all(i.cy - i.sy / 2 > stadium.GATE_H * s - 0.1 for i in items if "#sg-" in i.name) and any("#sg-" in i.name for i in items)
