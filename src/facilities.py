@@ -559,7 +559,7 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
             out.append({"key": sp["key"], "cell": cell, "claims": [], "folder": True,
                         "parts": [item_row(i) for i in anjunggeun.build(frame, sp["key"], sp.get("layout"))]})
             continue
-        if sp.get("custom") in ("sopoong", "factory", "savezone", "stadium"):  # 부천종합터미널 소풍 (rotunda, bus bays, footbridge), the big factory in 1a7, 세이브존
+        if sp.get("custom") in ("sopoong", "factory", "savezone", "stadium", "megaplus"):  # 부천종합터미널 소풍 (rotunda, bus bays, footbridge), the big factory in 1a7, 세이브존
             bid = sp["build"][0]
             parts = __import__(sp["custom"]).build(frame, bid, LD._poly_m(rows[bid]["outline"], frame))
             out.append({"key": sp["key"], "cell": cell, "claims": sorted(set(sp["build"]) | set(sp.get("claims") or [])),

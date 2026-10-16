@@ -20219,6 +20219,24 @@
     "gis:11177554"
    ],
    "claims": []
+  },
+  {
+   "key": "megaplus",
+   "cell": "8930e0af0b3ffff",
+   "custom": "megaplus",
+   "build": [
+    "gis:11731027"
+   ],
+   "claims": [
+    "gis:14851413"
+   ],
+   "floors": 16,
+   "seen": "7-floor podium over the whole lot with a slanted NW corner to the 상동역 crossing, floors 2-6 covered in big signboards row on row, a glass sauna floor on top; a beige stone slab tower set back on it to 16 floors with a steel frame along its top and two big posters; pines on the podium roof.",
+   "notes": "2026-10-17 user: \"세이브존 건너편 메가플라자 건물 보강\" with eleven photos of his own (local only, not in the repo). Dedicated generator src/megaplus.py: podium from the outline (1 m fills keep the slanted corner), tower set back by the satellite (N 19.5, S 19, W 4, E 3 m), boards with trade words only (no business or building names), the north-face passage five floors high, sauna lettering, roof gardens. Floors 16 (photos: 7 + 9) over the register's 14; height 62.8 m from the register. gis:14851413 is the same footprint again (area 0): claimed so no Auto box stands inside.",
+   "sources": [
+    "user photos IMG_6194-6205 (2026-10-16, local only)",
+    "data/satellite/8930e0af0b3ffff-z19.jpg"
+   ]
   }
  ]
 }

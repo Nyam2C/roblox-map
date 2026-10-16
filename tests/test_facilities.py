@@ -170,3 +170,27 @@ def test_the_stadium_has_a_track_round_the_pitch_and_a_bowl_rising_outward():
                 rx, rz = i.cx - cx, i.cz - cz
                 assert not (rx * gx + rz * gz > 0 and abs(rx * gz - rz * gx) < 2.0 * s), i.name
     assert all(i.cy - i.sy / 2 > stadium.GATE_H * s - 0.1 for i in items if "#sg-" in i.name) and any("#sg-" in i.name for i in items)
+
+
+def test_megaplus_podium_tower_and_boards_that_face_the_street():
+    import details_rules
+    import megaplus
+    from shapely.geometry import Point, Polygon
+    # the lot as in the register: a 73 x 63 m block turned -9.4 degrees with its NW corner cut (metres east, north)
+    t = math.radians(-9.4)
+    local = [(-36.5, -31.5), (36.5, -31.5), (36.5, 31.5), (-20.0, 31.5), (-36.5, 18.0)]
+    poly = Polygon([(x * math.cos(t) - y * math.sin(t), x * math.sin(t) + y * math.cos(t)) for x, y in local])
+    items = megaplus.build(FRAME, "gis:1", poly)
+    s = FRAME.studs_per_m
+    tails = [i.name.split("#", 1)[1].split("-")[0] for i in items]
+    fills = [i for i, k in zip(items, tails) if k == "m"]
+    assert abs(sum(i.sx * i.sz for i in fills) / s ** 2 - poly.area) < 0.05 * poly.area  # the podium fills its lot
+    tower = items[tails.index("t")]
+    assert poly.contains(Point(tower.cx / s, -tower.cz / s)) and tower.sx / s < 73 and tower.sz / s < 63
+    signs = [i for i in items if i.text]
+    assert signs and all(details_rules.SIGN_TEXT.fullmatch(i.text) for i in signs)
+    c = poly.centroid
+    for i in signs:  # each lettered board's Front looks away from the building
+        e, n = i.cx / s, -i.cz / s
+        a = math.radians(i.yaw_deg)
+        assert (-math.sin(a)) * (e - c.x) + math.cos(a) * (n - c.y) > 0, i.name
