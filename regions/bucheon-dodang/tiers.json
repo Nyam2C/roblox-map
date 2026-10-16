@@ -30,6 +30,21 @@
    "reason": "사용자 확장 요청(2026-10-16, 도당동 1·2·3 둘레 6칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0ac683ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.141,
+     "residential": 0.693,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 남·동쪽 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0ac693ffff": {
    "counts": {
     "landmarks": [
@@ -46,6 +61,45 @@
    },
    "manual": false,
    "reason": "landmarks: school:심원중학교, school:심원초등학교",
+   "tier": 1
+  },
+  "8930e0ac697ffff": {
+   "counts": {
+    "landmarks": [
+     "place_of_worship:부천 신정 교회"
+    ],
+    "pois": 2,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.04,
+     "residential": 0.869,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 남·동쪽 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac69bffff": {
+   "counts": {
+    "landmarks": [
+     "park:꿈마을 어린이공원",
+     "park:연꽃 어린이 공원",
+     "place_of_worship:꿈마을엘림교회",
+     "school:심원중학교",
+     "school:심원초등학교",
+     "school:원미고등학교"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.104,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 남·동쪽 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0ae24bffff": {

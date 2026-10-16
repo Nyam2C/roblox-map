@@ -82,6 +82,16 @@ def test_pieces_and_tiles_are_cut_finer_where_the_ground_bends_and_left_whole_on
     assert min(t.sx for t in west) > 40 and min(t.sx for t in east) < 30
 
 
+def test_a_bump_on_a_quarter_line_of_a_tile_is_seen_and_the_tile_is_cut():
+    class Bump:  # a 2-stud hump at (0, 48): between the old 4 x 3 samples of a 192-stud tile (697, 2026-10-16)
+        def h(self, x, z):
+            return 2.0 * math.exp(-(x * x + (z - 48) ** 2) / (2 * 15.0**2))
+
+    assert T._bend(Bump(), 0.0, 0.0, 0.0, 192.0, 192.0) > T.BEND_TILE
+    tiles = T.lift([item("ground", "Ground", 0, 0, 192, 4, 192, y=-2)], Bump())
+    assert len(tiles) > 1
+
+
 def test_a_long_road_is_cut_so_each_part_follows_its_own_stretch():
     g = ramp_ground()
     road = item("road", "way:3#0", 0, 0, 150, 0.2, 10)

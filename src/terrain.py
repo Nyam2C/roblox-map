@@ -138,8 +138,8 @@ def _bend(ground: Ground, x: float, z: float, yaw: float, lx: float, lz: float) 
     sx = (ground.h(x + ux * lx / 2, z + uz * lx / 2) - ground.h(x - ux * lx / 2, z - uz * lx / 2)) / max(lx, 1e-6)
     sz = (ground.h(x + vx * lz / 2, z + vz * lz / 2) - ground.h(x - vx * lz / 2, z - vz * lz / 2)) / max(lz, 1e-6)
     worst = 0.0
-    for a in (-0.5, -0.25, 0.25, 0.5):
-        for b in (-0.5, 0.0, 0.5):
+    for a in (-0.5, -0.25, 0.0, 0.25, 0.5):  # 5 x 5: a 4 x 3 grid missed a bump on the quarter line, a tile rose 0.23 over a road (697, 2026-10-16)
+        for b in (-0.5, -0.25, 0.0, 0.25, 0.5):
             px, pz = x + ux * a * lx + vx * b * lz, z + uz * a * lx + vz * b * lz
             worst = max(worst, abs(ground.h(px, pz) - (h0 + sx * a * lx + sz * b * lz)))
     return worst

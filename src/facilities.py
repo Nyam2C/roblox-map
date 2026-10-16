@@ -491,6 +491,19 @@ def towers_on_podium(frame: Frame, body: LD.Body, sp: Mapping[str, Any], lines: 
     return items
 
 
+def split_box(body: LD.Body, own: Mapping[str, Any]) -> list[tuple[LD.Body, Mapping[str, Any]]]:
+    """The record as one piece, or, with own["split"] = {"side": "E", ...look}, its box farthest that way as a second piece in that look
+    (원미고: the gym is the east box of the main block's outline, 2026-10-16)."""
+    sp = own.get("split")
+    if not sp or len(body.boxes) < 2:
+        return [(body, own)]
+    w = [sum(Maker.COMPASS[c][a] for c in str(sp.get("side", "E")).upper() if c in Maker.COMPASS) for a in (0, 1)]
+    i = max(range(len(body.boxes)), key=lambda j: body.boxes[j].cx_m * w[0] + body.boxes[j].cy_m * w[1])
+    rest = [j for j in range(len(body.boxes)) if j != i]
+    return [(dataclasses.replace(body, boxes=tuple(body.boxes[j] for j in rest), names=tuple(body.names[j] for j in rest)), own),
+            (dataclasses.replace(body, boxes=(body.boxes[i],), names=(body.names[i],), front=0), {k: v for k, v in sp.items() if k != "side"})]
+
+
 def courtyard(bx: layout.Box, t: float) -> tuple[layout.Box, ...]:
     """Four wings of depth t round a yard inside the box: the two long sides full length, the two short ones between them."""
     t = min(t, bx.depth_m / 3)
@@ -579,17 +592,20 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
             if ring:  # a ㅁ-shaped block whose register outline has no hole (중원고, 2026-10-16): four wings round the yard
                 wings = courtyard(max(body.boxes, key=lambda x: x.width_m * x.depth_m), ring)
                 body = dataclasses.replace(body, boxes=wings, names=tuple(f"{bid}#b{i}" for i in range(len(wings))), front=0)
-            floors = int(own.get("floors") or (sp.get("floors") if k == 0 else 0) or body.floors)
-            height = float(own.get("height_m") or (sp.get("height_m") if k == 0 else 0) or 0)
-            if not height:
-                height = body.height_m if floors == body.floors else floors * FH_DEFAULT
-            body = dataclasses.replace(body, floors=floors, fh=height / floors, height_m=height, is_body=True)
-            body = LD.resolve_body(body, lines, [], ccfg)
-            main = k == 0 or "accents" in own or bool(sp.get("accents_everywhere"))
-            if k == 0 and sp.get("towers"):
-                items += towers_on_podium(frame, body, spk, lines, ccfg)
-            else:
-                items += Maker(frame, body, spk, main=main).make()
+            for piece, pown in split_box(body, own):
+                pspk = {**sp, **pown}
+                first = k == 0 and pown is own
+                floors = int(pown.get("floors") or (sp.get("floors") if first else 0) or piece.floors)
+                height = float(pown.get("height_m") or (sp.get("height_m") if first else 0) or 0)
+                if not height:
+                    height = piece.height_m if floors == piece.floors else floors * FH_DEFAULT
+                piece = dataclasses.replace(piece, floors=floors, fh=height / floors, height_m=height, is_body=True)
+                piece = LD.resolve_body(piece, lines, [], ccfg)
+                main = first or "accents" in pown or bool(sp.get("accents_everywhere"))
+                if first and sp.get("towers"):
+                    items += towers_on_podium(frame, piece, pspk, lines, ccfg)
+                else:
+                    items += Maker(frame, piece, pspk, main=main).make()
         out.append({"key": sp["key"], "cell": cell, "claims": sorted(set(sp["build"]) | set(sp.get("claims") or [])),
                     "parts": [item_row(i) for i in items]})
     return out

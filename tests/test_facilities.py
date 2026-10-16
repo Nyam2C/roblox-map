@@ -128,3 +128,15 @@ def test_a_courtyard_box_becomes_four_wings_round_an_empty_yard():
     assert len(wings) == 4 and all(outer.buffer(0.01).covers(p) for p in polys)
     assert all(p.intersection(yard).area < 1e-6 for p in polys)
     assert abs(sum(p.area for p in polys) - (outer.area - yard.area)) < 1e-3
+
+
+def test_split_takes_the_box_farthest_that_way_into_its_own_look():
+    """2026-10-16 (69b 원미고): the gym is the east box of the main block's outline; "split" builds it apart in its own look."""
+    boxes = tuple(FA.layout.Box(x, 0.0, 20.0, 10.0, 0.0, 1.0) for x in (0.0, 60.0, 30.0))
+    body = FA.dataclasses.replace(FA.LD.Body("gis:1", "school", True, boxes, ("a", "b", "c"), 5, 3.5, 17.5, "white", (1, 1, 1),
+                                             "Concrete", {}, "flat", "", ""), front=1)
+    own = {"split": {"side": "E", "floors": 2, "roof": {"features": ["pitched"]}}}
+    (rest, r_own), (gym, g_own) = FA.split_box(body, own)
+    assert gym.names == ("b",) and rest.names == ("a", "c") and r_own is own
+    assert g_own == {"floors": 2, "roof": {"features": ["pitched"]}}
+    assert FA.split_box(body, {}) == [(body, {})]

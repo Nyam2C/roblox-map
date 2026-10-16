@@ -13027,6 +13027,1496 @@
     "gis:11205738"
    ],
    "claims": []
+  },
+  {
+   "key": "wonmi_high",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     100,
+     92
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.5,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     90,
+     110,
+     125
+    ],
+    "frame_rgb": [
+     225,
+     225,
+     222
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     200,
+     192
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.2,
+     "width_m": 2.2,
+     "from_floor": 1,
+     "to_floor": 4,
+     "material": "Plaster",
+     "rgb": [
+      225,
+      170,
+      60
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 2.2,
+     "from_floor": 1,
+     "to_floor": 3,
+     "material": "Plaster",
+     "rgb": [
+      60,
+      150,
+      150
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     150,
+     155,
+     160
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "원미고등학교",
+    "face": "back",
+    "floor": 4,
+    "bg_rgb": [
+     235,
+     235,
+     232
+    ],
+    "ink_rgb": [
+     40,
+     60,
+     110
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     200,
+     196,
+     188
+    ],
+    "top_rgb": [
+     150,
+     158,
+     165
+    ],
+    "features": [
+     "stair_box",
+     "solar"
+    ]
+   },
+   "per_building": {
+    "gis:11178083": {
+     "floors": 2,
+     "roof": {
+      "parapet_rgb": [
+       92,
+       76,
+       62
+      ],
+      "top_rgb": [
+       92,
+       76,
+       62
+      ],
+      "features": []
+     }
+    },
+    "gis:11178236": {
+     "floors": 2
+    },
+    "gis:11178081": {},
+    "gis:11178082": {
+     "floors": 1
+    },
+    "gis:11193249": {
+     "split": {
+      "side": "E",
+      "floors": 2,
+      "height_m": 14,
+      "wall": {
+       "material": "Brick",
+       "rgb": [
+        120,
+        95,
+        80
+       ]
+      },
+      "windows": {
+       "type": "ribbon",
+       "w_m": 1.6,
+       "h_m": 1.2,
+       "pitch_m": 2.6,
+       "glass_rgb": [
+        90,
+        110,
+        125
+       ],
+       "frame_rgb": [
+        225,
+        225,
+        222
+       ]
+      },
+      "bands": null,
+      "accents": [],
+      "roof": {
+       "parapet_rgb": [
+        92,
+        76,
+        62
+       ],
+       "top_rgb": [
+        92,
+        76,
+        62
+       ],
+       "features": [
+        "pitched"
+       ]
+      },
+      "sign": null,
+      "entrance": null
+     }
+    }
+   },
+   "notes": "Main block: gis:11193249 (long 5-floor dark-red/maroon brick slab along the north edge, ~100 m, flat roof light-grey with two small rooftop boxes). gis:15786264 is a duplicate record (centroid 10 m from it, same name/floors, no area) and gis:16629702 (west, centroid 37.49837/126.78161) is a tree-covered strip on the west edge with no building seen in street view or satellite: both dropped. East of the main block the satellite shows a big gymnasium (large dark-brown low-pitched roof, about 25 x 45 m, centre near lat 37.49808 lon 126.78309), nearest record gis:11178082 (with 11178083 and 11178236 as small annexes around it); gis:11178081 is the short link wing at the east end of the main block, so it is listed in building_ids as a main-block part. Main block facade: dark maroon brick, regular punched window grid, light cream floor bands at some levels, a few small yellow/teal accent panels near the east part, dark glass ground-floor strip, grey entrance canopy on the playground side (south). Playground south of the main block is bare sandy ground with a blue-green court on its west edge.",
+   "sources": [
+    "captures/8930e0ac69bffff/sheets/gis_11193249.jpg",
+    "captures/8930e0ac69bffff/sheets/gis_11178082.jpg",
+    "data/satellite/8930e0ac69bffff-z19.jpg"
+   ],
+   "seen": "Street view shows the brick slab through a thick hedge and ginkgo trees; the gym is only seen as a grey canopy edge. Web search found no facade photos (only school-info listings), so colours come from street view and satellite.",
+   "claims": [
+    "gis:15786264",
+    "gis:16629702"
+   ],
+   "cell": "8930e0ac69bffff",
+   "build": [
+    "gis:11193249",
+    "gis:11178081",
+    "gis:11178082",
+    "gis:11178083",
+    "gis:11178236"
+   ]
+  },
+  {
+   "key": "woorim_edupark",
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     205,
+     200,
+     192
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     150,
+     145,
+     138
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.5,
+    "h_m": 1.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     95,
+     115,
+     130
+    ],
+    "frame_rgb": [
+     235,
+     235,
+     232
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      200,
+      205,
+      120
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.4,
+     "width_m": 2.0,
+     "from_floor": 3,
+     "to_floor": 14,
+     "material": "Plaster",
+     "rgb": [
+      205,
+      210,
+      120
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.4,
+     "width_m": 2.0,
+     "from_floor": 3,
+     "to_floor": 14,
+     "material": "Plaster",
+     "rgb": [
+      205,
+      210,
+      120
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 10.0,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "Plaster",
+     "rgb": [
+      190,
+      160,
+      125
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     60,
+     62
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     215,
+     212,
+     205
+    ],
+    "top_rgb": [
+     150,
+     152,
+     150
+    ],
+    "features": [
+     "stair_box",
+     "crown"
+    ],
+    "crown": {
+     "height_m": 3.0,
+     "rgb": [
+      215,
+      212,
+      205
+     ]
+    }
+   },
+   "per_building": {
+    "gis:15549996": {
+     "floors": 13,
+     "height_m": 37
+    }
+   },
+   "notes": "Two slab towers side by side (15 and 13 floors). Facade is light warm-grey stone-look panels with regular small punched windows and small balconies with white railings; vertical lime/yellow-green accent strips at the corners and stairwell edges (visible on the 13-floor tower, running full height), one gable end clad in beige/tan (light brown) panels with a window grid. Ground floors: grey stone base with dark recessed entrances and a few shop fronts facing the street. Roof: flat, thin light parapet, small stair/lift box, slight stepped crown at the top of the stair core.",
+   "sources": [
+    "captures/8930e0ac69bffff/sheets/gis_15711128.jpg"
+   ],
+   "seen": "Two grey-white slabs with lime-green vertical accents, tan end wall, stone ground floors with dark entrances.",
+   "accents_everywhere": true,
+   "cell": "8930e0ac69bffff",
+   "build": [
+    "gis:15711128",
+    "gis:15549996"
+   ],
+   "claims": []
+  },
+  {
+   "key": "elim_church_kkummaeul",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     205,
+     200,
+     190
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "curtain",
+    "glass_rgb": [
+     40,
+     60,
+     140
+    ],
+    "frame_rgb": [
+     200,
+     205,
+     215
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.35,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "Limestone",
+     "rgb": [
+      200,
+      190,
+      172
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.12,
+     "width_m": 24.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      40,
+      60,
+      140
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": 0.35,
+     "width_m": 2.0,
+     "rgb": [
+      230,
+      230,
+      230
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.05,
+    "width_m": 8.0,
+    "canopy": true,
+    "canopy_rgb": [
+     40,
+     45,
+     50
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "꿈마을엘림교회",
+    "face": "street",
+    "floor": 4,
+    "bg_rgb": [
+     230,
+     228,
+     222
+    ],
+    "ink_rgb": [
+     40,
+     50,
+     90
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     200,
+     195,
+     185
+    ],
+    "top_rgb": [
+     160,
+     162,
+     165
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Wide front of dark-blue reflective glass curtain wall over the lower 4 floors on the west/main part, with a dark glazed entrance colonnade at ground floor and a small planted forecourt. East end is a taller (about 6-7 floors high look) cream limestone-clad round/octagonal tower, with a slightly wider dark cap/lantern at top and vertical lettering on its street face; put the cross on top of this tower (roof face, at 0.35). Upper left part is a set-back cream box with a few small windows. Stone-edged flower bed along the street.",
+   "sources": [
+    "captures/8930e0ac69bffff/sheets/gis_11218384.jpg"
+   ],
+   "seen": "Blue mirror-glass front, cream round tower with dark cap at the east end, columned glass entrance. Web search found nothing; colours from street view.",
+   "cell": "8930e0ac69bffff",
+   "build": [
+    "gis:11218384"
+   ],
+   "claims": [],
+   "front": "S"
+  },
+  {
+   "key": "yeonkkot_park",
+   "cell": "8930e0ac69bffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/wonmi_park.json",
+   "build": [],
+   "claims": [],
+   "notes": "연꽃 어린이 공원 (OSM way 468646010; Claude's pick for 69b, user delegated 2026-10-16): ground layout traced on the 69b satellite mosaic (no web photos checked): blue rubber-mat play areas, court, earth plaza, walks and a shelter in a dense wood south of 원미고. Trees stay the satellite's."
+  },
+  {
+   "key": "round_office_jomaru",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     200,
+     204,
+     208
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "curtain",
+    "w_m": 3.0,
+    "h_m": 2.6,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     90,
+     125,
+     160
+    ],
+    "frame_rgb": [
+     190,
+     194,
+     198
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     208,
+     212
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      40,
+      80,
+      170
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      200,
+      204,
+      208
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     40,
+     80,
+     170
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     200,
+     204,
+     208
+    ],
+    "top_rgb": [
+     90,
+     130,
+     100
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "West (street) face is a convex curved glass curtain wall: an oval/round-ended plan, so the building is a box whose street-side end(s) are rounded (a large-radius arc), not a full oval. Upper floors are a continuous blue-tinted reflective glass band behind a light-grey aluminium rim at the roof edge (curved parapet). A thin blue fascia band over the ground floor glass storefront with a recessed entrance at the middle. The north end curves round the corner towards the junction. Roof is flat, greenish on the satellite. Side/back wall facing neighbours is plain light-grey plaster with few windows. No text sign (brand building).",
+   "sources": [
+    "captures/8930e0ac683ffff/sheets/gis_11181189.jpg",
+    "data/satellite/8930e0ac683ffff-z19.jpg (roof colour from task brief, not re-opened)"
+   ],
+   "seen": "Street-view shows a four-storey curved-front glass office with a light grey curved rim and blue ground-floor band; web search found no named page.",
+   "rotunda": {
+    "corner": "N",
+    "diameter_m": 14,
+    "height_m": 16,
+    "glass_rgb": [
+     90,
+     125,
+     160
+    ],
+    "bands_every_m": 3.5,
+    "rgb": [
+     200,
+     204,
+     208
+    ],
+    "crown_rgb": [
+     200,
+     204,
+     208
+    ]
+   },
+   "cell": "8930e0ac683ffff",
+   "build": [
+    "gis:11181189"
+   ],
+   "claims": []
+  },
+  {
+   "key": "unhyeon_plaza",
+   "floors": 6,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     188,
+     186,
+     180
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     52,
+     54,
+     58
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.5,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     85,
+     115,
+     140
+    ],
+    "frame_rgb": [
+     215,
+     214,
+     210
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     203,
+     198
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 2,
+     "to_floor": 2,
+     "material": "Metal",
+     "rgb": [
+      200,
+      170,
+      70
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 3,
+     "to_floor": 3,
+     "material": "Metal",
+     "rgb": [
+      200,
+      170,
+      70
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      40,
+      42,
+      46
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.2,
+    "width_m": 3.5,
+    "canopy": true,
+    "canopy_rgb": [
+     150,
+     150,
+     145
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     185,
+     183,
+     178
+    ],
+    "top_rgb": [
+     150,
+     150,
+     148
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Corner building at the junction: the corner (south-west) is curved/rounded with a rounded ribbon-window bay and a curved dark ground floor. Ground floor is a dark grey/black stone-and-glass shop floor with awnings and goods outside. A second storey of tinted ribbon glass with a dark spandrel, then light grey stone-panel upper floors with ribbon windows; two narrow gold-lettered sign bands sit at floors 2-3 (clinic strips, no readable text needed). East side steps back in terraces (upper floors 4-6 setback with railings, vertical white column strip). Counted about 6 floors in the photos (given 5).",
+   "sources": [
+    "captures/8930e0ac683ffff/sheets/gis_11186542.jpg"
+   ],
+   "seen": "Rounded corner, dark granite base with shops, grey panel upper floors with ribbon windows and gold sign bands, stepped terraces on the east side.",
+   "cell": "8930e0ac683ffff",
+   "build": [
+    "gis:11186542"
+   ],
+   "claims": []
+  },
+  {
+   "key": "simindang_bucheon",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     226,
+     222,
+     214
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Brick",
+    "rgb": [
+     170,
+     110,
+     90
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.2,
+    "h_m": 1.4,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     80,
+     100,
+     110
+    ],
+    "frame_rgb": [
+     190,
+     185,
+     175
+    ]
+   },
+   "bands": {
+    "rgb": [
+     190,
+     95,
+     85
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "round_windows",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 12.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "rgb": [
+      200,
+      130,
+      90
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      190,
+      95,
+      85
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.2,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     170,
+     100,
+     80
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "부천심인당",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     60,
+     50,
+     45
+    ],
+    "ink_rgb": [
+     230,
+     220,
+     200
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     226,
+     222,
+     214
+    ],
+    "top_rgb": [
+     90,
+     60,
+     45
+    ],
+    "features": []
+   },
+   "notes": "Not a pitched-tile hall: a three-storey temple with stacked white balcony balustrades whose fronts are decorated with a row of round medallions, with a red/terracotta band under each balcony; the upper two floors step back in tiers with thin red eave trims. Brick-red square piers flank a glass entrance door with a lantern-style globe light; a terrace railing and a low brick wall with gate in front. Roof is flat with a dark-brown top. Colourful paper lanterns hang across the street in front on festival days (ignore). The second id (gis:17422833) is the same temple's duplicate record: dropped.",
+   "sources": [
+    "captures/8930e0ac683ffff/sheets/gis_11181992.jpg",
+    "WebSearch 부천심인당 (no pages found)"
+   ],
+   "seen": "Street-view shows a tiered white balcony facade with round medallion pattern and red bands over a brick-red pier entrance.",
+   "claims": [
+    "gis:17422833"
+   ],
+   "cell": "8930e0ac683ffff",
+   "build": [
+    "gis:11181992"
+   ],
+   "front": "S"
+  },
+  {
+   "key": "hospital_8f_683",
+   "floors": 8,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     228,
+     218,
+     208
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     150,
+     110,
+     100
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.3,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     130,
+     160,
+     185
+    ],
+    "frame_rgb": [
+     225,
+     222,
+     215
+    ]
+   },
+   "bands": {
+    "rgb": [
+     185,
+     165,
+     150
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": -0.3,
+     "width_m": 4.0,
+     "from_floor": 0,
+     "to_floor": 8,
+     "rgb": [
+      70,
+      110,
+      160
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      130,
+      100,
+      95
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": false,
+    "canopy_rgb": [
+     150,
+     150,
+     150
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     205,
+     185,
+     170
+    ],
+    "top_rgb": [
+     150,
+     150,
+     148
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Pinkish-beige tile/stone-panel tower, eight floors, small punched windows in a loose grid (two to three per floor on the narrow face, more on the long face) with dark spandrel strips. Ground floor in reddish-brown polished granite with shop glass. A tall blue-glass vertical strip on the long north-west side where it meets the neighbouring blue curtain-wall building. Two dark-red squared rooftop boxes (stair/water tanks) with red parapet on the top. No red cross seen.",
+   "sources": [
+    "captures/8930e0ac683ffff/sheets/gis_11178044.jpg"
+   ],
+   "seen": "Tall beige-pink tiled facade with small windows, reddish granite base and two dark-red rooftop boxes.",
+   "cell": "8930e0ac683ffff",
+   "build": [
+    "gis:11178044"
+   ],
+   "claims": []
+  },
+  {
+   "key": "umin_neulsarang2",
+   "floors": 18,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     220,
+     204
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Concrete",
+    "rgb": [
+     150,
+     120,
+     100
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     120,
+     160,
+     170
+    ],
+    "frame_rgb": [
+     225,
+     225,
+     220
+    ]
+   },
+   "bands": {
+    "rgb": [
+     200,
+     190,
+     170
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      222,
+      190,
+      120
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 9,
+     "to_floor": 9,
+     "rgb": [
+      222,
+      190,
+      120
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.35,
+     "width_m": 2.2,
+     "from_floor": 3,
+     "to_floor": 17,
+     "material": "Plaster",
+     "rgb": [
+      196,
+      150,
+      100
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.35,
+     "width_m": 2.2,
+     "from_floor": 3,
+     "to_floor": 17,
+     "material": "Plaster",
+     "rgb": [
+      196,
+      150,
+      100
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     140,
+     100,
+     80
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     170,
+     135,
+     110
+    ],
+    "top_rgb": [
+     140,
+     140,
+     138
+    ],
+    "features": [
+     "stair_box",
+     "crown"
+    ],
+    "crown": {
+     "height_m": 3.0,
+     "rgb": [
+      170,
+      135,
+      110
+     ]
+    }
+   },
+   "notes": "Per building: the 18-floor slab is the left one in the middle of the cell; the 9-floor block (gis:11179118) has the same look with only floors 9 and height ~28.5 m, no brown top panels (brown/ochre panels only on the lower two floors and as a brown end-gable panel on floors 6-9, which carries the block number in dark ink). Walls are cream on the main faces; vertical columns of balcony windows with thin dark railings 4 floors tall, ochre-yellow and tan-brown vertical strips beside them. Lower two floors are tan-brown. A stepped crenellated parapet crowns the taller end gable. Ground: a low white fence with blue posts and rose hedge around the block; no pilotis seen. The 'per_building' differences for gis:11179118 are only floors 9, height_m 28.5 and no 'crown'.",
+   "per_building": {
+    "gis:11179118": {
+     "floors": 9
+    }
+   },
+   "sources": [
+    "captures/8930e0ac697ffff/sheets/gis_11195412.jpg",
+    "captures/8930e0ac697ffff/sheets/gis_11179118.jpg"
+   ],
+   "seen": "Cream slab with tan, brown and ochre vertical strips, balconies in grids, brown end-gable panel with number, stepped parapet crown; low white-and-blue fence with roses at the street.",
+   "accents_everywhere": true,
+   "cell": "8930e0ac697ffff",
+   "build": [
+    "gis:11195412",
+    "gis:11179118"
+   ],
+   "claims": []
+  },
+  {
+   "key": "chunui_community_centre",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     70,
+     55
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.2,
+    "h_m": 1.3,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     100,
+     100
+    ],
+    "frame_rgb": [
+     60,
+     70,
+     70
+    ]
+   },
+   "bands": {
+    "rgb": [
+     225,
+     222,
+     215
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      50,
+      70,
+      150
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.1,
+    "width_m": 3.5,
+    "canopy": true,
+    "canopy_rgb": [
+     225,
+     222,
+     215
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "춘의동행정복지센터",
+    "face": "street",
+    "floor": 2,
+    "bg_rgb": [
+     235,
+     235,
+     238
+    ],
+    "ink_rgb": [
+     40,
+     60,
+     140
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     225,
+     222,
+     215
+    ],
+    "top_rgb": [
+     150,
+     150,
+     148
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Red-brown brick three-storey block with white concrete slab edges as a band at every floor; the south face has a white sign band on the 2nd floor above the entrance and a white band on the 3rd floor top. West face has red diagonal X-braces over green ribbon windows. A one-storey brick wing with a white flat roof and green awning sticks out on the east side of the front, with a wooden lattice fence. Entrance paving red and yellow. A low flagpole group on the roof. The record gis:17779219 was not visible separately; the task states it is a duplicate with the same name and centroid, so drop it.",
+   "sources": [
+    "captures/8930e0ac697ffff/sheets/gis_11179946.jpg"
+   ],
+   "seen": "Brick civic building with white slab-edge bands, red X-bracing on the side, blue sign band, red paved entrance walkway.",
+   "claims": [
+    "gis:17779219"
+   ],
+   "cell": "8930e0ac697ffff",
+   "build": [
+    "gis:11179946"
+   ]
+  },
+  {
+   "key": "sinjeong_church",
+   "floors": 3,
+   "height_m": 12.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     105,
+     55,
+     50
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "none",
+    "w_m": 1.0,
+    "h_m": 3.0,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     100,
+     120
+    ],
+    "frame_rgb": [
+     225,
+     222,
+     215
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 3.5,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      90,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": -0.2,
+     "width_m": 0.8,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      90,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.1,
+     "width_m": 0.8,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      90,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.35,
+     "width_m": 0.8,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      90,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": -0.4,
+     "width_m": 1.6,
+     "rgb": [
+      225,
+      222,
+      215
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     225,
+     222,
+     215
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "신정교회",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     215,
+     205,
+     190
+    ],
+    "ink_rgb": [
+     60,
+     50,
+     45
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     105,
+     55,
+     50
+    ],
+    "top_rgb": [
+     105,
+     100,
+     95
+    ],
+    "features": [
+     "pitched"
+    ],
+    "crown": {
+     "height_m": 6.0,
+     "rgb": [
+      200,
+      198,
+      195
+     ]
+    }
+   },
+   "notes": "Dark red-brown brick Gothic church. The front gable is stepped/crenellated with a large pointed-arch window of blue-green glass in the middle and a tall narrow arched window above. Long side walls with a row of narrow tall pointed windows. A square brick bell tower at the front corner (about 6 m taller than the gable) topped by a thin grey spire; second small spire visible further back. Ground floor of the street side has a low white sign band with the church name above the entrance. A banner board hangs in front of the left wall. Shops and a neighbouring red-brick building adjoin on the sides.",
+   "sources": [
+    "captures/8930e0ac697ffff/sheets/gis_11180111.jpg"
+   ],
+   "seen": "Brick Gothic church with a stepped gable, pointed glass arch, narrow side windows and a spired tower on the corner, wedged between shops.",
+   "cell": "8930e0ac697ffff",
+   "build": [
+    "gis:11180111"
+   ],
+   "claims": []
+  },
+  {
+   "key": "hoseong_building",
+   "floors": 6,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     195,
+     192,
+     186
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     70,
+     70,
+     74
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 3.0,
+    "h_m": 1.4,
+    "pitch_m": 3.6,
+    "glass_rgb": [
+     80,
+     140,
+     135
+    ],
+    "frame_rgb": [
+     190,
+     190,
+     186
+    ]
+   },
+   "bands": {
+    "rgb": [
+     215,
+     212,
+     205
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": -0.38,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 6,
+     "rgb": [
+      70,
+      140,
+      130
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 2,
+     "to_floor": 2,
+     "material": "SmoothPlastic",
+     "rgb": [
+      40,
+      70,
+      160
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 3.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     215,
+     212,
+     205
+    ],
+    "top_rgb": [
+     140,
+     140,
+     138
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ]
+   },
+   "notes": "Corner commercial building. Ground floor is full shop glass with white drapes and an awning on the street face; the corner and the side wall at floors 1-2 are dark charcoal polished granite panels with a big shop window. Floors 3-6 are pale grey stucco with horizontal ribbon windows in green-blue glass; on the south-west edge a vertical curved glass tower strip runs floors 3-6 and a blue-glass projecting shop front. A dark blue signage band runs across the second floor (blank colour panel, no text). L-shaped plan: the corner wing facing the exit side is plain with fewer windows. Roof flat with small stair box and tank; a glass subway-entrance box stands in front on the pavement (not part of this building).",
+   "sources": [
+    "captures/8930e0ac697ffff/sheets/gis_11207383.jpg"
+   ],
+   "seen": "Grey 6-storey shop/office block with a dark granite lower corner, shop glass at ground, ribbon windows above, a curved glass stack on the west edge.",
+   "cell": "8930e0ac697ffff",
+   "build": [
+    "gis:11207383"
+   ],
+   "claims": []
   }
  ]
 }

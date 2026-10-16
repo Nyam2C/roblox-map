@@ -1,0 +1,823 @@
+{
+ "note": "연꽃 어린이 공원 (OSM way 468646010, leisure=park, addr 옥산로) south of 원미고등학교, ground layout traced on the V-World z19 mosaic of cell 8930e0ac69bffff, 2026-10-16; satellite only. Built by src/anjunggeun.py with spec \"layout\".",
+ "tile_x0": 446780,
+ "tile_y0": 203153,
+ "seen": "Satellite z19 (0.237 m/px): OSM outline spans px x 851-1379, y 1483-1838 (trapezoid); north of it a wooded strip then the school's sand field. Dense woods surround a central blue rubber-mat play area: an oval with terracotta rim and blue disk, a west blue mat with a strip, a reddish earth plaza to the east, and a SE playground (blue mat, sand circle) with a dark slatted shelter below it. A blue-grey hard court (NW) with a reddish earth area south of it, blue walks, and a curved path in the NE. A small toilet hut on the west edge is excluded. Fences are not visible and are inferred. Canopy hides some paths. Trees are left to trees.py. Web photos not checked.",
+ "sources": [
+  "data/satellite/8930e0ac69bffff-z19.jpg",
+  "OSM way 468646010 via Nominatim lookup (Overpass was at capacity)"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     855,
+     1486
+    ],
+    [
+     1117,
+     1496
+    ],
+    [
+     1225,
+     1500
+    ],
+    [
+     1379,
+     1510
+    ],
+    [
+     1330,
+     1570
+    ],
+    [
+     1250,
+     1590
+    ],
+    [
+     1160,
+     1570
+    ],
+    [
+     1100,
+     1530
+    ],
+    [
+     1000,
+     1560
+    ],
+    [
+     910,
+     1600
+    ],
+    [
+     900,
+     1690
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    46,
+    78,
+    40
+   ],
+   "material": "Grass",
+   "note": "north and west wood: dense canopy, ~90% cover"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     900,
+     1690
+    ],
+    [
+     1000,
+     1650
+    ],
+    [
+     1110,
+     1680
+    ],
+    [
+     1180,
+     1750
+    ],
+    [
+     1228,
+     1748
+    ],
+    [
+     1230,
+     1700
+    ],
+    [
+     1260,
+     1640
+    ],
+    [
+     1340,
+     1580
+    ],
+    [
+     1379,
+     1510
+    ],
+    [
+     1325,
+     1838
+    ],
+    [
+     888,
+     1759
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    46,
+    78,
+    40
+   ],
+   "material": "Grass",
+   "note": "south and east wood: dense canopy"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     905,
+     1520
+    ],
+    [
+     960,
+     1515
+    ],
+    [
+     982,
+     1532
+    ],
+    [
+     985,
+     1570
+    ],
+    [
+     950,
+     1580
+    ],
+    [
+     915,
+     1555
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    100,
+    140,
+    130
+   ],
+   "material": "Concrete",
+   "note": "NW court: blue-grey hard court with faint lines (~17 x 14 m)"
+  },
+  {
+   "kind": "fence",
+   "shape": "poly",
+   "px": [
+    [
+     905,
+     1520
+    ],
+    [
+     960,
+     1515
+    ],
+    [
+     982,
+     1532
+    ],
+    [
+     985,
+     1570
+    ],
+    [
+     950,
+     1580
+    ],
+    [
+     915,
+     1555
+    ],
+    [
+     905,
+     1521
+    ]
+   ],
+   "height_m": 3.0,
+   "rgb": [
+    60,
+    80,
+    70
+   ],
+   "material": "Metal",
+   "note": "court fence (inferred, not clearly visible)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     925,
+     1582
+    ],
+    [
+     968,
+     1582
+    ],
+    [
+     972,
+     1650
+    ],
+    [
+     935,
+     1652
+    ],
+    [
+     922,
+     1620
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    120,
+    98
+   ],
+   "material": "Concrete",
+   "note": "bare reddish-brown earth/mat area south of the court, small hut on its west edge not traced"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     975,
+     1575
+    ],
+    [
+     988,
+     1575
+    ],
+    [
+     995,
+     1610
+    ],
+    [
+     998,
+     1660
+    ],
+    [
+     985,
+     1655
+    ],
+    [
+     977,
+     1620
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    100,
+    140,
+    130
+   ],
+   "material": "Concrete",
+   "note": "blue-grey walk from the court down the west side"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     985,
+     1650
+    ],
+    [
+     1000,
+     1660
+    ],
+    [
+     1040,
+     1712
+    ],
+    [
+     1032,
+     1720
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    100,
+    140,
+    130
+   ],
+   "material": "Concrete",
+   "note": "blue-grey walk continuing south-east under canopy (partly inferred)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1092,
+     1530
+    ],
+    [
+     1120,
+     1520
+    ],
+    [
+     1147,
+     1532
+    ],
+    [
+     1160,
+     1565
+    ],
+    [
+     1157,
+     1597
+    ],
+    [
+     1140,
+     1597
+    ],
+    [
+     1140,
+     1565
+    ],
+    [
+     1120,
+     1545
+    ],
+    [
+     1100,
+     1550
+    ]
+   ],
+   "height_m": 0.05,
+   "rgb": [
+    95,
+    135,
+    140
+   ],
+   "material": "Concrete",
+   "note": "blue rubber-mat ring around the central oval, wrapping north"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1087,
+     1550
+    ],
+    [
+     1105,
+     1537
+    ],
+    [
+     1127,
+     1542
+    ],
+    [
+     1142,
+     1560
+    ],
+    [
+     1140,
+     1592
+    ],
+    [
+     1120,
+     1595
+    ],
+    [
+     1092,
+     1592
+    ]
+   ],
+   "height_m": 0.06,
+   "rgb": [
+    185,
+    125,
+    95
+   ],
+   "material": "Concrete",
+   "note": "terracotta oval edge band of the central play area"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1090,
+     1552
+    ],
+    [
+     1110,
+     1545
+    ],
+    [
+     1130,
+     1555
+    ],
+    [
+     1132,
+     1590
+    ],
+    [
+     1095,
+     1590
+    ]
+   ],
+   "height_m": 0.08,
+   "rgb": [
+    95,
+    135,
+    140
+   ],
+   "material": "Concrete",
+   "note": "blue rubber-mat disk in the middle of the oval"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1010,
+     1602
+    ],
+    [
+     1080,
+     1612
+    ],
+    [
+     1100,
+     1635
+    ],
+    [
+     1112,
+     1657
+    ],
+    [
+     1100,
+     1675
+    ],
+    [
+     1070,
+     1670
+    ],
+    [
+     1050,
+     1640
+    ],
+    [
+     1030,
+     1620
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    95,
+    135,
+    140
+   ],
+   "material": "Concrete",
+   "note": "west blue rubber-mat play area with a strip leading to the centre"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1160,
+     1575
+    ],
+    [
+     1200,
+     1572
+    ],
+    [
+     1250,
+     1592
+    ],
+    [
+     1250,
+     1630
+    ],
+    [
+     1220,
+     1640
+    ],
+    [
+     1190,
+     1635
+    ],
+    [
+     1165,
+     1600
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    120,
+    95
+   ],
+   "material": "Concrete",
+   "note": "reddish earth plaza east of the centre (bare ground, small items on it)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1080,
+     1590
+    ],
+    [
+     1120,
+     1600
+    ],
+    [
+     1150,
+     1650
+    ],
+    [
+     1145,
+     1685
+    ],
+    [
+     1130,
+     1660
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    125,
+    100
+   ],
+   "material": "Concrete",
+   "note": "earth path running south from the central oval to the SE playground"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1117,
+     1662
+    ],
+    [
+     1140,
+     1662
+    ],
+    [
+     1140,
+     1715
+    ],
+    [
+     1120,
+     1715
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    95,
+    135,
+    140
+   ],
+   "material": "Concrete",
+   "note": "narrow blue mat strip south of the west play area"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1172,
+     1655
+    ],
+    [
+     1215,
+     1660
+    ],
+    [
+     1227,
+     1695
+    ],
+    [
+     1222,
+     1720
+    ],
+    [
+     1185,
+     1715
+    ],
+    [
+     1170,
+     1695
+    ]
+   ],
+   "height_m": 0.05,
+   "rgb": [
+    95,
+    135,
+    140
+   ],
+   "material": "Concrete",
+   "note": "SE playground: blue rubber mat with play equipment (equipment not resolvable)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     1162,
+     1680
+    ],
+    [
+     15,
+     0
+    ]
+   ],
+   "height_m": 0.06,
+   "rgb": [
+    200,
+    180,
+    150
+   ],
+   "material": "Sand",
+   "note": "sand/earth circle at the west edge of the SE playground (~7 m)"
+  },
+  {
+   "kind": "fence",
+   "shape": "poly",
+   "px": [
+    [
+     1170,
+     1655
+    ],
+    [
+     1215,
+     1660
+    ],
+    [
+     1227,
+     1695
+    ],
+    [
+     1222,
+     1720
+    ],
+    [
+     1185,
+     1715
+    ],
+    [
+     1170,
+     1695
+    ],
+    [
+     1171,
+     1656
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    70,
+    70,
+    70
+   ],
+   "material": "Metal",
+   "note": "low playground fence (inferred, not visible)"
+  },
+  {
+   "kind": "pergola",
+   "shape": "rect",
+   "px": [
+    [
+     1182,
+     1722
+    ],
+    [
+     1227,
+     1722
+    ],
+    [
+     1227,
+     1748
+    ],
+    [
+     1182,
+     1748
+    ]
+   ],
+   "height_m": 3.2,
+   "rgb": [
+    70,
+    66,
+    64
+   ],
+   "material": "Wood",
+   "note": "dark slatted-roof shelter (정자 or large pergola) south of the SE playground, ~11 x 6 m",
+   "open": false
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1225,
+     1517
+    ],
+    [
+     1250,
+     1527
+    ],
+    [
+     1290,
+     1542
+    ],
+    [
+     1312,
+     1565
+    ],
+    [
+     1315,
+     1580
+    ],
+    [
+     1305,
+     1572
+    ],
+    [
+     1285,
+     1555
+    ],
+    [
+     1260,
+     1537
+    ],
+    [
+     1230,
+     1525
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    100,
+    140,
+    130
+   ],
+   "material": "Concrete",
+   "note": "curved blue-grey path along the NE edge"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1205,
+     1485
+    ],
+    [
+     1228,
+     1490
+    ],
+    [
+     1232,
+     1515
+    ],
+    [
+     1210,
+     1512
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    165,
+    125,
+    100
+   ],
+   "material": "Concrete",
+   "note": "small bare-earth patch at the NE path start"
+  },
+  {
+   "kind": "bed",
+   "shape": "circle",
+   "px": [
+    [
+     1043,
+     1717
+    ],
+    [
+     8,
+     0
+    ]
+   ],
+   "height_m": 0.3,
+   "rgb": [
+    150,
+    50,
+    40
+   ],
+   "material": "Grass",
+   "note": "red-leaved shrub bed (~4 m)"
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0ac69bffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:489864178",
+   "name": "원미고등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": 898.157,
+   "z": 2601.928,
+   "yaw": 169.705,
+   "w": 297.0,
+   "d": 190.8,
+   "fit": 1.0
+  }
+ ]
+}
