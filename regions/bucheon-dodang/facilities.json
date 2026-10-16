@@ -10577,6 +10577,2456 @@
     "gis:11213468"
    ],
    "claims": []
+  },
+  {
+   "key": "yakdae_park",
+   "cell": "8930e0af183ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/yakdae_park.json",
+   "build": [],
+   "claims": [],
+   "notes": "약대공원 (Claude's pick for 183, user delegated 2026-10-16): ground layout traced on the 183 satellite mosaic (no web photos found): woods as lawn, grey block plaza with a framed bed south of the pyramid-roof toilet building, arch loop path, fenced green court (badminton size), paved rest corner, dirt trail. Trees stay the satellite's."
+  },
+  {
+   "key": "hanla3_main",
+   "front": "S",
+   "floors": 15,
+   "height_m": 44.0,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     214,
+     214,
+     211
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.6,
+    "h_m": 1.7,
+    "pitch_m": 3.1,
+    "glass_rgb": [
+     96,
+     124,
+     130
+    ],
+    "frame_rgb": [
+     236,
+     236,
+     233
+    ]
+   },
+   "bands": {
+    "rgb": [
+     150,
+     151,
+     152
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.05,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 15,
+     "material": "Plaster",
+     "rgb": [
+      214,
+      146,
+      130
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 1.6,
+     "from_floor": 1,
+     "to_floor": 15,
+     "material": "Plaster",
+     "rgb": [
+      214,
+      146,
+      130
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.25,
+     "width_m": 1.6,
+     "from_floor": 1,
+     "to_floor": 15,
+     "material": "Plaster",
+     "rgb": [
+      214,
+      146,
+      130
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.48,
+     "width_m": 2.2,
+     "from_floor": 1,
+     "to_floor": 15,
+     "material": "Plaster",
+     "rgb": [
+      214,
+      146,
+      130
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 2.5,
+     "from_floor": 1,
+     "to_floor": 15,
+     "material": "Concrete",
+     "rgb": [
+      178,
+      178,
+      176
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 2.5,
+     "from_floor": 1,
+     "to_floor": 15,
+     "material": "Concrete",
+     "rgb": [
+      178,
+      178,
+      176
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 60.0,
+     "from_floor": 1,
+     "to_floor": 15,
+     "rgb": [
+      240,
+      240,
+      238
+     ],
+     "pitch_m": 3.1
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     170,
+     170,
+     168
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     205,
+     205,
+     202
+    ],
+    "top_rgb": [
+     182,
+     187,
+     192
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ]
+   },
+   "notes": "Block 119 of the 15-floor 1996 public-housing complex (11 blocks), the slab right on 석천로 west of the 계남로 corner. South (balcony) face toward 석천로: light grey walls with stacked balcony glass, white balcony rails and AC units on every floor, grey slab edges between floors. Salmon-pink vertical plaster bands mark the unit bays: one wide pink recessed core in the middle of the long face runs from the ground to above the roof and ends in a pink lift/stair penthouse about 6 m wide and 4 m tall (its flat top is green in the satellite), plus narrow pink pilasters between bays and a pink strip at each end corner next to the gable. Gable ends: plain light grey with a slightly darker grey vertical strip, block number in dark grey near the top (drawn automatically). The ground floor is hidden behind a hedge and a tall tree row along the street; plain grey low wall and entrances, no shops. Roof deck light grey. Not to be confused with the blocks further west on 석천로 (e.g. one labelled 124), which are grey with dark green bands and belong to the next area. The other slabs of this complex seen down the side street share the grey + pink pattern. The fins accent stands for the white balcony rails; drop it if it looks too busy.",
+   "sources": [
+    "captures/8930e0af56fffff/crops/gis_11215754__J3YjhSZsOx91NSEcLZEpZA.jpg",
+    "captures/8930e0af56fffff/crops/gis_11176020__j-H8cQRAkp3GTdhbJg0xjA.jpg",
+    "captures/8930e0af56fffff/0LTYAMJFg_kXnAou_kwn7g/zoom1.jpg (rendered toward 338 deg)",
+    "captures/8930e0af56fffff/j-H8cQRAkp3GTdhbJg0xjA/zoom1.jpg (rendered toward 320 deg)",
+    "captures/8930e0af56fffff/crops/gis_11204478__-2IQgN4WTzRzndboowBTxw.jpg",
+    "data/satellite/8930e0af56fffff-z19.jpg",
+    "https://dapt.kr/apt/BmA012.html (built 1996, 도약로 106, 중동 1027)",
+    "https://dapt.kr/apt/Bm0193.html (11 blocks, 1201 households)"
+   ],
+   "seen": "Street view (2026-05) from 석천로 shows a 15-floor slab with the number 119 on its east gable, light grey with salmon-pink vertical bands and a pink central core topped by a pink penthouse. The register's own crop (gis_11176229) actually shows a different grey/green block (124) further west, so it was not used for colours. No web photos of the facade were found.",
+   "cell": "8930e0af56fffff",
+   "build": [
+    "gis:11176229"
+   ],
+   "claims": []
+  },
+  {
+   "key": "hanla_shops",
+   "floors": 2,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     218,
+     208,
+     192
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     80,
+     100,
+     110
+    ],
+    "frame_rgb": [
+     225,
+     225,
+     222
+    ]
+   },
+   "bands": {
+    "rgb": [
+     175,
+     160,
+     145
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 6.0,
+     "rgb": [
+      45,
+      95,
+      170
+     ],
+     "strip_rgb": [
+      240,
+      240,
+      236
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 6.0,
+     "rgb": [
+      240,
+      238,
+      232
+     ],
+     "strip_rgb": [
+      200,
+      60,
+      55
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.35,
+     "width_m": 6.0,
+     "rgb": [
+      235,
+      190,
+      50
+     ],
+     "strip_rgb": [
+      60,
+      140,
+      80
+     ],
+     "strip_frac": 0.3
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     120,
+     100,
+     85
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     200,
+     190,
+     175
+    ],
+    "top_rgb": [
+     100,
+     88,
+     76
+    ],
+    "features": [
+     "pitched"
+    ]
+   },
+   "notes": "LOW CONFIDENCE, satellite only: neither building is visible from any street-view panorama (all panoramas stand south of 석천로 and block 119 / the trees hide them; the register's crops show only the street, and the brick building with arched windows in gis_11215753's crop is a different building inside the southern complex, roughly 90 m away). Satellite: gis:11204478 (behind block 119, between the slabs, next to the big parking lot) has a large dark brown-grey hipped roof with four slopes; gis:11215753 (by 석천로, west of block 119) has a brown pitched/mansard rim round a flat green deck in the middle, with a long lower brown-roofed wing to its east. Walls and shopfronts are a guess for a 1990s complex shopping block: beige walls, a row of plain-colour fascia boards (no names) over glass shopfronts on the ground floor, small punched windows on the upper floor. If the builder can give each building its own roof, use the green flat deck (rgb [100, 140, 105]) with a brown rim for gis:11215753.",
+   "sources": [
+    "data/satellite/8930e0af56fffff-z19.jpg",
+    "captures/8930e0af56fffff/crops/gis_11204478__-2IQgN4WTzRzndboowBTxw.jpg",
+    "captures/8930e0af56fffff/crops/gis_11215753__KQ4sGGgEouqHS18estxgjw.jpg",
+    "captures/8930e0af56fffff/3dlQfdicZSGPfPVvTxLwGw/zoom1.jpg and Cd_EP_1Z-IyLGL3fTqvnBw/zoom1.jpg (rendered toward the shops, blocked)",
+    "web search (dapt.kr, daangn) found no photos of the complex shops"
+   ],
+   "seen": "No photo shows either building; roofs read from the z19 satellite (dark brown hip roof; brown rim round a green flat deck). Walls, windows and fascias are assumed.",
+   "cell": "8930e0af56fffff",
+   "build": [
+    "gis:11204478",
+    "gis:11215753"
+   ],
+   "claims": []
+  },
+  {
+   "key": "school_4f",
+   "front": "S",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     228,
+     218,
+     196
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.0,
+    "h_m": 1.5,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     70,
+     88,
+     98
+    ],
+    "frame_rgb": [
+     220,
+     220,
+     215
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.42,
+     "width_m": 5.0,
+     "rgb": [
+      222,
+      55,
+      110
+     ],
+     "strip_rgb": [
+      245,
+      245,
+      240
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.1,
+     "width_m": 6.5,
+     "rgb": [
+      242,
+      240,
+      234
+     ],
+     "strip_rgb": [
+      80,
+      160,
+      70
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.2,
+     "width_m": 5.0,
+     "rgb": [
+      240,
+      238,
+      232
+     ],
+     "strip_rgb": [
+      60,
+      120,
+      60
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.45,
+     "width_m": 4.0,
+     "rgb": [
+      110,
+      50,
+      90
+     ],
+     "strip_rgb": [
+      235,
+      190,
+      40
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.42,
+     "width_m": 1.2,
+     "from_floor": 1,
+     "to_floor": 4,
+     "material": "SmoothPlastic",
+     "rgb": [
+      60,
+      120,
+      200
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 6.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      60,
+      110,
+      190
+     ]
+    }
+   ],
+   "rotunda": {
+    "corner": "SW",
+    "diameter_m": 5.0,
+    "height_m": 17.5,
+    "glass_rgb": [
+     95,
+     140,
+     128
+    ],
+    "bands_every_m": 3.5,
+    "rgb": [
+     226,
+     226,
+     222
+    ],
+    "crown_rgb": [
+     236,
+     232,
+     228
+    ]
+   },
+   "entrance": {
+    "face": "street",
+    "at": -0.3,
+    "width_m": 2.5,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     228,
+     218,
+     196
+    ],
+    "top_rgb": [
+     100,
+     150,
+     115
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Not a school: a 4-floor corner shop-and-academy building on the 석천로 / side-street corner opposite block 119 (registered for education use because the upper floors hold private academies; the ground floor has a clinic stair, an estate agent, an interior shop and a hair salon). Cream plaster walls, plain square windows above. Its signature is a round green-tinted glass drum on the SW street corner, about 5 m across, rising from the first floor to a few metres above the roof, wrapped with curved sign bands and capped by a round drum carrying a sign; the panel accents stand for the blue vertical and horizontal sign boards. Ground floor: a raised green-tiled step platform (rgb [70, 140, 90]) along the shopfronts and round the drum, fascia boards in pink, white with a green strip, and a purple awning, a yellow awning over one shop. Roof is green waterproof paint in the satellite. Real business names are deliberately left out.",
+   "sources": [
+    "captures/8930e0af56fffff/crops/gis_11176020__j-H8cQRAkp3GTdhbJg0xjA.jpg",
+    "captures/8930e0af56fffff/crops/gis_11176020__ikofHxiiYbRcN0xXK933SQ.jpg",
+    "captures/8930e0af56fffff/j-H8cQRAkp3GTdhbJg0xjA/zoom1.jpg (rendered toward 60 deg)",
+    "data/satellite/8930e0af56fffff-z19.jpg",
+    "web search (no facade photos or tenant list found)"
+   ],
+   "seen": "Street view (2026-05) shows a cream 4-floor corner building with a green glass cylinder on the corner covered in signs, shops with coloured fascias on a green-tiled raised step. The satellite shows a green flat roof with the round drum at the SW corner.",
+   "cell": "8930e0af56fffff",
+   "build": [
+    "gis:11176020"
+   ],
+   "claims": []
+  },
+  {
+   "key": "geumgang_retail",
+   "front": "W",
+   "floors": 1,
+   "height_m": null,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     228,
+     225,
+     214
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "none"
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.4,
+     "width_m": 4.0,
+     "rgb": [
+      205,
+      55,
+      60
+     ],
+     "strip_rgb": [
+      245,
+      220,
+      60
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.12,
+     "width_m": 4.0,
+     "rgb": [
+      200,
+      40,
+      50
+     ],
+     "strip_rgb": [
+      245,
+      245,
+      240
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 4.0,
+     "rgb": [
+      235,
+      110,
+      40
+     ],
+     "strip_rgb": [
+      245,
+      220,
+      60
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.42,
+     "width_m": 3.5,
+     "rgb": [
+      235,
+      200,
+      45
+     ],
+     "strip_rgb": [
+      200,
+      50,
+      50
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 6.0,
+     "rgb": [
+      115,
+      60,
+      160
+     ],
+     "strip_rgb": [
+      240,
+      240,
+      236
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 6.0,
+     "rgb": [
+      40,
+      90,
+      170
+     ],
+     "strip_rgb": [
+      235,
+      110,
+      40
+     ],
+     "strip_frac": 0.3
+    }
+   ],
+   "entrance": null,
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     228,
+     225,
+     214
+    ],
+    "top_rgb": [
+     192,
+     96,
+     62
+    ],
+    "features": [
+     "pitched"
+    ]
+   },
+   "notes": "A one-storey white-plastered row of small shops (estate agents, a hair salon, a laundry, a corner convenience store) under an orange-red clay tile hipped roof with wide eaves. West face (photos looking east) is the main shopfront row: glass doors and windows under a continuous row of bright fascia boards (red, orange, yellow, white). The narrow south end is a mostly blank white wall carrying three signboards (blue, orange-red, purple) under the tile eaves. The north end is a shop with a purple fascia and a striped awning, parasols and tables on the paving in front. A grey downpipe on the corners. Brick-paved sidewalk round it. No names on boards.",
+   "sources": [
+    "captures/8930e0af56fffff/sheets/gis_11203594.jpg",
+    "captures/8930e0af56fffff/crops/gis_11203594__pord3E2j0z7ZJtksRe2jCg.jpg",
+    "captures/8930e0af56fffff/crops/gis_11203594__bZ-JrA7JXdLtZfC3-ghIFA.jpg",
+    "captures/8930e0af56fffff/crops/gis_11203594__cwvUXocCmP8q8r46GrRKeA.jpg",
+    "captures/8930e0af56fffff/bZ-JrA7JXdLtZfC3-ghIFA/zoom1.jpg (rendered toward 20 deg)",
+    "data/satellite/8930e0af56fffff-z19.jpg"
+   ],
+   "seen": "Three street-view views (2026-05) show a single-storey white shop row with an orange clay-tile hipped roof, a row of colourful shop fascias on the west side, signboards on the south end and a store with a purple fascia and parasols on the north end.",
+   "cell": "8930e0af56fffff",
+   "build": [
+    "gis:11203594"
+   ],
+   "claims": []
+  },
+  {
+   "key": "tower_103",
+   "floors": 25,
+   "height_m": 75.0,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     234,
+     235,
+     233
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     200,
+     194,
+     183
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 3.0,
+    "h_m": 1.8,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     118,
+     150,
+     158
+    ],
+    "frame_rgb": [
+     222,
+     224,
+     224
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     207,
+     208
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 2,
+     "to_floor": 25,
+     "rgb": [
+      178,
+      181,
+      184
+     ],
+     "pitch_m": 3.4
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 1.2,
+     "from_floor": 2,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      72,
+      76,
+      82
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 1.2,
+     "from_floor": 2,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      72,
+      76,
+      82
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 5.0,
+     "from_floor": 23,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      150,
+      154,
+      158
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 5.0,
+     "from_floor": 23,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      150,
+      154,
+      158
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      188,
+      182,
+      170
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 3.5,
+    "canopy": true,
+    "canopy_rgb": [
+     170,
+     172,
+     174
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     234,
+     235,
+     233
+    ],
+    "top_rgb": [
+     196,
+     198,
+     198
+    ],
+    "features": [
+     "crown",
+     "stair_box"
+    ],
+    "crown": {
+     "height_m": 5.0,
+     "rgb": [
+      160,
+      164,
+      168
+     ]
+    }
+   },
+   "notes": "25-floor point tower of a two-part 2017 rebuild complex (23 towers, 25 floors, 1,613 homes). Satellite: cross / Y-shaped plan, so put the vertical features on every wing end. Long faces: white walls with a full-width balcony glass band each floor (blue-green glass, silver-white frames, glass rails), the bays split by light-grey full-height pilasters (the 'fins'), which give the tall vertical rhythm seen from the street. Wing ends (gables): blank white walls with one narrow dark charcoal vertical recess slot running up the middle, and at the top 2-3 floors a darker grey rectangular frame panel (it carries the builder logo in reality: leave it plain, no logo or text). Lower 2 floors clad in beige-grey stone panels. Roof: light-grey flat roof with a grey open frame crown and lift/stair boxes. Along the roads the tower sits behind a 3-4 m tall grey concrete/stone retaining wall with pines and shrubs on top, and a car-park ramp portal with a beige-pink stone frame on the east road. Floor height looks like ~2.9 m (apartment), hence 75 m rather than 25 x 3.5.",
+   "sources": [
+    "captures/8930e0af183ffff/sheets/gis_11186817.jpg",
+    "captures/8930e0af183ffff/crops/gis_11186817__JA6OAd6lyuLsQhSIeF5-Vw.jpg",
+    "captures/8930e0af183ffff/crops/gis_11186817__LAVvLRt9b3jRDSjCtTOvhA.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11195194.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11209910.jpg",
+    "scratchpad/sat-f183.jpg",
+    "https://www.etoday.co.kr/news/view/491328",
+    "https://m.richgo.ai/realty/danji/a7cYQGt"
+   ],
+   "seen": "Street-view from the east road shows tall white towers with grey pilasters and balcony glass on every floor, a stone-clad two-floor base and gable ends with a dark vertical slot and a grey top frame. Web search identified the complex (25 floors, 2017, 23 towers) from sale-period news but found no public exterior photo pages; look is from street view and satellite only.",
+   "accents_everywhere": true,
+   "cell": "8930e0af183ffff",
+   "build": [
+    "gis:11186817",
+    "gis:12407395",
+    "gis:11195194",
+    "gis:11190356",
+    "gis:11209907",
+    "gis:11195191",
+    "gis:11209910",
+    "gis:11186824"
+   ],
+   "claims": []
+  },
+  {
+   "key": "shops_1danji",
+   "floors": 2,
+   "height_m": 10.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     168,
+     92,
+     66
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     150,
+     146,
+     140
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.6,
+    "h_m": 1.8,
+    "pitch_m": 4.0,
+    "glass_rgb": [
+     95,
+     115,
+     125
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     198
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     200,
+     192
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 8.0,
+     "rgb": [
+      200,
+      55,
+      55
+     ],
+     "strip_rgb": [
+      235,
+      235,
+      232
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.1,
+     "width_m": 12.0,
+     "rgb": [
+      38,
+      55,
+      105
+     ],
+     "strip_rgb": [
+      235,
+      235,
+      232
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 8.0,
+     "rgb": [
+      80,
+      70,
+      150
+     ],
+     "strip_rgb": [
+      240,
+      210,
+      60
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.38,
+     "width_m": 10.0,
+     "rgb": [
+      240,
+      190,
+      40
+     ],
+     "strip_rgb": [
+      60,
+      60,
+      62
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 45.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      92,
+      118,
+      132
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      70,
+      88,
+      100
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 1,
+     "to_floor": 2,
+     "material": "Granite",
+     "rgb": [
+      190,
+      188,
+      184
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      82,
+      84,
+      88
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     82,
+     84,
+     88
+    ],
+    "top_rgb": [
+     150,
+     150,
+     148
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Complex shopping block on the corner by the crossing. Two floors of red-brown brick above a raised ground floor: the ground floor stands ~1 m above the pavement with wide granite steps and a ramp along the front, shopfronts glazed between square granite piers. Each shop has a plain colour fascia board (navy, red, violet, yellow, dark grey) over the glass; leave them without names. Second floor: brick with wide windows and a narrow terrace with a metal rail on part of the front. The top is a deep dark-grey metal overhanging eave (flat cornice canopy ~1 m deep, shown as the dark stripe + parapet) with a set-back third level / pergola behind it. On the north end a full-height glass stair tower with dark mullions; the east part is clad in light-grey stone panels (not brick) with large framed windows on floor 1 and a yellow-fascia convenience store below. Same shopping building continues next door as gis:16780064 / gis:11195191.",
+   "sources": [
+    "captures/8930e0af183ffff/sheets/gis_11186329.jpg",
+    "captures/8930e0af183ffff/crops/gis_11186329__-MwZyoHAzbkxW-D8JggeOg.jpg",
+    "captures/8930e0af183ffff/crops/gis_11186329__Kt0VSFLmIXBTSwgzfVuE5A.jpg",
+    "captures/8930e0af183ffff/crops/gis_11186329___L5NVGRTUiy5UuQGfVol1w.jpg",
+    "captures/8930e0af183ffff/crops/gis_11186817__mOa5bnUULar-IuwaifTJlQ.jpg"
+   ],
+   "seen": "Three clear street-view crops: brick two-floor shop block raised on granite steps, colourful shop fascias, a dark metal overhanging eave, a glass stair tower at the north end and a grey stone-clad east wing. No web photos found.",
+   "cell": "8930e0af183ffff",
+   "build": [
+    "gis:11186329"
+   ],
+   "claims": []
+  },
+  {
+   "key": "management_kinder",
+   "floors": 2,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     224,
+     218
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     196,
+     190,
+     180
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.2,
+    "h_m": 1.6,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     110,
+     140,
+     150
+    ],
+    "frame_rgb": [
+     220,
+     222,
+     222
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 10.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      105,
+      135,
+      148
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     170,
+     172,
+     174
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     224,
+     218
+    ],
+    "top_rgb": [
+     170,
+     172,
+     170
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "LOW CONFIDENCE. The block is hidden behind a dense belt of pines and a dark wooden picket fence on the park-side road; street view only shows a pale low wall through the trees. Colours are taken from the complex's own palette (white walls, beige-grey stone base like the towers). Floors set to 2 (register 2-3); a children's daycare banner hangs on the complex fence nearby but its name is not a public facility name, so sign null. Keep it plain and low; the trees in front are what people see.",
+   "sources": [
+    "captures/8930e0af183ffff/sheets/gis_11207834.jpg",
+    "captures/8930e0af183ffff/crops/gis_11207834__87PeAAFKdF0fkrpdqSSBag.jpg",
+    "captures/8930e0af183ffff/crops/gis_11207834__G05glIMc1cuN_yim_fbFLw.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11186824.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11209910.jpg",
+    "https://www.etoday.co.kr/news/view/491328"
+   ],
+   "seen": "The building itself is not visible in any crop (trees and fence). Sale-period news says each part of the complex has a community block with a childcare facility, which fits a 2-floor management/daycare block.",
+   "cell": "8930e0af183ffff",
+   "build": [
+    "gis:11207834"
+   ],
+   "claims": []
+  },
+  {
+   "key": "houses_row",
+   "floors": 3,
+   "height_m": 11.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     78,
+     62
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     85,
+     115,
+     108
+    ],
+    "frame_rgb": [
+     45,
+     85,
+     70
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      125,
+      40,
+      42
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.38,
+     "width_m": 0.6,
+     "from_floor": 0,
+     "to_floor": 3,
+     "rgb": [
+      80,
+      120,
+      112
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.25,
+     "width_m": 1.2,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      230,
+      225,
+      205
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 1.6,
+    "canopy": true,
+    "canopy_rgb": [
+     75,
+     70,
+     70
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     125,
+     40,
+     42
+    ],
+    "top_rgb": [
+     72,
+     72,
+     76
+    ],
+    "features": [
+     "pitched"
+    ]
+   },
+   "notes": "Planned village of near-identical 3-floor detached brick houses (about 30 in this cell, more west in 8930e0af193ffff). The north row (gis:11216557, 11216517, 11176818, 11218540, 11216556) faces the park; the south row (11216607-11216610, 11202605, 11175856, 11216639) faces the main road behind a rough fieldstone edge and plane trees. Shared look: red-brown brick (some a little browner or yellower), dark slate-grey hipped roofs, many with a mansard / dark shingle eave band at the 2nd-3rd floor and small attic dormers; a thin maroon trim at the plinth and eaves. Most houses have a round brick stair turret on one corner with a tall narrow vertical glass slot (the glass_strip) and a conical or flat cap; some have curved bay windows with white trim. Windows are green-tinted with dark green frames, small hexagonal-shingle hood canopies over doors, an arched blind window on the ground floor. Each lot has a low brick boundary wall with square pillars, lamp globes and ornate black-and-gold iron gates. No garages: cars park in the lanes. A few neighbours (not in this list's evidence) are white-painted or fieldstone-clad; keep them on the auto look. Excluded: gis:11216640 (one-floor park pavilion with a red pitched roof) and gis:11200830 (not checked).",
+   "sources": [
+    "captures/8930e0af183ffff/sheets/gis_11216553.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11216557.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11216517.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11176818.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11218540.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11216556.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11216555.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11196205.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11216607.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11216639.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11209197.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11216610.jpg",
+    "captures/8930e0af183ffff/sheets/gis_11195230.jpg"
+   ],
+   "seen": "Every listed sheet shows a close-up of red-brown brick 3-floor house walls with dark green windows, plus lane views of the same houses with dark hipped roofs and round brick turrets; the street-side views show rows of identical brick houses behind trees.",
+   "accents_everywhere": true,
+   "cell": "8930e0af183ffff",
+   "build": [
+    "gis:11216557",
+    "gis:11216517",
+    "gis:11176818",
+    "gis:11218540",
+    "gis:11216556",
+    "gis:11216555",
+    "gis:11196205",
+    "gis:11216554",
+    "gis:11216553",
+    "gis:11216561",
+    "gis:11180934",
+    "gis:11216562",
+    "gis:11216563",
+    "gis:11209197",
+    "gis:11216564",
+    "gis:11185237",
+    "gis:11216599",
+    "gis:11216598",
+    "gis:11181566",
+    "gis:11176910",
+    "gis:11216597",
+    "gis:11216596",
+    "gis:11195230",
+    "gis:11216607",
+    "gis:11216608",
+    "gis:11216609",
+    "gis:11216610",
+    "gis:11202605",
+    "gis:11175856",
+    "gis:11216639"
+   ],
+   "claims": []
+  },
+  {
+   "key": "bucheon_elem",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     226,
+     218,
+     198
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.8,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     90,
+     115,
+     125
+    ],
+    "frame_rgb": [
+     235,
+     235,
+     232
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.45,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 3,
+     "material": "Concrete",
+     "rgb": [
+      128,
+      86,
+      72
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      150,
+      148,
+      144
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     110,
+     150,
+     135
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     150,
+     148,
+     144
+    ],
+    "top_rgb": [
+     78,
+     148,
+     112
+    ],
+    "features": [
+     "solar",
+     "stair_box"
+    ]
+   },
+   "notes": "Long east-west four-floor block; only its east end was visible from the street (about 70 m away, through the complex), so the long faces are not seen and the window grid is a typical-school assumption. East end: cream plaster wall, a full-height dark brown-maroon pier on the corner, a grey projecting cornice/roof slab at the top, and a low greenish glass canopy over the ground-floor door. Satellite: green-coated flat roof with two big solar arrays (west and east ends) and a grey box in the middle; a row of green-tinted glass canopies runs along the north (playground) side. A separate gym with a light grey roof sits at the NW corner (not part of this record). No lettering was visible, so sign is null. The 'stripe' at the top floor stands for the grey cornice line.",
+   "sources": [
+    "captures/8930e0af193ffff/crops/gis_11206508__LZ1jGaGvhvgBFooe5DTUzA.jpg",
+    "captures/8930e0af193ffff/LZ1jGaGvhvgBFooe5DTUzA/zoom1.jpg",
+    "data/satellite/8930e0af193ffff-z19.jpg",
+    "https://namu.wiki/w/부천초등학교"
+   ],
+   "seen": "Street view from 평천로 side shows the school's east end: cream wall with a dark brown corner pier, grey cornice and green glass entrance canopy, four floors. Satellite shows a green roof with solar panels. No web photos found (namu.wiki only gives the address and 1987 opening).",
+   "cell": "8930e0af193ffff",
+   "build": [
+    "gis:11217493"
+   ],
+   "claims": []
+  },
+  {
+   "key": "ipark_towers",
+   "floors": 25,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     238,
+     238,
+     234
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     204,
+     188,
+     168
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.6,
+    "h_m": 1.7,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     150,
+     186,
+     192
+    ],
+    "frame_rgb": [
+     242,
+     242,
+     240
+    ]
+   },
+   "bands": {
+    "rgb": [
+     222,
+     222,
+     218
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.46,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      178,
+      98,
+      62
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.15,
+     "width_m": 1.6,
+     "from_floor": 2,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      88,
+      90,
+      96
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.15,
+     "width_m": 1.6,
+     "from_floor": 2,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      88,
+      90,
+      96
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     150,
+     146,
+     140
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     240,
+     240,
+     236
+    ],
+    "top_rgb": [
+     225,
+     225,
+     220
+    ],
+    "features": [
+     "crown",
+     "stair_box"
+    ],
+    "crown": {
+     "height_m": 4.0,
+     "rgb": [
+      244,
+      244,
+      240
+     ]
+    }
+   },
+   "notes": "One look for the 200-series towers (203, 204, 205, 209): white wall, balconies glazed in light teal glass with white frames on the long faces, dark grey recessed vertical slots between units, and a full-height terracotta/orange-brown vertical strip on one corner of each tower (seen on 204 and 205, best on the end walls). End walls are plain light warm grey panels with thin horizontal joints, block number painted near the top. Lower two floors are beige stone (granite) cladding with a ledge above. Top: open white frame/pergola crown about one floor high. Per-tower floor counts come from the register (to_floor 25 is meant as 'to the top'). gis:15056262 (301동) is REMOVED from this list on purpose: it has a different colour scheme (tan/beige body with salmon-red panels and a maroon/cream horizontally striped end wall), described as a separate entry 'ipark_tower_301' below so it can be built with its own look or folded back if only one look is allowed. No web photos of the facade were found (search gave only sales/price pages).",
+   "sources": [
+    "captures/8930e0af193ffff/crops/gis_16939606__hEgKyAT6Ndu2PLAJupiImg.jpg",
+    "captures/8930e0af193ffff/crops/gis_16939606__iW2oEjJL4xX4kl2xKqRXZg.jpg",
+    "captures/8930e0af193ffff/crops/gis_16939606__Q35eqnH_nJLej0Hx6X0rww.jpg",
+    "captures/8930e0af193ffff/crops/gis_14660012__6brVkbBoAGnVgUXPdbD-FA.jpg",
+    "captures/8930e0af193ffff/crops/gis_16391297__v7PLnR0PqUPkhBtAwJ4XAA.jpg",
+    "captures/8930e0af193ffff/sheets/gis_17061428.jpg",
+    "captures/8930e0af197ffff/2gB_DzTZmkobgiqh4HioqA/zoom1.jpg",
+    "data/satellite/8930e0af193ffff-z19.jpg",
+    "https://www.etoday.co.kr/news/view/491328",
+    "https://m.richgo.ai/realty/danji/a7cYQGt"
+   ],
+   "seen": "White towers with light teal balcony glass, dark grey vertical slots and a terracotta corner strip; grey end walls over a two-floor beige stone base; white frame crowns on top. Satellite shows white flat roofs on Y/cross-shaped plans.",
+   "accents_everywhere": true,
+   "cell": "8930e0af193ffff",
+   "build": [
+    "gis:17061428",
+    "gis:14660012",
+    "gis:16939606",
+    "gis:14567277",
+    "gis:16684214",
+    "gis:16974844",
+    "gis:14757747",
+    "gis:18140664",
+    "gis:17058427"
+   ],
+   "claims": []
+  },
+  {
+   "key": "ipark_tower_301",
+   "floors": 25,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     214,
+     190,
+     158
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     176,
+     174,
+     170
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.2,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     130,
+     175,
+     175
+    ],
+    "frame_rgb": [
+     240,
+     238,
+     232
+    ]
+   },
+   "bands": {
+    "rgb": [
+     236,
+     226,
+     206
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.35,
+     "width_m": 6.0,
+     "from_floor": 2,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      196,
+      104,
+      88
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.42,
+     "width_m": 4.0,
+     "from_floor": 2,
+     "to_floor": 25,
+     "material": "Concrete",
+     "rgb": [
+      118,
+      60,
+      52
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     110,
+     110,
+     108
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     118,
+     60,
+     52
+    ],
+    "top_rgb": [
+     225,
+     222,
+     215
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Extra entry (split from ipark_towers because the look differs; merge back if not wanted). 301동 belongs to the other phase of the complex: long faces are tan/sand with alternating cream floor bands and salmon-red panel zones; the end wall is a bold maroon with cream horizontal stripes every floor (the block number '301' is painted on it, and brand lettering near the top must NOT be reproduced). Lower two floors are plain grey stone. Flat top with a slightly stepped maroon parapet, no white crown frame.",
+   "sources": [
+    "captures/8930e0af193ffff/crops/gis_15056262__duINfBiD5es9SONSAZELWQ.jpg",
+    "captures/8930e0af193ffff/crops/gis_15056262__DwMQu-v0TvhCnSTaU4WoAw.jpg",
+    "captures/8930e0af193ffff/crops/gis_15056262__h2nU81gKAVRDFtruIP2SaA.jpg"
+   ],
+   "seen": "Tall tower with a maroon/cream horizontally striped end wall carrying '301', tan body with salmon-red panels and cream floor bands, grey stone base.",
+   "cell": "8930e0af193ffff",
+   "build": [
+    "gis:15056262"
+   ],
+   "claims": []
+  },
+  {
+   "key": "ipark_shops",
+   "floors": 1,
+   "height_m": 6.0,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     204,
+     198,
+     186
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "none"
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 20.0,
+     "rgb": [
+      234,
+      232,
+      226
+     ],
+     "strip_rgb": [
+      44,
+      146,
+      88
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 8.0,
+     "rgb": [
+      234,
+      232,
+      226
+     ],
+     "strip_rgb": [
+      44,
+      146,
+      88
+     ],
+     "strip_frac": 0.3
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     44,
+     146,
+     88
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     196,
+     190,
+     178
+    ],
+    "top_rgb": [
+     176,
+     174,
+     168
+    ],
+    "features": []
+   },
+   "notes": "Single tall storey store box on the south side of the road, opposite the towers. Grey-beige stucco walls; the street front and the side facing the crossing carry a wide plain white sign board at the top and a continuous green fabric awning below it over an open shopfront (goods displayed under the awning). Back wall is plain concrete with a small glass window and outdoor AC units. Satellite: grey flat roof; the green awning reads as a teal strip along the north-east edge. If the generator's fascia has no awning, use the green as the band colour. gis:16391297 (register 10F 'commercial', 37.512784/126.766323) is NOT an apartment tower: street view shows a 3-floor shop building in grey granite on the north-east corner of the road in front of 204동 (shops on the ground floor, offices above, a cafe-style top floor). The 10-floor count is wrong for it; it is left out of this facility because its look differs and its floors would need fixing (3).",
+   "sources": [
+    "captures/8930e0af193ffff/crops/gis_15917371__kzBIHiO9GLZFnaba6tOq-A.jpg",
+    "captures/8930e0af193ffff/crops/gis_15917371__mqpiV9DoQkulaNZN3ZUxbw.jpg",
+    "captures/8930e0af193ffff/sheets/gis_15917371.jpg",
+    "captures/8930e0af193ffff/sheets/gis_16391297.jpg",
+    "captures/8930e0af193ffff/crops/gis_16391297__iz4MQyTTZYoEC-tIFfDjtw.jpg",
+    "data/satellite/8930e0af193ffff-z19.jpg"
+   ],
+   "seen": "A one-storey grey-beige store with a white sign board and long green awnings on two sides; plain back wall with AC units. 16391297 is a three-floor granite shop building, not a tower.",
+   "cell": "8930e0af193ffff",
+   "build": [
+    "gis:15917371"
+   ],
+   "claims": []
+  },
+  {
+   "key": "houses_row_193",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     128,
+     72,
+     60
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.3,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     70,
+     90,
+     96
+    ],
+    "frame_rgb": [
+     225,
+     222,
+     215
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 3.0,
+     "from_floor": 1,
+     "to_floor": 2,
+     "material": "Glass",
+     "rgb": [
+      90,
+      105,
+      110
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.3,
+    "width_m": 1.6,
+    "canopy": false,
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     96,
+     88,
+     84
+    ],
+    "top_rgb": [
+     84,
+     80,
+     78
+    ],
+    "features": [
+     "pitched"
+    ]
+   },
+   "notes": "Planned estate of near-identical detached houses: dark red-brown face brick on all sides, three floors, low hipped roofs in dark grey to grey-brown with small eaves. Windows are plain punched openings with light frames; ground-floor side windows have metal louvre grilles. The middle of the front has a recessed glazed balcony/stair zone with a black metal railing on floors 1-2 (the Glass panel accent). Low brick garden wall with black iron railing on the lot edge; no garage door seen (cars park in the lane). gis:11211903 is dropped: satellite roof class is green (rtop_green), not the dark hipped roof the others share, though its brick wall looks the same from the path. gis:11180929 and gis:11216515 have no street-view crops; they are kept because their satellite roof class is the same dark one and they sit inside the uniform row. Satellite also shows a few other houses in the block with red, green or light flat roofs; those are not in this list.",
+   "sources": [
+    "captures/8930e0af193ffff/sheets/gis_11196206.jpg",
+    "captures/8930e0af193ffff/sheets/gis_11208984.jpg",
+    "captures/8930e0af193ffff/sheets/gis_11208061.jpg",
+    "captures/8930e0af193ffff/sheets/gis_11187420.jpg",
+    "captures/8930e0af193ffff/crops/gis_11216510__JkWNJSd_5YIjtIgEEjeQxw.jpg",
+    "captures/8930e0af183ffff/JkWNJSd_5YIjtIgEEjeQxw/zoom1.jpg",
+    "captures/8930e0af19bffff/Z1jssOBUGPO4ukpTuxvCMg/zoom1.jpg",
+    "regions/bucheon-dodang/cells/8930e0af193ffff/roofs.json",
+    "data/satellite/8930e0af193ffff-z19.jpg"
+   ],
+   "seen": "Along the tree-lined path south of the complex, a row of three-floor red-brown brick houses with dark hipped roofs, plain light-framed windows and a recessed balcony with black railings; satellite shows mostly matching dark hipped roofs.",
+   "accents_everywhere": true,
+   "cell": "8930e0af193ffff",
+   "build": [
+    "gis:11180929",
+    "gis:11187420",
+    "gis:11190848",
+    "gis:11196206",
+    "gis:11199342",
+    "gis:11208061",
+    "gis:11208984",
+    "gis:11216475",
+    "gis:11216510",
+    "gis:11216515",
+    "gis:11216516",
+    "gis:11216547",
+    "gis:11217144",
+    "gis:12097007"
+   ],
+   "claims": []
+  },
+  {
+   "key": "jungwon_middle",
+   "front": "S",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     236,
+     198,
+     176
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.6,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     70,
+     88,
+     98
+    ],
+    "frame_rgb": [
+     232,
+     200,
+     70
+    ]
+   },
+   "bands": {
+    "rgb": [
+     200,
+     78,
+     66
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fins",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "rgb": [
+      246,
+      238,
+      218
+     ],
+     "pitch_m": 3.4
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      204,
+      70,
+      60
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.38,
+     "width_m": 8.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Concrete",
+     "rgb": [
+      70,
+      70,
+      72
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.1,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     190,
+     175
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "중원중학교",
+    "face": "street",
+    "floor": 4,
+    "bg_rgb": [
+     246,
+     242,
+     234
+    ],
+    "ink_rgb": [
+     45,
+     70,
+     55
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     214,
+     196,
+     180
+    ],
+    "top_rgb": [
+     150,
+     156,
+     162
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ]
+   },
+   "notes": "NOT the courtyard block: the V-World outline of gis:11172806 (bld_nm 중원중학교, 5F/B1, height 27.2 m) is the long north-south strip east of the courtyard building, between the 중원고 courtyard block and the 중원초 field (OSM way 489787075 '중원중학교' agrees; the courtyard block is gis:11205217 = 중원고). School homepage banner (seen from the south): a 4-floor front block in pale salmon/peach plaster with red horizontal lines at each floor, cream-white pilasters between window bays, YELLOW window frames, and a wide white band at the top carrying the school emblem and the name in dark letters; the ground floor at the east end is an open pilotis with parked cars (dark panel accent). Behind it rises a taller cream block (5 floors) with the same yellow windows and a dark red-brown roof edge. The front block's roof was a terrace garden with a small green glass greenhouse dome. Satellite now: north third has a red-brown roof (rgb ~[128, 80, 62]) with a grey rim (the gym/tall block), middle light grey with roof AC units and stair boxes, south third a silvery-white membrane roof. If the builder can split the roof, use brown on the north part.",
+   "sources": [
+    "https://msjw-m.goebc.kr (school homepage banner image, seen via Bing image search '중원중학교 부천 전경 건물')",
+    "V-World LT_C_BLDGINFO record 11172806 (outline position checked on the satellite)",
+    "https://www.openstreetmap.org/way/489787075",
+    "data/satellite/8930e0af567ffff-z19.jpg"
+   ],
+   "seen": "Homepage banner photo: peach-pink plaster school with red floor lines, cream pilasters, yellow-framed windows and the name band '중원중학교' on top of the 4-floor front block, a taller cream block behind with a brown roof. No street view.",
+   "cell": "8930e0af567ffff",
+   "build": [
+    "gis:11172806"
+   ],
+   "claims": []
+  },
+  {
+   "key": "jungwon_high",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     176,
+     98,
+     86
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 3.0,
+    "h_m": 1.6,
+    "pitch_m": 4.0,
+    "glass_rgb": [
+     66,
+     82,
+     92
+    ],
+    "frame_rgb": [
+     226,
+     226,
+     222
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 7.0,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "Limestone",
+     "rgb": [
+      228,
+      224,
+      214
+     ]
+    },
+    {
+     "kind": "round_windows",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 2.5,
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      240,
+      238,
+      232
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.3,
+     "width_m": 1.5,
+     "from_floor": 0,
+     "to_floor": 5,
+     "rgb": [
+      90,
+      110,
+      125
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.15,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     178,
+     175,
+     168
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     192,
+     146,
+     112
+    ],
+    "top_rgb": [
+     62,
+     112,
+     96
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "The courtyard block (the one the caller described as 중원중) is 중원고: gis:11205217 bld_nm 중원고등학교, matches OSM way 798343135 and web photos of 중원고 showing the inner garden. Square ring of 5-floor salmon-red brick wings around a tree-filled courtyard; walls are brick on every face including the courtyard side, windows in pairs with white/silver frames (modelled as one wide window per bay), no floor bands. School homepage banner: one front bay in light stone/white with the round school emblem near the top and the entrance below it, and a slightly taller stair tower with a vertical glass slot; a couple of corner stair towers rise a little above the roof. The entrance is a grey concrete porch on columns with a motto band. Roof deck is dark teal-green waterproof paint with a tan/orange rim along the courtyard edge. gis:11206509 (1F, 160 m2) is a small annex on the north edge of the ring, overlapping the main roof; kept with the facility. gis:11205668 (1F, 38 m2, the small green-roofed building south of the ring, next to a red-and-white striped covered walkway) is a separate low building and was dropped (leave it to Auto). Name text not readable in any photo, so sign is null (the name is on the brick gate pillars, which are not part of the building). The sand playground is west of the building.",
+   "sources": [
+    "https://jungwon-h.goebc.kr (homepage banner image, via Bing image search '부천 중원고등학교')",
+    "kr.worldorgs.com image '중원고등학교 도시부천시' (gate and front, via Bing)",
+    "education.korea724.info image '중원고등학교 | 경기도 부천시 원미구 도약로 111' (courtyard, via Bing)",
+    "V-World LT_C_BLDGINFO records 11205217, 11206509, 11205668",
+    "https://www.openstreetmap.org/way/798343135",
+    "data/satellite/8930e0af567ffff-z19.jpg"
+   ],
+   "seen": "Three web photos: red-brick 5-floor ring with paired white-framed windows round a wooded courtyard, a light stone entrance bay with the emblem, brick gate pillars. Satellite: dark green roof with a tan inner rim.",
+   "cell": "8930e0af567ffff",
+   "build": [
+    "gis:11205217",
+    "gis:11206509"
+   ],
+   "claims": [],
+   "courtyard_m": 14.0
+  },
+  {
+   "key": "jungwon_elem",
+   "front": "S",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     84,
+     72
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 4.2,
+    "h_m": 1.6,
+    "pitch_m": 5.4,
+    "glass_rgb": [
+     60,
+     76,
+     86
+    ],
+    "frame_rgb": [
+     232,
+     232,
+     230
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.05,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Concrete",
+     "rgb": [
+      190,
+      188,
+      182
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.05,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     185,
+     183,
+     178
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "중원초등학교",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     50,
+     90,
+     160
+    ],
+    "ink_rgb": [
+     245,
+     245,
+     240
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     168,
+     164,
+     156
+    ],
+    "top_rgb": [
+     150,
+     148,
+     140
+    ],
+    "features": [
+     "stair_box",
+     "solar"
+    ]
+   },
+   "notes": "Long east-west 5-floor block on the north side of the artificial-turf field; the south face looks onto the field. Red-brown brick, windows in groups of three (white frames, modelled as one wide window per bay) with brick piers between bays. Centre: a grey concrete entrance porch with a small blue name plaque above the door (plaque text not fully readable; the given name is used). Along most of the south face at ground level runs a long green-and-cream striped shade awning over the walkway (no schema kind; add as a striped awning about 2.5 m high and 3 m deep if possible). Roof: grey concrete deck with AC units, a pale green-roofed stair penthouse in the middle, and dark solar-panel rows on the lower north side. A small blue-and-white canopy stands at the field edge in front of the centre. Gym record gis:11176699 is given as its own entry (jungwon_elem_gym) because it is 1 floor and looks different.",
+   "sources": [
+    "localview.co.kr image '부천중원초등학교' (encyber photo, via Bing image search '부천중원초등학교')",
+    "V-World LT_C_BLDGINFO record 11201878",
+    "https://www.openstreetmap.org/way/489787071",
+    "data/satellite/8930e0af567ffff-z19.jpg"
+   ],
+   "seen": "One web photo (older): 5-floor red-brown brick school, triple windows, grey entrance porch with a name plaque, long green/cream striped awning along the front. Satellite: grey roof with a green penthouse and solar panels.",
+   "cell": "8930e0af567ffff",
+   "build": [
+    "gis:11201878"
+   ],
+   "claims": []
+  },
+  {
+   "key": "jungwon_elem_gym",
+   "floors": 1,
+   "height_m": 9.1,
+   "wall": {
+    "material": "Granite",
+    "rgb": [
+     204,
+     200,
+     190
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Brick",
+    "rgb": [
+     150,
+     84,
+     72
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.2,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     80,
+     96,
+     106
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     198
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.3,
+     "width_m": 0.9,
+     "from_floor": 0,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      70,
+      160,
+      95
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.15,
+     "width_m": 0.9,
+     "from_floor": 0,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      225,
+      115,
+      65
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.05,
+     "width_m": 0.9,
+     "from_floor": 0,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      240,
+      240,
+      236
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.25,
+     "width_m": 0.9,
+     "from_floor": 0,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      230,
+      190,
+      60
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     190,
+     190,
+     188
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     96,
+     100,
+     104
+    ],
+    "top_rgb": [
+     206,
+     208,
+     210
+    ],
+    "features": []
+   },
+   "notes": "Extra entry (given under jungwon_elem; split off because it is a 1-floor hall about 9 m tall with a different look). The elementary school gym at the south-east corner of the campus, beside 석천로, south of the field's east end. Street view from the 석천로/도약로 corner: light grey-beige stone-tile walls with tall narrow coloured slot windows (green, orange, white, yellow) spaced along the wall, a red-brown brick plinth at the bottom (behind the fence and hedge), a band of high windows right under the eave and a dark grey sloping metal roof edge. From above the roof is a plain light silver-grey sheet with a lower entrance annex on the north end. The 'base' here means the brick plinth, roughly the lower 3 m only.",
+   "sources": [
+    "captures/8930e0af567ffff/crops/gis_11176699__BRWRX7ZAfFoWwpnd7Tcgrg.jpg",
+    "captures/8930e0af567ffff/sheets/gis_11176699.jpg",
+    "V-World LT_C_BLDGINFO record 11176699 (dong_nm 체육관, height 9.1 m)",
+    "data/satellite/8930e0af567ffff-z19.jpg"
+   ],
+   "seen": "Street view through roadside trees: grey-beige wall with coloured vertical slot windows over a brick plinth, dark grey roof edge with high windows under it. Satellite: light silver roof.",
+   "cell": "8930e0af567ffff",
+   "build": [
+    "gis:11176699"
+   ],
+   "claims": []
+  },
+  {
+   "key": "seungri_gym",
+   "floors": 2,
+   "height_m": 8.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     176,
+     98,
+     86
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.2,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     70,
+     86,
+     96
+    ],
+    "frame_rgb": [
+     220,
+     220,
+     216
+    ]
+   },
+   "bands": null,
+   "accents": [],
+   "entrance": {
+    "face": "back",
+    "at": 0.3,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     178,
+     175,
+     168
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     140,
+     150,
+     160
+    ],
+    "top_rgb": [
+     150,
+     174,
+     192
+    ],
+    "features": [
+     "pitched"
+    ]
+   },
+   "notes": "LOW CONFIDENCE on walls. V-World names this record 중원고등학교 (2F/B1, 8 m), so 승리관 is 중원고's gym (OSM way 489787074: leisure=fitness_centre, sport=basketball). It stands south of the courtyard block, between the school parking lot and the 도약로 tree line. Satellite: a single large very low-pitched metal roof in light blue-grey with three small vents along an east-west ridge line and a slightly darker eave all round; no visible parapet. No street view or web photo shows the walls (trees along 도약로 hide it), so the walls are assumed to match the school's salmon-red brick with a band of high windows under the eave. Entrance assumed on the north side facing the school (parking lot); the south face toward 도약로 is behind trees.",
+   "sources": [
+    "data/satellite/8930e0af567ffff-z19.jpg",
+    "V-World LT_C_BLDGINFO record 11205738",
+    "https://www.openstreetmap.org/way/489787074",
+    "Bing image searches '중원고등학교 승리관', '부천 중원고 체육관 외관' (no photo of it found)"
+   ],
+   "seen": "Only the satellite: light blue-grey low-pitched metal roof with three ridge vents. Walls not seen.",
+   "cell": "8930e0af567ffff",
+   "build": [
+    "gis:11205738"
+   ],
+   "claims": []
   }
  ]
 }

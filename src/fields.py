@@ -308,6 +308,9 @@ def main(cfg: dict[str, Any]) -> int:
             rows.append({"osm": osm, "name": el.get("tags", {}).get("name", ""), "made_by": "manual" if osm in manual else "kit", **ground})
             common.log(logging.INFO, f"{osm}: {ground['surface']} {ground['w']} x {ground['d']} studs, fit {ground['fit']}", cell_id)
         path = common.cell_file(ccfg, cell_id, "fields")
+        if path.exists():  # rows set by hand ("hand": why) stay over a new satellite fit (567 중원고, 2026-10-16)
+            hand = {r["osm"]: r for r in json.loads(path.read_text(encoding="utf-8"))["fields"] if r.get("hand")}
+            rows = [hand.pop(r["osm"], r) for r in rows] + list(hand.values())
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps({"cell_id": cell_id, "source": "OSM amenity=school + V-World satellite z19", "fields": rows},
                                    ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

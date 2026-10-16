@@ -1,0 +1,701 @@
+{
+ "note": "약대공원 (약대동, OSM way 491152016, leisure=park) ground layout traced on the V-World z19 mosaic of cell 8930e0af183ffff (pixels of that mosaic, tile_x0/tile_y0 below), 2026-10-16; satellite only (no web photos found). Built by src/anjunggeun.py with spec \"layout\".",
+ "tile_x0": 446759,
+ "tile_y0": 203128,
+ "seen": "Satellite z19 mosaic (0.237 m/px): a long wooded wedge (~165 m NW-SE, up to ~95 m wide) between the 4-lane road on the NE (with a sidewalk, not traced), a house-lined alley with parking on the SW/W and the south road. The OSM outline (px ~670-1378 x 1055-1641) runs over the NE road and south road edges, so the traced park stops at the visible curbs/sidewalks. Near the NW-middle stands a large brown pyramid-roof building with a skylight (~21 m square, x 952-1040 y 1355-1447) tagged amenity=toilets '야외화장실' with small white-roofed sheds on its NW: building, not traced. A grey block plaza runs along its south wall and south to a square with a framed planting bed and an arch-shaped loop path. A fenced dark-green hard court with white lines (~21 x 23.5 m, inner box like a badminton/족구 court) sits south-east of it with light walks on its west and south. A small grey rest corner lies NW of the building; a bare-earth clearing and a dirt trail are in the east wood. Everything else is dense canopy (NW strip, east and south-west woods); paths under canopy are inferred. No playground, no 정자/pergola and no benches resolvable. Trees are left to trees.py.",
+ "sources": [
+  "data/satellite/8930e0af183ffff-z19.jpg (+json)",
+  "OSM outline via https://nominatim.openstreetmap.org/lookup?osm_ids=W491152016&format=json&polygon_geojson=1; building gis:11216640 '야외화장실' (amenity=toilets) from data/map.db",
+  "web search '약대공원 부천 약대동 테니스장 정자', '\"약대공원\" 부천', '부천 약대공원 산책 놀이터 테니스 블로그': no park page or photo found (results: 약대동 apartment listings e.g. https://m.richgo.ai/realty/danji/a7cYQGt; other Bucheon parks e.g. https://www.localnaeil.com/News/View/651555)"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     705,
+     1090
+    ],
+    [
+     725,
+     1108
+    ],
+    [
+     780,
+     1158
+    ],
+    [
+     845,
+     1203
+    ],
+    [
+     905,
+     1240
+    ],
+    [
+     960,
+     1275
+    ],
+    [
+     1000,
+     1300
+    ],
+    [
+     1022,
+     1330
+    ],
+    [
+     1022,
+     1348
+    ],
+    [
+     950,
+     1348
+    ],
+    [
+     918,
+     1348
+    ],
+    [
+     880,
+     1348
+    ],
+    [
+     850,
+     1290
+    ],
+    [
+     785,
+     1225
+    ],
+    [
+     725,
+     1170
+    ],
+    [
+     700,
+     1110
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    58,
+    84,
+    46
+   ],
+   "material": "Grass",
+   "note": "north-west wooded strip between the NE road sidewalk and the west alley/parking lane, dense canopy over grass"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1040,
+     1352
+    ],
+    [
+     1127,
+     1410
+    ],
+    [
+     1187,
+     1450
+    ],
+    [
+     1247,
+     1490
+    ],
+    [
+     1300,
+     1525
+    ],
+    [
+     1350,
+     1565
+    ],
+    [
+     1372,
+     1595
+    ],
+    [
+     1372,
+     1618
+    ],
+    [
+     1200,
+     1622
+    ],
+    [
+     1100,
+     1622
+    ],
+    [
+     1070,
+     1622
+    ],
+    [
+     1068,
+     1548
+    ],
+    [
+     1062,
+     1500
+    ],
+    [
+     1045,
+     1450
+    ],
+    [
+     1043,
+     1400
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    58,
+    84,
+    46
+   ],
+   "material": "Grass",
+   "note": "east wood: between the toilet building, the plaza and the NE road sidewalk, around the sports court to the south road; dense canopy"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     965,
+     1462
+    ],
+    [
+     1000,
+     1462
+    ],
+    [
+     1003,
+     1500
+    ],
+    [
+     1022,
+     1505
+    ],
+    [
+     1027,
+     1545
+    ],
+    [
+     1070,
+     1548
+    ],
+    [
+     1070,
+     1622
+    ],
+    [
+     975,
+     1622
+    ],
+    [
+     968,
+     1600
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    64,
+    90,
+    50
+   ],
+   "material": "Grass",
+   "note": "south-west wood between the west alley and the plaza's arch path, dense canopy"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     968,
+     1447
+    ],
+    [
+     1040,
+     1447
+    ],
+    [
+     1036,
+     1478
+    ],
+    [
+     1033,
+     1500
+    ],
+    [
+     1060,
+     1500
+    ],
+    [
+     1068,
+     1515
+    ],
+    [
+     1070,
+     1535
+    ],
+    [
+     1063,
+     1545
+    ],
+    [
+     1058,
+     1535
+    ],
+    [
+     1045,
+     1528
+    ],
+    [
+     1033,
+     1530
+    ],
+    [
+     1027,
+     1545
+    ],
+    [
+     1020,
+     1548
+    ],
+    [
+     1022,
+     1520
+    ],
+    [
+     1012,
+     1505
+    ],
+    [
+     1000,
+     1490
+    ],
+    [
+     998,
+     1460
+    ],
+    [
+     968,
+     1460
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    170,
+    160
+   ],
+   "material": "Granite",
+   "note": "main grey block plaza: strip along the toilet building's south wall, a walk south, then a wider square ending in an arch-shaped loop path (~10 m) into the wood"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1033,
+     1483
+    ],
+    [
+     1057,
+     1483
+    ],
+    [
+     1057,
+     1512
+    ],
+    [
+     1033,
+     1512
+    ]
+   ],
+   "height_m": 0.45,
+   "rgb": [
+    86,
+    100,
+    60
+   ],
+   "material": "Grass",
+   "note": "raised planting bed with a timber/stone frame on the plaza (~6 x 7 m), shrubs"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     918,
+     1350
+    ],
+    [
+     950,
+     1350
+    ],
+    [
+     950,
+     1382
+    ],
+    [
+     925,
+     1382
+    ],
+    [
+     915,
+     1366
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    164,
+    154
+   ],
+   "material": "Pavement",
+   "note": "small grey paved rest corner north-west of the toilet building (dark spots = benches or shrubs, not resolvable)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1112,
+     1508
+    ],
+    [
+     1200,
+     1508
+    ],
+    [
+     1200,
+     1607
+    ],
+    [
+     1112,
+     1607
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    62,
+    96,
+    74
+   ],
+   "material": "Concrete",
+   "note": "sports court (~21 x 23.5 m): dark green hard surface with white lines (inner box ~7.6 x 15 m, likely badminton/족구 multi-court, not a full tennis court)"
+  },
+  {
+   "kind": "fence",
+   "shape": "poly",
+   "px": [
+    [
+     1111,
+     1507
+    ],
+    [
+     1201,
+     1507
+    ],
+    [
+     1201,
+     1608
+    ],
+    [
+     1111,
+     1608
+    ],
+    [
+     1111,
+     1508
+    ]
+   ],
+   "height_m": 4.0,
+   "rgb": [
+    40,
+    70,
+    50
+   ],
+   "material": "Metal",
+   "note": "court enclosure fence (dark green mesh, posts visible on the west side)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1207,
+     1578
+    ],
+    [
+     1230,
+     1578
+    ],
+    [
+     1230,
+     1597
+    ],
+    [
+     1207,
+     1597
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    150,
+    118
+   ],
+   "material": "Concrete",
+   "note": "small bare packed-earth clearing east of the court (maybe exercise equipment); colour is packed earth"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1022,
+     1540
+    ],
+    [
+     1030,
+     1541
+    ],
+    [
+     1024,
+     1568
+    ],
+    [
+     1014,
+     1592
+    ],
+    [
+     1006,
+     1589
+    ],
+    [
+     1016,
+     1566
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "west leg of the arch path heading south into the wood (~2 m); beyond ~y1555 under canopy, inferred"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1060,
+     1534
+    ],
+    [
+     1068,
+     1529
+    ],
+    [
+     1086,
+     1549
+    ],
+    [
+     1106,
+     1563
+    ],
+    [
+     1104,
+     1573
+    ],
+    [
+     1080,
+     1558
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "east leg of the arch path to the court's west side (under canopy, inferred)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1101,
+     1500
+    ],
+    [
+     1110,
+     1500
+    ],
+    [
+     1110,
+     1612
+    ],
+    [
+     1101,
+     1612
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "walk along the court's west fence (light strip visible between the canopy and the fence)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1101,
+     1609
+    ],
+    [
+     1206,
+     1609
+    ],
+    [
+     1206,
+     1619
+    ],
+    [
+     1101,
+     1619
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "walk along the court's south side, next to the south road sidewalk"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1118,
+     1412
+    ],
+    [
+     1132,
+     1418
+    ],
+    [
+     1135,
+     1450
+    ],
+    [
+     1140,
+     1506
+    ],
+    [
+     1130,
+     1506
+    ],
+    [
+     1124,
+     1452
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    176,
+    162,
+    132
+   ],
+   "material": "Pavement",
+   "note": "entrance path from the NE road sidewalk (by the crossing) south to the court's north fence; light clearing at the top, rest under canopy (inferred)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1270,
+     1619
+    ],
+    [
+     1282,
+     1619
+    ],
+    [
+     1287,
+     1575
+    ],
+    [
+     1297,
+     1530
+    ],
+    [
+     1287,
+     1527
+    ],
+    [
+     1276,
+     1575
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    150,
+    128,
+    96
+   ],
+   "material": "Concrete",
+   "note": "east dirt trail from the south road north to the NE sidewalk; brown bare earth visible y1577-1600, the rest inferred"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1101,
+     1500
+    ],
+    [
+     1135,
+     1500
+    ],
+    [
+     1135,
+     1508
+    ],
+    [
+     1101,
+     1508
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    166,
+    163,
+    152
+   ],
+   "material": "Pavement",
+   "note": "short link along the court's north-west corner joining the entrance path and the west walk"
+  }
+ ]
+}

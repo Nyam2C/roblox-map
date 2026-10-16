@@ -551,6 +551,24 @@
    "reason": "landmarks: school:계남중학교",
    "tier": 1
   },
+  "8930e0af183ffff": {
+   "counts": {
+    "landmarks": [
+     "park:약대공원",
+     "park:어린이공원"
+    ],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.768,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 약대동 10 둘레 4칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af187ffff": {
    "counts": {
     "landmarks": [
@@ -605,6 +623,27 @@
    },
    "manual": false,
    "reason": "landmarks: park:way488839380, park:설악어린이공원",
+   "tier": 1
+  },
+  "8930e0af193ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way489787090",
+     "park:way489787091",
+     "park:약대공원",
+     "park:중앙공원",
+     "school:부천초등학교"
+    ],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.719,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 약대동 10 둘레 4칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af19bffff": {
@@ -922,6 +961,26 @@
    "reason": "사용자 확장 요청(2026-10-16, 상동 3·4 둘레 3칸), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0af567ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way489787090",
+     "school:중원고등학교",
+     "school:중원중학교",
+     "school:중원초등학교"
+    ],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.164,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 약대동 10 둘레 4칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0af56bffff": {
    "counts": {
     "landmarks": [],
@@ -935,6 +994,21 @@
    },
    "manual": true,
    "reason": "사용자 확장 요청(2026-10-15, 중동 18 둘레), 동네 사람 사용자가 건물 디테일을 봄: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0af56fffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.934,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 약대동 10 둘레 4칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af57bffff": {

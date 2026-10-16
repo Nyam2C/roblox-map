@@ -1,0 +1,33 @@
+{
+  "cell_id": "8930e0af567ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11176699",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 14.0,
+      "judged_at": "2026-10-16T05:04:59+00:00",
+      "note": "school block seen far behind trees across a crossing",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11206840",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T05:04:59+00:00",
+      "note": "road crossing and trees only, no building",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

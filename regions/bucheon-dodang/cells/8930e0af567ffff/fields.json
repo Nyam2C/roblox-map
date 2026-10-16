@@ -1,0 +1,31 @@
+{
+ "cell_id": "8930e0af567ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:488831172",
+   "name": "중원초등학교",
+   "made_by": "kit",
+   "surface": "turf",
+   "x": -5057.314,
+   "z": -2967.441,
+   "yaw": 170.491,
+   "w": 270.0,
+   "d": 185.4,
+   "fit": 1.0
+  },
+  {
+   "osm": "way:488831174",
+   "name": "중원고등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": -5877.0,
+   "z": -3222.0,
+   "yaw": 82.0,
+   "w": 324.0,
+   "d": 168.0,
+   "fit": 1.0,
+   "hand": "2026-10-16: satellite fit (0.43) took a turf patch by the parking; the school's sand field west of the ㅁ building, read off the aligned satellite"
+  }
+ ]
+}

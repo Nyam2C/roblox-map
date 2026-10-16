@@ -1,0 +1,30 @@
+{
+  "cell_id": "8930e0af567ffff",
+  "details": [
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11176699",
+      "finish": "panel",
+      "ground_use": "house",
+      "judged_at": "2026-10-16T05:04:59+00:00",
+      "note": "school block seen far behind trees across a crossing",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:11206840",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-16T05:04:59+00:00",
+      "note": "road crossing and trees only, no building",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    }
+  ],
+  "version": 1
+}

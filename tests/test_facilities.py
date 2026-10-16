@@ -116,3 +116,15 @@ def test_base_floor_windows_stand_out_past_the_base_skin():
     for p, q in zip(plain, based):
         moved = ((p.cx - q.cx) ** 2 + (p.cz - q.cz) ** 2) ** 0.5
         assert (abs(moved - 0.15 * FRAME.studs_per_m) < 1e-6) if p.cy < low else moved < 1e-6
+
+
+def test_a_courtyard_box_becomes_four_wings_round_an_empty_yard():
+    """2026-10-16 (567 중원고): the register gives the ㅁ-shaped school as one rectangle; four wings leave the yard open."""
+    bx = FA.layout.Box(10.0, 20.0, 70.0, 60.0, 30.0, 1.0)
+    wings = FA.courtyard(bx, 14.0)
+    outer = FA.LD._box_poly(bx)
+    yard = outer.buffer(-14.0)
+    polys = [FA.LD._box_poly(w) for w in wings]
+    assert len(wings) == 4 and all(outer.buffer(0.01).covers(p) for p in polys)
+    assert all(p.intersection(yard).area < 1e-6 for p in polys)
+    assert abs(sum(p.area for p in polys) - (outer.area - yard.area)) < 1e-3

@@ -491,6 +491,18 @@ def towers_on_podium(frame: Frame, body: LD.Body, sp: Mapping[str, Any], lines: 
     return items
 
 
+def courtyard(bx: layout.Box, t: float) -> tuple[layout.Box, ...]:
+    """Four wings of depth t round a yard inside the box: the two long sides full length, the two short ones between them."""
+    t = min(t, bx.depth_m / 3)
+    side = [(0.0, (bx.depth_m - t) / 2 * k, bx.width_m, bx.yaw_deg) for k in (-1, 1)]
+    ends = [((bx.width_m - t) / 2 * k, 0.0, bx.depth_m - 2 * t, (bx.yaw_deg + 90) % 180) for k in (-1, 1)]
+    out = []
+    for u, v, length, yaw in side + ends:
+        e, n = LD._world(bx, u, v)
+        out.append(layout.Box(e, n, length, t, yaw, 1.0))
+    return tuple(out)
+
+
 def item_row(i: Item) -> dict[str, Any]:
     row: dict[str, Any] = {"n": i.name, "x": i.cx, "y": i.cy, "z": i.cz, "w": i.sx, "h": i.sy, "d": i.sz, "r": i.yaw_deg,
                            "m": i.material, "c": list(i.color)}
@@ -563,6 +575,10 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
             body = LD.make_body(b, eff, det.get(bid), (est.get(bid) or {}).get("note"), frame, ccfg)
             if body is None:
                 continue
+            ring = float(own.get("courtyard_m") or sp.get("courtyard_m") or 0)
+            if ring:  # a ㅁ-shaped block whose register outline has no hole (중원고, 2026-10-16): four wings round the yard
+                wings = courtyard(max(body.boxes, key=lambda x: x.width_m * x.depth_m), ring)
+                body = dataclasses.replace(body, boxes=wings, names=tuple(f"{bid}#b{i}" for i in range(len(wings))), front=0)
             floors = int(own.get("floors") or (sp.get("floors") if k == 0 else 0) or body.floors)
             height = float(own.get("height_m") or (sp.get("height_m") if k == 0 else 0) or 0)
             if not height:

@@ -1,0 +1,235 @@
+{
+  "cell_id": "8930e0af56fffff",
+  "estimates": [
+    {
+      "building_id": "gis:11176020",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Corner shop house, shops on ground floor, rounded corner, signs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11176227",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment tower, balconies; crop 1 shows the corner shop building instead",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176229",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment slab, gray with green strips, balconies, tree line at base",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11176230",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment block behind trees, projecting balcony columns",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11182309",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment slab, entrance canopy, dark gray gable end, balconies",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11182314",
+      "confidence": "high",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment slab, dark stair core strip, balconies with railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11182416",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment slab, green entrance block, balconies",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11182805",
+      "confidence": "high",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment slab, dark stair strip, balconies, entrance steps",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11183351",
+      "confidence": "high",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment slab, dark stair strip, balconies, shrubs at entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11203594",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Small one-storey store house with orange tile roof, shop signs",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11204076",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Crop shows street and trees only, no clear building",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11204478",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Only street and parked cars, apartments far behind",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11207143",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Small shop house with real estate shop on ground floor, signs",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11215752",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment tower, gray end wall, balconies, trees at base",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11215753",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Brick low block with arched windows, behind trees and parking",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11215754",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Apartment slab, pink and gray stripes, balconies, trees at base",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:15628896",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T04:50:42+00:00",
+      "note": "Hidden by trees, brick low block with arched windows behind",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}
