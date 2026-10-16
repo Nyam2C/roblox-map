@@ -87,7 +87,17 @@ def corners(r: Sequence[float]) -> list[tuple[float, float]]:
 def rects_of_items(items: Sequence[layout.Item]) -> list[list[float]]:
     """The map rectangles of a plan: roads, paths and building boxes, in a fixed order."""
     out = [rect_of(ITEM_LOOK[i.kind], i.cx, i.cz, i.sx, i.sz, i.yaw_deg) for i in items if i.kind in ITEM_LOOK]
-    out += [rect_of(RAMP, i.cx, i.cz, i.sx, i.sz, i.yaw_deg) for i in items if "#ramp" in i.name]  # trick ramps
+    ramps: dict[str, list[layout.Item]] = {}
+    for i in items:
+        if "#ramp" in i.name:
+            ramps.setdefault(i.name.split("#ramp")[0], []).append(i)
+    for parts in ramps.values():  # one rectangle a trick ramp over all its pieces (each drawn: 3,060 map frames for 53 cells, 2026-10-17)
+        a = math.radians(parts[0].yaw_deg)
+        ux, uz, vx, vz = math.cos(a), -math.sin(a), math.sin(a), math.cos(a)
+        pts = [c for p in parts for c in corners(rect_of(RAMP, p.cx, p.cz, p.sx, p.sz, p.yaw_deg))]
+        su, sv = [x * ux + z * uz for x, z in pts], [x * vx + z * vz for x, z in pts]
+        mu, mv = (min(su) + max(su)) / 2, (min(sv) + max(sv)) / 2
+        out.append(rect_of(RAMP, mu * ux + mv * vx, mu * uz + mv * vz, max(su) - min(su), max(sv) - min(sv), parts[0].yaw_deg))
     return sorted(out, key=lambda r: (r[0], r[1], r[2], r[3], r[4], r[5]))
 
 

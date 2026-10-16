@@ -55,6 +55,21 @@ def test_only_roads_paths_and_buildings_become_rectangles_in_a_fixed_order():
     assert got == M.rects_of_items(list(reversed(items)))
 
 
+@given(finite, finite, yaw)
+def test_a_trick_ramp_is_one_rectangle_over_all_its_pieces(x, z, rot):
+    # pieces along the ramp's own Z axis (as streets.ramp_items lays them out), turned and moved together
+    a = math.radians(rot)
+    local = [("rampt0", 0, -8, 11, 2), ("rampup", 0, -6, 11, 1), ("rampdk", 0, -3, 11, 4), ("rampdn", 0, 4, 11, 10)]
+    items = [item("prop", x + lx * math.cos(a) + lz * math.sin(a), z - lx * math.sin(a) + lz * math.cos(a), w, d, rot, f"way:1#0#{n}")
+             for n, lx, lz, w, d in local]
+    items.append(item("prop", 900, 900, 11, 4, 0, "way:2#0#rampdk"))  # another ramp stays its own
+    got = [r for r in M.rects_of_items(items) if r[0] == M.RAMP]
+    assert len(got) == 2
+    one = min(got, key=lambda r: (r[1] - x) ** 2 + (r[2] - z) ** 2)
+    assert (one[3], one[4]) == pytest.approx((11, 18), abs=0.2)  # from -9 to +9 along the ramp
+    assert (one[1], one[2]) == pytest.approx((x, z), abs=0.2)
+
+
 def test_an_empty_map_still_has_a_bounds_box_and_the_module_text_is_stable():
     assert M.bounds_of([]) == [0.0, 0.0, 1.0, 1.0]
     text, parts = M.module_text([])
