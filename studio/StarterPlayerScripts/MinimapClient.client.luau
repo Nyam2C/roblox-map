@@ -73,9 +73,29 @@ world.BackgroundTransparency = 1
 world.Size = UDim2.fromOffset(0, 0)
 local zoomScale = Instance.new("UIScale")
 zoomScale.Parent = world
-for _, r in ipairs(Data.rects or {}) do
-	local look = type(r) == "table" and LOOKS[r[1]]
-	if look and #r >= 6 then
+-- the buildings, roads and paths: made all at once (17,835 frames for 53 cells, 2026-10-17) they froze a joining client for about 2 s,
+-- so they are made RECT_BUDGET seconds a frame once the map is up, nearest the player first
+local RECT_BUDGET = 0.004
+task.defer(function()
+	local list = {}
+	for _, r in ipairs(Data.rects or {}) do
+		if type(r) == "table" and #r >= 6 and LOOKS[r[1]] then
+			table.insert(list, r)
+		end
+	end
+	local char = player.Character or player.CharacterAdded:Wait()
+	local root = char:WaitForChild("HumanoidRootPart", 10)
+	local px, pz = root and root.Position.X or 0, root and root.Position.Z or 0
+	local far = {}
+	for _, r in ipairs(list) do
+		far[r] = (r[2] - px) ^ 2 + (r[3] - pz) ^ 2
+	end
+	table.sort(list, function(a, b)
+		return far[a] < far[b]
+	end)
+	local t0 = os.clock()
+	for _, r in ipairs(list) do
+		local look = LOOKS[r[1]]
 		local f = Instance.new("Frame")
 		f.AnchorPoint = Vector2.new(0.5, 0.5)
 		f.Position = UDim2.fromOffset(r[2], r[3])
@@ -85,8 +105,12 @@ for _, r in ipairs(Data.rects or {}) do
 		f.BorderSizePixel = 0
 		f.ZIndex = look[2]
 		f.Parent = world
+		if os.clock() - t0 > RECT_BUDGET then
+			task.wait()
+			t0 = os.clock()
+		end
 	end
-end
+end)
 -- the built cells: six edges each, a faint line under the roads and buildings (the map comes first, 2026-10-14 user); the picked cell
 -- is drawn on top in orange. Widths are screen pixels whatever the zoom
 local HEX_LINE, HEX_PICK = Color3.fromRGB(150, 155, 175), Color3.fromRGB(240, 120, 30)

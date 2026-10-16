@@ -27,6 +27,7 @@ local Stats = game:GetService("Stats")
 
 local BUDGET_MS = 8 -- a frame's building while players move (the B test: 21 ms chunks made 34-64 ms server frames)
 local PREPARE_BUDGET_MS = 12 -- behind the loading screen (the B test: the target cell in under a second)
+local SLICE = 25 -- items per Builder.add call, so a frame's building stays near the budget
 local PIN = 10
 local GUARD_MB = 5500
 local BUDGET_PARTS = 500000 -- 5 GB target: about 1.1 GB fixed (server, cell data), the rest for full cells
@@ -112,9 +113,11 @@ local function build(id, budgetMs)
 		local data = cellData(id)
 		Builder.begin(id)
 		local t0 = os.clock()
-		for _, ch in ipairs(data.chunks) do
-			Builder.add(id, ch.items, ch.looks)
-			t0 = frameWait(budgetMs, t0)
+		for _, ch in ipairs(data.chunks) do -- a slice at a time: a whole chunk took 50-130 ms (2026-10-17), far over the frame budget
+			for i = 1, #ch.items, SLICE do
+				Builder.add(id, table.move(ch.items, i, math.min(i + SLICE - 1, #ch.items), 1, {}), ch.looks)
+				t0 = frameWait(budgetMs, t0)
+			end
 		end
 		Builder.finish(id)
 		for _, d in ipairs(auto[id]:GetDescendants()) do -- the spawn kept at start stays the only one
