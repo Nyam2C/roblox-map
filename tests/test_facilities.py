@@ -1,5 +1,6 @@
 """Detailed facility models (src/facilities.py)."""
 import dataclasses
+import math
 
 import facilities as FA
 import layout_details as LD
@@ -140,3 +141,24 @@ def test_split_takes_the_box_farthest_that_way_into_its_own_look():
     assert gym.names == ("b",) and rest.names == ("a", "c") and r_own is own
     assert g_own == {"floors": 2, "roof": {"features": ["pitched"]}}
     assert FA.split_box(body, {}) == [(body, {})]
+
+
+def test_the_stadium_has_a_track_round_the_pitch_and_a_bowl_rising_outward():
+    """2026-10-16 (0d3 부천종합운동장): custom stadium on its oval outline."""
+    import stadium
+    from shapely.geometry import Point
+    from shapely import affinity
+    oval = affinity.scale(Point(0, 0).buffer(1.0, quad_segs=32), 110.0, 135.0)
+    items = stadium.build(FA.layout.Frame.from_cfg(FA.common.DEFAULTS), "gis:1", oval)
+    tails = {i.name.split("#")[1].split("-")[0] for i in items}
+    assert {"gr", "tk", "pt", "st", "bw", "co", "rf", "fm"} <= tails
+    seats = [i for i in items if "#st-" in i.name]
+    assert max(i.sy for i in seats) > min(i.sy for i in seats) * 5  # back rows stand far higher than the front
+    assert abs(stadium.axis(oval) % 180 - 90) < 3  # the long axis of a N-S oval (a 128-gon is not quite symmetric)
+    # wall pieces run round the outline, not out from it (plaza.ring's yaw is for Studio x, z; Studio 2026-10-16 showed radial fins)
+    walls = [i for i in items if "#bw-" in i.name]
+    cx, cz = sum(i.cx for i in walls) / len(walls), sum(i.cz for i in walls) / len(walls)
+    for w in walls:
+        rx, rz = w.cx - cx, w.cz - cz
+        t = math.radians(w.yaw_deg)
+        assert abs(math.cos(t) * rx - math.sin(t) * rz) / math.hypot(rx, rz) < 0.3

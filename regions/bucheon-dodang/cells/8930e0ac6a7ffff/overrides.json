@@ -1,0 +1,285 @@
+{
+  "cell_id": "8930e0ac6a7ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11180540",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Dark panel-clad small building, about three floors, shop-like ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11180763",
+      "confidence": "high",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors with mansard top, stone panel stair side, balconies",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11184729",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, four floors, orange walls with maroon bands, steel window bars",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11184736",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors with mansard top, bay windows, stone panel side wall",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11185447",
+      "confidence": "high",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors with mansard roof, large stone panel gable wall, bay",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11185448",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors, entrance stairs, awnings, window bars",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11189468",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Only trees and a fence visible, white wall far behind; target not visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11193635",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 60.0,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Tall gray apartment tower with vertical stripes, about twenty floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11193833",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Long gray apartment slab, about fifteen floors, parking lot in front",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11193834",
+      "confidence": "medium",
+      "floors_seen": 16,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Long gray apartment slab, about sixteen floors, balconies with air units",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11201232",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Low white painted block, two floors with small windows, behind a fence",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11202361",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Low white brick block, two floors, side wall with one window",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11202480",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Tiny box, only an apartment edge with balconies visible; target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11203125",
+      "confidence": "high",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors with mansard top, entrance steps, bay, balconies",
+      "roof_shape": "hip",
+      "views_used": [
+        1
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11203176",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors, mansard top, carport gap at ground, stone panel side",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11203178",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, four floors, orange with maroon bands, glass stair entrance, window bars",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11203183",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors, window bars, awnings, stone panel side wall",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11205403",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors with attic, bay windows, stone panel wall",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11205404",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-16T13:32:38+00:00",
+      "note": "Villa block, five floors, mansard roof, pilotis-like open ground, stone panel stair side",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    }
+  ],
+  "overrides": [
+    {
+      "building_id": "gis:11180763",
+      "field": "floors_above",
+      "reason": "2026-10-16 sheet: the fifth level is a mansard attic; keep register",
+      "set_at": "2026-10-16T13:33:12+00:00",
+      "value": 4
+    },
+    {
+      "building_id": "gis:11185447",
+      "field": "floors_above",
+      "reason": "2026-10-16 sheet: the fifth level is a mansard attic; keep register",
+      "set_at": "2026-10-16T13:33:12+00:00",
+      "value": 4
+    },
+    {
+      "building_id": "gis:11203125",
+      "field": "floors_above",
+      "reason": "2026-10-16 sheet: the fifth level is a mansard attic; keep register",
+      "set_at": "2026-10-16T13:33:12+00:00",
+      "value": 4
+    }
+  ],
+  "version": 1
+}

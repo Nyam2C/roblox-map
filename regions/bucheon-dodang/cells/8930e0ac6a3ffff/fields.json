@@ -1,0 +1,19 @@
+{
+ "cell_id": "8930e0ac6a3ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:483467595",
+   "name": "부일초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": 4561.93,
+   "z": 2113.647,
+   "yaw": 80.0,
+   "w": 230.4,
+   "d": 201.6,
+   "fit": 1.0,
+   "hand": "2026-10-16: OSM has only the school building (way centre in 6af); the sand field SW of the 부일초·원미중 slab, inside the teal canopy, read off the satellite"
+  }
+ ]
+}

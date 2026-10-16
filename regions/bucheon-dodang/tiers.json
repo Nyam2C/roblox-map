@@ -1,5 +1,20 @@
 {
  "cells": {
+  "8930e0ac0d3ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 원미동 5 동쪽 부천종합운동장까지 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0ac45bffff": {
    "counts": {
     "landmarks": [
@@ -199,6 +214,36 @@
    },
    "manual": true,
    "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 남·동쪽 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac6a3ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.415,
+     "residential": 0.149,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 원미동 5 동쪽 부천종합운동장까지 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac6a7ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 원미동 5 동쪽 부천종합운동장까지 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0ac6bbffff": {

@@ -1,0 +1,1060 @@
+{
+ "note": "부천종합운동장 grounds outside the main stadium oval (cell 8930e0ac0d3ffff, 춘의동): archery range and shooting shed south, car park, SE garden with white tent, NW amphitheatre, futsal pitch; traced on the V-World z19 mosaic, 2026-10-16. Satellite only; stadium oval, buildings, roads and trees excluded.",
+ "tile_x0": 446804,
+ "tile_y0": 203146,
+ "seen": "Satellite z19 (0.237 m/px): archery field is dry brownish grass x 590-1195, y 1540-1705 with a green-grey roofed shed at its west end and a blue-roofed target shelter plus bare sand at the east end. Car park (asphalt) at x 520-797, y 1400-1496. SE garden: tan gravel walk from (1320,1540) down to a large white membrane tent (x 1346-1450, y 1700-1760), pink azalea beds beside it. NW: fan-shaped brown terraced amphitheatre x 560-690, y 135-350. SE of the stadium: green futsal pitch x 1406-1514, y 1200-1312. Fences and the tent's open sides are inferred. Web photos not checked.",
+ "sources": [
+  "data/satellite/8930e0ac0d3ffff-z19.jpg"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     592,
+     1545
+    ],
+    [
+     1140,
+     1540
+    ],
+    [
+     1190,
+     1545
+    ],
+    [
+     1195,
+     1695
+    ],
+    [
+     1140,
+     1698
+    ],
+    [
+     595,
+     1708
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    128,
+    126,
+    88
+   ],
+   "material": "Grass",
+   "note": "archery range: long dry grass field (~145 x 38 m)"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     600,
+     1700
+    ],
+    [
+     1190,
+     1695
+    ],
+    [
+     1195,
+     1730
+    ],
+    [
+     1100,
+     1742
+    ],
+    [
+     900,
+     1735
+    ],
+    [
+     620,
+     1725
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    70,
+    92,
+    58
+   ],
+   "material": "Grass",
+   "note": "greener strip south of the field"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     600,
+     1534
+    ],
+    [
+     1190,
+     1532
+    ],
+    [
+     1190,
+     1542
+    ],
+    [
+     600,
+     1544
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    120,
+    112,
+    92
+   ],
+   "material": "Concrete",
+   "note": "worn dirt line along the north edge of the field"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1140,
+     1592
+    ],
+    [
+     1208,
+     1590
+    ],
+    [
+     1210,
+     1700
+    ],
+    [
+     1142,
+     1697
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    196,
+    170,
+    138
+   ],
+   "material": "Sand",
+   "note": "bare sand at the target end of the range"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "px": [
+    [
+     1212,
+     1595
+    ],
+    [
+     1240,
+     1595
+    ],
+    [
+     1240,
+     1715
+    ],
+    [
+     1212,
+     1715
+    ]
+   ],
+   "height_m": 3.5,
+   "rgb": [
+    110,
+    150,
+    190
+   ],
+   "material": "Metal",
+   "note": "blue-roofed target shelter at the east end, ~7 x 28 m",
+   "open": true
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "px": [
+    [
+     508,
+     1522
+    ],
+    [
+     585,
+     1522
+    ],
+    [
+     585,
+     1708
+    ],
+    [
+     508,
+     1708
+    ]
+   ],
+   "height_m": 3.5,
+   "rgb": [
+    100,
+    130,
+    120
+   ],
+   "material": "Metal",
+   "note": "covered shooting shed on the west end (green-grey roof, ~18 x 44 m), open sides",
+   "open": true
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     585,
+     1560
+    ],
+    [
+     600,
+     1560
+    ],
+    [
+     600,
+     1690
+    ],
+    [
+     585,
+     1690
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    190,
+    190,
+    185
+   ],
+   "material": "Concrete",
+   "note": "shooting line apron east of the shed"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     520,
+     1405
+    ],
+    [
+     795,
+     1400
+    ],
+    [
+     797,
+     1496
+    ],
+    [
+     520,
+     1496
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    118,
+    118,
+    114
+   ],
+   "material": "Asphalt",
+   "note": "car park south of the access road (~65 x 22 m)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     700,
+     1500
+    ],
+    [
+     800,
+     1498
+    ],
+    [
+     800,
+     1515
+    ],
+    [
+     700,
+     1516
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    150,
+    148,
+    140
+   ],
+   "material": "Concrete",
+   "note": "walk between the car park and the archery field"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1318,
+     1535
+    ],
+    [
+     1336,
+     1540
+    ],
+    [
+     1338,
+     1580
+    ],
+    [
+     1346,
+     1602
+    ],
+    [
+     1346,
+     1626
+    ],
+    [
+     1340,
+     1645
+    ],
+    [
+     1334,
+     1690
+    ],
+    [
+     1340,
+     1720
+    ],
+    [
+     1336,
+     1760
+    ],
+    [
+     1326,
+     1795
+    ],
+    [
+     1298,
+     1795
+    ],
+    [
+     1318,
+     1700
+    ],
+    [
+     1312,
+     1665
+    ],
+    [
+     1285,
+     1632
+    ],
+    [
+     1288,
+     1615
+    ],
+    [
+     1318,
+     1626
+    ],
+    [
+     1324,
+     1590
+    ],
+    [
+     1322,
+     1560
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    205,
+    160,
+    112
+   ],
+   "material": "Concrete",
+   "note": "tan gravel-paved garden walk, the spine of the garden (~4-6 m wide)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1275,
+     1630
+    ],
+    [
+     1292,
+     1630
+    ],
+    [
+     1318,
+     1665
+    ],
+    [
+     1322,
+     1700
+    ],
+    [
+     1300,
+     1705
+    ],
+    [
+     1285,
+     1665
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    205,
+    160,
+    112
+   ],
+   "material": "Concrete",
+   "note": "widening of the walk west of the spine"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1335,
+     1565
+    ],
+    [
+     1355,
+     1560
+    ],
+    [
+     1372,
+     1585
+    ],
+    [
+     1356,
+     1622
+    ],
+    [
+     1340,
+     1610
+    ],
+    [
+     1336,
+     1585
+    ]
+   ],
+   "height_m": 0.3,
+   "rgb": [
+    165,
+    80,
+    110
+   ],
+   "material": "Grass",
+   "note": "pink azalea bed"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1362,
+     1602
+    ],
+    [
+     1398,
+     1608
+    ],
+    [
+     1400,
+     1628
+    ],
+    [
+     1368,
+     1636
+    ],
+    [
+     1356,
+     1626
+    ]
+   ],
+   "height_m": 0.3,
+   "rgb": [
+    165,
+    80,
+    110
+   ],
+   "material": "Grass",
+   "note": "pink azalea bed"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1396,
+     1562
+    ],
+    [
+     1424,
+     1560
+    ],
+    [
+     1428,
+     1602
+    ],
+    [
+     1410,
+     1604
+    ]
+   ],
+   "height_m": 0.3,
+   "rgb": [
+    165,
+    80,
+    110
+   ],
+   "material": "Grass",
+   "note": "pink azalea bed"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1292,
+     1640
+    ],
+    [
+     1310,
+     1640
+    ],
+    [
+     1316,
+     1665
+    ],
+    [
+     1300,
+     1672
+    ],
+    [
+     1290,
+     1660
+    ]
+   ],
+   "height_m": 0.3,
+   "rgb": [
+    70,
+    50,
+    50
+   ],
+   "material": "Grass",
+   "note": "dark shrub bed inside the walk loop"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1338,
+     1600
+    ],
+    [
+     1350,
+     1602
+    ],
+    [
+     1372,
+     1612
+    ],
+    [
+     1385,
+     1640
+    ],
+    [
+     1378,
+     1642
+    ],
+    [
+     1366,
+     1620
+    ],
+    [
+     1344,
+     1610
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    160,
+    135
+   ],
+   "material": "Concrete",
+   "note": "narrow gravel path looping through the beds"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "px": [
+    [
+     1346,
+     1738
+    ],
+    [
+     1352,
+     1712
+    ],
+    [
+     1440,
+     1699
+    ],
+    [
+     1450,
+     1715
+    ],
+    [
+     1428,
+     1752
+    ],
+    [
+     1362,
+     1760
+    ]
+   ],
+   "height_m": 4.5,
+   "rgb": [
+    238,
+    238,
+    236
+   ],
+   "material": "Fabric",
+   "note": "white event tent (~35 x 15 m, ridged membrane)",
+   "open": true
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1340,
+     1735
+    ],
+    [
+     1448,
+     1740
+    ],
+    [
+     1470,
+     1740
+    ],
+    [
+     1480,
+     1745
+    ],
+    [
+     1440,
+     1775
+    ],
+    [
+     1360,
+     1795
+    ],
+    [
+     1338,
+     1790
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    205,
+    160,
+    112
+   ],
+   "material": "Concrete",
+   "note": "gravel apron around and south of the tent"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1180,
+     1790
+    ],
+    [
+     1260,
+     1775
+    ],
+    [
+     1330,
+     1768
+    ],
+    [
+     1334,
+     1790
+    ],
+    [
+     1260,
+     1800
+    ],
+    [
+     1195,
+     1805
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    205,
+    160,
+    112
+   ],
+   "material": "Concrete",
+   "note": "gravel track from the tent apron to the west"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     620,
+     1760
+    ],
+    [
+     640,
+     1760
+    ],
+    [
+     690,
+     1775
+    ],
+    [
+     760,
+     1800
+    ],
+    [
+     870,
+     1820
+    ],
+    [
+     1000,
+     1825
+    ],
+    [
+     1090,
+     1830
+    ],
+    [
+     1090,
+     1842
+    ],
+    [
+     1000,
+     1838
+    ],
+    [
+     870,
+     1834
+    ],
+    [
+     760,
+     1816
+    ],
+    [
+     690,
+     1792
+    ],
+    [
+     635,
+     1775
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    205,
+    160,
+    112
+   ],
+   "material": "Concrete",
+   "note": "gravel footpath south of the range, winding under trees"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     655,
+     135
+    ],
+    [
+     675,
+     175
+    ],
+    [
+     690,
+     230
+    ],
+    [
+     690,
+     280
+    ],
+    [
+     672,
+     320
+    ],
+    [
+     645,
+     350
+    ],
+    [
+     615,
+     305
+    ],
+    [
+     580,
+     292
+    ],
+    [
+     560,
+     285
+    ],
+    [
+     560,
+     205
+    ],
+    [
+     600,
+     198
+    ],
+    [
+     622,
+     170
+    ],
+    [
+     640,
+     148
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    160,
+    135,
+    112
+   ],
+   "material": "Concrete",
+   "note": "fan-shaped amphitheatre seating terraces (sunken plaza), earth-brown stepped rows opening east"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     560,
+     205
+    ],
+    [
+     600,
+     198
+    ],
+    [
+     605,
+     292
+    ],
+    [
+     560,
+     285
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    175,
+    165,
+    148
+   ],
+   "material": "Concrete",
+   "note": "lighter striped terrace band on the west half"
+  },
+  {
+   "kind": "stair",
+   "shape": "poly",
+   "px": [
+    [
+     556,
+     205
+    ],
+    [
+     562,
+     205
+    ],
+    [
+     562,
+     288
+    ],
+    [
+     556,
+     288
+    ]
+   ],
+   "height_m": 0.14,
+   "rgb": [
+    225,
+    225,
+    220
+   ],
+   "material": "Concrete",
+   "note": "white retaining edge/ramp on the west side"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     690,
+     140
+    ],
+    [
+     715,
+     150
+    ],
+    [
+     760,
+     175
+    ],
+    [
+     800,
+     182
+    ],
+    [
+     800,
+     190
+    ],
+    [
+     755,
+     184
+    ],
+    [
+     710,
+     162
+    ],
+    [
+     688,
+     148
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    185,
+    140,
+    110
+   ],
+   "material": "Concrete",
+   "note": "earth path from the amphitheatre toward the north-east"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     732,
+     178
+    ],
+    [
+     738,
+     178
+    ],
+    [
+     734,
+     270
+    ],
+    [
+     728,
+     270
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    225,
+    220,
+    205
+   ],
+   "material": "Concrete",
+   "note": "thin pale footpath east of the stage"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1412,
+     1210
+    ],
+    [
+     1512,
+     1202
+    ],
+    [
+     1514,
+     1300
+    ],
+    [
+     1428,
+     1312
+    ],
+    [
+     1406,
+     1292
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    45,
+    105,
+    65
+   ],
+   "material": "Grass",
+   "note": "small artificial-turf futsal pitch (~25 x 24 m)"
+  },
+  {
+   "kind": "fence",
+   "shape": "poly",
+   "px": [
+    [
+     1408,
+     1206
+    ],
+    [
+     1516,
+     1198
+    ],
+    [
+     1518,
+     1304
+    ],
+    [
+     1428,
+     1316
+    ],
+    [
+     1402,
+     1294
+    ],
+    [
+     1408,
+     1207
+    ]
+   ],
+   "height_m": 3.0,
+   "rgb": [
+    60,
+    70,
+    64
+   ],
+   "material": "Metal",
+   "note": "pitch cage fence (inferred)"
+  }
+ ]
+}
