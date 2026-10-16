@@ -1,0 +1,910 @@
+{
+ "note": "달빛공원 (부천 원미구 중동, OSM way 493027719, leisure=park) strip plus the round-plaza green south-east of it (unnamed leisure=park, OSM way 815833934); ground layout traced on the V-World z19 mosaic of cell 8930e0af16fffff (tile_x0/tile_y0 below), 2026-10-16. Built by src/anjunggeun.py with spec layout. The OSM outline of 달빛공원 (px 814-1052 x 1188-1670) was used only as a bound; the road on the west and the parking lane on the east are left out.",
+ "tile_x0": 446776,
+ "tile_y0": 203155,
+ "seen": "Satellite z19: a wooded north-south strip (~75 m long) with a bare dry clearing in the middle, circled on its west side by a curving light-sand path that runs from the north crosswalk round the south end; dense tree rows on both sides (west row beside the road, east wood beside the 14단지 parking lane). At the south edge, across the crossing, a round paved plaza (~15 m) with a ring pattern and several radiating paths through planted green, and a small pavilion with a square roof on the east. Canopy hides parts of the paths (inferred). Trees left to trees.py.",
+ "sources": [
+  "data/satellite/8930e0af16fffff-z19.jpg",
+  "Nominatim lookup W493027719, W815833934 (polygon_geojson) and Overpass around:150 [leisure] 2026-10-16",
+  "no web photos looked up"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     818,
+     1222
+    ],
+    [
+     945,
+     1175
+    ],
+    [
+     1030,
+     1250
+    ],
+    [
+     1058,
+     1380
+    ],
+    [
+     1032,
+     1520
+    ],
+    [
+     1048,
+     1602
+    ],
+    [
+     1000,
+     1638
+    ],
+    [
+     950,
+     1642
+    ],
+    [
+     905,
+     1585
+    ],
+    [
+     865,
+     1480
+    ],
+    [
+     840,
+     1350
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    66,
+    92,
+    52
+   ],
+   "material": "Grass",
+   "note": "main wooded strip of 달빛공원 between the west road and the east parking lane, canopy over grass"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     792,
+     1215
+    ],
+    [
+     828,
+     1218
+    ],
+    [
+     850,
+     1350
+    ],
+    [
+     870,
+     1440
+    ],
+    [
+     850,
+     1452
+    ],
+    [
+     812,
+     1360
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    66,
+    92,
+    52
+   ],
+   "material": "Grass",
+   "note": "west tree row between the west road and the dirt path"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1040,
+     1520
+    ],
+    [
+     1120,
+     1500
+    ],
+    [
+     1170,
+     1550
+    ],
+    [
+     1200,
+     1620
+    ],
+    [
+     1170,
+     1690
+    ],
+    [
+     1090,
+     1650
+    ],
+    [
+     1050,
+     1610
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    66,
+    92,
+    52
+   ],
+   "material": "Grass",
+   "note": "south-east wood between the strip, the parking lane and the plaza green"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1200,
+     1620
+    ],
+    [
+     1270,
+     1602
+    ],
+    [
+     1340,
+     1640
+    ],
+    [
+     1400,
+     1690
+    ],
+    [
+     1400,
+     1755
+    ],
+    [
+     1300,
+     1740
+    ],
+    [
+     1260,
+     1750
+    ],
+    [
+     1200,
+     1750
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    66,
+    92,
+    52
+   ],
+   "material": "Grass",
+   "note": "green island around the south plaza with planting and paths"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1180,
+     1785
+    ],
+    [
+     1260,
+     1795
+    ],
+    [
+     1400,
+     1810
+    ],
+    [
+     1400,
+     1840
+    ],
+    [
+     1220,
+     1840
+    ],
+    [
+     1180,
+     1820
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    66,
+    92,
+    52
+   ],
+   "material": "Grass",
+   "note": "green south of the round plaza"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     850,
+     1225
+    ],
+    [
+     915,
+     1220
+    ],
+    [
+     962,
+     1290
+    ],
+    [
+     1000,
+     1380
+    ],
+    [
+     1035,
+     1490
+    ],
+    [
+     1038,
+     1595
+    ],
+    [
+     1000,
+     1622
+    ],
+    [
+     945,
+     1635
+    ],
+    [
+     905,
+     1575
+    ],
+    [
+     875,
+     1470
+    ],
+    [
+     855,
+     1350
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    176,
+    160,
+    126
+   ],
+   "material": "Ground",
+   "note": "bare dry-earth clearing in the middle of the strip (sparse grass, no canopy)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     940,
+     1610
+    ],
+    [
+     1000,
+     1615
+    ],
+    [
+     1030,
+     1595
+    ],
+    [
+     1035,
+     1625
+    ],
+    [
+     990,
+     1640
+    ],
+    [
+     945,
+     1640
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    150,
+    115
+   ],
+   "material": "Ground",
+   "note": "small dry patch at the south end of the clearing"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     825,
+     1215
+    ],
+    [
+     850,
+     1212
+    ],
+    [
+     850,
+     1250
+    ],
+    [
+     860,
+     1350
+    ],
+    [
+     872,
+     1430
+    ],
+    [
+     885,
+     1490
+    ],
+    [
+     905,
+     1550
+    ],
+    [
+     925,
+     1605
+    ],
+    [
+     950,
+     1630
+    ],
+    [
+     1000,
+     1627
+    ],
+    [
+     1038,
+     1600
+    ],
+    [
+     1045,
+     1610
+    ],
+    [
+     1005,
+     1640
+    ],
+    [
+     945,
+     1642
+    ],
+    [
+     915,
+     1620
+    ],
+    [
+     890,
+     1570
+    ],
+    [
+     868,
+     1490
+    ],
+    [
+     852,
+     1430
+    ],
+    [
+     840,
+     1350
+    ],
+    [
+     827,
+     1250
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    198,
+    170,
+    140
+   ],
+   "material": "Sand",
+   "note": "curving dirt/sand path along the west edge of the clearing, from the north entrance round the south end (~2.5 m)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     935,
+     1175
+    ],
+    [
+     962,
+     1175
+    ],
+    [
+     972,
+     1210
+    ],
+    [
+     950,
+     1215
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    166,
+    155
+   ],
+   "material": "Pavement",
+   "note": "short paved link from the north end of the strip to the crosswalk (~2 m)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1025,
+     1605
+    ],
+    [
+     1050,
+     1602
+    ],
+    [
+     1072,
+     1640
+    ],
+    [
+     1052,
+     1648
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    166,
+    155
+   ],
+   "material": "Pavement",
+   "note": "paved walk at the south end of the strip toward the crossing"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1005,
+     1638
+    ],
+    [
+     1050,
+     1646
+    ],
+    [
+     1045,
+     1675
+    ],
+    [
+     1000,
+     1690
+    ],
+    [
+     985,
+     1660
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    168,
+    165,
+    155
+   ],
+   "material": "Pavement",
+   "note": "low sidewalk/plaza patch at the south-west crossing"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "height_m": null,
+   "rgb": [
+    176,
+    168,
+    152
+   ],
+   "material": "Granite",
+   "note": "round granite plaza (~8 m dia) with a ring pattern, radiating paths",
+   "px": [
+    [
+     1215,
+     1755
+    ],
+    [
+     32,
+     0
+    ]
+   ]
+  },
+  {
+   "kind": "bed",
+   "shape": "circle",
+   "height_m": 0.35,
+   "rgb": [
+    110,
+    100,
+    70
+   ],
+   "material": "Ground",
+   "note": "raised circular planting bed in the plaza centre",
+   "px": [
+    [
+     1215,
+     1755
+    ],
+    [
+     10,
+     0
+    ]
+   ]
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1245,
+     1755
+    ],
+    [
+     1300,
+     1762
+    ],
+    [
+     1340,
+     1770
+    ],
+    [
+     1400,
+     1788
+    ],
+    [
+     1400,
+     1800
+    ],
+    [
+     1340,
+     1784
+    ],
+    [
+     1300,
+     1777
+    ],
+    [
+     1245,
+     1772
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    156
+   ],
+   "material": "Pavement",
+   "note": "plaza path east to the open pavilion (~2.5 m)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1200,
+     1726
+    ],
+    [
+     1190,
+     1690
+    ],
+    [
+     1198,
+     1650
+    ],
+    [
+     1220,
+     1620
+    ],
+    [
+     1245,
+     1605
+    ],
+    [
+     1260,
+     1612
+    ],
+    [
+     1235,
+     1635
+    ],
+    [
+     1215,
+     1660
+    ],
+    [
+     1208,
+     1690
+    ],
+    [
+     1215,
+     1722
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    156
+   ],
+   "material": "Pavement",
+   "note": "plaza path north-west curving up to the planted island (~2.5 m)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1240,
+     1722
+    ],
+    [
+     1280,
+     1690
+    ],
+    [
+     1310,
+     1640
+    ],
+    [
+     1340,
+     1622
+    ],
+    [
+     1360,
+     1640
+    ],
+    [
+     1350,
+     1655
+    ],
+    [
+     1330,
+     1650
+    ],
+    [
+     1300,
+     1700
+    ],
+    [
+     1260,
+     1735
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    156
+   ],
+   "material": "Pavement",
+   "note": "plaza path north-east arc through the green island"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1340,
+     1640
+    ],
+    [
+     1348,
+     1675
+    ],
+    [
+     1350,
+     1715
+    ],
+    [
+     1340,
+     1718
+    ],
+    [
+     1332,
+     1675
+    ],
+    [
+     1328,
+     1642
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    156
+   ],
+   "material": "Pavement",
+   "note": "path from the arc down to the pavilion"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1180,
+     1770
+    ],
+    [
+     1155,
+     1785
+    ],
+    [
+     1130,
+     1800
+    ],
+    [
+     1140,
+     1812
+    ],
+    [
+     1170,
+     1798
+    ],
+    [
+     1190,
+     1782
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    156
+   ],
+   "material": "Pavement",
+   "note": "plaza path south-west to the road"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1210,
+     1788
+    ],
+    [
+     1230,
+     1788
+    ],
+    [
+     1235,
+     1825
+    ],
+    [
+     1212,
+     1825
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    156
+   ],
+   "material": "Pavement",
+   "note": "plaza path south"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "height_m": null,
+   "rgb": [
+    168,
+    160,
+    140
+   ],
+   "material": "Wood",
+   "open": true,
+   "note": "small open pavilion/shade tent in the east part of the green island (~6 x 6 m)",
+   "px": [
+    [
+     1324,
+     1722
+    ],
+    [
+     1350,
+     1722
+    ],
+    [
+     1350,
+     1748
+    ],
+    [
+     1324,
+     1748
+    ]
+   ]
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1270,
+     1740
+    ],
+    [
+     1310,
+     1745
+    ],
+    [
+     1312,
+     1762
+    ],
+    [
+     1272,
+     1758
+    ]
+   ],
+   "height_m": 0.4,
+   "rgb": [
+    96,
+    104,
+    66
+   ],
+   "material": "Grass",
+   "note": "planting bed east of the plaza"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1225,
+     1690
+    ],
+    [
+     1260,
+     1675
+    ],
+    [
+     1270,
+     1700
+    ],
+    [
+     1240,
+     1718
+    ]
+   ],
+   "height_m": 0.4,
+   "rgb": [
+    96,
+    104,
+    66
+   ],
+   "material": "Grass",
+   "note": "planting bed north of the plaza"
+  }
+ ]
+}

@@ -1,5 +1,22 @@
 {
  "cells": {
+  "8930e0ac45bffff": {
+   "counts": {
+    "landmarks": [
+     "place_of_worship:참사랑교회"
+    ],
+    "pois": 6,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.147,
+     "residential": 0.851,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 둘레 다음 5칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0ac4cbffff": {
    "counts": {
     "landmarks": [],
@@ -43,6 +60,53 @@
    },
    "manual": true,
    "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 남·동쪽 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac687ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.985,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 둘레 다음 5칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac68bffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 6,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 둘레 다음 5칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac68fffff": {
+   "counts": {
+    "landmarks": [
+     "townhall:원미구청"
+    ],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.362,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 둘레 다음 5칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0ac693ffff": {
@@ -551,6 +615,24 @@
    },
    "manual": false,
    "reason": "landmarks: park:way815847418",
+   "tier": 1
+  },
+  "8930e0af16fffff": {
+   "counts": {
+    "landmarks": [
+     "park:way815833934",
+     "park:달빛공원"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.679,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 춘의동 2 둘레 다음 5칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
   "8930e0af173ffff": {
