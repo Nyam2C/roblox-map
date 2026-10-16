@@ -19214,6 +19214,1011 @@
     "gis:11203125"
    ],
    "claims": []
+  },
+  {
+   "key": "sambo_technotower",
+   "floors": 27,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     214,
+     200,
+     178
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Glass",
+    "rgb": [
+     70,
+     95,
+     110
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 3.6,
+    "h_m": 1.4,
+    "pitch_m": 3.6,
+    "glass_rgb": [
+     110,
+     140,
+     155
+    ],
+    "frame_rgb": [
+     232,
+     228,
+     218
+    ]
+   },
+   "bands": {
+    "rgb": [
+     226,
+     218,
+     200
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      190,
+      170,
+      140
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      75,
+      105,
+      125
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 10,
+     "to_floor": 26,
+     "rgb": [
+      225,
+      225,
+      222
+     ],
+     "pitch_m": 3.0
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     110,
+     110,
+     112
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     205,
+     200,
+     190
+    ],
+    "top_rgb": [
+     170,
+     170,
+     168
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Stepped mass: a 7-8 storey podium (beige/cream stone panels with horizontal glass ribbons and louvre vents) stepping down toward the street, with a slim 27-storey glass tower rising behind it on the east side. Tower is blue-green curtain glass with thin pale mullions; podium ground 2 floors is dark glass shopfront with a projecting dark canopy. Footprint 12,929 m2 is the podium: make podium ~8 floors cream, tower part full height, if the generator can only do one box use cream lower 8 floors and glass upper floors. Satellite overlay 2026-10-17: a U of two tall wings (NW tower with helipad, E drive-in wing with roof parking) round an open parking yard; courtyard_m 35 (40 left the yard smaller than the satellite). Street-view pair 2026-10-17: cream walls dominate, the ribbon glass is about a third of a floor (h 1.4 m).",
+   "sources": [
+    "captures/8930e0ac6b3ffff/sheets/gis_12397794.jpg"
+   ],
+   "seen": "Cream stone-panel podium with long glass ribbons and louvre vents, dark glass retail base, and a tall glass tower behind.",
+   "cell": "8930e0ac6b3ffff",
+   "build": [
+    "gis:12397794"
+   ],
+   "claims": [],
+   "courtyard_m": 35
+  },
+  {
+   "key": "technovalley_u1",
+   "floors": 20,
+   "height_m": null,
+   "wall": {
+    "material": "Glass",
+    "rgb": [
+     80,
+     115,
+     150
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     168,
+     160,
+     148
+    ]
+   },
+   "windows": {
+    "type": "curtain",
+    "w_m": 2.4,
+    "h_m": 2.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     78,
+     118,
+     158
+    ],
+    "frame_rgb": [
+     190,
+     195,
+     200
+    ]
+   },
+   "bands": {
+    "rgb": [
+     185,
+     190,
+     196
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      170,
+      165,
+      155
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 10.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      60,
+      85,
+      105
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 7.0,
+    "canopy": true,
+    "canopy_rgb": [
+     140,
+     135,
+     128
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     150,
+     155,
+     160
+    ],
+    "top_rgb": [
+     150,
+     152,
+     156
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Blue reflective curtain-wall twin towers (tallest ~20 floors) rising from a stepped glass podium with deep notches/terraces; ground two floors is a beige granite-and-glass shopfront band. Shop signs on ground floor are brand clutter, omit. Satellite overlay 2026-10-17: ㅁ-shaped with a narrow light well; courtyard_m 30.",
+   "sources": [
+    "captures/8930e0ac6b3ffff/sheets/gis_12401299.jpg"
+   ],
+   "seen": "Blue mirror-glass towers with pale mullion grid, stepped podium, tan stone retail base with entrance recess.",
+   "cell": "8930e0ac6b3ffff",
+   "build": [
+    "gis:12401299"
+   ],
+   "claims": [],
+   "courtyard_m": 30
+  },
+  {
+   "key": "chunui_technopark_north",
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Glass",
+    "rgb": [
+     95,
+     140,
+     185
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     175,
+     172,
+     165
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.2,
+    "h_m": 2.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     90,
+     135,
+     175
+    ],
+    "frame_rgb": [
+     225,
+     228,
+     230
+    ]
+   },
+   "bands": {
+    "rgb": [
+     190,
+     192,
+     194
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      120,
+      95,
+      80
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 3.0,
+     "from_floor": 1,
+     "to_floor": 14,
+     "material": "Metal",
+     "rgb": [
+      205,
+      205,
+      200
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     150,
+     150,
+     148
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     190,
+     190,
+     188
+    ],
+    "top_rgb": [
+     160,
+     160,
+     160
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Two records, one complex of 15 floors (~14-16): near-square blue glass facade with a grid of large light-blue glazing panes with pale aluminium mullions and a few small opening panes; a pale beige/grey side block adjoins on the west. Ground floor is a low brick/dark-glass base with open pilotis/columns and a porte-cochere on the side (tall white columns, dark soffit canopy). Treat both as one blue glass mass with a slightly lower grey-beige wing.",
+   "sources": [
+    "captures/8930e0ac6b3ffff/sheets/gis_11214791.jpg",
+    "captures/8930e0ac6b3ffff/sheets/gis_11214792.jpg"
+   ],
+   "seen": "Tall blue glazed grid facade with pale mullions, brick-and-glass low ground floor, white columns and dark canopy over a drive-in at the side.",
+   "cell": "8930e0ac6b3ffff",
+   "build": [
+    "gis:11214791",
+    "gis:11214792"
+   ],
+   "claims": []
+  },
+  {
+   "key": "car_service_centre",
+   "floors": 2,
+   "height_m": 9.7,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     205,
+     208,
+     212
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     165,
+     165,
+     160
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.0,
+    "pitch_m": 4.0,
+    "glass_rgb": [
+     120,
+     140,
+     150
+    ],
+    "frame_rgb": [
+     225,
+     225,
+     225
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      40,
+      90,
+      160
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.2,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     40,
+     90,
+     160
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     200,
+     200,
+     200
+    ],
+    "top_rgb": [
+     190,
+     190,
+     190
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Plain light-grey profiled metal-cladding workshop, 2 storeys with a stair/sign block rising a bit higher at the back; a blank grey concrete-block wall about 2 m high runs along the street edge (fence), with a blue awning over a side door and wide shutter bays facing the yard. Small strip windows, a few pink-curtained. Brand sign on the roofline: omit. Satellite overlay 2026-10-17: most of the record is an open parking yard; a 1-storey 7 m band of workshop/wall round the yard instead of a full box. Street-view pair 2026-10-17: the street block is a tall metal-clad workshop, register height 9.7 m.",
+   "sources": [
+    "captures/8930e0ac6b3ffff/sheets/gis_11217379.jpg"
+   ],
+   "seen": "Grey corrugated-panel two-storey garage with block wall and blue awning, rooftop signboard, yard with parked vehicles.",
+   "cell": "8930e0ac6b3ffff",
+   "build": [
+    "gis:11217379"
+   ],
+   "claims": [],
+   "courtyard_m": 7
+  },
+  {
+   "key": "wonmi_church_big",
+   "floors": 4,
+   "height_m": 18,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     78,
+     62
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     190,
+     186,
+     178
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 5.0,
+    "pitch_m": 4.5,
+    "glass_rgb": [
+     40,
+     60,
+     80
+    ],
+    "frame_rgb": [
+     60,
+     56,
+     54
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 5.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "rgb": [
+      45,
+      65,
+      85
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.38,
+     "width_m": 2.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Granite",
+     "rgb": [
+      200,
+      196,
+      188
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.38,
+     "width_m": 2.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Granite",
+     "rgb": [
+      200,
+      196,
+      188
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 5.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "rgb": [
+      45,
+      65,
+      85
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": 0.0,
+     "width_m": 3.0,
+     "rgb": [
+      120,
+      120,
+      124
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      190,
+      186,
+      178
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 8.0,
+    "canopy": false,
+    "canopy_rgb": [
+     190,
+     186,
+     178
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "순복음부천교회",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     215,
+     210,
+     200
+    ],
+    "ink_rgb": [
+     60,
+     56,
+     54
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     225,
+     225,
+     225
+    ],
+    "top_rgb": [
+     150,
+     150,
+     152
+    ],
+    "features": [],
+    "crown": null
+   },
+   "notes": "Front: wide granite podium with broad stairs on both sides rising to the entrance; two tall tilted granite pillars flank the centre holding a lattice cross between them (cross about 8 m above the roof edge), plus two smaller slanted granite wedges. Upper facade is dark red brick with a big arched window in the middle and tall dark glass panes; white thin parapet cap. Side walls are brick with tall narrow slits. A free-standing brick bell tower (about 4x4 m, 20 m tall) stands beside the corner on the street side. Brick boundary wall with name plate along the street. Street-view pair 2026-10-17: the glass strip starts on floor 2 so it does not cover the name sign on floor 1.",
+   "sources": [
+    "captures/8930e0ac6abffff/sheets/gis_11180236.jpg"
+   ],
+   "seen": "Brick church with granite podium, stairs, two tall tilted granite pillars with lattice cross, arched window; brick bell tower and low brick wall with the church name at the street corner.",
+   "cell": "8930e0ac6abffff",
+   "build": [
+    "gis:11180236"
+   ],
+   "claims": []
+  },
+  {
+   "key": "wonmi_church_small",
+   "floors": 4,
+   "height_m": 17,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     118,
+     82,
+     66
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "none",
+    "w_m": 0.6,
+    "h_m": 8.0,
+    "pitch_m": 5.0,
+    "glass_rgb": [
+     110,
+     130,
+     150
+    ],
+    "frame_rgb": [
+     150,
+     120,
+     100
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": -0.4,
+     "width_m": 0.7,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      120,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": -0.2,
+     "width_m": 0.7,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      120,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 0.7,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      120,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.2,
+     "width_m": 0.7,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      120,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.4,
+     "width_m": 0.7,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      120,
+      140,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.35,
+     "width_m": 6.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      40,
+      90,
+      130
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": 0.35,
+     "width_m": 2.0,
+     "rgb": [
+      120,
+      90,
+      70
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.35,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     190,
+     140,
+     80
+    ],
+    "steps": false
+   },
+   "sign": {
+    "text": "원미동장로교회",
+    "face": "back",
+    "floor": 3,
+    "bg_rgb": [
+     118,
+     82,
+     66
+    ],
+    "ink_rgb": [
+     225,
+     215,
+     200
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     100,
+     70,
+     58
+    ],
+    "top_rgb": [
+     110,
+     112,
+     116
+    ],
+    "features": [
+     "pitched"
+    ],
+    "crown": null
+   },
+   "notes": "Long dark-brown brick hall, gabled/plain brick end wall carrying the church name in raised letters (back face). Long side wall has very tall narrow pointed slit windows between vertical brick pilasters. At the street-side corner a taller brick tower (about 4x4 m footprint, about 8 m above the roof) with a thin spire; beside it a blue-glass curtain-wall stair/entrance block (3 floors, glassed in blue) with a small golden-brown entrance canopy at ground level. Pavement in front is red with green edge strip.",
+   "sources": [
+    "captures/8930e0ac6abffff/sheets/gis_11178465.jpg"
+   ],
+   "seen": "Dark brick church with tall narrow slit windows along the side, brick tower with spire at one end, blue glass entrance block with brown canopy; church name raised on the end wall.",
+   "cell": "8930e0ac6abffff",
+   "build": [
+    "gis:11178465"
+   ],
+   "claims": []
+  },
+  {
+   "key": "doosan_apt_wonmi",
+   "floors": 23,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     222,
+     214
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     85,
+     105,
+     125
+    ],
+    "frame_rgb": [
+     235,
+     235,
+     232
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 23,
+     "material": "Plaster",
+     "rgb": [
+      215,
+      150,
+      140
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.3,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 23,
+     "material": "Plaster",
+     "rgb": [
+      110,
+      112,
+      116
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 23,
+     "to_floor": 23,
+     "rgb": [
+      200,
+      196,
+      188
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     196,
+     188
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     210,
+     206,
+     198
+    ],
+    "top_rgb": [
+     160,
+     160,
+     160
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Low confidence: the three captures mostly show neighbouring blocks, not this tower (one crop is a close granite-tiled wall in cream/peach, one shows a low old villa roof). Nearby 20+ storey apartment towers are white-cream with a pink vertical stripe and grey strips. Use a cream base with one pink and one grey vertical stripe as an estimate. Ground floor/podium wall is cream granite tile.",
+   "sources": [
+    "captures/8930e0ac6abffff/sheets/gis_11177362.jpg"
+   ],
+   "seen": "Photos do not clearly show the tower; adjacent towers are cream white with pink and grey vertical stripes; a nearby wall is peach/cream granite tile.",
+   "cell": "8930e0ac6abffff",
+   "build": [
+    "gis:11177362"
+   ],
+   "claims": []
+  },
+  {
+   "key": "maison_de_larte",
+   "floors": 13,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     232,
+     232,
+     230
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Plaster",
+    "rgb": [
+     50,
+     48,
+     50
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.3,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     100,
+     120,
+     140
+    ],
+    "frame_rgb": [
+     240,
+     240,
+     238
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.25,
+     "width_m": 8.0,
+     "from_floor": 3,
+     "to_floor": 13,
+     "material": "Plaster",
+     "rgb": [
+      175,
+      185,
+      198
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      60,
+      58,
+      60
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.3,
+    "width_m": 3.0,
+    "canopy": false,
+    "canopy_rgb": [
+     60,
+     58,
+     60
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     226,
+     224
+    ],
+    "top_rgb": [
+     180,
+     180,
+     182
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Slender white residential tower rising from a two-storey dark (black granite/glass) shop podium with signboards on a sloping main street. The right part of the facade is a taller light blue-grey flat panel without windows (upper floors), the left part is white with regular small window grid and balconies. Dark podium has two shop awnings in red on the right side.",
+   "sources": [
+    "captures/8930e0ac6abffff/sheets/gis_11177554.jpg"
+   ],
+   "seen": "White slender tower with blue-grey upper panel on a black two-floor shop base facing the main road.",
+   "cell": "8930e0ac6abffff",
+   "build": [
+    "gis:11177554"
+   ],
+   "claims": []
   }
  ]
 }

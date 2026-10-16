@@ -246,6 +246,29 @@
    "reason": "사용자 확장 요청(2026-10-16, 원미동 5 동쪽 부천종합운동장까지 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0ac6abffff": {
+   "counts": {},
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 원미동 5(6bb) 북·남동 2칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
+  "8930e0ac6b3ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way916964426"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "사용자 확장 요청(2026-10-16, 원미동 5(6bb) 북·남동 2칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
+   "tier": 1
+  },
   "8930e0ac6bbffff": {
    "counts": {
     "landmarks": [],
