@@ -3,13 +3,13 @@
 -- CartToggle gets on (at most once per COOLDOWN seconds) or off; on: the cart (unanchored parts welded to the HumanoidRootPart, no
 -- collision, no mass) is made around the character, the character sits SEAT studs lower, and the attributes Carting and CartMaxSpeed are
 -- set; CartClient then sits the rider and drives. Not while on the scooter (Riding) or sitting on a seat.
--- CartFx: the rider's client says what its cart shows ("" / "boost" / "turbo" / "d1" "d2" "d3" = drift sparks by charge); the server checks
+-- CartFx: the rider's client says what its cart shows ("" / "boost" / "turbo" (instant boost) / "d1" "d2" = drifting: sparks, smoke, skid marks; d2 sliding deep); the server checks
 -- it and puts it in the character's CartFx attribute, and every client lights that cart's flames and sparks from it.
 -- Rules: aidlc-docs/construction/plans/cart-plan.md
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local MAX_SPEED = 80 -- studs per second (shown as km/h); boost and turbo go past it (CartClient)
+local MAX_SPEED = 105 -- studs per second (shown as km/h): the top on the throttle; boosts go past it (CartClient)
 local SEAT = 0.8 -- studs: the rider sits this much lower than he stands
 local COOLDOWN = 0.6
 
@@ -73,6 +73,13 @@ local FLAME = {
 	Color = ColorSequence.new(Color3.fromRGB(255, 230, 120), Color3.fromRGB(255, 90, 20)),
 	Texture = "rbxasset://textures/particles/fire_main.dds",
 }
+local SMOKE = {
+	EmissionDirection = Enum.NormalId.Back, Rate = 30, Speed = NumberRange.new(2, 4), Lifetime = NumberRange.new(0.5, 0.9),
+	SpreadAngle = Vector2.new(30, 30), Acceleration = Vector3.new(0, 3, 0), LightInfluence = 1,
+	Size = NumberSequence.new({ NumberSequenceKeypoint.new(0, 0.8), NumberSequenceKeypoint.new(1, 2.6) }),
+	Transparency = NumberSequence.new({ NumberSequenceKeypoint.new(0, 0.55), NumberSequenceKeypoint.new(1, 1) }),
+	Color = ColorSequence.new(Color3.fromRGB(225, 225, 225)), Texture = "rbxasset://textures/particles/smoke_main.dds",
+}
 local SPARK = {
 	EmissionDirection = Enum.NormalId.Back, Rate = 70, Speed = NumberRange.new(6, 12), Lifetime = NumberRange.new(0.15, 0.3),
 	SpreadAngle = Vector2.new(35, 35), LightEmission = 1, Acceleration = Vector3.new(0, -40, 0),
@@ -114,7 +121,7 @@ local function start(player, char, humanoid, root)
 	local frame = CFrame.lookAt(root.Position, root.Position + Vector3.new(look.X, 0, look.Z)) -- upright, the way he faces
 	local model = Instance.new("Model")
 	model.Name = "Cart"
-	local floor
+	local parts = {}
 	for _, p in ipairs(PARTS) do
 		local part = Instance.new("Part")
 		part.Name = p[1]
@@ -135,19 +142,48 @@ local function start(player, char, humanoid, root)
 		part.CastShadow = p[8] == 0
 		part.CFrame = frame * CFrame.new(p[3], p[4] - sit, p[5]) * turn -- in place once the root has come down SEAT
 		part.Parent = model
-		local weld = Instance.new("WeldConstraint")
-		weld.Part0 = root
-		weld.Part1 = part
-		weld.Parent = part
-		if p[1] == "Floor" then
-			floor = part
+		parts[p[1]] = part
+	end
+	-- the body (everything on the Floor) and the front wheels hang from the root by a Weld each, which every client tilts (suspension)
+	-- or turns (steering) for show (CartClient; nothing the server or the physics sees); the back wheels are fixed to the root
+	local floor = parts.Floor
+	for name, part in pairs(parts) do
+		if name == "Floor" or name:sub(1, 6) == "WheelF" then
+			local weld = Instance.new("Weld")
+			weld.Name = name == "Floor" and "CartBody" or ("Steer" .. name:sub(6))
+			weld.Part0, weld.Part1 = root, part
+			weld.C0 = root.CFrame:ToObjectSpace(part.CFrame)
+			weld.Parent = part
+		else
+			local weld = Instance.new("WeldConstraint")
+			weld.Part0 = name:sub(1, 5) == "Wheel" and root or floor
+			weld.Part1 = part
+			weld.Parent = part
 		end
+	end
+	-- skid marks: a flat dark ribbon under each back wheel (a cylinder: X is its axle), on while drifting
+	for _, side in ipairs({ "L", "R" }) do
+		local wheel = parts["WheelB" .. side]
+		local a0, a1 = Instance.new("Attachment"), Instance.new("Attachment")
+		a0.Name, a1.Name = "Mark0", "Mark1"
+		a0.Position, a1.Position = Vector3.new(-0.17, -0.42, 0), Vector3.new(0.17, -0.42, 0)
+		a0.Parent, a1.Parent = wheel, wheel
+		local trail = Instance.new("Trail")
+		trail.Name = "SkidMark"
+		trail.Attachment0, trail.Attachment1 = a0, a1
+		trail.Enabled = false
+		trail.Lifetime = 3
+		trail.Color = ColorSequence.new(Color3.fromRGB(25, 25, 28))
+		trail.Transparency = NumberSequence.new(0.35, 1)
+		trail.Parent = wheel
 	end
 	-- floor-relative positions: the Floor's centre is at height 1.5, z -0.6
 	emitter(floor, "FlameL", Vector3.new(-0.9, 0.45, 4.1), FLAME)
 	emitter(floor, "FlameR", Vector3.new(0.9, 0.45, 4.1), FLAME)
 	emitter(floor, "SparkL", Vector3.new(-1.35, -1.4, 2.3), SPARK)
 	emitter(floor, "SparkR", Vector3.new(1.35, -1.4, 2.3), SPARK)
+	emitter(floor, "SmokeL", Vector3.new(-1.35, -1.1, 1.9), SMOKE)
+	emitter(floor, "SmokeR", Vector3.new(1.35, -1.1, 1.9), SMOKE)
 	local glow = Instance.new("PointLight")
 	glow.Name = "BoostLight"
 	glow.Color = Color3.fromRGB(255, 150, 60)

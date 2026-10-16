@@ -71,6 +71,11 @@
 - (2026-10-15, 먼 경치) 실행 중에 만든 건물 모델은 `LevelOfDetail`을 템플릿 복제로 넣어도 먼 메시(StreamingMesh)가 나오지 않았다. 먼 경치는 Persistent 가벼운 판 + 클라이언트에서 건물마다 바꿔치기(`LiteSwap`, `LocalTransparencyModifier`)로 한다. Play 화면은 `screen_capture`를 인자 없이 부르면 클라이언트 화면이 찍히고, 카메라는 `BindToRenderStep`으로 붙잡아야 게임 카메라가 되돌리지 않는다.
 - (2026-10-15, 사고) 정리된 장소에서는 `ServerStorage/CellData`의 m 데이터가 수작업 시설의 **유일한 원본**이다. 설치·정리 스크립트는 칸 폴더를 지우거나 새로 만들지 않는다(cell-data.luau가 그렇게 해서 29칸이 지워졌다). 이 장소는 공동 편집이라 웹·Studio에서 버전을 복원해도 열린 편집 세션이 예전 상태를 다시 연다. Studio Version History의 **Open local copy**로 옛 버전을 다른 창에 열고, 필요한 데이터만 HttpService POST로 로컬에 받아 옮긴다.
 - (2026-10-15, 먼 경치) Studio Play의 그래픽 품질이 "자동"이면 Studio가 무거울 때 4단계까지 내려가 600~700 stud 너머(땅까지)를 그리지 않는다. 먼 경치를 판단할 때는 클라이언트에서 `settings():GetService("RenderSettings").QualityLevel = Enum.QualityLevel.Level21`로 잠시 올리고 끝나면 `Automatic`으로 되돌린다(Studio 설정에 남는다).
+- (2026-10-16, 카트) 점프대 끝 조각 `#rampup`은 두께 1 stud라 시속 70 넘게(60 FPS에서 프레임당 1.2 stud 넘게) 지나가면 아래 레이캐스트가 건너뛰어 안 뜬다. 빠른 탈것은 오르막 전체(`#rampt*` + `#rampup`)로 판정한다. 또 점프대는 계단 모양이라 "갑자기 느려지면 박은 것" 규칙에 걸려 뒤로 튕겼다 → 점프대 위에서는 그 규칙을 끈다.
+- (2026-10-16, 카트) 클라이언트가 `task.wait`로 찍은 루트 방향은 물리 다음 값이라 벽에 비빌 때 ±10° 흔들려 보였지만, 화면에 그려지는 값(`BindToRenderStep`의 `Last`에서 찍음)은 그대로였다. 흔들림을 의심하면 렌더 직전에 찍는다.
+- (2026-10-16, 카트) `user_keyboard_input` 시험은 기록 시작과 키 누름 사이가 떠서 가속 시간이 두 배로 나왔다(2.9초, 실제 1.5초). 시간은 명령 속도가 0을 넘은 첫 프레임부터 센다.
+- (2026-10-16, 카트) 혼자 하는 Play에서는 CellStreamer가 예산(50만 부품) 안에서 71칸 중 66~68칸을 지어 두어, 시속 129로 직선 10,800 stud를 달려도 칸 만들기 부하가 없었다. 빠른 탈것의 칸 부하는 혼자서는 못 재고 여러 명·752칸에서만 드러난다.
+- (2026-10-16) Roblox 라이선스 효과음은 `search_asset`에 `verifiedCreatorsOnly`를 켜고 제작자 `ProSoundEffects`("Courtesy of Pro Sound Effects")를 고른다. 일반 무료 결과에는 다른 게임·애니에서 뜯은 소리가 섞여 있다. Claude는 소리를 못 들으니 `TimeLength`로 불러와지는지만 보고 어울림은 사용자에게 맡긴다. 짧게 반복되는 타이어 끼익 소리는 이 목록에 없었다.
 
 ## 생성 규칙
 

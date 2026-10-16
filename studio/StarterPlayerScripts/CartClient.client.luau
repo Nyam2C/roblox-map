@@ -4,10 +4,13 @@
 -- ScooterClient drives the scooter (WalkSpeed and our own move direction, so steps, slopes and walls behave as always). No balance, no falls.
 --   DRIVE: kart controls, not the camera's: W/S (stick up/down) = throttle, brake, then reverse; A/D (stick sideways) = steer. No push =
 --     roll to a stop. A chase camera sits behind the cart while driving.
---   DRIFT: Space (phone: 드리프트) held while steering at speed: the back slides out, the cart turns harder (steer in = tighter, out =
---     wider) and the travel lags the heading. The longer it holds, the sparks go blue, orange, purple; letting go fires a TURBO for that long
---     and fills the booster gauge.
---   BOOST: E (phone: 부스터) held while the gauge lasts: the rockets light and the cart runs past its top speed.
+--   HANDLING: KartRider's kind (user 2026-10-16: its structure, our own numbers): a two-axle body on linear tyres, stepped every 5 ms.
+--     The wheels turn less the faster it goes, so at speed corners want a drift.
+--   DRIFT: Space (phone: 드리프트) pressed while steering at speed kicks the back out and the grip drops; it lasts while the key is held or
+--     the cart still slides. A short press is a shallow drift, a long one a deep one; steering against it straightens up. Sliding fills the
+--     gauge; a full gauge is a booster (two at most).
+--   INSTANT BOOST: let go of W during a drift and press it again within half a second of the drift's end: a short boost.
+--   BOOST: E (phone: 부스터) uses a booster: the push is half again for a while; letting go of W ends it.
 --   RAMPS: the scooter's trick ramps throw the cart up too (same height rule).
 --   HITS: running into something fast bounces the cart back; nobody falls (user default 2026-10-16).
 -- What each cart shows (flames, sparks, light) comes from the character's CartFx attribute (set by the server from the rider's CartFx
@@ -22,40 +25,60 @@ local player = Players.LocalPlayer
 local toggle = ReplicatedStorage:WaitForChild("CartToggle")
 local fxRemote = ReplicatedStorage:WaitForChild("CartFx")
 
--- studs per second (80 studs/s is shown as 80 km/h), per second squared, degrees per second
-local MAX_DEFAULT = 80
-local ACCEL = 30 -- 0 to 80 in about 2.7 s
-local BRAKE = 70
+-- studs per second (studs_per_m 3.6, so 105 studs/s is 105 km/h), per second squared, all per unit of mass. Tuned in a small simulation
+-- (cart-plan.md): 0 to 80 in 1.5 s (user 2026-10-16: more pick-up and speed); a 0.5 s drift at 90 turns the cart about 80 deg.
+local MAX_DEFAULT = 105 -- top speed on the throttle: the push equals the drag there
+local LIN_DRAG, QUAD_DRAG = 0.04, 0.006 -- drag = (LIN_DRAG + QUAD_DRAG * speed) * velocity, the speed-squared part on the ground only
+local ROLL = 3 -- rolling to a stop with no key
+local AXLE = 1.2 -- studs from the middle to each axle
+local K2 = (2 * AXLE) ^ 2 / 12 -- turning inertia per mass
+local GRIP = 300 -- sideways push per radian of tyre slip (firm; a softer 90 slides in corners and spins on long drifts)
+local STEER_MAX, STEER_FADE = math.rad(12), 40 -- wheel angle at full lock, falling off as exp(-speed / STEER_FADE)
+local SPIN_DAMP = 0.36 -- per second
+local CORNER_DRAW = 0.15 -- gripping round a corner pulls forward by this much of the sideways push
+local BRAKE, SLIDE_BRAKE = 45, 35 -- braking straight, braking while sliding
 local REVERSE_MAX, REVERSE_ACCEL = 22, 20
-local COAST_BASE, COAST_DRAG = 6, 0.1
-local TURN_LOW, TURN_REF = 150, 30 -- turning rate up to TURN_REF studs/s, then it falls off as (TURN_REF / v)^0.5
-local GRIP_TAU = 0.08 -- seconds: not drifting, the travel follows the heading this fast
 local SPIN_RATE = 90 -- degrees per second of steering when nearly stopped
+local STEP = 0.005 -- seconds
 -- chase camera: behind and above the cart, catching up with it at CAM_RATE (1/s)
 local CAM_BACK, CAM_UP, CAM_AHEAD, CAM_RATE = 16, 6.5, 8, 6
 -- drift
-local DRIFT_MIN_SPEED, DRIFT_KEEP_SPEED = 25, 15
-local DRIFT_TURN = 1.3 -- times the turning rate
-local DRIFT_SLIP_TAU = 0.3 -- seconds: drifting, the travel follows the heading this slowly (the slide)
-local DRIFT_DRAG = 6
-local DRIFT_TIERS = { 0.6, 1.4, 2.4 } -- seconds held for blue, orange, purple
-local TURBO_TIME = { 0.6, 1.0, 1.5 }
-local TURBO_GAUGE = 0.12 -- gauge filled per tier
+local DRIFT_MIN_SPEED = 20
+local KICK, KICK_TIME = 0.3, 0.15 -- the back kicked out at the start (times full lock's push), for this long
+local DRIFT_GRIP = 0.25 -- times the grip while drifting
+local DRIFT_STEER = 0.35 -- times full lock, with no fall-off, while the key is held
+local SLIDE = 1.2 -- sliding: sideways speed over this times the forward speed (about 50 deg); the push is then ESCAPE times
+local ESCAPE = 1.15
+local GAUGE_PER_STUD = 0.03 -- gauge for each stud slid sideways while drifting (full = 1 = a booster)
 local SPARK_COLOURS = { Color3.fromRGB(90, 170, 255), Color3.fromRGB(255, 150, 40), Color3.fromRGB(200, 90, 255) }
 -- boost
-local BOOST_TOP, TURBO_TOP = 1.5, 1.35 -- times the top speed
-local BOOST_ACCEL, TURBO_ACCEL = 60, 70
-local BOOST_USE, GAUGE_REFILL = 0.33, 0.04 -- gauge per second (full = 1)
-local OVER_DECEL = 25 -- above the top speed with nothing pushing: slows by this
+local BOOST_PUSH = 1.5 -- times the push: the top goes to about 129
+local BOOST_TIME, MAX_BOOSTERS = 2.4, 2
+local INSTANT_WINDOW, INSTANT_TIME = 0.5, 0.5
 -- hits
 local HIT_SPEED, HIT_DROP, HIT_BACK = 30, 25, 0.25
+local WALL_SLIDE, WALL_BACK = 0.8, 0.5 -- off a wall: keeps this much of the speed along it and comes back at this much of the speed into it
+-- for show, on every cart this client sees (nothing the physics sees): the body leans out in corners, more in a drift, squats on
+-- pick-up, dips on braking and bobs on landing, turning about the axles; the front wheels show three times the steering angle
+-- (KartRider's display), taken from the turning rate
+local LEAN, DRIFT_LEAN, PITCH = 0.0012, 0.0035, 0.0008 -- radians per stud/s^2 of sideways or forward pick-up
+local LEAN_MAX, PITCH_MAX, WHEEL_MAX = math.rad(9), math.rad(5), math.rad(30)
+local SHOW_RATE = 10 -- 1/s: how fast the body follows
+local LANDING_DIP = 0.5 -- studs
+-- boost: the camera's field of view opens with the speed and more while boosting
+local FOV_SPEED, FOV_BOOST, FOV_RATE = 8, 10, 4
 -- ramps (as ScooterClient)
 local LAUNCH_HEIGHT = 0.25 * 3.6
 local AIR_G = 0.5
 local MIN_LAUNCH = 15
 
--- the rolling sound is the scooter's (somebody else's Creator Store upload; silent if it is ever taken down)
+-- sounds: the rolling one is the scooter's (somebody else's Creator Store upload; silent if it is ever taken down); the rest are from
+-- Roblox's licensed library (ProSoundEffects; user 2026-10-16: a go-kart engine)
 local ROLL_SOUND = "rbxassetid://99838569349900"
+local ENGINE_SOUND = "rbxassetid://9112787430" -- Go Kart Engine Constant 1 (27 s loop): the pitch rises with the speed
+local SKID_SOUND = "rbxassetid://9126103903" -- Tire Chirp Engine Car In Short Punchy Skids 1: from a drift's start to its end
+local BOOST_SOUND = "rbxassetid://9120009740" -- Thruster Blast 14: a booster or an instant boost lights
+local CRASH_SOUND = "rbxassetid://9118064969" -- Rattling Banging Metal Cart 2: a hard stop, louder the harder
 
 local gui = Instance.new("ScreenGui")
 gui.Name = "CartGui"
@@ -98,7 +121,7 @@ meter.Text = ""
 meter.Parent = hud
 local bar = Instance.new("Frame")
 bar.Position = UDim2.fromOffset(0, 36)
-bar.Size = UDim2.new(1, 0, 0, 12)
+bar.Size = UDim2.new(1, -44, 0, 12)
 bar.BackgroundColor3 = Color3.fromRGB(30, 30, 36)
 bar.BackgroundTransparency = 0.2
 bar.BorderSizePixel = 0
@@ -110,6 +133,19 @@ fill.BackgroundColor3 = Color3.fromRGB(255, 140, 40)
 fill.BorderSizePixel = 0
 fill.Parent = bar
 rounded(fill, 6)
+
+local slots = {} -- one square per stored booster, right of the gauge
+for i = 1, MAX_BOOSTERS do
+	local slot = Instance.new("Frame")
+	slot.AnchorPoint = Vector2.new(1, 0)
+	slot.Position = UDim2.new(1, -(MAX_BOOSTERS - i) * 20, 0, 34)
+	slot.Size = UDim2.fromOffset(16, 16)
+	slot.BackgroundColor3 = Color3.fromRGB(30, 30, 36)
+	slot.BorderSizePixel = 0
+	slot.Parent = hud
+	rounded(slot, 4)
+	slots[i] = slot
+end
 
 local lastPress = 0
 local function request()
@@ -127,20 +163,110 @@ UserInputService.InputBegan:Connect(function(input, processed)
 	end
 end)
 
-local function signedAngle(a, b) -- radians, + = to the left seen from above
-	return math.atan2(a.Z * b.X - a.X * b.Z, a:Dot(b))
-end
-local function rotate(dir, angle)
+local function rotate(dir, angle) -- + = to the left seen from above
 	local c, s = math.cos(angle), math.sin(angle)
 	return Vector3.new(dir.X * c + dir.Z * s, 0, -dir.X * s + dir.Z * c)
 end
-local function turnRate(v) -- radians per second
-	v = math.abs(v)
-	return math.rad(v <= TURN_REF and TURN_LOW or TURN_LOW * (TURN_REF / v) ^ 0.5)
+
+-- one 5 ms step of the body: r.vel (flat), r.heading, r.omega (+ = turning left)
+local function step(r, dt, steer, throttle, braking, push, onGround)
+	local f = r.heading
+	local left = Vector3.new(f.Z, 0, -f.X)
+	local v = r.vel
+	local vF, vL = v:Dot(f), v:Dot(left)
+	local speed = v.Magnitude
+	if r.driftPressed and not r.drifting and r.holdT <= 0 and onGround and speed > DRIFT_MIN_SPEED and math.abs(steer) > 0.25 then
+		r.drifting, r.kickT, r.holdT, r.instantOk = true, KICK_TIME, 2 * KICK_TIME, vF > 0
+	end
+	r.driftPressed = false
+	if r.drifting and not (r.driftHeld or r.sliding or r.holdT > 0) or not onGround then
+		if r.drifting and r.instantOk and onGround then
+			r.windowT = INSTANT_WINDOW
+		end
+		r.drifting, r.kickT, r.instantOk = false, 0, false
+	end
+	r.holdT = math.max(0, r.holdT - dt)
+	local acc, side = Vector3.zero, 0
+	if not onGround then
+		r.omega -= r.omega * math.min(1, 30 * dt)
+	elseif speed < 3 and not r.drifting then -- nearly stopped: no tyres, it turns on the spot
+		r.omega = math.rad(SPIN_RATE) * steer * (vF < 0 and -1 or 1)
+		v = f * vF
+	else
+		local fade = r.drifting and r.driftHeld and DRIFT_STEER or math.exp(-math.abs(vF) / STEER_FADE)
+		local delta = STEER_MAX * steer * fade * (vF < 0 and -1 or 1) -- reversing turns the other way, as a car does
+		local ref = math.max(speed, 10)
+		local front = (delta - (vL + r.omega * AXLE) / ref) * GRIP
+		local back = -(vL - r.omega * AXLE) / ref * GRIP
+		if r.kickT > 0 then
+			front, back = 0, -STEER_MAX * steer * KICK * GRIP
+			r.kickT -= dt
+		end
+		if r.drifting then
+			front, back = front * DRIFT_GRIP, back * DRIFT_GRIP
+		end
+		side = front + back
+		r.omega += ((front - back) * AXLE / K2 - SPIN_DAMP * r.omega) * dt
+		acc = left * side
+	end
+	if onGround then
+		if throttle then
+			local boost = (r.boostT > 0 or r.instantT > 0) and BOOST_PUSH or 1
+			acc += f * push * (r.sliding and ESCAPE or 1) * boost
+			if vF < 0 then -- rolling back: brake first
+				acc += f * BRAKE
+			end
+			if not r.drifting then
+				acc += f * math.abs(side) * CORNER_DRAW
+			end
+		elseif braking then
+			if vF > 0.5 then
+				acc -= v.Unit * (v.Unit:Dot(f) > 0.8 and BRAKE or SLIDE_BRAKE)
+			elseif vF > -REVERSE_MAX then
+				acc -= f * REVERSE_ACCEL
+			end
+		end
+	end
+	acc -= v * (LIN_DRAG + (onGround and QUAD_DRAG * speed or 0)) -- the road drag only on the ground
+	v += acc * dt
+	if not throttle and not braking and onGround then
+		local s = v.Magnitude
+		v = s > ROLL * dt and v * (1 - ROLL * dt / s) or Vector3.zero
+	end
+	r.vel = Vector3.new(v.X, 0, v.Z)
+	r.heading = rotate(f, r.omega * dt)
+	vF, vL = r.vel:Dot(r.heading), r.vel:Dot(Vector3.new(r.heading.Z, 0, -r.heading.X))
+	r.sliding = math.abs(vL) > SLIDE * math.abs(vF)
+	if r.drifting and r.boosters < MAX_BOOSTERS then
+		r.gauge += math.abs(vL) * GAUGE_PER_STUD * dt
+		if r.gauge >= 1 then
+			r.boosters += 1
+			r.gauge = r.boosters < MAX_BOOSTERS and r.gauge - 1 or 0
+		end
+	end
+	r.boostT = math.max(0, r.boostT - dt)
+	r.instantT = math.max(0, r.instantT - dt)
+	r.windowT = math.max(0, r.windowT - dt)
 end
 
 -- ---- what a cart shows, from its rider's CartFx: every cart this client can see ------------------------------------------------------
+local carts = {} -- [character] = { root, humanoid, sound, engine, skid, boost, fx, footsteps, footstepVolume, fxConnection }
 local function showFx(char, fx)
+	local c = carts[char]
+	if c and (fx or "") ~= c.fx then -- the sounds of a change: a boost lights, a drift starts or ends
+		local was, now = c.fx, fx or ""
+		c.fx = now
+		if (now == "boost" or now == "turbo") and was ~= "boost" and was ~= "turbo" then
+			c.boost:Play()
+		end
+		local drift, wasDrift = now:sub(1, 1) == "d", was:sub(1, 1) == "d"
+		if drift and not wasDrift then
+			c.skid.TimePosition = 0
+			c.skid:Play()
+		elseif wasDrift and not drift then
+			c.skid:Stop()
+		end
+	end
 	local cart = char:FindFirstChild("Cart")
 	local floor = cart and cart:FindFirstChild("Floor")
 	if not floor then
@@ -164,6 +290,20 @@ local function showFx(char, fx)
 			if tier then
 				e.Color = ColorSequence.new(SPARK_COLOURS[tier])
 			end
+		end
+	end
+	for _, name in ipairs({ "SmokeL", "SmokeR" }) do
+		local att = floor:FindFirstChild(name)
+		local e = att and att:FindFirstChildOfClass("ParticleEmitter")
+		if e then
+			e.Enabled = tier ~= nil
+		end
+	end
+	for _, name in ipairs({ "WheelBL", "WheelBR" }) do
+		local wheel = cart:FindFirstChild(name)
+		local mark = wheel and wheel:FindFirstChild("SkidMark")
+		if mark then
+			mark.Enabled = tier ~= nil
 		end
 	end
 	local glow = floor:FindFirstChild("BoostLight")
@@ -213,6 +353,7 @@ local function stopRide()
 	end
 	local camera = workspace.CurrentCamera
 	camera.CameraType = Enum.CameraType.Custom -- the game's camera (the chase camera was Scriptable)
+	camera.FieldOfView = r.fov
 	camera.CameraSubject = r.humanoid
 	hud.Visible = false
 	button.Text = "카트 (C)"
@@ -248,12 +389,14 @@ local function startRide(char)
 	local r = {
 		char = char, humanoid = humanoid, root = root, animate = animate, sit = sit,
 		walk = humanoid.WalkSpeed, autoRotate = humanoid.AutoRotate, jumpPower = humanoid.JumpPower, jumpHeight = humanoid.JumpHeight,
-		v = 0, heading = dir, travel = dir, drifting = false, side = 0, driftT = 0, tier = 0, turboT = 0, gauge = 1,
-		driftHeld = false, boostHeld = false, launched = false, airT = 0, kicker = nil,
+		vel = Vector3.zero, heading = dir, omega = 0, drifting = false, sliding = false, kickT = 0, holdT = 0,
+		gauge = 0, boosters = 1, boostT = 0, instantT = 0, windowT = 0, instantOk = false,
+		driftHeld = false, driftPressed = false, boostPressed = false, throttleWas = false, launched = false, airT = 0, kicker = nil,
 	}
 	ride = r
 	humanoid.AutoRotate = false
 	humanoid.JumpPower, humanoid.JumpHeight = 0, 0 -- Space is the drift
+	r.fov = workspace.CurrentCamera.FieldOfView
 	hud.Visible = true
 	button.Text = "내리기 (C)"
 	button.BackgroundColor3 = Color3.fromRGB(90, 90, 100)
@@ -284,12 +427,13 @@ local function driveRide()
 	rayParams.FilterDescendantsInstances = { char }
 	ContextActionService:BindAction("CartDrift", function(_, state)
 		r.driftHeld = state == Enum.UserInputState.Begin or (state == Enum.UserInputState.Change and r.driftHeld)
+		r.driftPressed = r.driftPressed or state == Enum.UserInputState.Begin
 		return Enum.ContextActionResult.Sink
 	end, true, Enum.KeyCode.Space, Enum.KeyCode.ButtonL2)
 	ContextActionService:SetTitle("CartDrift", "드리프트")
 	ContextActionService:SetPosition("CartDrift", UDim2.new(1, -230, 1, -220))
 	ContextActionService:BindAction("CartBoost", function(_, state)
-		r.boostHeld = state == Enum.UserInputState.Begin or (state == Enum.UserInputState.Change and r.boostHeld)
+		r.boostPressed = r.boostPressed or state == Enum.UserInputState.Begin
 		return Enum.ContextActionResult.Sink
 	end, true, Enum.KeyCode.E, Enum.KeyCode.ButtonR2)
 	ContextActionService:SetTitle("CartBoost", "부스터")
@@ -303,6 +447,9 @@ local function driveRide()
 		local eye = root.Position - r.heading * CAM_BACK + Vector3.new(0, CAM_UP, 0)
 		local goal = CFrame.lookAt(eye, root.Position + r.heading * CAM_AHEAD + Vector3.new(0, 2, 0))
 		camera.CFrame = camera.CFrame:Lerp(goal, 1 - math.exp(-CAM_RATE * math.min(dt, 0.1)))
+		local max = char:GetAttribute("CartMaxSpeed") or MAX_DEFAULT
+		local fov = r.fov + FOV_SPEED * math.clamp(r.vel.Magnitude / max, 0, 1.3) + ((r.boostT > 0 or r.instantT > 0) and FOV_BOOST or 0)
+		camera.FieldOfView += (fov - camera.FieldOfView) * (1 - math.exp(-FOV_RATE * math.min(dt, 0.1)))
 	end)
 	RunService:BindToRenderStep("CartDrive", Enum.RenderPriority.Input.Value + 10, function(dt)
 		dt = math.min(dt, 0.1)
@@ -314,82 +461,43 @@ local function driveRide()
 		look = Vector3.new(look.X, 0, look.Z).Magnitude > 1e-3 and Vector3.new(look.X, 0, look.Z).Unit or r.heading
 		local right = Vector3.new(-look.Z, 0, look.X)
 		local steer, fwd = math.clamp(-move:Dot(right), -1, 1), move:Dot(look) -- steer + = left
-		local throttle = fwd > 0.1
-		if fwd < -0.1 then -- back: brake, then reverse
-			if r.v > 1 then
-				r.v -= BRAKE * dt
-			else
-				r.v = math.max(r.v - REVERSE_ACCEL * dt, -REVERSE_MAX)
-			end
+		local throttle, braking = fwd > 0.1, fwd < -0.1
+		-- boosters: E uses one; letting go of the throttle ends any boost; pressing it again just after a drift is the instant boost
+		if r.boostPressed and r.boosters > 0 and r.boostT <= 0 then
+			r.boosters -= 1
+			r.boostT = BOOST_TIME
 		end
-		-- drift: starts on the key while steering at speed, holds while the key is held and the cart still runs
-		if not r.drifting and r.driftHeld and r.v > DRIFT_MIN_SPEED and math.abs(steer) > 0.25 then
-			r.drifting, r.side, r.driftT, r.tier = true, steer > 0 and 1 or -1, 0, 0
+		r.boostPressed = false
+		if throttle and not r.throttleWas and r.windowT > 0 then
+			r.instantT, r.windowT = INSTANT_TIME, 0
 		end
-		local slip = signedAngle(r.travel, r.heading)
-		if r.drifting and (not r.driftHeld or r.v < DRIFT_KEEP_SPEED or math.abs(slip) > math.rad(75)) then
-			r.drifting = false
-			if r.tier > 0 then -- the turbo for the charge, and some gauge
-				r.turboT = TURBO_TIME[r.tier]
-				r.gauge = math.min(1, r.gauge + TURBO_GAUGE * r.tier)
-			end
-			r.tier = 0
+		r.throttleWas = throttle
+		if not throttle then
+			r.boostT, r.instantT = 0, 0
 		end
-		local omega
-		if r.drifting then
-			omega = turnRate(r.v) * DRIFT_TURN * r.side * (0.55 + 0.45 * math.clamp(steer * r.side, -1, 1))
-			r.driftT += dt
-			r.tier = r.driftT >= DRIFT_TIERS[3] and 3 or (r.driftT >= DRIFT_TIERS[2] and 2 or (r.driftT >= DRIFT_TIERS[1] and 1 or 0))
-			r.v -= DRIFT_DRAG * dt
-		elseif math.abs(r.v) < 3 then
-			omega = steer * math.rad(SPIN_RATE) * (r.v < 0 and -1 or 1)
-		else
-			omega = steer * turnRate(r.v) * (r.v < 0 and -1 or 1) -- reversing turns the other way, as a car does
-		end
-		r.heading = rotate(r.heading, omega * dt)
-		r.travel = rotate(r.travel, signedAngle(r.travel, r.heading) * math.min(1, dt / (r.drifting and DRIFT_SLIP_TAU or GRIP_TAU)))
-		-- speed: throttle, boost and turbo push; the top grows with them; above it, nothing pushing, it falls back
-		local boosting = r.boostHeld and r.gauge > 0
-		if boosting then
-			r.gauge = math.max(0, r.gauge - BOOST_USE * dt)
-		else
-			r.gauge = math.min(1, r.gauge + GAUGE_REFILL * dt)
-		end
-		r.turboT = math.max(0, r.turboT - dt)
-		local top = max * (boosting and BOOST_TOP or (r.turboT > 0 and TURBO_TOP or 1))
-		if boosting then
-			r.v += BOOST_ACCEL * dt
-		elseif r.turboT > 0 then
-			r.v += TURBO_ACCEL * dt
-		elseif throttle then
-			r.v += (r.v < 0 and BRAKE or ACCEL) * dt -- forward while rolling back: brake first
-		elseif math.abs(fwd) <= 0.1 then
-			local slow = (COAST_BASE + COAST_DRAG * math.abs(r.v)) * dt
-			r.v = r.v > 0 and math.max(0, r.v - slow) or math.min(0, r.v + slow)
-		end
-		if r.v > top then
-			r.v = math.max(top, r.v - OVER_DECEL * dt - (r.v - top > 30 and 40 * dt or 0))
-		end
-		-- ran into something: what the body really does caps the speed, and a hard stop bounces back
-		local vel = root.AssemblyLinearVelocity
-		local actual = Vector3.new(vel.X, 0, vel.Z).Magnitude
-		if r.v > HIT_SPEED and r.v - actual > HIT_DROP then
-			r.v = -math.min(15, r.v * HIT_BACK)
-			r.drifting, r.tier, r.turboT = false, 0, 0
-		elseif r.v > 0 then
-			r.v = math.min(r.v, actual + 8)
-		end
-		-- ramps: up the curved side of a trick ramp and off its lip
-		local drop = humanoid.HipHeight + root.Size.Y / 2
 		local onGround = humanoid.FloorMaterial ~= Enum.Material.Air
+		local push = LIN_DRAG * max + QUAD_DRAG * max * max
+		local left = dt
+		while left > 1e-6 do
+			local h = math.min(STEP, left)
+			step(r, h, steer, throttle, braking, push, onGround)
+			left -= h
+		end
+		r.heading = r.heading.Unit
+		local speed = r.vel.Magnitude
+		local travel = speed > 0.2 and r.vel.Unit or r.heading
+		-- ramps: up the curved side of a trick ramp and off its lip (looked at first: its steps and lip are not a crash)
+		local drop = humanoid.HipHeight + root.Size.Y / 2
 		local hit = workspace:Raycast(root.Position, Vector3.new(0, -(drop + 4), 0), rayParams)
-		if hit and hit.Instance.Name:sub(-7) == "#rampup" then
+		local onRamp = hit ~= nil and string.find(hit.Instance.Name, "#ramp", 1, true) ~= nil
+		-- the whole curved side (#rampt steps and the #rampup lip): the lip alone is 1 stud deep, less than a frame's run at speed
+		if hit and (string.find(hit.Instance.Name, "#rampt", 1, true) or hit.Instance.Name:sub(-7) == "#rampup") then
 			r.kicker = hit.Instance
 		elseif r.kicker and not r.launched then
 			local climb = -r.kicker.CFrame.LookVector
 			climb = Vector3.new(climb.X, 0, climb.Z)
-			if climb.Magnitude > 0.1 and climb.Unit:Dot(r.travel) > 0.5 and r.v > MIN_LAUNCH then
-				local vy = math.sqrt(2 * workspace.Gravity * AIR_G * LAUNCH_HEIGHT * math.min(r.v, max))
+			if climb.Magnitude > 0.1 and climb.Unit:Dot(travel) > 0.5 and speed > MIN_LAUNCH then
+				local vy = math.sqrt(2 * workspace.Gravity * AIR_G * LAUNCH_HEIGHT * math.min(speed, max))
 				humanoid:ChangeState(Enum.HumanoidStateType.Freefall)
 				local v0 = root.AssemblyLinearVelocity
 				root.AssemblyLinearVelocity = Vector3.new(v0.X, math.max(v0.Y, vy), v0.Z)
@@ -406,17 +514,48 @@ local function driveRide()
 				r.lift.Enabled = false
 			end
 		end
+		-- ran into something: what the body really does caps the speed, and a hard stop bounces back
+		local vel = root.AssemblyLinearVelocity
+		local flat = Vector3.new(vel.X, 0, vel.Z)
+		local actual = flat.Magnitude
+		if onRamp or r.launched then -- the ramp throws it: not a crash
+		elseif speed > HIT_SPEED and speed - actual > HIT_DROP then
+			local wall = workspace:Raycast(root.Position, travel * 6, rayParams)
+			local n = wall and Vector3.new(wall.Normal.X, 0, wall.Normal.Z)
+			local into = n and n.Magnitude > 0.5 and r.vel:Dot(n.Unit) or 0
+			if into < 0 then -- off the wall: along it a little slower, back from it at half the speed in (KartRider's wall)
+				n = n.Unit
+				r.vel = (r.vel - n * into) * WALL_SLIDE - n * math.max(into, -60) * WALL_BACK
+				local along = math.atan2(r.heading.Z * r.vel.X - r.heading.X * r.vel.Z, r.heading:Dot(r.vel))
+				if math.abs(along) < math.rad(80) then -- a glancing hit turns the nose along the wall; a straight one just bounces
+					r.heading = rotate(r.heading, along * 0.6)
+				end
+			else
+				r.vel = -r.vel.Unit * math.min(15, speed * HIT_BACK)
+			end
+			r.omega, r.drifting, r.kickT, r.instantOk, r.windowT, r.instantT = 0, false, 0, false, 0, 0
+		elseif speed > actual + 8 and onGround then -- held back (a wall, a bump): go the way the body really goes, still pushing a little
+			r.vel = flat + r.vel.Unit * 8
+		end
+		speed = r.vel.Magnitude
+		travel = speed > 0.2 and r.vel.Unit or r.heading
 		-- drive: the body goes the way it travels, the cart faces its heading
-		humanoid.WalkSpeed = math.abs(r.v)
-		humanoid:Move(math.abs(r.v) > 0.2 and r.travel * (r.v >= 0 and 1 or -1) or Vector3.zero, false)
+		humanoid.WalkSpeed = speed
+		humanoid:Move(speed > 0.2 and travel or Vector3.zero, false)
 		root.CFrame = CFrame.new(root.Position) * CFrame.lookAt(Vector3.zero, r.heading)
 
 		-- what the cart shows
-		sendFx(boosting and "boost" or (r.turboT > 0 and "turbo" or (r.drifting and r.tier > 0 and ("d" .. r.tier) or "")))
-		meter.Text = string.format("%d km/h", math.floor(math.abs(r.v) + 0.5))
-		meter.TextColor3 = r.drifting and r.tier > 0 and SPARK_COLOURS[r.tier] or Color3.fromRGB(255, 255, 255)
+		local sparks = r.drifting and (r.sliding and 2 or 1) or nil -- blue drifting, orange sliding deep
+		sendFx(r.boostT > 0 and "boost" or (r.instantT > 0 and "turbo" or (sparks and ("d" .. sparks) or "")))
+		meter.Text = string.format("%d km/h", math.floor(speed + 0.5))
+		for i, slot in ipairs(slots) do
+			slot.BackgroundColor3 = r.boosters >= i and Color3.fromRGB(255, 140, 40) or Color3.fromRGB(30, 30, 36)
+		end
+		meter.TextColor3 = sparks and SPARK_COLOURS[sparks] or Color3.fromRGB(255, 255, 255)
 		fill.Size = UDim2.fromScale(r.gauge, 1)
-		player:SetAttribute("CartState", string.format("v=%.1f slip=%.0f tier=%d gauge=%.2f turbo=%.2f", r.v, math.deg(slip), r.tier, r.gauge, r.turboT)) -- for testing
+		local slip = speed > 1 and math.deg(math.atan2(r.vel:Dot(Vector3.new(r.heading.Z, 0, -r.heading.X)), r.vel:Dot(r.heading))) or 0
+		player:SetAttribute("CartState", string.format("v=%.1f slip=%.0f drift=%s gauge=%.2f boosters=%d boost=%.2f instant=%.2f",
+			speed, slip, tostring(r.drifting), r.gauge, r.boosters, r.boostT, r.instantT)) -- for testing
 	end)
 end
 
@@ -447,8 +586,16 @@ end
 player.CharacterAdded:Connect(watch)
 player.CharacterRemoving:Connect(stopRide)
 
--- ---- every cart this client can see: its effects and its rolling sound --------------------------------------------------------------
-local carts = {} -- [character] = { root, humanoid, sound, footsteps, footstepVolume, fxConnection }
+-- ---- every cart this client can see: its effects and its sounds ---------------------------------------------------------------------
+local function cartSound(root, name, id, looped, volume)
+	local sound = Instance.new("Sound")
+	sound.Name, sound.SoundId, sound.Looped, sound.Volume = name, id, looped, volume
+	sound.RollOffMode = Enum.RollOffMode.Linear
+	sound.RollOffMinDistance = 8
+	sound.RollOffMaxDistance = 80
+	sound.Parent = root
+	return sound
+end
 local function addCart(char)
 	if carts[char] then
 		return
@@ -458,18 +605,13 @@ local function addCart(char)
 	if not root or not humanoid then
 		return
 	end
-	local sound = Instance.new("Sound")
-	sound.Name = "CartRolling"
-	sound.SoundId = ROLL_SOUND
-	sound.Looped = true
-	sound.Volume = 0
-	sound.RollOffMode = Enum.RollOffMode.Linear
-	sound.RollOffMinDistance = 8
-	sound.RollOffMaxDistance = 80
-	sound.Parent = root
 	local footsteps = root:FindFirstChild("Running")
 	carts[char] = {
-		root = root, humanoid = humanoid, sound = sound, footsteps = footsteps, footstepVolume = footsteps and footsteps.Volume or 0,
+		root = root, humanoid = humanoid, sound = cartSound(root, "CartRolling", ROLL_SOUND, true, 0),
+		engine = cartSound(root, "CartEngine", ENGINE_SOUND, true, 0), skid = cartSound(root, "CartSkid", SKID_SOUND, false, 0.5),
+		boost = cartSound(root, "CartBoost", BOOST_SOUND, false, 0.6), crash = cartSound(root, "CartCrash", CRASH_SOUND, false, 0.5), fx = "",
+		look = root.CFrame.LookVector, speed = 0, accel = 0, roll = 0, pitch = 0, wheel = 0, bob = 0, bobV = 0, air = false,
+		footsteps = footsteps, footstepVolume = footsteps and footsteps.Volume or 0,
 		fxConnection = char:GetAttributeChangedSignal("CartFx"):Connect(function()
 			if char ~= player.Character then
 				showFx(char, char:GetAttribute("CartFx"))
@@ -490,12 +632,59 @@ local function removeCart(char)
 	end
 	carts[char] = nil
 	c.fxConnection:Disconnect()
-	c.sound:Destroy()
+	for _, sound in ipairs({ c.sound, c.engine, c.skid, c.boost, c.crash }) do
+		sound:Destroy()
+	end
 	if c.footsteps and c.footsteps.Parent then
 		c.footsteps.Volume = c.footstepVolume
 	end
 end
-RunService.Heartbeat:Connect(function()
+-- the body's lean, dip and bob and the front wheels' turn, from how the cart moves (the same for every cart, ours included)
+local function showMotion(char, c, speed, dt)
+	local cart = char:FindFirstChild("Cart")
+	local floor = cart and cart:FindFirstChild("Floor")
+	local body = floor and floor:FindFirstChild("CartBody")
+	if not body then
+		return
+	end
+	if not c.body then -- the welds as the server made them
+		c.body, c.bodyC0 = body, body.C0
+		c.wheels = {}
+		for _, side in ipairs({ "L", "R" }) do
+			local wheel = cart:FindFirstChild("WheelF" .. side)
+			local steer = wheel and wheel:FindFirstChild("SteerF" .. side)
+			if steer then
+				c.wheels[#c.wheels + 1] = { steer, steer.C0 }
+			end
+		end
+	end
+	local look = c.root.CFrame.LookVector
+	local omega = math.atan2(c.look.Z * look.X - c.look.X * look.Z, c.look:Dot(look)) / dt -- + = turning left
+	c.look = look
+	c.accel += ((speed - c.speed) / dt - c.accel) * math.min(1, 8 * dt)
+	c.speed = speed
+	local air = c.humanoid.FloorMaterial == Enum.Material.Air
+	if c.air and not air then
+		c.bobV = -LANDING_DIP * 12
+	end
+	c.air = air
+	local drifting = c.fx:sub(1, 1) == "d"
+	local roll = math.clamp(-(drifting and DRIFT_LEAN or LEAN) * speed * omega, -LEAN_MAX, LEAN_MAX)
+	local pitch = math.clamp(PITCH * c.accel, -PITCH_MAX, PITCH_MAX)
+	local k = math.min(1, SHOW_RATE * dt)
+	c.roll += (roll - c.roll) * k
+	c.pitch += (pitch - c.pitch) * k
+	c.bobV += (-80 * c.bob - 10 * c.bobV) * dt -- a damped spring
+	c.bob += c.bobV * dt
+	local pivot = c.bodyC0.Position - Vector3.new(0, 1.05, 0) -- the axles: 1.05 below the Floor's centre
+	body.C0 = CFrame.new(0, c.bob, 0) * CFrame.new(pivot) * CFrame.Angles(c.pitch, 0, c.roll) * CFrame.new(-pivot) * c.bodyC0
+	c.wheel += (math.clamp(3 * omega * 2 * AXLE / math.max(speed, 5), -WHEEL_MAX, WHEEL_MAX) - c.wheel) * k
+	for _, w in ipairs(c.wheels) do
+		w[1].C0 = w[2] * CFrame.Angles(0, c.wheel, 0)
+	end
+end
+RunService.Heartbeat:Connect(function(dt)
+	dt = math.max(dt, 1e-3)
 	for char, c in pairs(carts) do
 		if not char.Parent or not c.root.Parent then
 			removeCart(char)
@@ -514,6 +703,17 @@ RunService.Heartbeat:Connect(function()
 				end
 			elseif c.sound.IsPlaying then
 				c.sound:Pause()
+			end
+			if c.speed - speed > HIT_DROP and c.speed > HIT_SPEED then -- a hard stop: the crash, louder the harder
+				c.crash.Volume = math.clamp((c.speed - speed) / 60, 0.2, 1)
+				c.crash:Play()
+			end
+			showMotion(char, c, speed, dt)
+			local e = math.clamp(speed / MAX_DEFAULT, 0, 1.4) -- the engine runs all the time it is ridden, higher with the speed
+			c.engine.PlaybackSpeed = 0.7 + 0.6 * e
+			c.engine.Volume = 0.15 + 0.2 * math.min(e, 1)
+			if not c.engine.IsPlaying then
+				c.engine:Play()
 			end
 		end
 	end
