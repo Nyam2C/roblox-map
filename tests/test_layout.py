@@ -229,12 +229,17 @@ def test_p2_4_each_segment_becomes_one_box_that_covers_it(feature):
     top = 0.2 if feature["kind"] == "road" else 0.3
     segs = {f"{feature['feature_id']}#{i}": (p, q) for i, p, q, _ in segments_of(feature)}
     assert sorted(p.name for p in pieces) == sorted(segs)  # one piece per segment, none twice (P2-9 as well)
+    last = len(feature["geometry"]) - 2
     for piece in pieces:
         (pe, pn), (qe, qn) = segs[piece.name]
         length = math.hypot(qe - pe, qn - pn)
+        i = int(piece.name.rsplit("#", 1)[1])
+        a, b = (0 if i == 0 else width / 2), (0 if i == last else width / 2)  # past interior joints only (2026-10-16)
+        ue, un = (qe - pe) / length, (qn - pn) / length
         assert piece.kind == feature["kind"] and piece.sy == top and piece.cy == pytest.approx(top / 2, abs=1e-3)
-        assert piece.sx == pytest.approx((length + width) * S, abs=2e-3) and piece.sz == pytest.approx(width * S, abs=2e-3)
-        assert piece.cx == pytest.approx((pe + qe) / 2 * S, abs=2e-3) and piece.cz == pytest.approx(-(pn + qn) / 2 * S, abs=2e-3)
+        assert piece.sx == pytest.approx((length + a + b) * S, abs=2e-3) and piece.sz == pytest.approx(width * S, abs=2e-3)
+        assert piece.cx == pytest.approx(((pe + qe) / 2 + ue * (b - a) / 2) * S, abs=2e-3)
+        assert piece.cz == pytest.approx(-((pn + qn) / 2 + un * (b - a) / 2) * S, abs=2e-3)
         assert gap180(piece.yaw_deg, math.degrees(math.atan2(qn - pn, qe - pe))) < 0.01
         for e, n in ((pe, pn), (qe, qn)):
             u, w = local(piece, e * S, -n * S)
@@ -282,6 +287,40 @@ def test_lanes_set_the_width_and_a_named_big_road_without_lanes_uses_the_table()
     assert layout.road_width_m({"kind": "road", "highway_class": "tertiary", "tags": {"name": "길주로"}}, cfg) == 32.5
     assert layout.road_width_m({"kind": "road", "highway_class": "tertiary", "tags": {"name": "길주로", "oneway": "yes"}}, cfg) == 16.25
     assert layout.road_width_m({"kind": "road", "highway_class": "tertiary", "tags": {"name": "옥산로"}}, cfg) == 10
+
+
+def test_a_lane_count_by_name_applies_to_big_roads_only():
+    """2026-10-16 (45b): an alley also named 부천로 took the big road's 4 lanes."""
+    cfg = {**CFG, "lane_width_m": 3.25, "road_lanes_by_name": {"부천로": 4}}
+    assert layout.road_width_m({"kind": "road", "highway_class": "primary", "tags": {"name": "부천로"}}, cfg) == 13.0
+    assert layout.road_width_m({"kind": "road", "highway_class": "residential", "tags": {"name": "부천로"}}, cfg) == 6
+
+
+def test_a_road_narrows_to_stop_at_the_buildings_beside_it_but_keeps_a_floor():
+    """2026-10-16 (원미동·춘의동): 6 m alleys ran into houses 2.2 m from the centre line; a record across the road keeps 60 %."""
+    road = {"feature_id": "way:1", "kind": "road", "highway_class": "residential", "tags": {},
+            "geometry": [list(offset(BASE, 0, -40)), list(offset(BASE, 0, 40))]}
+    def house(e0, e1):
+        return {"status": "ok", "outline": [list(offset(BASE, e, n)) for e, n in ((e0, -5), (e1, -5), (e1, 5), (e0, 5))]}
+    fits = layout.fit_road_widths([road], [house(2.2, 12)], FRAME, CFG)
+    assert abs(fits["way:1"] - 2 * (2.2 - layout.FIT_MARGIN_M)) < 0.05
+    assert layout.road_width_m(road, {**CFG, "road_width_fit": fits}) == fits["way:1"]
+    assert layout.fit_road_widths([road], [house(-1, 1)], FRAME, CFG)["way:1"] == 3.6
+    assert layout.fit_road_widths([road], [house(1.0, 12)], FRAME, CFG)["way:1"] == layout.FIT_MIN_M
+    assert layout.fit_road_widths([road], [house(4, 12)], FRAME, CFG) == {}
+
+
+def test_a_driveway_loses_the_part_inside_a_building():
+    """2026-10-16 (1ab, 1c7): OSM service ways ran through buildings into their car parks."""
+    road = {"feature_id": "way:2", "kind": "road", "highway_class": "service", "tags": {},
+            "geometry": [list(offset(BASE, -30, 0)), list(offset(BASE, 30, 0))]}
+    block = {"status": "ok", "outline": [list(offset(BASE, e, n)) for e, n in ((-5, -8), (5, -8), (5, 8), (-5, 8))]}
+    out = layout.driveways_off_buildings([road], [block], FRAME)
+    assert [f["feature_id"] for f in out] == ["way:2.0", "way:2.1"]
+    big = {**road, "highway_class": "tertiary"}
+    assert layout.driveways_off_buildings([big], [block], FRAME) == [big]
+    ramp = {**road, "feature_id": "way:3", "tags": {"tunnel": "yes"}}
+    assert layout.driveways_off_buildings([ramp], [], FRAME) == []
 
 
 def test_segment_names_sort_by_number_not_by_text():
@@ -450,3 +489,11 @@ def test_u4_an_other_color_is_painted_light_gray_but_keeps_its_name():
     eff = judgement.effective_building(b, None, {"wall_color": "other"}, CFG)
     item, _ = layout.building_item(b, FRAME, CFG, eff)
     assert item.color == (200, 200, 205) and item.attrs["WallColor"] == "other"
+
+
+def test_road_overlaps_counts_a_building_box_on_a_road_box():
+    import road_overlaps as RO
+    road = {"k": "road", "n": "way:1#0", "x": 0, "z": 0, "w": 100, "d": 20, "r": 0}
+    on = {"k": "building", "n": "gis:1#b0", "x": 0, "z": 15, "w": 20, "d": 20, "r": 0}
+    off = {"k": "building", "n": "gis:2", "x": 0, "z": 40, "w": 20, "d": 20, "r": 0}
+    assert RO.overlaps({"chunks": [{"items": [road, on, off]}]}) == {"gis:1": 100.0}

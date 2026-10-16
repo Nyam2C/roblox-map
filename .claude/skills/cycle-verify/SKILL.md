@@ -38,6 +38,12 @@ uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 - 위성 나무가 차도 위에 서 있는가(특히 `road_lanes_by_name`으로 넓힌 큰길)
 규칙(`streets.sidewalk_pieces`의 차로 겹침 자르기, `_on_other_road`, 횡단보도 `on_other`)으로 고치고 `tests/test_layout_u5.py`에 사례를 더한다.
 
+## 3c. 도로 위 건물 (모든 칸)
+```bash
+uv run src/road_overlaps.py --cells <칸...>
+```
+기준: 칸마다 0~1동(남는 것은 0.3~1 m² 모서리 닿음). 많으면 원인을 가른다: 도로가 실제보다 넓음(`layout.fit_road_widths`가 건물까지 좁힘, 대장 이름 차로 수는 큰길만), OSM 선이 건물을 지남(`driveways_off_buildings`가 작은 길을 건물 안에서 자름, 지하 진입로 tunnel은 뺌), 단순화 상자가 외곽선보다 큼(`layout_details.clip_to_roads`). 사용자 지적(2026-10-16): "도로에 건물이 걸치는 경우가 꽤 있어".
+
 ## 4. 거리뷰 대조 (1급 칸)
 1. `uv run --with numpy==2.5.4 --with scipy==1.18.1 src/estimate.py plan --cells <칸>` → `data/build/<칸>/review.json`(numpy·scipy가 있어야 카메라가 지형 높이만큼 올라간다. 없으면 평지 높이라 경사 칸에서 땅속에 들어감).
 2. Studio 시야각 83.58로 바꾼다. 쌍 8~12개를 골라(캡처는 **한 번에 하나씩, 병렬 호출 금지**: 동시에 보내면 시간 초과)(랜드마크, 처음 보는 유형, 확인 목록, 고르게 섞어) **하나씩** `screen_capture`(카메라 위치·바라보는 점은 review.json 그대로).

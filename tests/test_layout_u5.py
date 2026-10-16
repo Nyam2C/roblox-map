@@ -1126,3 +1126,16 @@ def test_a_neighbours_wide_road_this_cell_does_not_hold_still_keeps_sidewalks_an
     sw1, pr1 = ST.street_items(lines, jcts, FRAME, CFG, region_ways=region)
     assert on_wide(sw0 + pr0) and not on_wide(sw1 + pr1)
     assert len(sw1) > 0  # the south side keeps its sidewalk
+
+
+def test_a_box_on_a_road_strip_is_trimmed_back_off_it():
+    """2026-10-16 (45b, 687): simplified boxes of irregular outlines stood on the carriageway."""
+    from shapely.geometry import LineString
+    import layout_details as LDm
+    box = layout.Box(0.0, 0.0, 20.0, 10.0, 0.0, 0.7)
+    strip = LineString([(-30, 6.5), (30, 6.5)]).buffer(3.0, cap_style=2)  # covers v from 3.5 to 9.5: the box's top 1.5 m
+    out = LDm.clip_to_roads(box, [strip])
+    assert LDm._box_poly(out).intersection(strip).area <= LDm.CLIP_TOL_M2
+    assert out.width_m == 20.0 and 8.0 <= out.depth_m < 10.0
+    far = LineString([(-30, 20), (30, 20)]).buffer(3.0, cap_style=2)
+    assert LDm.clip_to_roads(box, [far]) == box

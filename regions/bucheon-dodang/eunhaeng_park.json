@@ -1,0 +1,687 @@
+{
+ "note": "은행공원 (OSM way 814472777, leisure=park, 부천 원미구 원미동), ground layout traced on the V-World z19 mosaic of cell 8930e0ac617ffff, 2026-10-16; satellite only. Built by src/anjunggeun.py with spec \"layout\".",
+ "tile_x0": 446792,
+ "tile_y0": 203157,
+ "seen": "Satellite z19 (0.237 m/px): OSM outline spans px x 917-1285, y 742-1064 (tilted quad); roads run along north and south edges, outside the park. Mostly dense tree canopy. NW quarter has a gray path loop with brown/green planting beds between paths. West-centre playground with blue-grey rubber mat and a sand patch (OSM playground 1104637250 at px 991,932). A small blue-green plaza east of it joined by a sandy diagonal path. A light sandy path on the east edge. A building and car park inside the outline at the SE (px ~1150-1210, 970-1040) are excluded. Fences are not visible and inferred. Web photos not checked.",
+ "sources": [
+  "data/satellite/8930e0ac617ffff-z19.jpg",
+  "OSM way 814472777 and 1104637250 via Nominatim lookup"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     962,
+     752
+    ],
+    [
+     1040,
+     758
+    ],
+    [
+     1120,
+     780
+    ],
+    [
+     1200,
+     800
+    ],
+    [
+     1260,
+     812
+    ],
+    [
+     1262,
+     860
+    ],
+    [
+     1255,
+     930
+    ],
+    [
+     1235,
+     935
+    ],
+    [
+     1225,
+     960
+    ],
+    [
+     1205,
+     965
+    ],
+    [
+     1152,
+     968
+    ],
+    [
+     1145,
+     1000
+    ],
+    [
+     1150,
+     1025
+    ],
+    [
+     1100,
+     1022
+    ],
+    [
+     1050,
+     1005
+    ],
+    [
+     960,
+     1002
+    ],
+    [
+     932,
+     990
+    ],
+    [
+     955,
+     930
+    ],
+    [
+     957,
+     870
+    ],
+    [
+     955,
+     820
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    44,
+    76,
+    40
+   ],
+   "material": "Grass",
+   "note": "dense wood canopy over the whole park, ~85% cover"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     958,
+     795
+    ],
+    [
+     1000,
+     800
+    ],
+    [
+     1045,
+     800
+    ],
+    [
+     1060,
+     830
+    ],
+    [
+     1070,
+     850
+    ],
+    [
+     1040,
+     885
+    ],
+    [
+     960,
+     880
+    ],
+    [
+     955,
+     830
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    62,
+    92,
+    48
+   ],
+   "material": "Grass",
+   "note": "NW garden: lower, lighter green ground between paths"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     955,
+     865
+    ],
+    [
+     1030,
+     872
+    ],
+    [
+     1110,
+     885
+    ],
+    [
+     1112,
+     897
+    ],
+    [
+     1030,
+     885
+    ],
+    [
+     955,
+     880
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    130,
+    125,
+    115
+   ],
+   "material": "Concrete",
+   "note": "long east-west gray path across the middle-north"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     962,
+     812
+    ],
+    [
+     1030,
+     805
+    ],
+    [
+     1050,
+     800
+    ],
+    [
+     1060,
+     815
+    ],
+    [
+     1075,
+     845
+    ],
+    [
+     1102,
+     880
+    ],
+    [
+     1090,
+     885
+    ],
+    [
+     1058,
+     850
+    ],
+    [
+     1040,
+     822
+    ],
+    [
+     1030,
+     818
+    ],
+    [
+     962,
+     822
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    130,
+    125,
+    115
+   ],
+   "material": "Concrete",
+   "note": "loop path from the west side curving over the NW garden and down to the cross path"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     958,
+     812
+    ],
+    [
+     972,
+     812
+    ],
+    [
+     975,
+     868
+    ],
+    [
+     960,
+     868
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    130,
+    125,
+    115
+   ],
+   "material": "Concrete",
+   "note": "west leg of the loop path"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1043,
+     915
+    ],
+    [
+     1075,
+     897
+    ],
+    [
+     1092,
+     900
+    ],
+    [
+     1062,
+     917
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    160,
+    135
+   ],
+   "material": "Concrete",
+   "note": "light sandy diagonal path to the court plaza"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     950,
+     832
+    ],
+    [
+     975,
+     828
+    ],
+    [
+     992,
+     840
+    ],
+    [
+     990,
+     860
+    ],
+    [
+     965,
+     862
+    ],
+    [
+     950,
+     850
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    100,
+    85,
+    60
+   ],
+   "material": "Grass",
+   "note": "west planting bed (brownish, ground cover)"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1000,
+     845
+    ],
+    [
+     1015,
+     842
+    ],
+    [
+     1025,
+     855
+    ],
+    [
+     1020,
+     870
+    ],
+    [
+     1005,
+     868
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    70,
+    90,
+    50
+   ],
+   "material": "Grass",
+   "note": "small green oval island between paths"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1034,
+     845
+    ],
+    [
+     1070,
+     842
+    ],
+    [
+     1088,
+     860
+    ],
+    [
+     1085,
+     880
+    ],
+    [
+     1045,
+     878
+    ],
+    [
+     1032,
+     862
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    110,
+    90,
+    65
+   ],
+   "material": "Grass",
+   "note": "east planting bed, dry brown ground cover"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     1002,
+     805
+    ],
+    [
+     1030,
+     803
+    ],
+    [
+     1040,
+     815
+    ],
+    [
+     1030,
+     826
+    ],
+    [
+     1008,
+     824
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    75,
+    92,
+    55
+   ],
+   "material": "Grass",
+   "note": "top island planting between the loop path and wood"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     962,
+     797
+    ],
+    [
+     990,
+     800
+    ],
+    [
+     996,
+     815
+    ],
+    [
+     975,
+     820
+    ],
+    [
+     962,
+     812
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    105,
+    85,
+    62
+   ],
+   "material": "Grass",
+   "note": "brown bed at the NW corner"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     958,
+     880
+    ],
+    [
+     1025,
+     882
+    ],
+    [
+     1030,
+     935
+    ],
+    [
+     1020,
+     960
+    ],
+    [
+     965,
+     962
+    ],
+    [
+     958,
+     930
+    ]
+   ],
+   "height_m": 0.05,
+   "rgb": [
+    88,
+    110,
+    115
+   ],
+   "material": "Concrete",
+   "note": "playground rubber mat, blue-grey (matches OSM playground 1104637250)"
+  },
+  {
+   "kind": "fence",
+   "shape": "poly",
+   "px": [
+    [
+     958,
+     880
+    ],
+    [
+     1025,
+     882
+    ],
+    [
+     1030,
+     935
+    ],
+    [
+     1020,
+     960
+    ],
+    [
+     965,
+     962
+    ],
+    [
+     958,
+     930
+    ],
+    [
+     958,
+     881
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    70,
+    70,
+    70
+   ],
+   "material": "Metal",
+   "note": "low playground fence (inferred)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     991,
+     886
+    ],
+    [
+     8,
+     0
+    ]
+   ],
+   "height_m": 0.06,
+   "rgb": [
+    205,
+    185,
+    150
+   ],
+   "material": "Sand",
+   "note": "sand patch at the playground north end"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     1058,
+     912
+    ],
+    [
+     1085,
+     908
+    ],
+    [
+     1092,
+     935
+    ],
+    [
+     1080,
+     948
+    ],
+    [
+     1062,
+     945
+    ]
+   ],
+   "height_m": 0.05,
+   "rgb": [
+    100,
+    125,
+    120
+   ],
+   "material": "Concrete",
+   "note": "small blue-green hard plaza/court east of playground"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1205,
+     905
+    ],
+    [
+     1225,
+     915
+    ],
+    [
+     1235,
+     935
+    ],
+    [
+     1228,
+     950
+    ],
+    [
+     1212,
+     930
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    170,
+    160,
+    135
+   ],
+   "material": "Concrete",
+   "note": "light sandy path along the east edge"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "px": [
+    [
+     1121,
+     844
+    ],
+    [
+     1137,
+     844
+    ],
+    [
+     1137,
+     858
+    ],
+    [
+     1121,
+     858
+    ]
+   ],
+   "height_m": 2.8,
+   "rgb": [
+    70,
+    66,
+    64
+   ],
+   "material": "Wood",
+   "note": "small dark structure under trees near the centre (shelter or hut, uncertain)",
+   "open": true
+  }
+ ]
+}

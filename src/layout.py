@@ -260,18 +260,107 @@ def building_item(building: Mapping[str, Any], frame: Frame, cfg: Mapping[str, A
 def road_width_m(feature: Mapping[str, Any], cfg: Mapping[str, Any]) -> float:
     """OSM width tag (1 to 40 m), else lanes x lane width (the OSM lanes tag, or the lanes of a named road in road_lanes_by_name,
     halved on a one-way carriageway), else the table value for the class (BR-3.4)."""
+    fit = cfg.get("road_width_fit", {}).get(str(feature.get("feature_id")))
+    if fit is not None:  # narrowed so it stops at the buildings beside it (fit_road_widths)
+        return fit
     tags = feature.get("tags") or {}
     tagged = geo.normalize_height(tags.get("width"))
     if tagged is not None:
         return min(40.0, max(1.0, tagged))
     lanes = geo.normalize_height(tags.get("lanes"))
-    if lanes is None and tags.get("name") in cfg.get("road_lanes_by_name", {}):
+    cls = str(feature.get("highway_class") or "")
+    # a big road's lane count by name only: an alley sharing the name kept 4 lanes and ran into its houses (45b 부천로, 2026-10-16)
+    if lanes is None and tags.get("name") in cfg.get("road_lanes_by_name", {}) and cls.removesuffix("_link") in BIG_ROADS:
         lanes = float(cfg["road_lanes_by_name"][tags["name"]]) / (2 if tags.get("oneway") == "yes" else 1)
     if lanes is not None and lanes >= 1:
         return min(40.0, round(lanes * float(cfg.get("lane_width_m", 3.25)), 2))
-    cls = str(feature.get("highway_class") or "")
     key = "link" if cls.endswith("_link") else cls
     return float(cfg["road_widths_m"].get(key, 6 if feature.get("kind") == "road" else 2))
+
+
+FIT_MARGIN_M = 0.3  # a fitted road stops this far short of the nearest building outline
+FIT_FLOOR = 0.6  # and keeps at least this share of its width (a record lying across a road must not shrink it to nothing)
+FIT_MIN_M = 2.5  # an alley squeezed between houses is never narrower than this (one car, 원미동 6bb 2026-10-16)
+
+
+def building_polys(buildings: Sequence[Mapping[str, Any]], frame: Frame) -> list[Any]:
+    """Shapely outlines in east/north metres of the records that get built above ground."""
+    from shapely.geometry import Polygon
+
+    out = []
+    for b in buildings:
+        if b.get("status", "ok") != "ok" or is_underground(b):
+            continue
+        pts = [to_meters(frame, la, lo) for la, lo in b["outline"] if _finite(la, lo)]
+        if len(pts) >= 3:
+            out.append(Polygon(pts).buffer(0))
+    return out
+
+
+def driveways_off_buildings(features: Sequence[Mapping[str, Any]], buildings: Sequence[Mapping[str, Any]],
+                            frame: Frame) -> list[Mapping[str, Any]]:
+    """Small roads (not the BIG_ROADS) with the parts that run inside a building outline cut out (2026-10-16: OSM draws drive-ins
+    to car parks, drive-throughs and alleys right through buildings, and the carriageway lay across the ground floor); parts under
+    3 m are dropped and the rest keep the id with ".n". Tunnel ways (ramps down into car parks) are dropped: they are not on the
+    surface. Other features pass unchanged."""
+    from shapely.geometry import LineString
+    from shapely.ops import unary_union
+
+    features = [f for f in features
+                if not (f.get("kind") == "road" and (f.get("tags") or {}).get("tunnel") not in (None, "", "no", "building_passage"))]
+    polys = building_polys(buildings, frame)
+    if not polys:
+        return features
+    blocked = unary_union(polys)
+    s = frame.studs_per_m
+    out: list[Mapping[str, Any]] = []
+    for f in features:
+        tags = f.get("tags") or {}
+        pts = [to_meters(frame, p[0], p[1]) for p in f.get("geometry") or [] if _finite(p[0], p[1])]
+        if (f.get("kind") != "road" or str(f.get("highway_class") or "").removesuffix("_link") in BIG_ROADS or tags.get("bridge")
+                or len(pts) < 2):
+            out.append(f)
+            continue
+        line = LineString(pts)
+        if not line.intersects(blocked):
+            out.append(f)
+            continue
+        rest = line.difference(blocked)
+        parts = [g for g in getattr(rest, "geoms", [rest]) if g.geom_type == "LineString" and g.length >= 3.0]
+        for n, g in enumerate(parts):
+            out.append({**f, "feature_id": f"{f['feature_id']}.{n}", "geometry": [list(from_studs(frame, e * s, -nn * s)) for e, nn in g.coords]})
+    return out
+
+
+def fit_road_widths(roads: Sequence[Mapping[str, Any]], buildings: Sequence[Mapping[str, Any]], frame: Frame,
+                    cfg: Mapping[str, Any]) -> dict[str, float]:
+    """feature id -> a narrower width for each road whose strip runs into a building outline: twice the distance from its centre line
+    to the nearest outline that the strip meets, less FIT_MARGIN_M, at least FIT_FLOOR of the width and 3 m (2026-10-16: old 원미동
+    and 춘의동 alleys are narrower than the class width and buildings stood on the road). Bridges and underground records are left out."""
+    from shapely.geometry import LineString
+    from shapely.strtree import STRtree
+
+    polys = building_polys(buildings, frame)
+    tree = STRtree(polys)
+    out: dict[str, float] = {}
+    for f in roads:
+        tags = f.get("tags") or {}
+        if f.get("kind") != "road" or tags.get("bridge") in ("yes", "viaduct") or tags.get("tunnel"):
+            continue
+        pts = [to_meters(frame, p[0], p[1]) for p in f["geometry"] if _finite(p[0], p[1])]
+        if len(pts) < 2:
+            continue
+        line, w = LineString(pts), road_width_m(f, {k: v for k, v in cfg.items() if k != "road_width_fit"})
+        strip = line.buffer(w / 2, cap_style=2)
+        near = [polys[j] for j in tree.query(strip) if polys[j].intersection(strip).area > 0.5]
+        if not near:
+            continue
+        # an alley between houses narrows to FIT_MIN_M; a record lying across the line itself is a data slip, the road keeps FIT_FLOOR
+        floor = min(w, max(3.0, FIT_FLOOR * w)) if any(line.intersects(p) for p in near) else min(w, FIT_MIN_M)
+        fit = max(floor, 2 * (min(line.distance(p) for p in near) - FIT_MARGIN_M))
+        if fit < w - 0.1:
+            out[str(f["feature_id"])] = round(fit, 2)
+    return out
 
 
 def _segments(feature: Mapping[str, Any], frame: Frame, cell_id: str, res: int):
@@ -295,11 +384,17 @@ def road_items(feature: Mapping[str, Any], frame: Frame, cell_id: str, res: int,
         return []
     kind = feature["kind"]
     fid, width, s = str(feature["feature_id"]), road_width_m(feature, cfg), frame.studs_per_m
+    last = len(feature["geometry"]) - 2
     items = []
     for i, p, q, mid, length in _segments(feature, frame, cell_id, res):
         top = TOPS[kind]
-        items.append(_item(kind, f"{fid}#{i}", fid, i, (mid[0] * s, top / 2, -mid[1] * s),
-                           ((length + width) * s, top, width * s), _yaw_of(q[0] - p[0], q[1] - p[1])))
+        # half a width past each joint closes the gap at a bend; not past the way's own ends, where it ran into the building at a
+        # dead end (2026-10-16, 1c3 and 697)
+        a, b = (0.0 if i == 0 else width / 2), (0.0 if i == last else width / 2)
+        ux, uy = (q[0] - p[0]) / length, (q[1] - p[1]) / length
+        cx, cy = mid[0] + ux * (b - a) / 2, mid[1] + uy * (b - a) / 2
+        items.append(_item(kind, f"{fid}#{i}", fid, i, (cx * s, top / 2, -cy * s),
+                           ((length + a + b) * s, top, width * s), _yaw_of(q[0] - p[0], q[1] - p[1])))
     return items
 
 

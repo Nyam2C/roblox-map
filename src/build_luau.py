@@ -583,8 +583,33 @@ def region_roads(conn, cfg: Mapping[str, Any], cell_id: str) -> list[dict[str, A
         for f in db.rows_in_cells(conn, "street_features", list(data.get("cells") or [])):
             if f["kind"] == "road" and SAFE_TEXT.fullmatch(str(f["feature_id"])):
                 seen.setdefault(str(f["feature_id"]), f)
-        _ROADS[folder.name] = [seen[k] for k in sorted(seen)]
+        _ROADS[folder.name] = layout.driveways_off_buildings([seen[k] for k in sorted(seen)], region_buildings(conn, cfg, cell_id),
+                                                             layout.Frame.from_cfg(cfg))
     return _ROADS[folder.name]
+
+
+_BUILDINGS: dict[str, list[dict[str, Any]]] = {}
+
+
+def region_buildings(conn, cfg: Mapping[str, Any], cell_id: str) -> list[dict[str, Any]]:
+    """Every building record of the cell's region (cached per region): roads stop at them (fit_road_widths, driveways_off_buildings)."""
+    folder, data = common.region_of(cfg, cell_id)
+    if folder.name not in _BUILDINGS:
+        _BUILDINGS[folder.name] = db.rows_in_cells(conn, "buildings", list(data.get("cells") or []))
+    return _BUILDINGS[folder.name]
+
+
+_FITS: dict[str, dict[str, float]] = {}
+
+
+def region_road_fits(conn, cfg: Mapping[str, Any], cell_id: str) -> dict[str, float]:
+    """layout.fit_road_widths over every road and building of the cell's region (cached per region): the same road gets the same
+    width in every cell that draws it."""
+    folder, data = common.region_of(cfg, cell_id)
+    if folder.name not in _FITS:
+        _FITS[folder.name] = layout.fit_road_widths(region_roads(conn, cfg, cell_id), region_buildings(conn, cfg, cell_id),
+                                                    layout.Frame.from_cfg(cfg), cfg)
+    return _FITS[folder.name]
 
 
 _DECKS: dict[str, "bridges.Decks"] = {}
@@ -602,8 +627,10 @@ def region_decks(conn, cfg: Mapping[str, Any], cell_id: str) -> "bridges.Decks":
 
 def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
     cfg = common.cell_config(cfg, cell_id)
+    cfg = {**cfg, "road_width_fit": region_road_fits(conn, cfg, cell_id)}
     tier = tiers.tier_of(cfg, cell_id) or 1  # never classified: treated as tier 1 (cycle-build step 0)
     buildings, features, estimates, overrides, details = load_cell_inputs(conn, cell_id)
+    features = layout.driveways_off_buildings(features, region_buildings(conn, cfg, cell_id), layout.Frame.from_cfg(cfg))
     features = features + load_exits(common.region_of(cfg, cell_id)[0] / "exits.json")
     sign_assets = load_sign_assets(common.cell_file(cfg, cell_id, "signs"))
     sat_trees = streets.load_trees(common.cell_file(cfg, cell_id, "trees"))

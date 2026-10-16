@@ -12,6 +12,7 @@ face; `y` is the bottom of a part unless the name says otherwise.
 """
 from __future__ import annotations
 
+import dataclasses
 import math
 import re
 from dataclasses import dataclass, field
@@ -426,10 +427,56 @@ def occluded_faces(body: Body, bi: int, others: Sequence[Polygon], cfg: Mapping[
     return frozenset(out)
 
 
+CLIP_TOL_M2 = 0.3  # a box may still touch a road strip by this much
+CLIP_MIN_M = 3.0  # a trimmed box keeps at least this size on each side
+
+
+def clip_to_roads(box: Box, strips: Sequence[Polygon]) -> Box:
+    """The box with sides pulled in off the road strips it covers (2026-10-16: the simplified boxes of irregular outlines, fit
+    0.5-0.8, stood on the carriageway). Each round moves the one side whose smallest pull (0.25 m steps, at most half the box)
+    clears the most overlap; stops when the overlap is under CLIP_TOL_M2 or nothing helps."""
+    def overlap(b: Box) -> float:
+        p = _box_poly(b)
+        return sum(p.intersection(st).area for st in strips)
+
+    for _ in range(4):
+        now = overlap(box)
+        if now <= CLIP_TOL_M2:
+            return box
+        best: tuple[float, Box] | None = None
+        for axis, sign in (("u", 1), ("u", -1), ("v", 1), ("v", -1)):
+            size = box.width_m if axis == "u" else box.depth_m
+            t = 0.25
+            while t <= size / 2 and size - t >= CLIP_MIN_M:
+                cu, cv = (-sign * t / 2, 0.0) if axis == "u" else (0.0, -sign * t / 2)
+                e, n = _world(box, cu, cv)
+                cand = dataclasses.replace(box, cx_m=e, cy_m=n, **({"width_m": box.width_m - t} if axis == "u" else {"depth_m": box.depth_m - t}))
+                left = overlap(cand)
+                if left <= CLIP_TOL_M2 or t + 0.25 > size / 2 or size - t - 0.25 < CLIP_MIN_M:
+                    gain = (now - left) / t
+                    if left < now - 0.05 and (best is None or gain > best[0]):
+                        best = (gain, cand)
+                    break
+                t += 0.25
+        if best is None:
+            return box
+        box = best[1]
+    return box
+
+
+def road_strips(lines: Sequence[tuple[str, LineString, float, Mapping[str, Any]]]) -> list[Polygon]:
+    """The carriageways (not footpaths) as flat-ended strips of their width."""
+    return [ln.buffer(w / 2, cap_style=2) for _, ln, w, f in lines if f.get("kind") == "road"]
+
+
 def resolve_body(body: Body, lines: Sequence[tuple[str, LineString, float, Mapping[str, Any]]], others: Sequence[Polygon],
                  cfg: Mapping[str, Any]) -> Body:
     """The body with its front box, facing side, far flag and occluded faces filled in (BR-5)."""
     import dataclasses
+    strips = road_strips(lines)
+    near = [st for st in strips if any(_box_poly(bx).intersects(st) for bx in body.boxes)]
+    if near:
+        body = dataclasses.replace(body, boxes=tuple(clip_to_roads(bx, near) for bx in body.boxes))
     front, facing = facing_of(body, lines, cfg) if body.is_body else (0, None)
     body = dataclasses.replace(body, front=front, facing=facing, far=bool(facing and facing.setback > D["far_facing"]))
     body = dataclasses.replace(body, occluded=tuple(occluded_faces(body, i, others, cfg) for i in range(len(body.boxes))))
