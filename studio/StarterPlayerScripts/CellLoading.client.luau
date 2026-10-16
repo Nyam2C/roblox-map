@@ -33,13 +33,28 @@ gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
 -- The parts keep coming after the cell is built (2026-10-17, user "A"): a joining client got about 190,000 in its first 12 s (Studio
 -- Play, 61 cells built) and ran at 5-9 frames a second meanwhile. So the cover is up from the moment this client starts, and after a
 -- join or a jump it lifts only once the character stands free and the parts have nearly stopped (under SETTLE a second), after
--- MIN_COVER s at least and MAX_COVER s at most.
-local SETTLE, MIN_COVER, MAX_COVER = 1000, 2, 25
+-- MIN_COVER s at least and MAX_COVER s at most. Only parts within NEAR studs (the streaming radius and a little) count: the far
+-- cells the server keeps building send their ground to everybody, a trickle that held the cover up to its cap on the real server
+-- ("로딩이 너무 오래걸리는데", 2026-10-17).
+local SETTLE, NEAR, MIN_COVER, MAX_COVER = 1000, 2100, 2, 10
 local player = Players.LocalPlayer
 local arrived = 0
 workspace.DescendantAdded:Connect(function(d)
 	if d:IsA("BasePart") then
-		arrived += 1
+		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if not root or (d.Position - root.Position).Magnitude < NEAR then
+			arrived += 1
+		end
+	end
+end)
+task.spawn(function() -- moving dots, so a long wait does not look frozen
+	local k = 0
+	while true do
+		task.wait(0.4)
+		if cover.BackgroundTransparency < 1 then
+			k = k % 3 + 1
+			label.Text = "불러오는 중" .. string.rep(".", k)
+		end
 	end
 end)
 
@@ -72,7 +87,14 @@ remote.OnClientEvent:Connect(function(on)
 	serverOn = on
 	if on then
 		waiting += 1
+		local mine = waiting
 		show(true)
+		task.delay(3 * MAX_COVER, function() -- never stuck under the cover if the server's answer does not come
+			if mine == waiting then
+				serverOn = false
+				show(false)
+			end
+		end)
 	else
 		task.spawn(liftWhenSettled)
 	end

@@ -28,6 +28,12 @@ local Stats = game:GetService("Stats")
 local BUDGET_MS = 8 -- a frame's building while players move (the B test: 21 ms chunks made 34-64 ms server frames)
 local PREPARE_BUDGET_MS = 12 -- behind the loading screen (the B test: the target cell in under a second)
 local SLICE = 25 -- items per Builder.add call, so a frame's building stays near the budget
+-- for JOIN_QUIET s after someone joins only the cells within two rings of the players are built (what a client sees): the farther
+-- ones would send their ground to everybody while the newcomer loads (2026-10-17: "로딩이 너무 오래걸리는데", three players lagging)
+local JOIN_QUIET = 15
+-- and a cell farther than that waits FAR_GAP s after the last one: each sends its ground (about 1,000 parts) to every client, and
+-- built back to back they made 8 s of 6-9 frames a second (Studio Play, 2026-10-17)
+local FAR_GAP = 3
 local PIN = 10
 local GUARD_MB = 5500
 local BUDGET_PARTS = 500000 -- 5 GB target: about 1.1 GB fixed (server, cell data), the rest for full cells
@@ -55,6 +61,7 @@ local auto = workspace:WaitForChild("Auto")
 
 local loaded, building, pinned, failed, manualRoots = {}, {}, {}, {}, {}
 local loadedParts = 0
+local quietUntil, lastFar = 0, 0
 local stats = Instance.new("Folder")
 stats.Name = "CellStreamerStats"
 stats.Parent = ServerStorage
@@ -203,12 +210,15 @@ local function plan()
 		end
 		score[id], eta[id] = best, t
 	end
-	local chosen, used = {}, 0
+	local chosen, used, near = {}, 0, {}
 	for _, p in ipairs(ps) do
 		for _, n in ipairs(p.cell and index[p.cell].ring1 or {}) do
 			if not chosen[n] then
 				chosen[n], used = 2, used + index[n].parts -- 2: required, built even over the budget
 			end
+		end
+		for _, n in ipairs(p.cell and index[p.cell].ring2 or {}) do
+			near[n] = true
 		end
 	end
 	local order = {}
@@ -226,7 +236,7 @@ local function plan()
 		end
 		chosen[id], used = true, used + index[id].parts
 	end
-	return chosen, eta, score, budget
+	return chosen, eta, score, budget, near
 end
 
 -- the farthest built cells not chosen go until `room` more parts fit under the budget
@@ -318,6 +328,7 @@ local function onCharacter(player, char)
 	root.Anchored = false
 end
 local function onPlayer(player)
+	quietUntil = os.clock() + JOIN_QUIET
 	player.CharacterAdded:Connect(function(char)
 		onCharacter(player, char)
 	end)
@@ -332,18 +343,21 @@ end
 
 task.spawn(function()
 	while true do
-		local chosen, eta, score, budget = plan()
+		local chosen, eta, score, budget, near = plan()
 		local now = os.clock()
 		local best, bt = nil, math.huge
 		for id, kind in pairs(chosen) do
 			local t = kind == 2 and -1 or eta[id] -- required cells first
-			if not loaded[id] and not building[id] and (failed[id] or 0) < now and t < bt then
+			if not loaded[id] and not building[id] and (failed[id] or 0) < now and t < bt and (kind == 2 or near[id] or (now >= quietUntil and now - lastFar >= FAR_GAP)) then
 				best, bt = id, t
 			end
 		end
 		evict(chosen, score, budget, best and index[best].parts or 0)
 		if best and (loadedParts + index[best].parts <= budget or chosen[best] == 2) then
 			build(best, BUDGET_MS)
+			if chosen[best] ~= 2 and not near[best] then
+				lastFar = os.clock()
+			end
 		else
 			best = nil
 		end
