@@ -2405,3 +2405,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 - 판단(details.py record 17동): 화강석 판으로 읽힌 tile/stone 집 9동 finish panel(Cobblestone 막돌·CeramicTiles 둘 다 실패), 11179433·11184652·18167626 1층 house, 11200049 shop, 11188055 brick, 16521118 paint, 11217395 지붕 green, 11218764 옥상 railing.
 - 벽 색: lookalike walls --apply 12동, 그중 보정이 반대로 간 4동(16521118·11184840은 흰 벽인데 더 어둡게/노랗게, 11198368·11198369 밝은 노랑인데 흐리게)과 새 판단과 어긋난 2동(11184968·11212787)은 walls.json에서 빼고 overrides wall_color로. overrides 15동(white 6, light_gray 5, brown 2, dark_gray 1, yellow 2 중복 포함), 12513139는 2회차 brown 해제(사진 cream).
 - Studio: 6d3·16b·16f unpack → 시설 5곳 다시(facilities-new.json) → 6d3만 다시 생성(skipped_manual 2094, verify ok, 최대 6.1 ms) → cell-data는 6d3만 → pack(strays 0). 상자 안 바뀜 → 미니맵 그대로.
+
+---
+## U8 6d3 세션 마무리(cell-record, 자동)
+**Timestamp**: 2026-10-18T04:30:00Z
+**AI Response**: 칸 8930e0ac6d3ffff held. 게이트 추이: 1회 G1 FAIL(가로시설 1·횡단보도 7·경계 폭 1)·G1 Studio FAIL(차양 7)·G2 PASS·G3 0.587 → 2회 G1 FAIL(골목 겹침 1)·G3 0.554 → 3회 G1·G1 Studio·G2 PASS, G3 0.43(52/121, `max_fail_rate` 0.2)·시설 5 실패(성당·보건소·66층·19층 2동). 규칙 수정: 차양·캐노피·눈썹·마당 벽이 차도 앞에서 멈춤, 잘린 길 `way:N.n` 그리기 버그, 교차로 상자, `[gone_buildings]`, 골목 가운데 맞춤. 이웃 10칸 만듦. 비용 약 $62(기록 제외). lessons 7줄 추가(생성 규칙 2, 작업 방식 5). 스킬 변경: cycle-verify G3 4단계에 "채점 묶음을 나눌 때 중복 카나리아와 원본 쌍은 같은 채점자에게" 추가. CLAUDE.md는 남의 미커밋 변경이 커서 이번에 고치지 않음(현재 상태 한 줄은 메인에 제안).
+**Context**: U8 칸 8930e0ac6d3ffff, cell-record
+
+---
