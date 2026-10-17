@@ -69,7 +69,23 @@
   "8930e0af117ffff",
   "8930e0af177ffff",
   "8930e0af1cfffff",
-  "8930e0ac6d3ffff"
+  "8930e0ac6d3ffff",
+  "8930e0ac0d3ffff",
+  "8930e0af0b3ffff",
+  "8930e0af0b7ffff",
+  "8930e0af037ffff",
+  "8930e0af1c3ffff",
+  "8930e0af1d7ffff",
+  "8930e0af10bffff",
+  "8930e0af16bffff",
+  "8930e0af17bffff",
+  "8930e0af56fffff",
+  "8930e0af113ffff",
+  "8930e0af147ffff",
+  "8930e0af153ffff",
+  "8930e0af157ffff",
+  "8930e0af173ffff",
+  "8930e0af567ffff"
  ],
  "cells": [
   {
@@ -93,8 +109,8 @@
   {
    "cell": "8930e0ac6d7ffff",
    "state": "built",
-   "rounds": 1,
-   "note": "준비 2026-10-18: 1급, 건물 130, 파노라마 176, 펼친 정면 111(사진 없음 19), 트레이싱 목록 12, 고도 바뀐 칸 69b·16f·68b(+6c7·6d3은 손대지 않음) | 트레이싱 2026-10-18: 펼친 111 중 트레이싱 49·못 씀 62, 빌려 씀 60, 규칙 생성 6, 벽 색 43(f2fe743) | 시설 2026-10-18: 3곳(꿈마을 단지 5동 kkummaeul_14danji_6d7, 부천중앙초 본관, 15층 L자 신축) data/auto/8930e0ac6d7ffff/facilities-spec.json; 옥산로 way:490069623 2차로(위성) | 생성 2026-10-18: 6d7+이웃 69b·16f·68b(61b·6c7·6d3 제외), 부품 7271, traced 107, Union 키트 876(실패 0), 시설 3(단지 2834·초교 115·15층 304), 최대 덩어리 6.1 ms, pack | 검증 1회(2026-10-18): G1 FAIL(볼라드 2·보행로 2·횡단보도 2·이음 폭 1), Studio FAIL 2동, G2 PASS(minor 5), trace FAIL 약한 18/49·gis:17513326 부품 496 → 메인이 약한 17동 다시 트레이싱(trace-13·14) → cell-fix 1(ccd83cc: record 다시, 시설 동 7개 facade.json에서 뺌, 약한 3동·508부품 동 규칙 생성으로, 볼라드 규칙 streets.py, 미리 잰 trace 8/42 PASS) → 메인 허용 목록 4(6c3 소유 길 위 횡단보도 2, 6c7 stale 이음 폭 1, Studio 기운 길 투영 1). 남은 G1 paths_on_road 2"
+   "rounds": 2,
+   "note": "준비 2026-10-18: 1급, 건물 130, 파노라마 176, 펼친 정면 111(사진 없음 19), 트레이싱 목록 12, 고도 바뀐 칸 69b·16f·68b(+6c7·6d3은 손대지 않음) | 트레이싱 2026-10-18: 펼친 111 중 트레이싱 49·못 씀 62, 빌려 씀 60, 규칙 생성 6, 벽 색 43(f2fe743) | 시설 2026-10-18: 3곳(꿈마을 단지 5동 kkummaeul_14danji_6d7, 부천중앙초 본관, 15층 L자 신축) data/auto/8930e0ac6d7ffff/facilities-spec.json; 옥산로 way:490069623 2차로(위성) | 생성 2026-10-18: 6d7+이웃 69b·16f·68b(61b·6c7·6d3 제외), 부품 7271, traced 107, Union 키트 876(실패 0), 시설 3(단지 2834·초교 115·15층 304), 최대 덩어리 6.1 ms, pack | 검증 1회(2026-10-18): G1 FAIL(볼라드 2·보행로 2·횡단보도 2·이음 폭 1), Studio FAIL 2동, G2 PASS(minor 5), trace FAIL 약한 18/49·gis:17513326 부품 496 → 메인이 약한 17동 다시 트레이싱(trace-13·14) → cell-fix 1(ccd83cc: record 다시, 시설 동 7개 facade.json에서 뺌, 약한 3동·508부품 동 규칙 생성으로, 볼라드 규칙 streets.py, 미리 잰 trace 8/42 PASS) → 메인 허용 목록 4(6c3 소유 길 위 횡단보도 2, 6c7 stale 이음 폭 1, Studio 기운 길 투영 1). 남은 G1 paths_on_road 2 | cell-fix 2(38957b7): 보행로가 차도에 0.3 m 넘게 들어가면 자름(streets.paths_off_roads), G5 83칸 70→63, g1 PASS, stale +16"
   },
   {
    "cell": "8930e0ac657ffff",
