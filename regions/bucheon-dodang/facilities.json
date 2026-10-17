@@ -20991,6 +20991,732 @@
     "data/satellite/8930e0ac61bffff-z19.jpg"
    ],
    "seen": "Street view looking north: a white 15-storey tower with balcony rows on a dark grey stone two-floor base with a glass shop front; satellite: white roof leaning north."
+  },
+  {
+   "key": "hospital_7f_6c7",
+   "cell": "8930e0ac6c7ffff",
+   "build": [
+    "gis:17069881"
+   ],
+   "claims": [
+    "gis:11168515"
+   ],
+   "front": "S",
+   "floors": 7,
+   "height_m": 26.0,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     204,
+     198,
+     186
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Limestone",
+    "rgb": [
+     190,
+     184,
+     170
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     72,
+     112,
+     140
+    ],
+    "frame_rgb": [
+     196,
+     190,
+     178
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.1,
+     "width_m": 34.0,
+     "from_floor": 1,
+     "to_floor": 6,
+     "rgb": [
+      74,
+      122,
+      152
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 2.2,
+     "from_floor": 1,
+     "to_floor": 6,
+     "rgb": [
+      62,
+      110,
+      150
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 4.0,
+     "from_floor": 1,
+     "to_floor": 6,
+     "material": "Concrete",
+     "rgb": [
+      232,
+      232,
+      228
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.42,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     196,
+     190,
+     178
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     200,
+     194,
+     182
+    ],
+    "top_rgb": [
+     142,
+     146,
+     140
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Seven-floor general hospital (OSM hospital, register use 09000). Two register records of the same block overlap 84%; build the newer outline (gis:17069881), claim the older one. Faces by compass: S (front, parking court and entrance) = the long face, almost all blue-teal reflective glass from floor 2 to floor 7 with thin beige spandrels (drawn as one glass strip), beige stone ground floor, beige tile end frames and parapet, entrance at the EAST end of the S face under a beige stone portico canopy with a red-paved ramp. E face (on the main road, 'right' when looking at the S face) = beige tile with one narrow vertical blue glass strip in the middle. W face ('left') = white external escape stair with railings (drawn as a light panel). N face is against the new public car park. No name sign (private hospital name not used).",
+   "sources": [
+    "captures/8930e0ac6c7ffff/sheets/gis_17069881.jpg",
+    "captures/8930e0ac6c7ffff/crops/gis_17069881__bO2tWgcwbBCykCW5S0xfQw.jpg",
+    "captures/8930e0ac6c7ffff/sheets/gis_11168515.jpg",
+    "data/satellite/8930e0ac6c7ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=<hospital name> (thumbnails viewed only)"
+   ],
+   "seen": "Street view from the SW: a seven-floor block whose south face is a wall of blue-teal glass bands over a beige stone ground floor, entrance portico at the east end; from the east a beige tile face with a vertical glass slot, from the west a white external stair. Web thumbnails show the same blue glass face and a stone portico entrance."
+  },
+  {
+   "key": "simgok_parking3_6c7",
+   "cell": "8930e0ac6c7ffff",
+   "build": [
+    "gis:16582092"
+   ],
+   "claims": [],
+   "front": "E",
+   "floors": 3,
+   "height_m": 13.0,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     236,
+     236,
+     232
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "none"
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "SmoothPlastic",
+     "rgb": [
+      38,
+      40,
+      44
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.42,
+     "width_m": 3.5,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "SmoothPlastic",
+     "rgb": [
+      52,
+      54,
+      58
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": -0.3,
+     "width_m": 4.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "SmoothPlastic",
+     "rgb": [
+      52,
+      54,
+      58
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.3,
+     "width_m": 4.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "SmoothPlastic",
+     "rgb": [
+      52,
+      54,
+      58
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.15,
+    "width_m": 10.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": {
+    "text": "제3공영주차장",
+    "face": "street",
+    "floor": 2,
+    "bg_rgb": [
+     236,
+     236,
+     232
+    ],
+    "ink_rgb": [
+     36,
+     62,
+     140
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     236,
+     236,
+     232
+    ],
+    "top_rgb": [
+     172,
+     176,
+     174
+    ],
+    "features": [
+     "solar",
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Public multi-storey car park opened 2025 next to the hospital (register 3 floors + roof deck). Whole box wrapped in a white perforated aluminium screen (rows of dots of varying size, not modelled; plain white metal), no windows. E face on the main road (front): wide dark vehicle opening on the ground floor with a black bar sign (in/out, height limit) and a pedestrian door at the right (north) end, blue 'P' and the public name in blue letters along the top of the screen. W face: two dark pedestrian entrance openings with black name plates. Roof is an open parking deck (white arrows) with a row of solar panels in the middle and a stair tower at one corner.",
+   "sources": [
+    "captures/8930e0ac6c7ffff/sheets/gis_16582092.jpg",
+    "captures/8930e0ac6c7ffff/crops/gis_16582092__l21qr_7cENn6G_MfLkxiqw.jpg",
+    "data/satellite/8930e0ac6c7ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=심곡 시민의강 제3공영주차장 (thumbnails viewed only)"
+   ],
+   "seen": "Street view and web thumbnails: a white perforated-panel box about four decks tall with blue name letters and a blue P, a black in/out bar over the dark vehicle opening on the main road and black 'pedestrian entrance' plates; satellite shows a grey roof deck with arrows and solar panels."
+  },
+  {
+   "key": "mall_7f_6c7",
+   "cell": "8930e0ac6c7ffff",
+   "build": [
+    "gis:11162254"
+   ],
+   "claims": [],
+   "front": "E",
+   "floors": 7,
+   "height_m": 28.0,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     208,
+     203,
+     192
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 20.0,
+    "h_m": 1.4,
+    "pitch_m": 4.0,
+    "glass_rgb": [
+     54,
+     58,
+     62
+    ],
+    "frame_rgb": [
+     190,
+     186,
+     178
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 44.0,
+     "rgb": [
+      196,
+      72,
+      58
+     ],
+     "strip_rgb": [
+      234,
+      196,
+      64
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "fascia",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 30.0,
+     "rgb": [
+      60,
+      120,
+      70
+     ],
+     "strip_rgb": [
+      234,
+      196,
+      64
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 44.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      84,
+      112,
+      118
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.5,
+     "width_m": 5.0,
+     "from_floor": 2,
+     "to_floor": 6,
+     "rgb": [
+      96,
+      150,
+      150
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": 0.2,
+     "width_m": 5.0,
+     "from_floor": 2,
+     "to_floor": 6,
+     "rgb": [
+      96,
+      150,
+      150
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     208,
+     203,
+     192
+    ],
+    "top_rgb": [
+     182,
+     182,
+     172
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Largest building of the cell: a seven-floor neighbourhood shopping and clinic block (register 7 above, 2 below, about 1,250 m2 footprint, L-shaped). E face on the main road (front): a continuous row of small shops on the ground floor with mixed red, yellow and green fascia boards and awnings, a central glass lobby door, a glazed second floor covered in clinic sign boards, then light beige tile with dark louvred ribbon windows on floors 3-5 and greenish glass ribbons on the top floors under a big name band (commercial name, not used). NE corner: a tall teal glass curtain bay. N face ('right'): more ground-floor shops and blue clinic boards. W face (back): service yard, a glass bay and dark louvre panel. Satellite: grey roof with a small green roof garden patch.",
+   "sources": [
+    "captures/8930e0ac6c7ffff/sheets/gis_11162254.jpg",
+    "captures/8930e0ac6c7ffff/crops/gis_11162254__nt1Dm3vsWuIGx7RmAPul2g.jpg",
+    "data/satellite/8930e0ac6c7ffff-z19.jpg"
+   ],
+   "seen": "Street view from the main road: a beige tile seven-floor block with dark horizontal window ribbons, a glazed sign-covered second floor and a full row of ground-floor shops with coloured fascias; a teal glass bay at the north-east corner. Web search returned only unrelated pages (no web photo)."
+  },
+  {
+   "key": "tower20_6c7",
+   "cell": "8930e0ac6c7ffff",
+   "build": [
+    "gis:15647133"
+   ],
+   "claims": [
+    "gis:11182855"
+   ],
+   "front": "S",
+   "floors": 20,
+   "height_m": 62.0,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     224,
+     224,
+     220
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     62,
+     62,
+     64
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     70,
+     86,
+     96
+    ],
+    "frame_rgb": [
+     232,
+     232,
+     230
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      205,
+      205,
+      202
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.38,
+     "width_m": 4.0,
+     "from_floor": 3,
+     "to_floor": 17,
+     "material": "Concrete",
+     "rgb": [
+      132,
+      132,
+      134
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.38,
+     "width_m": 4.0,
+     "from_floor": 3,
+     "to_floor": 17,
+     "material": "Concrete",
+     "rgb": [
+      132,
+      132,
+      134
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 19,
+     "rgb": [
+      66,
+      60,
+      58
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 12.0,
+     "from_floor": 18,
+     "to_floor": 19,
+     "material": "Concrete",
+     "rgb": [
+      150,
+      150,
+      152
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 8.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     60,
+     62
+    ],
+    "steps": false
+   },
+   "sign": {
+    "text": "101",
+    "face": "street",
+    "floor": 19,
+    "bg_rgb": [
+     150,
+     150,
+     152
+    ],
+    "ink_rgb": [
+     245,
+     245,
+     242
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     210,
+     210,
+     206
+    ],
+    "top_rgb": [
+     192,
+     194,
+     190
+    ],
+    "features": [
+     "stair_box",
+     "tank",
+     "crown"
+    ],
+    "crown": {
+     "height_m": 4.0,
+     "rgb": [
+      150,
+      150,
+      152
+     ]
+    }
+   },
+   "notes": "The tallest building of the cell and its only 15+ floor landmark: a new 20-floor residential tower (block 101 of a two-tower complex; the other tower with brown-beige stripes is outside this cell). The old register record gis:11182855 (a 1983 five-floor block on the same plot, overlapping 23%) no longer exists on street view or satellite, so it is claimed (not built). Look: light grey-white panel tower with darker grey vertical panel bands near both ends, a dark brown-black vertical strip of windows in the middle, a two-floor polished black stone base with a pilotis entrance (square black columns) on the S face, a light grey solid band on the third floor, a grey crown panel with the white number '101' at the top. Satellite: light grey roof, long shadow to the north-west.",
+   "sources": [
+    "captures/8930e0ac6c7ffff/sheets/gis_15647133.jpg",
+    "data/satellite/8930e0ac6c7ffff-z19.jpg"
+   ],
+   "seen": "Street view from three sides: a slim 20-floor white-grey tower with grey and near-black vertical stripes, a black stone two-floor base with pilotis and the number 101 near the top. Web photo not searched (residential tower, street view clear)."
+  },
+  {
+   "key": "tower15_6c7",
+   "cell": "8930e0ac6c7ffff",
+   "build": [
+    "gis:11190788"
+   ],
+   "claims": [
+    "gis:16434108"
+   ],
+   "front": "E",
+   "floors": 15,
+   "height_m": 49.0,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     232,
+     232,
+     228
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Concrete",
+    "rgb": [
+     214,
+     214,
+     210
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     74,
+     88,
+     98
+    ],
+    "frame_rgb": [
+     236,
+     236,
+     232
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 16.0,
+     "rgb": [
+      226,
+      226,
+      222
+     ],
+     "strip_rgb": [
+      44,
+      82,
+      168
+     ],
+     "strip_frac": 0.3
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 16.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      62,
+      72,
+      80
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      84,
+      84,
+      88
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.42,
+     "width_m": 2.5,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "Concrete",
+     "rgb": [
+      142,
+      142,
+      144
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.42,
+     "width_m": 2.5,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "Concrete",
+     "rgb": [
+      142,
+      142,
+      144
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.35,
+    "width_m": 3.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     226,
+     222
+    ],
+    "top_rgb": [
+     204,
+     204,
+     200
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "15-floor residential tower over a two-floor shop podium on the main road (register 15 above, OSM apartments, height 49 m, built 2021). Two register records with the same outline: build gis:11190788, claim gis:16434108. E face on the main road (front): ground-floor glass shopfronts with fascia boards, a glazed second floor (gym), a dark grey band on top of the podium, then a slim white tower with thin grey vertical stripes at both ends and small punched windows with air-conditioner cages. W side: black stone base, parking. No sign (residential name not used).",
+   "sources": [
+    "captures/8930e0ac6c7ffff/sheets/gis_11190788.jpg",
+    "data/satellite/8930e0ac6c7ffff-z19.jpg"
+   ],
+   "seen": "Street view: a slim white 15-floor tower with grey edge stripes on a two-floor podium of glass shops and a glazed gym floor under a dark grey band. Web photo not searched (residential tower, street view clear)."
   }
  ]
 }
