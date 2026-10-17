@@ -15,9 +15,9 @@
   },
   {
    "cell": "8930e0ac6c7ffff",
-   "state": "specced",
+   "state": "built",
    "rounds": 0,
-   "note": "시설 5곳 스펙 data/auto/8930e0ac6c7ffff/facilities-spec.json (병원, 제3공영주차장, 7층 상가, 20층·15층 탑)"
+   "note": "생성 2026-10-17: 6c7+이웃 5칸(61b 제외), 부품 9505, 시설 5, 최대 덩어리 6.8 ms"
   },
   {
    "cell": "8930e0ac6d3ffff",
