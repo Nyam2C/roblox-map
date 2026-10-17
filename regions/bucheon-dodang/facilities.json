@@ -21717,6 +21717,777 @@
     "data/satellite/8930e0ac6c7ffff-z19.jpg"
    ],
    "seen": "Street view: a slim white 15-floor tower with grey edge stripes on a two-floor podium of glass shops and a glazed gym floor under a dark grey band. Web photo not searched (residential tower, street view clear)."
+  },
+  {
+   "key": "twin66_6d3",
+   "cell": "8930e0ac6d3ffff",
+   "build": [
+    "gis:12397193"
+   ],
+   "claims": [
+    "gis:17026801"
+   ],
+   "front": "S",
+   "floors": 66,
+   "height_m": 239.56,
+   "wall": {
+    "material": "SmoothPlastic",
+    "rgb": [
+     168,
+     182,
+     194
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "curtain",
+    "w_m": 1.5,
+    "h_m": 3.0,
+    "pitch_m": 1.5,
+    "glass_rgb": [
+     112,
+     140,
+     166
+    ],
+    "frame_rgb": [
+     196,
+     200,
+     206
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 48.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      70,
+      98,
+      120
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      84,
+      110,
+      126
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 2,
+     "to_floor": 63,
+     "rgb": [
+      214,
+      218,
+      222
+     ],
+     "pitch_m": 3.0
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 10.0,
+    "canopy": true,
+    "canopy_rgb": [
+     70,
+     74,
+     80
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     196,
+     200,
+     206
+    ],
+    "top_rgb": [
+     214,
+     214,
+     212
+    ],
+    "features": [
+     "helipad",
+     "crown"
+    ],
+    "crown": {
+     "height_m": 8.0,
+     "rgb": [
+      196,
+      200,
+      206
+     ]
+    }
+   },
+   "towers": {
+    "podium_floors": 2,
+    "podium_wall": {
+     "material": "Concrete",
+     "rgb": [
+      120,
+      122,
+      126
+     ]
+    },
+    "list": [
+     {
+      "x": -113.3,
+      "z": 3496.7,
+      "w_m": 34,
+      "d_m": 36,
+      "floors": 66
+     },
+     {
+      "x": 61.4,
+      "z": 3773.6,
+      "w_m": 34,
+      "d_m": 36,
+      "floors": 66
+     }
+    ]
+   },
+   "notes": "Twin 66-floor (238 m) residential towers on a 2-floor shop podium. gis:12397193 (6022 m2) is the whole complex outline and fully contains gis:17026801 (1211 m2, the south tower's own footprint), so the complex is built once from 12397193 (podium over the outline + two towers from towers.list) and 17026801 is claimed. Tower bases read off the satellite: helipad roofs at sat px (1000,692) and (1205,1017); the lean (31 m to the SSE) was measured from the 17026801 footprint centroid to its helipad and taken back off the north tower's helipad. Towers: silver-blue reflective curtain glass with light aluminium vertical mullions/fins full height, slightly tapering stepped crown, flat roof with a white helipad. Podium: dark grey stone/metal panels, a curved dark glass band on floor 2 and shop glass at ground on the south road side, column-lined entrance canopy.",
+   "sources": [
+    "captures/8930e0ac6d3ffff/sheets/gis_12397193.jpg",
+    "captures/8930e0ac6d3ffff/sheets/gis_17026801.jpg",
+    "data/satellite/8930e0ac6d3ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=<complex name> (thumbnails viewed only)",
+    "https://www.khan.co.kr/article/201106021755018/amp",
+    "https://www.etoday.co.kr/news/view/151930"
+   ],
+   "seen": "Street view: two slender silver-blue glass towers with vertical mullion lines rising from a grey stone podium with a curved dark glass band and shops; satellite shows two helipad roofs about 90 m apart casting long shadows north. Web photos show the same twin glass towers with stepped tapering tops; news gives 66 floors, 238 m, podium shops B1-2F."
+  },
+  {
+   "key": "jung2_cathedral",
+   "cell": "8930e0ac6d3ffff",
+   "build": [
+    "gis:11184317"
+   ],
+   "claims": [],
+   "front": "S",
+   "floors": 4,
+   "height_m": 22.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     158,
+     86,
+     66
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.0,
+    "h_m": 2.6,
+    "pitch_m": 7.0,
+    "glass_rgb": [
+     60,
+     66,
+     72
+    ],
+    "frame_rgb": [
+     150,
+     84,
+     64
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.45,
+     "width_m": 7.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Plaster",
+     "rgb": [
+      236,
+      236,
+      232
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.45,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Plaster",
+     "rgb": [
+      236,
+      236,
+      232
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.35,
+     "width_m": 6.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "rgb": [
+      236,
+      236,
+      232
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Concrete",
+     "rgb": [
+      56,
+      58,
+      62
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": -0.4,
+     "width_m": 2.0,
+     "rgb": [
+      236,
+      236,
+      232
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.15,
+    "width_m": 5.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": {
+    "text": "중2동 천주교회",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     158,
+     86,
+     66
+    ],
+    "ink_rgb": [
+     240,
+     240,
+     236
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     158,
+     86,
+     66
+    ],
+    "top_rgb": [
+     92,
+     98,
+     96
+    ],
+    "features": [],
+    "crown": null
+   },
+   "notes": "Catholic church, 4 floors over 3 basement floors; register height 31 m is to the top of the white curved tower, the brick body reads about 22 m. Faces by compass: S/SE (front, on the crossing) = red-brown brick wall with the church name in white letters, a garage opening (dark panel) and a white round-arch motif high on the right; a tall smooth WHITE curved concrete tower rises at the west end of the front (panel, plus a white plaster face round the corner), with the cross on top. NE face brick behind trees. Roof from the satellite: a dark grey-green curved (barrel) roof over the nave and a small white box at the NE end. Register outline is curved; built as boxes.",
+   "sources": [
+    "captures/8930e0ac6d3ffff/sheets/gis_11184317.jpg",
+    "data/satellite/8930e0ac6d3ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=중2동성당 (thumbnails viewed only)"
+   ],
+   "seen": "Street view from the crossing: a red-brown brick church with white letters, a garage door and a tall white curved tower with a cross behind; the rest hidden by trees. Web thumbnails show red brick walls, a white curved interior and a white plain tower."
+  },
+  {
+   "key": "haemil_library",
+   "cell": "8930e0ac6d3ffff",
+   "build": [
+    "gis:11192095"
+   ],
+   "claims": [],
+   "front": "N",
+   "floors": 5,
+   "height_m": 22.7,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     216,
+     206,
+     194
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 2.2,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     56,
+     66,
+     74
+    ],
+    "frame_rgb": [
+     210,
+     210,
+     206
+    ]
+   },
+   "bands": {
+    "rgb": [
+     200,
+     192,
+     180
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 22.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "rgb": [
+      104,
+      140,
+      150
+     ]
+    },
+    {
+     "kind": "fins",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 22.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "rgb": [
+      214,
+      214,
+      210
+     ],
+     "pitch_m": 1.4
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 6.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      112,
+      150,
+      164
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 24.0,
+     "from_floor": 3,
+     "to_floor": 4,
+     "rgb": [
+      96,
+      130,
+      140
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 7.0,
+    "canopy": true,
+    "canopy_rgb": [
+     62,
+     64,
+     68
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "해밀도서관",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     62,
+     64,
+     68
+    ],
+    "ink_rgb": [
+     236,
+     230,
+     210
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     216,
+     206,
+     194
+    ],
+    "top_rgb": [
+     128,
+     132,
+     134
+    ],
+    "features": [
+     "solar",
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Public library, 5 floors. Faces by compass: NE (front, path side) = entrance with a dark flat canopy carrying the name in light letters, steps and a ramp, a vertical glass curtain strip above the door; NW ('right' of the front) = a full-height glass grid curtain wall (atrium) with light mullions over a low stone plinth; SE ('left') = light pinkish-beige stone panels with tall punched windows on the lower floors and two ribbon window bands on the top floors. Stone drawn as Limestone (Granite renders dark). Roof from the satellite: grey with solar panel rows and a white raised box.",
+   "sources": [
+    "captures/8930e0ac6d3ffff/sheets/gis_11192095.jpg",
+    "data/satellite/8930e0ac6d3ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=해밀도서관 부천 (thumbnails viewed only)"
+   ],
+   "seen": "Street view: beige stone library with a dark canopy and name over a glass entrance, a gridded glass curtain wall on one side and ribbon windows on top floors. Web thumbnails show the same entrance canopy with the name and a five-floor light stone block."
+  },
+  {
+   "key": "wonmi_health_centre",
+   "cell": "8930e0ac6d3ffff",
+   "build": [
+    "gis:11184937"
+   ],
+   "claims": [],
+   "front": "N",
+   "floors": 4,
+   "height_m": 20.1,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     208,
+     198,
+     182
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.5,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     96,
+     106
+    ],
+    "frame_rgb": [
+     196,
+     196,
+     192
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 16.0,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      112,
+      150,
+      148
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 36.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      84,
+      112,
+      116
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "rgb": [
+      112,
+      150,
+      148
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 18.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      84,
+      112,
+      116
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "right",
+     "at": -0.35,
+     "width_m": 2.4,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      100,
+      136,
+      146
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 7.0,
+    "canopy": true,
+    "canopy_rgb": [
+     232,
+     232,
+     230
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "원미구보건소",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     232,
+     232,
+     230
+    ],
+    "ink_rgb": [
+     40,
+     70,
+     130
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     208,
+     198,
+     182
+    ],
+    "top_rgb": [
+     98,
+     120,
+     108
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "District health centre, 4 floors. Faces by compass: NE (front) = central entrance with a white flat canopy, wide steps and ramp, a band of grey-green curtain glass over floors 2-4 in the middle, beige stone either side with punched windows; SW ('back', street side behind trees) = glass ground floor and a curtain-glass upper middle; NW ('right' when looking at the NE front) = beige stone with punched windows, a glass ground floor and a narrow vertical stair glass strip. Roof: green-grey deck with a white canopy structure. gis:11184700 (110 m2, no floors, a low deck south of it) is left to the auto build.",
+   "sources": [
+    "captures/8930e0ac6d3ffff/sheets/gis_11184937.jpg",
+    "data/satellite/8930e0ac6d3ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천시 원미구보건소 건물 (searched; no building photo found)"
+   ],
+   "seen": "Street view from three sides: a beige stone public block with grey-green curtain glass in the middle of the front, a white entrance canopy over steps, glass ground floor on the back. Web: no building photo found."
+  },
+  {
+   "key": "star19_6d3",
+   "cell": "8930e0ac6d3ffff",
+   "build": [
+    "gis:14921043",
+    "gis:16447052",
+    "gis:18336520"
+   ],
+   "claims": [
+    "gis:11180278",
+    "gis:11186466",
+    "gis:11179700"
+   ],
+   "front": "S",
+   "floors": 19,
+   "height_m": 55.0,
+   "accents_everywhere": true,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     236,
+     236,
+     234
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Concrete",
+    "rgb": [
+     108,
+     108,
+     112
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.5,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     80,
+     100,
+     116
+    ],
+    "frame_rgb": [
+     236,
+     236,
+     234
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "rgb": [
+      96,
+      96,
+      100
+     ],
+     "strip_rgb": [
+      176,
+      44,
+      40
+     ],
+     "strip_frac": 0.0
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 26.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      96,
+      124,
+      136
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.3,
+     "width_m": 4.0,
+     "from_floor": 2,
+     "to_floor": 18,
+     "material": "Plaster",
+     "rgb": [
+      74,
+      88,
+      108
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.3,
+     "width_m": 2.5,
+     "from_floor": 2,
+     "to_floor": 18,
+     "material": "Plaster",
+     "rgb": [
+      190,
+      194,
+      200
+     ]
+    }
+   ],
+   "per_building": {
+    "gis:18336520": {
+     "front": "W"
+    },
+    "gis:16447052": {
+     "roof": {
+      "parapet_rgb": [
+       236,
+       236,
+       234
+      ],
+      "top_rgb": [
+       70,
+       74,
+       80
+      ],
+      "features": [
+       "solar",
+       "stair_box"
+      ],
+      "crown": null
+     }
+    }
+   },
+   "entrance": null,
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     236,
+     236,
+     234
+    ],
+    "top_rgb": [
+     100,
+     132,
+     114
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Three 19-floor residential towers of one complex (2017), each on a 2-floor dark grey stone shop podium along the SW road. Podium: ground floor shopfronts all round (fascia), floor 2 glass shop windows, a thin red canopy line on top of the podium. Towers: white concrete with grid windows and dark blue-grey vertical panel strips (plus lighter grey strips) running the tower height. Three small register pieces overlapping the towers (11180278 fully inside 14921043, 11186466 60% inside 18336520, 11179700 41% inside 16447052) are claimed. Roofs from the satellite: 14921043 and 18336520 green deck, 16447052 dark with solar panels. No name sign (apartment brand).",
+   "sources": [
+    "captures/8930e0ac6d3ffff/sheets/gis_14921043.jpg",
+    "captures/8930e0ac6d3ffff/sheets/gis_16447052.jpg",
+    "captures/8930e0ac6d3ffff/sheets/gis_18336520.jpg",
+    "data/satellite/8930e0ac6d3ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=<complex name> (thumbnails viewed only)"
+   ],
+   "seen": "Street view: white 19-floor towers with dark blue-grey vertical strips above a two-floor grey stone podium full of small shops with a red canopy line. Web thumbnails (sales renderings and resident photos) show the same white towers with blue-grey accents."
   }
  ]
 }
