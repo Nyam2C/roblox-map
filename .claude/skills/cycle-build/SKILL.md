@@ -21,7 +21,7 @@ uv run src/tiers.py classify --cells <칸>      # -> regions/<구역>/tiers.json
 1. 후보를 칸별로 짧은 표(이름, 무엇, 왜)로 **채팅에서** 묻는다. 칸당 0~3개, 애매하면 빼고 적는다.
 2. 사용자가 승인한 것만 7b(웹 사진)와 수작업(Manual, `src/<이름>.py` 생성기 + `manual.json` 등록)으로 상세하게 만든다. 승인 안 한 것은 자동 생성 그대로.
 3. 기다리는 동안 다른 단계(거리뷰·판단·생성)는 계속한다. 후보와 답은 audit에.
-4. 사용자가 "칸당 N곳"처럼 개수를 정해 맡기면(2026-10-16~) 묻지 않고 Claude가 고른다. 스펙은 칸마다 서브에이전트 하나에 `facility-spec.md`(이 폴더)를 지침으로 주어 `{"facilities": [...]}` JSON을 받고, `key`·`building_ids`를 넣어 `regions/<구역>/facilities.json`에 합친 뒤(`cell`, `build` = building_ids) `uv run src/facilities.py`. 위성 겹쳐 보기에서 대지 안에 마당·주차장이 비어 있으면 `courtyard_m`(날개 깊이), 높이가 다른 동은 `split`/`per_building`으로 고친다. 높은 탑(20층 이상)은 높이 650 수직 캡처로는 안 보이니 비스듬히 높게 본다.
+4. 사용자가 "칸당 N곳"처럼 개수를 정해 맡기면(2026-10-16~) 묻지 않고 Claude가 고른다. **상시 기준(사용자 결정 2026-10-17): 칸마다 4~5곳**(후보가 모자라면 더 적게, 이유를 audit에). 별도 승인 없이 만든다. 스펙은 칸마다 서브에이전트 하나에 `facility-spec.md`(이 폴더)를 지침으로 주어 `{"facilities": [...]}` JSON을 받고, `key`·`building_ids`를 넣어 `regions/<구역>/facilities.json`에 합친 뒤(`cell`, `build` = building_ids) `uv run src/facilities.py`. 위성 겹쳐 보기에서 대지 안에 마당·주차장이 비어 있으면 `courtyard_m`(날개 깊이), 높이가 다른 동은 `split`/`per_building`으로 고친다. 높은 탑(20층 이상)은 높이 650 수직 캡처로는 안 보이니 비스듬히 높게 본다.
 
 ### 1. 수집
 ```bash
