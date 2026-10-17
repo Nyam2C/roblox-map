@@ -150,6 +150,8 @@ class Maker:
         want = [sum(self.COMPASS[c][k] for c in str(r.get("corner", "SW")).upper() if c in self.COMPASS) for k in (0, 1)]
         corners = [LD._world(bx, su * bx.width_m / 2, sv * bx.depth_m / 2) for bx in b.boxes for su in (-1, 1) for sv in (-1, 1)]
         e, n = max(corners, key=lambda p: p[0] * want[0] + p[1] * want[1])
+        if r.get("x") is not None and r.get("z") is not None:  # a spot read off the satellite (studs) when no corner fits (중2동 성당)
+            e, n = float(r["x"]) / self.frame.studs_per_m, -float(r["z"]) / self.frame.studs_per_m
         dia = float(r.get("diameter_m") or 14.0)
         top = float(r.get("height_m") or b.height_m + 4.0)
         body_h = min(top - 1.0, b.height_m)
@@ -159,7 +161,9 @@ class Maker:
             self.items.append(LD._part(self.frame, kind, f"{b.building_id}#{tail}-{len(self.items)}", b.building_id, len(self.items), e, n, y,
                                        (h, d, d), yaw, owner=b.building_id, shape="Cylinder", **lk))
 
-        cyl("rg", 0.0, body_h, dia, look("Glass", r.get("glass_rgb"), (78, 107, 123), transparency=0.15, collide=True), kind="building")
+        mat = r.get("material") or "Glass"  # a solid drum too: 중2동 성당's white curved tower (Plaster, 2026-10-18)
+        cyl("rg", 0.0, body_h, dia, look(mat, r.get("glass_rgb"), (78, 107, 123), transparency=0.15 if mat == "Glass" else 0.0, collide=True),
+            kind="building")
         step = float(r.get("bands_every_m") or 0)
         if step >= 2.0:
             for k in range(1, int(body_h / step) + 1):

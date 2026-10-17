@@ -528,12 +528,21 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                                                (D["bollard_h"], D["bollard_dia"], D["bollard_dia"]), shape="Cylinder", material="Metal",
                                                color=R.PALETTE["bollard"], color_name="bollard"))
         if j.arms and all(a.highway_class in ("living_street", "service") for a in j.arms):
-            a = j.arms[0]
             telecom = R.pick(j.name, "box", 2) == 0
             size = (D["box_telecom_w"], D["box_telecom_h"], D["box_telecom_d"]) if telecom else (D["box_recycle_w"], D["box_recycle_h"], D["box_recycle_d"])
             key = "box_telecom" if telecom else "box_recycle"
-            props.append(_segment_part(frame, "prop", f"{j.name}#box0", j.name, 300, (j.east, j.north), a.direction, j.w_max / 2 + D["box_along"],
-                                       -(a.width / 2 + D["box_off"]), 0.0, size, material="Metal", color=R.PALETTE[key], color_name=key))
+            # the first arm and side whose box stays off every carriageway; none: no box (6d3, 2026-10-18: the box beside arm 0 stood
+            # on another arm of the same junction)
+            along = j.w_max / 2 + D["box_along"]
+            for a, lat in [(a, side * (a.width / 2 + D["box_off"])) for a in j.arms for side in (-1, 1)]:
+                u = a.direction
+                c = (j.east + u[0] * along - u[1] * lat, j.north + u[1] * along + u[0] * lat)
+                hl, hw = size[0] / 2, size[2] / 2
+                foot = Polygon([(c[0] + u[0] * x - u[1] * y, c[1] + u[1] * x + u[0] * y) for x, y in ((-hl, -hw), (hl, -hw), (hl, hw), (-hl, hw))])
+                if not any(g.intersects(foot) for g in ways.values()):
+                    props.append(_segment_part(frame, "prop", f"{j.name}#box0", j.name, 300, (j.east, j.north), u, along, lat, 0.0, size,
+                                               material="Metal", color=R.PALETTE[key], color_name=key))
+                    break
     return sidewalks, props
 
 

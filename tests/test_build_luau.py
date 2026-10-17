@@ -144,6 +144,20 @@ def test_a_hostile_street_id_is_skipped_the_same_way():
     assert "x()" not in "".join(t for n, t in plan.files.items() if n.endswith(".luau"))
 
 
+def test_a_road_cut_by_a_building_is_still_drawn_by_its_cell():
+    """2026-10-18 (6d3): driveways_off_buildings renames a cut road "way:N.0"; the own-road check took split(".")[0] = "way:N",
+    found no such own id and drew none of the cut roads in any cell (only their sidewalks and props)."""
+    piece = street("way:5.0", "service")
+    plan = B.plan_cell(CELL, [building(0)], [piece], CFG, region_roads=[piece])
+    assert plan.counts["items_road"] == 1
+
+
+def test_a_gone_building_is_not_built():
+    """2026-10-18 (6d3): a register record on a lot the photo and the satellite both show empty (region.toml gone_buildings)."""
+    plan = B.plan_cell(CELL, [building(0), building(1)], [], {**CFG, "gone_buildings": {"gis:1001": "empty lot"}})
+    assert {i.name for i in plan.items if i.kind == "building"} == {"gis:1000"}
+
+
 def test_the_plan_counts_chunks_and_files_match_the_manifest():
     buildings = [building(i) for i in range(45)]
     plan = B.plan_cell(CELL, buildings, [street("way:1", "tertiary"), street("way:2", "residential")], CFG)

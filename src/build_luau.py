@@ -215,6 +215,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     exits = [layout.to_meters(frame, *f["geometry"][0]) for f in features if f["kind"] == "subway_entrance"]
     for b in kept:
         bid = str(b["building_id"])
+        if bid in cfg.get("gone_buildings", {}):  # a register record on a lot that the photo and the satellite both show empty (6d3, 2026-10-18)
+            warnings.append(f"{bid}: gone (region.toml gone_buildings): not built")
+            continue
         poly = layout_details._poly_m(b["outline"], frame)
         if exits and poly is not None and poly.area < 40 and any(poly.centroid.distance(Point(x, y)) < 8 for x, y in exits):
             # the glass box over a subway stair is a V-World record too: the entrance kit builds it (부천시청역 4번, 1c3, 2026-10-15)
@@ -330,7 +333,10 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     own_ids = {str(f["feature_id"]) for f in ok_features}
     extra_roads = [f for f in region_roads or [] if str(f["feature_id"]) not in own_ids]  # cuts this cell's paths too
     for f in streets.paths_off_roads(ok_features + extra_roads, frame, cfg):
-        if str(f["feature_id"]).split(".")[0] in own_ids:  # a neighbour's road only cuts, it is built by its own cells
+        # a neighbour's road only cuts, it is built by its own cells; an own road may already be a piece "<id>.n" of
+        # driveways_off_buildings and a path piece adds one more ".n" (6d3, 2026-10-18: split(".")[0] dropped every cut road)
+        fid = str(f["feature_id"])
+        if fid in own_ids or fid.rsplit(".", 1)[0] in own_ids:
             pieces += layout.road_items(f, frame, cell_id, res, cfg)
     if decks is not None:  # overpasses: a girder and walls under and beside the road of a bridge way (2026-10-15)
         for f in ok_features:

@@ -21759,15 +21759,15 @@
    "accents": [
     {
      "kind": "glass_strip",
-     "face": "street",
+     "face": "all",
      "at": 0.0,
-     "width_m": 48.0,
+     "width_m": 60.0,
      "from_floor": 1,
      "to_floor": 1,
      "rgb": [
-      70,
-      98,
-      120
+      52,
+      66,
+      78
      ]
     },
     {
@@ -21778,9 +21778,9 @@
      "from_floor": 0,
      "to_floor": 0,
      "rgb": [
-      84,
-      110,
-      126
+      46,
+      58,
+      68
      ]
     },
     {
@@ -21796,6 +21796,20 @@
       222
      ],
      "pitch_m": 3.0
+    },
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 60.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      150,
+      156,
+      162
+     ],
+     "pitch_m": 1.8
     }
    ],
    "entrance": {
@@ -21838,11 +21852,11 @@
    "towers": {
     "podium_floors": 2,
     "podium_wall": {
-     "material": "Metal",
+     "material": "Granite",
      "rgb": [
-      78,
-      80,
-      84
+      54,
+      56,
+      60
      ]
     },
     "list": [
@@ -21862,7 +21876,7 @@
      }
     ]
    },
-   "notes": "Twin 66-floor (238 m) residential towers on a 2-floor shop podium. gis:12397193 (6022 m2) is the whole complex outline and fully contains gis:17026801 (1211 m2, the south tower's own footprint), so the complex is built once from 12397193 (podium over the outline + two towers from towers.list) and 17026801 is claimed. Tower bases read off the satellite: helipad roofs at sat px (1000,692) and (1205,1017); the lean (31 m to the SSE) was measured from the 17026801 footprint centroid to its helipad and taken back off the north tower's helipad. Towers: silver-blue reflective curtain glass with light aluminium vertical mullions/fins full height, slightly tapering stepped crown, flat roof with a white helipad. Podium: dark grey stone/metal panels, a curved dark glass band on floor 2 and shop glass at ground on the south road side, column-lined entrance canopy.",
+   "notes": "Twin 66-floor (238 m) residential towers on a 2-floor shop podium. gis:12397193 (6022 m2) is the whole complex outline and fully contains gis:17026801 (1211 m2, the south tower's own footprint), so the complex is built once from 12397193 (podium over the outline + two towers from towers.list) and 17026801 is claimed. Tower bases read off the satellite: helipad roofs at sat px (1000,692) and (1205,1017); the lean (31 m to the SSE) was measured from the 17026801 footprint centroid to its helipad and taken back off the north tower's helipad. Towers: silver-blue reflective curtain glass with light aluminium vertical mullions/fins full height, slightly tapering stepped crown, flat roof with a white helipad. Podium: dark grey stone/metal panels, a curved dark glass band on floor 2 and shop glass at ground on the south road side, column-lined entrance canopy. 2026-10-18 (U8 6d3 round 2): podium polished dark stone (Granite) and the dark glass band of floor 2 on every podium face (G3: black stone and dark glass, podium read flat blank). Mullions (fins every 1.8 m) over the podium glass of floors 1-2.",
    "sources": [
     "captures/8930e0ac6d3ffff/sheets/gis_12397193.jpg",
     "captures/8930e0ac6d3ffff/sheets/gis_17026801.jpg",
@@ -21910,20 +21924,6 @@
    },
    "bands": null,
    "accents": [
-    {
-     "kind": "panel",
-     "face": "street",
-     "at": -0.45,
-     "width_m": 7.0,
-     "from_floor": 0,
-     "to_floor": 4,
-     "material": "Plaster",
-     "rgb": [
-      236,
-      236,
-      232
-     ]
-    },
     {
      "kind": "panel",
      "face": "left",
@@ -22014,13 +22014,32 @@
     "features": [],
     "crown": null
    },
-   "notes": "Catholic church, 4 floors over 3 basement floors; register height 31 m is to the top of the white curved tower, the brick body reads about 22 m. Faces by compass: S/SE (front, on the crossing) = red-brown brick wall with the church name in white letters, a garage opening (dark panel) and a white round-arch motif high on the right; a tall smooth WHITE curved concrete tower rises at the west end of the front (panel, plus a white plaster face round the corner), with the cross on top. NE face brick behind trees. Roof from the satellite: a dark grey-green curved (barrel) roof over the nave and a small white box at the NE end. Register outline is curved; built as boxes.",
+   "notes": "Catholic church, 4 floors over 3 basement floors; register height 31 m is to the top of the white curved tower, the brick body reads about 22 m. Faces by compass: S/SE (front, on the crossing) = red-brown brick wall with the church name in white letters, a garage opening (dark panel) and a white round-arch motif high on the right; a tall smooth WHITE curved concrete tower rises at the west end of the front (panel, plus a white plaster face round the corner), with the cross on top. NE face brick behind trees. Roof from the satellite: a dark grey-green curved (barrel) roof over the nave and a small white box at the NE end. Register outline is curved; built as boxes. 2026-10-18 (U8 6d3 round 2): the white curved tower is a Plaster rotunda (6 m, to 31 m) on the front of the low west wing (x 226, z 3652 studs; the boxed body is one 22 m height, so a tower set back behind the front was hidden from the crossing where the street view sees it) instead of a flat white panel.",
    "sources": [
     "captures/8930e0ac6d3ffff/sheets/gis_11184317.jpg",
     "data/satellite/8930e0ac6d3ffff-z19.jpg",
     "https://m.search.naver.com/search.naver?where=m_image&query=중2동성당 (thumbnails viewed only)"
    ],
-   "seen": "Street view from the crossing: a red-brown brick church with white letters, a garage door and a tall white curved tower with a cross behind; the rest hidden by trees. Web thumbnails show red brick walls, a white curved interior and a white plain tower."
+   "seen": "Street view from the crossing: a red-brown brick church with white letters, a garage door and a tall white curved tower with a cross behind; the rest hidden by trees. Web thumbnails show red brick walls, a white curved interior and a white plain tower.",
+   "rotunda": {
+    "corner": "SW",
+    "diameter_m": 6.0,
+    "height_m": 31.0,
+    "material": "Plaster",
+    "glass_rgb": [
+     238,
+     238,
+     234
+    ],
+    "crown_rgb": [
+     238,
+     238,
+     234
+    ],
+    "bands_every_m": 0,
+    "x": 226.0,
+    "z": 3652.0
+   }
   },
   {
    "key": "haemil_library",

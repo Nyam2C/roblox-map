@@ -1698,6 +1698,84 @@
       "wall_color": "light_gray"
     }
   ],
-  "overrides": [],
+  "overrides": [
+    {
+      "building_id": "gis:11185501",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a beige wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "beige"
+    },
+    {
+      "building_id": "gis:11186482",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a dark_gray wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "dark_gray"
+    },
+    {
+      "building_id": "gis:11186483",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:11188055",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:11188173",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a pink wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "pink"
+    },
+    {
+      "building_id": "gis:11215545",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:11215853",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:12513139",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a brown wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "brown"
+    },
+    {
+      "building_id": "gis:12513801",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:15425967",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:17508981",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T15:18:01+00:00",
+      "value": "white"
+    }
+  ],
   "version": 1
 }

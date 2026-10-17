@@ -12,6 +12,7 @@ import h3
 import pytest
 from hypothesis import assume, given, settings, strategies as st
 from shapely.geometry import LineString, Point, Polygon
+from shapely.ops import unary_union
 
 import common
 import details_rules as R
@@ -752,6 +753,26 @@ def test_p5_12_a_shared_vertex_is_a_junction_with_crosswalks_on_the_big_arms_onl
     assert count(props, "sl") == 2 and count(props, "box") == 0
     again = props_of([crossing, main])
     assert [j.name for j in again[1]] == [j.name for j in jcts] and sorted(i.name for i in again[0][1]) == sorted(i.name for i in props)
+
+
+def test_an_alley_junction_box_stays_off_every_carriageway():
+    """2026-10-18 (6d3): the box beside the first arm of a service junction stood on another arm of the same junction."""
+    placed = 0
+    for deg in range(15, 180, 15):
+        a = {"feature_id": "way:1", "kind": "road", "highway_class": "service", "tags": {},
+             "geometry": [list(offset(CENTER, -40, 0)), list(offset(CENTER, 0, 0))]}
+        r = math.radians(deg)
+        b = {"feature_id": "way:2", "kind": "road", "highway_class": "service", "tags": {},
+             "geometry": [list(offset(CENTER, 0, 0)), list(offset(CENTER, -40 * math.cos(r), 40 * math.sin(r)))]}
+        streets = ST.streets_of([a, b], FRAME, CELL, RES, CFG)
+        jcts = ST.junctions(streets, FRAME, CELL, RES, CFG)
+        _, props = ST.street_items(streets, jcts, FRAME, CFG)
+        ways = unary_union(list(ST.carriageways(streets).values()))
+        for i in props:
+            if "#box" in i.name:
+                placed += 1
+                assert ways.distance(Point(i.cx / S, -i.cz / S)) > 0.2, deg
+    assert placed > 0
 
 
 def test_p5_13_sidewalks_break_at_an_alley_mouth_on_that_side_only_and_not_at_a_straight_continuation():
