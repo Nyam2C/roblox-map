@@ -1700,11 +1700,39 @@
   ],
   "overrides": [
     {
+      "building_id": "gis:11184652",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:11184840",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: the measured wall fix went the wrong way (trees or shade in the photo); the photo shows a white wall",
+      "set_at": "2026-10-17T16:01:52+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:11184968",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "white"
+    },
+    {
       "building_id": "gis:11185501",
       "field": "wall_color",
       "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a beige wall",
       "set_at": "2026-10-17T15:18:01+00:00",
       "value": "beige"
+    },
+    {
+      "building_id": "gis:11185527",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a white wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "white"
     },
     {
       "building_id": "gis:11186482",
@@ -1730,9 +1758,44 @@
     {
       "building_id": "gis:11188173",
       "field": "wall_color",
-      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a pink wall",
-      "set_at": "2026-10-17T15:18:01+00:00",
-      "value": "pink"
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a light_gray wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "light_gray"
+    },
+    {
+      "building_id": "gis:11198368",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: the measured wall fix went the wrong way (trees or shade in the photo); the photo shows a yellow wall",
+      "set_at": "2026-10-17T16:01:52+00:00",
+      "value": "yellow"
+    },
+    {
+      "building_id": "gis:11198369",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: the measured wall fix went the wrong way (trees or shade in the photo); the photo shows a yellow wall",
+      "set_at": "2026-10-17T16:01:52+00:00",
+      "value": "yellow"
+    },
+    {
+      "building_id": "gis:11200049",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a brown wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "brown"
+    },
+    {
+      "building_id": "gis:11204494",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a light_gray wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "light_gray"
+    },
+    {
+      "building_id": "gis:11212787",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a light_gray wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "light_gray"
     },
     {
       "building_id": "gis:11215545",
@@ -1749,10 +1812,17 @@
       "value": "white"
     },
     {
-      "building_id": "gis:12513139",
+      "building_id": "gis:11216384",
       "field": "wall_color",
-      "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a brown wall",
-      "set_at": "2026-10-17T15:18:01+00:00",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a dark_gray wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "dark_gray"
+    },
+    {
+      "building_id": "gis:11217395",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a brown wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
       "value": "brown"
     },
     {
@@ -1768,6 +1838,27 @@
       "reason": "U8 G3 6d3 round 2: street-view photo against the render shows a white wall",
       "set_at": "2026-10-17T15:18:01+00:00",
       "value": "white"
+    },
+    {
+      "building_id": "gis:15491164",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a light_gray wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "light_gray"
+    },
+    {
+      "building_id": "gis:16521118",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: the measured wall fix went the wrong way (trees or shade in the photo); the photo shows a white wall",
+      "set_at": "2026-10-17T16:01:52+00:00",
+      "value": "white"
+    },
+    {
+      "building_id": "gis:16989772",
+      "field": "wall_color",
+      "reason": "U8 G3 6d3 round 3: street-view photo against the render shows a light_gray wall",
+      "set_at": "2026-10-17T16:01:19+00:00",
+      "value": "light_gray"
     },
     {
       "building_id": "gis:17508981",

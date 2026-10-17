@@ -328,13 +328,43 @@ def driveways_off_buildings(features: Sequence[Mapping[str, Any]], buildings: Se
             continue
         line = LineString(pts)
         if not line.intersects(blocked):
-            out.append(f)
+            g = centre_in_gap(line, polys)
+            out.append(f if g is line else {**f, "geometry": [list(from_studs(frame, e * s, -nn * s)) for e, nn in g.coords]})
             continue
         rest = line.difference(blocked)
-        parts = [g for g in getattr(rest, "geoms", [rest]) if g.geom_type == "LineString" and g.length >= 3.0]
+        parts = [centre_in_gap(g, polys) for g in getattr(rest, "geoms", [rest]) if g.geom_type == "LineString" and g.length >= 3.0]
         for n, g in enumerate(parts):
             out.append({**f, "feature_id": f"{f['feature_id']}.{n}", "geometry": [list(from_studs(frame, e * s, -nn * s)) for e, nn in g.coords]})
     return out
+
+
+GAP_LOOK_M = 3.0  # how far to each side centre_in_gap looks for the next outline (an open side counts as this far)
+GAP_SHIFT_MAX_M = 1.0  # and the most it moves a line
+
+
+def centre_in_gap(line: Any, polys: Sequence[Any]) -> Any:
+    """A small road's line moved sideways to the middle of the gap between the outlines on its two sides, when one side is nearer
+    than half FIT_MIN_M plus FIT_MARGIN_M (even the narrowest fitted alley would run into it), by at most GAP_SHIFT_MAX_M and only
+    if that leaves it farther from every outline. Outlines the line touches or crosses (a cut end, a record across the road) are
+    not sides. 2026-10-18 (6d3): an OSM alley drawn 0.39 m from one house with 2.15 m clear on the other side put its 2.5 m
+    carriageway into the house."""
+    near = [p for p in polys if 0.05 < line.distance(p) < GAP_LOOK_M]
+    if not near:
+        return line
+    left, right = line.buffer(GAP_LOOK_M, single_sided=True), line.buffer(-GAP_LOOK_M, single_sided=True)
+    dl = min([line.distance(p) for p in near if p.intersects(left)], default=GAP_LOOK_M)
+    dr = min([line.distance(p) for p in near if p.intersects(right)], default=GAP_LOOK_M)
+    if min(dl, dr) >= FIT_MIN_M / 2 + FIT_MARGIN_M:
+        return line
+    shift = max(-GAP_SHIFT_MAX_M, min(GAP_SHIFT_MAX_M, (dl - dr) / 2))
+    if abs(shift) < 0.05:
+        return line
+    moved = line.offset_curve(shift)
+    if moved.is_empty or moved.geom_type != "LineString":
+        return line
+    before = min(line.distance(p) for p in near)
+    after = min((moved.distance(p) for p in polys if line.distance(p) > 0.05 and moved.distance(p) < GAP_LOOK_M), default=GAP_LOOK_M)
+    return moved if after > before + 0.05 else line
 
 
 def fit_road_widths(roads: Sequence[Mapping[str, Any]], buildings: Sequence[Mapping[str, Any]], frame: Frame,
@@ -361,7 +391,8 @@ def fit_road_widths(roads: Sequence[Mapping[str, Any]], buildings: Sequence[Mapp
         if not near:
             continue
         # an alley between houses narrows to FIT_MIN_M; a record lying across the line itself is a data slip, the road keeps FIT_FLOOR
-        floor = min(w, max(3.0, FIT_FLOOR * w)) if any(line.intersects(p) for p in near) else min(w, FIT_MIN_M)
+        # (a cut end that only touches an outline is not across it: 6d3 2026-10-18 kept 3.6 m and ran into the house beside it)
+        floor = min(w, max(3.0, FIT_FLOOR * w)) if any(line.intersection(p).length > 1.0 for p in near) else min(w, FIT_MIN_M)
         fit = max(floor, 2 * (min(line.distance(p) for p in near) - FIT_MARGIN_M))
         if fit < w - 0.1:
             out[str(f["feature_id"])] = round(fit, 2)

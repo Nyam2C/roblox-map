@@ -332,6 +332,22 @@ def test_a_driveway_loses_the_part_inside_a_building():
     assert layout.driveways_off_buildings([ramp], [], FRAME) == []
 
 
+def test_an_alley_moves_to_the_middle_of_the_gap_between_its_houses():
+    """2026-10-18 (6d3): OSM drew an alley 0.39 m from one house with 2.15 m clear on the other side; even the 2.5 m floor ran into
+    the house. The line moves to the middle of the gap, and a cut end touching a house no longer keeps the 60 % floor."""
+    road = {"feature_id": "way:4", "kind": "road", "highway_class": "residential", "tags": {},
+            "geometry": [list(offset(BASE, 0, -20)), list(offset(BASE, 0, 20))]}
+    def house(e0, e1, n0=-5, n1=5):
+        return {"status": "ok", "outline": [list(offset(BASE, e, n)) for e, n in ((e0, n0), (e1, n0), (e1, n1), (e0, n1))]}
+    houses = [house(0.39, 10), house(-10, -2.15), house(-5, 5, 20, 30)]  # the last one stands across the far end (a cut end)
+    [moved] = layout.driveways_off_buildings([road], houses, FRAME)
+    e = [layout.to_meters(FRAME, la, lo)[0] for la, lo in moved["geometry"]]
+    assert all(abs(x + 0.88) < 0.05 for x in e)
+    assert layout.fit_road_widths([moved], houses, FRAME, CFG)[moved["feature_id"]] == layout.FIT_MIN_M
+    # a side already clear leaves the line where OSM drew it
+    assert layout.driveways_off_buildings([road], [house(2, 10)], FRAME) == [road]
+
+
 def test_segment_names_sort_by_number_not_by_text():
     pts = [list(offset(BASE, 10 * i, 0)) for i in range(14)]
     feature = {"feature_id": "way:3", "kind": "road", "highway_class": "residential", "tags": {}, "geometry": pts}
