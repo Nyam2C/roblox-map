@@ -1,0 +1,228 @@
+{
+ "walls": {
+  "gis:11179700": {
+   "de": 25.8,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    137,
+    91,
+    93
+   ],
+   "was": [
+    110,
+    112,
+    118
+   ]
+  },
+  "gis:11181139": {
+   "de": 25.3,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    255,
+    255,
+    255
+   ],
+   "was": [
+    236,
+    236,
+    232
+   ]
+  },
+  "gis:11181744": {
+   "de": 29.0,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    137,
+    139,
+    147
+   ],
+   "was": [
+    110,
+    112,
+    118
+   ]
+  },
+  "gis:11184632": {
+   "de": 31.3,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    255,
+    237,
+    193
+   ],
+   "was": [
+    214,
+    192,
+    156
+   ]
+  },
+  "gis:11184840": {
+   "de": 35.8,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    255,
+    252,
+    91
+   ],
+   "was": [
+    232,
+    205,
+    110
+   ]
+  },
+  "gis:11184968": {
+   "de": 28.0,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    159,
+    159,
+    163
+   ],
+   "was": [
+    200,
+    200,
+    205
+   ]
+  },
+  "gis:11185522": {
+   "de": 41.7,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    255,
+    252,
+    86
+   ],
+   "was": [
+    232,
+    205,
+    110
+   ]
+  },
+  "gis:11185527": {
+   "de": 31.1,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    246,
+    246,
+    252
+   ],
+   "was": [
+    200,
+    200,
+    205
+   ]
+  },
+  "gis:11185780": {
+   "de": 39.4,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    210,
+    113,
+    88
+   ],
+   "was": [
+    170,
+    90,
+    70
+   ]
+  },
+  "gis:11188164": {
+   "de": 35.0,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    255,
+    255,
+    223
+   ],
+   "was": [
+    236,
+    236,
+    232
+   ]
+  },
+  "gis:11198368": {
+   "de": 34.8,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    255,
+    252,
+    137
+   ],
+   "was": [
+    232,
+    205,
+    110
+   ]
+  },
+  "gis:11198369": {
+   "de": 56.8,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    255,
+    252,
+    137
+   ],
+   "was": [
+    232,
+    205,
+    110
+   ]
+  },
+  "gis:11212787": {
+   "de": 26.2,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    178,
+    113,
+    88
+   ],
+   "was": [
+    170,
+    90,
+    70
+   ]
+  },
+  "gis:11840988": {
+   "de": 26.3,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    246,
+    246,
+    252
+   ],
+   "was": [
+    200,
+    200,
+    205
+   ]
+  },
+  "gis:14921043": {
+   "de": 32.4,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    159,
+    159,
+    163
+   ],
+   "was": [
+    200,
+    200,
+    205
+   ]
+  },
+  "gis:16521118": {
+   "de": 31.9,
+   "from": "U8 G3 photo against render",
+   "rgb": [
+    135,
+    70,
+    54
+   ],
+   "was": [
+    170,
+    90,
+    70
+   ]
+  }
+ }
+}

@@ -1082,6 +1082,39 @@ def test_shop_houses_get_awnings_a_vertical_sign_a_roof_edge_and_corner_shops():
     assert not any(tail(it) == "sv0" for it in all_items(low, villa(i=3)[0], eff)[0])  # two floors: no vertical sign
 
 
+def test_awnings_and_door_canopies_stop_at_the_carriageway():
+    """61b and 6d3 (U8 G1 Studio, 2026-10-17): in alleys without a sidewalk the awnings (1.4 m) and door canopies hung over the road at
+    1.7-2.3 m. They reach no farther than the road edge and are left off when under overhang_min is free."""
+    S = FRAME.studs_per_m
+    for gap, shop in ((0.2, True), (1.0, True), (0.2, False), (5.0, False)):
+        seen = []
+        for i in range(1, 30):
+            row, est, _ = villa(i=i, floors=4, wall="beige", center=offset(CENTER, 0, 3 + gap + 5))  # 6 m road: its edge is 3 m north
+            body, eff = resolve(row, est, SHOP if shop else None, features=[street()])
+            assert body.front_clear == pytest.approx(gap, abs=0.05)
+            over = [it for it in all_items(body, row, eff)[0] if tail(it).startswith(("aw", "cn0", "eb0"))]
+            assert all(it.sz <= gap * S + 1e-6 for it in over)
+            seen += over
+        assert bool(seen) == (gap >= LD.D["overhang_min"])
+    # an oblique house front: the yard wall stays off the road at the face's nearer end too, not only at its middle (6d3 gis:11218146)
+    from road_overlaps import rect as part_rect
+    c = offset(CENTER, 0, 3 + 2.4 + 5)
+    turn = math.radians(8.0)
+    corners = [(sx * 6.0 * math.cos(turn) - sy * 5.0 * math.sin(turn), sx * 6.0 * math.sin(turn) + sy * 5.0 * math.cos(turn))
+               for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+    row, est, _ = villa(i=2, floors=3, wall="beige", center=c)
+    row = {**row, "outline": [list(offset(c, e, n)) for e, n in corners]}
+    body, eff = resolve(row, est, None, features=[street(sidewalk="no")])  # no sidewalk: the yard reaches to the road edge
+    assert body.front_clear < body.facing.setback
+    x0, z0 = layout.to_studs(FRAME, *offset(CENTER, -60, -3))
+    x1, z1 = layout.to_studs(FRAME, *offset(CENTER, 60, 3))
+    road = Polygon([(x0, z0), (x1, z0), (x1, z1), (x0, z1)])
+    yard = [it for it in all_items(body, row, eff)[0] if tail(it).startswith(("yw", "yr", "yp", "yg"))]
+    assert yard
+    for it in yard:
+        assert part_rect({"x": it.cx, "z": it.cz, "w": it.sx, "d": it.sz, "r": it.yaw_deg}).intersection(road).area < 0.05, tail(it)
+
+
 def test_a_shop_podium_apartment_starts_its_face_on_a_stone_podium_with_shops_and_signs():
     """광성아파트 (2026-10-15): the photos saw a 3-storey shopping podium; the apartment bands used to run down to the pavement."""
     row, est, _ = apartment(floors=13)

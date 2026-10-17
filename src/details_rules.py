@@ -446,6 +446,10 @@ DIMS: dict[str, float] = {
     # shop houses and villas (local user 2026-10-15 "건물 디테일이 부족"; street view of cells 173 and 133, a public shop model measured
     # in MCP_Test and deleted: asset 71075654590750, awnings about 6.5 x 1.4 m): fabric awnings over some shop units, a tall vertical
     # sign at the end of a 3+ floor front, a parapet or a dark mansard edge round a flat villa roof
+    # 61b and 6d3 (U8 G1 Studio, 2026-10-17): in an alley without a sidewalk the awning hung over the carriageway at 1.7 m; awnings,
+    # door canopies and shop eyebrows stop at the road edge and are left off when less than overhang_min is free in front of the wall
+    # (the front yard wall too keeps to the room in front of the face's nearer end)
+    "overhang_min": 0.5,
     "awn_d": 1.4, "awn_h": 0.5, "awn_gap": 0.05, "vsign_w": 0.8, "vsign_t": 0.3, "vsign_floors": 4, "vsign_in": 0.6,
     "parapet_h": 0.9, "parapet_t": 0.2, "mansard_h": 1.4, "mansard_d": 1.4, "mansard_out": 0.3, "parapet_max_floors": 6,
     # apartments (street view of gis:11177764): an outdoor AC unit per unit and floor in front of the slab, a light rail panel over the glass foot

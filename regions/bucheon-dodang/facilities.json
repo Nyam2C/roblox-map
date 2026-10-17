@@ -21838,11 +21838,11 @@
    "towers": {
     "podium_floors": 2,
     "podium_wall": {
-     "material": "Concrete",
+     "material": "Metal",
      "rgb": [
-      120,
-      122,
-      126
+      78,
+      80,
+      84
      ]
     },
     "list": [
@@ -21880,7 +21880,7 @@
     "gis:11184317"
    ],
    "claims": [],
-   "front": "S",
+   "front": "E",
    "floors": 4,
    "height_m": 22.0,
    "wall": {
@@ -22225,8 +22225,8 @@
     {
      "kind": "glass_strip",
      "face": "back",
-     "at": 0.0,
-     "width_m": 36.0,
+     "at": -0.35,
+     "width_m": 10.0,
      "from_floor": 0,
      "to_floor": 0,
      "rgb": [
@@ -22238,8 +22238,8 @@
     {
      "kind": "glass_strip",
      "face": "back",
-     "at": 0.0,
-     "width_m": 30.0,
+     "at": 0.1,
+     "width_m": 16.0,
      "from_floor": 2,
      "to_floor": 3,
      "rgb": [
@@ -22403,9 +22403,9 @@
      "from_floor": 1,
      "to_floor": 1,
      "rgb": [
-      96,
-      124,
-      136
+      78,
+      90,
+      98
      ]
     },
     {
@@ -22417,9 +22417,9 @@
      "to_floor": 18,
      "material": "Plaster",
      "rgb": [
-      74,
-      88,
-      108
+      150,
+      154,
+      160
      ]
     },
     {
@@ -22435,11 +22435,69 @@
       194,
       200
      ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      176,
+      44,
+      40
+     ]
     }
    ],
    "per_building": {
     "gis:18336520": {
-     "front": "W"
+     "front": "W",
+     "accents": [
+      {
+       "kind": "fascia",
+       "face": "all",
+       "at": 0.0,
+       "width_m": 40.0,
+       "rgb": [
+        96,
+        96,
+        100
+       ],
+       "strip_rgb": [
+        176,
+        44,
+        40
+       ],
+       "strip_frac": 0.0
+      },
+      {
+       "kind": "glass_strip",
+       "face": "all",
+       "at": 0.0,
+       "width_m": 26.0,
+       "from_floor": 1,
+       "to_floor": 1,
+       "rgb": [
+        78,
+        90,
+        98
+       ]
+      },
+      {
+       "kind": "stripe",
+       "face": "all",
+       "at": 0.0,
+       "width_m": 40.0,
+       "from_floor": 1,
+       "to_floor": 1,
+       "rgb": [
+        176,
+        44,
+        40
+       ]
+      }
+     ]
     },
     "gis:16447052": {
      "roof": {
@@ -22458,7 +22516,80 @@
        "stair_box"
       ],
       "crown": null
-     }
+     },
+     "accents": [
+      {
+       "kind": "fascia",
+       "face": "all",
+       "at": 0.0,
+       "width_m": 40.0,
+       "rgb": [
+        96,
+        96,
+        100
+       ],
+       "strip_rgb": [
+        176,
+        44,
+        40
+       ],
+       "strip_frac": 0.0
+      },
+      {
+       "kind": "glass_strip",
+       "face": "all",
+       "at": 0.0,
+       "width_m": 26.0,
+       "from_floor": 1,
+       "to_floor": 1,
+       "rgb": [
+        78,
+        90,
+        98
+       ]
+      },
+      {
+       "kind": "panel",
+       "face": "all",
+       "at": 0.3,
+       "width_m": 4.0,
+       "from_floor": 2,
+       "to_floor": 18,
+       "material": "Plaster",
+       "rgb": [
+        96,
+        98,
+        104
+       ]
+      },
+      {
+       "kind": "panel",
+       "face": "all",
+       "at": -0.3,
+       "width_m": 2.5,
+       "from_floor": 2,
+       "to_floor": 18,
+       "material": "Plaster",
+       "rgb": [
+        204,
+        160,
+        176
+       ]
+      },
+      {
+       "kind": "stripe",
+       "face": "all",
+       "at": 0.0,
+       "width_m": 40.0,
+       "from_floor": 1,
+       "to_floor": 1,
+       "rgb": [
+        176,
+        44,
+        40
+       ]
+      }
+     ]
     }
    },
    "entrance": null,

@@ -315,6 +315,7 @@ class Body:
     side_shops: tuple[tuple[int, str], ...] = ()  # other faces of a shop block that front a road: storefront and band signs too
     pilotis: bool = False  # open parking on columns under the floors above (2026-10-15)
     podium: int = 0  # floors of a stone shop podium under an apartment (2026-10-15)
+    front_clear: float = math.inf  # metres from the front face to the nearest carriageway: how far an awning or canopy may reach (2026-10-17)
 
     @property
     def shop(self) -> bool:
@@ -479,6 +480,10 @@ def resolve_body(body: Body, lines: Sequence[tuple[str, LineString, float, Mappi
         body = dataclasses.replace(body, boxes=tuple(clip_to_roads(bx, near) for bx in body.boxes))
     front, facing = facing_of(body, lines, cfg) if body.is_body else (0, None)
     body = dataclasses.replace(body, front=front, facing=facing, far=bool(facing and facing.setback > D["far_facing"]))
+    if facing is not None and strips:
+        f, bx = face_of(body.boxes[front], facing.side), body.boxes[front]
+        ends = [_world(bx, f.c[0] + f.t[0] * f.length * a, f.c[1] + f.t[1] * f.length * a) for a in (-0.5, 0.5)]
+        body = dataclasses.replace(body, front_clear=min(st.distance(LineString(ends)) for st in strips))
     body = dataclasses.replace(body, occluded=tuple(occluded_faces(body, i, others, cfg) for i in range(len(body.boxes))))
     return dataclasses.replace(body, side_shops=shop_sides(body, lines))
 
@@ -1102,16 +1107,19 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
                                             (a1 - a0, fh - D["front_drop"], D["front_t"]), material=look[0], color=R.PALETTE[look[1]],
                                             color_name=look[1], reflectance=look[2]))
                     awn = awning(body, u)
-                    if awn:
+                    awn_d = overhang(body, D["awn_d"])
+                    if awn and awn_d:
                         top = fh - D["sign_drop"] - D["sign_h"] - D["awn_gap"]
-                        items.append(_wall_part(frame, body, bi, side, "facade", f"aw{u}", seq + 500, (a0 + a1) / 2, top - D["awn_h"], D["awn_d"],
-                                                (a1 - a0, D["awn_h"], D["awn_d"]), shape="Wedge", material="Fabric", color=R.PALETTE[awn], color_name=awn))
+                        items.append(_wall_part(frame, body, bi, side, "facade", f"aw{u}", seq + 500, (a0 + a1) / 2, top - D["awn_h"], awn_d,
+                                                (a1 - a0, D["awn_h"], awn_d), shape="Wedge", material="Fabric", color=R.PALETTE[awn], color_name=awn))
                 seq += 1
             items.append(_wall_part(frame, body, bi, side, "facade", "sd0", seq, s0 + D["front_door_along"], 0.0, 0.08, (D["door_w"], D["door_h"], D["front_door_t"]),
                                     material="Metal", color=R.PALETTE["door_shop"], color_name="door_shop"))
             seq += 1
-            items.append(_wall_part(frame, body, bi, side, "facade", "eb0", seq, (s0 + s1) / 2, fh - D["eyebrow_drop"], D["eyebrow_d"], (Lf - D["eyebrow_gap"], D["eyebrow_h"], D["eyebrow_d"]),
-                                    material="Metal", color=R.PALETTE["eyebrow"], color_name="eyebrow"))
+            eb_d = overhang(body, D["eyebrow_d"])
+            if eb_d:
+                items.append(_wall_part(frame, body, bi, side, "facade", "eb0", seq, (s0 + s1) / 2, fh - D["eyebrow_drop"], eb_d, (Lf - D["eyebrow_gap"], D["eyebrow_h"], eb_d),
+                                        material="Metal", color=R.PALETTE["eyebrow"], color_name="eyebrow"))
             seq += 1
     else:
         door = _door_along(body)
@@ -1122,8 +1130,10 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
             else:
                 items.append(_wall_part(frame, body, bi, side, "facade", "dr0", seq, door, 0.0, D["door_t"], (D["door_w"], D["door_h"], D["door_t"]),
                                         material="Wood", color=R.PALETTE["door"], color_name="door"))
-                items.append(_wall_part(frame, body, bi, side, "facade", "cn0", seq + 1, door, D["canopy_y"], D["canopy_d"], (D["canopy_w"], D["canopy_h"], D["canopy_d"]),
-                                        material="Slate", color=R.PALETTE["canopy"], color_name="canopy"))
+                cn_d = overhang(body, D["canopy_d"])
+                if cn_d:
+                    items.append(_wall_part(frame, body, bi, side, "facade", "cn0", seq + 1, door, D["canopy_y"], cn_d, (D["canopy_w"], D["canopy_h"], cn_d),
+                                            material="Slate", color=R.PALETTE["canopy"], color_name="canopy"))
             seq += 2
     # AC units (BR-8.5)
     skin = D["skin_out"] if villa_skin_at(body, bi, side, 1, True) else 0.0  # BR-6.6: the AC and the gas pipe sit on the skin
@@ -1155,6 +1165,12 @@ def front_items(body: Body, frame: Frame, cfg: Mapping[str, Any], warnings: list
         seq += 2
     items += _side_shop_fronts(body, frame, seq + 100)
     return items
+
+
+def overhang(body: Body, depth: float) -> float:
+    """How far a part over the front door or shop may stick out: no farther than the carriageway, 0 when under overhang_min is free."""
+    d = min(depth, body.front_clear)
+    return d if d >= D["overhang_min"] else 0.0
 
 
 AWNINGS = ("awn_red", "awn_green", "awn_blue", "awn_orange", "awn_gray")
@@ -1201,10 +1217,11 @@ def yard_items(body: Body, frame: Frame, cfg: Mapping[str, Any]) -> list[Item]:
     """Wall, returns, posts, gate, globe lamps and shrubs in front of a villa that is not a shop (BR-9.3)."""
     if not body.is_body or body.facing is None or body.archetype != "villa" or body.shop:
         return []
-    if body.facing.setback_s < D["yard_min"]:
+    room = min(body.facing.setback_s, body.front_clear)  # an oblique front: its near end is closer to the road than its middle (6d3)
+    if room < D["yard_min"]:
         return []
     bi, side, L = body.front, body.facing.side, body.facing.length
-    yd = min(body.facing.setback_s, D["yard_max"]) - D["yard_back"]
+    yd = min(room, D["yard_max"]) - D["yard_back"]
     brick = body.details["finish"] == "brick"
     wall = dict(material="Brick", color=body.wall_rgb, color_name=body.wall_color) if brick else \
         dict(material="Concrete", color=R.PALETTE["concrete"], color_name="concrete")
