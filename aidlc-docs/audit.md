@@ -2284,3 +2284,10 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: U8 Code Generation(클라우드 세션, 실제 데이터·Studio 실행은 Mac에서)
 
 ---
+
+---
+## U8 첫 칸 8930e0ac61bffff 무개입 실행
+**Timestamp**: 2026-10-17T10:00:00Z
+**User Input**: "U8 큐(regions/bucheon-dodang/expansion.json)의 첫 칸 8930e0ac61bffff 하나만 CLAUDE.md 세션 흐름과 aidlc-docs/construction/plans/u8-auto-expand-plan.md대로 cell-* 에이전트로 끝까지 만들어라. 사용자는 자리에 없으니 묻지 말고 추천안으로 정하고 audit에 남겨라. 기준선은 이번엔 건너뛰고 그 사실을 기록. 먼저 get_studio_state로 Studio(Edit)를 확인하고 안 되면 Studio 없는 단계까지만. 커밋 안 된 CLAUDE.md·cycle-recognize·cycle-record·status.md·pipeline-notes.md는 건드리지 말고 커밋은 자기 파일만. 키 값을 파일·로그에 쓰지 마라. 끝나면 한글 요약."
+**AI Response**: Studio 연결 확인(Edit, "환타지아 부촌"). 브랜치 claude/cool-rubin-57y8pg는 이미 main에 합쳐져 있음. **기준선(절차서 7절 메인 1~3: 79칸 G1, 1급 3칸 G3, gate.toml max_fail_rate 조정)은 사용자 지시로 이번엔 건너뜀** → expansion.json `baseline`은 null 그대로, gate.toml 기준값(max_fail_rate 0.2 등)은 클라우드 세션이 넣은 초기값 그대로 쓴다. 절차서 5절 순서로 cell-prep → cell-judge → cell-facility → cell-build → cell-verify → cell-score → cell-record. 이 칸이 큐 첫 칸이라 since_fps 0 → FPS 차례 아님(3칸마다).
+**Context**: U8 자동 확장 첫 실행(한 칸)
