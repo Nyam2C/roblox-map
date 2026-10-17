@@ -25,9 +25,9 @@ local player = Players.LocalPlayer
 local toggle = ReplicatedStorage:WaitForChild("CartToggle")
 local fxRemote = ReplicatedStorage:WaitForChild("CartFx")
 
--- studs per second (studs_per_m 3.6, so 105 studs/s is 105 km/h), per second squared, all per unit of mass. Tuned in a small simulation
--- (cart-plan.md): 0 to 80 in 1.5 s (user 2026-10-16: more pick-up and speed); a 0.5 s drift at 90 turns the cart about 80 deg.
-local MAX_DEFAULT = 105 -- top speed on the throttle: the push equals the drag there
+-- studs per second (studs_per_m 3.6, so 130 studs/s is 130 km/h), per second squared, all per unit of mass. Tuned in a small simulation
+-- (cart-plan.md): 0 to 80 in 0.9 s at the 130 top (user 2026-10-17; 1.5 s at the first 105); a 0.5 s drift at 90 turns the cart about 80 deg.
+local MAX_DEFAULT = 130 -- top speed on the throttle: the push equals the drag there
 local LIN_DRAG, QUAD_DRAG = 0.04, 0.006 -- drag = (LIN_DRAG + QUAD_DRAG * speed) * velocity, the speed-squared part on the ground only
 local ROLL = 3 -- rolling to a stop with no key
 local AXLE = 1.2 -- studs from the middle to each axle
@@ -52,7 +52,7 @@ local ESCAPE = 1.15
 local GAUGE_PER_STUD = 0.03 -- gauge for each stud slid sideways while drifting (full = 1 = a booster)
 local SPARK_COLOURS = { Color3.fromRGB(90, 170, 255), Color3.fromRGB(255, 150, 40), Color3.fromRGB(200, 90, 255) }
 -- boost
-local BOOST_PUSH = 1.5 -- times the push: the top goes to about 129
+local BOOST_PUSH = 1.5 -- times the push: the top goes to about 160
 local BOOST_TIME, MAX_BOOSTERS = 2.4, 2
 local INSTANT_WINDOW, INSTANT_TIME = 0.5, 0.5
 -- hits

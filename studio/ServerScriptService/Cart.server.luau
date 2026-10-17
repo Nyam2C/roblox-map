@@ -9,7 +9,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local MAX_SPEED = 105 -- studs per second (shown as km/h): the top on the throttle; boosts go past it (CartClient)
+local MAX_SPEED = 130 -- studs per second (shown as km/h): the top on the throttle; boosts go past it (CartClient). 105 -> 130 (user 2026-10-17), about what the cell streamer keeps up with
 local SEAT = 0.8 -- studs: the rider sits this much lower than he stands
 local MIN_HIP = 0.5 -- ...but never below this HipHeight: a small avatar (0.72) at -0.8 stood on nothing and never left Freefall (2026-10-17)
 local COOLDOWN = 0.6
