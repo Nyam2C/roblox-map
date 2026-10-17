@@ -22817,6 +22817,408 @@
     "https://m.search.naver.com/search.naver?where=m_image&query=<complex name> (thumbnails viewed only)"
    ],
    "seen": "Street view: white 19-floor towers with dark blue-grey vertical strips above a two-floor grey stone podium full of small shops with a red canopy line. Web thumbnails (sales renderings and resident photos) show the same white towers with blue-grey accents."
+  },
+  {
+   "floors": null,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     205,
+     208,
+     210
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     150,
+     152,
+     156
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.3,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     95,
+     120,
+     135
+    ],
+    "frame_rgb": [
+     225,
+     226,
+     226
+    ]
+   },
+   "bands": {
+    "rgb": [
+     178,
+     182,
+     186
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": -0.25,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 99,
+     "rgb": [
+      40,
+      60,
+      100
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.25,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 99,
+     "rgb": [
+      40,
+      60,
+      100
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 5.0,
+     "from_floor": -3,
+     "to_floor": -1,
+     "material": "Plaster",
+     "rgb": [
+      232,
+      233,
+      232
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": -1,
+     "to_floor": -1,
+     "rgb": [
+      60,
+      80,
+      120
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     240,
+     240,
+     238
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     200,
+     203,
+     205
+    ],
+    "top_rgb": [
+     60,
+     140,
+     115
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ]
+   },
+   "accents_everywhere": true,
+   "key": "kkummaeul_14danji_6d7",
+   "cell": "8930e0ac6d7ffff",
+   "building_ids": [
+    "gis:11176921",
+    "gis:11176922",
+    "gis:11176923",
+    "gis:11176925",
+    "gis:11176926"
+   ],
+   "front": null,
+   "notes": "Rest of the same complex as kkummaeul_14danji (cell 8930e0af16fffff, blocks 14xx): same look copied so the complex is uniform. Register floors 1410=24, 1411=21, 1409=19, 1412=12, 1413=12; trust them. All five roofs teal green on satellite. 1409 was traced but goes to this facility so the complex is one look.",
+   "sources": [
+    "regions/bucheon-dodang/facilities.json#kkummaeul_14danji",
+    "data/facade/8930e0ac6d7ffff/gis_11176922.jpg",
+    "data/satellite/8930e0ac6d7ffff-z19.jpg"
+   ],
+   "seen": "Street view of 1412 is all trees and a green mesh fence (lower floors hidden); satellite shows five long slabs with teal green roofs, stair boxes, like the 14xx blocks next door.",
+   "build": [
+    "gis:11176921",
+    "gis:11176922",
+    "gis:11176923",
+    "gis:11176925",
+    "gis:11176926"
+   ]
+  },
+  {
+   "key": "bucheon_jungang_es_main",
+   "cell": "8930e0ac6d7ffff",
+   "building_ids": [
+    "gis:11175672"
+   ],
+   "front": "S",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "CeramicTiles",
+    "rgb": [
+     226,
+     214,
+     190
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Limestone",
+    "rgb": [
+     214,
+     204,
+     182
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.4,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     80,
+     110,
+     130
+    ],
+    "frame_rgb": [
+     235,
+     235,
+     232
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     195,
+     172
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": -0.2,
+     "width_m": 2.5,
+     "from_floor": 0,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      40,
+      90,
+      170
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      235,
+      150,
+      60
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.1,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     240,
+     200,
+     80
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "부천중앙초등학교",
+    "face": "right",
+    "floor": 3,
+    "bg_rgb": [
+     226,
+     214,
+     190
+    ],
+    "ink_rgb": [
+     40,
+     50,
+     90
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     200,
+     200,
+     195
+    ],
+    "top_rgb": [
+     70,
+     140,
+     110
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Long 4-floor classroom block on the north side of the sand field; its south (field) face is the front. Cream square-tiled wall. School name in navy letters set vertically near the east end wall. A blue vertical panel near ground at one end. Satellite: two colourful striped walkway canopies (orange, yellow, pink, white stripes) run along the south face in front of the building on the field side; schema has no canopy row, the orange stripe accent stands in. Field is the fields.py kit, gym (gis:11196109, orange roof) is traced and NOT part of this facility. The 1-floor school records (gis:15472091, 17074557, 16072539) are not included.",
+   "sources": [
+    "data/facade/8930e0ac6d7ffff/gis_11175672.jpg",
+    "data/satellite/8930e0ac6d7ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천중앙초등학교"
+   ],
+   "seen": "Street view: tall cream tiled wall behind trees and a mural-painted boundary wall, vertical school name in navy letters at the end. Satellite: long teal-green roof, striped canopies on the field side.",
+   "build": [
+    "gis:11175672"
+   ]
+  },
+  {
+   "key": "simgok_tower_15f",
+   "cell": "8930e0ac6d7ffff",
+   "building_ids": [
+    "gis:17343195"
+   ],
+   "front": "S",
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     228,
+     228,
+     224
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Slate",
+    "rgb": [
+     88,
+     90,
+     94
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.5,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     90,
+     120,
+     140
+    ],
+    "frame_rgb": [
+     235,
+     235,
+     235
+    ]
+   },
+   "bands": {
+    "rgb": [
+     90,
+     92,
+     96
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 4.5,
+     "from_floor": 4,
+     "to_floor": 99,
+     "material": "SmoothPlastic",
+     "rgb": [
+      150,
+      152,
+      156
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.4,
+     "width_m": 2.5,
+     "from_floor": 10,
+     "to_floor": 99,
+     "material": "SmoothPlastic",
+     "rgb": [
+      200,
+      160,
+      80
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.25,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     225,
+     225,
+     220
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     225,
+     225,
+     220
+    ],
+    "top_rgb": [
+     222,
+     222,
+     216
+    ],
+    "features": [
+     "solar",
+     "stair_box"
+    ]
+   },
+   "notes": "New 15-floor apartment block, irregular L outline (48 vertices). Dark grey granite-look podium (about 3 floors, use dark panel look, not Granite), a slightly lighter pale grey stone band over it, then white/pale grey upper walls with thin dark horizontal lines every floor and a mid-grey vertical panel strip. Recessed porte-cochere entrance in the dark base. Web photos (sales pages) show a gold/orange vertical accent strip high on an end wall. Roof white with solar panel rows and a small roof garden. Brand name on the building is not written.",
+   "sources": [
+    "data/facade/8930e0ac6d7ffff/gis_17343195.jpg",
+    "data/satellite/8930e0ac6d7ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천 중앙하이츠 심곡"
+   ],
+   "seen": "Street view: dark speckled stone base with a deep entrance, pale stone band, white upper walls with dark floor lines and a grey vertical panel. Satellite: white roof, solar rows, terrace garden. Web thumbnails: white-grey 15-floor tower with a gold accent strip.",
+   "build": [
+    "gis:17343195"
+   ]
   }
  ]
 }
