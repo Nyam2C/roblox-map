@@ -1,0 +1,1703 @@
+{
+  "cell_id": "8930e0ac6d3ffff",
+  "estimates": [
+    {
+      "building_id": "gis:11168452",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick-tile villa, parking pilotis, balconies with railings, rooftop stair box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11168868",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray stone villa, parking pilotis, small window railings, rooftop railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11171012",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray tile villa, parking pilotis, wood-rail balcony planters",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11171648",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "dark stone restaurant building, glass ground floor, 3rd floor balcony terrace, roof frame",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11176924",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "pink two-storey apartment shopping block, ground shops and pharmacy, rooftop railing screen",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11178315",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey wooden shop and hanok-style restaurant entrance with tile roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11178707",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "old beige brick building, ground restaurant with tile canopy, upper balcony and steel stair",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11179400",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brown tile building, ground restaurant, two upper floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11179433",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "tiny annex of white restaurant house, black tile eave roof; #3 shows pilotis ceiling, target uncertain",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11179681",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray granite villa, parking pilotis, window railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11179700",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "crops show ground-floor shops of a large stone-clad mixed-use block; tiny footprint, target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11180278",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "narrow strip of mid-rise mixed-use block, ground shops with red awnings; top not visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11181139",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white metal panel car repair shop, service bays, rooftop sign",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11181744",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray stone villa, parking pilotis, balconies with railings, corner store below",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11181939",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white painted small building, ground cafe with glass front and awning",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11181940",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "granite shop house, ground shops with awning, glass stair strip",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11184317",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 15.0,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick church with white curved tower, mostly hidden by trees",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11184445",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "pink villa, parking pilotis, glass stair strip, balconies with railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11184632",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey traditional restaurant behind stone wall, metal gable roof and tile eaves",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11184652",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey restaurant row, tile roofs and metal gable roof, stone base wall",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11184700",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "boundary wall and parking deck in front of louvred office; trees hide building, target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11184835",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey wooden restaurant with red awning and firewood stacks in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11184838",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "orange stucco restaurant with gable front, ground restaurant, upper gable window",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11184840",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "two-storey metal panel motorcycle shop, glass shop front, blue roof edge",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "yellow"
+    },
+    {
+      "building_id": "gis:11184937",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "public office block, glass ground floor and glass curtain wall, stair glass strip, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11184968",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey shop row, appliance store front and restaurant",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11184973",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "dark brick house, enclosed glass balcony on 2nd floor, roof terrace pergola; tiny footprint",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11185501",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "low glass-walled annex under trees beside taller stone office; target uncertain",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11185515",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "red brick shop house, ground restaurant with awning",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11185522",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "yellow metal panel motorcycle store, glass shop front, red trim",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "yellow"
+    },
+    {
+      "building_id": "gis:11185527",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "#1 shows empty fenced lot; other crops show neighbouring restaurants; target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11185529",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey wooden restaurant with red awning; other crops show house and empty lot",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11185533",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "old house with white decorative balustrade balcony over gate",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11185615",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "old house, gray tile and brick, balustrade balcony, roof terrace pergola",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11185681",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick house villa behind tree, glass stair strip at entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11185737",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "stone shop house, ground shops, window awnings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11185776",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brown brick corner building, ground convenience store, round glass stair tower",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11185780",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "two-storey house, red brick ground, enclosed upper, outside stair with lattice rail",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11185785",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "crops show different buildings (shop front, cafe, old house); target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11185787",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "crops show different buildings (old house door, shop front, light brick pilotis); target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11186338",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white metal siding house wall, door and barred window",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11186340",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "old house, red brick ground floor, decorative balustrade band, enclosed upper",
+      "roof_shape": null,
+      "views_used": [
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11186466",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "long row of one-storey shops and restaurant in front of apartments",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11186474",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "dark brick two-storey house, barred low windows, flowers along wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11186482",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "two-storey house, dark brick and gray tile, outside stair to balustrade balcony",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11186483",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "dark brick two-storey house, outside stair, barred windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11187044",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "stone villa, pink granite lower and gray upper, parking pilotis, rooftop railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11187125",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "granite villa, parking pilotis",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11187310",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "two-level stacked shipping container gallery, open ground passage",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11188042",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "old house, decorative balustrade band, upper window row",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11188055",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "dark brick two-storey house, enclosed glass balcony over balustrade band",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11188164",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white metal siding two-storey building, ground shop and office, small balcony, brown parapet",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11188173",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "beige granite villa, parking pilotis, glass stair strip, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11190996",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray painted villa, side wall with few grilled windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191034",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brown stone-tile villa, small windows on side, house entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11192095",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "public library, stone cladding, glass curtain wall atrium",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11193992",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick house villa, glass stair strip, tile roof edge",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11196003",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white two-storey restaurant with black tile canopy roof, deck in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11196693",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "long one-storey row of shops and car repair garage bays",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11198368",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey shop, yellow fascia and awning, blue roof edge",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "yellow"
+    },
+    {
+      "building_id": "gis:11198369",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey shop, yellow front and awning, red brick side wall, blue roof edge",
+      "roof_shape": "shed",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "yellow"
+    },
+    {
+      "building_id": "gis:11198454",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "pink painted villa, glass stair strip, house door ground, barred windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11199914",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey brick house, shingle hip roof with two dormers, enclosed porch",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11200047",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey brick house, blue metal hip roof, gate door",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11200048",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey brick house, red/green shingle hip roof, iron gate",
+      "roof_shape": "hip",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11200049",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey brick house, gray hip roof, enclosed glass porch",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11200450",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey brick house, shingle roof with dormers, iron gate",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11200454",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey brick house, blue metal hip roof, glazed porch",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11201983",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "corner commercial block, restaurant ground with signs, ribbon windows, glass stair strip",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11202739",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white two-storey house with tiled pent eave; crops show differing buildings",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11204494",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "small office block, shop ground, glass window bands, glass stair strip",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11208684",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 12.0,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "crops mixed: cream brick-tile shopfront and corner shop block; top not visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11209591",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick villa, outside stair, green awning at ground, house door",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11209865",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white painted restaurant, tiled pent eave over ground, deck terrace, roof sign",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11212270",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "salmon painted villa, parking pilotis, corner glass bay on top floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11212787",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "two-storey brick and stone house, enclosed balcony, gate door",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11213159",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "two-storey brick house, outside stair, balcony railing, barred windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11215308",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "three-storey brick row block, shop at corner with awning, rooftop railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11215545",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey siding shed wall, old tile-roof house behind",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11215853",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey siding wall structure",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11215900",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "two-storey shop house, restaurant ground with awning, tile wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11216355",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "stone-veneer villa side wall, small windows",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11216384",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "stone-veneer villa, balcony railings, barred ground windows, dark hip roof edge",
+      "roof_shape": "hip",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11217026",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick villa, glass stair strip, balcony railings, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11217077",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "cream painted villa, open ground with bikes, rooftop glass box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11217395",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick villa, glass stair strip with arched top, green canopy entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11217576",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray painted villa, parking pilotis, top floor balcony railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11218146",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "ochre painted restaurant building with timber trim, wall sign",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11218269",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "beige villa, central glass stair strip, parking pilotis, small balconies",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11218741",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey siding house, blue metal low gable roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11218764",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "beige villa, glass stair strip at corner, barred ground windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11404656",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray brick-tile building, glass shopfront ground, large windows, rooftop frame",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11740499",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey siding house, blue metal roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11840988",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey siding structure with green base stripe",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12397193",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 200.0,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "supertall glass residential towers, shop and cafe podium, too tall to count",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12513139",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey traditional style restaurant, tiled roofs, stone wall",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:12513801",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey restaurant, metal gable roof, tiled eave, stone wall",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:12889590",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey timber restaurant, red awning, firewood stack",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:14921043",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 80.0,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "high-rise residential tower on two-storey shop podium, top not countable",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15027587",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "granite villa, convenience shop ground, balcony railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15046575",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "one-storey shop, yellow fascia and awning, brick side, blue roof trim",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "yellow"
+    },
+    {
+      "building_id": "gis:15093156",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "white brick-tile villa, parking pilotis, balcony railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:15228417",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "stone panel villa, parking pilotis, rooftop railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:15333863",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray stone villa, parking pilotis, wooden balcony railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15425967",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "small one-storey siding structure",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15457590",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "stone villa, pink granite lower part, parking pilotis, rooftop railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15491164",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "pink granite villa, parking pilotis, glass stair strip, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:16297932",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "granite villa, parking pilotis, top not visible",
+      "roof_shape": null,
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16447052",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 80.0,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "high-rise residential tower, shop podium, too tall to count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16521118",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "mostly trees; brick church with carport partly visible",
+      "roof_shape": null,
+      "views_used": [
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:16581101",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "small one-storey siding house, blue metal roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:16668036",
+      "confidence": "medium",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "granite commercial block, restaurant ground, window bands, glass stair strips",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16746838",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "brick-tile villa, parking pilotis, balcony railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:16890741",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "small one-storey siding house, blue metal roof",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:16989772",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "dark stone restaurant building, glass ground, balcony railings, rooftop frame",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17026801",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 200.0,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "supertall glass tower with curved podium, shop ground, too tall to count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17508981",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "small one-storey siding structure",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17820904",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray granite villa, parking pilotis",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:18167626",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "stacked shipping container pavilion, glass door ground",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:18336520",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 75.0,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "high-rise residential tower, two-storey shop podium, too tall to count",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:18577484",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-17T13:56:06+00:00",
+      "note": "gray brick-tile building, glass shopfront ground, large windows, rooftop frame",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}
