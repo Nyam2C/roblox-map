@@ -340,6 +340,24 @@
    "reason": "landmarks: library:해밀도서관, park:way815833934, park:way815847415, park:way815847418",
    "tier": 1
   },
+  "8930e0ac6d7ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way815833934",
+     "school:부천중앙초등학교"
+    ],
+    "pois": 1,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.239,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way815833934, school:부천중앙초등학교",
+   "tier": 1
+  },
   "8930e0ae24bffff": {
    "counts": {},
    "manual": true,

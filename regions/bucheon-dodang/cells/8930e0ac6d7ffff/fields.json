@@ -1,0 +1,18 @@
+{
+ "cell_id": "8930e0ac6d7ffff",
+ "source": "OSM amenity=school + V-World satellite z19",
+ "fields": [
+  {
+   "osm": "way:483467576",
+   "name": "부천중앙초등학교",
+   "made_by": "kit",
+   "surface": "sand",
+   "x": 838.463,
+   "z": 3204.776,
+   "yaw": 79.112,
+   "w": 174.6,
+   "d": 171.0,
+   "fit": 0.995
+  }
+ ]
+}
