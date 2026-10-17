@@ -961,6 +961,21 @@ def test_bollards_where_a_footpath_meets_a_road_stand_off_the_carriageway():
     assert bol and all(way.distance(Point(i.cx / S, -i.cz / S)) > 0.5 for i in bol)
 
 
+def test_bollards_never_stand_on_a_second_road_beside_the_path_mouth():
+    # 6d7 (2026-10-18): a path met one road right beside another, and the bollards past the first road's edge stood in the second
+    road = {**street(cls="tertiary"), "geometry": [list(offset(CENTER, -60, 0)), list(offset(CENTER, 0, 0)), list(offset(CENTER, 60, 0))]}
+    w = ST.streets_of([road], FRAME, CELL, RES, CFG)[0].width
+    near = w / 2 + D["bollard_in"]
+    other = {"feature_id": "way:12", "kind": "road", "highway_class": "residential", "tags": {},
+             "geometry": [list(offset(CENTER, -60, near)), list(offset(CENTER, 60, near))]}
+    path = {"feature_id": "way:7", "kind": "path", "highway_class": "footway", "tags": {},
+            "geometry": [list(offset(CENTER, 0, 0)), list(offset(CENTER, 0, 40))]}
+    (_, props), _ = props_of([road, other, path])
+    ways = ST.carriageways(ST.streets_of([road, other], FRAME, CELL, RES, CFG))
+    for i in [i for i in props if "#bol" in i.name]:
+        assert all(g.distance(Point(i.cx / S, -i.cz / S)) > D["bollard_dia"] / 2 - 1e-6 for g in ways.values()), i.name
+
+
 def test_a_lane_centre_line_stops_before_the_crosswalk_of_a_wide_junction():
     big = {"feature_id": "way:1", "kind": "road", "highway_class": "tertiary", "tags": {"lanes": "8"},
            "geometry": [list(offset(CENTER, 0, -60)), list(offset(CENTER, 0, 0)), list(offset(CENTER, 0, 60))]}

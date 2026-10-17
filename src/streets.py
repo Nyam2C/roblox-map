@@ -524,6 +524,11 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
                 for i, lat in enumerate((-D["bollard_gap"], 0.0, D["bollard_gap"])):
                     # past the widest road's edge, not on its carriageway (173, 2026-10-14: the bollards stood in the road)
                     road_w = max((o.width for o in j.arms if o.kind == "road"), default=0.0)
+                    # nor on any other carriageway: a path meeting a bend or a second road put its outer bollards in that road (6d7, 2026-10-18)
+                    along_b = road_w / 2 + D["bollard_in"]
+                    foot = Point(p[0] + u[0] * along_b - u[1] * lat, p[1] + u[1] * along_b + u[0] * lat).buffer(D["bollard_dia"] / 2)
+                    if any(g.intersects(foot) for g in ways.values()):
+                        continue
                     props.append(_segment_part(frame, "prop", f"{j.name}#bol{ai}-{i}", j.name, 200 + 10 * ai + i, p, u, road_w / 2 + D["bollard_in"], lat, 0.0,
                                                (D["bollard_h"], D["bollard_dia"], D["bollard_dia"]), shape="Cylinder", material="Metal",
                                                color=R.PALETTE["bollard"], color_name="bollard"))
