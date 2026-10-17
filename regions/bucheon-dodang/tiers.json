@@ -97,6 +97,24 @@
    "reason": "사용자 확장 요청(2026-10-16, 원미동 2 남·동쪽 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0ac61bffff": {
+   "counts": {
+    "landmarks": [
+     "park:별빛공원",
+     "park:쌈지공원"
+    ],
+    "pois": 5,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:별빛공원, park:쌈지공원",
+   "tier": 1
+  },
   "8930e0ac683ffff": {
    "counts": {
     "landmarks": [],
