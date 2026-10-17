@@ -2366,3 +2366,15 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Timestamp**: 2026-10-17T23:50:00Z
 **AI Response**: (1) 차로(사용자 지시 "빌드 전 위성으로 구간별 확인"): 위성 확인 에이전트가 신흥로 지상 일방 5개 way(472906726·472906729·1203989956·1349992745·1349992747)를 위성 약 6.5 m(일방 2차로)로 재서 이름표 8차로(일방 13 m)와 달라 `road_lanes_by_way` = 4로 넣음(커밋 9ed177f). 고가(lanes=2)·부흥로(lanes=6)·옥산로(기본 10 m, 위성 8.5~9.5 m)·램프는 맞아 그대로. 영향 이웃은 아직 안 만든 6bf뿐. (2) `elevation.py moved`가 다시 만들 칸 13개를 냈는데 그중 61b·6c7은 사용자 지시("건드리지 마라")로 이번에 다시 만들지 않고 `expansion.json` `stale`에 넣는다(경계 땅 높이 차가 남을 수 있음, 그 칸을 이어 갈 때 다시 만든다). 나머지 이웃 10칸은 같이 다시 만든다.
 **Context**: U8 칸 8930e0ac6d3ffff
+
+---
+## U8 6d3 생성(cell-build, 자동)
+**Timestamp**: 2026-10-18T00:20:00Z
+**AI Response**: 시설 스펙 5곳을 facilities.json에 합침(`building_ids`는 기존 항목처럼 빼고 build·claims만) → facilities.py: twin66_6d3 862, jung2_cathedral 124, haemil_library 335, wonmi_health_centre 371, star19_6d3 1067부품. 큰길 차로는 메인 결정 그대로(옥산로 기본, 신흥로 지상 way 5개 = 4). 활처럼 휜 동 없음(성당 곡선 외곽선은 시설이 상자로 만듦) → arc_buildings 안 넣음. Studio는 시작할 때 pack이 아니었다(Auto에 6c7·613·68b·16b·69b·16f가 꺼내진 채, PackedAt 12:33Z). 없는 이웃 6칸(163·17b·147·153·027·167)만 unpack → Facilities.luau에 이번 5곳만(facilities-new.json) → 11칸 생성(6d3 skipped_manual 2094, 11칸 verify ok, 최대 덩어리 7.9 ms, http=false) → minimap 82칸 + install-u6 → cell-data 82칸(strays 0) → pack(strays 0, Auto 0). 61b는 꺼내지 않았고 6c7·613은 이미 꺼내져 있던 것을 다시 만들지 않고 pack만(칸 데이터는 디스크의 기존 덩어리 그대로). 동 이름: minimap.py(Nominatim)가 "심곡동"을 냈으나 칸 안 OSM `addr:subdistrict` 다수결이 중동 6 : 심곡동 2라 places.json을 "중동"으로.
+**Context**: U8 칸 8930e0ac6d3ffff
+
+---
+## U8 6d3 검증·채점 결과와 메인 결정(자동, 추천안)
+**Timestamp**: 2026-10-18T00:40:00Z
+**AI Response**: cell-verify(Sonnet, foreground): G1 FAIL(가로시설 1, 길 밖 횡단보도 7, 경계 폭 way:221143566 6.5 vs 3.26 m), G1 Studio FAIL(차양 #aw 6동·캐노피 #cn 1, 61b와 같은 원인), G2 PASS(minor 3), G3 사진 121동·캡처 121·묶음 32장·슬롯 125. 채점은 묶음 16장씩 cell-score 둘(못 연 묶음 0). 앞 절반 채점자가 바꿔 끼운 쌍 S013(gis:17820904 사진 + gis:11212270 렌더)을 "다른 건물"·색 0점이지만 총점 7로 매겨 무효(swap_max_total 4) → 새 채점자로 앞 절반만 다시(뒤 절반 카나리아는 통과): 다시 "다른 건물"·색 0점, 총점 5로 또 무효. 두 건물 모두 필로티 주차 빌라(details: ground_use garage, 지붕 dark)라 1층·돌출물·지붕이 정말 같아 채점자가 느슨한 것이 아니라 카나리아 짝이 같은 종류였던 것으로 판단 → 메인이 `gate.toml g3.swap_max_total` 4 → 6(12점의 절반, 이유 주석). 같은 채점(1b+2)으로 카나리아 통과, G3 FAIL 실패율 0.587(71/121), 대표 시설 6동 실패(성당·보건소·66층·19층 3동). 기준선이 없어 max_fail_rate 0.2는 초기값 그대로. 다음: cell-fix 1회차.
+**Context**: U8 칸 8930e0ac6d3ffff
