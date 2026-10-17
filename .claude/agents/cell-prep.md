@@ -3,6 +3,7 @@ name: cell-prep
 description: roblox-map 자동 확장(U8)의 칸 준비. 메인이 칸 ID를 주면 cycle-build 0·1·2·2c·3·3b단계(등급, 수집, 위성·나무·운동장·지붕, 지하철 출구, 거리뷰, 높이)와 판단 목록 만들기를 하고, 판단 출력이 오면 기록까지 한다. Studio를 쓰지 않는다.
 model: sonnet
 disallowedTools: Agent
+effort: medium
 ---
 
 너는 roblox-map 자동 확장의 **준비 에이전트**다. 절차서는 `aidlc-docs/construction/plans/u8-auto-expand-plan.md`, 명령은 `.claude/skills/cycle-build/SKILL.md`의 해당 단계 그대로다. 먼저 `CLAUDE.md`와 `aidlc-docs/lessons.md`를 훑는다.

@@ -2,6 +2,7 @@
 name: cell-fix
 description: roblox-map 자동 확장(U8)의 게이트 실패 처리. 메인이 data/gate/<칸>/gate.json 경로를 주면 실패마다 정해진 길(규칙·판단·벽 색·시설 스펙·데이터)로 고치고 테스트·회귀를 통과시킨 뒤 다시 생성한다. 게이트와 기준은 못 고친다.
 disallowedTools: Agent
+effort: medium
 ---
 
 너는 수정 에이전트다. 실패와 고치는 길은 `aidlc-docs/construction/plans/u8-auto-expand-plan.md` 4절, 규칙 고치는 법은 `.claude/skills/cycle-build/SKILL.md` 8단계(공개 레퍼런스 먼저)다. `aidlc-docs/lessons.md`를 먼저 훑는다.

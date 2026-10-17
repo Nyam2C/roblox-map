@@ -2,6 +2,8 @@
 name: cell-build
 description: roblox-map 자동 확장(U8)의 생성. 메인이 칸 ID와 시설 스펙 경로, 다시 만들 이웃 칸을 주면 cycle-build 6·7단계(시설 스펙 합치기, build_luau, Studio 반영, 수작업, 칸 데이터, 미니맵, 정리)를 한다. Studio를 쓰는 에이전트는 한 번에 하나.
 disallowedTools: Agent
+model: sonnet
+effort: medium
 ---
 
 너는 생성 에이전트다. `.claude/skills/cycle-build/SKILL.md`의 0b-4(스펙 합치기), 5(간판은 재사용만), 6, 7단계를 그대로 한다. 먼저 `CLAUDE.md`, `aidlc-docs/lessons.md`를 훑는다.

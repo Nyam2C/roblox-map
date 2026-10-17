@@ -73,6 +73,16 @@ uv run src/elevation.py moved --region <구역>                   # rebuild (...
    - 대장 층수가 비고 사진도 못 센 고층은 위성에서 같은 넓이·지붕의 쌍둥이 동을 찾아 `overrides.py set`(사유에 근거).
 5. `uv run src/estimate.py report --cells <칸>` → **확신 high인데 대장과 다른 건물은 묶음 이미지를 직접 다시 본다.** 판단이 틀렸으면 `uv run src/overrides.py set --building <id> --field floors_above --value <대장값> --reason "..."`(사유에 개인 정보 금지).
 
+### 4T. 트레이싱 (4 대신, 사용자 결정 2026-10-18, 첫 칸은 시험: 별로면 4로 되돌림)
+CLAUDE.md "트레이싱으로 교체"·"G3 제거". 원리·조각 종류는 `aidlc-docs/construction/plans/facade-trace-experiment.md`, 에이전트 `cell-trace`(Sonnet, effort medium), 지침 `trace-prompt.md`(이 폴더).
+1. `estimate.py plan`으로 `review.json`을 만든 뒤, 사진 있는 건물마다 `uv run src/facade.py unfold --cells <칸> --building <id>` → `data/facade/<칸>/<id>.jpg`(펼친 정면, 80 px/m)·`.outline.jpg`·`.json`(L_m, H_m, floors).
+2. 목록 파일 `{"items": [{"building_id", "image", "outline", "L_m", "H_m", "floors"}], "output"}`을 10동(이미지 20장) 안팎으로 나눠 `cell-trace` 하나씩.
+3. 답에서 `corners_px`가 있는 건물은 `unfold --corners "x,y x,y x,y x,y" --top-m <top_m>`으로 다시 펴서 그 그림으로 색을 잰다(조각 좌표는 답 그대로). `unusable`과 사진 없는 건물은 같은 칸의 비슷한 트레이싱 건물(층수·폭·종류)의 조각을 빌린다.
+4. 건물마다 조각 파일(`{"building_id", "corners_px", "top_m", "pieces"}`) → `uv run src/facade.py trace --cells <칸> --building <id> --file <조각> --wrap` → `<id>.trace.json`(색 측정, 옆·뒤 두르기, Union 단위와 키트 키).
+5. Studio: `cd data/facade && python3 -m http.server 8767 --bind 127.0.0.1` → `studio/install/facade-trace.luau`의 `URL`을 그 건물로 바꿔 `execute_luau`(Edit). 규칙판 부품은 숨기고(지붕 덮개·기단·마당만 남김) `Workspace/FacadeTrace`에 짓고, 창·문·난간 단위는 `ServerStorage/Kits/FacadeUnits/<키>` Union을 만들거나 복제한다. 되돌리기 `UNDO = true`.
+
+**아직 없는 것(첫 칸 세션이 먼저 만든다)**: ① 칸 전체 일괄(unfold·목록·trace를 칸 단위로), ② 빌려 쓰기, ③ `build_luau.py`가 `regions/<구역>/cells/<칸>/facade.json`을 읽어 덩어리 파일에 넣고 Builder가 `FacadeUnits`를 키(`kt`)로 복제(지금 `facade-trace.luau`는 건물 하나씩 Workspace에 따로 짓는 시험판이라 pack·칸 데이터·Play 스트리밍에 안 남는다; Union은 Play 중에 만들지 않고 Edit에서 미리 키트로), ④ 자동 검사(조각 테두리와 사진 경계선, 모서리 띠 이음, 부품 수, Union 실패, 간판 어휘·전화번호)와 `gate.py summary`에서 G3 빼기, ⑤ `tests/test_facade.py`. 시험(2026-10-18, 6d3 빌라 5동, Sonnet medium 전): 3동 트레이싱·2동 못 씀, 약 3.5만 토큰·33초. 상자가 어긋난 건물에서 모서리를 안 줘서 높이가 줄어든 채 읽혔다(지침에 먼저 확인하라고 넣음).
+
 ### 5. 간판 이미지
 새로 만들지 않고 이미 올린 이미지를 재사용한다(사용자 결정 2026-10-14, U7 K가 끝나기 전에는 글자 간판). 새 이미지는 정말 큰 랜드마크만, 칸당 최대 2장: 사용자에게 어떤 건물인지 알리고, 술·담배·도박 어휘·아이콘이 없는지 본 뒤 `signs.py generate` → 업로드 → `record`. 막히면(`403 User is moderated`) 재시도하지 않고 멈춘다.
 
@@ -101,8 +111,8 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 
 ### 7b. 중요한 장소 사진 (웹)
 0b에서 사용자가 승인한 장소(그리고 `manual.json` 후보)마다, 수작업을 만들기 전에:
-1. `WebSearch`로 "<동> <장소 이름>", "<장소 이름> 사진/전경/광장/정문"을 찾는다(이름이 없으면 근처 랜드마크 + "뒤/앞 광장").
-2. 사진이 있을 만한 페이지(블로그·뉴스·지자체·나무위키)를 **내장 브라우저**로 열어 사진을 본다(`WebFetch`는 글만 준다). 로그인·CAPTCHA가 나오면 그 페이지는 건너뛴다.
+1. `WebSearch`로 "<동> <장소 이름>", "<장소 이름> 사진/전경/광장/정문"을 찾는다(이름이 없으면 근처 랜드마크 + "뒤/앞 광장"). `WebSearch`는 `blog.naver.com`을 주지 않으니(차단 도메인, 2026-10-17) 네이버 블로그는 네이버 검색 페이지에서 찾는다(아래 2).
+2. 사진이 있을 만한 페이지(블로그·뉴스·지자체·나무위키)를 **내장 브라우저**로 열어 사진을 본다(`WebFetch`는 글만 준다). 내장 브라우저가 없으면(키로 띄운 `claude -p`, 에이전트) `uv run src/webshot.py <스크래치 폴더> <URL...>`이 창 없는 크롬으로 열어 스크롤하며 PNG 조각으로 찍으니 `Read`로 보고 다 보면 폴더를 지운다. 네이버 블로그는 `https://m.search.naver.com/search.naver?where=m_blog&query=<장소>`를 찍으면 결과 화면과 `LINK` 줄(글 주소)이 나오고, 그 글 주소를 다시 넘긴다(`blog.naver.com`은 자동으로 `m.blog.naver.com`으로 열어 iframe 없이 사진이 보임). 사진만 훑을 때는 `where=m_image`. 로그인·CAPTCHA가 나오면(`BLOCKED`) 그 페이지는 건너뛰고 우회하지 않는다.
 3. 거리뷰 파노라마를 장소 쪽으로 잘라 함께 본다(`projection.render_crop`, 장소 중심 75 m 안).
 4. 본 것(바닥 재질, 화단, 시설물, 색, 높이 비율)과 출처 URL을 audit에 적고, 수작업(Manual)이나 규칙에 숫자로만 넣는다. 사진 파일은 저장소에 넣지 않는다.
 5. 못 찾으면 "웹 사진 없음"이라고 적고 위성·거리뷰로 진행한다.
