@@ -2291,3 +2291,23 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **User Input**: "U8 큐(regions/bucheon-dodang/expansion.json)의 첫 칸 8930e0ac61bffff 하나만 CLAUDE.md 세션 흐름과 aidlc-docs/construction/plans/u8-auto-expand-plan.md대로 cell-* 에이전트로 끝까지 만들어라. 사용자는 자리에 없으니 묻지 말고 추천안으로 정하고 audit에 남겨라. 기준선은 이번엔 건너뛰고 그 사실을 기록. 먼저 get_studio_state로 Studio(Edit)를 확인하고 안 되면 Studio 없는 단계까지만. 커밋 안 된 CLAUDE.md·cycle-recognize·cycle-record·status.md·pipeline-notes.md는 건드리지 말고 커밋은 자기 파일만. 키 값을 파일·로그에 쓰지 마라. 끝나면 한글 요약."
 **AI Response**: Studio 연결 확인(Edit, "환타지아 부촌"). 브랜치 claude/cool-rubin-57y8pg는 이미 main에 합쳐져 있음. **기준선(절차서 7절 메인 1~3: 79칸 G1, 1급 3칸 G3, gate.toml max_fail_rate 조정)은 사용자 지시로 이번엔 건너뜀** → expansion.json `baseline`은 null 그대로, gate.toml 기준값(max_fail_rate 0.2 등)은 클라우드 세션이 넣은 초기값 그대로 쓴다. 절차서 5절 순서로 cell-prep → cell-judge → cell-facility → cell-build → cell-verify → cell-score → cell-record. 이 칸이 큐 첫 칸이라 since_fps 0 → FPS 차례 아님(3칸마다).
 **Context**: U8 자동 확장 첫 실행(한 칸)
+
+---
+## U8 61b 판단 기록 중 메인 결정(자동, 추천안)
+**Timestamp**: 2026-10-17T10:25:00Z
+**AI Response**: (1) gis:11202220: 판단 확신 high 2층 vs 대장 5층(15.8 m). 사진은 앞 상가동만 본 것으로 보고 대장 높이가 5층과 맞아 대장 유지(`overrides.py set floors_above 5`). (2) 공사장 가림막만 보인 장미연립 6동(gis:11177215·11177216·11177217·11193434·11193436·11195190, 대장 1977년 2층): 철거 후 공사 중으로 보이나 속성 있는 V-World 기록이고 기존 규칙(속성 없는 외곽선만 안 만듦)과 위성(G2 빠진 건물 판정)과 어긋나지 않게 이번엔 대장대로 둔다. 다음 확인: 위성·새 거리뷰에서 비었으면 그때 비우거나 가림막 시설로. (3) gis:11214248(외곽 0.3×0.3 m, 대장 85.68 m²)은 대장 유지, 생성 경고로 본다.
+**Context**: U8 첫 칸 61b 판단
+
+---
+## U8 61b 대표 시설(cell-facility, 자동)
+**Timestamp**: 2026-10-17T11:00:00Z
+**AI Response**: 칸 8930e0ac61bffff 대표 시설 5곳(스펙 항목 6개)을 묻지 않고 골라 `data/auto/8930e0ac61bffff/facilities-spec.json`에 씀(사용자 결정 2026-10-17 "칸마다 4~5곳 상시"). 메모리에서 `facilities.build`로 미리 돌려 여섯 항목 모두 부품이 나오는 것을 확인(파일은 쓰지 않음).
+1. **별빛공원**(`byeolbit_park`, `custom: pxpark`): OSM leisure=park(way 815829741), 칸의 이름 있는 랜드마크. 위성 z19에서 바닥 배치를 따라 그림(`data/auto/8930e0ac61bffff/byeolbit_park.json`, data/라 git 밖 → 남기려면 regions/로 옮길 것): 북쪽 진입 포장·꽃 화단, 나무 사이 길, 가운데 밝은 회색 블록 광장, 나무 데크, 그늘 퍼걸러, 붉은 갈색 고무 놀이 바닥과 노란 놀이대, 벽돌 벤치, 남쪽 골목.
+2. **원미별마루**(`wonmi_byeolmaru`, gis:11184668, 정면 S): 공원 밑 지하공영주차장 위 4층 마을 복합 건물(대장 지상 4·지하 2라 지하 시설 아님). 밝은 회색 금속 패널, 벽돌 현관, 주차장 경사로 막 지붕, 공원 쪽 짙은 벽돌 벽.
+3. **복된교회**(`bokdoen_church`, gis:11169300, 정면 S, 같은 외곽 gis:14577878은 claims): OSM 예배 장소, 대장 4층 1,188 m²로 칸에서 가장 큰 건물. 짙은 갈색 벽돌 본당(짙은 회색 모임지붕)과 아치 창 서쪽 날개(붉은 갈색 지붕, 같은 기록이라 따로 못 줌), 첨탑 있는 종탑 + 계단 입구.
+4. **원미종합시장**(`wonmi_market`, gis:11191721, 정면 S): 대장 이름의 2층 ㄱ자 시장 건물. 1층 가게 띠간판·차양, 위층 베이지 미장, 시장 골목 통로. 지붕 덮인 골목(아케이드)은 `market.py`가 강남시장 배치만 읽어 그리지 않음.
+5. **원미2동행정복지센터**(`wonmi2_centre`, gis:11172384, 정면 E): OSM building=public, 대장 3층. 흰 벽돌 타일, 큰 벽화 판 두 개, 위쪽 현수막 판, 파란 차양 입구, 녹색 지붕.
+6. (5곳 중 하나로 셈 안 함: 별빛공원과 한 장소) — 그리고 **15층 주거 탑**(`tower15_61b`, gis:11169738, 정면 S, 같은 외곽 gis:16749126은 claims): 칸 유일의 15층(대장 15층, OSM apartments), 여러 길에서 보임. 흰 탑 + 2층 짙은 돌 기단(Slate, 레슨대로 Granite 안 씀), 간판 없음(주거 상호).
+장소 수: 별빛공원+원미별마루를 한 장소로 세어 5곳. 뺀 후보: 쌈지공원(OSM park, 약 15×20 m 작은 쉼터라 자동으로 충분), 11층 주거동(gis:11908497, 큰 시설 아님), 역·출구 없음(춘의역 출구는 이웃 칸 697·687·6b3), 학교 없음(부천북초·원미초는 칸 밖).
+**웹 사진(보기만, 저장 안 함, 스크래치 폴더에서 보고 지움)**: 공원 — 공간디자인 회사 블로그 https://m.blog.naver.com/dgg5518/224060307772 (밝은 회색 블록 바닥에 짙은 줄눈 타일, 짙은 갈색 벽돌 벽과 긴 벽돌 벤치, 공원 이름 조명 판, 골목 별 조명), 네이버 블로그 검색 m.search.naver.com where=m_blog "원미별마루 별빛공원"(부천시 블로그 썸네일: 놀이대·안내판·주차장 입구). 교회 — m_image "부천 복된교회" 썸네일(벽돌 종탑, 아치 창, 세로 이름 글자). 시장 — m_blog "부천 원미종합시장" 장소 카드 사진(파란 아치 간판의 시장 입구, 지붕 덮인 골목). 행정복지센터 — m_image "원미2동행정복지센터" 썸네일(입구 이름 판, 유리문). 15층 탑 — 웹 사진 찾지 않음(주거동, 거리뷰 크롭 충분). 그 밖은 거리뷰 시트·크롭(captures/8930e0ac61bffff)과 위성 z19.
+**Context**: U8 첫 칸 61b 0b-4·7b(cell-facility)
