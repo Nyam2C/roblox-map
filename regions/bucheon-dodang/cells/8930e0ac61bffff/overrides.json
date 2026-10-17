@@ -2802,6 +2802,13 @@
   ],
   "overrides": [
     {
+      "building_id": "gis:11202220",
+      "field": "floors_above",
+      "reason": "U8 메인 판단 2026-10-17: 사진 2층은 앞 상가동만 보인 것으로 보이고 대장 높이 15.8 m가 5층과 맞음, 대장 유지",
+      "set_at": "2026-10-17T09:20:32+00:00",
+      "value": 5
+    },
+    {
       "building_id": "gis:11214307",
       "field": "floors_above",
       "reason": "register 3 floors; set-back top floor with green roof read as attic by photo count",
