@@ -1,0 +1,173 @@
+{
+ "goal": "부천역(37.4840, 126.7826, 칸 8930e0af32fffff)과 그 둘레 두 바퀴",
+ "made": "2026-10-17 U8: 가장 가까운 만든 칸 8930e0ac613ffff에서 역 칸까지의 H3 길목 + 역 칸의 두 바퀴 + 이웃 4개 이상인 빈틈, 지도 가장자리에서 가까운 순 그다음 역에 가까운 순 (u8-auto-expand-plan.md 6절)",
+ "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 실패 3번이면 held",
+ "fps_every": 3,
+ "since_fps": 0,
+ "baseline": null,
+ "stale": [],
+ "cells": [
+  {
+   "cell": "8930e0ac61bffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac6c7ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac6d3ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac6d7ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac657ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac6c3ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac6cfffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac6dbffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac643ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac653ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac6cbffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af333ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af337ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac65bffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af323ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af327ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ac64bffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af33bffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af32fffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ad597ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af32bffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ad587ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af377ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ad593ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ad583ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0af367ffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  },
+  {
+   "cell": "8930e0ad59bffff",
+   "state": "queued",
+   "rounds": 0,
+   "note": ""
+  }
+ ]
+}

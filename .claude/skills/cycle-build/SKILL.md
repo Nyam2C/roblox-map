@@ -9,6 +9,8 @@ description: roblox-map 세션 흐름의 3단계 "구현". 칸 하나를 데이�
 
 ## 단계
 
+자동 확장(U8, `aidlc-docs/construction/plans/u8-auto-expand-plan.md`)에서는 메인 세션이 이 단계들을 에이전트에게 나눠 맡긴다(`cell-prep` 0~3b·4, `cell-judge` 4-2, `cell-facility` 0b-4·7b, `cell-build` 6·7, `cell-fix` 8). 그때는 사용자에게 묻지 않고(`.rbxl` 복사본 부탁 생략, 모두 데이터에서 다시 만들 수 있음), 업로드는 하지 않으며, 검증은 cycle-verify의 "자동 확장 게이트"로 한다.
+
 ### 0. 구역과 등급
 칸이 어느 `regions/<구역>/region.toml`의 `cells`에도 없으면 넣는다(새 동네면 구역 폴더와 `region.toml`을 만든다: `name`, `cells`, 있으면 `school_polygons`, `spawn_*`, `[road_lanes_by_name]`). 칸별 판단 파일은 `regions/<구역>/cells/<칸>/`에 생긴다.
 ```bash

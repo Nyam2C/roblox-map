@@ -194,12 +194,14 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               sign_library: Sequence[Mapping[str, Any]] | None = None, grounds: Sequence[Mapping[str, Any]] | None = None,
               roof_tops: Mapping[str, str] | None = None, under_trees: set[str] | None = None,
               ground: "terrain.Ground | None" = None, decks: "bridges.Decks | None" = None,
-              clear: Sequence[Mapping[str, Any]] | None = None, region_roads: Sequence[Mapping[str, Any]] | None = None) -> Plan:
+              clear: Sequence[Mapping[str, Any]] | None = None, region_roads: Sequence[Mapping[str, Any]] | None = None,
+              walls: Mapping[str, Sequence[int]] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
     U5: duplicate outlines are dropped, bodies get boxes, roofs, bands, windows, facade elements, yards and signs from the
     merged details (judged > note > default), streets get pieces, markings, crosswalks and props (U5 BR-1 to BR-11).
+    U8: a wall colour measured on the photo (walls.json, lookalike.py walls) replaces the palette colour of that building's walls.
     """
     frame, res = layout.Frame.from_cfg(cfg), cfg["h3_res"]
     estimates, overrides, details = estimates or {}, overrides or {}, details or {}
@@ -264,6 +266,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             continue
         if roof_tops and bid in roof_tops:  # the satellite's top colour for the flat-roof cap (roofs.py)
             body = dataclasses.replace(body, details={**body.details, "roof_top": roof_tops[bid]})
+        if walls and bid in walls:  # U8 G3: the wall colour read off the photo against the render; its own name, so no other
+            rgb = tuple(int(c) for c in walls[bid])  # building of the chunk that shares the palette name changes with it
+            body = dataclasses.replace(body, wall_color=measured_name(rgb), wall_rgb=rgb, details={**body.details, "wall_category": body.wall_color})
         bodies.append((body, b, eff))
     # facing, occlusion
     lines = layout_details._feature_lines(features, frame, cfg)
@@ -561,6 +566,25 @@ def load_exits(path: Path) -> list[dict[str, Any]]:
     return out
 
 
+def measured_name(rgb: Sequence[int]) -> str:
+    """The colour name of a measured wall colour (U8 walls.json): m_ and the hex, unique to the colour, inside SAFE_TEXT."""
+    return "m_" + "".join(f"{int(c):02x}" for c in rgb)
+
+
+def load_walls(path: Path) -> dict[str, tuple[int, int, int]]:
+    """walls.json of a cell -> {building id: (r, g, b)}; no file, no measured walls. A bad entry refuses the build."""
+    if not path.exists():
+        return {}
+    out = {}
+    for bid, row in json.loads(path.read_text(encoding="utf-8")).get("walls", {}).items():
+        rgb = row.get("rgb") if isinstance(row, Mapping) else None
+        if not (SAFE_TEXT.fullmatch(str(bid)) and isinstance(rgb, list) and len(rgb) == 3
+                and all(isinstance(c, int) and not isinstance(c, bool) and 0 <= c <= 255 for c in rgb)):
+            raise ValueError(f"{path}: {bid!r} needs rgb as three integers 0-255")
+        out[str(bid)] = (rgb[0], rgb[1], rgb[2])
+    return out
+
+
 def load_clear(path: Path) -> list[dict[str, Any]]:
     """Rectangles of hand-made courts (courts.py) that keep satellite trees off; none without the file."""
     if not path.exists():
@@ -638,7 +662,8 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
                      load_sign_library(cfg, cell_id), fields.load_fields(common.cell_file(cfg, cell_id, "fields")),
                      roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")),
                      streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")), terrain.ground_for(cfg), region_decks(conn, cfg, cell_id),
-                     load_clear(common.cell_file(cfg, cell_id, "courts")), region_roads(conn, cfg, cell_id))
+                     load_clear(common.cell_file(cfg, cell_id, "courts")), region_roads(conn, cfg, cell_id),
+                     load_walls(common.cell_file(cfg, cell_id, "walls")))
     write_plan(plan, root)
     return plan
 

@@ -950,7 +950,8 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
     the window grid. The entrance gets a canopy with the block number."""
     L, F, fh, H = face_of(body.boxes[bi], side).length, body.floors, body.fh, body.height_m
     # the judged wall colour first: here 60 of 62 judged apartments are white or light gray, the beige panels read wrong (2026-10-15)
-    accent = APT_PANEL.get(body.wall_color) or APT_ACCENTS[R.pick(body.building_id, "apt_accent", len(APT_ACCENTS))]
+    # a measured wall colour (U8 walls.json) keeps the panel of the palette colour it replaced
+    accent = APT_PANEL.get(body.details.get("wall_category", body.wall_color)) or APT_ACCENTS[R.pick(body.building_id, "apt_accent", len(APT_ACCENTS))]
     glass = dict(material="SmoothPlastic", color=R.PALETTE["glass_apt"], color_name="glass_apt")  # no reflectance: it mirrors the sky blue
     rail = dict(material="Metal", color=R.PALETTE["apt_rail_panel"], color_name="apt_rail_panel", transparency=D["apt_rail_panel_tr"])
     ac = dict(material="Metal", color=R.PALETTE["ac"], color_name="ac")

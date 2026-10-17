@@ -79,3 +79,16 @@ cycle-build 7b에서 본 사진과 Studio 캡처(같은 방향, 땅 높이)를 �
 | FPS | 60 / 55 | |
 
 못 넘은 항목과 다음 조치(규칙 수정 / 보정 / 수작업 / 나중)를 적고, 다 넘으면 `cycle-record`로 간다.
+
+## 자동 확장 게이트 (U8, 2026-10-17)
+
+자동 확장(`aidlc-docs/construction/plans/u8-auto-expand-plan.md`)에서는 위 항목을 기계 판정으로 바꾼 게이트를 `cell-verify` 에이전트가 돌린다. 결과는 `data/gate/<칸>/`에, 기준은 `gate.toml`(메인만 고침), 허용 목록은 `regions/<구역>/cells/<칸>/gate-allow.json`(메인만). 사람이 직접 검증할 때도 같은 명령을 쓴다.
+
+1. **G1 배치(3b·3c 대신)**: `uv run src/gate.py g1 --cells <칸>`. 차도 위 건물·나무 줄기·가로시설, 다른 도로 차도 위 인도·연석·보행로, 길 밖·두 겹 횡단보도, 칸 경계 양쪽 폭. 이웃 칸 도로도 보고 고가는 높이로 가른다.
+2. **G1 Studio**: `road-clear-check.luau`(이 폴더)를 `CELLS`만 바꿔 `execute_luau`(Edit) → 답을 파일로 → `uv run src/gate.py studio --cell <칸> --file <답>`. `Workspace/Manual`까지 실제 부품으로 본다.
+3. **G2 위성(3 대신)**: 3단계처럼 수직 캡처와 `satellite.py compare` → `uv run src/gate.py tiles --cell <칸> --satellite <out>_satellite.jpg --capture <캡처>` → 조각 9장을 보고 `{"tiles": [{"tile": "A1", "issues": [{"type", "severity": "major|minor", "note"}]}]}` → `uv run src/gate.py g2 --cell <칸> --file <답>`.
+4. **G3 외관 닮음(4 대신, 1급, 쌍 전부)**: `estimate.py plan` → `uv run src/lookalike.py plan --cells <칸>` → 시야각 83.58로 plan의 캡처를 **하나씩**(찍힌 것이 그 건물인지 확인) → `{키: 경로}` → `uv run src/lookalike.py sheets --cells <칸> --captures <json>` → 채점은 **묶음만 보는 다른 에이전트**(`cell-score`, `lookalike-rubric.md`) → `uv run src/lookalike.py score --cells <칸> --file <답>`. 묶음을 만든 쪽은 `slots.json`(카나리아 위치)을 열지 않는다.
+5. **G4 FPS(5, 3칸마다)**: 걷기 기록 → `uv run src/gate.py fps --cell <칸> --avg <평균> --low <1초 최저>`.
+6. **판정**: `uv run src/gate.py summary --cells <칸> [--need fps]` → `data/gate/<칸>/gate.json`. 1급은 G3까지, FPS는 차례일 때만 필요. `uv run src/gate.py status`로 전체.
+
+게이트가 맞는데 걸린 것(실제 교통섬 나무 등)은 고치지 말고 근거와 함께 메인에 알린다. 게이트 파일(`gate.toml`, `gate-allow.json`, `src/gate.py`, `src/lookalike.py`, 이 폴더의 `lookalike-rubric.md`·`road-clear-check.luau`)은 메인만 고친다.

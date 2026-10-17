@@ -466,3 +466,27 @@ def test_a_small_record_on_a_subway_entrance_is_left_to_the_entrance_kit():
     plan = B.plan_cell(CELL, [building(0), kiosk], [ent], CFG)
     assert {i.name for i in plan.items if i.kind == "building"} == {"gis:1000"}
     assert any("subway entrance" in w for w in plan.warnings)
+
+
+# --- U8: measured wall colours (walls.json) -------------------------------------------------------------------
+
+def test_a_measured_wall_colour_gets_its_own_name_and_leaves_the_neighbours_alone():
+    a, b = building(0, center=offset(CENTER, -40, 60)), building(1, center=offset(CENTER, 40, 60))
+    plan = B.plan_cell(CELL, [a, b], [], CFG, walls={a["building_id"]: (201, 180, 150)})
+    body = {i.name: i for i in plan.items if i.kind == "building"}
+    assert body[a["building_id"]].color == (201, 180, 150) and body[a["building_id"]].attrs["WallColor"] == "m_c9b496"
+    assert body[b["building_id"]].attrs["WallColor"] != "m_c9b496" and body[b["building_id"]].color != (201, 180, 150)
+    looks = [ch["looks"]["walls"] for ch in json.loads(plan.files["chunks.json"])["chunks"]]
+    assert any(w.get("m_c9b496") == [201, 180, 150] for w in looks)
+    plain = B.plan_cell(CELL, [a, b], [], CFG)
+    assert {i.name: i.color for i in plain.items if i.kind == "building"}[b["building_id"]] == body[b["building_id"]].color
+
+
+def test_walls_json_is_checked(tmp_path):
+    good = tmp_path / "walls.json"
+    good.write_text(json.dumps({"walls": {"gis:1": {"rgb": [1, 2, 3], "de": 30}}}), encoding="utf-8")
+    assert B.load_walls(good) == {"gis:1": (1, 2, 3)} and B.load_walls(tmp_path / "none.json") == {}
+    for bad in ({"gis:1": {"rgb": [1, 2]}}, {"gis:1": {"rgb": [1, 2, 300]}}, {'gis:1"]': {"rgb": [1, 2, 3]}}, {"gis:1": {"rgb": [1.5, 2, 3]}}):
+        good.write_text(json.dumps({"walls": bad}), encoding="utf-8")
+        with pytest.raises(ValueError):
+            B.load_walls(good)

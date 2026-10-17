@@ -1,0 +1,41 @@
+# U8 검증 게이트 기준값 (aidlc-docs/construction/plans/u8-auto-expand-plan.md 3절).
+# 메인 세션만 고친다. 일꾼 에이전트(cell-build, cell-verify, cell-fix ...)의 커밋이 이 파일이나 gate-allow.json을 바꾸면 메인이 그 커밋을 되돌린다.
+# 길이는 m, 넓이는 m², 높이는 차도 윗면에서 잰 m. src/gate.py와 src/lookalike.py가 읽는다.
+
+[g1]                       # 배치: chunks.json(src/gate.py g1)과 Studio 실제 부품(road-clear-check.luau)
+building_m2 = 0.3          # 건물 상자가 차도와 이보다 적게 겹치면 모서리 닿음으로 본다(cycle-verify 3c)
+building_max_m2 = 1.0      # 한 동이라도 이보다 크게 겹치면 실패
+buildings_allowed = 1      # building_m2를 넘는 동이 이만큼까지는 통과(지금 3c 기준 "칸마다 0~1동")
+edge_m = 0.3               # 차도 가장자리에서 이만큼 안쪽부터를 차도로 본다(가로등·나무 줄기·볼라드의 자리 오차)
+clear_low_m = 0.28         # 차도 위 이 높이부터
+clear_high_m = 2.5         # 이 높이 사이에 걸리는 것은 차도를 막는 것(나무 수관·가로등 팔·고가 상판은 위로 지나감)
+prop_m2 = 0.05             # 가로시설 바닥이 차도와 이만큼 넘게 겹치면 차도 위
+sidewalk_m2 = 0.5          # 인도·연석 조각이 다른 도로의 차도와 이만큼 넘게 겹치면 실패
+path_m2 = 1.0              # 보행로 조각이 차도와 이만큼 넘게 겹치면 실패
+crosswalk_double = 0.3     # 다른 횡단보도의 줄무늬와 작은 쪽 넓이의 이 비율 넘게 겹치면 두 겹
+seam_width_m = 0.1         # 칸 경계 양쪽에서 같은 길의 폭이 이만큼 넘게 다르면 실패
+studio_m2 = 0.3            # Studio 검사: 차도 위 부품(수작업 포함)의 바닥 겹침이 이보다 크면 실패
+
+[g2]                       # 위성 조각 검토(검증 에이전트가 답함)
+major_allowed = 0          # 큰 차이(major)가 이만큼까지는 통과
+
+[g3]                       # 외관 닮음(src/lookalike.py, 검증 에이전트의 속성 채점)
+min_total = 7              # 6항목 x 0~2점 = 12점 중 이보다 낮으면 그 건물은 실패
+key_attrs = ["color", "finish", "ground"]   # 이 항목이 0점이면 총점과 상관없이 실패
+facility_min_total = 9     # 대표 시설(facilities.json의 건물)은 더 높게
+max_fail_rate = 0.2        # 칸에서 실패한 건물 비율이 이보다 크면 칸 실패(기준선을 잰 뒤 메인이 조정)
+min_coverage = 0.9         # 사진 있는 건물 중 묶음에 오른(캡처된) 비율이 이보다 낮으면 실패(빠뜨린 캡처로 통과하지 않게)
+swap_max_total = 4         # 바꿔 끼운 쌍(다른 건물 렌더)은 이 점수 이하여야 한다. 넘으면 채점이 느슨한 것이라 그 채점은 무효
+dup_max_diff = 2           # 같은 쌍을 두 번 보였을 때 총점 차이가 이보다 크면 채점이 흔들린 것이라 무효
+canaries_swap = 2          # 칸마다 섞는 바꿔 끼운 쌍 수
+canaries_dup = 2           # 칸마다 섞는 중복 쌍 수
+pairs_per_sheet = 4        # 묶음 이미지 한 장에 넣는 쌍
+color_de_fail = 25.0       # 벽 영역 대표색의 CIEDE2000 차이가 이보다 크면 색 고칠 후보(채점과 함께 본다)
+color_min_pixels = 400     # 벽으로 쓸 픽셀이 이보다 적으면 색은 재지 않는다(가림)
+color_ratio_min = 0.6      # 잰 색으로 벽 색을 고칠 때 채널마다 곱하는 비율의 범위(그늘·역광 한 장 때문에 크게 틀리지 않게)
+color_ratio_max = 1.6
+
+[fps]                      # 걷기 FPS(3칸마다, 사용자 2026-10-17)
+every_cells = 3
+min_avg = 59               # architecture.md 5절의 평균 60(Studio 상한 60이라 59.9 같은 반올림은 통과)
+min_low = 55               # 1초 최저

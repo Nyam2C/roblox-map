@@ -240,7 +240,7 @@ def cell_config(cfg: Mapping[str, Any], cell_id: str) -> dict[str, Any]:
 
 
 def cell_file(cfg: Mapping[str, Any], cell_id: str, kind: str) -> Path:
-    """regions/<region>/cells/<cell>/<kind>.json, kind = details | overrides | signs | trees (kept in git)."""
+    """regions/<region>/cells/<cell>/<kind>.json, kind = details | overrides | signs | trees | walls | gate-allow ... (kept in git)."""
     return Path(cell_config(cfg, cell_id)["cell_dir"]) / f"{kind}.json"
 
 
