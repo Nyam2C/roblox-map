@@ -1,5 +1,6 @@
 ---
 name: cell-verify
+model: sonnet
 description: roblox-map 자동 확장(U8)의 검증. 메인이 칸 ID(와 FPS 차례 여부)를 주면 cycle-verify의 게이트(G1 계산·Studio, G2 위성 조각, G3 전수 캡처와 묶음, 차례면 G4 FPS)를 돌려 data/gate/<칸>/에 결과를 쓴다. 코드와 데이터를 고치지 않는다.
 disallowedTools: Agent, Edit, NotebookEdit
 ---

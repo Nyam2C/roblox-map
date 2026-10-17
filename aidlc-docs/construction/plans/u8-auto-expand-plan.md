@@ -78,7 +78,7 @@ G3 판정: 건물 하나는 총점 7점 미만(대표 시설은 9점), 색·마�
    - `prepped` → 판단 목록마다 `cell-judge`(동시에 4개까지, 출력 `data/auto/<칸>/judge-NN.out.json`) → `cell-prep` 기록 모드(그 출력들; cycle-build 4단계 3~5번, 200개 넘는 칸은 새 목록이 나오면 판단을 한 번 더). 2·3급 칸은 판단을 건너뛴다.
    - `judged` → `cell-facility` → 스펙 JSON 경로를 받는다.
    - `specced` → `cell-build`(칸, 스펙 경로).
-   - `built` → `cell-verify`(칸, FPS 차례면 `fps`) → 1급이면 `cell-score`(score-list 경로) → 메인이 `lookalike.py score`와 `gate.py summary`.
+   - `built` → `cell-verify`(칸, FPS 차례면 `fps`) → 1급이면 `cell-score`(score-list를 묶음 20장 안팎씩 나눠 여러 에이전트에, 못 연 묶음은 새 에이전트에 다시; 2026-10-17 61b에서 69장을 하나에 맡겨 $35 날림) → 메인이 `lookalike.py score`와 `gate.py summary`.
    - `verified`(pass) → `cell-record` → `state = done`, `since_fps` 증가(FPS를 쟀으면 0).
    - 실패 → `rounds < 3`이면 `cell-fix`(gate.json 경로) → `built`로 돌아가 검증부터. 3번째도 실패면 `state = held`, 이유를 적고 알림.
 3. 에이전트가 끝날 때마다 `git diff --name-only HEAD`와 그 에이전트의 커밋을 본다: `gate.toml`, `gate-allow.json`, `src/gate.py`, `src/lookalike.py`, `cycle-verify/lookalike-rubric.md`, `road-clear-check.luau`를 일꾼이 바꿨으면 되돌리고(`git checkout HEAD~1 -- <파일>` 후 커밋) 그 칸을 다시 검증한다.

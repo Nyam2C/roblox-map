@@ -59,5 +59,5 @@ Write ONE JSON file to `output`:
             "note": "short English, optional"}]}
 ```
 
-Exactly one entry per slot of the list, valid JSON (no comments, no trailing commas), every look an integer. Then reply with
-only: the number of slots written, how many you called `same_building: false`, and any sheet you could not open.
+Exactly one entry per slot of every sheet you could open, valid JSON (no comments, no trailing commas), every look an integer. Then reply with
+only: the number of slots written, how many you called `same_building: false`, and any sheet you could not open. **A sheet that will not open (e.g. "request limit") is never guessed: write no entry for its slots, stop, and list the sheets you did not reach.** The caller merges answers and sends the missing sheets to a new scorer.
