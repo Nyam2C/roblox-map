@@ -1208,3 +1208,18 @@ def test_a_box_on_a_road_strip_is_trimmed_back_off_it():
     assert out.width_m == 20.0 and 8.0 <= out.depth_m < 10.0
     far = LineString([(-30, 20), (30, 20)]).buffer(3.0, cap_style=2)
     assert LDm.clip_to_roads(box, [far]) == box
+
+
+def test_a_footpath_running_beside_a_road_is_cut_where_its_band_lies_on_the_carriageway():
+    # 6d7 (2026-10-18): a 2 m cycleway beside a parking aisle; its centre stayed off the aisle but its band was 0.5 m over it
+    road = street(cls="tertiary")  # east-west through the cell centre
+    half = ST.streets_of([road], FRAME, CELL, RES, CFG)[0].width / 2
+
+    def beside(off):
+        return {"feature_id": "way:8", "kind": "path", "highway_class": "cycleway", "tags": {},
+                "geometry": [list(offset(CENTER, -30, half + off)), list(offset(CENTER, 30, half + off))]}
+
+    near = beside(0.5)
+    assert not [f for f in ST.paths_off_roads([road, near], FRAME, CFG) if f["kind"] == "path"]
+    far = beside(1.5)
+    assert ST.paths_off_roads([road, far], FRAME, CFG)[1] is far

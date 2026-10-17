@@ -170,13 +170,18 @@ def paths_off_roads(features: Sequence[Mapping[str, Any]], frame: Frame, cfg: Ma
     ways = carriageways(streets_of(roads, frame, "", 0, cfg)) if roads else {}
     if not ways:
         return list(features)
-    blocked = unary_union(list(ways.values())).buffer(0.3)
+    union = unary_union(list(ways.values()))
+    by_reach: dict[float, Any] = {}
     s = frame.studs_per_m
     out: list[Mapping[str, Any]] = []
     for f in features:
         if f["kind"] != "path":
             out.append(f)
             continue
+        # cut where the path's band (half its width) reaches 0.3 m into the carriageway, not only where its centre line does
+        # (6d7, 2026-10-18: a cycleway beside a parking aisle kept a 2 m band 0.5 m over the aisle)
+        reach = round(max(0.3, layout.road_width_m(f, cfg) / 2 - 0.3), 2)
+        blocked = by_reach.get(reach) or by_reach.setdefault(reach, union.buffer(reach))
         pts = [layout.to_meters(frame, p[0], p[1]) for p in f["geometry"] if layout._finite(p[0], p[1])]
         if len(pts) < 2 or not LineString(pts).intersects(blocked):
             out.append(f)
