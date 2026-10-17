@@ -296,6 +296,15 @@ def test_a_lane_count_by_name_applies_to_big_roads_only():
     assert layout.road_width_m({"kind": "road", "highway_class": "residential", "tags": {"name": "부천로"}}, cfg) == 6
 
 
+def test_a_lane_count_by_way_beats_the_name():
+    """2026-10-17 (6c7): 부천로 is 4 lanes in 4cb but about 24 m (6 lanes) in 6c7; one table value per name could not say both."""
+    cfg = {**CFG, "lane_width_m": 3.25, "road_lanes_by_name": {"부천로": 4}, "road_lanes_by_way": {"way:1313919755": 6}}
+    road = {"kind": "road", "highway_class": "primary", "tags": {"name": "부천로"}}
+    assert layout.road_width_m({**road, "feature_id": "way:1313919755#0.1"}, cfg) == 19.5
+    assert layout.road_width_m({**road, "feature_id": "way:1341300148#0"}, cfg) == 13.0
+    assert layout.road_width_m({**road, "feature_id": "way:1313919755#0.1", "tags": {"name": "부천로", "lanes": "4"}}, cfg) == 13.0
+
+
 def test_a_road_narrows_to_stop_at_the_buildings_beside_it_but_keeps_a_floor():
     """2026-10-16 (원미동·춘의동): 6 m alleys ran into houses 2.2 m from the centre line; a record across the road keeps 60 %."""
     road = {"feature_id": "way:1", "kind": "road", "highway_class": "residential", "tags": {},
