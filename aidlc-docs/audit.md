@@ -2463,3 +2463,10 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 ||||||| a93f5a6
 
 ---
+## 트레이싱 파이프라인 마저 세팅
+**Timestamp**: 2026-10-18T07:00:00Z
+**User Input**: "그러니까 지금 상태로 다른세션에 맡기면 방금 빌라 트레이싱 과정을 안거친다?" → (문서 세 곳이 예전 흐름, build_luau 연결 없음) → "여기서 다 마저 세팅"
+**AI Response**: `src/facade_parts.py`(조각 → 부품·Union 키트 키, 옆·뒤 두르기, 규칙 부품 남길지, 빌려 쓰기), `facade.py cell/record/check`(칸 일괄 펼치기·목록, 색·모서리·맨 벽 색·빈 땅·빌려 쓰기 → facade.json·walls.json, G3 대신 검사), `build_luau.py`(facade.json → 가장 큰 상자의 규칙 정면 대신 조각, finish로 벽 재질, facade-kits.json), `MapBuilder.luau`(Union 키트에 재질·색 안 덮음), `studio/install/facade-kits.luau`, `gate.py`(트레이싱 칸은 g3 대신 trace), `gate.toml [trace]`, `tests/test_facade.py`(15개, 전체 873 통과). 시험용 facade.json으로 6d3을 Studio에서 끝까지 지어 봄(키트 74 실패 0, verify true) 뒤 되돌림. 문서: CLAUDE.md 칸 추가 절차, cycle-build 4T·7, cycle-verify, U8 절차서, cell-prep·build·verify·fix. 실험 시험판 `facade-trace.luau`는 지움.
+**Context**: 정면 트레이싱 전환
+
+---

@@ -55,7 +55,7 @@ CURB = re.compile(r"curb[LR]")
 TREE = re.compile(r"tree")
 G1_CHECKS = ("buildings_on_road", "trees_on_road", "props_on_road", "sidewalks_on_road", "paths_on_road",
              "crosswalks_off_road", "crosswalks_double", "seam_widths")
-PARTS = ("g1", "g1_studio", "g2", "g3", "fps")  # the files summary joins, data/gate/<cell>/<part>.json (g1_studio: g1-studio.json)
+PARTS = ("g1", "g1_studio", "g2", "g3", "trace", "fps")  # trace: src/facade.py check (a traced cell, instead of g3)  # the files summary joins, data/gate/<cell>/<part>.json (g1_studio: g1-studio.json)
 ISSUES = ("missing_road", "extra_road", "road_width", "building_missing", "building_extra", "tree_on_road", "facility_missing", "other")
 
 
@@ -451,10 +451,12 @@ def tier_of(cfg: Mapping[str, Any], cell_id: str) -> int:
     return int(row.get("tier") or 1)
 
 
-def needed(tier: int, fps: bool) -> list[str]:
+def needed(tier: int, fps: bool, traced: bool = False) -> list[str]:
     """Parts a cell must have passed: placement (both checks) and the satellite always, the look-alike on a tier-1 cell (the only
-    tier with street view), the walk when it is due (every gate.toml fps.every_cells cells)."""
-    return ["g1", "g1_studio", "g2"] + (["g3"] if tier == 1 else []) + (["fps"] if fps else [])
+    tier with street view; a traced cell has the trace check instead, user 2026-10-18), the walk when it is due (every gate.toml
+    fps.every_cells cells)."""
+    look = (["trace"] if traced else ["g3"]) if tier == 1 else []
+    return ["g1", "g1_studio", "g2"] + look + (["fps"] if fps else [])
 
 
 def summary(parts: Mapping[str, Mapping[str, Any] | None], need: Sequence[str]) -> dict[str, Any]:
@@ -529,7 +531,9 @@ def main(cfg: dict[str, Any], argv: Sequence[str] | None = None) -> int:
             _cell_ok(cell, res)
             tier = tier_of(cfg, cell)
             parts = {p: read_part(cell, p) for p in PARTS}
-            out = {"cell": cell, "tier": tier, "gate": digest, "at": common.now_iso(), **summary(parts, needed(tier, "fps" in args.need))}
+            traced = common.cell_file(cfg, cell, "facade").exists()
+            out = {"cell": cell, "tier": tier, "gate": digest, "at": common.now_iso(),
+                   **summary(parts, needed(tier, "fps" in args.need, traced))}
             write_json(gate_path(cell, "gate"), out)
             print(cell, "PASS" if out["pass"] else "FAIL " + ",".join(out["fail"]))
             bad += not out["pass"]

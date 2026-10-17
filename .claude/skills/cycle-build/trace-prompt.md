@@ -27,7 +27,8 @@ you read off it will be wrong too (a 2026-10-18 test traced a 13.6 m villa as 11
   `top_m` = the height above ground of your top two corners (the eave is usually H_m). Trace the pieces anyway from what you see,
   using the floor slabs to place heights; the caller unfolds again with your corners.
 - The facade is mostly hidden (trees, a truck), too far, or it is the wrong building: write `{"building_id", "unusable": "<why, short>"}`
-  and no pieces. The map then borrows a traced neighbour.
+  and no pieces. The map then borrows a traced neighbour. If the photo shows **no building at all** where the wall should be
+  (an empty lot, a parking lot, only trees), write `"unusable": "no building"` exactly.
 
 ## Pieces
 `{"kind", "u0", "u1", "y0", "y1"}` in metres to one decimal (0.05 where you can see it), plus optional fields:
@@ -47,7 +48,9 @@ you read off it will be wrong too (a 2026-10-18 test traced a 13.6 m villa as 11
 | `ac_unit` | air conditioner box | |
 | `rooftop_box` | rooftop room above H_m | `out_m` = -(its depth + setback), `depth_m` (default 3) |
 
-Do not write colours: they are measured from the photo afterwards.
+Do not write colours: they are measured from the photo afterwards. Do write the wall material once per building as `finish`:
+`brick` (red or brown brick), `stone` (granite or stone cladding), `tile` (small ceramic tiles), `paint` (rendered and painted),
+`panel` (metal or composite panels), `glass` (curtain wall) — the main wall, not the stair tower or the base.
 
 **Repeats save writing**: a piece that recurs at the same u on several floors is written once with `repeat_dy`: the extra
 height offsets, e.g. `{"kind": "window", "u0": 0.4, "u1": 2.6, "y0": 3.7, "y1": 6.0, "repeat_dy": [3.4, 6.8]}` is three windows.
@@ -61,7 +64,7 @@ the look. Skip what you cannot see (behind a car, under a tree) rather than gues
 Write ONE JSON file to `output`:
 
 ```json
-{"buildings": [{"building_id": "gis:N", "corners_px": null, "top_m": null,
+{"buildings": [{"building_id": "gis:N", "corners_px": null, "top_m": null, "finish": "brick",
   "pieces": [{"kind": "brick_stair", "u0": 2.8, "u1": 5.8, "y0": 5.0, "y1": 16.3, "depth_m": 0.4}, ...],
   "occluded": [{"u0": 0.0, "u1": 1.2, "y0": 0.0, "y1": 2.2}],
   "note": "short English: what the facade is"},

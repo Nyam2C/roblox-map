@@ -2,24 +2,28 @@
 # requires-python = ">=3.11"
 # dependencies = ["h3==4.5.0", "shapely==2.2.0", "numpy==2.5.4", "pillow==12.3.0"]
 # ///
-"""Facade tracing experiment (aidlc-docs/construction/plans/facade-trace-experiment.md).
+"""Facade tracing (user decision 2026-10-18, replaces the 7-field judgement; aidlc-docs/construction/plans/facade-trace-experiment.md).
 
-A street-view crop is unfolded onto the front face of its building box (homography of the face's four corners), so the
-facade can be traced on a 1 m grid; the traced pieces become parts on that face; the Studio capture from the same camera is
-unfolded the same way and laid over the photo.
+Each street-view crop is unfolded onto the wall of its building box that faces the camera (homography of the wall's four
+corners) and laid on a 1 m grid; the cell-trace agent (.claude/skills/cycle-build/trace-prompt.md) writes the facade as pieces in
+metres; record measures their colours on the photo, gives the buildings with no usable photo a traced neighbour's front, and
+writes regions/<region>/cells/<cell>/facade.json, which build_luau.py turns into parts (facade_parts.py). check is the gate that
+replaces G3: do the traced pieces sit on edges of the photo, and how many parts does a traced building take.
 
-Usage:
-  uv run src/facade.py unfold  --cells <cell> --building gis:N [--corners "x,y x,y x,y x,y" [--top-m 10.2]]
-  uv run src/facade.py trace   --cells <cell> --building gis:N --file <pieces.json> [--wrap]   # -> data/facade/<cell>/gis_N.trace.json
-                                                                   # (studio/install/facade-trace.luau builds it, windows as Union kits)
-  uv run src/facade.py compare --cells <cell> --building gis:N --file <pieces.json> --capture <studio.png> [--before <studio.png>]
+Usage (cycle-build 4T; run build_luau.py once first: the boxes come from data/build/<cell>/chunks.json):
+  uv run src/facade.py cell    --cells <cell>     # unfold every pictured building, list files data/facade/<cell>/trace-NN.json
+  uv run src/facade.py record  --cells <cell>     # trace-NN.out.json -> facade.json (colours, corners, borrowed fronts)
+  uv run src/facade.py check   --cells <cell>     # data/gate/<cell>/trace.json (gate.py summary uses it instead of g3)
+  uv run src/facade.py unfold  --cells <cell> --building gis:N [--corners "x,y x,y x,y x,y" --top-m 10.2]   # one building
+  uv run src/facade.py compare --cells <cell> --building gis:N --capture <studio.png> [--before <studio.png>]
 """
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
+import math
 import sys
+import tomllib
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -27,6 +31,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 import common
+import facade_parts as FP
 import lookalike as LA
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,20 +39,6 @@ PX_PER_M = 80  # the crop shows this villa at about 65 px/m; 40 lost the mullion
 MARGIN_M = 1.0  # around the face on the unfolded image
 ABOVE_M = 3.0  # room for a rooftop room above the face
 VERTICAL = (0, 1, 4, 5)  # indexes of lookalike.FACES that are walls
-# kind -> (depth out of the wall m, material, transparency); colour is measured on the photo. "Glass" is drawn as the rule
-# build draws glass (SmoothPlastic + reflectance, layout_details.front_items): Roblox Glass with a photo's dark colour is black
-FRAMED = ("window", "glass_stair", "door", "shopfront", "bay", "balcony_glazed")
-FRAME_M, FRAME_RGB = 0.1, (205, 205, 200)  # aluminium frame around a glass piece
-KINDS: dict[str, tuple[float, str, float]] = {
-    "window": (0.08, "Glass", 0.0), "glass_stair": (0.3, "Glass", 0.0), "brick_stair": (0.6, "Brick", 0.0),
-    "bay": (1.2, "Glass", 0.0), "bay_curved": (1.2, "Glass", 0.0),
-    "balcony_open": (1.5, "Metal", 0.0), "balcony_glazed": (1.5, "Glass", 0.0),
-    "door": (0.05, "Glass", 0.0), "shopfront": (0.05, "Glass", 0.0), "awning": (1.2, "SmoothPlastic", 0.0),
-    "sign": (0.1, "SmoothPlastic", 0.0), "ac_unit": (0.3, "Metal", 0.0),
-    "gate": (0.1, "Metal", 0.0), "gate_tiled": (0.3, "Brick", 0.0), "fence_brick": (0.25, "Brick", 0.0), "fence_iron": (0.05, "Metal", 0.0),
-    "stone_base": (0.05, "Granite", 0.0), "band": (0.08, "Concrete", 0.0), "panel": (0.03, "Concrete", 0.0),
-    "rooftop_box": (3.0, "Concrete", 0.0), "roof_railing": (0.05, "Metal", 0.0), "slab": (0.25, "Concrete", 0.0),
-}
 
 
 def data_dir(cell: str) -> Path:
@@ -120,8 +111,9 @@ def face_geometry(box: Mapping[str, Any], cam: LA.Camera, spm: float) -> dict[st
     world = np.array([a, b, b + up * h_st, a + up * h_st])
     l_st = float(np.linalg.norm(b - a))
     d_st = float(box["w"] if abs(l_st - box["d"]) < abs(l_st - box["w"]) else box["d"])  # the box's other horizontal side
+    axis, sign = FP.face_of_normal(box, n.tolist())
     return {"origin": a.tolist(), "t": t.tolist(), "n": n.tolist(), "L_m": l_st / spm, "D_m": d_st / spm,
-            "H_m": h_st / spm, "corners_px": cam.to_px(cam.to_cam(world)).tolist()}
+            "H_m": h_st / spm, "corners_px": cam.to_px(cam.to_cam(world)).tolist(), "face": {"axis": axis, "sign": sign}}
 
 
 def unfold_h(geo: Mapping[str, Any], corners_px: Sequence[Sequence[float]], top_m: float | None) -> tuple[np.ndarray, tuple[int, int]]:
@@ -194,179 +186,294 @@ def measure(photo_flat: np.ndarray, geo: Mapping[str, Any], p: Mapping[str, Any]
     return [int(c) for c in np.median(patch, axis=0)]
 
 
-def expand(pieces: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
-    """A piece with repeat_dy is that piece again at each height offset (the tracer writes a floor-by-floor repeat once)."""
-    out = []
-    for p in pieces:
-        base = {k: v for k, v in p.items() if k != "repeat_dy"}
-        for dy in [0.0, *p.get("repeat_dy", [])]:
-            q = {**base, "y0": base["y0"] + dy, "y1": base["y1"] + dy}
-            if "mullions_y" in base:
-                q["mullions_y"] = [y + dy for y in base["mullions_y"]]
-            if "bars" in base:
-                q["bars"] = {**base["bars"], "y": [y + dy for y in base["bars"].get("y", [])]}
-            out.append(q)
+GATE_DIR = ROOT / "data" / "gate"
+BATCH = 10  # buildings per cell-trace agent: two images each, about 20 images (request limit, lessons 2026-10-17 61b)
+BIG_FLOORS, BIG_LENGTH_M = 7, 25.0  # nobody borrows a villa front for these: facilities or the rule build
+
+
+def chunk_items(cell: str) -> list[dict[str, Any]]:
+    chunks = json.loads((ROOT / "data" / "build" / cell / "chunks.json").read_text(encoding="utf-8"))
+    return [i for ch in chunks["chunks"] for i in ch["items"]]
+
+
+def body_boxes(items: Sequence[Mapping[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Building id -> its biggest box (the one traced)."""
+    out: dict[str, dict[str, Any]] = {}
+    for i in items:
+        if i["k"] == "building":
+            bid = str(i.get("i") or i["n"])
+            if bid not in out or i["w"] * i["d"] > out[bid]["w"] * out[bid]["d"]:
+                out[bid] = i
     return out
 
 
-SIDES = ("front", "left", "right", "back")
-WRAP_BANDS = ("slab", "band")  # floor bands and eaves go round the corners
-KEEP = ("cap", "pl", "y")  # rule parts kept: roof cap, plinth, yard (a yard part in front of the traced face is hidden)
+def pairs_of(cell: str) -> dict[str, dict[str, Any]]:
+    plan = json.loads((ROOT / "data" / "build" / cell / "review.json").read_text(encoding="utf-8"))
+    out: dict[str, dict[str, Any]] = {}
+    for batch in plan["batches"]:
+        for p in batch["pairs"]:
+            out.setdefault(p["building_id"], p)
+    return out
 
 
-def faces(geo: Mapping[str, Any]) -> dict[str, tuple[np.ndarray, np.ndarray, np.ndarray, float]]:
-    """side -> (seen-left bottom corner, along, out, length m) of the four walls; front is the traced face, the others are
-    named as seen from the front (left = the end at u = 0)."""
-    o, t, n, spm = np.array(geo["origin"]), np.array(geo["t"]), np.array(geo["n"]), geo["spm"]
-    L, D = geo["L_m"] * spm, geo["D_m"] * spm
-    return {"front": (o, t, n, geo["L_m"]), "left": (o - n * D, n, -t, geo["D_m"]),
-            "right": (o + t * L, -n, t, geo["D_m"]), "back": (o + t * L - n * D, -t, -n, geo["L_m"])}
+def cmd_cell(cell: str) -> int:
+    out = data_dir(cell)
+    out.mkdir(parents=True, exist_ok=True)
+    for old in out.glob("trace-*.json"):  # lists and answers of an earlier run (record reads every trace-NN.out.json)
+        old.unlink()
+    items, skipped = [], {}
+    for bid in sorted(pairs_of(cell)):
+        stem = bid.replace(":", "_")
+        try:
+            pair, geo, photo, h, size = setup(cell, bid, None, None)
+        except SystemExit as e:  # no wall faces the camera, or the box is gone
+            skipped[bid] = str(e)
+            continue
+        draw_grid(unfold_image(photo, h, size), geo, geo["floors"]).save(out / f"{stem}.jpg", quality=92)
+        ov = photo.copy()
+        ImageDraw.Draw(ov).polygon([tuple(c) for c in geo["corners_px"]], outline=(255, 0, 200), width=3)
+        ov.save(out / f"{stem}.outline.jpg", quality=92)
+        items.append({"building_id": bid, "image": str((out / f"{stem}.jpg").relative_to(ROOT)),
+                      "outline": str((out / f"{stem}.outline.jpg").relative_to(ROOT)),
+                      "L_m": round(geo["L_m"], 2), "H_m": round(geo["H_m"], 2), "floors": geo["floors"]})
+    lists = []
+    for k in range(0, len(items), BATCH):
+        n = k // BATCH + 1
+        path = out / f"trace-{n:02d}.json"
+        path.write_text(json.dumps({"items": items[k:k + BATCH], "output": str((out / f"trace-{n:02d}.out.json").relative_to(ROOT))},
+                                   ensure_ascii=False, indent=1), encoding="utf-8")
+        lists.append(str(path.relative_to(ROOT)))
+    (out / "cell.json").write_text(json.dumps({"lists": lists, "skipped": skipped}, indent=1), encoding="utf-8")
+    print(json.dumps({"cell": cell, "unfolded": len(items), "lists": lists, "skipped": len(skipped)}))
+    return 0
 
 
-def wrap(pieces: Sequence[Mapping[str, Any]], L: float, D: float) -> dict[str, list[dict[str, Any]]]:
-    """The front's floor bands, eaves and windows carried round to the walls nobody photographed (user 2026-10-18, option 1):
-    a side takes the bands and window rows of the wing next to it (two windows a floor), the back mirrors the two wings."""
-    left = [p for p in pieces if p["u1"] <= 0.4 * L]
-    right = [p for p in pieces if p["u0"] >= 0.6 * L]
-    def plain(p: Mapping[str, Any]) -> bool:
-        return p["y0"] > 0.0 and float(p.get("out_m", 0.0)) >= 0.0
-    def side(wing: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
-        out = []
-        for p in wing:
-            if not plain(p):
-                continue
-            if p["kind"] in WRAP_BANDS and "out_m" not in p:
-                d = float(p.get("depth_m", KINDS[p["kind"]][0]))
-                out.append({**p, "u0": -d, "u1": D + d})
-            elif p["kind"] == "window":
-                w = min(1.4, p["u1"] - p["u0"])
-                for c in (D / 3, 2 * D / 3):
-                    q = {k: v for k, v in p.items() if k != "mullions_u"}
-                    out.append({**q, "u0": c - w / 2, "u1": c + w / 2, "mullions_u": [c]})
-        return out
-    back = []
-    for p in left + right:
-        if plain(p) and p["kind"] in WRAP_BANDS + ("window", "fence_iron") and "out_m" not in p or p["kind"] == "fence_iron":
-            q = {**p, "u0": L - p["u1"], "u1": L - p["u0"]}
-            if "mullions_u" in p:
-                q["mullions_u"] = [L - u for u in p["mullions_u"]]
-            back.append(q)
-    return {"front": list(pieces), "left": side(left), "right": side(right), "back": back}
+def nearest_road_face(box: Mapping[str, Any], roads: Sequence[Mapping[str, Any]], spm: float) -> dict[str, Any]:
+    """The wall of a box closest to a road piece: the front of a building nobody photographed."""
+    best = None
+    for axis in ("x", "z"):
+        for sign in (1, -1):
+            w = FP.walls(box, axis, sign, spm)["front"]
+            mid = (w["origin"][0] + w["t"][0] * w["L_m"] * spm / 2 + w["n"][0], w["origin"][2] + w["t"][2] * w["L_m"] * spm / 2 + w["n"][2])
+            for r in roads:
+                ax, az = FP.axes(r)
+                rel = (mid[0] - r["x"], 0.0, mid[1] - r["z"])
+                lx, lz = abs(FP._dot(rel, ax)) - r["w"] / 2, abs(FP._dot(rel, az)) - r["d"] / 2
+                d = math.hypot(max(lx, 0.0), max(lz, 0.0))
+                if best is None or d < best[0]:
+                    best = (d, axis, sign)
+    return {"axis": best[1], "sign": best[2]} if best else {"axis": "z", "sign": -1}
 
 
-def trace_rows(geo: Mapping[str, Any], by_side: Mapping[str, Sequence[Mapping[str, Any]]]) -> list[list[Any]]:
-    """Parts as [x, y, z, sx, sy, sz, material, transparency, r, g, b, reflectance, face, unit, kit key] (studs). A window,
-    door or railing with its frame, sashes and bars is one unit; units with the same key are the same shape (one Union kit)."""
-    spm, up = geo["spm"], np.array([0.0, 1.0, 0.0])
-    rows: list[list[Any]] = []
-    unit = [0]
-    for fi, sidename in enumerate(SIDES):
-        o, t, n, _ = faces(geo)[sidename]
-        for p in by_side.get(sidename, []):
-            depth, mat, tr = KINDS[p["kind"]]
-            depth = float(p.get("depth_m", depth))
-            out = float(p.get("out_m", 0.0))
-            u0, u1, y0, y1 = p["u0"], p["u1"], p["y0"], p["y1"]
-            rgb = tuple(int(c) for c in p["rgb"])
-            frame = tuple(p.get("frame_rgb", FRAME_RGB))
-            detailed = p["kind"] == "fence_iron" or p["kind"] in FRAMED
-            g, key = 0, ""
-            if detailed:
-                unit[0] += 1
-                g = unit[0]
-                shape = {k: p.get(k) for k in ("kind", "mullions_u", "mullions_y", "bars", "du", "depth_m", "rgb", "frame_rgb")}
-                shape["mullions_u"] = [round(u - u0, 2) for u in p.get("mullions_u", [])]
-                shape["mullions_y"] = [round(y - y0, 2) for y in p.get("mullions_y", [])]
-                if shape["bars"]:
-                    shape["bars"] = {**shape["bars"], "y": [round(y - y0, 2) for y in shape["bars"].get("y", [])]}
-                shape["size"] = [round(u1 - u0, 2), round(y1 - y0, 2)]
-                key = "fu-" + hashlib.sha1(json.dumps(shape, sort_keys=True).encode()).hexdigest()[:12]
-            def row(a0: float, a1: float, b0: float, b1: float, o_m: float, d_m: float, m: str, tra: float, c: Sequence[int]) -> None:
-                pos = o + t * (a0 + a1) / 2 * spm + up * (b0 + b1) / 2 * spm + n * (o_m + d_m / 2) * spm
-                rows.append([*(round(float(v), 3) for v in pos), round((a1 - a0) * spm, 3), round((b1 - b0) * spm, 3), round(d_m * spm, 3),
-                             "SmoothPlastic" if m == "Glass" else m, tra, *c, 0.25 if m == "Glass" else 0.0, fi + 1, g, key])
-            def grille(a0: float, a1: float, b0: float, b1: float, du: float, ys: Sequence[float], o_m: float, w: float, c: Sequence[int]) -> None:
-                k = max(1, round((a1 - a0) / du))
-                for j in range(1, k):
-                    a = a0 + (a1 - a0) * j / k
-                    row(a - w / 2, a + w / 2, b0, b1, o_m, w, "Metal", 0.0, c)
-                for b in ys:
-                    row(a0, a1, b - w / 2, b + w / 2, o_m, w, "Metal", 0.0, c)
-            if p["kind"] == "fence_iron":  # railing: top and bottom rail, thin posts
-                row(u0, u1, y1 - 0.06, y1, out, 0.06, "Metal", 0.0, rgb)
-                grille(u0, u1, y0, y1, float(p.get("du", 0.12)), [y0 + 0.03], out, 0.04, rgb)
-                continue
-            if p["kind"] in FRAMED:
-                row(u0 - FRAME_M, u1 + FRAME_M, max(0.0, y0 - FRAME_M), y1 + FRAME_M, out, depth * 0.6, "SmoothPlastic", 0.0, frame)
-            row(u0, u1, y0, y1, out, depth, mat, tr, rgb)
-            for u in p.get("mullions_u", []):  # sash and pane frames, a little proud of the glass
-                row(u - 0.03, u + 0.03, y0, y1, out, depth + 0.03, "SmoothPlastic", 0.0, frame)
-            for y in p.get("mullions_y", []):
-                row(u0, u1, y - 0.03, y + 0.03, out, depth + 0.03, "SmoothPlastic", 0.0, frame)
-            if "bars" in p:  # window grille in front of the glass
-                b = p["bars"]
-                grille(u0, u1, y0, y1, float(b.get("du", 0.12)), b.get("y", []), out + depth + 0.06, 0.03, tuple(b.get("rgb", (95, 97, 100))))
-    return rows
+def wall_colour(flat: np.ndarray, geo: Mapping[str, Any], pieces: Sequence[Mapping[str, Any]],
+                occluded: Sequence[Mapping[str, Any]], min_pixels: int = 400) -> list[int] | None:
+    """The bare wall's colour on the unfolded photo: the wall above the first floor, minus every piece and hidden part (median;
+    None when too little shows). It goes to walls.json, which build_luau.py already applies (the 7-field colour is gone)."""
+    s, H, L = PX_PER_M, geo["H_m"], geo["L_m"]
+    mask = np.zeros(flat.shape[:2], bool)
+    y_top, y_low = round(ABOVE_M * s), round((H + ABOVE_M - min(H, H / max(1, geo["floors"]))) * s)
+    mask[y_top:y_low, round(MARGIN_M * s):round((L + MARGIN_M) * s)] = True
+    for p in [*pieces, *occluded]:
+        mask[round((H + ABOVE_M - p["y1"]) * s):round((H + ABOVE_M - p["y0"]) * s),
+             max(0, round((p["u0"] + MARGIN_M) * s)):max(0, round((p["u1"] + MARGIN_M) * s))] = False
+    px = flat[mask]
+    return [int(c) for c in np.median(px, axis=0)] if len(px) >= min_pixels else None
 
 
-def trace_payload(bid: str, geo: Mapping[str, Any], by_side: Mapping[str, Sequence[Mapping[str, Any]]]) -> dict[str, Any]:
-    fs = faces(geo)
-    return {"id": bid, "keep": list(KEEP), "front_o": fs["front"][0].round(3).tolist(), "front_n": fs["front"][2].round(5).tolist(),
-            "t": [fs[s][1].round(5).tolist() for s in SIDES], "rows": trace_rows(geo, by_side)}
+def cmd_record(cell: str) -> int:
+    cfg = common.load_config()
+    spm = float(cfg["studs_per_m"])
+    out = data_dir(cell)
+    answers: dict[str, dict[str, Any]] = {}
+    for f in sorted(out.glob("trace-*.out.json")):
+        for b in json.loads(f.read_text(encoding="utf-8")).get("buildings", []):
+            answers[str(b["building_id"])] = b
+    if not answers:
+        raise SystemExit(f"no trace answers in {out} (cell-trace writes trace-NN.out.json)")
+    entries: dict[str, dict[str, Any]] = {}
+    walls: dict[str, dict[str, Any]] = {}
+    unusable = []
+    for bid, b in sorted(answers.items()):
+        if str(b.get("unusable") or "").strip().lower() == "no building":  # an empty lot: build_luau leaves the record out
+            entries[bid] = {"source": "empty"}
+            continue
+        if b.get("unusable") or not b.get("pieces"):
+            unusable.append(bid)
+            continue
+        pieces = FP.expand(b["pieces"])
+        for p in pieces:
+            FP.check_piece(p)
+        corners = " ".join(f"{x},{y}" for x, y in b["corners_px"]) if b.get("corners_px") else None
+        pair, geo, photo, h, size = setup(cell, bid, corners, b.get("top_m") or None)
+        flat = np.asarray(unfold_image(photo, h, size))
+        pieces = [{**p, "rgb": p.get("rgb") or measure(flat, geo, p)} for p in pieces]
+        entries[bid] = {"source": "trace", "face": geo["face"], "L_m": round(geo["L_m"], 3), "H_m": round(geo["H_m"], 3),
+                        "floors": geo["floors"], "corners_px": b.get("corners_px"), "top_m": b.get("top_m"), "pieces": pieces}
+        if b.get("finish"):
+            entries[bid]["finish"] = b["finish"]
+        rgb = wall_colour(flat, geo, pieces, b.get("occluded") or [])
+        if rgb:
+            walls[bid] = {"rgb": rgb, "from": "facade trace (bare wall on the unfolded photo)"}
+    items = chunk_items(cell)
+    boxes = body_boxes(items)
+    chunks = json.loads((ROOT / "data" / "build" / cell / "chunks.json").read_text(encoding="utf-8"))["chunks"]
+    palette = {k: v for ch in chunks for k, v in ch["looks"].get("walls", {}).items()}
+    roads = [i for i in items if i["k"] == "road"]
+    donors = {bid: e for bid, e in entries.items() if e["source"] == "trace"}
+    borrowed, left = {}, []
+    for bid, box in sorted(boxes.items()):
+        if bid in entries:
+            continue
+        face = nearest_road_face(box, roads, spm)
+        L = (box["d"] if face["axis"] == "x" else box["w"]) / spm
+        floors = int(box.get("f") or max(1, round(box["h"] / spm / float(cfg["floor_height_m"]))))
+        if floors >= BIG_FLOORS or L > BIG_LENGTH_M:
+            left.append(bid)
+            continue
+        donor = FP.borrow_from({"floors": floors, "L_m": L}, donors)
+        if donor is None:
+            left.append(bid)
+            continue
+        d = donors[donor]
+        entries[bid] = {"source": f"borrow:{donor}", "face": face, "L_m": d["L_m"], "H_m": d["H_m"], "floors": d["floors"],
+                        "pieces": d["pieces"]}
+        if box.get("c") in palette:  # a borrowed brick pier is built in this building's own wall colour
+            entries[bid]["wall_rgb"] = list(palette[box["c"]])
+        borrowed[bid] = donor
+    path = common.cell_file(cfg, cell, "facade")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"version": 1, "buildings": entries}, ensure_ascii=False, sort_keys=True), encoding="utf-8")
+    if walls:  # merged into the cell's walls.json (other entries stay)
+        wpath = common.cell_file(cfg, cell, "walls")
+        old = json.loads(wpath.read_text(encoding="utf-8")) if wpath.exists() else {"walls": {}}
+        old.setdefault("walls", {}).update(walls)
+        wpath.write_text(json.dumps(old, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps({"cell": cell, "traced": sum(e["source"] == "trace" for e in entries.values()), "unusable": len(unusable),
+                      "empty": sum(e["source"] == "empty" for e in entries.values()),
+                      "borrowed": len(borrowed), "rule_build": len(left), "walls": len(walls), "file": str(path)}))
+    return 0
+
+
+def gradients(flat: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    g = flat.astype(float).mean(axis=2)
+    return np.abs(np.diff(g, axis=1)), np.abs(np.diff(g, axis=0))
+
+
+def edge_support(grads: tuple[np.ndarray, np.ndarray], geo: Mapping[str, Any], p: Mapping[str, Any], thresh: float, reach: int = 3) -> float:
+    """The share of a piece's outline that runs along an edge of the unfolded photo: brightness changes across the outline
+    within `reach` pixels (a window drawn on a blank wall, or a metre off, scores low)."""
+    gx, gy = grads
+    s, H = PX_PER_M, geo["H_m"]
+    x0, x1 = round((p["u0"] + MARGIN_M) * s), round((p["u1"] + MARGIN_M) * s)
+    y0, y1 = round((H + ABOVE_M - p["y1"]) * s), round((H + ABOVE_M - p["y0"]) * s)
+    hits = total = 0
+    for x in (x0, x1):
+        for y in range(max(0, y0), min(gx.shape[0], y1), 2):
+            lo, hi = max(0, x - reach), min(gx.shape[1], x + reach)
+            if hi > lo:
+                total += 1
+                hits += gx[y, lo:hi].max() > thresh
+    for y in (y0, y1):
+        for x in range(max(0, x0), min(gy.shape[1], x1), 2):
+            lo, hi = max(0, y - reach), min(gy.shape[0], y + reach)
+            if hi > lo:
+                total += 1
+                hits += gy[lo:hi, x].max() > thresh
+    return hits / total if total else 0.0
+
+
+def cmd_check(cell: str) -> int:
+    cfg = common.load_config()
+    spm = float(cfg["studs_per_m"])
+    g = tomllib.loads((ROOT / "gate.toml").read_text(encoding="utf-8"))["trace"]
+    entries = json.loads(common.cell_file(cfg, cell, "facade").read_text(encoding="utf-8"))["buildings"]
+    boxes = body_boxes(chunk_items(cell))
+    rows, fails = {}, []
+    weak = 0
+    for bid, e in sorted(entries.items()):
+        if e["source"] == "empty":
+            continue
+        box = boxes.get(bid)
+        if box is None:
+            fails.append(f"{bid}:no_box")
+            continue
+        parts, _ = FP.parts_of(e, box, spm)
+        row: dict[str, Any] = {"source": e["source"], "parts": len(parts)}
+        if len(parts) > g["max_parts_per_building"]:
+            fails.append(f"{bid}:parts_{len(parts)}")
+        if e["source"] == "trace":
+            corners = " ".join(f"{x},{y}" for x, y in e["corners_px"]) if e.get("corners_px") else None
+            pair, geo, photo, h, size = setup(cell, bid, corners, e.get("top_m") or None)
+            grads = gradients(np.asarray(unfold_image(photo, h, size)))
+            sup = [edge_support(grads, geo, p, g["edge_threshold"]) for p in e["pieces"]]
+            row["support"] = round(float(np.median(sup)), 3) if sup else 0.0
+            row["weak_pieces"] = [k for k, v in enumerate(sup) if v < g["min_piece_support"]]
+            # the edges only say the pieces sit on the picture they were traced on; a grid the box got wrong squashes the
+            # whole facade (a 13.6 m villa read as 11.5 m, 2026-10-18): the traced facade must reach near the top of the wall
+            walls_top = [p["y1"] for p in e["pieces"] if p["kind"] != "rooftop_box"]
+            row["top"] = round(max(walls_top) / float(e["H_m"]), 3) if walls_top else 0.0
+            if row["support"] < g["min_support"] or row["top"] < g["min_top"]:
+                weak += 1
+        rows[bid] = row
+    traced = sum(1 for r in rows.values() if r["source"] == "trace")
+    if traced and weak / traced > g["max_weak_rate"]:
+        fails.append(f"weak_{weak}_of_{traced}")
+    result = {"cell": cell, "pass": not fails, "fail": fails, "traced": traced, "weak": weak, "buildings": rows,
+              "at": common.now_iso()}
+    path = GATE_DIR / cell / "trace.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(result, indent=1), encoding="utf-8")
+    print(cell, "PASS" if result["pass"] else "FAIL " + ",".join(fails), f"traced={traced} weak={weak}")
+    return 0 if result["pass"] else 1
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=("unfold", "trace", "compare"))
-    ap.add_argument("--wrap", action="store_true", help="carry the front round to the other walls")
+    ap.add_argument("cmd", choices=("cell", "record", "check", "unfold", "compare"))
     ap.add_argument("--cells", required=True)
-    ap.add_argument("--building", required=True)
+    ap.add_argument("--building")
     ap.add_argument("--corners")
     ap.add_argument("--top-m", type=float)
-    ap.add_argument("--file")
     ap.add_argument("--capture")
     ap.add_argument("--before")
     a = ap.parse_args(argv)
+    if a.cmd == "cell":
+        return cmd_cell(a.cells)
+    if a.cmd == "record":
+        return cmd_record(a.cells)
+    if a.cmd == "check":
+        return cmd_check(a.cells)
+    if not a.building:
+        ap.error("--building is required")
     out = data_dir(a.cells)
     out.mkdir(parents=True, exist_ok=True)
     stem = a.building.replace(":", "_")
-    spec = json.loads(Path(a.file).read_text(encoding="utf-8")) if a.file else {}
-    corners = a.corners or (" ".join(f"{x},{y}" for x, y in spec["corners_px"]) if spec.get("corners_px") else None)
-    top_m = a.top_m if a.top_m is not None else spec.get("top_m")
-    pair, geo, photo, h, size = setup(a.cells, a.building, corners, top_m)
+    pair, geo, photo, h, size = setup(a.cells, a.building, a.corners, a.top_m)
     flat = unfold_image(photo, h, size)
     if a.cmd == "unfold":
         draw_grid(flat, geo, geo["floors"]).save(out / f"{stem}.jpg", quality=92)
         ov = photo.copy()
         ImageDraw.Draw(ov).polygon([tuple(c) for c in geo["corners_px"]], outline=(255, 0, 200), width=3)
         ov.save(out / f"{stem}.outline.jpg", quality=92)
-        (out / f"{stem}.json").write_text(json.dumps({k: geo[k] for k in ("L_m", "H_m", "floors", "corners_px", "corners_used")}
-                                                     | {"crop": pair["crop"], "px_per_m": PX_PER_M}, indent=1), encoding="utf-8")
         print(out / f"{stem}.jpg", f"L={geo['L_m']:.2f} m H={geo['H_m']:.2f} m floors={geo['floors']}")
         return 0
-    pieces = expand(spec["pieces"])
-    for p in pieces:
-        if p["kind"] not in KINDS or not (p["u0"] < p["u1"] and p["y0"] < p["y1"]):
-            raise SystemExit(f"bad piece {p}")
-    if a.cmd == "trace":
-        flat_np = np.asarray(flat)
-        pieces = [{**p, "rgb": p.get("rgb") or measure(flat_np, geo, p)} for p in pieces]
-        by_side = wrap(pieces, geo["L_m"], geo["D_m"]) if a.wrap else {"front": pieces}
-        payload = trace_payload(a.building, geo, by_side)
-        (out / f"{stem}.trace.json").write_text(json.dumps(payload), encoding="utf-8")
-        units = {r[14] for r in payload["rows"] if r[13]}
-        print(out / f"{stem}.trace.json", {s: len(v) for s, v in by_side.items()}, len(payload["rows"]), "parts,",
-              len({r[13] for r in payload["rows"] if r[13]}), "units,", len(units), "kit shapes")
-        return 0
-    # compare: the render unfolds with the box's own corners (the render is exactly the box)
+    # compare: the photo unfolded (with the recorded corners) next to the Studio capture unfolded with the box's own corners
+    cfg = common.load_config()
+    entry = json.loads(common.cell_file(cfg, a.cells, "facade").read_text(encoding="utf-8"))["buildings"].get(a.building, {})
+    pieces = entry.get("pieces", []) if entry.get("source") == "trace" else []
+    if entry.get("corners_px"):
+        corners = " ".join(f"{x},{y}" for x, y in entry["corners_px"])
+        pair, geo, photo, h, size = setup(a.cells, a.building, corners, entry.get("top_m"))
+        flat = unfold_image(photo, h, size)
     h_box, _ = unfold_h(geo, geo["corners_px"], None)
+
     def render_flat(path: str) -> Image.Image:
         return unfold_image(LA.render_of(Path(path), float(pair["crop_fov_h_deg"])), h_box, size)
-    after = render_flat(a.capture)
     tiles = [("photo (unfolded)", draw_pieces(flat, geo, pieces))]
     if a.before:
-        tiles.append(("before: rule build", render_flat(a.before)))
-    tiles += [("after: traced", draw_pieces(after, geo, pieces)), ("50% overlay", draw_pieces(Image.blend(flat, after, 0.5), geo, pieces))]
+        tiles.append(("before", render_flat(a.before)))
+    after = render_flat(a.capture)
+    tiles += [("traced", draw_pieces(after, geo, pieces)), ("50% overlay", draw_pieces(Image.blend(flat, after, 0.5), geo, pieces))]
     w, hh = size
     sheet = Image.new("RGB", (len(tiles) * (w + 10), hh + 28), "white")
     d = ImageDraw.Draw(sheet)
@@ -374,13 +481,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         sheet.paste(im, (k * (w + 10), 28))
         d.text((k * (w + 10) + 4, 6), label, fill="black", font=ImageFont.load_default(size=16))
     sheet.save(out / f"{stem}__compare.jpg", quality=92)
-    crops = [photo.resize((512, 384))] + ([LA.render_of(Path(a.before), float(pair["crop_fov_h_deg"])).resize((512, 384))] if a.before else []) \
-        + [LA.render_of(Path(a.capture), float(pair["crop_fov_h_deg"])).resize((512, 384))]
-    side = Image.new("RGB", (len(crops) * 516, 384), "white")
-    for k, im in enumerate(crops):
-        side.paste(im, (k * 516, 0))
-    side.save(out / f"{stem}__views.jpg", quality=92)
-    print(out / f"{stem}__compare.jpg", out / f"{stem}__views.jpg")
+    print(out / f"{stem}__compare.jpg")
     return 0
 
 

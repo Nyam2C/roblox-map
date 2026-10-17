@@ -22,13 +22,14 @@
 
 | 에이전트(`.claude/agents/`) | 하는 일 | Studio | 비고 |
 |---|---|---|---|
-| `cell-prep` | 0 등급, 1 수집, 2 거리뷰 캡처(끝날 때까지 반복), 4 위성·나무·운동장·지붕, 판단 목록 만들기 | 안 씀 | 거리뷰 차단이면 바로 멈추고 보고 |
-| `cell-judge` | 눈가림 판단 한 묶음(`judge-prompt.md`) | 안 씀 | 도구 Read·Write만. 묶음마다 하나, 동시에 4개까지 |
-| `cell-facility` | 대표 시설 4~5곳 고르기와 스펙(`facility-spec.md`, 웹 사진) | 안 씀 | 칸마다 하나 |
+| `cell-prep` | 0 등급, 1 수집, 2 거리뷰 캡처(끝날 때까지 반복), 4 위성·나무·운동장·지붕, 규칙 생성 한 번(상자) → 펼치기·트레이싱 목록(`facade.py cell`); 기록 모드 `facade.py record` | 안 씀 | 거리뷰 차단이면 바로 멈추고 보고 |
+| `cell-trace` | 트레이싱 한 묶음(`trace-prompt.md`, 10동·이미지 20장 안팎) | 안 씀 | Sonnet. 도구 Read·Write만. 묶음마다 하나, 동시에 4개까지 |
+| `cell-judge` | (트레이싱 전 칸만) 눈가림 7필드 판단 | 안 씀 | 2026-10-18부터 새 칸은 쓰지 않음 |
+| `cell-facility` | 트레이싱으로 안 되는 것만(공원·광장·운동장, 사진에 안 들어오는 단지·고층·백화점, 원통·곡면, 역) 스펙 | 안 씀 | 칸마다 하나, 없으면 건너뜀 |
 | `cell-build` | 시설 스펙 합치기, 생성, 수작업 설치, 칸 데이터, 미니맵, 이웃 칸, 정리 | 씀 | |
-| `cell-verify` | G1(계산·Studio), G2 조각과 답, G3 전수 캡처와 묶음, (차례면) FPS | 씀 | 코드·데이터를 고치지 않는다 |
-| `cell-score` | G3 묶음 채점(`lookalike-rubric.md`) | 안 씀 | 도구 Read·Write만, 칸 정보 없이 묶음만 |
-| `cell-fix` | 게이트 실패 처리(규칙·판단·벽 색·시설 스펙), 다시 생성, 회귀 | 씀 | 게이트 파일은 못 고친다 |
+| `cell-verify` | G1(계산·Studio), G2 조각과 답, 트레이싱 칸은 `facade.py check`(G3 대신), (차례면) FPS | 씀 | 코드·데이터를 고치지 않는다 |
+| `cell-score` | (트레이싱 전 칸만) G3 묶음 채점 | 안 씀 | 2026-10-18 "과감하게 3빼자": 트레이싱 칸은 쓰지 않음 |
+| `cell-fix` | 게이트 실패 처리(규칙·다시 트레이싱·모서리·시설 스펙), 다시 생성, 회귀 | 씀 | 게이트 파일은 못 고친다 |
 | `cell-record` | lessons·스킬·audit·CLAUDE.md 현재 상태, 자기 파일만 커밋·푸시 | 안 씀 | |
 
 Studio를 쓰는 에이전트는 한 번에 하나만 돌린다(캡처를 동시에 보내면 다른 카메라가 찍힌다, lessons 2026-10-14). 판단·시설·채점 에이전트는 Studio를 안 쓰니 동시에 돌려도 된다. 서브에이전트가 다시 서브에이전트를 부르는 데 기대지 않는다: 판단과 시설 에이전트는 메인이 직접 부른다.
@@ -75,10 +76,10 @@ G3 판정: 건물 하나는 총점 7점 미만(대표 시설은 9점), 색·마�
 1. `git pull`, `expansion.json`에서 첫 칸 중 `state`가 `done`·`held`가 아닌 것을 고른다. 없으면 `stale` 칸 다시 만들기, 그다음 끝 보고.
 2. 상태에 따라:
    - `queued` → `cell-prep`(칸 ID). 보고의 `capture_stopped`가 있으면 **전체 멈춤**.
-   - `prepped` → 판단 목록마다 `cell-judge`(동시에 4개까지, 출력 `data/auto/<칸>/judge-NN.out.json`) → `cell-prep` 기록 모드(그 출력들; cycle-build 4단계 3~5번, 200개 넘는 칸은 새 목록이 나오면 판단을 한 번 더). 2·3급 칸은 판단을 건너뛴다.
-   - `judged` → `cell-facility` → 스펙 JSON 경로를 받는다.
+   - `prepped` → 트레이싱 목록(`data/facade/<칸>/trace-NN.json`)마다 `cell-trace`(동시에 4개까지, 출력은 목록의 `output`) → `cell-prep` 기록 모드(`facade.py record`: 색·모서리·빈 땅·빌려 쓰기 → `facade.json`, 벽 색 `walls.json`). 2·3급 칸은 트레이싱을 건너뛴다(사진 없음, 규칙 생성).
+   - `judged` → `cell-facility`(트레이싱으로 안 되는 것만, 없으면 바로 `specced`) → 스펙 JSON 경로를 받는다.
    - `specced` → `cell-build`(칸, 스펙 경로).
-   - `built` → `cell-verify`(칸, FPS 차례면 `fps`) → 1급이면 `cell-score`(score-list를 묶음 20장 안팎씩 나눠 여러 에이전트에, 못 연 묶음은 새 에이전트에 다시; 2026-10-17 61b에서 69장을 하나에 맡겨 $35 날림) → 메인이 `lookalike.py score`와 `gate.py summary`.
+   - `built` → `cell-verify`(칸, FPS 차례면 `fps`; 트레이싱 칸은 `facade.py check`가 G3 대신) → 메인이 `gate.py summary`(칸에 `facade.json`이 있으면 `trace`를 보고 `g3`는 안 본다). 트레이싱 전 칸만 예전처럼 `cell-score`와 `lookalike.py score`.
    - `verified`(pass) → `cell-record` → `state = done`, `since_fps` 증가(FPS를 쟀으면 0).
    - 실패 → `rounds < 3`이면 `cell-fix`(gate.json 경로) → `built`로 돌아가 검증부터. 3번째도 실패면 `state = held`, 이유를 적고 알림.
 3. 에이전트가 끝날 때마다 `git diff --name-only HEAD`와 그 에이전트의 커밋을 본다: `gate.toml`, `gate-allow.json`, `src/gate.py`, `src/lookalike.py`, `cycle-verify/lookalike-rubric.md`, `road-clear-check.luau`를 일꾼이 바꿨으면 되돌리고(`git checkout HEAD~1 -- <파일>` 후 커밋) 그 칸을 다시 검증한다.

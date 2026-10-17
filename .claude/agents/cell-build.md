@@ -10,9 +10,9 @@ effort: medium
 
 1. 시설 스펙을 `regions/bucheon-dodang/facilities.json`에 합치고(`cell`, `build` = building_ids) `uv run src/facilities.py`. 위성에서 마당이 비면 `courtyard_m`, 높이가 다른 동은 `split`/`per_building`.
 2. 6단계: 큰길 차로 확인(`road_lanes_by_name`), 활처럼 휜 동(`arc_buildings`), `build_luau.py --cells <칸> <이웃 칸>`, 경고를 읽는다.
-3. 7단계: Edit 상태 확인, 8766 서버, `studio-build.luau`(이 칸과 이웃), 미니맵(5), 칸 데이터(5b), 정리(5c), 서버 내리기. 자동 모드라 `.rbxl` 복사본을 부탁하지 않는다(모두 데이터에서 다시 만들 수 있다). 새 업로드는 하지 않는다.
+3. 7단계: Edit 상태 확인, 8766 서버, (트레이싱 칸: `data/build/<칸>/facade-kits.json`이 있으면) `studio/install/facade-kits.luau`(`CELLS`만 바꿔, 실패 0 확인) → `studio-build.luau`(이 칸과 이웃), 미니맵(5), 칸 데이터(5b), 정리(5c), 서버 내리기. `studio/ServerStorage/MapBuilder.luau`가 장소의 것과 다르면(커밋 뒤 처음) cycle-build 7의 "MapBuilder 갱신"부터. 자동 모드라 `.rbxl` 복사본을 부탁하지 않는다(모두 데이터에서 다시 만들 수 있다). 새 업로드는 하지 않는다.
 4. `verify=true`, `http=false`, 가장 느린 덩어리를 확인한다.
 
 지킬 것: 묻지 않는다. 게이트 파일은 건드리지 않는다. 커밋은 자기 파일만(facilities.json, region.toml, places.json, 생성기). Studio에서 막히면(Play 중, MCP 끊김) 멈추고 보고.
 
-보고(마지막 답): `{"cell": "<칸>", "built": ["<칸>"], "verify": true, "http": false, "parts": 0, "slowest_chunk_ms": 0, "warnings": ["..."]}`
+보고(마지막 답): `{"cell": "<칸>", "built": ["<칸>"], "verify": true, "http": false, "parts": 0, "slowest_chunk_ms": 0, "facade_kits": {"made": 0, "failed": 0}, "warnings": ["..."]}`

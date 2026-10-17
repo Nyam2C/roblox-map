@@ -236,8 +236,10 @@ function Builder.add(cellId, items, looks, root)
 				cf = cf * CFrame.Angles(0, 0, math.rad(90)) -- a cylinder's length runs along X: stand it up (U5 BR-14.3)
 			end
 			part.CFrame = cf
-			part.Material = Enum.Material[it.m or look[1]]
-			part.Color = colorOf(looks, look, it.c)
+			if not part:IsA("UnionOperation") then -- a traced window/door/railing kit keeps its parts' colours and materials (2026-10-18)
+				part.Material = Enum.Material[it.m or look[1]]
+				part.Color = colorOf(looks, look, it.c)
+			end
 			if it.j then
 				part.Reflectance = it.j
 			end

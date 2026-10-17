@@ -73,15 +73,15 @@ uv run src/elevation.py moved --region <구역>                   # rebuild (...
    - 대장 층수가 비고 사진도 못 센 고층은 위성에서 같은 넓이·지붕의 쌍둥이 동을 찾아 `overrides.py set`(사유에 근거).
 5. `uv run src/estimate.py report --cells <칸>` → **확신 high인데 대장과 다른 건물은 묶음 이미지를 직접 다시 본다.** 판단이 틀렸으면 `uv run src/overrides.py set --building <id> --field floors_above --value <대장값> --reason "..."`(사유에 개인 정보 금지).
 
-### 4T. 트레이싱 (4 대신, 사용자 결정 2026-10-18, 첫 칸은 시험: 별로면 4로 되돌림)
-CLAUDE.md "트레이싱으로 교체"·"G3 제거". 원리·조각 종류는 `aidlc-docs/construction/plans/facade-trace-experiment.md`, 에이전트 `cell-trace`(Sonnet, effort medium), 지침 `trace-prompt.md`(이 폴더).
-1. `estimate.py plan`으로 `review.json`을 만든 뒤, 사진 있는 건물마다 `uv run src/facade.py unfold --cells <칸> --building <id>` → `data/facade/<칸>/<id>.jpg`(펼친 정면, 80 px/m)·`.outline.jpg`·`.json`(L_m, H_m, floors).
-2. 목록 파일 `{"items": [{"building_id", "image", "outline", "L_m", "H_m", "floors"}], "output"}`을 10동(이미지 20장) 안팎으로 나눠 `cell-trace` 하나씩.
-3. 답에서 `corners_px`가 있는 건물은 `unfold --corners "x,y x,y x,y x,y" --top-m <top_m>`으로 다시 펴서 그 그림으로 색을 잰다(조각 좌표는 답 그대로). `unusable`과 사진 없는 건물은 같은 칸의 비슷한 트레이싱 건물(층수·폭·종류)의 조각을 빌린다.
-4. 건물마다 조각 파일(`{"building_id", "corners_px", "top_m", "pieces"}`) → `uv run src/facade.py trace --cells <칸> --building <id> --file <조각> --wrap` → `<id>.trace.json`(색 측정, 옆·뒤 두르기, Union 단위와 키트 키).
-5. Studio: `cd data/facade && python3 -m http.server 8767 --bind 127.0.0.1` → `studio/install/facade-trace.luau`의 `URL`을 그 건물로 바꿔 `execute_luau`(Edit). 규칙판 부품은 숨기고(지붕 덮개·기단·마당만 남김) `Workspace/FacadeTrace`에 짓고, 창·문·난간 단위는 `ServerStorage/Kits/FacadeUnits/<키>` Union을 만들거나 복제한다. 되돌리기 `UNDO = true`.
+### 4T. 트레이싱 (4 대신, 사용자 결정 2026-10-18; 첫 칸은 시험이라 별로면 4로 되돌림)
+CLAUDE.md "트레이싱으로 교체"·"G3 제거". 원리는 `aidlc-docs/construction/plans/facade-trace-experiment.md`, 에이전트 `cell-trace`(Sonnet, effort medium), 지침 `trace-prompt.md`(이 폴더), 코드 `src/facade.py`(사진)·`src/facade_parts.py`(조각 → 부품). 1급 칸만(2·3급은 사진이 없어 규칙 생성).
+1. 상자와 카메라: `uv run src/build_luau.py --cells <칸>`(규칙 생성 한 번: `chunks.json`의 상자를 쓴다) → `uv run src/estimate.py plan --cells <칸>`(`review.json`).
+2. `uv run src/facade.py cell --cells <칸>` → 사진 있는 건물마다 펼친 정면(80 px/m)·윤곽 그림, 목록 `data/facade/<칸>/trace-NN.json`(10동씩, 이전 목록·답은 지움). 목록마다 `cell-trace` 하나(동시에 4개까지), 답은 목록의 `output`(`trace-NN.out.json`).
+3. 답의 `note` 개인 정보·술담배도박 어휘 검사 → `uv run src/facade.py record --cells <칸>`: 모서리를 준 건물은 다시 펴고, 조각 색과 맨 벽 색을 잰다(벽 색은 `walls.json`에 합침), `"unusable": "no building"`은 빈 땅(생성 안 함), 그 밖의 못 쓴 건물과 사진 없는 건물은 같은 칸의 층수·벽 길이가 가까운 트레이싱 건물 정면을 빌린다(길 쪽 벽, 벽돌 기둥은 자기 벽 색; 7층 이상·25 m 넘는 벽·한 층 넘게 차이 나면 규칙 생성). → `regions/<구역>/cells/<칸>/facade.json`(git).
+4. `uv run src/build_luau.py --cells <칸> <이웃>`: `facade.json`의 건물은 가장 큰 상자의 규칙 정면 대신 조각(옆·뒤는 정면에서 두름, 지붕 덮개·기단·뒷마당은 남김), 벽 재질은 트레이서의 `finish`. 창·문·난간은 Union 키트(`kt=fu-<해시>`)이고 목록이 `data/build/<칸>/facade-kits.json`. counts의 `traced`·`facade_kits`를 본다.
+5. Studio는 7단계에서 `facade-kits.luau`를 `studio-build.luau`보다 먼저.
 
-**아직 없는 것(첫 칸 세션이 먼저 만든다)**: ① 칸 전체 일괄(unfold·목록·trace를 칸 단위로), ② 빌려 쓰기, ③ `build_luau.py`가 `regions/<구역>/cells/<칸>/facade.json`을 읽어 덩어리 파일에 넣고 Builder가 `FacadeUnits`를 키(`kt`)로 복제(지금 `facade-trace.luau`는 건물 하나씩 Workspace에 따로 짓는 시험판이라 pack·칸 데이터·Play 스트리밍에 안 남는다; Union은 Play 중에 만들지 않고 Edit에서 미리 키트로), ④ 자동 검사(조각 테두리와 사진 경계선, 모서리 띠 이음, 부품 수, Union 실패, 간판 어휘·전화번호)와 `gate.py summary`에서 G3 빼기, ⑤ `tests/test_facade.py`. 시험(2026-10-18, 6d3 빌라 5동, Sonnet medium 전): 3동 트레이싱·2동 못 씀, 약 3.5만 토큰·33초. 상자가 어긋난 건물에서 모서리를 안 줘서 높이가 줄어든 채 읽혔다(지침에 먼저 확인하라고 넣음).
+알아 둘 것: 같은 창은 어느 건물에 있어도 같은 키트다(창·문·난간은 늘리지 않고 옮기기만). 7필드가 없으니 층수·높이는 대장 값, 벽 색은 맨 벽 측정(없으면 대장 기본), 빈 땅 판단은 트레이서의 "no building". 시험(2026-10-18, 6d3 5동, Sonnet): 3동 트레이싱·2동 못 씀, 약 3.5만 토큰·33초. 상자가 어긋난 건물에서 모서리를 안 줘 높이가 눌린 채 읽힌 적이 있어 지침에 먼저 확인하라고 넣었고 검사(`top`)가 잡는다.
 
 ### 5. 간판 이미지
 새로 만들지 않고 이미 올린 이미지를 재사용한다(사용자 결정 2026-10-14, U7 K가 끝나기 전에는 글자 간판). 새 이미지는 정말 큰 랜드마크만, 칸당 최대 2장: 사용자에게 어떤 건물인지 알리고, 술·담배·도박 어휘·아이콘이 없는지 본 뒤 `signs.py generate` → 업로드 → `record`. 막히면(`403 User is moderated`) 재시도하지 않고 멈춘다.
@@ -100,6 +100,8 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 1. `get_studio_state` → Edit인지. Play면 멈추고 기다린다.
 2. 큰 변경 전이면 사용자에게 `.rbxl` 복사본을 부탁한다.
 3. `cd data/build && python3 -m http.server 8766 --bind 127.0.0.1`(백그라운드). 포트는 칸 사이클 8766, 키트·스트리밍 세션 8765(2026-10-15 두 세션 합의, 동시에 돌아도 안 겹치게).
+   - **MapBuilder 갱신**(`studio/ServerStorage/MapBuilder.luau`가 바뀐 뒤 처음): 저장소 `studio` 폴더를 8767에 띄우고(`python3 -m http.server 8767 --bind 127.0.0.1 --directory studio`) `execute_luau`로 `ServerStorage.MapBuilder.Source = HttpService:GetAsync("http://127.0.0.1:8767/ServerStorage/MapBuilder.luau")`(받는 동안만 HttpEnabled). 2026-10-18 판은 Union 키트에 재질·색을 덮어쓰지 않는다.
+   - **트레이싱 칸**: `studio/install/facade-kits.luau`(`CELLS`만 바꿔)로 Union 키트를 먼저 만든다(`failed 0` 확인; 이미 있는 키는 건너뜀, 장소와 함께 저장되어 Play는 복제만).
 4. `execute_luau`(Edit)로 `studio-build.luau`(이 폴더)의 내용을 `CELLS` 값만 바꿔 실행(칸 → 수작업 `Builder.settleManual`까지 한 번에; 땅은 칸의 기울인 판 조각이라 Terrain은 쓰지 않는다). `HttpEnabled`는 받는 동안만 켜고 결과의 `http=false`를 확인한다.
 5. **미니맵·큰 지도 갱신**: Studio에 있는 칸을 모두 적어(`region.toml`의 `cells` 순서) `uv run src/minimap.py --cells <칸...>` → 같은 서버로 `studio/install/minimap-data.luau`를 `execute_luau`(Edit)로 그대로 실행(`ReplicatedStorage/MinimapData` 본체와 조각 모듈 `1`, `2`, …을 새로 넣음; 데이터는 조각마다 15만 자 아래로 나뉘어 Studio `Source` 한도 20만 자를 넘지 않는다, 2026-10-15) → `install-u6.luau`(스크립트만)를 받아 임시 ModuleScript `Source`에 넣고 `require`(칸을 만들거나 박스가 바뀔 때마다. 빠뜨리면 지도에 새 칸이 안 나온다).
    - **새 칸 동 이름**: `minimap.py`가 `regions/<구역>/places.json`에 채운 새 칸의 동을 칸 안 OSM `addr:subdistrict` 다수결(Overpass `nwr["addr:subdistrict"]`, 중심이 칸 안인 것)과 맞춰 보고 다르면 고쳐 다시 `minimap.py`(Nominatim은 칸 중심 한 점이라 자주 틀림: 563·69b·683·16f·45b·687·6a3).

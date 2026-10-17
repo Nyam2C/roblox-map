@@ -32,6 +32,7 @@ from shapely.ops import unary_union
 import common
 import db
 import details_rules
+import facade_parts
 import fields
 import kits
 import roofs
@@ -48,6 +49,7 @@ CELL_PART_BUDGET = 15_000  # parts per cell (architecture.md section 5)
 SIGN_REUSE_ASPECT = math.log(1.12)  # U7 K: a reused image may be stretched by 12 % at most
 CHUNK_WARN_BYTES = 15_000  # U2 NFR P3, raised in U5 (BR-14.6): a bigger chunk file means chunk_size should come down
 SAFE_TEXT = re.compile(r"[A-Za-z0-9:#_.\-]{1,100}")  # N-U2-4: the only characters that may reach Luau code
+FACADE_KIT = re.compile(r"fu-[0-9a-f]{12}")  # a traced unit's Union kit (facade_parts.parts_of)
 TEXT_ATTRS = ("name", "Source", "HeightBasis", "FloorsBasis", "WallColor", "Review")  # the texts of a building item that become code
 ITEM_TEXTS = ("owner", "shape", "material", "color_name", "ink", "faces")  # U5 texts of any item; `text` goes through sign_string
 
@@ -115,8 +117,8 @@ def item_literal(item: layout.Item, cell_id: str) -> str:
             if item.faces == "LR":
                 raise ValueError(f"{item.name}: a two-sided sign cannot carry an image")
             parts.append(f"im={asset}")
-    if item.kit is not None:  # U7 H: a kit mesh cloned from ServerStorage/Kits
-        if item.kit not in kits.MESH_IDS:
+    if item.kit is not None:  # U7 H: a kit mesh cloned from ServerStorage/Kits (or a traced unit's Union kit, fu-<hash>)
+        if item.kit not in kits.MESH_IDS and not FACADE_KIT.fullmatch(item.kit):
             raise ValueError(f"not a kit: {item.kit!r}")
         parts.append(f"kt={luau_string(item.kit)}")
     if item.tilt_x:
@@ -195,13 +197,15 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               roof_tops: Mapping[str, str] | None = None, under_trees: set[str] | None = None,
               ground: "terrain.Ground | None" = None, decks: "bridges.Decks | None" = None,
               clear: Sequence[Mapping[str, Any]] | None = None, region_roads: Sequence[Mapping[str, Any]] | None = None,
-              walls: Mapping[str, Sequence[int]] | None = None) -> Plan:
+              walls: Mapping[str, Sequence[int]] | None = None, facade: Mapping[str, Mapping[str, Any]] | None = None) -> Plan:
     """Items, chunks and the manifest for one cell. No database and no files: the same input always gives the same text (P2-8, P5-1).
 
     Height, floors and wall color of a building are its final value: override > photo judgement > register > default (U4 BR-9).
     U5: duplicate outlines are dropped, bodies get boxes, roofs, bands, windows, facade elements, yards and signs from the
     merged details (judged > note > default), streets get pieces, markings, crosswalks and props (U5 BR-1 to BR-11).
     U8: a wall colour measured on the photo (walls.json, lookalike.py walls) replaces the palette colour of that building's walls.
+    Tracing (2026-10-18): a building in facade.json gets its traced pieces on its biggest box instead of that box's rule facade
+    (facade_parts.py); its windows, doors and railings are Union kits listed in facade-kits.json for facade-kits.luau.
     """
     frame, res = layout.Frame.from_cfg(cfg), cfg["h3_res"]
     estimates, overrides, details = estimates or {}, overrides or {}, details or {}
@@ -215,6 +219,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
     exits = [layout.to_meters(frame, *f["geometry"][0]) for f in features if f["kind"] == "subway_entrance"]
     for b in kept:
         bid = str(b["building_id"])
+        if facade and facade.get(bid, {}).get("source") == "empty":  # the tracer saw an empty lot (facade.json, 2026-10-18)
+            warnings.append(f"{bid}: no building in the photo (facade.json empty): not built")
+            continue
         if bid in cfg.get("gone_buildings", {}):  # a register record on a lot that the photo and the satellite both show empty (6d3, 2026-10-18)
             warnings.append(f"{bid}: gone (region.toml gone_buildings): not built")
             continue
@@ -258,6 +265,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             warnings.append(f"{bid}: outline has fewer than 3 usable points")
             continue
         detail = details.get(bid)
+        if facade and facade.get(bid, {}).get("finish") in details_rules.VOCAB["finish"]:
+            detail = {**(detail or {}), "finish": facade[bid]["finish"]}  # the tracer reads the wall material (no 7-field judgement)
         note = (estimates.get(bid) or {}).get("note")
         try:
             body = layout_details.make_body(b, eff, detail, note, frame, cfg)
@@ -288,7 +297,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
         resolved.append((body, b, eff))
     # building items
     signs = labels = 0
-    details_used = 0
+    details_used = traced = 0
+    facade_kits: dict[str, list[list[Any]]] = {}
     building_ids: list[str] = []
     boxes_report = []
     for body, b, eff in resolved:
@@ -302,6 +312,9 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             group += layout_details.yard_items(body, frame, cfg)
             sign_list, n_labels = layout_details.sign_items(body, frame, cfg, body_warnings)
             group += sign_list
+        if facade and facade.get(body.building_id, {}).get("source", "empty") != "empty" and body.is_body:
+            group = traced_group(group, body.building_id, facade[body.building_id], frame.studs_per_m, facade_kits)
+            traced += 1
         if not all(_texts_ok(i) for i in group):
             warnings.append(f"{body.building_id}: id, source or a value has characters that are not allowed in Luau code")
             continue
@@ -385,7 +398,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
               "poor_fit": len(poor_fit), "warnings": len(warnings), "judged": judged, "details_used": details_used,
               "flagged": sum(1 for i in items if i.kind == "building" and "Review" in i.attrs),
               "signs": signs, "labels": labels, "sign_images": sign_images, "signs_reused": signs_reused, "parts_total": len(items), "boxes": len(boxes_report),
-              "no_facing": len(no_facing), "far_facing": len(far_facing), "tier": tier}
+              "no_facing": len(no_facing), "far_facing": len(far_facing), "tier": tier,
+              "traced": traced, "facade_kits": len(facade_kits)}
     if len(items) > CELL_PART_BUDGET:
         warnings.append(f"{len(items)} parts: over the cell budget of {CELL_PART_BUDGET} (architecture.md section 5)")
         counts["warnings"] = len(warnings)
@@ -398,7 +412,56 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
                                                 "roof_pitch_deg", "window_faces")}}
     files["manifest.json"] = json.dumps(manifest, ensure_ascii=False, indent=1, sort_keys=True) + "\n"
     files["chunks.json"] = chunks_json(cell_id, [files[n] for n in sorted(files) if n.startswith("chunk-")], building_ids)
+    if facade_kits:  # the Union kits facade-kits.luau makes before the cell is built (tracing, 2026-10-18)
+        files["facade-kits.json"] = json.dumps({"kits": facade_kits}, sort_keys=True) + "\n"
     return Plan(cell_id, items, files, counts, warnings)
+
+
+def traced_group(group: Sequence[layout.Item], bid: str, entry: Mapping[str, Any], spm: float,
+                 kits_out: dict[str, list[list[Any]]]) -> list[layout.Item]:
+    """A traced building (facade.json): the rule facade of its biggest box gives way to the traced parts (facade_parts.py);
+    its other boxes, roof cap, plinth and yard stay (but a yard part in front of the traced wall)."""
+    boxes = [i for i in group if i.kind == "building"]
+    if not boxes:
+        return list(group)
+    b = max(boxes, key=lambda i: i.sx * i.sz)
+    box = {"x": b.cx, "y": b.cy, "z": b.cz, "w": b.sx, "h": b.sy, "d": b.sz, "r": b.yaw_deg}
+    kept = [i for i in group if facade_parts.keep_rule_part(
+        {"name": i.name, "kind": i.kind, "x": i.cx, "z": i.cz}, box, entry["face"], spm)]
+    parts, kits = facade_parts.parts_of(entry, box, spm)
+    kits_out.update(kits)
+    out = list(kept)
+    for n, p in enumerate(parts, 1):
+        extra: dict[str, Any] = {"owner": bid, "material": p["material"], "reflectance": p["reflectance"],
+                                 "transparency": p["transparency"]}
+        if p["kit"]:
+            extra["kit"] = p["kit"]
+        else:
+            extra["color_name"] = measured_name(p["rgb"])
+        out.append(layout._item("facade", f"{bid}#tp{n}", bid, 900 + n, p["pos"], p["size"], p["yaw"], color=tuple(p["rgb"]), **extra))
+    return out
+
+
+def load_facade(path: Path) -> dict[str, dict[str, Any]]:
+    """facade.json of a cell -> {building id: entry}; no file, no traced buildings. A bad entry refuses the build."""
+    if not path.exists():
+        return {}
+    out = {}
+    for bid, e in json.loads(path.read_text(encoding="utf-8")).get("buildings", {}).items():
+        if e.get("source") == "empty" and SAFE_TEXT.fullmatch(str(bid)):  # the tracer saw no building there
+            out[str(bid)] = e
+            continue
+        if not SAFE_TEXT.fullmatch(str(bid)) or e.get("face", {}).get("axis") not in ("x", "z") or e["face"].get("sign") not in (1, -1) \
+                or not (float(e.get("L_m", 0)) > 0 and float(e.get("H_m", 0)) > 0):
+            raise ValueError(f"{path}: {bid!r} needs face axis x/z, sign 1/-1, L_m and H_m")
+        if e.get("wall_rgb") is not None:
+            facade_parts.check_piece({"kind": "panel", "u0": 0, "u1": 1, "y0": 0, "y1": 1, "rgb": e["wall_rgb"]})
+        for p in e.get("pieces", []):
+            facade_parts.check_piece(p)
+            if p.get("rgb") is None:
+                raise ValueError(f"{path}: {bid!r} has a piece without rgb (facade.py record measures it)")
+        out[str(bid)] = e
+    return out
 
 
 def apply_sign_images(items: Sequence[layout.Item], own: Mapping[str, int], library: Sequence[Mapping[str, Any]]
@@ -669,7 +732,7 @@ def build_cell(conn, cfg: Mapping[str, Any], cell_id: str, root: Path) -> Plan:
                      roofs.load_roofs(common.cell_file(cfg, cell_id, "roofs")),
                      streets.load_under_trees(common.cell_file(cfg, cell_id, "trees")), terrain.ground_for(cfg), region_decks(conn, cfg, cell_id),
                      load_clear(common.cell_file(cfg, cell_id, "courts")), region_roads(conn, cfg, cell_id),
-                     load_walls(common.cell_file(cfg, cell_id, "walls")))
+                     load_walls(common.cell_file(cfg, cell_id, "walls")), load_facade(common.cell_file(cfg, cell_id, "facade")))
     write_plan(plan, root)
     return plan
 
