@@ -20237,6 +20237,760 @@
     "user photos IMG_6194-6205 (2026-10-16, local only)",
     "data/satellite/8930e0af0b3ffff-z19.jpg"
    ]
+  },
+  {
+   "key": "byeolbit_park",
+   "cell": "8930e0ac61bffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/byeolbit_park.json",
+   "build": [],
+   "claims": [],
+   "notes": "OSM leisure=park 별빛공원 (way 815829741), the cell's named landmark, built from a traced ground layout like 진달래공원. The layout file is hand-traced (data/ is git-ignored): move it to regions/bucheon-dodang/byeolbit_park.json and change \"layout\" if it should be kept in git. The satellite trees.json may put trunks on the central plaza and the deck; if so add the plaza rectangle to cells/8930e0ac61bffff/courts.json clear.",
+   "sources": [
+    "data/satellite/8930e0ac61bffff-z19.jpg",
+    "https://m.blog.naver.com/dgg5518/224060307772 (photos viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_blog&query=원미별마루+별빛공원"
+   ],
+   "seen": "A small wooded pocket park over an underground car park: tree groups north, a light grey block plaza with a wooden deck and a shade pergola, a red-brown rubber play surface with a yellow play structure, a dark brick wall with a long brick bench and the park sign, and a paved alley to the south road."
+  },
+  {
+   "key": "wonmi_byeolmaru",
+   "cell": "8930e0ac61bffff",
+   "build": [
+    "gis:11184668"
+   ],
+   "claims": [],
+   "front": "S",
+   "floors": 4,
+   "height_m": null,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     206,
+     208,
+     210
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.2,
+    "h_m": 1.5,
+    "pitch_m": 2.0,
+    "glass_rgb": [
+     70,
+     82,
+     92
+    ],
+    "frame_rgb": [
+     150,
+     152,
+     156
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Brick",
+     "rgb": [
+      128,
+      84,
+      66
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      80,
+      100,
+      110
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.42,
+     "width_m": 5.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "material": "Metal",
+     "rgb": [
+      196,
+      198,
+      200
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.42,
+     "width_m": 3.0,
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      60,
+      72,
+      80
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Brick",
+     "rgb": [
+      84,
+      72,
+      68
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.15,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     215,
+     215,
+     212
+    ],
+    "steps": false
+   },
+   "sign": {
+    "text": "원미별마루",
+    "face": "street",
+    "floor": 4,
+    "bg_rgb": [
+     96,
+     84,
+     72
+    ],
+    "ink_rgb": [
+     240,
+     236,
+     226
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     200,
+     202,
+     204
+    ],
+    "top_rgb": [
+     196,
+     190,
+     172
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Village community building (cafe, small library, care centre, hall) over the 별빛공원 underground public car park; register 4 above, 2 below (not underground-only, so it is built). South face to the road: light grey metal panel skin with punched windows, a slightly taller left block with a small dark name plaque at the top, a red-brown brick entrance porch with a glass door left of centre, and on the right the car park ramp under a white membrane canopy on steel posts (not in the schema; the canopy here is the door canopy). North/back side toward the park: dark brick ground wall with the park sign and a long brick bench (web photos) -> dark brick panel on the back ground floor.",
+   "sources": [
+    "captures/8930e0ac61bffff/sheets/gis_11184668.jpg",
+    "captures/8930e0ac61bffff/crops/gis_11184668__GobgeDVtDudKAwb0f3wFIA.jpg",
+    "https://m.blog.naver.com/dgg5518/224060307772 (photos viewed only)",
+    "data/satellite/8930e0ac61bffff-z19.jpg"
+   ],
+   "seen": "Street view looking north: a four-storey light grey metal-clad block with a brick entrance porch and a white canopy over the car park ramp; satellite: beige concrete roof with plant units."
+  },
+  {
+   "key": "bokdoen_church",
+   "cell": "8930e0ac61bffff",
+   "build": [
+    "gis:11169300"
+   ],
+   "claims": [
+    "gis:14577878"
+   ],
+   "front": "S",
+   "floors": 4,
+   "height_m": 16.0,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     112,
+     92,
+     84
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.2,
+    "h_m": 2.6,
+    "pitch_m": 3.4,
+    "glass_rgb": [
+     64,
+     80,
+     88
+    ],
+    "frame_rgb": [
+     96,
+     84,
+     78
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "tower",
+     "face": "roof",
+     "at": -0.45,
+     "size_m": 5.0,
+     "height_m": 24.0,
+     "rgb": [
+      235,
+      235,
+      232
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 2.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "rgb": [
+      70,
+      90,
+      100
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 2.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "rgb": [
+      70,
+      90,
+      100
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 0.8,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      70,
+      86,
+      96
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.35,
+     "width_m": 0.8,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      70,
+      86,
+      96
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      150,
+      140,
+      132
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.35,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     120,
+     104,
+     96
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "복된교회",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     120,
+     100,
+     92
+    ],
+    "ink_rgb": [
+     240,
+     236,
+     226
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     104,
+     86,
+     78
+    ],
+    "top_rgb": [
+     82,
+     84,
+     82
+    ],
+    "features": [
+     "pitched"
+    ],
+    "crown": null
+   },
+   "notes": "OSM place_of_worship (christian) node; register 4 floors, 1,188 m2, the largest footprint in the cell. One record is an L: the big sanctuary in the east under a dark grey hipped roof, a long west wing (education hall) under a red-brown pitched roof (rgb ~[150,82,64], cannot be given separately because it is the same record) with tall round-arched windows on its upper floors. A square dark brick bell tower stands at the junction of the two wings with a dark spire/lattice and a cross; the main entrance is a wide stair under the tower from the parking lot on the south. Sanctuary walls are plain brick with tall narrow slit windows. gis:14577878 is the same building again (area 0): claimed.",
+   "sources": [
+    "captures/8930e0ac61bffff/sheets/gis_11169300.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+복된교회 (tower photo thumbnail, viewed only)",
+    "data/satellite/8930e0ac61bffff-z19.jpg"
+   ],
+   "seen": "Street view looking north from the parking lot: a dark brown brick church with a square bell tower and a steel spire over the entrance stair, a long wing with arched windows on the left, the tall sanctuary on the right; web thumbnail shows the tower's arched windows and vertical name letters."
+  },
+  {
+   "key": "wonmi_market",
+   "cell": "8930e0ac61bffff",
+   "build": [
+    "gis:11191721"
+   ],
+   "claims": [],
+   "front": "S",
+   "floors": 2,
+   "height_m": 8.0,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     222,
+     196,
+     172
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     90,
+     104,
+     112
+    ],
+    "frame_rgb": [
+     200,
+     198,
+     192
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 60.0,
+     "rgb": [
+      70,
+      72,
+      76
+     ],
+     "strip_rgb": [
+      205,
+      70,
+      60
+     ],
+     "strip_frac": 0.25
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 3.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Concrete",
+     "rgb": [
+      60,
+      62,
+      64
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 8.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      236,
+      236,
+      230
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.3,
+     "width_m": 8.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      236,
+      236,
+      230
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": {
+    "text": "원미종합시장",
+    "face": "street",
+    "floor": 1,
+    "at": 0.0,
+    "bg_rgb": [
+     60,
+     110,
+     180
+    ],
+    "ink_rgb": [
+     245,
+     240,
+     230
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     200,
+     196,
+     188
+    ],
+    "top_rgb": [
+     150,
+     148,
+     140
+    ],
+    "features": [],
+    "crown": null
+   },
+   "notes": "Register name 원미종합시장 (2 floors, 610 m2, L-shaped along the south and west roads), the traditional market of 원미동. Ground floor all shop fronts with dark awnings and coloured fascia boards on both street faces, upper floor beige/peach plaster with ribbon windows and white shop boards; a narrow covered passage cuts through the south face into the market lane (dark panel at the middle). Web photos show the market gate as a blue arched board with pink blossom decoration over a covered lane; the board here is the market's public name. Covered arcade lanes are not drawn (src/market.py reads only the 강남시장 layout).",
+   "sources": [
+    "captures/8930e0ac61bffff/sheets/gis_11191721.jpg",
+    "captures/8930e0ac61bffff/crops/gis_11191721__xesC1L00VM-NufH3etCefQ.jpg",
+    "https://m.search.naver.com/search.naver?where=m_blog&query=부천+원미종합시장 (place card photos, viewed only)",
+    "data/satellite/8930e0ac61bffff-z19.jpg"
+   ],
+   "seen": "Street view: a two-storey row of small shops with awnings and big fascia boards, beige and peach upper walls with windows, a narrow passage into the market; satellite: flat grey concrete L roof."
+  },
+  {
+   "key": "wonmi2_centre",
+   "cell": "8930e0ac61bffff",
+   "build": [
+    "gis:11172384"
+   ],
+   "claims": [],
+   "front": "E",
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     226,
+     222,
+     210
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.3,
+    "pitch_m": 4.0,
+    "glass_rgb": [
+     80,
+     96,
+     104
+    ],
+    "frame_rgb": [
+     230,
+     230,
+     226
+    ]
+   },
+   "bands": {
+    "rgb": [
+     70,
+     72,
+     76
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 7.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      236,
+      234,
+      226
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 11.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "material": "SmoothPlastic",
+     "rgb": [
+      238,
+      236,
+      230
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      70,
+      72,
+      76
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.4,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     40,
+     70,
+     160
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "원미2동행정복지센터",
+    "face": "street",
+    "floor": 2,
+    "bg_rgb": [
+     238,
+     240,
+     244
+    ],
+    "ink_rgb": [
+     40,
+     70,
+     150
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     220,
+     218,
+     210
+    ],
+    "top_rgb": [
+     70,
+     140,
+     115
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "OSM building=public, register 3 floors (1 below). Street view looking west shows the east face: white-cream brick tile wall, two big white mural boards (line drawings) across the lower two floors, a dark eave band and a long white banner board at the top, a blue awning over the glass entrance at the right end, a wooden deck and a planter in front. Satellite: green roof with a grey rooftop room. The name board goes where the banner board is (the banner itself carries a slogan, not written).",
+   "sources": [
+    "captures/8930e0ac61bffff/sheets/gis_11172384.jpg",
+    "captures/8930e0ac61bffff/crops/gis_11172384__iLYGpcOheVUx-1WqIbYbVg.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=원미2동행정복지센터 (entrance thumbnail, viewed only)",
+    "data/satellite/8930e0ac61bffff-z19.jpg"
+   ],
+   "seen": "A low white brick community centre with two large mural boards, a top banner board and a blue entrance awning; green flat roof."
+  },
+  {
+   "key": "tower15_61b",
+   "cell": "8930e0ac61bffff",
+   "build": [
+    "gis:11169738"
+   ],
+   "claims": [
+    "gis:16749126"
+   ],
+   "front": "S",
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     234,
+     234,
+     230
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     92,
+     92,
+     94
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.0,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     80,
+     100,
+     116
+    ],
+    "frame_rgb": [
+     70,
+     74,
+     78
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 2.5,
+     "from_floor": 2,
+     "to_floor": 15,
+     "material": "Concrete",
+     "rgb": [
+      196,
+      198,
+      200
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.3,
+     "width_m": 2.5,
+     "from_floor": 2,
+     "to_floor": 15,
+     "material": "Concrete",
+     "rgb": [
+      196,
+      198,
+      200
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      70,
+      90,
+      100
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      200,
+      200,
+      198
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 3.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     232,
+     232,
+     228
+    ],
+    "top_rgb": [
+     214,
+     214,
+     206
+    ],
+    "features": [
+     "stair_box",
+     "solar"
+    ],
+    "crown": null
+   },
+   "notes": "The only 15-storey building of the cell (register 15 floors, 43 m; OSM apartments 2020), seen from most streets. Slim white residential tower with balconies and dark railings in a regular grid, two light grey vertical panel strips, on a two-floor dark grey speckled stone base (a shop with a glass front at the left, a deep dark entrance recess in the middle). Dark base as Slate (lessons: Granite reads spotty; this stone is dark anyway). Roof white with two planted patches and panels from the satellite. No name sign (residential brand). gis:16749126 is the same footprint again (area 0): claimed.",
+   "sources": [
+    "captures/8930e0ac61bffff/sheets/gis_11169738.jpg",
+    "captures/8930e0ac61bffff/crops/gis_11169738__1cCnCgqdNXUGshOsFt4DtA.jpg",
+    "data/satellite/8930e0ac61bffff-z19.jpg"
+   ],
+   "seen": "Street view looking north: a white 15-storey tower with balcony rows on a dark grey stone two-floor base with a glass shop front; satellite: white roof leaning north."
   }
  ]
 }
