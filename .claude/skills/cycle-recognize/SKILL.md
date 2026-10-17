@@ -9,7 +9,7 @@ description: roblox-map 세션 흐름의 1단계 "인지". 세션을 시작할 �
 
 ## 1. 기록 읽기 (이 순서)
 
-1. `CLAUDE.md`는 이미 로드되어 있다. "결정 사항", "칸 추가 절차", "다음 할 일"을 다시 본다.
+1. `CLAUDE.md`는 이미 로드되어 있다. "결정 사항", "칸 추가 절차", "다음 할 일"을 다시 본다. 지난 칸들의 진행 기록은 `aidlc-docs/status.md`(새 항목이 맨 위), 명령·구현 메모는 `aidlc-docs/pipeline-notes.md`에서 필요한 만큼 읽는다.
 2. `aidlc-docs/lessons.md` 전체. 이전 세션이 겪은 함정과 대처다. 이번 칸에 해당할 항목을 골라 둔다.
 3. `aidlc-docs/aidlc-state.md`의 Next Stage와 유닛 줄.
 4. 이번 작업이 구조 변경이면 `aidlc-docs/architecture.md`, U7 중이면 `aidlc-docs/construction/plans/u7-real-shapes-interiors-plan.md`.
