@@ -80,6 +80,9 @@ CLAUDE.md "트레이싱으로 교체"·"G3 제거". 원리는 `aidlc-docs/constr
 3. 답의 `note` 개인 정보·술담배도박 어휘 검사 → `uv run src/facade.py record --cells <칸>`: 모서리를 준 건물은 다시 펴고, 조각 색과 맨 벽 색을 잰다(벽 색은 `walls.json`에 합침), `"unusable": "no building"`은 빈 땅(생성 안 함), 그 밖의 못 쓴 건물과 사진 없는 건물은 같은 칸의 층수·벽 길이가 가까운 트레이싱 건물 정면을 빌린다(길 쪽 벽, 벽돌 기둥은 자기 벽 색; 7층 이상·25 m 넘는 벽·한 층 넘게 차이 나면 규칙 생성). → `regions/<구역>/cells/<칸>/facade.json`(git).
 4. `uv run src/build_luau.py --cells <칸> <이웃>`: `facade.json`의 건물은 가장 큰 상자의 규칙 정면 대신 조각(옆·뒤는 정면에서 두름, 지붕 덮개·기단·뒷마당은 남김), 벽 재질은 트레이서의 `finish`. 창·문·난간은 Union 키트(`kt=fu-<해시>`)이고 목록이 `data/build/<칸>/facade-kits.json`. counts의 `traced`·`facade_kits`를 본다.
 5. Studio는 7단계에서 `facade-kits.luau`를 `studio-build.luau`보다 먼저.
+6. 다시 트레이싱(약한 건물 재시도): 다시 볼 동만 같은 목록 형식으로 `data/facade/<칸>/trace-13.json`처럼 새 번호로 만들어 `cell-trace`에 맡긴다. `record`는 `trace-*.out.json`을 이름순으로 읽고 뒤 답이 앞 답을 덮는다.
+7. 시설(`facilities-spec.json`)이 맡는 동은 **`record`를 돌린 뒤에** `facade.json`에서 뺀다(`record`를 다시 돌리면 도로 생긴다). 15층 이상 고층은 정면 부품이 수백 개라 트레이싱이 안 맞으니 규칙 생성으로 돌린다.
+8. 큰길에 `lanes` 태그가 없으면 위성으로 차도 폭을 재서 `region.toml [road_lanes_by_way]`에 차로 수를 넣는다(기본값이 넓다).
 
 알아 둘 것: 같은 창은 어느 건물에 있어도 같은 키트다(창·문·난간은 늘리지 않고 옮기기만). 7필드가 없으니 층수·높이는 대장 값, 벽 색은 맨 벽 측정(없으면 대장 기본), 빈 땅 판단은 트레이서의 "no building". 시험(2026-10-18, 6d3 5동, Sonnet): 3동 트레이싱·2동 못 씀, 약 3.5만 토큰·33초. 상자가 어긋난 건물에서 모서리를 안 줘 높이가 눌린 채 읽힌 적이 있어 지침에 먼저 확인하라고 넣었고 검사(`top`)가 잡는다.
 
