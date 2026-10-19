@@ -302,7 +302,9 @@ def test_a_lane_count_by_way_beats_the_name():
     road = {"kind": "road", "highway_class": "primary", "tags": {"name": "부천로"}}
     assert layout.road_width_m({**road, "feature_id": "way:1313919755#0.1"}, cfg) == 19.5
     assert layout.road_width_m({**road, "feature_id": "way:1341300148#0"}, cfg) == 13.0
-    assert layout.road_width_m({**road, "feature_id": "way:1313919755#0.1", "tags": {"name": "부천로", "lanes": "4"}}, cfg) == 13.0
+    # the satellite-checked way value also beats a lanes tag (6cf 장말로 tagged 4, 9.5 m wide, 2026-10-19)
+    assert layout.road_width_m({**road, "feature_id": "way:1313919755#0.1", "tags": {"name": "부천로", "lanes": "4"}}, cfg) == 19.5
+    assert layout.road_width_m({**road, "feature_id": "way:1341300148#0", "tags": {"name": "부천로", "lanes": "4"}}, cfg) == 13.0
 
 
 def test_a_road_narrows_to_stop_at_the_buildings_beside_it_but_keeps_a_floor():

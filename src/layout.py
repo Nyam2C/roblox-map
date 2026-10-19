@@ -270,7 +270,8 @@ def road_width_m(feature: Mapping[str, Any], cfg: Mapping[str, Any]) -> float:
     lanes = geo.normalize_height(tags.get("lanes"))
     cls = str(feature.get("highway_class") or "")
     # one OSM way whose width differs from the rest of its name beats the name (6c7 부천로: 4 lanes in 4cb, 6 in 6c7 by satellite, 2026-10-17)
-    if lanes is None and cls.removesuffix("_link") in BIG_ROADS:
+    # and its lanes tag (6cf 장말로: tagged 4, about 9.5 m = 3 lanes by satellite, 2026-10-19)
+    if cls.removesuffix("_link") in BIG_ROADS:
         way = cfg.get("road_lanes_by_way", {}).get(str(feature.get("feature_id")).split("#")[0])
         if way is not None:
             lanes = float(way) / (2 if tags.get("oneway") == "yes" else 1)
