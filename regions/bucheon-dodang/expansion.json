@@ -132,9 +132,9 @@
   },
   {
    "cell": "8930e0ac643ffff",
-   "state": "built",
-   "rounds": 1,
-   "note": "2026-10-20 built 42aa0c4: 부품 13785, 키트 279 실패 0, skipped_manual 452, 최대 덩어리 5.3 ms. G1 PASS(허용 4), G1 Studio FAIL on_road 2(gis:11201173#acn 0.97, gis:11183802#b1 0.54), trace PASS, G2 FAIL major 10. FPS 건너뜀(무인). 다음 cell-fix 2"
+   "state": "verified",
+   "rounds": 2,
+   "note": "2026-10-20 verified: cell-fix 2(b7c89d9, 아파트 현관 캐노피 #acn을 overhang()으로 차도 앞에서 멈춤, 테스트 879, G5 46→46) 뒤 G1·G1 Studio·G2·trace PASS, summary PASS. 메인 허용 15(횡단보도 4, studio 투영 1, G2 칸 밖·고층 원근 10). FPS 건너뜀(무인)"
   },
   {
    "cell": "8930e0ac653ffff",
