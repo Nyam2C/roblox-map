@@ -2292,6 +2292,90 @@
       "roof_color": "dark",
       "rooftop": "box",
       "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:17059595",
+      "finish": "paint",
+      "ground_use": "house",
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "tiny dark shed in parking yard",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 1,
+      "bay": 0,
+      "building_id": "gis:17161847",
+      "finish": "paint",
+      "ground_use": "shop",
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "apartment tower on stone podium, ground shop and parking",
+      "roof_color": "dark",
+      "rooftop": "box",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:17235895",
+      "finish": "brick",
+      "ground_use": "shop",
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "red brick shop house with garage bay shop",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 1,
+      "bay": 0,
+      "building_id": "gis:17623759",
+      "finish": "panel",
+      "ground_use": "shop",
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "panel shop house, glass stair strip, ground shops",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "glass"
+    },
+    {
+      "balcony": 1,
+      "bay": 0,
+      "building_id": "gis:17716729",
+      "finish": "tile",
+      "ground_use": "house",
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "pink brick tile house with green trim, small balconies",
+      "roof_color": "dark",
+      "rooftop": "railing",
+      "stair": "none"
+    },
+    {
+      "balcony": 0,
+      "bay": 0,
+      "building_id": "gis:17740924",
+      "finish": "tile",
+      "ground_use": "shop",
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "target unclear; shop signs and stone panels",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
+    },
+    {
+      "balcony": 1,
+      "bay": 0,
+      "building_id": "gis:18048951",
+      "finish": "paint",
+      "ground_use": "shop",
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "white gable house, glass ground floor shop, balconies",
+      "roof_color": "dark",
+      "rooftop": "none",
+      "stair": "none"
     }
   ],
   "version": 1

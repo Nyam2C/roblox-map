@@ -2747,6 +2747,104 @@
         2
       ],
       "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17059595",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "tiny dark storage shed in a parking yard behind villas; crops mostly show neighbours",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17161847",
+      "confidence": "medium",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "tall apartment tower on stone podium; ground shop and parking pilotis, balcony rows, orange stair strip, rooftop box",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17235895",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "red brick shop house; ground shop with garage bay, academy floors above, wall AC units",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:17623759",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "panel-clad shop house; ground shop and cafe, glass stair strip at corner, small balcony on third floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17716729",
+      "confidence": "high",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "small house, pink brick tile with green wood trim, house door, small balcony boxes, rooftop railing",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:17740924",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "crops close-up and inconsistent; shop signs, stone panel and brick with parking pilotis; target unclear",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:18048951",
+      "confidence": "high",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-19T10:48:09+00:00",
+      "note": "white narrow house with gable roof; glass ground floor shop, small balconies with railings",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
     }
   ],
   "overrides": [
