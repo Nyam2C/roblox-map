@@ -129,6 +129,8 @@ uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, man
 ```bash
 uv run --python 3.14 --with-requirements tests/requirements.txt pytest tests/ -q
 ```
+새 부속(처마 띠·기단 lip·캐노피·벽 띠·계단탑)을 추가하거나 고칠 때는 차도 제한(`box_clear`/`clip_to_roads`)을 거치는지 먼저 본다(안 거친 부속이 칸마다 하나씩 G1 Studio 실패로 나왔다: 643·657·6db·653·6cb).
+
 통과하면 이미 만든 칸들도 6~7단계로 다시 만든다(결정적 생성이라 그대로 반영된다). 한 건물만의 문제는 `overrides.py`나 수작업(Manual).
 
 그다음 `cycle-verify`로 간다.
