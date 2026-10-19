@@ -23219,6 +23219,695 @@
    "build": [
     "gis:17343195"
    ]
+  },
+  {
+   "key": "simgokcheon_657",
+   "cell": "8930e0ac657ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/simgokcheon_park.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "심곡천: restored urban stream in the ~19.5 m median between the two one-way carriageways of 부흥로; the cell's defining landmark (named stream, walkways, named footbridges). No buildings. Layout made from the OSM carriageway centrelines (kept 1.6 m off the modelled carriageways so nothing lands on a road) with the satellite cross-section: grass verges, grey boulder banks (Slate paving), water strip, and a raised granite bridge plaza at the school-corner crossing. Walkways are OSM pedestrian ways; the round-deck white arch footbridge further NW is not built (schema has no bridge). The layout is in data/ (git-ignored): move it to regions/bucheon-dodang/simgokcheon_park.json and change \"layout\" to keep it. Real channel is sunken ~2-3 m; pxpark only raises, so it reads as a flat stream bed. If trees.json puts trunks on the water strip, clear them.",
+   "sources": [
+    "data/satellite/8930e0ac657ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡천+산책로 (photos viewed only)",
+    "https://m.blog.naver.com/snoopy2929/222463253334 (photos viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_blog&query=심곡천+양귀자교"
+   ],
+   "seen": "Satellite: tree-lined verges, a dark reedy channel ~6 m wide, a tan walkway switching banks at the tiled square bridge plaza by the school. Web photos: stacked grey boulder walls on both banks, shallow stream with reeds, gravel walkway, stepping stones, white steel-arch footbridge."
+  },
+  {
+   "key": "wonmi_es_main",
+   "cell": "8930e0ac657ffff",
+   "building_ids": [
+    "gis:11203092"
+   ],
+   "build": [
+    "gis:11203092"
+   ],
+   "claims": [],
+   "front": "N",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     196,
+     150,
+     122
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     150,
+     150,
+     154
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.2,
+    "h_m": 1.6,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     80,
+     100,
+     112
+    ],
+    "frame_rgb": [
+     232,
+     232,
+     228
+    ]
+   },
+   "bands": {
+    "rgb": [
+     205,
+     205,
+     208
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 4.5,
+     "from_floor": 0,
+     "to_floor": 5,
+     "material": "SmoothPlastic",
+     "rgb": [
+      236,
+      190,
+      40
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Limestone",
+     "rgb": [
+      205,
+      206,
+      210
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 14.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Limestone",
+     "rgb": [
+      205,
+      206,
+      210
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      175,
+      176,
+      180
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     90,
+     150,
+     90
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "원미초등학교",
+    "face": "back",
+    "floor": 4,
+    "bg_rgb": [
+     196,
+     150,
+     122
+    ],
+    "ink_rgb": [
+     40,
+     60,
+     120
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     200,
+     200,
+     204
+    ],
+    "top_rgb": [
+     58,
+     122,
+     98
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Long 5-storey block along 원미로57번길 (ㄱ-shaped record, fill 0.45). Street face NE: salmon-tan brick-tile walls with white-framed windows, light grey stone end walls, a tall yellow stair tower rising above the roof line near the NW part of the face, grey ground floor behind the green school fence. Name and entrance on the playground side (SW, 'back'); this is a guess, not seen. Roof teal green on satellite. Playground is the fields.json kit (way:483467589), not repeated.",
+   "sources": [
+    "captures/8930e0ac657ffff/sheets/gis_11203092.jpg",
+    "data/facade/8930e0ac657ffff/gis_11203092.jpg",
+    "data/satellite/8930e0ac657ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=원미초등학교+부천 (thumbnails viewed only)"
+   ],
+   "seen": "Street view from the red school-zone road: tan brick 5-storey block, yellow stair tower, grey end walls, green fence with planters. Satellite: green roof. Web thumbnails were mostly other schools."
+  },
+  {
+   "key": "wonmi_es_gym",
+   "cell": "8930e0ac657ffff",
+   "building_ids": [
+    "gis:11186594"
+   ],
+   "build": [
+    "gis:11186594"
+   ],
+   "claims": [],
+   "front": "S",
+   "floors": 2,
+   "height_m": 11.0,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     188,
+     184,
+     196
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 2.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     110,
+     140,
+     160
+    ],
+    "frame_rgb": [
+     230,
+     230,
+     230
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.3,
+     "width_m": 8.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "material": "Brick",
+     "rgb": [
+      150,
+      105,
+      80
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 20.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      110,
+      140,
+      160
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "left",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     230,
+     230,
+     230
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     200,
+     198,
+     205
+    ],
+    "top_rgb": [
+     196,
+     196,
+     196
+    ],
+    "features": []
+   },
+   "notes": "School gymnasium on the 부흥로/심곡천 side (SW). Lilac-grey stone-panel walls, tall vertical windows high up, barred low windows at the ground floor, a brick-brown part at one end. Big light-grey roof on satellite (one flat sheet). The colourful comic mural is on the low school boundary wall along the street, not on the gym.",
+   "sources": [
+    "captures/8930e0ac657ffff/sheets/gis_11186594.jpg",
+    "data/satellite/8930e0ac657ffff-z19.jpg"
+   ],
+   "seen": "Street view: grey-lilac panel walls with tall windows, ginkgo trees and the mural boundary wall in front. Satellite: plain light-grey roof."
+  },
+  {
+   "key": "hanariabel_15f",
+   "cell": "8930e0ac657ffff",
+   "building_ids": [
+    "gis:11951841"
+   ],
+   "build": [
+    "gis:11951841"
+   ],
+   "claims": [],
+   "front": "N",
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     232,
+     232,
+     228
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Limestone",
+    "rgb": [
+     206,
+     200,
+     188
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.6,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     90,
+     118,
+     128
+    ],
+    "frame_rgb": [
+     200,
+     202,
+     204
+    ]
+   },
+   "bands": {
+    "rgb": [
+     196,
+     198,
+     200
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 60.0,
+     "rgb": [
+      70,
+      72,
+      76
+     ],
+     "strip_rgb": [
+      60,
+      110,
+      170
+     ],
+     "strip_frac": 0.25
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 50.0,
+     "from_floor": 1,
+     "to_floor": 2,
+     "rgb": [
+      90,
+      118,
+      128
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 12.0,
+     "from_floor": 4,
+     "to_floor": 14,
+     "material": "SmoothPlastic",
+     "rgb": [
+      150,
+      196,
+      226
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 12.0,
+     "from_floor": 4,
+     "to_floor": 14,
+     "material": "SmoothPlastic",
+     "rgb": [
+      150,
+      196,
+      226
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "left",
+     "from_floor": 12,
+     "to_floor": 12,
+     "rgb": [
+      60,
+      90,
+      160
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "right",
+     "from_floor": 12,
+     "to_floor": 12,
+     "rgb": [
+      60,
+      90,
+      160
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     200,
+     200
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     220,
+     220,
+     216
+    ],
+    "top_rgb": [
+     62,
+     128,
+     104
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ]
+   },
+   "notes": "15-storey mixed-use slab (shops below, flats above) facing 심곡천 across the SW carriageway of 부흥로, the tallest thing on the stream. 3-storey beige stone podium full of small shops and academies (ground fascia + glass on floors 2-3), white tower with grey floor bands. The end walls carry a big painted comic mural on a light-blue sky with a welcome slogan to the stream (web photo); here a light-blue panel and a blue stripe stand in for it, no text. Sign null (residential name). Roof teal green.",
+   "sources": [
+    "captures/8930e0ac657ffff/sheets/gis_11951841.jpg",
+    "data/satellite/8930e0ac657ffff-z19.jpg",
+    "https://m.blog.naver.com/snoopy2929/222463253334 (photos viewed only)"
+   ],
+   "seen": "Street view: shop podium with many signs, white upper floors. Web: the end wall is a whole-height mural (sky blue, flying comic heroes, welcome lettering). Satellite: long green roof."
+  },
+  {
+   "key": "mj_palace_15f",
+   "cell": "8930e0ac657ffff",
+   "building_ids": [
+    "gis:11207404"
+   ],
+   "build": [
+    "gis:11207404"
+   ],
+   "claims": [
+    "gis:17161847"
+   ],
+   "front": "N",
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     226,
+     224
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     96,
+     98,
+     102
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     80,
+     96,
+     110
+    ],
+    "frame_rgb": [
+     90,
+     92,
+     96
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 3.6,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "SmoothPlastic",
+     "rgb": [
+      196,
+      120,
+      80
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 3.6,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "SmoothPlastic",
+     "rgb": [
+      196,
+      120,
+      80
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 8.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      70,
+      90,
+      100
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     226,
+     224
+    ],
+    "top_rgb": [
+     226,
+     226,
+     224
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "Slim 15-storey tower (2023) on the SW side of 부흥로 near the SE edge of the cell. Narrow end faces NE (street, a shop behind dark glass) and SW (open pilotis car park under a dark grey granite-look 2-storey podium, name in metal letters). Both narrow faces have a central orange-brown vertical strip of balconies up the tower; long sides plain light grey with small windows. Roof white/light grey on satellite. Duplicate record gis:17161847 claimed.",
+   "sources": [
+    "captures/8930e0ac657ffff/sheets/gis_11207404.jpg",
+    "data/satellite/8930e0ac657ffff-z19.jpg"
+   ],
+   "seen": "Street view: white slim tower with an orange-brown centre strip, dark grey 2-storey podium with pilotis parking on one end and a shop front on the other. Satellite: white roof."
+  },
+  {
+   "key": "ilhae_12f",
+   "cell": "8930e0ac657ffff",
+   "building_ids": [
+    "gis:11199117"
+   ],
+   "build": [
+    "gis:11199117"
+   ],
+   "claims": [],
+   "front": "N",
+   "floors": 12,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     236,
+     236,
+     232
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Limestone",
+    "rgb": [
+     214,
+     206,
+     194
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.6,
+    "h_m": 1.5,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     110,
+     150,
+     150
+    ],
+    "frame_rgb": [
+     220,
+     222,
+     222
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 40.0,
+     "rgb": [
+      80,
+      82,
+      86
+     ],
+     "strip_rgb": [
+      200,
+      60,
+      60
+     ],
+     "strip_frac": 0.25
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 10.0,
+     "from_floor": 2,
+     "to_floor": 11,
+     "material": "Concrete",
+     "rgb": [
+      240,
+      240,
+      236
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.1,
+    "width_m": 3.0,
+    "canopy": true,
+    "canopy_rgb": [
+     70,
+     140,
+     90
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     236,
+     236,
+     232
+    ],
+    "top_rgb": [
+     150,
+     88,
+     68
+    ],
+    "features": [
+     "stair_box"
+    ]
+   },
+   "notes": "12-storey white apartment slab (2001) over a 2-storey beige stone shop podium on 원미로57번길 by the school's east corner. Balconies with tinted green glass in bands, windowless white end walls with a small name at the top. Roof of the tower red-brown on satellite; the podium roof around it is green (roofs.py should keep it). Sign null.",
+   "sources": [
+    "captures/8930e0ac657ffff/sheets/gis_11199117.jpg",
+    "data/satellite/8930e0ac657ffff-z19.jpg"
+   ],
+   "seen": "Street view: white tower with balcony glass bands, beige stone podium with shop signs and a green awning; plain white end wall. Satellite: red-brown roof over the slab."
   }
  ]
 }
