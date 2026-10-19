@@ -2704,3 +2704,8 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 facade.json: 다섯 시설의 동과 claims 어느 것도 트레이싱 통과 목록(44동)에 없어 뺄 것 없음. 부속이 차도에 붙는 네 건물은 `road_clear_m` 1.0.
 웹 사진(보기만, 스크래치에서 보고 지움): https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡성당 (흰 달걀형 돔, 흰 원통, 작은 십자가), https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡동+디오스빌 (어두운 석재 기단, 흰 탑에 청회색 판, 나머지는 실내), https://m.search.naver.com/search.naver?where=m_image&query=부천+다온하브+부일로 (밝은 회베이지 띠 탑, 베이지 석재 상가), https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+심곡+본관 (캠퍼스 전경뿐, 이 동은 못 찾음). 공원은 웹 사진 없음(https://m.search.naver.com/search.naver?where=m_blog&query=심곡성당+옆+공원, m_image "부천 심곡동 공원 계단 심곡성당" 둘 다 다른 장소) → 위성·거리뷰(captures/8930e0af333ffff/sheets/gis_11185555.jpg: 돌 옹벽, 생울타리, 초록 아치 지붕 계단).
 **Context**: 구현(0b-4 시설 스펙)
+
+## 2026-10-20 U8 칸 8930e0af333ffff 메인: G1 허용 8 (자동, 사용자 부재)
+- G1 계산 crosswalks_off_road 8건, cell-fix 1이 고칠 것 없음으로 판정. 메인이 `gate-allow.json`에 8건 넣음(게이트 기준값은 안 바꿈).
+- 4건: 횡단보도 팔의 길 조각을 아직 안 지은 이웃(33b·3ab·3af)이 소유 → 그 칸 지은 뒤 지우고 확인.
+- 4건: 7~8° 경사 길에서 `gate.py span()`이 기운 판 높이를 무시하는 측정 착시(줄무늬는 판 높이와 0.05 stud 안). 게이트 경사 반영은 메인 몫 후보로 남김(이번엔 안 고침: 예산·다른 칸 기준 변화).
