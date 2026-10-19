@@ -115,6 +115,23 @@
    "reason": "landmarks: park:별빛공원, park:쌈지공원",
    "tier": 1
   },
+  "8930e0ac657ffff": {
+   "counts": {
+    "landmarks": [
+     "school:원미초등학교"
+    ],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: school:원미초등학교",
+   "tier": 1
+  },
   "8930e0ac683ffff": {
    "counts": {
     "landmarks": [],
