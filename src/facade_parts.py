@@ -77,7 +77,7 @@ def _unit(p: Mapping[str, Any]) -> bool:
 
 
 def scale(pieces: Sequence[Mapping[str, Any]], ku: float, ky: float) -> list[dict[str, Any]]:
-    """Pieces stretched to another wall (a box rebuilt a little longer, or a borrowed front): bands and slabs stretch by ku, ky;
+    """Pieces stretched to a box rebuilt a little longer or taller: bands and slabs stretch by ku, ky;
     a window, door or railing keeps its size and moves with its centre, so it stays the same Union kit."""
     out = []
     for p in pieces:
@@ -171,7 +171,7 @@ def walls(box: Mapping[str, Any], axis: str, sign: int, spm: float) -> dict[str,
 
 # --- pieces -> parts -------------------------------------------------------------------------------------------------
 
-WALL_KINDS = ("brick_stair", "fence_brick", "gate_tiled")  # pieces of the wall's own material: a borrowed front takes the borrower's colour
+WALL_KINDS = ("brick_stair", "fence_brick", "gate_tiled")  # pieces of the wall's own material (wall_rgb, when an entry has one)
 
 
 def _parts(p: Mapping[str, Any]) -> list[tuple]:
@@ -270,17 +270,3 @@ def keep_rule_part(item: Mapping[str, Any], box: Mapping[str, Any], face: Mappin
     if tail.startswith("y"):
         return not in_front
     return not inside
-
-
-def borrow_from(target: Mapping[str, Any], donors: Mapping[str, Mapping[str, Any]]) -> str | None:
-    """The traced building whose front fits a building without one (floors first, then wall length); None if no donor is within
-    one floor."""
-    best = None
-    for bid, d in sorted(donors.items()):
-        df = abs(int(d.get("floors") or 1) - int(target.get("floors") or 1))
-        if df > 1:
-            continue
-        score = 3 * df + abs(float(d["L_m"]) - float(target["L_m"]))
-        if best is None or score < best[0]:
-            best = (score, bid)
-    return best[1] if best else None

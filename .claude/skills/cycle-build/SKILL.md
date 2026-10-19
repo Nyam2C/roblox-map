@@ -65,7 +65,7 @@ uv run src/elevation.py moved --region <구역>                   # rebuild (...
 ```
 여기 나온 **이미 만든 칸도 unpack해서 6~7단계에서 같이 다시 만든다**(빠뜨리면 칸 경계에 턱). 차단(`blocked`)이면 멈추고 알린다. 칸 목록을 셸 변수로 넘길 때는 bash로(zsh는 `$C`를 낱말로 안 나눈다).
 
-### 4. 판단 (눈가림)
+### 4. 판단 (눈가림, 기본; 혼합 방식 2026-10-19: 4T와 나란히)
 1. `uv run src/estimate.py pending --cells <칸> --limit 200` 출력의 JSON 줄을 모아 70개 안팎으로 나눈다(200 넘으면 기록 뒤 다시 pending).
 2. 묶음마다 서브에이전트 하나: `judge-prompt.md`(이 폴더)를 지침으로, 목록 파일과 출력 경로를 준다. 서브에이전트는 목록과 묶음 이미지만 읽는다(DB·overrides·details 금지).
 3. 출력의 `judgements`와 `details`를 **각각 맨 바깥이 리스트인 파일로** 나눠(`{"judgements": [...]}` 그대로는 거부) `uv run src/estimate.py record --file <j.json>`, `uv run src/details.py record --file <d.json>`.
@@ -73,18 +73,18 @@ uv run src/elevation.py moved --region <구역>                   # rebuild (...
    - 대장 층수가 비고 사진도 못 센 고층은 위성에서 같은 넓이·지붕의 쌍둥이 동을 찾아 `overrides.py set`(사유에 근거).
 5. `uv run src/estimate.py report --cells <칸>` → **확신 high인데 대장과 다른 건물은 묶음 이미지를 직접 다시 본다.** 판단이 틀렸으면 `uv run src/overrides.py set --building <id> --field floors_above --value <대장값> --reason "..."`(사유에 개인 정보 금지).
 
-### 4T. 트레이싱 (4 대신, 사용자 결정 2026-10-18; 첫 칸은 시험이라 별로면 4로 되돌림)
-CLAUDE.md "트레이싱으로 교체"·"G3 제거". 원리는 `aidlc-docs/construction/plans/facade-trace-experiment.md`, 에이전트 `cell-trace`(Sonnet, effort medium), 지침 `trace-prompt.md`(이 폴더), 코드 `src/facade.py`(사진)·`src/facade_parts.py`(조각 → 부품). 1급 칸만(2·3급은 사진이 없어 규칙 생성).
+### 4T. 트레이싱 (4 위에 덮어쓰기, 혼합 방식 사용자 결정 2026-10-19)
+CLAUDE.md "혼합 방식과 싼 검증". 7필드 판단(4)의 규칙판이 기본이고, 트레이싱 검사를 통과한 정면만 덮어쓴다(6d7에서 사진 56%가 못 씀이고 빌린 정면이 어색했다). 판단 목록과 트레이싱 목록은 같이 만들어 에이전트를 나란히 돌린다. 원리는 `aidlc-docs/construction/plans/facade-trace-experiment.md`, 에이전트 `cell-trace`(Sonnet, effort medium), 지침 `trace-prompt.md`(이 폴더), 코드 `src/facade.py`(사진)·`src/facade_parts.py`(조각 → 부품). 1급 칸만(2·3급은 사진이 없어 규칙 생성).
 1. 상자와 카메라: `uv run src/build_luau.py --cells <칸>`(규칙 생성 한 번: `chunks.json`의 상자를 쓴다) → `uv run src/estimate.py plan --cells <칸>`(`review.json`).
 2. `uv run src/facade.py cell --cells <칸>` → 사진 있는 건물마다 펼친 정면(80 px/m)·윤곽 그림, 목록 `data/facade/<칸>/trace-NN.json`(10동씩, 이전 목록·답은 지움). 목록마다 `cell-trace` 하나(동시에 4개까지), 답은 목록의 `output`(`trace-NN.out.json`).
-3. 답의 `note` 개인 정보·술담배도박 어휘 검사 → `uv run src/facade.py record --cells <칸>`: 모서리를 준 건물은 다시 펴고, 조각 색과 맨 벽 색을 잰다(벽 색은 `walls.json`에 합침), `"unusable": "no building"`은 빈 땅(생성 안 함), 그 밖의 못 쓴 건물과 사진 없는 건물은 같은 칸의 층수·벽 길이가 가까운 트레이싱 건물 정면을 빌린다(길 쪽 벽, 벽돌 기둥은 자기 벽 색; 7층 이상·25 m 넘는 벽·한 층 넘게 차이 나면 규칙 생성). → `regions/<구역>/cells/<칸>/facade.json`(git).
-4. `uv run src/build_luau.py --cells <칸> <이웃>`: `facade.json`의 건물은 가장 큰 상자의 규칙 정면 대신 조각(옆·뒤는 정면에서 두름, 지붕 덮개·기단·뒷마당은 남김), 벽 재질은 트레이서의 `finish`. 창·문·난간은 Union 키트(`kt=fu-<해시>`)이고 목록이 `data/build/<칸>/facade-kits.json`. counts의 `traced`·`facade_kits`를 본다.
+3. 답의 `note` 개인 정보·술담배도박 어휘 검사 → `uv run src/facade.py record --cells <칸>`: 모서리를 준 건물은 다시 펴고, 조각 색과 맨 벽 색을 재고, **검사(조각 테두리가 사진 경계선 위 `support`, 벽 꼭대기까지 `top`; `gate.toml [trace]`)를 통과한 정면만** `regions/<구역>/cells/<칸>/facade.json`에 남긴다(벽 색은 그 건물들만 `walls.json`에 합침). `"unusable": "no building"`은 빈 땅(생성 안 함). 못 쓴 사진·약한 정면·사진 없는 건물은 규칙판(빌려 쓰기 없음). 보고의 `weak_rule_build`가 약해서 뺀 동.
+4. `uv run src/build_luau.py --cells <칸> <이웃>`: `facade.json`의 건물은 가장 큰 상자의 규칙 정면 대신 조각(옆·뒤는 정면에서 두름, 지붕 덮개·기단·뒷마당은 남김), 벽 재질은 7필드 판단의 `finish`(판단이 없을 때만 트레이서의 것). 창·문·난간은 Union 키트(`kt=fu-<해시>`)이고 목록이 `data/build/<칸>/facade-kits.json`. counts의 `traced`·`facade_kits`를 본다.
 5. Studio는 7단계에서 `facade-kits.luau`를 `studio-build.luau`보다 먼저.
 6. 다시 트레이싱(약한 건물 재시도): 다시 볼 동만 같은 목록 형식으로 `data/facade/<칸>/trace-13.json`처럼 새 번호로 만들어 `cell-trace`에 맡긴다. `record`는 `trace-*.out.json`을 이름순으로 읽고 뒤 답이 앞 답을 덮는다.
 7. 시설(`facilities-spec.json`)이 맡는 동은 **`record`를 돌린 뒤에** `facade.json`에서 뺀다(`record`를 다시 돌리면 도로 생긴다). 15층 이상 고층은 정면 부품이 수백 개라 트레이싱이 안 맞으니 규칙 생성으로 돌린다.
 8. 큰길에 `lanes` 태그가 없으면 위성으로 차도 폭을 재서 `region.toml [road_lanes_by_way]`에 차로 수를 넣는다(기본값이 넓다).
 
-알아 둘 것: 같은 창은 어느 건물에 있어도 같은 키트다(창·문·난간은 늘리지 않고 옮기기만). 7필드가 없으니 층수·높이는 대장 값, 벽 색은 맨 벽 측정(없으면 대장 기본), 빈 땅 판단은 트레이서의 "no building". 시험(2026-10-18, 6d3 5동, Sonnet): 3동 트레이싱·2동 못 씀, 약 3.5만 토큰·33초. 상자가 어긋난 건물에서 모서리를 안 줘 높이가 눌린 채 읽힌 적이 있어 지침에 먼저 확인하라고 넣었고 검사(`top`)가 잡는다.
+알아 둘 것: 같은 창은 어느 건물에 있어도 같은 키트다(창·문·난간은 늘리지 않고 옮기기만). 층수·높이·재질·1층 용도는 7필드 판단, 벽 색은 트레이싱한 건물만 맨 벽 측정. 6d7(2026-10-18, 트레이싱만, 빌려 쓰기)에서는 못 씀 62/111, 처음 약함 18/49, 빌린 60동, 키트 876종이었다. 기하(벽 각도·사진 안 비율)로 미리 거르는 것은 못 쓴 사진도 잘 된 사진과 값이 같아(각도 중앙값 11° 대 13°) 효과가 없고, 못 쓴 사진은 답이 한 줄이라 비용도 작다(칸당 약 $0.5).
 
 ### 5. 간판 이미지
 새로 만들지 않고 이미 올린 이미지를 재사용한다(사용자 결정 2026-10-14, U7 K가 끝나기 전에는 글자 간판). 새 이미지는 정말 큰 랜드마크만, 칸당 최대 2장: 사용자에게 어떤 건물인지 알리고, 술·담배·도박 어휘·아이콘이 없는지 본 뒤 `signs.py generate` → 업로드 → `record`. 막히면(`403 User is moderated`) 재시도하지 않고 멈춘다.

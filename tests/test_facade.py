@@ -97,12 +97,6 @@ def test_rule_parts_of_the_traced_box_go_and_the_cap_plinth_and_back_yard_stay()
     assert FP.keep_rule_part({"name": "gis:1#yw1", "kind": "prop", "x": back[0], "z": back[1]}, BOX, f, SPM)
 
 
-def test_a_front_is_borrowed_within_one_floor():
-    donors = {"gis:1": {"floors": 4, "L_m": 8.0}, "gis:2": {"floors": 3, "L_m": 12.0}, "gis:3": {"floors": 3, "L_m": 9.0}}
-    assert FP.borrow_from({"floors": 3, "L_m": 9.5}, donors) == "gis:3"
-    assert FP.borrow_from({"floors": 1, "L_m": 9.0}, donors) is None
-
-
 def test_a_bad_piece_is_refused():
     with pytest.raises(ValueError):
         FP.check_piece({**WINDOW, "kind": "spaceship"})
@@ -147,9 +141,9 @@ def test_a_bad_facade_file_refuses_the_build(tmp_path):
     assert B.load_facade(tmp_path / "none.json") == {}
 
 
-def test_a_traced_cell_needs_the_trace_check_instead_of_g3():
+def test_a_traced_cell_needs_the_trace_check_and_no_cell_needs_g3():
     assert G.needed(1, False, traced=True) == ["g1", "g1_studio", "g2", "trace"]
-    assert G.needed(1, False) == ["g1", "g1_studio", "g2", "g3"]
+    assert G.needed(1, False) == ["g1", "g1_studio", "g2"] and G.needed(2, True, traced=True) == ["g1", "g1_studio", "g2", "fps"]
     assert {"edge_threshold", "min_support", "min_piece_support", "min_top", "max_weak_rate", "max_parts_per_building"} \
         <= set(G.load_gate()["trace"])
 
@@ -164,6 +158,8 @@ def test_an_empty_lot_is_not_built_and_finish_sets_the_wall_material():
     paint = B.plan_cell(CELL, [building(0)], [], CFG, facade={bid: entry(finish="paint")})
     box = lambda plan: [i for i in plan.items if i.kind == "building"][0]  # noqa: E731
     assert box(brick).material == "Brick" and box(paint).material != "Brick"
+    judged = B.plan_cell(CELL, [building(0)], [], CFG, details={bid: {"finish": "paint"}}, facade={bid: entry(finish="brick")})
+    assert box(judged).material != "Brick"  # the 7-field judgement wins (mixed, 2026-10-19)
 
 
 def test_the_bare_wall_colour_leaves_out_the_pieces():

@@ -6,14 +6,14 @@
 
 Each street-view crop is unfolded onto the wall of its building box that faces the camera (homography of the wall's four
 corners) and laid on a 1 m grid; the cell-trace agent (.claude/skills/cycle-build/trace-prompt.md) writes the facade as pieces in
-metres; record measures their colours on the photo, gives the buildings with no usable photo a traced neighbour's front, and
-writes regions/<region>/cells/<cell>/facade.json, which build_luau.py turns into parts (facade_parts.py). check is the gate that
-replaces G3: do the traced pieces sit on edges of the photo, and how many parts does a traced building take.
+metres; record measures their colours on the photo and keeps only the fronts that pass the check (pieces on edges of the photo,
+reaching the wall's top) in regions/<region>/cells/<cell>/facade.json, which build_luau.py lays over the 7-field rule build
+(facade_parts.py; mixed, user 2026-10-19). check reports the kept ones (parts per building).
 
 Usage (cycle-build 4T; run build_luau.py once first: the boxes come from data/build/<cell>/chunks.json):
   uv run src/facade.py cell    --cells <cell>     # unfold every pictured building, list files data/facade/<cell>/trace-NN.json
-  uv run src/facade.py record  --cells <cell>     # trace-NN.out.json -> facade.json (colours, corners, borrowed fronts)
-  uv run src/facade.py check   --cells <cell>     # data/gate/<cell>/trace.json (gate.py summary uses it instead of g3)
+  uv run src/facade.py record  --cells <cell>     # trace-NN.out.json -> facade.json (colours, corners, only fronts that pass)
+  uv run src/facade.py check   --cells <cell>     # data/gate/<cell>/trace.json (gate.py summary needs it on a traced cell)
   uv run src/facade.py unfold  --cells <cell> --building gis:N [--corners "x,y x,y x,y x,y" --top-m 10.2]   # one building
   uv run src/facade.py compare --cells <cell> --building gis:N --capture <studio.png> [--before <studio.png>]
 """
@@ -188,7 +188,6 @@ def measure(photo_flat: np.ndarray, geo: Mapping[str, Any], p: Mapping[str, Any]
 
 GATE_DIR = ROOT / "data" / "gate"
 BATCH = 10  # buildings per cell-trace agent: two images each, about 20 images (request limit, lessons 2026-10-17 61b)
-BIG_FLOORS, BIG_LENGTH_M = 7, 25.0  # nobody borrows a villa front for these: facilities or the rule build
 
 
 def chunk_items(cell: str) -> list[dict[str, Any]]:
@@ -248,23 +247,6 @@ def cmd_cell(cell: str) -> int:
     return 0
 
 
-def nearest_road_face(box: Mapping[str, Any], roads: Sequence[Mapping[str, Any]], spm: float) -> dict[str, Any]:
-    """The wall of a box closest to a road piece: the front of a building nobody photographed."""
-    best = None
-    for axis in ("x", "z"):
-        for sign in (1, -1):
-            w = FP.walls(box, axis, sign, spm)["front"]
-            mid = (w["origin"][0] + w["t"][0] * w["L_m"] * spm / 2 + w["n"][0], w["origin"][2] + w["t"][2] * w["L_m"] * spm / 2 + w["n"][2])
-            for r in roads:
-                ax, az = FP.axes(r)
-                rel = (mid[0] - r["x"], 0.0, mid[1] - r["z"])
-                lx, lz = abs(FP._dot(rel, ax)) - r["w"] / 2, abs(FP._dot(rel, az)) - r["d"] / 2
-                d = math.hypot(max(lx, 0.0), max(lz, 0.0))
-                if best is None or d < best[0]:
-                    best = (d, axis, sign)
-    return {"axis": best[1], "sign": best[2]} if best else {"axis": "z", "sign": -1}
-
-
 def wall_colour(flat: np.ndarray, geo: Mapping[str, Any], pieces: Sequence[Mapping[str, Any]],
                 occluded: Sequence[Mapping[str, Any]], min_pixels: int = 400) -> list[int] | None:
     """The bare wall's colour on the unfolded photo: the wall above the first floor, minus every piece and hidden part (median;
@@ -282,7 +264,6 @@ def wall_colour(flat: np.ndarray, geo: Mapping[str, Any], pieces: Sequence[Mappi
 
 def cmd_record(cell: str) -> int:
     cfg = common.load_config()
-    spm = float(cfg["studs_per_m"])
     out = data_dir(cell)
     answers: dict[str, dict[str, Any]] = {}
     for f in sorted(out.glob("trace-*.out.json")):
@@ -314,32 +295,18 @@ def cmd_record(cell: str) -> int:
         rgb = wall_colour(flat, geo, pieces, b.get("occluded") or [])
         if rgb:
             walls[bid] = {"rgb": rgb, "from": "facade trace (bare wall on the unfolded photo)"}
-    items = chunk_items(cell)
-    boxes = body_boxes(items)
-    chunks = json.loads((ROOT / "data" / "build" / cell / "chunks.json").read_text(encoding="utf-8"))["chunks"]
-    palette = {k: v for ch in chunks for k, v in ch["looks"].get("walls", {}).items()}
-    roads = [i for i in items if i["k"] == "road"]
-    donors = {bid: e for bid, e in entries.items() if e["source"] == "trace"}
-    borrowed, left = {}, []
-    for bid, box in sorted(boxes.items()):
-        if bid in entries:
+    # mixed with the 7-field rule build (user 2026-10-19): only a traced front that passes the check replaces the rule front;
+    # the others, the unusable photos and the unpictured buildings stay rule-built (no borrowed fronts)
+    g = tomllib.loads((ROOT / "gate.toml").read_text(encoding="utf-8"))["trace"]
+    weak = []
+    for bid, e in sorted(entries.items()):
+        if e["source"] != "trace":
             continue
-        face = nearest_road_face(box, roads, spm)
-        L = (box["d"] if face["axis"] == "x" else box["w"]) / spm
-        floors = int(box.get("f") or max(1, round(box["h"] / spm / float(cfg["floor_height_m"]))))
-        if floors >= BIG_FLOORS or L > BIG_LENGTH_M:
-            left.append(bid)
-            continue
-        donor = FP.borrow_from({"floors": floors, "L_m": L}, donors)
-        if donor is None:
-            left.append(bid)
-            continue
-        d = donors[donor]
-        entries[bid] = {"source": f"borrow:{donor}", "face": face, "L_m": d["L_m"], "H_m": d["H_m"], "floors": d["floors"],
-                        "pieces": d["pieces"]}
-        if box.get("c") in palette:  # a borrowed brick pier is built in this building's own wall colour
-            entries[bid]["wall_rgb"] = list(palette[box["c"]])
-        borrowed[bid] = donor
+        row = building_check(cell, bid, e, g)
+        if row["support"] < g["min_support"] or row["top"] < g["min_top"]:
+            weak.append(bid)
+            del entries[bid]
+            walls.pop(bid, None)
     path = common.cell_file(cfg, cell, "facade")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"version": 1, "buildings": entries}, ensure_ascii=False, sort_keys=True), encoding="utf-8")
@@ -348,9 +315,9 @@ def cmd_record(cell: str) -> int:
         old = json.loads(wpath.read_text(encoding="utf-8")) if wpath.exists() else {"walls": {}}
         old.setdefault("walls", {}).update(walls)
         wpath.write_text(json.dumps(old, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"cell": cell, "traced": sum(e["source"] == "trace" for e in entries.values()), "unusable": len(unusable),
-                      "empty": sum(e["source"] == "empty" for e in entries.values()),
-                      "borrowed": len(borrowed), "rule_build": len(left), "walls": len(walls), "file": str(path)}))
+    print(json.dumps({"cell": cell, "traced": sum(e["source"] == "trace" for e in entries.values()), "weak_rule_build": weak,
+                      "unusable": len(unusable), "empty": sum(e["source"] == "empty" for e in entries.values()), "walls": len(walls),
+                      "file": str(path)}))
     return 0
 
 
@@ -382,6 +349,19 @@ def edge_support(grads: tuple[np.ndarray, np.ndarray], geo: Mapping[str, Any], p
     return hits / total if total else 0.0
 
 
+def building_check(cell: str, bid: str, e: Mapping[str, Any], g: Mapping[str, Any]) -> dict[str, Any]:
+    """support: the median share of piece outlines on edges of the unfolded photo; top: how near the wall's top the traced
+    facade reaches (a grid the box got wrong squashes it, a 13.6 m villa read as 11.5 m, 2026-10-18)."""
+    corners = " ".join(f"{x},{y}" for x, y in e["corners_px"]) if e.get("corners_px") else None
+    pair, geo, photo, h, size = setup(cell, bid, corners, e.get("top_m") or None)
+    grads = gradients(np.asarray(unfold_image(photo, h, size)))
+    sup = [edge_support(grads, geo, p, g["edge_threshold"]) for p in e["pieces"]]
+    walls_top = [p["y1"] for p in e["pieces"] if p["kind"] != "rooftop_box"]
+    return {"support": round(float(np.median(sup)), 3) if sup else 0.0,
+            "weak_pieces": [k for k, v in enumerate(sup) if v < g["min_piece_support"]],
+            "top": round(max(walls_top) / float(e["H_m"]), 3) if walls_top else 0.0}
+
+
 def cmd_check(cell: str) -> int:
     cfg = common.load_config()
     spm = float(cfg["studs_per_m"])
@@ -402,16 +382,7 @@ def cmd_check(cell: str) -> int:
         if len(parts) > g["max_parts_per_building"]:
             fails.append(f"{bid}:parts_{len(parts)}")
         if e["source"] == "trace":
-            corners = " ".join(f"{x},{y}" for x, y in e["corners_px"]) if e.get("corners_px") else None
-            pair, geo, photo, h, size = setup(cell, bid, corners, e.get("top_m") or None)
-            grads = gradients(np.asarray(unfold_image(photo, h, size)))
-            sup = [edge_support(grads, geo, p, g["edge_threshold"]) for p in e["pieces"]]
-            row["support"] = round(float(np.median(sup)), 3) if sup else 0.0
-            row["weak_pieces"] = [k for k, v in enumerate(sup) if v < g["min_piece_support"]]
-            # the edges only say the pieces sit on the picture they were traced on; a grid the box got wrong squashes the
-            # whole facade (a 13.6 m villa read as 11.5 m, 2026-10-18): the traced facade must reach near the top of the wall
-            walls_top = [p["y1"] for p in e["pieces"] if p["kind"] != "rooftop_box"]
-            row["top"] = round(max(walls_top) / float(e["H_m"]), 3) if walls_top else 0.0
+            row.update(building_check(cell, bid, e, g))
             if row["support"] < g["min_support"] or row["top"] < g["min_top"]:
                 weak += 1
         rows[bid] = row

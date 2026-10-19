@@ -241,14 +241,14 @@ def test_g2_needs_every_tile_and_fails_on_a_major_issue():
 def test_fps_and_what_a_cell_needs():
     assert G.fps_result(60, 57, GATE["fps"])["pass"] and G.fps_result(59.9, 55, GATE["fps"])["pass"]
     assert G.fps_result(50, 40, GATE["fps"])["fail"] == ["avg", "low"]
-    assert G.needed(1, False) == ["g1", "g1_studio", "g2", "g3"] and G.needed(2, True) == ["g1", "g1_studio", "g2", "fps"]
+    assert G.needed(1, False) == ["g1", "g1_studio", "g2"] and G.needed(2, True) == ["g1", "g1_studio", "g2", "fps"]
 
 
 def test_summary_fails_on_a_missing_or_failed_part():
     ok = {"pass": True, "fail": []}
-    out = G.summary({"g1": ok, "g1_studio": ok, "g2": {"pass": False, "fail": ["major_issues"]}, "g3": None, "fps": None},
-                    G.needed(1, False))
-    assert not out["pass"] and out["fail"] == ["g2:major_issues", "g3:missing"]
+    out = G.summary({"g1": ok, "g1_studio": ok, "g2": {"pass": False, "fail": ["major_issues"]}, "trace": None, "fps": None},
+                    G.needed(1, False, traced=True))
+    assert not out["pass"] and out["fail"] == ["g2:major_issues", "trace:missing"]
     assert G.summary({"g1": ok, "g1_studio": ok, "g2": ok, "g3": ok, "fps": None}, G.needed(1, False))["pass"]
 
 

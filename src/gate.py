@@ -452,11 +452,10 @@ def tier_of(cfg: Mapping[str, Any], cell_id: str) -> int:
 
 
 def needed(tier: int, fps: bool, traced: bool = False) -> list[str]:
-    """Parts a cell must have passed: placement (both checks) and the satellite always, the look-alike on a tier-1 cell (the only
-    tier with street view; a traced cell has the trace check instead, user 2026-10-18), the walk when it is due (every gate.toml
-    fps.every_cells cells)."""
-    look = (["trace"] if traced else ["g3"]) if tier == 1 else []
-    return ["g1", "g1_studio", "g2"] + look + (["fps"] if fps else [])
+    """Parts a cell must have passed: placement (both checks) and the satellite always, the trace check on a traced cell, the walk
+    when it is due (every gate.toml fps.every_cells cells). No look-alike scoring (G3) any more: it cost about $9 a cell and fixed
+    a few judgements and colours (user 2026-10-19); src/lookalike.py stays for a cell someone wants scored by hand."""
+    return ["g1", "g1_studio", "g2"] + (["trace"] if traced and tier == 1 else []) + (["fps"] if fps else [])
 
 
 def summary(parts: Mapping[str, Mapping[str, Any] | None], need: Sequence[str]) -> dict[str, Any]:

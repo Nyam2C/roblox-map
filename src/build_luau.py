@@ -265,8 +265,8 @@ def plan_cell(cell_id: str, buildings: Sequence[Mapping[str, Any]], features: Se
             warnings.append(f"{bid}: outline has fewer than 3 usable points")
             continue
         detail = details.get(bid)
-        if facade and facade.get(bid, {}).get("finish") in details_rules.VOCAB["finish"]:
-            detail = {**(detail or {}), "finish": facade[bid]["finish"]}  # the tracer reads the wall material (no 7-field judgement)
+        if facade and facade.get(bid, {}).get("finish") in details_rules.VOCAB["finish"] and not (detail or {}).get("finish"):
+            detail = {**(detail or {}), "finish": facade[bid]["finish"]}  # the tracer's wall material when the 7-field judgement has none
         note = (estimates.get(bid) or {}).get("note")
         try:
             body = layout_details.make_body(b, eff, detail, note, frame, cfg)

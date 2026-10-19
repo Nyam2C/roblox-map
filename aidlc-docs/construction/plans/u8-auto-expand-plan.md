@@ -22,15 +22,16 @@
 
 | 에이전트(`.claude/agents/`) | 하는 일 | Studio | 비고 |
 |---|---|---|---|
-| `cell-prep` | 0 등급, 1 수집, 2 거리뷰 캡처(끝날 때까지 반복), 4 위성·나무·운동장·지붕, 규칙 생성 한 번(상자) → 펼치기·트레이싱 목록(`facade.py cell`); 기록 모드 `facade.py record` | 안 씀 | 거리뷰 차단이면 바로 멈추고 보고 |
-| `cell-trace` | 트레이싱 한 묶음(`trace-prompt.md`, 10동·이미지 20장 안팎) | 안 씀 | Sonnet. 도구 Read·Write만. 묶음마다 하나, 동시에 4개까지 |
-| `cell-judge` | (트레이싱 전 칸만) 눈가림 7필드 판단 | 안 씀 | 2026-10-18부터 새 칸은 쓰지 않음 |
-| `cell-facility` | 트레이싱으로 안 되는 것만(공원·광장·운동장, 사진에 안 들어오는 단지·고층·백화점, 원통·곡면, 역) 스펙 | 안 씀 | 칸마다 하나, 없으면 건너뜀 |
-| `cell-build` | 시설 스펙 합치기, 생성, 수작업 설치, 칸 데이터, 미니맵, 이웃 칸, 정리 | 씀 | |
-| `cell-verify` | G1(계산·Studio), G2 조각과 답, 트레이싱 칸은 `facade.py check`(G3 대신), (차례면) FPS | 씀 | 코드·데이터를 고치지 않는다 |
-| `cell-score` | (트레이싱 전 칸만) G3 묶음 채점 | 안 씀 | 2026-10-18 "과감하게 3빼자": 트레이싱 칸은 쓰지 않음 |
-| `cell-fix` | 게이트 실패 처리(규칙·다시 트레이싱·모서리·시설 스펙), 다시 생성, 회귀 | 씀 | 게이트 파일은 못 고친다 |
+| `cell-prep` | 0 등급, 1 수집, 2 거리뷰 캡처(끝날 때까지 반복), 4 위성·나무·운동장·지붕, 판단 목록과 트레이싱 목록(같이); 기록 모드 판단 기록 + `facade.py record` | 안 씀 | 거리뷰 차단이면 바로 멈추고 보고 |
+| `cell-judge` | 눈가림 7필드 판단 한 묶음(`judge-prompt.md`) | 안 씀 | 도구 Read·Write만. 묶음마다 하나 |
+| `cell-trace` | 트레이싱 한 묶음(`trace-prompt.md`, 10동·이미지 20장 안팎) | 안 씀 | Sonnet. 도구 Read·Write만. 판단과 나란히 |
+| `cell-facility` | 대표 시설 스펙(`facility-spec.md`, 웹 사진) | 안 씀 | 칸마다 하나 |
+| `cell-build` | 시설 스펙 합치기, 생성, **Studio 전 G1 계산**, 키트·Studio 반영, **G1 Studio·트레이싱 검사**, (처음) G2 조각, (차례면) FPS, 칸 데이터·미니맵·정리 | 씀 | 2026-10-19 검증 에이전트를 없애고 기계 검사를 여기로 |
+| `cell-tiles` | G2 조각 9장 보고 답 | 안 씀 | Sonnet effort low, 도구 Read·Write만 |
+| `cell-fix` | 게이트 실패 처리(규칙·데이터·시설 스펙·트레이싱 항목), G1 계산 실패면 Studio 없이 | 씀(지은 칸만) | 게이트 파일은 못 고친다, 칸당 2번까지 |
 | `cell-record` | lessons·스킬·audit·CLAUDE.md 현재 상태, 자기 파일만 커밋·푸시 | 안 씀 | |
+
+혼합 방식과 싼 검증(사용자 결정 2026-10-19): 외관은 7필드 판단의 규칙판이 기본이고, 트레이싱은 검사를 통과한 정면만 덮어쓴다(빌려 쓰기 없음). G3 외관 채점(`cell-score`)은 칸당 약 $9에 6d3에서 판단·벽 색 몇 개만 고쳐서 없앴고, 검증 에이전트(`cell-verify`)도 없앴다: 기계 검사는 `cell-build`가, 판단이 드는 G2 답만 `cell-tiles`가 한다. 6d3 비용 약 $62 중 검증·채점·고치기가 약 $44였다.
 
 Studio를 쓰는 에이전트는 한 번에 하나만 돌린다(캡처를 동시에 보내면 다른 카메라가 찍힌다, lessons 2026-10-14). 판단·시설·채점 에이전트는 Studio를 안 쓰니 동시에 돌려도 된다. 서브에이전트가 다시 서브에이전트를 부르는 데 기대지 않는다: 판단과 시설 에이전트는 메인이 직접 부른다.
 
@@ -42,12 +43,13 @@ Studio를 쓰는 에이전트는 한 번에 하나만 돌린다(캡처를 동시
 |---|---|---|---|
 | G1 배치(계산) | 차도 위 건물(0.3 m² 넘는 동 1개까지, 1 m² 넘는 동 0)·나무 줄기·가로시설, 다른 도로 차도 위 인도·연석·보행로, 길 밖·두 겹 횡단보도, 칸 경계 양쪽 같은 길의 폭 | `gate.py g1 --cells <칸>` (이웃 칸의 도로도 본다, 고가는 높이로 가른다) | 모두 0 |
 | G1 배치(Studio) | 실제 부품 중 차도 위 빈 공간(0.28~2.5 m)을 막는 것, `Workspace/Manual` 포함 | `road-clear-check.luau` → `gate.py studio` | 0.3 m² 넘는 것 0 |
-| G2 위성 | 3×3 조각마다 없는 길·없어야 할 길·폭·빠진 건물·차도 위 나무·빠진 시설 | `satellite.py compare` → `gate.py tiles` → 검증 에이전트 답 → `gate.py g2` | 큰 차이 0 |
-| G3 외관 닮음(1급) | 사진 있는 건물 전부: 6항목(색·마감·창·1층·돌출물·지붕) 0~2점, 같은 건물로 보이는지 | `estimate.py plan` → `lookalike.py plan` → 하나씩 캡처 → `lookalike.py sheets` → `cell-score` → `lookalike.py score` | 실패 건물 비율 ≤ 0.2, 대표 시설 실패 0, 카나리아 통과, 사진 있는 건물의 90% 이상이 묶음에 오름 |
+| G2 위성 | 3×3 조각마다 없는 길·없어야 할 길·폭·빠진 건물·차도 위 나무·빠진 시설 | `satellite.py compare` → `gate.py tiles` → `cell-tiles` 답 → `gate.py g2` | 큰 차이 0 |
+| 트레이싱(1급 트레이싱 칸) | 덮어쓴 정면의 부품 수(Union 키트는 1개), 조각 테두리·벽 꼭대기 | `facade.py check` | `gate.toml [trace]` |
+| ~~G3 외관 닮음~~ | 2026-10-19 없앰(사용자 "검증 비용이 덜 나왓으면"). `lookalike.py`는 손으로 채점할 때만 | | |
 | G4 FPS | 걷기 평균·1초 최저(3칸마다) | 걷기 기록 → `gate.py fps` | 59 / 55 |
 | G5 회귀 | 규칙을 고친 뒤 다른 칸이 나빠졌나 | `build_luau.py`로 만든 칸 전부 다시 → `gate.py g1 --cells <전부>` | 실패 수가 고치기 전보다 늘지 않음 |
 
-G3 판정: 건물 하나는 총점 7점 미만(대표 시설은 9점), 색·마감·1층 중 하나가 0점, 또는 같은 건물로 안 보이면 실패. 한 건물의 사진이 여러 장(학교 면)이면 평균. 바꿔 끼운 쌍이 4점을 넘거나 같은 건물이라고 하면, 또는 중복 쌍의 총점이 2점 넘게 다르면 그 채점은 무효(`scorer_invalid`)라 새 `cell-score`로 다시 채점한다(두 번 연속 무효면 멈춤).
+(2026-10-19 전 기록) G3 판정: 건물 하나는 총점 7점 미만(대표 시설은 9점), 색·마감·1층 중 하나가 0점, 또는 같은 건물로 안 보이면 실패. 한 건물의 사진이 여러 장(학교 면)이면 평균. 바꿔 끼운 쌍이 4점을 넘거나 같은 건물이라고 하면, 또는 중복 쌍의 총점이 2점 넘게 다르면 그 채점은 무효(`scorer_invalid`)라 새 `cell-score`로 다시 채점한다(두 번 연속 무효면 멈춤).
 
 허용 목록(`regions/<구역>/cells/<칸>/gate-allow.json`, `{"allow": [{"check", "id", "reason"}]}`): 실제로 맞는데 걸리는 것(예: 실제로 차도 한가운데 있는 교통섬 나무)만, 검증 에이전트가 근거(위성·거리뷰 키)와 함께 제안하면 메인이 넣는다. 일꾼은 이 파일을 못 고친다.
 
@@ -58,10 +60,10 @@ G3 판정: 건물 하나는 총점 7점 미만(대표 시설은 9점), 색·마�
 | G1 건물·나무·가로시설·인도 | 규칙(`streets.py`, `layout.py`, `layout_details.py`)과 그 사례를 테스트에 추가, 또는 데이터(`road_lanes_by_name`, `driveways`) |
 | G1 Studio의 수작업 | 그 시설의 생성기 스펙(`facilities.json` 등)을 차도에서 뗀다 |
 | G2 | 위성에 맞춰 데이터·규칙·수작업 |
-| G3 `detail` | 사진과 렌더를 같이 보고 `details.py record`(그 건물만) |
-| G3 `color` | `lookalike.py walls --cells <칸> --apply` → walls.json → 다시 생성 |
-| G3 `rule` | `uv run src/lookalike.py gaps --min 10`이 칸을 넘어 센다. 같은 종류가 10동을 넘으면 새 규칙(공개 레퍼런스 먼저, 테스트, G5) |
-| G3 `facility` | 시설 스펙(정면 방향 `front`, 재질; lessons 사례) |
+| G3 `detail` (2026-10-19 없앰) | 사진과 렌더를 같이 보고 `details.py record`(그 건물만) |
+| G3 `color` (없앰) | `lookalike.py walls --cells <칸> --apply` → walls.json → 다시 생성 |
+| G3 `rule` (없앰) | `uv run src/lookalike.py gaps --min 10`이 칸을 넘어 센다. 같은 종류가 10동을 넘으면 새 규칙(공개 레퍼런스 먼저, 테스트, G5) |
+| G3 `facility` (없앰) | 시설 스펙(정면 방향 `front`, 재질; lessons 사례) |
 
 규칙은 칸마다 한 건까지 고친다(테스트와 G5 통과). 고친 규칙 때문에 manifest가 바뀐 옛 칸은 `expansion.json`의 `stale`에 넣고 큐가 끝날 때(또는 FPS 차례에) Studio에서 다시 만든다.
 
@@ -76,12 +78,12 @@ G3 판정: 건물 하나는 총점 7점 미만(대표 시설은 9점), 색·마�
 1. `git pull`, `expansion.json`에서 첫 칸 중 `state`가 `done`·`held`가 아닌 것을 고른다. 없으면 `stale` 칸 다시 만들기, 그다음 끝 보고.
 2. 상태에 따라:
    - `queued` → `cell-prep`(칸 ID). 보고의 `capture_stopped`가 있으면 **전체 멈춤**.
-   - `prepped` → 트레이싱 목록(`data/facade/<칸>/trace-NN.json`)마다 `cell-trace`(동시에 4개까지, 출력은 목록의 `output`) → `cell-prep` 기록 모드(`facade.py record`: 색·모서리·빈 땅·빌려 쓰기 → `facade.json`, 벽 색 `walls.json`). 2·3급 칸은 트레이싱을 건너뛴다(사진 없음, 규칙 생성).
-   - `judged` → `cell-facility`(트레이싱으로 안 되는 것만, 없으면 바로 `specced`) → 스펙 JSON 경로를 받는다.
-   - `specced` → `cell-build`(칸, 스펙 경로).
-   - `built` → `cell-verify`(칸, FPS 차례면 `fps`; 트레이싱 칸은 `facade.py check`가 G3 대신) → 메인이 `gate.py summary`(칸에 `facade.json`이 있으면 `trace`를 보고 `g3`는 안 본다). 트레이싱 전 칸만 예전처럼 `cell-score`와 `lookalike.py score`.
+   - `prepped` → 판단 목록마다 `cell-judge`, 트레이싱 목록마다 `cell-trace`(합쳐 동시에 4개까지) → `cell-prep` 기록 모드(판단 기록, `facade.py record`). 2·3급 칸은 둘 다 건너뛴다.
+   - `judged` → `cell-facility` → 스펙 JSON 경로를 받는다.
+   - `specced` → `cell-build`(칸, 스펙 경로, 그 칸 첫 생성이면 `g2`, FPS 차례면 `fps`). 보고 `stage`가 `g1`(Studio 전 G1 계산 실패)이면 바로 `cell-fix`로.
+   - `built` → G2 조각이 있으면 `cell-tiles`(조각 9장, 출력 `data/gate/<칸>/g2-answer.json`) → 메인이 `gate.py g2 --cell <칸> --file <답>` → `gate.py summary`(1급 트레이싱 칸은 `trace`도; G3는 없음).
    - `verified`(pass) → `cell-record` → `state = done`, `since_fps` 증가(FPS를 쟀으면 0).
-   - 실패 → `rounds < 3`이면 `cell-fix`(gate.json 경로) → `built`로 돌아가 검증부터. 3번째도 실패면 `state = held`, 이유를 적고 알림.
+   - 실패 → `rounds < 2`이면 `cell-fix`(gate.json 경로) → `specced`로 돌아가 `cell-build`부터(G2는 다시 하지 않는다: 길·건물 위치를 바꾼 고치기만 `g2`). 2번째도 실패면 `state = held`, 이유를 적고 알림.
 3. 에이전트가 끝날 때마다 `git diff --name-only HEAD`와 그 에이전트의 커밋을 본다: `gate.toml`, `gate-allow.json`, `src/gate.py`, `src/lookalike.py`, `cycle-verify/lookalike-rubric.md`, `road-clear-check.luau`를 일꾼이 바꿨으면 되돌리고(`git checkout HEAD~1 -- <파일>` 후 커밋) 그 칸을 다시 검증한다.
 4. `expansion.json`을 고치고 그 파일만 커밋·푸시한다.
 
