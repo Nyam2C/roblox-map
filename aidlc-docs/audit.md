@@ -2588,3 +2588,24 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **User Input**: "U8 큐(regions/bucheon-dodang/expansion.json)에서 queued 상태인 첫 칸(8930e0ac6dbffff) 하나만 CLAUDE.md 세션 흐름과 aidlc-docs/construction/plans/u8-auto-expand-plan.md대로 cell-* 에이전트로 끝까지 만들어라(2026-10-19 혼합 방식: CLAUDE.md 결정 사항, 절차서 2·5절, cycle-build 4·4T 최신 내용을 먼저 읽고 따른다). 사용자 결정(2026-10-19): 이미 만든 칸(done·built·held 칸과 기존 region 칸 모두)은 지금 상태로 남겨 둔다. 이웃 칸 땅 높이가 바뀌어도 이미 만든 칸은 다시 만들지 말고 stale 다시 만들기도 하지 마라(경계 턱이 생기면 audit에 적기만). 큰길 차로 수는 빌드 전에 위성으로 구간별로 확인하고 구간마다 폭이 다르면 road_lanes_by_way. 걷기 FPS 차례인데 사람이 Studio 창 앞에 있어야 하면 건너뛰고 기록. 에이전트는 foreground로 부르고 끝날 때까지 턴을 끝내지 마라. 사용자는 자리에 없으니 묻지 말고 추천안으로 정하고 audit에 남겨라(게이트 기준값·허용 목록을 바꾸면 이유를 분명히). 먼저 get_studio_state로 Studio(Edit)를 확인하고 안 되면 Studio 없는 단계까지만. 예산이 모자라 보이면 끊기기 전에 상태를 기록하고 멈춰라. 커밋 안 된 남의 변경은 건드리지 말고 커밋은 자기 파일만. 키 값을 파일·로그에 쓰지 마라. 끝나면 에이전트별 비용과 함께 한글 요약."
 **AI Response**: Studio Edit 확인. 6db queued → cell-prep부터.
 **Context**: U8 자동 확장, 8930e0ac6dbffff
+
+---
+
+## 2026-10-20 U8 칸 8930e0ac6dbffff 대표 시설 (cell-facility, 사용자 부재, 묻지 않음)
+**Timestamp**: 2026-10-20T00:00:00Z
+**User Request**: (메인 지시) 6db 대표 시설 4~5곳을 facility-spec.md대로 `data/auto/8930e0ac6dbffff/facilities-spec.json`에(이웃 시설과 겹치지 않게, 시설은 차도에서 떼기, Studio 안 씀, 커밋 안 함).
+**AI Response**: 5곳. 근거는 OSM 태그·대장·위성 z19·거리뷰 시트, 웹은 보기만(스크래치에서 보고 지움).
+1. **진말어린이공원**(`jinmal_park_6db`, pxpark, 레이아웃 `data/auto/8930e0ac6dbffff/jinmal_park_6db.json` → 메인이 `regions/bucheon-dodang/`로): 칸의 유일한 이름 있는 공원(OSM way:472906710, tiers 랜드마크). 잔디·회색 블록 포장(운동기구, 장말로로 내려가는 4 m 통로)·하늘색 고무 놀이터·황토색 곡선 길·둥근 화분 2·주황 지붕 놀이탑(미끄럼틀은 안 만듦). tiers의 다른 공원 way 486823903·886151503은 부천대 운동장으로 옆 칸(8930e0af337ffff)이라 뺌.
+2. **부천대학교 꿈집**(`bcu_dorm_6db`, gis:11177642, 정면 N): 칸에서 가장 높음(대장 10000·14층·1990, OSM college). 흰 회색 패널, 촘촘한 창 격자, 긴 면 양끝 청록 유리 세로 띠. 장말로 중심선에서 15 m.
+3. **부천대학교 공학관**(`bcu_engineering_6db`, gis:11185347, 정면 N): 대장 5층·1979, OSM college. 붉은 벽돌, 흰 창틀 창 줄, 서쪽 끝 녹색 유리 계단실, 위쪽 "공학관" 흰 글자(학교 공공 이름).
+4. **부천원미경찰서 중앙지구대**(`police_jungang_6db`, gis:11191979, 중복 gis:17763633 claims, 정면 S): OSM amenity=police(tiers 랜드마크). 회베이지 돌판, 1층 왼쪽 붉은 벽돌, 가운데 들어간 입구, 동쪽 분홍 계단탑, 난간 위 이름.
+5. **심곡1동 행정복지센터**(`simgok1_centre_6db`, gis:11178892, 중복 gis:16776817 claims, 정면 E): 대장 14000 공공·3층. 밝은 회색 돌판, 녹색 유리 계단탑(그림은 안 따름), 흰 평차양 입구와 보라 글자 띠간판.
+뺀 것: 세계로부천교회(gis:11188340, 4층, 짙은 금속 패널·유리 세로 띠, 중복 gis:17213361)는 5곳을 넘어 자동 그대로(다음 후보). 역·출구·백화점·15층 이상 없음, 8층 이상은 꿈집 하나. 이웃 시설(6d3·6d7·657·6c3·6cf)과 겹치는 건물 없음. 모든 시설에 road_clear_m 1.0(가장 가까운 길 중심선에서 7.5~15 m).
+웹 사진(보기만): https://ko.m.wikipedia.org/wiki/진말어린이공원 (하늘색 고무 바닥, 둥근 화분, 주황 나선 미끄럼틀, 나무 표지판), https://m.search.naver.com/search.naver?where=m_image&query=부천+진말어린이공원 (회색 블록 포장 위 운동기구), m_blog 같은 검색(글: 1,603.6 m², 운동기구 7, 2018-12 설치), https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+공학관 (붉은 벽돌 공학관 글자, 흰 기숙사 판상과 파란 유리 띠), m_image 부천대학교 꿈집(홍보물·실내 위주). 중앙지구대·심곡1동 센터는 웹 사진 없음(센터 검색은 다른 동 센터만 나옴) → 거리뷰로.
+**Context**: U8 자동 확장, 0b-4·7b(cell-facility)
+
+## 2026-10-19 U8 칸 8930e0ac6dbffff 메인 결정 (사용자 부재, 추천안)
+- 큰길: 장말로 way:1330680812 위성 차도 약 14~15 m = 태그 lanes 4 → 그대로. 신흥로 way:1339747551·1530128269(이 칸이 가진 일방 반쪽, 태그 없음)는 위성 길 전체 약 28 m(중앙분리대 포함, 방향마다 약 13~14 m)라 이름표 "신흥로" = 8(일방이면 4차로 13 m)과 맞아 `road_lanes_by_way`를 넣지 않음. cell-prep의 "방향 16~19 m"는 차선 세기 어려운 어림이라 길 전체 폭을 따름.
+- 대표 시설 5곳(cell-facility 추천 그대로): 진말어린이공원, 부천대 꿈집(14층), 부천대 공학관, 원미경찰서 중앙지구대, 심곡1동 행정복지센터. 세계로부천교회는 여섯째라 뺌. 레이아웃 `jinmal_park_6db.json`을 `regions/bucheon-dodang/`로 옮김.
+- 판단 대상을 못 정한 15동은 규칙판. 확신 high 불일치 23 중 override 1(gis:11186376 3층), 필로티 +1층 3동은 대장 그대로.
+- 고도 바뀐 이미 만든 이웃 6d3·6d7·657·6c3·6cf는 사용자 지시로 다시 안 만듦(경계 턱 가능).

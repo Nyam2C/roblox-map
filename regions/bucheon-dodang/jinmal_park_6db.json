@@ -1,0 +1,21 @@
+{
+ "note": "진말어린이공원 (OSM leisure=park way:472906710), cell 8930e0ac6dbffff, north of 장말로 beside the police box; about 1,600 m2 with a narrow walkway tail down to 장말로. Grass under the canopy, grey block paving (exercise equipment) in the south part and the tail, a blue rubber playground in the NW with a sand-coloured curved path, two raised round tree planters and a play tower with an orange roof. Trees stay trees.json. custom pxpark.",
+ "seen": "Satellite: dense canopy over the east half, a light-blue rubber playground with two round planters and a play structure in the NW, a tan curved path, grey paving under trees in the south. Web: light-blue rubber floor, round raised tree planters, a play tower with an orange spiral slide, a wooden park sign by flower beds, outdoor exercise machines on grey block paving.",
+ "tile_x0": 446776,
+ "tile_y0": 203165,
+ "sources": [
+  "data/satellite/8930e0ac6dbffff-z19.jpg (+json)",
+  "OSM way 472906710 (overpass-api.de)",
+  "https://ko.m.wikipedia.org/wiki/진말어린이공원 (photos viewed only)",
+  "https://m.search.naver.com/search.naver?where=m_image&query=부천+진말어린이공원 (thumbnails viewed only)"
+ ],
+ "features": [
+  {"kind": "lawn", "shape": "poly", "px": [[997.5, 1290.5], [974.8, 1406.6], [1106.8, 1432.4], [1132.1, 1406.1], [1156.7, 1411.7], [1171.6, 1324.8]], "height_m": null, "rgb": [72, 98, 56], "material": "Grass", "note": "OSM park outline (main block): grass under the canopy"},
+  {"kind": "paving", "shape": "poly", "px": [[976.5, 1405.5], [980.7, 1384.0], [1060.7, 1390.0], [1132.1, 1406.1], [1108.3, 1510.4], [1091.1, 1505.7], [1106.8, 1432.4]], "height_m": null, "rgb": [152, 150, 142], "material": "Pavement", "note": "grey block paving with exercise machines (south part) and the walkway tail to 장말로"},
+  {"kind": "plaza", "shape": "poly", "px": [[982.3, 1340.0], [990.7, 1313.3], [1010.7, 1303.3], [1016.0, 1313.0], [1025.0, 1328.0], [1034.0, 1342.0], [1050.0, 1368.0], [1047.3, 1383.3], [1020.7, 1385.0], [1002.3, 1376.7], [989.0, 1360.0]], "height_m": null, "rgb": [104, 158, 200], "material": "SmoothPlastic", "note": "light-blue rubber playground floor"},
+  {"kind": "path", "shape": "poly", "px": [[1014.0, 1300.0], [1030.0, 1302.0], [1041.0, 1322.0], [1053.0, 1345.0], [1048.0, 1350.0], [1036.0, 1339.0], [1026.0, 1324.0], [1017.0, 1312.0]], "height_m": null, "rgb": [200, 168, 126], "material": "SmoothPlastic", "note": "tan curved path east of the playground"},
+  {"kind": "bed", "shape": "circle", "px": [[1034.0, 1355.0], [6.0, 6.0]], "height_m": 0.45, "rgb": [150, 120, 96], "material": "SmoothPlastic", "note": "raised round tree planter in the playground"},
+  {"kind": "bed", "shape": "circle", "px": [[1035.7, 1371.7], [6.0, 6.0]], "height_m": 0.45, "rgb": [150, 120, 96], "material": "SmoothPlastic", "note": "raised round tree planter in the playground"},
+  {"kind": "pergola", "shape": "poly", "px": [[989.0, 1329.0], [1006.0, 1329.0], [1006.0, 1345.0], [989.0, 1345.0]], "height_m": 3.0, "open": true, "rgb": [228, 120, 44], "material": "SmoothPlastic", "note": "play tower (orange roof; the spiral slide is not modelled)"}
+ ]
+}
