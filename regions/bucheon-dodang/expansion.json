@@ -121,8 +121,8 @@
   {
    "cell": "8930e0ac6cfffff",
    "state": "specced",
-   "rounds": 0,
-   "note": "준비 2026-10-19: 1급, 건물 158, 파노라마 235, 펼친 정면 144(못 편 14), 판단 목록 3(158 전부), 트레이싱 목록 15, 고도 바뀐 이미 만든 칸 61b·6c7·657·6c3은 사용자 지시로 다시 안 만듦(경계 턱 가능), Studio Edit 연결(8e60d35) | 판단·트레이싱 2026-10-19: 판단 158(묶음 3), override 4(floors), 중복 외곽 5쌍은 dedupe_buildings(속성 없는 쪽 버림)가 처리, 대상 틀림 4동 규칙판; 트레이싱 펼친 144 중 통과 22·약함 41·못 씀 80·빈 땅 1, 벽 색 17(02905c5) | 시설 2026-10-19: 5곳(심곡천 pxpark simgokcheon_6cf, 제1공영주차장 simgok_parking1_6cf, 대성병원 신관 hospital_6cf, 20층 tower20_6cf, 15층 tower15_6cf) data/auto/8930e0ac6cfffff/facilities-spec.json; 부천로 7 way 위성 6(1328397913은 5) road_lanes_by_way(842db28), 장말로 way:1320885713 태그 4→위성 3, 메인이 by_way가 lanes 태그보다 먼저 되게 고침(테스트 876, 다른 칸 영향 없음: 기존 by_way 15개 모두 lanes 태그 없음)"
+   "rounds": 1,
+   "note": "준비 2026-10-19: 1급, 건물 158, 파노라마 235, 펼친 정면 144(못 편 14), 판단 목록 3(158 전부), 트레이싱 목록 15, 고도 바뀐 이미 만든 칸 61b·6c7·657·6c3은 사용자 지시로 다시 안 만듦(경계 턱 가능), Studio Edit 연결(8e60d35) | 판단·트레이싱 2026-10-19: 판단 158(묶음 3), override 4(floors), 중복 외곽 5쌍은 dedupe_buildings(속성 없는 쪽 버림)가 처리, 대상 틀림 4동 규칙판; 트레이싱 펼친 144 중 통과 22·약함 41·못 씀 80·빈 땅 1, 벽 색 17(02905c5) | 시설 2026-10-19: 5곳(심곡천 pxpark simgokcheon_6cf, 제1공영주차장 simgok_parking1_6cf, 대성병원 신관 hospital_6cf, 20층 tower20_6cf, 15층 tower15_6cf) data/auto/8930e0ac6cfffff/facilities-spec.json; 부천로 7 way 위성 6(1328397913은 5) road_lanes_by_way(842db28), 장말로 way:1320885713 태그 4→위성 3, 메인이 by_way가 lanes 태그보다 먼저 되게 고침(테스트 876, 다른 칸 영향 없음: 기존 by_way 15개 모두 lanes 태그 없음) | 생성 1(2026-10-19): 시설 5 합침(3c1b7c5), 부품 8092, 건물 144(중복 13 제거), traced 22, Union 키트 196, G1 계산 FAIL(경계 폭 5·횡단보도 길 밖 1) → Studio 전 멈춤 | cell-fix 1(2026-10-19): 고친 것 없음, 원인 = 다시 안 만드는 61b·6c3·6c7 옛 폭 3, 게이트 조각 폭 중앙값 반폭 2, 안 만든 653 소유 길 횡단보도 1 → 메인 허용 6(0d6afef), g1 PASS"
   },
   {
    "cell": "8930e0ac6dbffff",
