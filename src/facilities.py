@@ -604,6 +604,10 @@ def build(cfg: Mapping[str, Any], specs: Sequence[Mapping[str, Any]]) -> list[di
                 if not height:
                     height = piece.height_m if floors == piece.floors else floors * FH_DEFAULT
                 piece = dataclasses.replace(piece, floors=floors, fh=height / floors, height_m=height, is_body=True)
+                keep = float(pspk.get("road_clear_m") or 0)
+                if keep:  # a tall block on a banked road: Studio's check leans its top over the road (657 hanariabel, 2026-10-19)
+                    strips = [st.buffer(keep, join_style=2) for st in LD.road_strips(lines)]
+                    piece = dataclasses.replace(piece, boxes=tuple(LD.clip_to_roads(bx, strips) for bx in piece.boxes))
                 piece = LD.resolve_body(piece, lines, [], ccfg)
                 main = first or "accents" in pown or bool(sp.get("accents_everywhere"))
                 if first and sp.get("towers"):

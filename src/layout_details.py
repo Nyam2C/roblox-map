@@ -316,6 +316,7 @@ class Body:
     pilotis: bool = False  # open parking on columns under the floors above (2026-10-15)
     podium: int = 0  # floors of a stone shop podium under an apartment (2026-10-15)
     front_clear: float = math.inf  # metres from the front face to the nearest carriageway: how far an awning or canopy may reach (2026-10-17)
+    box_clear: tuple[float, ...] = ()  # metres from each box to the nearest carriageway: how far the ground-floor band may stand proud (657, 2026-10-19)
 
     @property
     def shop(self) -> bool:
@@ -484,6 +485,8 @@ def resolve_body(body: Body, lines: Sequence[tuple[str, LineString, float, Mappi
         f, bx = face_of(body.boxes[front], facing.side), body.boxes[front]
         ends = [_world(bx, f.c[0] + f.t[0] * f.length * a, f.c[1] + f.t[1] * f.length * a) for a in (-0.5, 0.5)]
         body = dataclasses.replace(body, front_clear=min(st.distance(LineString(ends)) for st in strips))
+    if strips:
+        body = dataclasses.replace(body, box_clear=tuple(min(_box_poly(bx).distance(st) for st in strips) for bx in body.boxes))
     body = dataclasses.replace(body, occluded=tuple(occluded_faces(body, i, others, cfg) for i in range(len(body.boxes))))
     return dataclasses.replace(body, side_shops=shop_sides(body, lines))
 
@@ -632,7 +635,8 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
     band = dict(material=body.material, color=R.band_color(body.wall_rgb), color_name=band_name)
     for k in range(1, F):
         if k == 1 and body.archetype != "school":  # BR-3.2a: the ground floor ends in a thick band proud of the window skin
-            bh, bl = D["band1_h"], 2 * D["band1_out"]
+            out = min(D["band1_out"], max(D["band_lip"] / 2, body.box_clear[bi] if bi < len(body.box_clear) else math.inf))
+            bh, bl = D["band1_h"], 2 * out  # not over a carriageway the wall stands at (657: a low ground floor below the road, 2026-10-19)
             items.append(_box_part(frame, body, bi, "facade", f"fl{bi}-{k}", seq, 0.0, 0.0, k * fh - bh / 2, (w + bl, bh, d + bl),
                                    material="Concrete", color=R.PALETTE["band_ground"], color_name="band_ground"))
         else:

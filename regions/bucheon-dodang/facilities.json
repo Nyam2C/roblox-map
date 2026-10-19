@@ -23502,6 +23502,7 @@
   {
    "key": "hanariabel_15f",
    "cell": "8930e0ac657ffff",
+   "road_clear_m": 1.0,
    "building_ids": [
     "gis:11951841"
    ],

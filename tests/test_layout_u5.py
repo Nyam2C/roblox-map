@@ -1118,6 +1118,20 @@ def test_shop_houses_get_awnings_a_vertical_sign_a_roof_edge_and_corner_shops():
     assert not any(tail(it) == "sv0" for it in all_items(low, villa(i=3)[0], eff)[0])  # two floors: no vertical sign
 
 
+def test_ground_floor_band_stops_at_the_carriageway():
+    """657 (U8 G1 Studio, 2026-10-19): the ground-floor band (0.48 m proud all round) hung over the road beside a wall at the road edge,
+    2.45 m above a road higher than the house's ground. It stands out no farther than the box's clearance (a thin lip at least)."""
+    S = FRAME.studs_per_m
+    for gap in (0.2, 5.0):
+        row, est, _ = villa(i=1, floors=4, wall="beige", center=offset(CENTER, 0, 3 + gap + 5))
+        body, eff = resolve(row, est, SHOP, features=[street()])
+        assert body.box_clear[0] == pytest.approx(gap, abs=0.05)
+        band = [it for it in all_items(body, row, eff)[0] if tail(it) == "fl0-1"]
+        assert len(band) == 1
+        out = (band[0].sx - body.boxes[0].width_m * S) / 2 / S
+        assert out == pytest.approx(min(LD.D["band1_out"], gap), abs=0.06)
+
+
 def test_awnings_and_door_canopies_stop_at_the_carriageway():
     """61b and 6d3 (U8 G1 Studio, 2026-10-17): in alleys without a sidewalk the awnings (1.4 m) and door canopies hung over the road at
     1.7-2.3 m. They reach no farther than the road edge and are left off when under overhang_min is free."""
