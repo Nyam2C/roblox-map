@@ -1254,6 +1254,18 @@ def test_a_box_on_a_road_strip_is_trimmed_back_off_it():
     assert LDm.clip_to_roads(box, [far]) == box
 
 
+def test_road_strips_cover_the_square_corner_outside_a_bend_like_the_built_road_boxes():
+    """2026-10-20 (333): the built road boxes run half a width past each inner joint; a round-joined strip left their square
+    corner outside the bend uncovered, so a building box clipped to it still stood 0.33 m² on the road."""
+    from shapely.geometry import LineString, Point
+    import layout_details as LDm
+    line = LineString([(0, 0), (20, 0), (20, 20)])  # a right-angle bend at (20, 0), 6 m wide
+    (strip,) = LDm.road_strips([("way:1", line, 6.0, {"kind": "road"})])
+    assert strip.contains(Point(22.9, -2.9))  # the outer corner of the boxes (round join misses it)
+    assert not strip.contains(Point(-0.5, 0)) and not strip.contains(Point(20, 20.5))  # flat at the way's own ends
+    assert LDm.road_strips([("p", line, 2.0, {"kind": "path"})]) == []
+
+
 def test_a_box_at_the_minimum_size_moves_off_the_road_strip():
     """2026-10-19 (6c3): 3 m appendage boxes could not be trimmed below CLIP_MIN_M and stayed 0.5-0.7 m² on an alley."""
     from shapely.geometry import LineString

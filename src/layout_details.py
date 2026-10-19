@@ -484,8 +484,25 @@ def clip_to_roads(box: Box, strips: Sequence[Polygon]) -> Box:
 
 
 def road_strips(lines: Sequence[tuple[str, LineString, float, Mapping[str, Any]]]) -> list[Polygon]:
-    """The carriageways (not footpaths) as flat-ended strips of their width."""
-    return [ln.buffer(w / 2, cap_style=2) for _, ln, w, f in lines if f.get("kind") == "road"]
+    """The carriageways (not footpaths) as the road boxes are built (layout.road_items): one box per segment, half a width past
+    each inner joint, so the square corner outside a bend counts too (333, 2026-10-20: a round-joined strip left 0.33 m² of a
+    bend box under a building)."""
+    from shapely.ops import unary_union
+    out = []
+    for _, ln, w, f in lines:
+        if f.get("kind") != "road":
+            continue
+        pts, last, boxes = list(ln.coords), len(ln.coords) - 2, []
+        for i, (p, q) in enumerate(zip(pts, pts[1:])):
+            length = math.hypot(q[0] - p[0], q[1] - p[1])
+            if length < 0.001:
+                continue
+            ux, uy = (q[0] - p[0]) / length, (q[1] - p[1]) / length
+            a, b = (0.0 if i == 0 else w / 2), (0.0 if i == last else w / 2)
+            boxes.append(LineString([(p[0] - ux * a, p[1] - uy * a), (q[0] + ux * b, q[1] + uy * b)]).buffer(w / 2, cap_style=2))
+        if boxes:
+            out.append(unary_union(boxes))
+    return out
 
 
 def resolve_body(body: Body, lines: Sequence[tuple[str, LineString, float, Mapping[str, Any]]], others: Sequence[Polygon],
