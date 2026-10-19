@@ -116,3 +116,23 @@ def test_an_open_pergola_is_four_posts_and_a_thin_roof(tmp_path):
     tails = [i.name.split("#", 1)[1].split("-")[0] for i in anjunggeun.build(FRAME, "park", str(p))]
     assert tails.count("tp") == 4 and tails.count("tr") == 1
     assert tails.count("hu") == 1 and tails.count("hr") == 1  # the closed one is still the hut
+
+
+def test_a_park_curb_on_a_slanted_bed_runs_along_its_edge(tmp_path):
+    """653 (2026-10-20): the traced-park curb yaw had the wrong sign, so a 65 m curb on a slanted hedge swung 22 degrees onto the road."""
+    import json
+    import math
+    import anjunggeun
+    import layout
+    px = [[100, 100], [376, 154], [377, 149], [101, 95]]  # a thin hedge sloping about 11 degrees, like simgok_park_653
+    p = tmp_path / "park.json"
+    p.write_text(json.dumps({"tile_x0": 446783, "tile_y0": 203171, "features": [
+        {"kind": "bed", "shape": "poly", "px": px, "height_m": 1.0, "rgb": [58, 92, 48], "material": "Grass"}]}), encoding="utf-8")
+    corners = [LD._studs(FRAME, *layout.to_meters(FRAME, *anjunggeun.to_latlon(446783, 203171, x, y))) for x, y in px]
+    curbs = [i for i in anjunggeun.build(FRAME, "park", str(p)) if "#cb-" in i.name]
+    assert curbs
+    for c in curbs:
+        a = math.radians(c.yaw_deg)  # Roblox yaw: the part's X axis points to (cos, -sin) in x/z
+        for s in (-1, 1):
+            end = (c.cx + s * c.sx / 2 * math.cos(a), c.cz - s * c.sx / 2 * math.sin(a))
+            assert min(math.dist(end, k) for k in corners) < 2.0

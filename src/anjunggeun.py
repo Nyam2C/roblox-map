@@ -82,7 +82,7 @@ def build(frame: Frame, key: str, layout_path: str | None = None) -> list[Item]:
                     if seg.length > 0.5:
                         c = seg.interpolate(0.5, normalized=True)
                         put("cb", c.x, c.y, 0.0, (seg.length, top + 0.1, 0.25), {"rgb": (170, 168, 160), "material": "Granite"},
-                            yaw=-math.degrees(math.atan2(b[1] - a[1], b[0] - a[0])))
+                            yaw=math.degrees(math.atan2(b[1] - a[1], b[0] - a[0])))
         elif kind in ("wall", "fence"):  # along the long side (a rect) or every edge (a poly)
             coords = list(poly.exterior.coords) if shape == "poly" else None
             if shape == "rect":
@@ -93,14 +93,14 @@ def build(frame: Frame, key: str, layout_path: str | None = None) -> list[Item]:
                 a, b = pts[i], pts[(i + 1) % 4]
                 thick = max(0.4, edges[2][0])
                 c = poly.centroid
-                put("wl", c.x, c.y, 0.0, (math.dist(a, b), h or 2.5, thick), f, yaw=-math.degrees(math.atan2(b[1] - a[1], b[0] - a[0])))
+                put("wl", c.x, c.y, 0.0, (math.dist(a, b), h or 2.5, thick), f, yaw=math.degrees(math.atan2(b[1] - a[1], b[0] - a[0])))
                 continue
             for a, b in zip(coords[:-1], coords[1:]):
                 seg = LineString([a, b])
                 if seg.length < 0.5:
                     continue
                 c = seg.interpolate(0.5, normalized=True)
-                yaw = -math.degrees(math.atan2(b[1] - a[1], b[0] - a[0]))
+                yaw = math.degrees(math.atan2(b[1] - a[1], b[0] - a[0]))
                 if kind == "fence":
                     put("fr", c.x, c.y, (h or 1.0) - 0.06, (seg.length, 0.06, 0.06), f, yaw=yaw)
                     for t in range(int(seg.length // 2.0) + 1):
@@ -113,11 +113,11 @@ def build(frame: Frame, key: str, layout_path: str | None = None) -> list[Item]:
             c = poly.centroid
             pts = list(r.exterior.coords)[:4]
             w, d = math.dist(pts[0], pts[1]), math.dist(pts[1], pts[2])
-            yaw = -math.degrees(math.atan2(pts[1][1] - pts[0][1], pts[1][0] - pts[0][0]))
+            yaw = math.degrees(math.atan2(pts[1][1] - pts[0][1], pts[1][0] - pts[0][0]))
             if f.get("open"):  # an open shade tent (진달래공원, 2026-10-16): four posts under a thin membrane roof in its own colour
                 for su in (-1, 1):
                     for sv in (-1, 1):
-                        a = math.radians(-yaw)
+                        a = math.radians(yaw)
                         du, dv = su * (w / 2 - 0.2), sv * (d / 2 - 0.2)
                         put("tp", c.x + du * math.cos(a) - dv * math.sin(a), c.y + du * math.sin(a) + dv * math.cos(a), 0.0,
                             (0.15, h or 3.5, 0.15), {"rgb": (200, 200, 200), "material": "Metal"})
