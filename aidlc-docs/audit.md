@@ -2688,3 +2688,19 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **User Request**: (메인) 칸 333 기록(판단·트레이싱)
 **AI Response**: 확신 high 불일치 9동 중 대장 높이가 대장 층수와 맞는 3동만 override(floors_above): gis:11177756→2(7.5 m), gis:11178051→5(16.6 m), gis:11178320→3(9.5 m), 653·6cb와 같은 기준. 나머지 6동은 대장 높이가 없거나(층당 4.17 m인 11199060 포함) 맞지 않아 사진값 유지. 판단 "건물 없음" 3동: gis:11185078은 위성 z19에 지붕 없이 잔해·맨땅이라 `[gone_buildings]`(빈 땅), gis:11185555(초록 아치 쉼터, 지붕 있음)·gis:18493233(작은 회색 지붕 구조물)은 위성에 지붕이 있어 규칙판. 트레이싱 note 검사: 개인 정보·술담배도박 어휘 없음. facade.py record: 통과 43, 약함 29(규칙판), 못 씀 127, 빈 땅 1, 벽 색 41. 약한 동 재트레이싱 안 함.
 **Context**: 기록
+
+---
+
+## 2026-10-20 U8 칸 8930e0af333ffff 대표 시설 스펙
+**Timestamp**: 2026-10-20T00:00:00Z
+**User Request**: (메인) 칸 333 대표 시설 4~5곳 스펙(cycle-build 0b-4·7b), 이웃 칸 시설 제외, 15층 이상은 시설 후보, 레이아웃은 regions/ 아래, facade.json에서 시설 동 빼기
+**AI Response**: 5곳, 스펙 `data/auto/8930e0af333ffff/facilities-spec.json`(시험 빌드 부품 51·321·347·840·192).
+1. `simgok_cathedral_333` 심곡성당 gis:11186176: OSM place_of_worship(이름 있음), 대장 06000 3층 24 m 850 m². 흰 홈 띠 원통 드럼 위 달걀형 돔 하나인 건물(위성 타원 약 30×38 m) → 상자 12 m + Plaster rotunda 33 m·24 m(위성 중심 x -926, z 6146), 십자가, front S(남쪽 길, 흰 담장).
+2. `dios_ville_15f_333` 15층 오피스텔 gis:11438800(gis:14798071 같은 외곽 OSM 복사본은 claims): 칸에서 가장 높음(15층 49.5 m). 어두운 석재 2층 기단 + 흰 탑, 북쪽 면 초록 유리 계단 띠 둘, front N.
+3. `daon_hav_14f_333` 14층 상가주택 gis:12993773(gis:17111686 claims): 칸에서 가장 큰 바닥(1,624 m²), 부일로 쪽. 베이지 석재 3층 상가 + 4층 테라스 + 띠 줄무늬 탑, 위성상 ㅁ자 고리 지붕과 안뜰 정원 → courtyard_m 10, front S.
+4. `bcu_hall_8f_333` 부천대학교 8층 동 gis:11185398: 대장 10000 교육 8층 1,383 m², OSM civic. 거친 돌 3층 기단(Limestone) + 밝은 회색 판 5층, 북쪽 유리 아트리움과 계단, front N. 6db의 부천대 공학관·기숙사와 다른 동.
+5. `simgok_hill_park_333` 이름 없는 언덕 공원(OSM leisure=park way:490252542, tiers 랜드마크): pxpark, 레이아웃 `regions/bucheon-dodang/simgok_hill_park_333.json`(잔디, 황토 산책로, 하늘색 물놀이 수반, 팔각정, 모래 놀이터, 북·동쪽 생울타리, 계단 자리 비움). 땅은 위성 연석 안(OSM 외곽선이 세 길 위). 계단 입구 초록 아치 지붕(gis:11185555)은 자동 그대로.
+뺀 후보: 하이팰리스 14층(gis:11175368, 디오스빌 바로 남쪽, 15층 미만이고 비슷한 탑이라 규칙), 부천대 국제관(gis:11207615, OSM place_of_worship 태그는 잘못으로 보임, 5층), 은천교회(5층 625 m², 일반 상자에 가까움). 이웃 칸 시설(6db 부천대 공학관·기숙사, 진말공원 등)과 겹치는 것 없음. 이 칸에 지하철 출구 없음.
+facade.json: 다섯 시설의 동과 claims 어느 것도 트레이싱 통과 목록(44동)에 없어 뺄 것 없음. 부속이 차도에 붙는 네 건물은 `road_clear_m` 1.0.
+웹 사진(보기만, 스크래치에서 보고 지움): https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡성당 (흰 달걀형 돔, 흰 원통, 작은 십자가), https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡동+디오스빌 (어두운 석재 기단, 흰 탑에 청회색 판, 나머지는 실내), https://m.search.naver.com/search.naver?where=m_image&query=부천+다온하브+부일로 (밝은 회베이지 띠 탑, 베이지 석재 상가), https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+심곡+본관 (캠퍼스 전경뿐, 이 동은 못 찾음). 공원은 웹 사진 없음(https://m.search.naver.com/search.naver?where=m_blog&query=심곡성당+옆+공원, m_image "부천 심곡동 공원 계단 심곡성당" 둘 다 다른 장소) → 위성·거리뷰(captures/8930e0af333ffff/sheets/gis_11185555.jpg: 돌 옹벽, 생울타리, 초록 아치 지붕 계단).
+**Context**: 구현(0b-4 시설 스펙)

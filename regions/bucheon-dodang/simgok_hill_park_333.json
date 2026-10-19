@@ -1,0 +1,445 @@
+{
+ "note": "Unnamed hill park (OSM leisure=park way:490252542, the cell's tier-1 park landmark) west of 심곡성당, about 60 x 62 m between four lanes. The ground is raised above the east street behind a rock retaining wall with hedges; the stair entrance on the east has a green arched polycarbonate canopy (V-World record gis:11185555, building=roof, stays auto). Layers: grass under the canopy, tan walks round the west and north edge, a light-blue shallow basin (splash pool) in the north, a tan plaza round an octagonal dark-roofed pavilion in the middle, a tan south plaza with a round sand playground and a small yellow play structure, grey paving by the stair entrance, a dark rectangle in the SW (court or rubber floor, satellite only), clipped hedges along the north and east street edges. The OSM outline sits on the north, east and south lanes; the ground is moved in to the satellite curb. Trees stay trees.json. custom pxpark.",
+ "seen": "Satellite: dense canopy round the edges, light-blue basin in the north, octagonal pavilion in the middle, tan plaza and round sand playground in the south, a dark rectangle SW. Street view (east lane): rock retaining wall, hedges, stairs up under a green arched canopy, a noticeboard.",
+ "tile_x0": 446772,
+ "tile_y0": 203172,
+ "sources": [
+  "data/satellite/8930e0af333ffff-z19.jpg (+json)",
+  "OSM way 490252542 (overpass-api.de)",
+  "captures/8930e0af333ffff/sheets/gis_11185555.jpg",
+  "https://m.search.naver.com/search.naver?where=m_blog&query=심곡성당+옆+공원 (no park photos)",
+  "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡동+공원+계단+심곡성당 (no park photos)"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     396,
+     634
+    ],
+    [
+     577,
+     660
+    ],
+    [
+     562,
+     915
+    ],
+    [
+     342,
+     898
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    72,
+    98,
+    56
+   ],
+   "material": "Grass",
+   "note": "park ground inside the satellite curb: grass under the canopy"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     497,
+     783
+    ],
+    [
+     527,
+     783
+    ],
+    [
+     527,
+     818
+    ],
+    [
+     497,
+     818
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    150,
+    150,
+    146
+   ],
+   "material": "Pavement",
+   "note": "grey paving inside the east stair entrance"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     347,
+     843
+    ],
+    [
+     422,
+     846
+    ],
+    [
+     422,
+     888
+    ],
+    [
+     347,
+     886
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    72,
+    74,
+    76
+   ],
+   "material": "Slate",
+   "note": "dark rectangle in the SW (court or rubber floor, satellite only)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     406,
+     673
+    ],
+    [
+     418,
+     673
+    ],
+    [
+     422,
+     828
+    ],
+    [
+     408,
+     828
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    200,
+    176,
+    138
+   ],
+   "material": "Pavement",
+   "note": "tan walk along the west edge"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     412,
+     673
+    ],
+    [
+     545,
+     690
+    ],
+    [
+     545,
+     698
+    ],
+    [
+     412,
+     682
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    200,
+    176,
+    138
+   ],
+   "material": "Pavement",
+   "note": "tan walk along the north side of the basin"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     422,
+     818
+    ],
+    [
+     502,
+     808
+    ],
+    [
+     537,
+     818
+    ],
+    [
+     542,
+     858
+    ],
+    [
+     512,
+     893
+    ],
+    [
+     442,
+     893
+    ],
+    [
+     427,
+     868
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    204,
+    180,
+    142
+   ],
+   "material": "Pavement",
+   "note": "tan south plaza"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     417,
+     679
+    ],
+    [
+     537,
+     694
+    ],
+    [
+     551,
+     727
+    ],
+    [
+     515,
+     729
+    ],
+    [
+     497,
+     713
+    ],
+    [
+     427,
+     711
+    ],
+    [
+     415,
+     698
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    150,
+    196,
+    206
+   ],
+   "material": "SmoothPlastic",
+   "note": "light-blue shallow basin (splash pool)"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     472,
+     765.5
+    ],
+    [
+     22,
+     22
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    204,
+    180,
+    142
+   ],
+   "material": "Pavement",
+   "note": "tan plaza round the pavilion"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     497,
+     850
+    ],
+    [
+     34,
+     34
+    ]
+   ],
+   "height_m": 0.16,
+   "rgb": [
+    200,
+    174,
+    132
+   ],
+   "material": "SmoothPlastic",
+   "note": "round sand playground"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "px": [
+    [
+     460,
+     754
+    ],
+    [
+     484,
+     754
+    ],
+    [
+     484,
+     778
+    ],
+    [
+     460,
+     778
+    ]
+   ],
+   "height_m": 3.2,
+   "open": true,
+   "rgb": [
+    84,
+    80,
+    76
+   ],
+   "material": "SmoothPlastic",
+   "note": "octagonal pavilion with a dark roof (built as an open square shade)"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "px": [
+    [
+     505,
+     829
+    ],
+    [
+     515,
+     829
+    ],
+    [
+     515,
+     838
+    ],
+    [
+     505,
+     838
+    ]
+   ],
+   "height_m": 2.4,
+   "open": true,
+   "rgb": [
+    226,
+    190,
+    60
+   ],
+   "material": "SmoothPlastic",
+   "note": "small yellow play structure"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     398,
+     634
+    ],
+    [
+     576,
+     660
+    ],
+    [
+     575,
+     665
+    ],
+    [
+     398,
+     639
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    64,
+    96,
+    52
+   ],
+   "material": "Grass",
+   "note": "clipped hedge along the north street edge"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     571,
+     668
+    ],
+    [
+     576,
+     668
+    ],
+    [
+     568,
+     783
+    ],
+    [
+     563,
+     783
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    64,
+    96,
+    52
+   ],
+   "material": "Grass",
+   "note": "clipped hedge along the east street edge (north of the stair entrance)"
+  },
+  {
+   "kind": "bed",
+   "shape": "poly",
+   "px": [
+    [
+     567,
+     805
+    ],
+    [
+     572,
+     805
+    ],
+    [
+     562,
+     912
+    ],
+    [
+     557,
+     912
+    ]
+   ],
+   "height_m": 1.0,
+   "rgb": [
+    64,
+    96,
+    52
+   ],
+   "material": "Grass",
+   "note": "clipped hedge along the east street edge (south of the stair entrance)"
+  }
+ ]
+}
