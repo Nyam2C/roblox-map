@@ -319,6 +319,26 @@
    "reason": "사용자 확장 요청(2026-10-16, 원미동 2 남·동쪽 3칸), 칸마다 대표 시설 4곳: 거리뷰 판단까지",
    "tier": 1
   },
+  "8930e0ac6c3ffff": {
+   "counts": {
+    "landmarks": [
+     "hospital:대성병원 신관",
+     "park:way815847414",
+     "park:보리수 공원",
+     "place_of_worship:대한감리회 기둥교회"
+    ],
+    "pois": 8,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.241,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: hospital:대성병원 신관, park:way815847414, park:보리수 공원, place_of_worship:대한감리회 기둥교회",
+   "tier": 1
+  },
   "8930e0ac6c7ffff": {
    "counts": {
     "landmarks": [
