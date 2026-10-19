@@ -27137,6 +27137,514 @@
     "data/satellite/8930e0ac6cbffff-z19.jpg"
    ],
    "seen": "Street view (looking W): brown stone ground floor with glass entrance, cream tile tower with blue ribbon windows; from the east a white tile low annex in front. No web photo looked up (budget)."
+  },
+  {
+   "key": "simgok_cathedral_333",
+   "cell": "8930e0af333ffff",
+   "building_ids": [
+    "gis:11186176"
+   ],
+   "build": [
+    "gis:11186176"
+   ],
+   "claims": [],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 3,
+   "height_m": 12.0,
+   "wall": {
+    "material": "Plaster",
+    "rgb": [
+     232,
+     232,
+     228
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "none",
+    "w_m": 1.0,
+    "h_m": 1.0,
+    "pitch_m": 10.0,
+    "glass_rgb": [
+     70,
+     80,
+     86
+    ],
+    "frame_rgb": [
+     232,
+     232,
+     228
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": 0.0,
+     "width_m": 2.0,
+     "rgb": [
+      236,
+      236,
+      232
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": {
+    "text": "심곡성당",
+    "face": "street",
+    "floor": 0,
+    "bg_rgb": [
+     232,
+     232,
+     228
+    ],
+    "ink_rgb": [
+     60,
+     62,
+     66
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     232,
+     232,
+     228
+    ],
+    "top_rgb": [
+     222,
+     224,
+     224
+    ],
+    "features": [],
+    "crown": null
+   },
+   "rotunda": {
+    "corner": "S",
+    "diameter_m": 33.0,
+    "height_m": 24.0,
+    "material": "Plaster",
+    "glass_rgb": [
+     236,
+     236,
+     232
+    ],
+    "rgb": [
+     214,
+     214,
+     210
+    ],
+    "crown_rgb": [
+     220,
+     222,
+     222
+    ],
+    "bands_every_m": 2.5,
+    "x": -926.0,
+    "z": 6146.0
+   },
+   "notes": "Catholic church (OSM amenity=place_of_worship, name 심곡성당; register 06000, 3 floors, 24 m, 850 m2). The whole building is one egg-shaped white dome: a round white drum with horizontal grooves about every 2.5 m up to about 12 m, then a light grey-white egg dome to 24 m with a small cross on top; satellite oval about 30 x 38 m (N-S longer), centre x -926, z 6146 studs. Built as the register boxes at the drum height (12 m, white plaster, no windows) and a Plaster rotunda 33 m across to 24 m at the satellite centre (drum with Metal rings every 2.5 m, the dome part as the crown cylinder). A low white concrete enclosure wall with two pine trees in planters stands along the south lane (not modelled). Front S: the south lane is the street side seen in the photos; road_clear_m 1.0 because the outline touches the south and west lanes.",
+   "sources": [
+    "captures/8930e0af333ffff/sheets/gis_11186176.jpg",
+    "data/satellite/8930e0af333ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡성당 (thumbnails viewed only)"
+   ],
+   "seen": "Street view from the south lane: a white grooved round drum over a white concrete wall with pine planters, an egg-shaped grey-white dome and a small cross. Web thumbnails: the same white egg dome from several sides. Satellite: silvery white oval dome with a ring near the top."
+  },
+  {
+   "key": "dios_ville_15f_333",
+   "cell": "8930e0af333ffff",
+   "building_ids": [
+    "gis:11438800",
+    "gis:14798071"
+   ],
+   "build": [
+    "gis:11438800"
+   ],
+   "claims": [
+    "gis:14798071"
+   ],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     228,
+     228,
+     224
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     60,
+     62,
+     66
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.5,
+    "h_m": 1.4,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     72,
+     92,
+     104
+    ],
+    "frame_rgb": [
+     220,
+     220,
+     216
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 14,
+     "rgb": [
+      96,
+      168,
+      158
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 14,
+     "rgb": [
+      96,
+      168,
+      158
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.4,
+     "width_m": 1.5,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "Concrete",
+     "rgb": [
+      150,
+      112,
+      86
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": -0.3,
+     "width_m": 6.0,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "Concrete",
+     "rgb": [
+      178,
+      180,
+      182
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.35,
+    "width_m": 4.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     228,
+     228,
+     224
+    ],
+    "top_rgb": [
+     214,
+     214,
+     210
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Tallest building of the cell: register 14000 (officetel) 15 floors, 49.5 m, 2019; gis:14798071 is the OSM copy of the same outline (claimed only). Two-floor podium of dark polished granite panels with shops, then a white tower with light grey panel bands, punched windows with small railings and air-conditioner cages; two full-height green glass stair strips on the north face, a brown vertical strip on the east corner. The name in gold letters on the granite (not written). Front N: the north lane faces the entrance and the strips (the west lane is a narrow alley). Satellite roof light grey-white with small boxes.",
+   "sources": [
+    "captures/8930e0af333ffff/sheets/gis_11438800.jpg",
+    "data/satellite/8930e0af333ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡동+디오스빌 (thumbnails viewed only)"
+   ],
+   "seen": "Street view: dark granite two-floor base, white and grey slab tower with two green glass strips and a brown corner strip. Web thumbnails: the same dark base and white tower with blue-grey bands; most photos are interiors."
+  },
+  {
+   "key": "daon_hav_14f_333",
+   "cell": "8930e0af333ffff",
+   "building_ids": [
+    "gis:12993773",
+    "gis:17111686"
+   ],
+   "build": [
+    "gis:12993773"
+   ],
+   "claims": [
+    "gis:17111686"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 14,
+   "height_m": null,
+   "courtyard_m": 10.0,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     214,
+     208,
+     198
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Limestone",
+    "rgb": [
+     196,
+     188,
+     172
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.3,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     70,
+     86,
+     96
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     196
+    ]
+   },
+   "bands": {
+    "rgb": [
+     176,
+     170,
+     160
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 1,
+     "to_floor": 2,
+     "rgb": [
+      96,
+      118,
+      126
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      120,
+      124,
+      128
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     120,
+     122,
+     124
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     214,
+     208,
+     198
+    ],
+    "top_rgb": [
+     206,
+     206,
+     202
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Largest footprint of the cell (register 02000, 14 floors, 1,624 m2, 2005; gis:17111686 is the OSM copy, claimed only), on 부일로 (south, bus stop). A ㅁ-shaped block: three floors of shops in beige stone panels with big shop windows on the 2nd-3rd floors, a terrace with a railing on the 4th floor, then a light beige-grey tower with alternating light and darker horizontal bands and close punched windows. Satellite: the tower roof is a ring about 9-10 m deep round a planted courtyard on the podium (courtyard_m 10). Shop signs on all street faces (not written). Front S: the 부일로 side; the name and address plate are on the north face too.",
+   "sources": [
+    "captures/8930e0af333ffff/sheets/gis_12993773.jpg",
+    "data/satellite/8930e0af333ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+다온하브+부일로 (thumbnails viewed only)"
+   ],
+   "seen": "Street view: beige stone shop podium with big glass on floors 2-3, a railing terrace and a banded light tower above. Web thumbnails: the same banded light grey-beige slab over beige stone shops on 부일로. Satellite: ring roof round a green courtyard."
+  },
+  {
+   "key": "bcu_hall_8f_333",
+   "cell": "8930e0af333ffff",
+   "building_ids": [
+    "gis:11185398"
+   ],
+   "build": [
+    "gis:11185398"
+   ],
+   "claims": [],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 8,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     210,
+     210,
+     206
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Limestone",
+    "rgb": [
+     196,
+     190,
+     180
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.3,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     60,
+     84,
+     90
+    ],
+    "frame_rgb": [
+     96,
+     100,
+     102
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 10.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      110,
+      170,
+      168
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      188,
+      184,
+      176
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.35,
+    "width_m": 6.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     210,
+     210,
+     206
+    ],
+    "top_rgb": [
+     226,
+     226,
+     222
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "부천대학교 campus building (register 10000 education, 8 floors, 1,383 m2, 1986; OSM building=civic, 신흥로56번길). Three lower floors in rusticated rough-cut light stone blocks with narrow paired windows, then five floors of smooth light grey panels with regular punched dark-teal windows. A glass atrium entrance with a broad stair and planters on the north side (front N, the wide lane with the crosswalk). Satellite: white roof with a teal-green pitched skylight roof in the middle (not modelled; top_rgb is the white roof). Other 부천대 buildings (engineering hall, dorm) are facilities of 6db.",
+   "sources": [
+    "captures/8930e0af333ffff/sheets/gis_11185398.jpg",
+    "data/satellite/8930e0af333ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+심곡+본관 (thumbnails viewed only; campus views, this building not identified)"
+   ],
+   "seen": "Street view: rusticated light stone base three floors high, light grey panel upper floors with punched windows, a green glass atrium and stairs on the north. Satellite: white roof, teal pitched skylight in the middle."
+  },
+  {
+   "key": "simgok_hill_park_333",
+   "cell": "8930e0af333ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/simgok_hill_park_333.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "Unnamed hill park (OSM leisure=park way:490252542, the cell's tier-1 park landmark) west of 심곡성당, about 60 x 62 m. Raised above the east lane behind a rock wall with hedges; the stair entrance canopy (gis:11185555, building=roof) stays auto. Layers: grass, tan walks, a light-blue splash basin in the north, an octagonal pavilion on a tan plaza in the middle, a tan south plaza with a round sand playground and a yellow play structure, a dark SW rectangle (satellite only), hedges along the north and east street edges with a gap at the stairs. The ground is kept inside the satellite curb (the OSM outline sits on three lanes). Trees stay trees.json. No web photos found.",
+   "sources": [
+    "data/satellite/8930e0af333ffff-z19.jpg",
+    "OSM way 490252542 (overpass-api.de)",
+    "captures/8930e0af333ffff/sheets/gis_11185555.jpg"
+   ],
+   "seen": "Satellite: canopy edges, light-blue basin, pavilion, round sand playground. Street view: rock wall, hedges, stairs under a green arched canopy."
   }
  ]
 }
