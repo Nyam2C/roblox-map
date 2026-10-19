@@ -1272,3 +1272,18 @@ def test_stair_tower_is_left_off_a_front_at_the_carriageway():
             body, eff = resolve(row, est, {**SHOP, "stair": kind}, features=[street()])
             st = [it for it in all_items(body, row, eff)[0] if tail(it) == "st0"]
             assert bool(st) == kept, (kind, gap)
+
+
+def test_apartment_entrance_canopy_stops_at_the_carriageway():
+    """643 (U8 G1 Studio, 2026-10-20): the 1.8 m apartment entrance canopy hung 0.97 m² over an alley; it keeps to the road edge like
+    the shop canopies and is left off (with its block plate) when under overhang_min is free."""
+    S = FRAME.studs_per_m
+    for gap in (0.2, 1.0, 5.0):
+        row, est, _ = villa(i=7, w=42.0, d=12.0, floors=22, wall="light_gray", code="02000", name="1005동", center=offset(CENTER, 0, 3 + gap + 6))
+        body, eff = resolve(row, est, features=[street()])
+        items = all_items(body, row, eff)[0]
+        canopy = [i for i in items if tail(i) == "acn"]
+        if gap < D["overhang_min"]:
+            assert not canopy and not [i for i in items if tail(i) == "acs"]
+        else:
+            assert len(canopy) == 1 and canopy[0].sz <= min(gap, D["apt_canopy_d"]) * S + 1e-6

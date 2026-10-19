@@ -1049,10 +1049,12 @@ def _apartment_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_
     for k in floors:
         for j, a in acs:
             add(f"aa{bi}{side}{k}-{j}", a, k * fh, D["apt_slab_out"] + D["apt_ac_d"], (D["apt_ac_w"], D["apt_ac_h"], D["apt_ac_d"]), ac)
-    if door is not None:
-        cw, cd, ch, cy = D["apt_canopy_w"], D["apt_canopy_d"], D["apt_canopy_h"], D["apt_canopy_y"]
+    # the entrance canopy stops at the carriageway like the shop canopies (643, 2026-10-20: 1.8 m over an alley, 0.97 m²)
+    cd = overhang(body, D["apt_canopy_d"]) if door is not None else 0.0
+    if cd:
+        cw, ch, cy = D["apt_canopy_w"], D["apt_canopy_h"], D["apt_canopy_y"]
         add("acn", door, cy, cd, (cw, ch, cd), dict(material="Concrete", color=R.PALETTE["canopy"], color_name="canopy"))
-    if door is not None and _block_no(body) is not None:
+    if cd and _block_no(body) is not None:
         add("acs", door, cy + ch, cd, (0.6 * cw, 0.6, 0.06), dict(material="SmoothPlastic", color=R.PALETTE["canopy"], color_name="canopy"),
             kind="sign", text=str(_block_no(body)), ink="apt_slab", faces="F", attrs={"MaxDistance": 300})
     return items
