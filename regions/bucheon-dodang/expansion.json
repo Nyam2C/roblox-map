@@ -1,7 +1,7 @@
 {
  "goal": "부천역(37.4840, 126.7826, 칸 8930e0af32fffff)과 그 둘레 두 바퀴",
  "made": "2026-10-17 U8: 가장 가까운 만든 칸 8930e0ac613ffff에서 역 칸까지의 H3 길목 + 역 칸의 두 바퀴 + 이웃 4개 이상인 빈틈, 지도 가장자리에서 가까운 순 그다음 역에 가까운 순 (u8-auto-expand-plan.md 6절)",
- "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 실패 3번이면 held",
+ "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 고치기 2번에도 실패면 held(2026-10-19, 전에는 3번)",
  "fps_every": 3,
  "since_fps": 1,
  "baseline": null,
