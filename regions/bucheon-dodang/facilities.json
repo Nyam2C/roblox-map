@@ -26049,6 +26049,471 @@
     "https://m.search.naver.com/search.naver?where=m_image&query=심곡2동+행정복지센터 (thumbnails viewed only)"
    ],
    "seen": "Street view (camera looking E): grey panel office with teal windows, rounded corner, glass lobby with the centre name board. Web: opening-ceremony photos of the same glass lobby, grey panel walls and the stone statues by the door."
+  },
+  {
+   "key": "simgok_park_653",
+   "cell": "8930e0ac653ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/simgok_park_653.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "심곡 어린이공원 (OSM leisure=park way:468646827, the cell's tier-1 landmark). Wooded triangle (about 2,400 m2 in this cell) with a public underground car park beneath; the car park's glass ramp huts and management boxes (gis:16296361, 17696888, 11195647, 11180892, 15495845, 17130002) stay auto and the ground keeps 0.6 m off them. Layers: dark grass, tan brick plaza, brown playground floor, 1.0 m clipped hedges along the south and west street edges, kept inside the satellite curb. East tip past the cell edge (6cf, already built) left out. Trees stay trees.json.",
+   "sources": [
+    "data/satellite/8930e0ac653ffff-z19.jpg",
+    "OSM way 468646827 (overpass-api.de)",
+    "captures/8930e0ac653ffff/sheets/gis_16296361.jpg",
+    "captures/8930e0ac653ffff/sheets/gis_11195647.jpg",
+    "https://m.search.naver.com/search.naver?where=m_blog&query=부천역+심곡어린이공원+지하공영주차장 (place map viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡+어린이공원 (thumbnails viewed only)"
+   ],
+   "seen": "Satellite: dense canopy, tan plaza in the middle, brown play area SE of it. Street view: hedges along the curb, glass ramp huts, grey concrete management box, dark-railing play tower with an orange tube slide, brick walks."
+  },
+  {
+   "key": "nomadhouse_17f_653",
+   "cell": "8930e0ac653ffff",
+   "building_ids": [
+    "gis:11194160"
+   ],
+   "build": [
+    "gis:11194160"
+   ],
+   "claims": [
+    "gis:17762312"
+   ],
+   "front": "E",
+   "road_clear_m": 1.0,
+   "floors": 17,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     196,
+     196,
+     192
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     78,
+     80,
+     84
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.5,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     62,
+     78,
+     92
+    ],
+    "frame_rgb": [
+     90,
+     92,
+     96
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 24.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      84,
+      110,
+      120
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      70,
+      150,
+      140
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 20.0,
+     "from_floor": 2,
+     "to_floor": 3,
+     "material": "Brick",
+     "rgb": [
+      176,
+      104,
+      70
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.25,
+    "width_m": 4.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     200,
+     200,
+     196
+    ],
+    "top_rgb": [
+     96,
+     150,
+     116
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Register 02000 17F (OSM apartments, height 55 m, 2012) on 부천로 (east face). Officetel tower over a dark stone 2-floor podium: ground floor shop glass, a glass second floor with a thin teal band, floors 3-4 orange-brown terracotta panels, then light grey panels with a dense punched window grid. gis:17762312 is a second outline of the same building, only claimed. Street face is on the 6-lane 부천로: no canopy.",
+   "sources": [
+    "captures/8930e0ac653ffff/sheets/gis_11194160.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+노마즈하우스 (thumbnails viewed only)",
+    "data/satellite/8930e0ac653ffff-z19.jpg"
+   ],
+   "seen": "Street view (camera looking W): dark podium with shop glass and a glass second floor, tower behind. Web thumbnails: slim light grey tower, terracotta floors 3-4, dark stone podium with a teal line."
+  },
+  {
+   "key": "tk_lizvil_15f_653",
+   "cell": "8930e0ac653ffff",
+   "building_ids": [
+    "gis:11201346"
+   ],
+   "build": [
+    "gis:11201346"
+   ],
+   "claims": [
+    "gis:18200056"
+   ],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     224,
+     218
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     88,
+     90,
+     94
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     90,
+     104
+    ],
+    "frame_rgb": [
+     210,
+     210,
+     206
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 2,
+     "to_floor": 5,
+     "material": "Concrete",
+     "rgb": [
+      118,
+      120,
+      124
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      200,
+      200,
+      198
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 8.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     224,
+     218
+    ],
+    "top_rgb": [
+     96,
+     148,
+     112
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Register 02000 15F (OSM apartments, height 48 m, 2019) on 부천로 (west face). Ground floor shops behind dark grey stone on the 부천로 side, a deep pilotis entrance with the building name on the east side, floors 3-6 dark grey panels, white walls above with punched windows and balcony rails. gis:18200056 is a second outline, only claimed. No canopy toward 부천로.",
+   "sources": [
+    "captures/8930e0ac653ffff/sheets/gis_11201346.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+TK리즈빌 (thumbnails viewed only)"
+   ],
+   "seen": "Street view (looking E): dark grey shop base on 부천로, grey lower floors, white upper tower; (looking W) pilotis entrance with thick columns. Web: same grey-then-white tower."
+  },
+  {
+   "key": "acrocityview_15f_653",
+   "cell": "8930e0ac653ffff",
+   "building_ids": [
+    "gis:11200931"
+   ],
+   "build": [
+    "gis:11200931"
+   ],
+   "claims": [
+    "gis:15411310"
+   ],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     214,
+     214,
+     212
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Slate",
+    "rgb": [
+     46,
+     48,
+     52
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.5,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     80,
+     110,
+     124
+    ],
+    "frame_rgb": [
+     150,
+     152,
+     156
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": -0.35,
+     "width_m": 5.0,
+     "from_floor": 3,
+     "to_floor": 14,
+     "material": "Brick",
+     "rgb": [
+      150,
+      62,
+      52
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "right",
+     "at": 0.35,
+     "width_m": 5.0,
+     "from_floor": 3,
+     "to_floor": 14,
+     "material": "Brick",
+     "rgb": [
+      150,
+      62,
+      52
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 4.0,
+     "from_floor": 3,
+     "to_floor": 14,
+     "rgb": [
+      120,
+      124,
+      130
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 7.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     214,
+     214,
+     212
+    ],
+    "top_rgb": [
+     196,
+     198,
+     192
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Register 14000 15F (OSM apartments, height 53 m, 2022) on 부천로 (west face). Polished black stone 3-floor podium with louvre vents and a drive-in garage gap on the street face, white tower above with grey panel window columns and a dark red brick vertical strip on the side faces. gis:15411310 is a second outline, only claimed. The podium garage gap faces the 6-lane road: no canopy.",
+   "sources": [
+    "captures/8930e0ac653ffff/sheets/gis_11200931.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+아크로시티뷰 (thumbnails viewed only)"
+   ],
+   "seen": "Street view (looking E): black glossy podium with the drive-in garage and louvres, white tower with a dark red side strip. Web thumbnails: same black podium and white/red tower."
+  },
+  {
+   "key": "jungang_plaza_653",
+   "cell": "8930e0ac653ffff",
+   "building_ids": [
+    "gis:11174149"
+   ],
+   "build": [
+    "gis:11174149"
+   ],
+   "claims": [],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     96,
+     96
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "ribbon",
+    "w_m": 1.6,
+    "h_m": 1.3,
+    "pitch_m": 2.0,
+    "glass_rgb": [
+     90,
+     120,
+     118
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     196
+    ]
+   },
+   "bands": {
+    "rgb": [
+     136,
+     84,
+     86
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      230,
+      230,
+      226
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 3.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     150,
+     96,
+     96
+    ],
+    "top_rgb": [
+     120,
+     160,
+     128
+    ],
+    "features": [
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Register 04000 5F, 1,352 m2 (largest footprint of the cell, 1981) on 부천로 (west face): an old shopping block of shops on every street side. Mauve-red tile walls with continuous window ribbons each floor, ground floor a row of small shops, a white band at the top floor. The shop row is the generator's ground floor; no canopy toward 부천로.",
+   "sources": [
+    "captures/8930e0ac653ffff/sheets/gis_11174149.jpg",
+    "data/satellite/8930e0ac653ffff-z19.jpg"
+   ],
+   "seen": "Street view (looking N, W, E): mauve-red tiled 5-floor block, window ribbons, dense ground floor shops, white strip at the top. No web photo found (search not run beyond the cell's main names)."
   }
  ]
 }

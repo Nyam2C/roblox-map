@@ -140,7 +140,7 @@
    "cell": "8930e0ac653ffff",
    "state": "specced",
    "rounds": 0,
-   "note": "준비(2026-10-20): 1급(자동, 심곡 어린이공원), 건물 217, 파노라마 259, 판단 목록 3(200)+남은 17, 트레이싱 목록 18(펼친 정면 180), 큰길 부천로 way:1341815316=6 추가, 지붕 hand 12, moved 칸은 다시 안 지음 | 판단·트레이싱 2026-10-20: 판단 217(묶음 4, wall_color 'red' 1동은 표에 없어 red_brick), high 불일치 5 중 대장 높이가 대장 층수와 맞는 3동 override(11178143·11186527·11204936 대장값), 높이 없는 2동은 사진값; 트레이싱 펼친 180 중 통과 23·약함 40·못 씀 114·빈 땅 3, 벽 색 23, 약한 동 다시 트레이싱 안 함(예산) | 시설 2026-10-20: 5곳(심곡 어린이공원 simgok_park_653, 노마즈하우스 17층 nomadhouse_17f_653, TK리즈빌 15층 tk_lizvil_15f_653, 아크로시티뷰 15층 acrocityview_15f_653, 중앙프라자 jungang_plaza_653) data/auto/8930e0ac653ffff/facilities-spec.json(9ffe76f), facade.json에 시설 동 없음; 부천로 way:1341815316 위성 6 road_lanes_by_way"
+   "note": "준비(2026-10-20): 1급(자동, 심곡 어린이공원), 건물 217, 파노라마 259, 판단 목록 3(200)+남은 17, 트레이싱 목록 18(펼친 정면 180), 큰길 부천로 way:1341815316=6 추가, 지붕 hand 12, moved 칸은 다시 안 지음 | 판단·트레이싱 2026-10-20: 판단 217(묶음 4, wall_color 'red' 1동은 표에 없어 red_brick), high 불일치 5 중 대장 높이가 대장 층수와 맞는 3동 override(11178143·11186527·11204936 대장값), 높이 없는 2동은 사진값; 트레이싱 펼친 180 중 통과 23·약함 40·못 씀 114·빈 땅 3, 벽 색 23, 약한 동 다시 트레이싱 안 함(예산) | 시설 2026-10-20: 5곳(심곡 어린이공원 simgok_park_653, 노마즈하우스 17층 nomadhouse_17f_653, TK리즈빌 15층 tk_lizvil_15f_653, 아크로시티뷰 15층 acrocityview_15f_653, 중앙프라자 jungang_plaza_653) data/auto/8930e0ac653ffff/facilities-spec.json(9ffe76f), facade.json에 시설 동 없음; 부천로 way:1341815316 위성 6 road_lanes_by_way | 생성 1(2026-10-20): 시설 5 합침, 부품 9760, 건물 187(중복 27 제거·빈 땅 3), traced 23, Union 키트 203, G1 계산 FAIL seam_widths 2(way:1312722321 4.89 vs 이웃 9.76, way:780145389 4.65 vs 6.0) → Studio 전 멈춤(stage g1)"
   },
   {
    "cell": "8930e0ac6cbffff",
