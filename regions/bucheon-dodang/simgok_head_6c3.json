@@ -1,0 +1,72 @@
+{
+ "note": "심곡천 head square (OSM leisure=park way:815847414) at the NW start of the stream, cell 8930e0ac6c3ffff; road/building clear as simgokcheon_6c3. custom pxpark.",
+ "seen": "Satellite: light grey paved square with curved line pattern, trees on the edges.",
+ "tile_x0": 446780,
+ "tile_y0": 203163,
+ "sources": [
+  "data/satellite/8930e0ac6c3ffff-z19.jpg (+json)",
+  "OSM via overpass-api.de (ways 1241336624, 1241336625, 1104447598, 783242911, 815847414, 468647324)"
+ ],
+ "features": [
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     804.7,
+     1090.3
+    ],
+    [
+     820.2,
+     1048.2
+    ],
+    [
+     889.4,
+     1113.8
+    ],
+    [
+     861.9,
+     1142.3
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    158
+   ],
+   "note": "head square of 심곡천 (OSM leisure=park way:815847414): light grey paving with curved line pattern on satellite, trees on the edges stay trees.json",
+   "material": "Pavement"
+  },
+  {
+   "kind": "plaza",
+   "shape": "poly",
+   "px": [
+    [
+     779.6,
+     1041.2
+    ],
+    [
+     775.5,
+     1031.6
+    ],
+    [
+     777.2,
+     1022.9
+    ],
+    [
+     785.4,
+     1025.5
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    172,
+    168,
+    158
+   ],
+   "note": "head square of 심곡천 (OSM leisure=park way:815847414): light grey paving with curved line pattern on satellite, trees on the edges stay trees.json",
+   "material": "Pavement"
+  }
+ ]
+}

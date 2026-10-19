@@ -23909,6 +23909,534 @@
     "data/satellite/8930e0ac657ffff-z19.jpg"
    ],
    "seen": "Street view: white tower with balcony glass bands, beige stone podium with shop signs and a green awning; plain white end wall. Satellite: red-brown roof over the slab."
+  },
+  {
+   "key": "simgokcheon_6c3",
+   "cell": "8930e0ac6c3ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/simgokcheon_6c3.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "심곡천 stretch of this cell: the restored stream in the median between the two one-way 부흥로 carriageways, continuing simgokcheon_657 upstream to its head square. No buildings. Every layer is cut back by half the modelled road width + 1.8 m (carriageway + sidewalk) and 0.6 m off every building, so nothing sits on a road. Lawn verges, Slate boulder banks, a ~6 m water strip, the tan walkway (OSM pedestrian way:1104447598) and the 변영로교 timber footbridge deck raised 0.6 m. Real channel is sunken; pxpark only raises. If trees.json puts trunks on the water strip, clear them. The layout is in data/auto/8930e0ac6c3ffff/simgokcheon_6c3.json (git-ignored): move it to regions/bucheon-dodang/simgokcheon_6c3.json.",
+   "sources": [
+    "data/satellite/8930e0ac6c3ffff-z19.jpg",
+    "OSM ways 1241336624, 1241336625, 1104447598, 783242911 (overpass-api.de)",
+    "https://m.blog.naver.com/goldapple684/223555873246 (photos viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_blog&query=부천+심곡천+변영로교"
+   ],
+   "seen": "Satellite: a dark reedy channel down the median, tan walkway on the NE bank, the 변영로교 footbridge at the SE. Web photos: shallow stream with reeds, stone/gabion banks topped with hedges and flower beds, coloured night lighting on the banks."
+  },
+  {
+   "key": "simgok_head_6c3",
+   "cell": "8930e0ac6c3ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/simgok_head_6c3.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "The 심곡천 head square (OSM leisure=park way:815847414, unnamed) where the stream starts at the 부흥로 split: one light grey paved plaza layer, cut off roads and buildings like the stream. Trees on its edges stay trees.json. The layout is in data/auto/8930e0ac6c3ffff/simgok_head_6c3.json (git-ignored): move it to regions/bucheon-dodang/simgok_head_6c3.json.",
+   "sources": [
+    "data/satellite/8930e0ac6c3ffff-z19.jpg",
+    "OSM way 815847414 (overpass-api.de)"
+   ],
+   "seen": "Satellite: light grey paved square with curved line pattern, trees round the edge, the stream's culvert mouth on its SE side."
+  },
+  {
+   "key": "bombi_park_6c3",
+   "cell": "8930e0ac6c3ffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/bombi_park_6c3.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "봄비공원 (OSM name 보리수 공원, way:468647324; the city calls it 봄비공원 after the poet's poem, its toilet record is named 봄비어린이공원): lawn under the canopy minus buildings, and a round playground. The 1-floor pavilion gis:11197537 stays Auto. The toilet record gis:11184255 is in gone_buildings and is not built (the web photo shows a small dark timber-clad toilet with a gabion stone wall and the park name in front of it; not modelled). The layout is in data/auto/8930e0ac6c3ffff/bombi_park_6c3.json (git-ignored): move it to regions/bucheon-dodang/bombi_park_6c3.json.",
+   "sources": [
+    "data/satellite/8930e0ac6c3ffff-z19.jpg",
+    "OSM way 468647324 (overpass-api.de)",
+    "https://m.blog.naver.com/goldapple684/223555873246 (photos viewed only)"
+   ],
+   "seen": "Satellite: dense tree canopy over grass, round red-brown playground with a play structure in the north part. Web photo: gabion stone wall with the park name and a poem plaque at the stream side."
+  },
+  {
+   "key": "gidung_church_6c3",
+   "cell": "8930e0ac6c3ffff",
+   "building_ids": [
+    "gis:11200256",
+    "gis:11200136"
+   ],
+   "build": [
+    "gis:11200256",
+    "gis:11200136"
+   ],
+   "claims": [
+    "gis:18558915",
+    "gis:17013311"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 5,
+   "height_m": 26.0,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     232,
+     226,
+     212
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Limestone",
+    "rgb": [
+     214,
+     208,
+     194
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.6,
+    "pitch_m": 4.2,
+    "glass_rgb": [
+     62,
+     72,
+     84
+    ],
+    "frame_rgb": [
+     205,
+     205,
+     205
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": -0.08,
+     "width_m": 2.4,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      236,
+      232,
+      222
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 2.4,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      236,
+      232,
+      222
+     ]
+    },
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": 0.08,
+     "width_m": 2.4,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      236,
+      232,
+      222
+     ]
+    },
+    {
+     "kind": "round_windows",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 3.0,
+     "from_floor": 4,
+     "to_floor": 4,
+     "rgb": [
+      236,
+      232,
+      222
+     ]
+    },
+    {
+     "kind": "round_windows",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 3.0,
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      236,
+      232,
+      222
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "right",
+     "at": 0.0,
+     "width_m": 6.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      70,
+      90,
+      105
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "left",
+     "at": 0.3,
+     "width_m": 2.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      60,
+      90,
+      130
+     ]
+    },
+    {
+     "kind": "cross",
+     "face": "roof",
+     "at": 0.35,
+     "width_m": 2.0,
+     "rgb": [
+      70,
+      72,
+      78
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.3,
+    "width_m": 4.0,
+    "canopy": false,
+    "steps": true
+   },
+   "sign": {
+    "text": "기둥교회",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     72,
+     72,
+     76
+    ],
+    "ink_rgb": [
+     240,
+     240,
+     240
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     228,
+     222,
+     208
+    ],
+    "top_rgb": [
+     112,
+     116,
+     122
+    ],
+    "features": []
+   },
+   "per_building": {
+    "gis:11200256": {
+     "split": {
+      "side": "NE",
+      "floors": 5,
+      "wall": {
+       "material": "Limestone",
+       "rgb": [
+        234,
+        230,
+        220
+       ]
+      },
+      "base": null,
+      "windows": {
+       "type": "grid",
+       "w_m": 1.2,
+       "h_m": 1.4,
+       "pitch_m": 3.0,
+       "glass_rgb": [
+        62,
+        72,
+        84
+       ],
+       "frame_rgb": [
+        205,
+        205,
+        205
+       ]
+      },
+      "accents": [
+       {
+        "kind": "glass_strip",
+        "face": "left",
+        "at": -0.4,
+        "width_m": 8.0,
+        "from_floor": 0,
+        "to_floor": 5,
+        "rgb": [
+         60,
+         95,
+         140
+        ]
+       }
+      ],
+      "roof": {
+       "parapet_rgb": [
+        228,
+        224,
+        214
+       ],
+       "top_rgb": [
+        120,
+        124,
+        100
+       ],
+       "features": [
+        "stair_box"
+       ]
+      },
+      "sign": null,
+      "entrance": null
+     }
+    },
+    "gis:11200136": {
+     "front": "S",
+     "floors": 4,
+     "height_m": 17.4,
+     "wall": {
+      "material": "Limestone",
+      "rgb": [
+       180,
+       180,
+       178
+      ]
+     },
+     "base": null,
+     "windows": {
+      "type": "grid",
+      "w_m": 3.6,
+      "h_m": 1.5,
+      "pitch_m": 5.0,
+      "glass_rgb": [
+       58,
+       66,
+       74
+      ],
+      "frame_rgb": [
+       120,
+       120,
+       124
+      ]
+     },
+     "accents": [
+      {
+       "kind": "glass_strip",
+       "face": "street",
+       "at": 0.5,
+       "width_m": 3.0,
+       "from_floor": 0,
+       "to_floor": 4,
+       "rgb": [
+        80,
+        110,
+        125
+       ]
+      }
+     ],
+     "roof": {
+      "parapet_rgb": [
+       184,
+       184,
+       182
+      ],
+      "top_rgb": [
+       205,
+       205,
+       202
+      ],
+      "features": []
+     },
+     "sign": null,
+     "entrance": null
+    }
+   },
+   "notes": "대한감리회 기둥교회 (OSM place_of_worship way:469369731, register religious 06000, 5 above / 1 below, 1,632 m2) and its 4-floor annex 부흥관 (gis:11200136, education 10000). Duplicate records claimed: gis:18558915 (97% inside 11200256, the OSM-named church outline) and gis:17013311 (99% = 11200136). The 11200256 outline is the church nave (SW, grey hipped roof) PLUS a long block to the NE with a roof garden, joined by a glass stair/entrance block; split side NE gives that block its own plain look and green roof (check the box it picks on the vertical capture; if it picks the nave, drop split). Faces by compass: S (front, towards 부흥로) = cream stone with rusticated stone pilasters on a tall ground floor of dark shop-size glass, three tall arched windows over floors 1-3 in the middle, a round rose window in the gable above, a dark grey name band on the ground floor; E end ('right') = a big round stained-glass window high up and a large gridded window low down; the connector on the NE side = blue glass curtain stair block over a glass entrance with the name band. A short square white bell tower with a dark grey pointed spire stands on the roof (cross accent). Annex: grey granite-look panels (Limestone, not Granite), wide punched windows, a glass stair strip at one end. road_clear_m 1.0 because the S face is close to 부흥로.",
+   "sources": [
+    "captures/8930e0ac6c3ffff/sheets/gis_18558915.jpg",
+    "captures/8930e0ac6c3ffff/sheets/gis_11200256.jpg",
+    "captures/8930e0ac6c3ffff/sheets/gis_11200136.jpg",
+    "data/satellite/8930e0ac6c3ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_blog&query=부천+기둥교회 (place thumbnail viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+기둥교회+외관 (mostly unrelated area photos)"
+   ],
+   "seen": "Street view: cream stone church with three tall arched windows, round rose and stained-glass windows, rusticated pilasters on a dark-glass ground floor, a blue glass stair/entrance block, a white tower with a dark spire; grey-panel 4-floor annex. Satellite: grey hipped roof on the nave, roof garden on the NE block, white flat roof on the annex."
+  },
+  {
+   "key": "ellieheim_13f_6c3",
+   "cell": "8930e0ac6c3ffff",
+   "building_ids": [
+    "gis:11172401"
+   ],
+   "build": [
+    "gis:11172401"
+   ],
+   "claims": [
+    "gis:16186007"
+   ],
+   "front": null,
+   "road_clear_m": 1.0,
+   "floors": 13,
+   "height_m": 40.9,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     226,
+     220,
+     206
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Sandstone",
+    "rgb": [
+     142,
+     106,
+     96
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     80,
+     110,
+     132
+    ],
+    "frame_rgb": [
+     232,
+     232,
+     230
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 12.0,
+     "rgb": [
+      96,
+      76,
+      66
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 22.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      60,
+      110,
+      170
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 2.0,
+     "from_floor": 2,
+     "to_floor": 13,
+     "rgb": [
+      70,
+      110,
+      150
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.45,
+     "width_m": 1.4,
+     "from_floor": 2,
+     "to_floor": 13,
+     "material": "Plaster",
+     "rgb": [
+      150,
+      132,
+      118
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.45,
+     "width_m": 1.4,
+     "from_floor": 2,
+     "to_floor": 13,
+     "material": "Plaster",
+     "rgb": [
+      150,
+      132,
+      118
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.3,
+    "width_m": 4.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     220,
+     216,
+     204
+    ],
+    "top_rgb": [
+     196,
+     196,
+     192
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ]
+   },
+   "notes": "The tallest building of the cell (13 floors, register height 40.9 m; mixed-use with flats above), on the SW side of 부흥로; tracing did not cover it (top cut off in every photo). Duplicate gis:16186007 (95% overlap, OSM apartments record) claimed. front left null on purpose: the outline is at 44.7 deg so N and E both tie in Maker._fronted; the generator's street face (부흥로, the NE face) is the right one. Faces: NE (street, towards 부흥로) = a two-floor red-brown stone podium: ground floor shops and a car-park entrance, the 2nd floor one full-width band of blue glass curtain wall, a brown sign fascia on top of it; above, the tower is cream with punched windows with small railings, a narrow blue glass stair strip up the middle and grey-brown pilaster strips at both ends. No name sign (apartment). road_clear_m 1.0: the podium face is close to the 부흥로 carriageway.",
+   "sources": [
+    "captures/8930e0ac6c3ffff/sheets/gis_11172401.jpg",
+    "captures/8930e0ac6c3ffff/sheets/gis_16186007.jpg",
+    "data/satellite/8930e0ac6c3ffff-z19.jpg"
+   ],
+   "seen": "Street view: red-brown stone podium with a blue glass curtain band, cream 13-floor tower with a blue glass centre strip and darker end pilasters. Satellite: light grey flat roof with rooftop structures, long NE shadow. Web photo search not done for this one (apartment)."
   }
  ]
 }

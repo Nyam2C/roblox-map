@@ -1,0 +1,137 @@
+{
+ "note": "봄비공원 (OSM name 보리수 공원, way:468647324) NE of 변영로교, cell 8930e0ac6c3ffff; lawn under the canopy minus buildings (the 1-floor pavilion gis:11197537 stays Auto), round playground. custom pxpark.",
+ "seen": "Satellite: dense tree canopy, round playground with a play structure in the north part. Web: gabion stone wall with the park name and a poem plaque by the toilet at the stream side.",
+ "tile_x0": 446780,
+ "tile_y0": 203163,
+ "sources": [
+  "data/satellite/8930e0ac6c3ffff-z19.jpg (+json)",
+  "OSM via overpass-api.de (ways 1241336624, 1241336625, 1104447598, 783242911, 815847414, 468647324)",
+  "https://m.blog.naver.com/goldapple684/223555873246 (photos viewed only)"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1275.3,
+     1384.2
+    ],
+    [
+     1299.2,
+     1359.2
+    ],
+    [
+     1263.2,
+     1322.2
+    ],
+    [
+     1259.7,
+     1322.0
+    ],
+    [
+     1236.7,
+     1346.8
+    ],
+    [
+     1235.6,
+     1345.8
+    ],
+    [
+     1334.7,
+     1242.8
+    ],
+    [
+     1470.3,
+     1372.8
+    ],
+    [
+     1371.4,
+     1478.0
+    ],
+    [
+     1328.1,
+     1435.8
+    ],
+    [
+     1329.9,
+     1433.6
+    ],
+    [
+     1333.9,
+     1434.4
+    ],
+    [
+     1343.4,
+     1423.8
+    ],
+    [
+     1342.3,
+     1419.3
+    ],
+    [
+     1346.3,
+     1414.1
+    ],
+    [
+     1329.3,
+     1396.2
+    ],
+    [
+     1326.4,
+     1395.7
+    ],
+    [
+     1322.1,
+     1399.5
+    ],
+    [
+     1317.0,
+     1398.1
+    ],
+    [
+     1308.1,
+     1406.4
+    ],
+    [
+     1310.2,
+     1411.6
+    ],
+    [
+     1306.9,
+     1415.2
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    66,
+    92,
+    52
+   ],
+   "note": "봄비공원/보리수 공원 (OSM leisure=park way:468647324): grass under a dense tree canopy (trees stay trees.json)",
+   "material": "Grass"
+  },
+  {
+   "kind": "plaza",
+   "shape": "circle",
+   "px": [
+    [
+     1340.0,
+     1315.0
+    ],
+    [
+     21.0,
+     0.0
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    150,
+    96,
+    70
+   ],
+   "material": "Ground",
+   "note": "round playground with a soft brown-red surface and a small play structure (satellite z19, under the canopy), ~10 m across"
+  }
+ ]
+}
