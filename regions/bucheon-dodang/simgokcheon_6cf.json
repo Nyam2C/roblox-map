@@ -1,0 +1,703 @@
+{
+ "note": "심곡천 stretch in cell 8930e0ac6cfffff (median of the two one-way 부흥로 carriageways way:37402016 / way:526682763, from 부천로 to the SE cell edge; continues simgokcheon_6c3 upstream and simgokcheon_park (657) downstream), built from OSM centrelines with every road buffered by half its modelled width + 1.8 m and 0.6 m off every building, clipped to the cell; cell-facility agent 2026-10-19. custom pxpark.",
+ "seen": "Satellite z19: ~19 m median, hedges on both kerbs, a dark reedy channel, tan walkways on both banks with ramps, a white truss footbridge. Web photo thumbnails: name stele at 펄벅교, stone banks, decked walkway, flower beds.",
+ "tile_x0": 446783,
+ "tile_y0": 203166,
+ "sources": [
+  "data/satellite/8930e0ac6cfffff-z19.jpg",
+  "OSM ways 37402016, 526682763, 1104447601, 1378936343, 1378936345, 1378936346, 1378936347, 1104447602, 783242915, 783242916, 783242918",
+  "https://m.search.naver.com/search.naver?where=m_image&query=심곡천+펄벅교 (thumbnails viewed only)"
+ ],
+ "features": [
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1095.2,
+     1374.2
+    ],
+    [
+     1088.5,
+     1344.5
+    ],
+    [
+     1088.5,
+     1338.4
+    ],
+    [
+     1340.4,
+     1574.1
+    ],
+    [
+     1339.9,
+     1591.7
+    ],
+    [
+     1346.2,
+     1591.9
+    ],
+    [
+     1342.6,
+     1597.1
+    ],
+    [
+     1383.1,
+     1625.1
+    ],
+    [
+     1390.3,
+     1614.7
+    ],
+    [
+     1387.4,
+     1619.0
+    ],
+    [
+     1408.6,
+     1639.9
+    ],
+    [
+     1405.3,
+     1643.9
+    ],
+    [
+     1517.2,
+     1738.1
+    ],
+    [
+     1455.4,
+     1686.1
+    ],
+    [
+     1544.8,
+     1774.2
+    ],
+    [
+     1548.1,
+     1768.5
+    ],
+    [
+     1534.6,
+     1791.5
+    ],
+    [
+     1355.5,
+     1616.1
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    70,
+    96,
+    52
+   ],
+   "material": "Grass",
+   "note": "green verges and hedges in the 부흥로 median (tree rows stay trees.json), kept off the modelled carriageways, sidewalks and buildings"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1352.7,
+     1588.7
+    ],
+    [
+     1352.8,
+     1585.6
+    ],
+    [
+     1365.6,
+     1597.6
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    70,
+    96,
+    52
+   ],
+   "material": "Grass",
+   "note": "green verges and hedges in the 부흥로 median (tree rows stay trees.json), kept off the modelled carriageways, sidewalks and buildings"
+  },
+  {
+   "kind": "lawn",
+   "shape": "poly",
+   "px": [
+    [
+     1106.4,
+     1303.3
+    ],
+    [
+     1143.8,
+     1310.8
+    ],
+    [
+     1407.1,
+     1558.8
+    ],
+    [
+     1574.1,
+     1724.7
+    ],
+    [
+     1560.5,
+     1747.6
+    ],
+    [
+     1563.9,
+     1742.0
+    ],
+    [
+     1393.6,
+     1574.1
+    ],
+    [
+     1374.2,
+     1555.9
+    ],
+    [
+     1354.1,
+     1542.8
+    ],
+    [
+     1378.1,
+     1558.4
+    ],
+    [
+     1397.2,
+     1571.4
+    ],
+    [
+     1404.3,
+     1560.9
+    ],
+    [
+     1385.2,
+     1547.9
+    ],
+    [
+     1381.6,
+     1553.2
+    ],
+    [
+     1385.1,
+     1547.9
+    ],
+    [
+     1352.0,
+     1526.3
+    ],
+    [
+     1133.6,
+     1319.5
+    ],
+    [
+     1127.9,
+     1325.5
+    ],
+    [
+     1104.8,
+     1303.9
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    70,
+    96,
+    52
+   ],
+   "material": "Grass",
+   "note": "green verges and hedges in the 부흥로 median (tree rows stay trees.json), kept off the modelled carriageways, sidewalks and buildings"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1544.8,
+     1774.2
+    ],
+    [
+     1495.4,
+     1725.5
+    ],
+    [
+     1455.4,
+     1686.1
+    ],
+    [
+     1517.2,
+     1738.1
+    ],
+    [
+     1525.9,
+     1746.7
+    ],
+    [
+     1521.3,
+     1741.6
+    ],
+    [
+     1547.1,
+     1770.3
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    118,
+    116,
+    108
+   ],
+   "material": "Slate",
+   "note": "grey boulder banks of the channel (web photos of 심곡천: stone banks with hedges and flower beds on top)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1408.6,
+     1639.9
+    ],
+    [
+     1387.4,
+     1619.0
+    ],
+    [
+     1390.3,
+     1614.7
+    ],
+    [
+     1365.6,
+     1597.6
+    ],
+    [
+     1352.8,
+     1585.6
+    ],
+    [
+     1353.4,
+     1563.7
+    ],
+    [
+     1353.0,
+     1577.2
+    ],
+    [
+     1412.7,
+     1635.1
+    ],
+    [
+     1413.5,
+     1634.2
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    118,
+    116,
+    108
+   ],
+   "material": "Slate",
+   "note": "grey boulder banks of the channel (web photos of 심곡천: stone banks with hedges and flower beds on top)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1340.4,
+     1574.1
+    ],
+    [
+     1088.5,
+     1338.4
+    ],
+    [
+     1088.5,
+     1329.8
+    ],
+    [
+     1340.7,
+     1565.6
+    ],
+    [
+     1340.8,
+     1563.3
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    118,
+    116,
+    108
+   ],
+   "material": "Slate",
+   "note": "grey boulder banks of the channel (web photos of 심곡천: stone banks with hedges and flower beds on top)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1341.7,
+     1534.2
+    ],
+    [
+     1098.1,
+     1306.4
+    ],
+    [
+     1094.7,
+     1307.7
+    ],
+    [
+     1104.8,
+     1303.9
+    ],
+    [
+     1127.9,
+     1325.5
+    ],
+    [
+     1124.9,
+     1328.7
+    ],
+    [
+     1341.7,
+     1533.9
+    ],
+    [
+     1340.8,
+     1563.3
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    118,
+    116,
+    108
+   ],
+   "material": "Slate",
+   "note": "grey boulder banks of the channel (web photos of 심곡천: stone banks with hedges and flower beds on top)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     1374.2,
+     1555.9
+    ],
+    [
+     1563.9,
+     1742.0
+    ],
+    [
+     1560.5,
+     1747.6
+    ],
+    [
+     1389.5,
+     1578.9
+    ],
+    [
+     1354.0,
+     1545.7
+    ],
+    [
+     1353.4,
+     1563.7
+    ],
+    [
+     1354.1,
+     1542.8
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    118,
+    116,
+    108
+   ],
+   "material": "Slate",
+   "note": "grey boulder banks of the channel (web photos of 심곡천: stone banks with hedges and flower beds on top)"
+  },
+  {
+   "kind": "water",
+   "shape": "poly",
+   "px": [
+    [
+     1412.7,
+     1635.1
+    ],
+    [
+     1353.0,
+     1577.2
+    ],
+    [
+     1354.0,
+     1545.7
+    ],
+    [
+     1389.5,
+     1578.9
+    ],
+    [
+     1560.5,
+     1747.6
+    ],
+    [
+     1548.1,
+     1768.6
+    ],
+    [
+     1553.8,
+     1758.9
+    ],
+    [
+     1530.5,
+     1732.8
+    ],
+    [
+     1413.5,
+     1634.2
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    68,
+    88,
+    80
+   ],
+   "note": "shallow reedy stream about 5.6 m wide (satellite: dark green channel)"
+  },
+  {
+   "kind": "water",
+   "shape": "poly",
+   "px": [
+    [
+     1340.7,
+     1565.6
+    ],
+    [
+     1088.5,
+     1329.8
+    ],
+    [
+     1088.5,
+     1321.1
+    ],
+    [
+     1094.7,
+     1307.7
+    ],
+    [
+     1098.1,
+     1306.4
+    ],
+    [
+     1341.7,
+     1534.2
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    68,
+    88,
+    80
+   ],
+   "note": "shallow reedy stream about 5.6 m wide (satellite: dark green channel)"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1521.3,
+     1741.6
+    ],
+    [
+     1405.3,
+     1643.9
+    ],
+    [
+     1413.5,
+     1634.2
+    ],
+    [
+     1530.5,
+     1732.8
+    ],
+    [
+     1553.8,
+     1758.9
+    ],
+    [
+     1547.1,
+     1770.3
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    176,
+    166,
+    146
+   ],
+   "material": "Pavement",
+   "note": "bank walkway (OSM pedestrian ways in the median), tan on satellite"
+  },
+  {
+   "kind": "path",
+   "shape": "poly",
+   "px": [
+    [
+     1346.2,
+     1591.9
+    ],
+    [
+     1339.9,
+     1591.7
+    ],
+    [
+     1341.7,
+     1533.9
+    ],
+    [
+     1124.9,
+     1328.7
+    ],
+    [
+     1133.6,
+     1319.5
+    ],
+    [
+     1352.0,
+     1526.3
+    ],
+    [
+     1385.1,
+     1547.9
+    ],
+    [
+     1381.6,
+     1553.2
+    ],
+    [
+     1385.2,
+     1547.9
+    ],
+    [
+     1404.3,
+     1560.9
+    ],
+    [
+     1397.2,
+     1571.4
+    ],
+    [
+     1354.1,
+     1542.8
+    ],
+    [
+     1352.7,
+     1588.7
+    ],
+    [
+     1390.3,
+     1614.7
+    ],
+    [
+     1383.1,
+     1625.1
+    ],
+    [
+     1342.6,
+     1597.1
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    176,
+    166,
+    146
+   ],
+   "material": "Pavement",
+   "note": "bank walkway (OSM pedestrian ways in the median), tan on satellite"
+  },
+  {
+   "kind": "stage",
+   "shape": "poly",
+   "px": [
+    [
+     1403.9,
+     1645.5
+    ],
+    [
+     1381.3,
+     1626.4
+    ],
+    [
+     1392.2,
+     1613.5
+    ],
+    [
+     1414.8,
+     1632.5
+    ]
+   ],
+   "height_m": 0.6,
+   "rgb": [
+    196,
+    198,
+    200
+   ],
+   "material": "Metal",
+   "note": "footbridges over the stream (OSM bridge ways, one is 펄벅교): white steel truss on satellite, deck raised 0.6 m"
+  },
+  {
+   "kind": "stage",
+   "shape": "poly",
+   "px": [
+    [
+     1394.5,
+     1560.5
+    ],
+    [
+     1400.8,
+     1566.2
+    ],
+    [
+     1394.6,
+     1560.4
+    ],
+    [
+     1406.5,
+     1547.7
+    ],
+    [
+     1418.6,
+     1559.5
+    ],
+    [
+     1356.3,
+     1627.5
+    ],
+    [
+     1344.0,
+     1615.8
+    ]
+   ],
+   "height_m": 0.6,
+   "rgb": [
+    196,
+    198,
+    200
+   ],
+   "material": "Metal",
+   "note": "footbridges over the stream (OSM bridge ways, one is 펄벅교): white steel truss on satellite, deck raised 0.6 m"
+  }
+ ]
+}

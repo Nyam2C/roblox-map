@@ -24437,6 +24437,536 @@
     "data/satellite/8930e0ac6c3ffff-z19.jpg"
    ],
    "seen": "Street view: red-brown stone podium with a blue glass curtain band, cream 13-floor tower with a blue glass centre strip and darker end pilasters. Satellite: light grey flat roof with rooftop structures, long NE shadow. Web photo search not done for this one (apartment)."
+  },
+  {
+   "key": "simgokcheon_6cf",
+   "cell": "8930e0ac6cfffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/simgokcheon_6cf.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "심곡천 stretch of this cell: the restored stream in the median between the two one-way 부흥로 carriageways (way:37402016 NE, way:526682763 SW), from the U-turn at 부천로 to the SE cell edge, between simgokcheon_6c3 (upstream, across 부천로) and simgokcheon_park (657, downstream). No buildings. Every layer is cut back by half the modelled road width + 1.8 m and 0.6 m off every building; the 67 m2 sliver west of the U-turn (부천로 crossing) is dropped. Lawn verges, Slate boulder banks, a 5.6 m water strip on the midline, the OSM bank walkways (1104447601, 1378936343/45/46/47) and two footbridge decks (OSM bridge ways 783242915/916/918 = 펄벅교, 1104447602) raised 0.6 m, light grey Metal like the white truss on the satellite. If trees.json puts trunks on the water strip, clear them. Layout written to data/auto/8930e0ac6cfffff/simgokcheon_6cf.json (git-ignored) and copied to regions/bucheon-dodang/simgokcheon_6cf.json (not committed by this agent).",
+   "sources": [
+    "data/satellite/8930e0ac6cfffff-z19.jpg",
+    "OSM ways 37402016, 526682763, 1104447601, 1378936343, 1378936345, 1378936346, 1378936347, 783242915, 783242916, 783242918, 1104447602 (map.db street_features)",
+    "https://m.search.naver.com/search.naver?where=m_image&query=심곡천+펄벅교 (thumbnails viewed only)"
+   ],
+   "seen": "Satellite: ~19 m median with hedges along both kerbs, a dark reedy channel, tan walkways on both banks joined by a ramp, a white truss footbridge at the SE. Web thumbnails: dark name stele at the 펄벅교 footbridge, stacked stone banks, flower beds and a decked walkway."
+  },
+  {
+   "key": "simgok_parking1_6cf",
+   "cell": "8930e0ac6cfffff",
+   "building_ids": [
+    "gis:11203685"
+   ],
+   "build": [
+    "gis:11203685"
+   ],
+   "claims": [
+    "gis:14812498"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 4,
+   "height_m": 13.3,
+   "wall": {
+    "material": "SmoothPlastic",
+    "rgb": [
+     146,
+     190,
+     58
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     118,
+     120,
+     122
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.6,
+    "h_m": 1.1,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     52,
+     58,
+     60
+    ],
+    "frame_rgb": [
+     150,
+     154,
+     156
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      232,
+      192,
+      40
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "right",
+    "at": 0.3,
+    "width_m": 6.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": {
+    "text": "제1공영주차장",
+    "face": "street",
+    "floor": 4,
+    "bg_rgb": [
+     146,
+     190,
+     58
+    ],
+    "ink_rgb": [
+     40,
+     60,
+     50
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     146,
+     190,
+     58
+    ],
+    "top_rgb": [
+     80,
+     130,
+     105
+    ],
+    "features": [
+     "solar",
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Four-storey public car park beside the stream (register 20000, 2017; OSM building=yes). Duplicate outline gis:14812498 (no attributes) is claimed. Faces by compass: SW (front, 'S' = the 224 deg face toward 부흥로 and the stream walkway) carries the public name in dark letters along the top floor and a huge painted mural over most of the face (not copied; plain lime wall), an info board at ground level. SE face ('right' from the front) has the car entrance/exit lane with PARKING lettering. All faces: lime green panel cladding, rows of dark open slots with grey frames, a grey panel ground floor, a yellow horizontal stripe near the top on the SE side. Satellite: rounded W corner, green roof mostly covered by dark solar arrays. Public name allowed in sign (municipal facility).",
+   "sources": [
+    "captures/8930e0ac6cfffff/sheets/gis_11203685.jpg",
+    "data/satellite/8930e0ac6cfffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=심곡+시민의강+제1공영주차장 (thumbnails viewed only)"
+   ],
+   "seen": "Street view from three sides: lime green panel car park, grey ground floor, dark window slots, a yellow stripe, the car entrance with PARKING letters, the name along the top and a large mural on the stream side. Web thumbnails show the same green car park with its mural and the yellow car parks further along the stream."
+  },
+  {
+   "key": "hospital_6cf",
+   "cell": "8930e0ac6cfffff",
+   "building_ids": [
+    "gis:11183795"
+   ],
+   "build": [
+    "gis:11183795"
+   ],
+   "claims": [],
+   "front": "N",
+   "floors": 6,
+   "height_m": 21.9,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     214,
+     206,
+     190
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Limestone",
+    "rgb": [
+     198,
+     190,
+     174
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.6,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     64,
+     96,
+     112
+    ],
+    "frame_rgb": [
+     150,
+     150,
+     148
+    ]
+   },
+   "bands": {
+    "rgb": [
+     200,
+     192,
+     176
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "arch",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 8.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      208,
+      200,
+      184
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 9.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      70,
+      110,
+      128
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 14.0,
+     "from_floor": 5,
+     "to_floor": 5,
+     "material": "Limestone",
+     "rgb": [
+      190,
+      182,
+      166
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.25,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     208,
+     200,
+     184
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     206,
+     198,
+     182
+    ],
+    "top_rgb": [
+     170,
+     172,
+     168
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Six-floor general hospital, the OSM building=hospital at 부흥로373번길 that the tier list names as the landmark of this cell (register 09000, 1998). Its outline is a 44 deg rotated block, so `front: N` resolves to the NE face (cos 44 = 0.72 > 0.7); check that the portico lands on the NE face. Faces: NE (front, on the side street and parking court) = a two-storey classical portico: round stone columns, a big round arch over a glass entrance hall, a stone entablature with the name (not used), floors above with stone pilasters and blue glass. Long faces: beige stone tile with long ribbon windows, thin stone floor bands. NW end: a stack of curved balcony bays (not in the schema, plain wall). No sign (private hospital name not used).",
+   "sources": [
+    "captures/8930e0ac6cfffff/sheets/gis_11183795.jpg",
+    "data/satellite/8930e0ac6cfffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=<hospital name>+외관 (thumbnails viewed only)"
+   ],
+   "seen": "Street view: beige stone block with long blue-glass window ribbons, a classical column-and-arch portico entrance on the NE side, curved stacked balconies at the NW end. Web thumbnails: mostly interiors and events; one shows the beige block with ribbon windows."
+  },
+  {
+   "key": "tower20_6cf",
+   "cell": "8930e0ac6cfffff",
+   "building_ids": [
+    "gis:11173954"
+   ],
+   "build": [
+    "gis:11173954"
+   ],
+   "claims": [
+    "gis:15778606"
+   ],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 20,
+   "height_m": 59.9,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     230,
+     230,
+     226
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     74,
+     74,
+     76
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     72,
+     88,
+     98
+    ],
+    "frame_rgb": [
+     232,
+     232,
+     230
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "fascia",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 16.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      168,
+      44,
+      40
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.3,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 19,
+     "material": "Concrete",
+     "rgb": [
+      150,
+      150,
+      152
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.3,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 19,
+     "material": "Concrete",
+     "rgb": [
+      150,
+      150,
+      152
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "back",
+     "at": -0.4,
+     "width_m": 5.0,
+     "from_floor": 2,
+     "to_floor": 19,
+     "material": "Concrete",
+     "rgb": [
+      176,
+      74,
+      58
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.35,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     74,
+     74,
+     76
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     228,
+     228,
+     224
+    ],
+    "top_rgb": [
+     176,
+     180,
+     172
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "The tallest building of the cell: a 20-floor residential tower over two floors of shops (register 14000, 2019, OSM apartments height 60). Duplicate outline gis:15778606 (no attributes) is claimed. The register outline is open on its W side (the closing edge is the 부천로 face). W face (front, 부천로): a two-floor dark grey stone-panel base with glass shopfronts under red awnings (fascia), the residents' entrance at the N end. Tower: white panel walls, grey vertical pilaster bands, dense grid windows. From the east a terracotta-red vertical panel runs up one end of the tower (lower confidence on which end). No sign (brand name not allowed).",
+   "sources": [
+    "captures/8930e0ac6cfffff/sheets/gis_11173954.jpg",
+    "data/satellite/8930e0ac6cfffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=<tower name> (thumbnails viewed only)"
+   ],
+   "seen": "Street view from W and E: dark grey stone two-floor shop base with red awnings, a bakery corner and a pergola, a white tower with grey vertical bands and a red vertical panel on the east. Web thumbnails: mostly interiors, one exterior of a white tower with grey and glass vertical bands."
+  },
+  {
+   "key": "tower15_6cf",
+   "cell": "8930e0ac6cfffff",
+   "building_ids": [
+    "gis:11169652"
+   ],
+   "build": [
+    "gis:11169652"
+   ],
+   "claims": [
+    "gis:16057476"
+   ],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 15,
+   "height_m": 51.9,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     222,
+     214
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Slate",
+    "rgb": [
+     62,
+     62,
+     64
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     72,
+     88,
+     98
+    ],
+    "frame_rgb": [
+     236,
+     236,
+     232
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 2.4,
+     "from_floor": 2,
+     "to_floor": 14,
+     "rgb": [
+      60,
+      104,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 2.0,
+     "from_floor": 2,
+     "to_floor": 14,
+     "rgb": [
+      60,
+      104,
+      160
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "left",
+     "at": 0.0,
+     "width_m": 8.0,
+     "from_floor": 2,
+     "to_floor": 14,
+     "material": "Concrete",
+     "rgb": [
+      242,
+      242,
+      240
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.25,
+    "width_m": 5.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     224,
+     220,
+     212
+    ],
+    "top_rgb": [
+     178,
+     182,
+     172
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "15-floor residential tower on 부천로 (register 14000, 2023, OSM apartments height 52), just N of tower20_6cf. Duplicate outline gis:16057476 claimed. W face (front, 부천로): two-floor speckled black stone base with a dark recessed lobby (name plate not used) and a small shop window, a narrow vertical blue glass stair window up the middle of the tower. S face ('left' from the front): white balcony slabs stacked up the face (drawn as a light panel). Upper walls light beige panels. No sign (brand name not allowed).",
+   "sources": [
+    "captures/8930e0ac6cfffff/sheets/gis_11169652.jpg",
+    "data/satellite/8930e0ac6cfffff-z19.jpg"
+   ],
+   "seen": "Street view: slim light beige tower with a black speckled stone two-floor base, a vertical blue glass stair slot, white balcony slabs on the S side. Web photo not searched (street view clear; brand name)."
   }
  ]
 }
