@@ -1248,3 +1248,15 @@ def test_a_footpath_running_beside_a_road_is_cut_where_its_band_lies_on_the_carr
     assert not [f for f in ST.paths_off_roads([road, near], FRAME, CFG) if f["kind"] == "path"]
     far = beside(1.5)
     assert ST.paths_off_roads([road, far], FRAME, CFG)[1] is far
+
+
+
+def test_stair_tower_is_left_off_a_front_at_the_carriageway():
+    """6cf (U8 G1 Studio, 2026-10-19): round stair towers (0.3 m proud) on fronts 0-0.26 m from an alley stood on the carriageway.
+    A stair tower is left off where its depth plus stair_clear does not fit before the road; farther off it stays."""
+    for kind in ("glass", "brick", "round"):
+        for gap, kept in ((0.0, False), (0.26, False), (1.0, True), (5.0, True)):
+            row, est, _ = villa(i=1, floors=4, wall="beige", center=offset(CENTER, 0, 3 + gap + 5))  # 6 m road: its edge is 3 m north
+            body, eff = resolve(row, est, {**SHOP, "stair": kind}, features=[street()])
+            st = [it for it in all_items(body, row, eff)[0] if tail(it) == "st0"]
+            assert bool(st) == kept, (kind, gap)

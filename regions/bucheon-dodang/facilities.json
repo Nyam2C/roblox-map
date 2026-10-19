@@ -24575,7 +24575,7 @@
     "gis:11183795"
    ],
    "claims": [],
-   "front": "N",
+   "front": "NE",
    "floors": 6,
    "height_m": 21.9,
    "wall": {
@@ -24691,7 +24691,7 @@
     ],
     "crown": null
    },
-   "notes": "Six-floor general hospital, the OSM building=hospital at 부흥로373번길 that the tier list names as the landmark of this cell (register 09000, 1998). Its outline is a 44 deg rotated block, so `front: N` resolves to the NE face (cos 44 = 0.72 > 0.7); check that the portico lands on the NE face. Faces: NE (front, on the side street and parking court) = a two-storey classical portico: round stone columns, a big round arch over a glass entrance hall, a stone entablature with the name (not used), floors above with stone pilasters and blue glass. Long faces: beige stone tile with long ribbon windows, thin stone floor bands. NW end: a stack of curved balcony bays (not in the schema, plain wall). No sign (private hospital name not used).",
+   "notes": "Six-floor general hospital, the OSM building=hospital at 부흥로373번길 that the tier list names as the landmark of this cell (register 09000, 1998). Its outline is a 44 deg rotated block, so `front: N` tied the NW and NE faces and built the portico on the NW face (Studio 2026-10-19); `front: NE` picks the NE face. Faces: NE (front, on the side street and parking court) = a two-storey classical portico: round stone columns, a big round arch over a glass entrance hall, a stone entablature with the name (not used), floors above with stone pilasters and blue glass. Long faces: beige stone tile with long ribbon windows, thin stone floor bands. NW end: a stack of curved balcony bays (not in the schema, plain wall). No sign (private hospital name not used).",
    "sources": [
     "captures/8930e0ac6cfffff/sheets/gis_11183795.jpg",
     "data/satellite/8930e0ac6cfffff-z19.jpg",

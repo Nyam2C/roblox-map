@@ -92,6 +92,7 @@ class Maker:
         return sum(any(p.covers(Point(e, n)) for p in sib) for e, n in pts) >= 3
 
     COMPASS = {"N": (0.0, 1.0), "E": (1.0, 0.0), "S": (0.0, -1.0), "W": (-1.0, 0.0)}
+    COMPASS |= {"NE": (0.7071, 0.7071), "SE": (0.7071, -0.7071), "SW": (-0.7071, -0.7071), "NW": (-0.7071, 0.7071)}  # a block turned 45 deg (6cf hospital)
 
     def _fronted(self) -> LD.Body:
         """The body with its facing set to the spec's `front` compass side (the photos' entrance side) when there is one."""

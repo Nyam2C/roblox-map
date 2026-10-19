@@ -502,6 +502,11 @@ def resolve_body(body: Body, lines: Sequence[tuple[str, LineString, float, Mappi
         f, bx = face_of(body.boxes[front], facing.side), body.boxes[front]
         ends = [_world(bx, f.c[0] + f.t[0] * f.length * a, f.c[1] + f.t[1] * f.length * a) for a in (-0.5, 0.5)]
         body = dataclasses.replace(body, front_clear=min(st.distance(LineString(ends)) for st in strips))
+        # a stair tower stands proud of the front: with the face at the carriageway edge it reached the road (6cf, 2026-10-19), so it is
+        # left off where its own depth plus stair_clear does not fit
+        out = {"glass": D["stair_out"], "brick": D["stair_brick_out"], "round": D["stair_brick_out"]}.get(body.details["stair"])
+        if out is not None and body.front_clear < out + D["stair_clear"]:
+            body = dataclasses.replace(body, details={**body.details, "stair": "none"})
     if strips:
         body = dataclasses.replace(body, box_clear=tuple(min(_box_poly(bx).distance(st) for st in strips) for bx in body.boxes))
     body = dataclasses.replace(body, occluded=tuple(occluded_faces(body, i, others, cfg) for i in range(len(body.boxes))))

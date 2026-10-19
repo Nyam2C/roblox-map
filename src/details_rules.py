@@ -429,7 +429,7 @@ DIMS: dict[str, float] = {
     "store_bay_min": 30.0, "store_bay_w": 12.0,
     "side_shop_max": 12.0, "side_shop_min": 6.0, "base_floors": 2, "base_out": 0.02, "otel_base": 3, "otel_pier_w": 0.9, "otel_pitch": 2.6,  # store archetype: a tall glass bay on faces of 30 m or more (cell 4 street view)
     "ribbon_sill": 1.0, "ribbon_inset": 1.0, "win_out": 0.05, "reflect_win": 0.1, "reflect_shop": 0.3, "reflect_glass": 0.2,
-    "stair_w": 2.0, "stair_extra": 1.0, "stair_t": 0.3, "stair_out": 0.2, "stair_brick": 2.5, "stair_brick_extra": 1.2, "stair_brick_out": 0.3,
+    "stair_w": 2.0, "stair_extra": 1.0, "stair_t": 0.3, "stair_out": 0.2, "stair_brick": 2.5, "stair_brick_extra": 1.2, "stair_brick_out": 0.3, "stair_clear": 0.3,
     "stair_round_dia": 2.8, "bay_w": 2.4, "bay_d": 0.4, "balcony_frac": 0.4, "balcony_slab_h": 0.15, "balcony_d": 0.6, "balcony_rail_h": 1.0,
     "balcony_rail_t": 0.05, "door_w": 1.0, "door_h": 2.1, "door_t": 0.10, "canopy_w": 1.6, "canopy_h": 0.15, "canopy_d": 0.6, "canopy_y": 2.3,
     "shutter_w": 2.6, "shutter_h": 2.4, "shutter_t": 0.08, "plate_w": 1.2, "plate_h": 0.4, "plate_t": 0.08, "plate_y": 1.6, "plate_along": 1.5,
