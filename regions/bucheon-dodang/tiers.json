@@ -115,6 +115,21 @@
    "reason": "landmarks: park:별빛공원, park:쌈지공원",
    "tier": 1
   },
+  "8930e0ac643ffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "U8 자동 확장 큐 칸: 주거지(자동 분류 2급)이나 트레이싱·판단 대상으로 1급, 건물 236",
+   "tier": 1
+  },
   "8930e0ac657ffff": {
    "counts": {
     "landmarks": [
