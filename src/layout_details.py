@@ -431,6 +431,7 @@ def occluded_faces(body: Body, bi: int, others: Sequence[Polygon], cfg: Mapping[
 
 CLIP_TOL_M2 = 0.3  # a box may still touch a road strip by this much
 CLIP_MIN_M = 3.0  # a trimmed box keeps at least this size on each side
+CLIP_SHIFT_M = 1.0  # how far a box at the minimum size may move off a road strip
 
 
 def clip_to_roads(box: Box, strips: Sequence[Polygon]) -> Box:
@@ -461,9 +462,25 @@ def clip_to_roads(box: Box, strips: Sequence[Polygon]) -> Box:
                     break
                 t += 0.25
         if best is None:
-            return box
+            break
         box = best[1]
-    return box
+    now = overlap(box)
+    if now <= CLIP_TOL_M2:
+        return box
+    # a box the trim cannot clear (at CLIP_MIN_M, or after four rounds) moves off whole instead: the smallest shift (0.25 m steps, up to CLIP_SHIFT_M) that clears the
+    # strips, else the one that leaves the least (6c3, 2026-10-19: 3 m appendage boxes stood 0.5-0.7 m² on an alley and a lane)
+    best_shift: tuple[float, float, Box] | None = None
+    for k in range(1, int(CLIP_SHIFT_M / 0.25) + 1):
+        t = 0.25 * k
+        for cu, cv in ((t, 0.0), (-t, 0.0), (0.0, t), (0.0, -t)):
+            e, n = _world(box, cu, cv)
+            cand = dataclasses.replace(box, cx_m=e, cy_m=n)
+            left = overlap(cand)
+            if left < now - 0.05 and (best_shift is None or left < best_shift[0]):
+                best_shift = (left, t, cand)
+        if best_shift is not None and best_shift[0] <= 0.05:
+            break
+    return best_shift[2] if best_shift is not None else box
 
 
 def road_strips(lines: Sequence[tuple[str, LineString, float, Mapping[str, Any]]]) -> list[Polygon]:

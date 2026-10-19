@@ -180,7 +180,9 @@ def test_a_width_jump_is_shown_and_never_fails():
     assert halves["warn"]["width_jumps"] == []
 
 
-def test_a_built_cell_passes_and_a_building_on_its_street_fails():
+def test_a_built_cell_passes_and_a_building_on_its_street_fails(monkeypatch):
+    import layout_details
+    monkeypatch.setattr(layout_details, "CLIP_SHIFT_M", 0.0)  # the box stays where the trim leaves it (it would move off since 6c3)
     clear = B.plan_cell(CELL, [building(0, center=offset(CENTER, 0, 60))], [street("way:11", "tertiary")], CFG)
     items = [i for ch in json.loads(clear.files["chunks.json"])["chunks"] for i in ch["items"]]
     out = check(items)

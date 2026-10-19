@@ -1224,6 +1224,17 @@ def test_a_box_on_a_road_strip_is_trimmed_back_off_it():
     assert LDm.clip_to_roads(box, [far]) == box
 
 
+def test_a_box_at_the_minimum_size_moves_off_the_road_strip():
+    """2026-10-19 (6c3): 3 m appendage boxes could not be trimmed below CLIP_MIN_M and stayed 0.5-0.7 m² on an alley."""
+    from shapely.geometry import LineString
+    import layout_details as LDm
+    box = layout.Box(0.0, 0.0, 3.1, 3.1, 0.0, 0.7)
+    strip =LineString([(-30, 2.6), (30, 2.6)]).buffer(1.25, cap_style=2)  # the box's top 0.2 m: 0.62 m²
+    out = LDm.clip_to_roads(box, [strip])
+    assert LDm._box_poly(out).intersection(strip).area <= 0.05
+    assert (out.width_m, out.depth_m) == (3.1, 3.1) and math.hypot(out.cx_m, out.cy_m) <= LDm.CLIP_SHIFT_M
+
+
 def test_a_footpath_running_beside_a_road_is_cut_where_its_band_lies_on_the_carriageway():
     # 6d7 (2026-10-18): a 2 m cycleway beside a parking aisle; its centre stayed off the aisle but its band was 0.5 m over it
     road = street(cls="tertiary")  # east-west through the cell centre
