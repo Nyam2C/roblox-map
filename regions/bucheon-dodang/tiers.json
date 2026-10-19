@@ -1343,6 +1343,25 @@
    "reason": "landmarks: station:부천시청",
    "tier": 1
   },
+  "8930e0af333ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way490252542",
+     "place_of_worship:way886151502",
+     "place_of_worship:심곡성당"
+    ],
+    "pois": 3,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way490252542, place_of_worship:way886151502, place_of_worship:심곡성당",
+   "tier": 1
+  },
   "8930e0af547ffff": {
    "counts": {
     "landmarks": [
