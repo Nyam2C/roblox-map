@@ -86,12 +86,12 @@
       "stair": "none"
     },
     {
-      "balcony": 1,
+      "balcony": 0,
       "bay": 0,
       "building_id": "gis:11171398",
       "finish": "paint",
       "ground_use": "garage",
-      "judged_at": "2026-10-19T12:16:21+00:00",
+      "judged_at": "2026-10-19T13:05:45+00:00",
       "note": "villa on pilotis",
       "roof_color": "dark",
       "rooftop": "none",
