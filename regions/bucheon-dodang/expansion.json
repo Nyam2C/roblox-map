@@ -3,7 +3,7 @@
  "made": "2026-10-17 U8: 가장 가까운 만든 칸 8930e0ac613ffff에서 역 칸까지의 H3 길목 + 역 칸의 두 바퀴 + 이웃 4개 이상인 빈틈, 지도 가장자리에서 가까운 순 그다음 역에 가까운 순 (u8-auto-expand-plan.md 6절)",
  "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 고치기 2번에도 실패면 held(2026-10-19, 전에는 3번)",
  "fps_every": 3,
- "since_fps": 3,
+ "since_fps": 4,
  "baseline": null,
  "stale": [
   "8930e0ac61bffff",
@@ -120,9 +120,9 @@
   },
   {
    "cell": "8930e0ac6cfffff",
-   "state": "verified",
+   "state": "done",
    "rounds": 2,
-   "note": "준비 2026-10-19: 1급, 건물 158, 파노라마 235, 펼친 정면 144(못 편 14), 판단 목록 3(158 전부), 트레이싱 목록 15, 고도 바뀐 이미 만든 칸 61b·6c7·657·6c3은 사용자 지시로 다시 안 만듦(경계 턱 가능), Studio Edit 연결(8e60d35) | 판단·트레이싱 2026-10-19: 판단 158(묶음 3), override 4(floors), 중복 외곽 5쌍은 dedupe_buildings(속성 없는 쪽 버림)가 처리, 대상 틀림 4동 규칙판; 트레이싱 펼친 144 중 통과 22·약함 41·못 씀 80·빈 땅 1, 벽 색 17(02905c5) | 시설 2026-10-19: 5곳(심곡천 pxpark simgokcheon_6cf, 제1공영주차장 simgok_parking1_6cf, 대성병원 신관 hospital_6cf, 20층 tower20_6cf, 15층 tower15_6cf) data/auto/8930e0ac6cfffff/facilities-spec.json; 부천로 7 way 위성 6(1328397913은 5) road_lanes_by_way(842db28), 장말로 way:1320885713 태그 4→위성 3, 메인이 by_way가 lanes 태그보다 먼저 되게 고침(테스트 876, 다른 칸 영향 없음: 기존 by_way 15개 모두 lanes 태그 없음) | 생성 1(2026-10-19): 시설 5 합침(3c1b7c5), 부품 8092, 건물 144(중복 13 제거), traced 22, Union 키트 196, G1 계산 FAIL(경계 폭 5·횡단보도 길 밖 1) → Studio 전 멈춤 | cell-fix 1(2026-10-19): 고친 것 없음, 원인 = 다시 안 만드는 61b·6c3·6c7 옛 폭 3, 게이트 조각 폭 중앙값 반폭 2, 안 만든 653 소유 길 횡단보도 1 → 메인 허용 6(0d6afef), g1 PASS | 생성 2(2026-10-19): 6cf만 Studio(이웃 다시 안 지음), 부품 7354, Union 키트 196(실패 0), 최대 덩어리 7.3 ms; G1 Studio FAIL 2(gis:11191640·gis:11190343 둥근 계단 #st0이 골목 way:469292353 차도 위 1.08·0.87 m²), trace PASS(22, 약함 0), G2 PASS(minor 6, cell-tiles), 병원 현관이 NW 면에 붙음; FPS 건너뜀(무인, 사람 필요) | cell-fix 2(67652db): 정면이 차도에 붙어 front_clear < 계단 깊이+0.3 m면 계단탑 안 만듦(규칙 layout_details, 테스트 877), 병원 front NE(facilities.COMPASS 대각선 추가), G5 g1 46→46, manifest 바뀐 옛 칸 32는 사용자 지시로 다시 안 짓고 stale에도 안 넣음; 6cf만 다시 지음 created 7836·skipped_manual 258 | 검증 2026-10-19: G1 PASS(허용 6), Studio PASS(최대 0.18 m²), G2 PASS, trace PASS → summary PASS; 미니맵·칸 데이터(6cf만)·pack(b269326), 동 이름 심곡동"
+   "note": "준비 2026-10-19: 1급, 건물 158, 파노라마 235, 펼친 정면 144(못 편 14), 판단 목록 3(158 전부), 트레이싱 목록 15, 고도 바뀐 이미 만든 칸 61b·6c7·657·6c3은 사용자 지시로 다시 안 만듦(경계 턱 가능), Studio Edit 연결(8e60d35) | 판단·트레이싱 2026-10-19: 판단 158(묶음 3), override 4(floors), 중복 외곽 5쌍은 dedupe_buildings(속성 없는 쪽 버림)가 처리, 대상 틀림 4동 규칙판; 트레이싱 펼친 144 중 통과 22·약함 41·못 씀 80·빈 땅 1, 벽 색 17(02905c5) | 시설 2026-10-19: 5곳(심곡천 pxpark simgokcheon_6cf, 제1공영주차장 simgok_parking1_6cf, 대성병원 신관 hospital_6cf, 20층 tower20_6cf, 15층 tower15_6cf) data/auto/8930e0ac6cfffff/facilities-spec.json; 부천로 7 way 위성 6(1328397913은 5) road_lanes_by_way(842db28), 장말로 way:1320885713 태그 4→위성 3, 메인이 by_way가 lanes 태그보다 먼저 되게 고침(테스트 876, 다른 칸 영향 없음: 기존 by_way 15개 모두 lanes 태그 없음) | 생성 1(2026-10-19): 시설 5 합침(3c1b7c5), 부품 8092, 건물 144(중복 13 제거), traced 22, Union 키트 196, G1 계산 FAIL(경계 폭 5·횡단보도 길 밖 1) → Studio 전 멈춤 | cell-fix 1(2026-10-19): 고친 것 없음, 원인 = 다시 안 만드는 61b·6c3·6c7 옛 폭 3, 게이트 조각 폭 중앙값 반폭 2, 안 만든 653 소유 길 횡단보도 1 → 메인 허용 6(0d6afef), g1 PASS | 생성 2(2026-10-19): 6cf만 Studio(이웃 다시 안 지음), 부품 7354, Union 키트 196(실패 0), 최대 덩어리 7.3 ms; G1 Studio FAIL 2(gis:11191640·gis:11190343 둥근 계단 #st0이 골목 way:469292353 차도 위 1.08·0.87 m²), trace PASS(22, 약함 0), G2 PASS(minor 6, cell-tiles), 병원 현관이 NW 면에 붙음; FPS 건너뜀(무인, 사람 필요) | cell-fix 2(67652db): 정면이 차도에 붙어 front_clear < 계단 깊이+0.3 m면 계단탑 안 만듦(규칙 layout_details, 테스트 877), 병원 front NE(facilities.COMPASS 대각선 추가), G5 g1 46→46, manifest 바뀐 옛 칸 32는 사용자 지시로 다시 안 짓고 stale에도 안 넣음; 6cf만 다시 지음 created 7836·skipped_manual 258 | 검증 2026-10-19: G1 PASS(허용 6), Studio PASS(최대 0.18 m²), G2 PASS, trace PASS → summary PASS; 미니맵·칸 데이터(6cf만)·pack(b269326), 동 이름 심곡동 | 기록 e75f71d(lessons 7, trace-prompt.md outline) → done; FPS 못 잼(since_fps 4, 다음 칸도 차례)"
   },
   {
    "cell": "8930e0ac6dbffff",
