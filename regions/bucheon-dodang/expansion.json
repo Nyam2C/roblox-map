@@ -133,8 +133,8 @@
   {
    "cell": "8930e0ac643ffff",
    "state": "specced",
-   "rounds": 0,
-   "note": "2026-10-20 specced: 시설 5(비반트 23층, 더뷰에디스 17층, 트윈캐슬 14층 쌍둥이, 화신오피스텔 15층, 심곡2동 행정복지센터), 스펙 data/auto/8930e0ac643ffff/facilities-spec.json (44173e2)"
+   "rounds": 1,
+   "note": "2026-10-20 G1 계산 실패 crosswalks_off_road 4 → cell-fix 1: 규칙 문제 아님(길 조각이 안 만든 64f·653·647 소유), 메인이 허용 4 추가 → G1 계산 PASS. 다음 cell-build"
   },
   {
    "cell": "8930e0ac653ffff",
