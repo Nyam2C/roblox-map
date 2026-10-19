@@ -388,6 +388,23 @@
    "reason": "landmarks: hospital:대성병원 구관",
    "tier": 1
   },
+  "8930e0ac6cbffff": {
+   "counts": {
+    "landmarks": [
+     "marketplace:중앙시장"
+    ],
+    "pois": 15,
+    "share": {
+     "commercial": 0.009,
+     "industrial": 0.0,
+     "residential": 0.467,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: marketplace:중앙시장",
+   "tier": 1
+  },
   "8930e0ac6cfffff": {
    "counts": {
     "landmarks": [
