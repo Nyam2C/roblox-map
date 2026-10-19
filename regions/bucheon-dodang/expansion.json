@@ -132,9 +132,9 @@
   },
   {
    "cell": "8930e0ac643ffff",
-   "state": "judged",
+   "state": "specced",
    "rounds": 0,
-   "note": "2026-10-20 judged: 판단 236(override 0), 트레이싱 통과 32·약함 41·못 씀 131·빈 땅 3, 벽 색 29 (d3e3263)"
+   "note": "2026-10-20 specced: 시설 5(비반트 23층, 더뷰에디스 17층, 트윈캐슬 14층 쌍둥이, 화신오피스텔 15층, 심곡2동 행정복지센터), 스펙 data/auto/8930e0ac643ffff/facilities-spec.json (44173e2)"
   },
   {
    "cell": "8930e0ac653ffff",
