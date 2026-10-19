@@ -11,7 +11,7 @@ One list file (given by the caller): `{"items": [{"building_id", "image", "outli
   the left side from the ground). The magenta rectangle is the wall: u = 0 .. L_m, y = 0 .. H_m; the magenta lines inside are
   floor lines (H_m / floors apart). Anything outside the rectangle (left of 0, right of L_m, above H_m) is a neighbour or the sky,
   except a rooftop room or a stair tower rising above the roof.
-- `outline`: the original photo with the wall's outline in magenta. Open it only if the unfolded image looks wrong.
+- `outline`: the original photo with the wall's outline in magenta. Not in the unfolded-image list, but you may open it; do so if the unfolded image looks wrong or a corner is unclear.
 
 ## Blind rule
 Open the list file and its images with the Read tool, nothing else. Do not read `regions/`, `data/build/`, `data/map.db`, `src/`
