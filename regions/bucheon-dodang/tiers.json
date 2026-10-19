@@ -130,6 +130,23 @@
    "reason": "U8 자동 확장 큐 칸: 주거지(자동 분류 2급)이나 트레이싱·판단 대상으로 1급, 건물 236",
    "tier": 1
   },
+  "8930e0ac653ffff": {
+   "counts": {
+    "landmarks": [
+     "park:심곡 어린이공원"
+    ],
+    "pois": 16,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:심곡 어린이공원",
+   "tier": 1
+  },
   "8930e0ac657ffff": {
    "counts": {
     "landmarks": [
