@@ -24967,6 +24967,500 @@
     "data/satellite/8930e0ac6cfffff-z19.jpg"
    ],
    "seen": "Street view: slim light beige tower with a black speckled stone two-floor base, a vertical blue glass stair slot, white balcony slabs on the S side. Web photo not searched (street view clear; brand name)."
+  },
+  {
+   "key": "jinmal_park_6db",
+   "cell": "8930e0ac6dbffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/jinmal_park_6db.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "진말어린이공원 (OSM leisure=park way:472906710, the only park of the cell; the other two OSM park ways 486823903/886151503 are the 부천대 sports fields in cell 8930e0af337ffff, not here). About 1,600 m2 north of 장말로 beside the police box, with a 4 m walkway tail down to 장말로. Layers: grass under the canopy, grey block paving with exercise machines in the south part and the tail, a light-blue rubber playground in the NW, a tan curved path, two raised round tree planters, an open play tower with an orange roof (the spiral slide is not modelled). Only the police box overlaps the outline (about 0.2 m2 at a corner). Trees stay trees.json. Layout written to data/auto/8930e0ac6dbffff/jinmal_park_6db.json (git-ignored): move it to regions/bucheon-dodang/jinmal_park_6db.json.",
+   "sources": [
+    "data/satellite/8930e0ac6dbffff-z19.jpg",
+    "OSM way 472906710 (overpass-api.de)",
+    "https://ko.m.wikipedia.org/wiki/진말어린이공원 (photos viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+진말어린이공원 (thumbnails viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_blog&query=심곡동+진말어린이공원 (text: 1,603.6 m2, 7 outdoor exercise machines, playground 2018-12)"
+   ],
+   "seen": "Satellite: canopy over the east half, a light-blue playground with two round planters and a play structure in the NW, a tan path, grey paving in the south. Web: light-blue rubber floor, round raised planters, an orange spiral slide tower, a wooden sign by flower beds, exercise machines on grey block paving."
+  },
+  {
+   "key": "bcu_dorm_6db",
+   "cell": "8930e0ac6dbffff",
+   "building_ids": [
+    "gis:11177642"
+   ],
+   "build": [
+    "gis:11177642"
+   ],
+   "claims": [],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 14,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     224,
+     226,
+     226
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Limestone",
+    "rgb": [
+     196,
+     194,
+     188
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.3,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     70,
+     88,
+     98
+    ],
+    "frame_rgb": [
+     206,
+     208,
+     210
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": -0.44,
+     "width_m": 4.0,
+     "from_floor": 1,
+     "to_floor": 13,
+     "rgb": [
+      72,
+      132,
+      142
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.44,
+     "width_m": 4.0,
+     "from_floor": 1,
+     "to_floor": 13,
+     "rgb": [
+      72,
+      132,
+      142
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": 0.35,
+     "width_m": 8.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      80,
+      100,
+      110
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.35,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     200,
+     198
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     222,
+     224,
+     224
+    ],
+    "top_rgb": [
+     202,
+     206,
+     202
+    ],
+    "features": [
+     "stair_box",
+     "solar"
+    ],
+    "crown": null
+   },
+   "notes": "The tallest building of the cell: 부천대학교 꿈집 (register 10000 education, 14 floors, 1990; OSM building=college). Long slab along the campus north edge, its long N face toward 장말로 (4 lanes, about 15 m from the centreline) behind the campus grey stone wall and green fence (the wall is not part of this spec). Look: light grey-white panel walls, a dense grid of small punched windows, a full-height blue-green glass curtain strip at each end of the long faces and in the middle of the W end face. The ground floor on the campus side (S, 'back') has a glass lobby toward the E end (web: the campus cafe is on its ground floor). Roof: light grey with stair boxes and a dark grid of panels on the N half. No sign (none seen on the facade).",
+   "sources": [
+    "captures/8930e0ac6dbffff/sheets/gis_11177642.jpg",
+    "data/satellite/8930e0ac6dbffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+꿈집 (thumbnails viewed only)",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+공학관 (thumbnails viewed only: one shows this white slab with its blue glass strip)"
+   ],
+   "seen": "Street view from the N and W: a 14-floor white-grey slab with a dense window grid and blue-green glass strips at the ends, behind a grey stone wall and green fence. Web thumbnails: the same white slab with a vertical blue glass strip over the campus wall."
+  },
+  {
+   "key": "bcu_engineering_6db",
+   "cell": "8930e0ac6dbffff",
+   "building_ids": [
+    "gis:11185347"
+   ],
+   "build": [
+    "gis:11185347"
+   ],
+   "claims": [],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     152,
+     70,
+     52
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 2.4,
+    "h_m": 1.4,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     62,
+     80,
+     90
+    ],
+    "frame_rgb": [
+     206,
+     204,
+     198
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.46,
+     "width_m": 4.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "rgb": [
+      90,
+      140,
+      130
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 6.0,
+     "from_floor": 0,
+     "to_floor": 4,
+     "material": "Brick",
+     "rgb": [
+      140,
+      62,
+      46
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     198,
+     192
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "공학관",
+    "face": "street",
+    "floor": 4,
+    "bg_rgb": [
+     152,
+     70,
+     52
+    ],
+    "ink_rgb": [
+     242,
+     240,
+     236
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     150,
+     70,
+     52
+    ],
+    "top_rgb": [
+     190,
+     196,
+     196
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "부천대학교 공학관 (register 10000, 5 floors + 1 basement, 1979; OSM building=college). Long block east of the dorm on the campus north edge, N face toward 장말로 behind the campus wall; 장말로344번길 runs past its W end, where the campus gate (grey stone posts) is. Look: red-brown brick on every face, rows of separate windows with white frames, a slightly projecting brick stair core in the middle of the long faces (the panel accent), and at the W end of the N face a green-tinted glass stair box from the ground to the top (glass_strip at -0.46: if it lands at the E end, flip to 0.46). The main entrance is in the middle of the campus (S) side, where the outline steps out (satellite: a small plaza). The name 공학관 in white letters near the top (web photo). Roof light grey.",
+   "sources": [
+    "captures/8930e0ac6dbffff/sheets/gis_11185347.jpg",
+    "data/satellite/8930e0ac6dbffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+공학관 (thumbnails viewed only)"
+   ],
+   "seen": "Street view from the N, W and the gate: a 5-floor red-brown brick block with white-framed window rows, a glass stair box at the west end, a painted mural wall and green fence along the street. Web thumbnails: the same brick block with the white 공학관 letters at the top corner."
+  },
+  {
+   "key": "police_jungang_6db",
+   "cell": "8930e0ac6dbffff",
+   "building_ids": [
+    "gis:11191979"
+   ],
+   "build": [
+    "gis:11191979"
+   ],
+   "claims": [
+    "gis:17763633"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 3,
+   "height_m": 10.5,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     204,
+     200,
+     192
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Brick",
+    "rgb": [
+     170,
+     96,
+     72
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.3,
+    "h_m": 1.3,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     60,
+     72,
+     82
+    ],
+    "frame_rgb": [
+     232,
+     232,
+     230
+    ]
+   },
+   "bands": {
+    "rgb": [
+     186,
+     182,
+     174
+    ],
+    "every_floor": false
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.38,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "material": "Plaster",
+     "rgb": [
+      226,
+      166,
+      164
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.05,
+    "width_m": 4.0,
+    "canopy": false,
+    "steps": true
+   },
+   "sign": {
+    "text": "중앙지구대",
+    "face": "street",
+    "floor": 2,
+    "bg_rgb": [
+     204,
+     200,
+     192
+    ],
+    "ink_rgb": [
+     40,
+     50,
+     80
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     204,
+     200,
+     192
+    ],
+    "top_rgb": [
+     150,
+     142,
+     126
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "부천원미경찰서 중앙지구대 (OSM amenity=police; register 03000, 3 floors, 2015), on the west side of 진말어린이공원, its S face toward a parking court on 장말로. Duplicate outline gis:17763633 (same centroid, no attributes) is claimed. S face (front): light grey-beige stone panels, a red brick ground floor on the left part, a dark recessed entrance in the middle with a ramp and steps on the right, a pink plaster stair tower at the right (E) end that rises a little above the rest, a tall parapet with the station name under three flagpoles. Public name allowed (police station). Roof from the satellite: brownish grey over most of it, light at the E end.",
+   "sources": [
+    "captures/8930e0ac6dbffff/sheets/gis_11191979.jpg",
+    "data/satellite/8930e0ac6dbffff-z19.jpg",
+    "web photo none (a Naver blog search '부천 중앙지구대 심곡동' was run; no exterior photo was looked at)"
+   ],
+   "seen": "Street view from the S: a small grey-beige stone police box with a red brick ground floor, a recessed entrance, a pink stair tower, the station name on the parapet and flagpoles; parking court in front. No web photo of the exterior used."
+  },
+  {
+   "key": "simgok1_centre_6db",
+   "cell": "8930e0ac6dbffff",
+   "building_ids": [
+    "gis:11178892"
+   ],
+   "build": [
+    "gis:11178892"
+   ],
+   "claims": [
+    "gis:16776817"
+   ],
+   "front": "E",
+   "road_clear_m": 1.0,
+   "floors": 3,
+   "height_m": null,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     210,
+     208,
+     202
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 3.2,
+    "glass_rgb": [
+     70,
+     90,
+     100
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     200
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.35,
+     "width_m": 5.0,
+     "from_floor": 0,
+     "to_floor": 2,
+     "rgb": [
+      84,
+      132,
+      122
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     212,
+     212,
+     208
+    ],
+    "steps": false
+   },
+   "sign": {
+    "text": "심곡1동 행정복지센터",
+    "face": "street",
+    "floor": 0,
+    "bg_rgb": [
+     232,
+     232,
+     238
+    ],
+    "ink_rgb": [
+     90,
+     56,
+     130
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     210,
+     208,
+     202
+    ],
+    "top_rgb": [
+     150,
+     152,
+     140
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "심곡1동 행정복지센터 (register 14000 public office, 3 floors + 1 basement, 1994; OSM building=public '심곡1동 주민센터' = gis:16776817, a duplicate outline over the W part, claimed). L-shaped block on 장말로343번길 / 신흥로86번길; the E face (front) opens on its parking court. E face: light grey stone panels, a full-height green-tinted glass stair tower on the left (S) side (a painted balloon graphic on it, not copied), the entrance under a flat white canopy with a white-and-purple banner sign, then a plain stone block with few windows. Brick wall and trees on the street side. Satellite: grey roof with planting on part of it. A small library shares the building (a banner), not used.",
+   "sources": [
+    "captures/8930e0ac6dbffff/sheets/gis_11178892.jpg",
+    "data/satellite/8930e0ac6dbffff-z19.jpg",
+    "web photo none (https://m.search.naver.com/search.naver?where=m_image&query=심곡1동+행정복지센터 showed only the other 심곡 centres)"
+   ],
+   "seen": "Street view from the E parking court: a light grey stone block with a glass stair tower, the entrance canopy and banner sign, parked cars in front; from the street mostly hidden by trees behind a brick wall. No web photo of this centre."
   }
  ]
 }
