@@ -25461,6 +25461,594 @@
     "web photo none (https://m.search.naver.com/search.naver?where=m_image&query=심곡1동+행정복지센터 showed only the other 심곡 centres)"
    ],
    "seen": "Street view from the E parking court: a light grey stone block with a glass stair tower, the entrance canopy and banner sign, parked cars in front; from the street mostly hidden by trees behind a brick wall. No web photo of this centre."
+  },
+  {
+   "key": "vivant_23f_643",
+   "cell": "8930e0ac643ffff",
+   "building_ids": [
+    "gis:11168507"
+   ],
+   "build": [
+    "gis:11168507"
+   ],
+   "claims": [
+    "gis:18365380"
+   ],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 23,
+   "height_m": null,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     146,
+     150,
+     154
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Granite",
+    "rgb": [
+     72,
+     74,
+     78
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.6,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     60,
+     80,
+     92
+    ],
+    "frame_rgb": [
+     70,
+     72,
+     76
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      232,
+      232,
+      230
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 22,
+     "rgb": [
+      80,
+      104,
+      116
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.15,
+    "width_m": 9.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     232,
+     232,
+     228
+    ],
+    "top_rgb": [
+     140,
+     132,
+     122
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "The tallest building of the cell (register 14000, 23 floors, OSM apartments height 75 m, 2023). Slim officetel tower: dark grey metal panel walls with paired punched windows, a 2-floor polished dark stone podium with an open pilotis drive-in garage under the north face, a thin white band over the podium. Satellite: two wings with white parapets and a brown-grey roof deck. gis:18365380 is a second V-World outline of the same tower (OSM-tagged, no register values) and is only claimed.",
+   "sources": [
+    "captures/8930e0ac643ffff/sheets/gis_11168507.jpg",
+    "data/satellite/8930e0ac643ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=심곡+비반트+1차 (thumbnails viewed only)"
+   ],
+   "seen": "Street view (camera looking S): dark grey panel tower, paired windows, black polished stone podium with pilotis parking. Web image search showed mostly interiors and one exterior thumbnail of the tall grey tower."
+  },
+  {
+   "key": "theview_17f_643",
+   "cell": "8930e0ac643ffff",
+   "building_ids": [
+    "gis:11648981"
+   ],
+   "build": [
+    "gis:11648981"
+   ],
+   "claims": [
+    "gis:15919941"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 17,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     232,
+     228,
+     218
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Limestone",
+    "rgb": [
+     200,
+     176,
+     166
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.5,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     92,
+     104
+    ],
+    "frame_rgb": [
+     228,
+     228,
+     226
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.1,
+     "width_m": 4.0,
+     "from_floor": 2,
+     "to_floor": 16,
+     "material": "Plaster",
+     "rgb": [
+      214,
+      168,
+      148
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 12.0,
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      80,
+      100,
+      110
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 7.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     230,
+     230,
+     224
+    ],
+    "top_rgb": [
+     224,
+     226,
+     213
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "17-floor residential tower (register 14000, OSM apartments height 53 m, 2017) on the 부일로 side, next to the twin towers. Cream walls with balcony windows, one salmon-pink vertical band up the front, a 2-floor pinkish-beige stone podium with a ribbon of windows on its upper floor and a wide parking entrance in the middle. Satellite roof white. gis:15919941 is the same tower's second outline (claimed).",
+   "sources": [
+    "captures/8930e0ac643ffff/sheets/gis_11648981.jpg",
+    "data/satellite/8930e0ac643ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡동+더뷰에디스 (thumbnails viewed only)"
+   ],
+   "seen": "Street view (camera looking N): cream tower with a salmon vertical band and balconies, a pink-beige stone podium with the parking gate. Web image search: only interiors (no exterior photo)."
+  },
+  {
+   "key": "twincastle_643",
+   "cell": "8930e0ac643ffff",
+   "building_ids": [
+    "gis:11177401"
+   ],
+   "build": [
+    "gis:11177401"
+   ],
+   "claims": [
+    "gis:16144053"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 14,
+   "height_m": null,
+   "towers": {
+    "podium_floors": 2,
+    "count": 2,
+    "size_m": 20,
+    "gap_m": 6,
+    "podium_wall": {
+     "material": "Limestone",
+     "rgb": [
+      150,
+      104,
+      94
+     ]
+    }
+   },
+   "accents_everywhere": true,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     234,
+     234,
+     230
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.4,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     72,
+     94,
+     106
+    ],
+    "frame_rgb": [
+     226,
+     228,
+     228
+    ]
+   },
+   "bands": {
+    "rgb": [
+     168,
+     176,
+     184
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      82,
+      100,
+      110
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": false,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     230,
+     230,
+     226
+    ],
+    "top_rgb": [
+     220,
+     222,
+     215
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "트윈캐슬 (register 14000, 14 floors, OSM apartments 2016): two white point towers about 20 m square with a narrow 6 m slot between them, on a 2-floor red-brown polished stone podium (49 x 25 m) along 부일로 with shops and a parking passage in the middle. Towers: white walls with grey-blue balcony rails every floor. Satellite: two white roofs with green planter strips. gis:16144053 is the same outline again (claimed).",
+   "sources": [
+    "captures/8930e0ac643ffff/sheets/gis_11177401.jpg",
+    "captures/8930e0ac643ffff/sheets/gis_11648981.jpg",
+    "data/satellite/8930e0ac643ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡동+트윈캐슬 (thumbnails viewed only)"
+   ],
+   "seen": "Street view (camera looking N): two white towers on a brown stone podium with shop fronts and a central passage. Web: a sales rendering and a real photo of the white twin towers with grey balcony bands."
+  },
+  {
+   "key": "hwasin_officetel_643",
+   "cell": "8930e0ac643ffff",
+   "building_ids": [
+    "gis:11276186"
+   ],
+   "build": [
+    "gis:11276186"
+   ],
+   "claims": [],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 15,
+   "height_m": null,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     204,
+     208,
+     210
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "curtain",
+    "w_m": 1.5,
+    "h_m": 2.2,
+    "pitch_m": 1.5,
+    "glass_rgb": [
+     104,
+     156,
+     158
+    ],
+    "frame_rgb": [
+     196,
+     200,
+     202
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": -0.3,
+     "width_m": 6.0,
+     "from_floor": 1,
+     "to_floor": 14,
+     "rgb": [
+      96,
+      150,
+      152
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.3,
+     "width_m": 6.0,
+     "from_floor": 1,
+     "to_floor": 14,
+     "rgb": [
+      96,
+      150,
+      152
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      40,
+      70,
+      150
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     60,
+     64
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     70,
+     140,
+     120
+    ],
+    "top_rgb": [
+     120,
+     134,
+     130
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "화신오피스텔 (register 14000, 15 floors, OSM apartments height 50 m, 2001) at the 부일로 corner. Silver metal panel grid walls with green-teal glass bays (two wide vertical glass strips per face), a glass shop floor with a blue fascia band (real shop brands not written), lobby door with a dark canopy on the west side. Satellite: dark roof with plant gear, teal parapet.",
+   "sources": [
+    "captures/8930e0ac643ffff/sheets/gis_11276186.jpg",
+    "data/satellite/8930e0ac643ffff-z19.jpg"
+   ],
+   "seen": "Street view (cameras looking E, NE, NW): silver panel and teal glass officetel, shops behind glass with a blue band on the ground floor. 웹 사진 없음 (searched; only real-estate interiors)."
+  },
+  {
+   "key": "simgok2_center_643",
+   "cell": "8930e0ac643ffff",
+   "building_ids": [
+    "gis:11187593"
+   ],
+   "build": [
+    "gis:11187593"
+   ],
+   "claims": [],
+   "front": "W",
+   "floors": 5,
+   "height_m": null,
+   "wall": {
+    "material": "Metal",
+    "rgb": [
+     214,
+     216,
+     218
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Limestone",
+    "rgb": [
+     196,
+     194,
+     190
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.2,
+    "h_m": 1.6,
+    "pitch_m": 3.6,
+    "glass_rgb": [
+     92,
+     140,
+     142
+    ],
+    "frame_rgb": [
+     190,
+     194,
+     196
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 4.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      80,
+      126,
+      132
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 10.0,
+     "from_floor": 1,
+     "to_floor": 4,
+     "rgb": [
+      92,
+      140,
+      142
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.25,
+     "width_m": 10.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      70,
+      90,
+      96
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.05,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     200,
+     202,
+     204
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "심곡2동 행정복지센터",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     240,
+     240,
+     240
+    ],
+    "ink_rgb": [
+     60,
+     60,
+     120
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     230,
+     230,
+     228
+    ],
+    "top_rgb": [
+     70,
+     138,
+     105
+    ],
+    "features": [
+     "stair_box",
+     "solar"
+    ],
+    "crown": null
+   },
+   "notes": "심곡2동 행정복지센터 (register 14000, 5 floors above, 1 below; the only public building of the cell). Light grey metal panel walls with teal punched windows, a rounded corner on the NW end of the west front, a recessed vertical balcony slot with glass above the lobby, a glazed curtain bay on the south/back wing over the parking yard. Ground floor glass lobby with steps and two small stone statues at the door (not modelled). Satellite: green roof with solar panels and white parapet, an L plan.",
+   "sources": [
+    "captures/8930e0ac643ffff/sheets/gis_11187593.jpg",
+    "data/satellite/8930e0ac643ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=심곡2동+행정복지센터 (thumbnails viewed only)"
+   ],
+   "seen": "Street view (camera looking E): grey panel office with teal windows, rounded corner, glass lobby with the centre name board. Web: opening-ceremony photos of the same glass lobby, grey panel walls and the stone statues by the door."
   }
  ]
 }
