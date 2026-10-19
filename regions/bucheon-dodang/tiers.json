@@ -412,6 +412,27 @@
    "reason": "landmarks: park:way815833934, school:부천중앙초등학교",
    "tier": 1
   },
+  "8930e0ac6dbffff": {
+   "counts": {
+    "landmarks": [
+     "park:way486823903",
+     "park:way886151503",
+     "park:진말어린이공원",
+     "police:부천원미경찰서 중앙지구대",
+     "university:부천대학교"
+    ],
+    "pois": 2,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.0,
+     "residential": 0.689,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way486823903, park:way886151503, park:진말어린이공원, police:부천원미경찰서 중앙지구대",
+   "tier": 1
+  },
   "8930e0ae24bffff": {
    "counts": {},
    "manual": true,
