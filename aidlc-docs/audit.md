@@ -2554,3 +2554,11 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 뺀 것: 대성병원 신관(OSM amenity=hospital 영역이 이 칸 안에 V-World 건물 기록이 없고 실제 건물은 남쪽 6cf에 OSM building=hospital로 있음; 구관·본관은 6c7 `hospital_7f_6c7`로 이미 있음, 건드리지 않음). 역·출구·백화점·학교·15층 이상 없음.
 웹 사진(보기만, 스크래치에서 보고 지움) 출처: https://m.search.naver.com/search.naver?where=m_blog&query=부천+기둥교회 (장소 썸네일: 첨탑 있는 크림색 교회), https://m.search.naver.com/search.naver?where=m_image&query=부천+기둥교회+외관 (대부분 같은 이름의 동네 사진, 쓸 것 없음), https://m.search.naver.com/search.naver?where=m_blog&query=부천+심곡천+변영로교 (변영로교가 제1인도교, 봄비공원 위치), https://m.blog.naver.com/goldapple684/223555873246 (봄비공원 돌망태 이름 벽과 시비, 둑의 꽃·생울타리·갈대, 시작점 폭포 벽 조명). 엘리하임은 웹 사진 없음(주거, 거리뷰로).
 **Context**: U8 자동 확장, 0b-4·7b(cell-facility)
+
+## 2026-10-19 U8 칸 8930e0ac6c3ffff 기록 (cycle-record, 사용자 부재)
+**Timestamp**: 2026-10-19T14:00:00Z
+**User Request**: (메인 지시) 6c3 기록: lessons·스킬·audit·CLAUDE.md 현재 상태, 네 파일만 커밋.
+**AI Response**: 높이가 바뀐 이미 만든 칸 17b·16b·61b·6c7·6d3·6d7·657은 사용자 지시로 다시 짓지 않았다. 이웃이 pack 상태라 Studio에서 눈으로 못 봐서 경계 땅 턱이 있을 수 있다(여기에만 기록). 6c3는 G1 계산 실패를 cell-fix 1(상자 최소 크기 이동 1 m), 2(gis:11171398 발코니 끔)로 고쳐 summary PASS, 허용 3, FPS 건너뜀. lessons 6항 추가, cycle-build 5b에 cell-data 한 칸 거르기 한 줄. 커밋은 그 네 파일만.
+**Context**: 5 기록
+
+---
