@@ -2583,3 +2583,8 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 - 중복 외곽 5쌍(겹침 0.84~1.0)은 `dedupe_buildings`가 속성 없는 쪽을 버리므로 손대지 않음. 대상 틀림 4동은 규칙판.
 - 고도 바뀐 이미 만든 이웃 61b·6c7·657·6c3은 사용자 지시로 다시 안 만듦(경계 턱 가능).
 - (6cf 기록) `cycle-build/trace-prompt.md`: `outline` 이미지도 열어도 된다고 적음(여러 cell-trace가 목록 밖으로 여겨 안 열고 모서리를 못 줬음, e75f71d). 6cf done, 비용 약 $22, FPS는 무인이라 못 잼(since_fps 4, 다음 칸도 차례).
+
+## 2026-10-19 U8 칸 8930e0ac6dbffff 시작 (사용자 입력)
+**User Input**: "U8 큐(regions/bucheon-dodang/expansion.json)에서 queued 상태인 첫 칸(8930e0ac6dbffff) 하나만 CLAUDE.md 세션 흐름과 aidlc-docs/construction/plans/u8-auto-expand-plan.md대로 cell-* 에이전트로 끝까지 만들어라(2026-10-19 혼합 방식: CLAUDE.md 결정 사항, 절차서 2·5절, cycle-build 4·4T 최신 내용을 먼저 읽고 따른다). 사용자 결정(2026-10-19): 이미 만든 칸(done·built·held 칸과 기존 region 칸 모두)은 지금 상태로 남겨 둔다. 이웃 칸 땅 높이가 바뀌어도 이미 만든 칸은 다시 만들지 말고 stale 다시 만들기도 하지 마라(경계 턱이 생기면 audit에 적기만). 큰길 차로 수는 빌드 전에 위성으로 구간별로 확인하고 구간마다 폭이 다르면 road_lanes_by_way. 걷기 FPS 차례인데 사람이 Studio 창 앞에 있어야 하면 건너뛰고 기록. 에이전트는 foreground로 부르고 끝날 때까지 턴을 끝내지 마라. 사용자는 자리에 없으니 묻지 말고 추천안으로 정하고 audit에 남겨라(게이트 기준값·허용 목록을 바꾸면 이유를 분명히). 먼저 get_studio_state로 Studio(Edit)를 확인하고 안 되면 Studio 없는 단계까지만. 예산이 모자라 보이면 끊기기 전에 상태를 기록하고 멈춰라. 커밋 안 된 남의 변경은 건드리지 말고 커밋은 자기 파일만. 키 값을 파일·로그에 쓰지 마라. 끝나면 에이전트별 비용과 함께 한글 요약."
+**AI Response**: Studio Edit 확인. 6db queued → cell-prep부터.
+**Context**: U8 자동 확장, 8930e0ac6dbffff
