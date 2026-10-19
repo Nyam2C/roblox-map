@@ -312,3 +312,5 @@
 - (2026-10-19, 6cf) `road-clear-check`는 기운 길에서 키 큰 원통(계단탑)을 네모 꼭짓점 8개로 투영해 평면 겹침 0인데 1 m²로 읽는다(657 항목과 같은 현상).
 - (2026-10-19, 6cf) cell-trace 에이전트 여럿이 `outline` 이미지를 목록 밖으로 여겨 안 열었다 → `trace-prompt.md`에 "열어도 된다" 명시.
 - (2026-10-19, 6cf 비용, 근사) 약 $22: 준비 0.7, 판단 3, 트레이싱 4.5(통과 15%), 시설 3.7, 생성 1.6, 고치기 4.4, tiles 0.2, 기록 0.5. 통과율이 657(21%)·6c3(20%)보다 낮다.
+- (2026-10-20, 6db) 빌라 벽 띠(`#ws`, 0.3 m 내밂 + 모서리 너머 0.3 m)가 막다른 골목 끝에 붙은 벽(상자와 차도 0.04 m)에서 차도 위로 나왔다 → 1층 띠처럼 `box_clear`만큼만 내민다(규칙). 트레이싱 조각(차양 `depth_m` 1.0)은 차도 거리를 안 봐서 한 동은 `facade.json`의 depth로 고쳤다. 같은 일이 여러 칸에서 나오면 `traced_group`에 차도 거리 제한 규칙 후보.
+- (2026-10-20, 6db) 정리된(pack) 장소의 `Manual/Facilities/<시설>`은 BuildingId `Claim`만 남은 빈 폴더라 Auto는 비켜 짓지만(skipped_manual > 0) 시설 부품은 없다. 다시 지은 칸의 road-clear-check와 `cell-data`(ManualCodec.export)는 그 칸을 unpack(Auto 지우고 unpack)한 뒤에 해야 한다(안 하면 export가 "hand-made parts ... none" 오류).

@@ -945,7 +945,8 @@ def _villa_face(body: Body, bi: int, side: str, frame: Frame, seq: int, win_t: f
             y0, y1 = run[0] * fh + sill, run[-1] * fh + sill + wh
             add(f"wf{bi}{side}{run[0]}-{j}", a, y0 - m, D["frame_out"], (win_w + 2 * m, y1 - y0 + 2 * m, D["frame_out"]), frame_look)
             add(f"w{bi}{side}{run[0]}-{j}", a, y0, D["frame_out"] + D["frame_glass"], (win_w, y1 - y0, win_t), glass)
-    so = D["skin_out"]
+    # not over a carriageway the wall stands at (6db: a face at the end of a dead-end alley, 2026-10-20), as the ground-floor band
+    so = min(D["skin_out"], max(D["band_lip"] / 2, body.box_clear[bi] if bi < len(body.box_clear) else math.inf))
     ranges = [(-L / 2 - so, L / 2 + so)]  # past the corner so two faces' skins meet
     if is_front:
         for b0, b1 in _blocked(body):
