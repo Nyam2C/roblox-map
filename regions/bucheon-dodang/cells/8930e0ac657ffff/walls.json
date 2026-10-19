@@ -1,0 +1,300 @@
+{
+ "walls": {
+  "gis:11173466": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    113,
+    107,
+    101
+   ]
+  },
+  "gis:11176969": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    65,
+    76,
+    72
+   ]
+  },
+  "gis:11178970": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    0,
+    0,
+    0
+   ]
+  },
+  "gis:11180539": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    113,
+    91,
+    87
+   ]
+  },
+  "gis:11180548": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    103,
+    100,
+    98
+   ]
+  },
+  "gis:11180550": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    118,
+    105,
+    101
+   ]
+  },
+  "gis:11180585": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    70,
+    59,
+    56
+   ]
+  },
+  "gis:11180768": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    94,
+    96,
+    112
+   ]
+  },
+  "gis:11180771": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    84,
+    83,
+    84
+   ]
+  },
+  "gis:11182478": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    131,
+    131,
+    126
+   ]
+  },
+  "gis:11182943": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    121,
+    119,
+    117
+   ]
+  },
+  "gis:11183386": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    170,
+    174,
+    174
+   ]
+  },
+  "gis:11183394": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    179,
+    132,
+    168
+   ]
+  },
+  "gis:11183614": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    107,
+    106,
+    104
+   ]
+  },
+  "gis:11183846": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    76,
+    52,
+    45
+   ]
+  },
+  "gis:11183953": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    118,
+    101,
+    105
+   ]
+  },
+  "gis:11183954": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    124,
+    110,
+    116
+   ]
+  },
+  "gis:11184337": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    158,
+    137,
+    126
+   ]
+  },
+  "gis:11186004": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    180,
+    125,
+    108
+   ]
+  },
+  "gis:11186387": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    82,
+    76,
+    93
+   ]
+  },
+  "gis:11188732": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    102,
+    87,
+    90
+   ]
+  },
+  "gis:11188733": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    97,
+    82,
+    84
+   ]
+  },
+  "gis:11188734": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    89,
+    77,
+    78
+   ]
+  },
+  "gis:11191960": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    219,
+    204,
+    188
+   ]
+  },
+  "gis:11195128": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    102,
+    52,
+    52
+   ]
+  },
+  "gis:11196176": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    126,
+    148,
+    143
+   ]
+  },
+  "gis:11202735": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    93,
+    60,
+    60
+   ]
+  },
+  "gis:11203590": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    152,
+    166,
+    178
+   ]
+  },
+  "gis:11207429": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    150,
+    151,
+    154
+   ]
+  },
+  "gis:11207635": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    96,
+    90,
+    91
+   ]
+  },
+  "gis:11207846": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    130,
+    146,
+    161
+   ]
+  },
+  "gis:11208492": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    11,
+    11,
+    7
+   ]
+  },
+  "gis:11208869": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    46,
+    39,
+    40
+   ]
+  },
+  "gis:11215631": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    143,
+    158,
+    177
+   ]
+  },
+  "gis:11216917": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    133,
+    130,
+    124
+   ]
+  },
+  "gis:11217285": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    149,
+    148,
+    141
+   ]
+  },
+  "gis:11217728": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    147,
+    144,
+    142
+   ]
+  }
+ }
+}
