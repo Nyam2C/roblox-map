@@ -3,7 +3,7 @@
  "made": "2026-10-17 U8: 가장 가까운 만든 칸 8930e0ac613ffff에서 역 칸까지의 H3 길목 + 역 칸의 두 바퀴 + 이웃 4개 이상인 빈틈, 지도 가장자리에서 가까운 순 그다음 역에 가까운 순 (u8-auto-expand-plan.md 6절)",
  "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 고치기 2번에도 실패면 held(2026-10-19, 전에는 3번)",
  "fps_every": 3,
- "since_fps": 5,
+ "since_fps": 6,
  "baseline": null,
  "stale": [
   "8930e0ac61bffff",
@@ -132,9 +132,9 @@
   },
   {
    "cell": "8930e0ac643ffff",
-   "state": "verified",
+   "state": "done",
    "rounds": 2,
-   "note": "2026-10-20 verified: cell-fix 2(b7c89d9, 아파트 현관 캐노피 #acn을 overhang()으로 차도 앞에서 멈춤, 테스트 879, G5 46→46) 뒤 G1·G1 Studio·G2·trace PASS, summary PASS. 메인 허용 15(횡단보도 4, studio 투영 1, G2 칸 밖·고층 원근 10). FPS 건너뜀(무인)"
+   "note": "2026-10-20 done(2a6ec62): summary PASS, 약 $23. 허용 15(횡단보도 4는 64f·653·647 만든 뒤 확인). FPS 건너뜀(무인). 이웃 옛 칸 경계 턱 가능(다시 안 만듦)"
   },
   {
    "cell": "8930e0ac653ffff",
