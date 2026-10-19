@@ -11,8 +11,6 @@
   "8930e0ac45bffff",
   "8930e0ac4cbffff",
   "8930e0ac4dbffff",
-  "8930e0ac613ffff",
-  "8930e0ac617ffff",
   "8930e0ac683ffff",
   "8930e0ac687ffff",
   "8930e0ac68bffff",
@@ -20,14 +18,10 @@
   "8930e0ac693ffff",
   "8930e0ac697ffff",
   "8930e0ac69bffff",
-  "8930e0ac6a3ffff",
-  "8930e0ac6a7ffff",
-  "8930e0ac6abffff",
   "8930e0ac6b3ffff",
   "8930e0ac6bbffff",
   "8930e0ae24bffff",
   "8930e0ae24fffff",
-  "8930e0af027ffff",
   "8930e0af0a7ffff",
   "8930e0af0afffff",
   "8930e0af103ffff",
@@ -77,15 +71,15 @@
   "8930e0af1c3ffff",
   "8930e0af1d7ffff",
   "8930e0af10bffff",
-  "8930e0af16bffff",
-  "8930e0af17bffff",
   "8930e0af56fffff",
   "8930e0af113ffff",
   "8930e0af147ffff",
-  "8930e0af153ffff",
   "8930e0af157ffff",
   "8930e0af173ffff",
-  "8930e0af567ffff"
+  "8930e0af567ffff",
+  "8930e0ac6d7ffff",
+  "8930e0af10fffff",
+  "8930e0af56bffff"
  ],
  "cells": [
   {
@@ -114,9 +108,9 @@
   },
   {
    "cell": "8930e0ac657ffff",
-   "state": "built",
-   "rounds": 1,
-   "note": "준비 2026-10-19: 1급, 건물 207, 파노라마 296, 펼친 정면 188(사진 없음 19), 판단 목록 3(200, pending 7 남음), 트레이싱 목록 19, 큰길 부흥로 lanes=2 태그 있음, 고도 바뀐 칸 17b·16b·153·027·613·617·6a3·6a7·6ab(+61b·6c7·6d3·6d7은 사용자 지시로 손대지 않음), Studio 미연결(08d05ec) | 판단·트레이싱 2026-10-19: 판단 207(묶음 4), 대상 틀림·건물 없음 9동은 규칙판, 공사 가림막 3동은 위성에 지붕이 있어 빈 땅 처리 안 함, 확신 high 불일치 중 2동 대장값 override; 트레이싱 펼친 188 중 통과 40·약함 47·못 씀 98·빈 땅 3, 벽 색 37(b30f784) | 시설 2026-10-19: 6곳(심곡천 pxpark simgokcheon_657, 원미초 본관·체육관, 15층 2동, 12층 판상) data/auto/8930e0ac657ffff/facilities-spec.json; 부흥로 2 way 위성 일방 2차로 = 태그, road_lanes_by_way 없음 | 생성 1(2026-10-19): 시설 6 합침(84afe36), 부품 9948, 이웃 9칸 build_luau만, G1 계산 FAIL(차도 위 건물 gis:11176969 9.37 m²·횡단보도 길 밖 5·경계 폭 way:222139451 3.45/4.49 m 61b 쪽) → Studio 전 멈춤 → cell-fix 1 | cell-fix 1(2026-10-19): 고친 것 없음, 원인 = 안 만든 이웃 소유 길 위 횡단보도 5·61b 옛 폭(경계 폭·건물 걸림) → 메인 허용 7(이유 audit), g1 PASS | 생성 2(2026-10-19): 657+이웃 9칸 Studio(61b·6c7·6d3·6d7 제외), 부품 9254, Union 키트 427(실패 0), 시설 6, 최대 덩어리 7.8 ms, pack; G1 Studio FAIL 3(hanariabel_15f 0.56·gis:11186216 0.53·gis:11173896 0.31 m²), trace PASS(40, 약함 2), G2 조각 9"
+   "state": "verified",
+   "rounds": 2,
+   "note": "준비 2026-10-19: 1급, 건물 207, 파노라마 296, 펼친 정면 188(사진 없음 19), 판단 목록 3(200, pending 7 남음), 트레이싱 목록 19, 큰길 부흥로 lanes=2 태그 있음, 고도 바뀐 칸 17b·16b·153·027·613·617·6a3·6a7·6ab(+61b·6c7·6d3·6d7은 사용자 지시로 손대지 않음), Studio 미연결(08d05ec) | 판단·트레이싱 2026-10-19: 판단 207(묶음 4), 대상 틀림·건물 없음 9동은 규칙판, 공사 가림막 3동은 위성에 지붕이 있어 빈 땅 처리 안 함, 확신 high 불일치 중 2동 대장값 override; 트레이싱 펼친 188 중 통과 40·약함 47·못 씀 98·빈 땅 3, 벽 색 37(b30f784) | 시설 2026-10-19: 6곳(심곡천 pxpark simgokcheon_657, 원미초 본관·체육관, 15층 2동, 12층 판상) data/auto/8930e0ac657ffff/facilities-spec.json; 부흥로 2 way 위성 일방 2차로 = 태그, road_lanes_by_way 없음 | 생성 1(2026-10-19): 시설 6 합침(84afe36), 부품 9948, 이웃 9칸 build_luau만, G1 계산 FAIL(차도 위 건물 gis:11176969 9.37 m²·횡단보도 길 밖 5·경계 폭 way:222139451 3.45/4.49 m 61b 쪽) → Studio 전 멈춤 → cell-fix 1 | cell-fix 1(2026-10-19): 고친 것 없음, 원인 = 안 만든 이웃 소유 길 위 횡단보도 5·61b 옛 폭(경계 폭·건물 걸림) → 메인 허용 7(이유 audit), g1 PASS | 생성 2(2026-10-19): 657+이웃 9칸 Studio(61b·6c7·6d3·6d7 제외), 부품 9254, Union 키트 427(실패 0), 시설 6, 최대 덩어리 7.8 ms, pack; G1 Studio FAIL 3(hanariabel_15f 0.56·gis:11186216 0.53·gis:11173896 0.31 m²), trace PASS(40, 약함 2), G2 조각 9 | cell-fix 2(230d8c9): 1층 층 띠가 차도까지 거리만큼만 나옴(규칙 layout_details Body.box_clear, 테스트 875), 시설 road_clear_m(hanariabel_15f 1.0 m), 657·613·617·6ab 다시 지음, G5 g1 49→45 | 검증 2026-10-19: G1 PASS(허용 7), Studio PASS(최대 0.26 m²), G2 PASS(minor 5), trace PASS(40, 약함 2) → summary PASS; 방금 지은 10칸은 stale에서 뺌, 새 stale 추가"
   },
   {
    "cell": "8930e0ac6c3ffff",
