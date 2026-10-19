@@ -1197,6 +1197,24 @@ def test_a_shop_podium_apartment_starts_its_face_on_a_stone_podium_with_shops_an
     assert R.podium("apartment", 13, detail, "tower on a podium with shops") == 2 and R.podium("apartment", 13, detail, "shops") == 1
 
 
+def test_podium_eyebrow_stops_at_the_carriageway():
+    """6cb (U8 G1 Studio, 2026-10-20): a shop podium's eyebrow (0.6 m past a 0.3 m skin) hung 1.3 m² over the road beside it.
+    It reaches no farther than the box's clearance and is left off where under a thin lip is free."""
+    row, est, _ = apartment(floors=13)
+    est = {**est, "note": "apartment slab about 10 floors over a 3-storey shopping podium, shops ground floor"}
+    detail = {"finish": "panel", "ground_use": "shop", "stair": "none", "bay": 0, "balcony": 1, "roof_color": "dark", "rooftop": "none"}
+    body, eff = resolve(row, est, detail, features=[street()])
+    assert body.podium and body.box_clear
+    for gap in (0.0, 0.5, 5.0):
+        b = dataclasses.replace(body, box_clear=(gap,) * len(body.boxes))
+        pe = [it for it in all_items(b, row, eff)[0] if tail(it).startswith("pe0")]
+        reach = gap - D["skin_out"]
+        if reach < D["band_lip"]:
+            assert not pe
+        else:
+            assert pe and all(_out(b, it, tail(it)[3]) == pytest.approx(D["skin_out"] + min(D["eyebrow_d"], reach), abs=0.06) for it in pe)
+
+
 def test_an_open_canopy_over_pumps_or_chargers_is_columns_and_a_roof():
     assert LD.canopy_kind({}, "gas station canopy over pumps, white and teal") == "fuel"
     assert LD.canopy_kind({}, "EV charging canopy, white columns and flat roof over chargers") == "ev"

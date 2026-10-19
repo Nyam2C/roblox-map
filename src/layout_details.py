@@ -810,6 +810,7 @@ def podium_items(body: Body, bi: int, frame: Frame, seq: int) -> list[Item]:
     stone = dict(material="Sandstone", color=R.PALETTE["podium_stone"], color_name="podium_stone")
     items.append(_box_part(frame, body, bi, "facade", f"pd{bi}", seq, 0.0, 0.0, 0.0, (box.width_m + 2 * so, n * fh + 0.3, box.depth_m + 2 * so), **stone))
     occluded = body.occluded[bi] if bi < len(body.occluded) else frozenset()
+    clear = body.box_clear[bi] if bi < len(body.box_clear) else math.inf
     glass = dict(material="SmoothPlastic", color=R.PALETTE["glass_com"], color_name="glass_com", reflectance=D["reflect_win"])
     for side in SIDES:
         L = face_of(box, side).length
@@ -821,8 +822,11 @@ def podium_items(body: Body, bi: int, frame: Frame, seq: int) -> list[Item]:
             items.append(_wall_part(frame, body, bi, side, "facade", f"pf{bi}{side}{u}", seq + len(items), (a0 + a1) / 2, D["front_y"], so + D["win_out"],
                                     (a1 - a0, fh - D["front_drop"], D["front_t"]), material=look[0], color=R.PALETTE[look[1]],
                                     color_name=look[1], reflectance=look[2]))
-        items.append(_wall_part(frame, body, bi, side, "facade", f"pe{bi}{side}", seq + len(items), 0.0, fh - D["eyebrow_drop"], so + D["eyebrow_d"],
-                                (L - 2 * D["span_margin"], D["eyebrow_h"], D["eyebrow_d"]), material="Metal", color=R.PALETTE["eyebrow"], color_name="eyebrow"))
+        # not over a carriageway the wall stands at (6cb, 2026-10-20: 1.3 m² over the road), as the canopies and the ground-floor band
+        ed = min(D["eyebrow_d"], clear - so)
+        if ed >= D["band_lip"]:
+            items.append(_wall_part(frame, body, bi, side, "facade", f"pe{bi}{side}", seq + len(items), 0.0, fh - D["eyebrow_drop"], so + ed,
+                                    (L - 2 * D["span_margin"], D["eyebrow_h"], ed), material="Metal", color=R.PALETTE["eyebrow"], color_name="eyebrow"))
         for k in range(1, n):
             items.append(_wall_part(frame, body, bi, side, "facade", f"pg{bi}{side}{k}", seq + len(items), 0.0, k * fh + D["ribbon_sill"], so + D["win_out"],
                                     (L - D["ribbon_inset"], min(D["ribbon_h"], 0.5 * fh), D["win_t"]), **glass))
