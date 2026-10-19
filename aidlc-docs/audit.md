@@ -2541,3 +2541,16 @@ u5 진행해 그냥 진짜 눈감고 뜨면 내가 심원고 근처에 있는거
 **Context**: U8 기록
 
 ---
+
+## 2026-10-19 U8 칸 8930e0ac6c3ffff 대표 시설 (cell-facility, 사용자 부재, 묻지 않음)
+**Timestamp**: 2026-10-19T12:40:00Z
+**User Request**: (메인 지시) 6c3 대표 시설 4~5곳, 혼합 방식 우선순위(공원·광장, 큰 시설, 고층), 웹 사진은 보기만, 시설 동이 차도에 닿지 않게, gone_buildings gis:11184255·gis:17713323 쓰지 않음, 이웃 칸 시설 건드리지 않음.
+**AI Response**: 스펙 `data/auto/8930e0ac6c3ffff/facilities-spec.json`(5곳), 레이아웃 3개는 같은 폴더(git 제외)에 있어 `regions/bucheon-dodang/`로 옮겨야 함(스펙 경로는 이미 그쪽). 메모리 안에서 `facilities.build`로 돌려 봄(파일 안 씀): 431·20·26·921·95 부품.
+1. **심곡천 이 칸 구간**(`simgokcheon_6c3`, pxpark `simgokcheon_6c3.json`): 부흥로 두 일방 차로 사이 복원 하천(657 `simgokcheon_657`의 상류). OSM 중심선 기준, 길마다 모델 폭 절반 + 1.8 m(차로 + 인도)와 건물 0.6 m를 비켜 잔디·돌 둑(Slate)·물(약 6 m)·산책로(way:1104447598)·변영로교 나무 다리판(way:783242911, 0.6 m 높임).
+2. **심곡천 시작 광장**(`simgok_head_6c3`, pxpark, OSM leisure=park way:815847414, 이름 없음): 하천이 시작하는 회색 포장 광장(위성 곡선 무늬). 준비 에이전트 후보 "way:815847414 공원".
+3. **봄비공원**(`bombi_park_6c3`, pxpark, OSM 이름 "보리수 공원" way:468647324, 시 이름 봄비공원): 수관 아래 잔디 + 둥근 놀이터(위성). 1층 정자 gis:11197537은 Auto. 화장실 gis:11184255는 gone_buildings라 짓지 않음(웹 사진에는 작은 나무 마감 화장실과 공원 이름 돌망태 벽이 보이나 넣지 않음).
+4. **기둥교회 + 부흥관**(`gidung_church_6c3`, gis:11200256 + gis:11200136, 겹친 기록 gis:18558915(97%)·gis:17013311(99%) claims, 정면 S = 부흥로 쪽, road_clear_m 1.0): 대장 종교시설 5층·1,632 m², 부속 4층. 크림 석재(Limestone), 1층 어두운 유리와 거친 돌 기둥, 가운데 높은 아치창 셋, 박공 원창, 동쪽 끝 둥근 스테인드글라스, 지붕 위 흰 탑과 짙은 회색 첨탑(cross), 이름 띠 "기둥교회"(교회 자체 이름). 11200256 외곽선에는 북동쪽 옥상정원 동이 붙어 있어 `split` side NE로 따로(수직 캡처에서 고른 상자 확인 필요). 부흥관은 회색 판(Limestone, Granite 안 씀)·넓은 창·유리 계단 띠.
+5. **엘리하임 13층**(`ellieheim_13f_6c3`, gis:11172401, 같은 기록 gis:16186007 claims, road_clear_m 1.0): 칸에서 가장 높은 동(13층·40.9 m), 사진마다 위가 잘려 트레이싱 없음. 적갈색 돌 2층 기단(Sandstone) + 2층 파란 유리 띠 + 크림 탑, 가운데 파란 유리 계단 띠, 양 끝 회갈색 기둥 띠. 외곽선이 44.7°라 `front`가 N·E에서 갈려 비워 둠(생성기의 큰길 면 = 부흥로 쪽이 맞음). 간판 없음(주거). 지붕 색은 위성 밝은 회색(옥상 구조물 색과 구분).
+뺀 것: 대성병원 신관(OSM amenity=hospital 영역이 이 칸 안에 V-World 건물 기록이 없고 실제 건물은 남쪽 6cf에 OSM building=hospital로 있음; 구관·본관은 6c7 `hospital_7f_6c7`로 이미 있음, 건드리지 않음). 역·출구·백화점·학교·15층 이상 없음.
+웹 사진(보기만, 스크래치에서 보고 지움) 출처: https://m.search.naver.com/search.naver?where=m_blog&query=부천+기둥교회 (장소 썸네일: 첨탑 있는 크림색 교회), https://m.search.naver.com/search.naver?where=m_image&query=부천+기둥교회+외관 (대부분 같은 이름의 동네 사진, 쓸 것 없음), https://m.search.naver.com/search.naver?where=m_blog&query=부천+심곡천+변영로교 (변영로교가 제1인도교, 봄비공원 위치), https://m.blog.naver.com/goldapple684/223555873246 (봄비공원 돌망태 이름 벽과 시비, 둑의 꽃·생울타리·갈대, 시작점 폭포 벽 조명). 엘리하임은 웹 사진 없음(주거, 거리뷰로).
+**Context**: U8 자동 확장, 0b-4·7b(cell-facility)
