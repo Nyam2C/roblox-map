@@ -132,9 +132,9 @@
   },
   {
    "cell": "8930e0ac643ffff",
-   "state": "specced",
+   "state": "built",
    "rounds": 1,
-   "note": "2026-10-20 G1 계산 실패 crosswalks_off_road 4 → cell-fix 1: 규칙 문제 아님(길 조각이 안 만든 64f·653·647 소유), 메인이 허용 4 추가 → G1 계산 PASS. 다음 cell-build"
+   "note": "2026-10-20 built 42aa0c4: 부품 13785, 키트 279 실패 0, skipped_manual 452, 최대 덩어리 5.3 ms. G1 PASS(허용 4), G1 Studio FAIL on_road 2(gis:11201173#acn 0.97, gis:11183802#b1 0.54), trace PASS, G2 FAIL major 10. FPS 건너뜀(무인). 다음 cell-fix 2"
   },
   {
    "cell": "8930e0ac653ffff",
