@@ -356,6 +356,23 @@
    "reason": "landmarks: hospital:대성병원 구관",
    "tier": 1
   },
+  "8930e0ac6cfffff": {
+   "counts": {
+    "landmarks": [
+     "hospital:대성병원 신관"
+    ],
+    "pois": 16,
+    "share": {
+     "commercial": 0.006,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: hospital:대성병원 신관",
+   "tier": 1
+  },
   "8930e0ac6d3ffff": {
    "counts": {
     "landmarks": [
