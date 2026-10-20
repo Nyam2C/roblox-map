@@ -3,7 +3,7 @@
  "made": "2026-10-17 U8: 가장 가까운 만든 칸 8930e0ac613ffff에서 역 칸까지의 H3 길목 + 역 칸의 두 바퀴 + 이웃 4개 이상인 빈틈, 지도 가장자리에서 가까운 순 그다음 역에 가까운 순 (u8-auto-expand-plan.md 6절)",
  "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 고치기 2번에도 실패면 held(2026-10-19, 전에는 3번)",
  "fps_every": 3,
- "since_fps": 12,
+ "since_fps": 13,
  "baseline": null,
  "stale": [
   "8930e0ac61bffff",
@@ -185,9 +185,9 @@
   },
   {
    "cell": "8930e0af327ffff",
-   "state": "specced",
+   "state": "done",
    "rounds": 0,
-   "note": "준비 2026-10-20(에이전트 하나): 1급(자동, 중앙시장 marketplace), 건물 175(대장 175, 중복 25), 거리뷰 cell done 새 파노라마 241, 판단 목록 3(59·59·57), 펼친 정면 147(트레이싱 목록 15), 운동장 0, 나무 20, 부천역 출구 이 칸 소유 0(3·4·2번 32f, 5번 65b, 1번 597), 고도 바뀐 이미 만든 칸 653·6cb·337·65b·323은 다시 안 지음(경계 턱 가능) | 판단·트레이싱 2026-10-20(에이전트 하나, 눈가림): 판단 175(묶음 175장 직접 보고 파이프 줄로 적은 뒤 기록, 판단을 다 쓴 뒤에만 대장 확인), floors null 22(공사 가림막·탑 위층 잘림·조각), high 불일치 10 중 다시 본 8동 대장값 override(사진이 반지하·간판 띠·잘린 꼭대기를 셈); 트레이싱 펼친 정면 147장 전부 봄: 답 18·통과 13·약함 5·못 씀 124·빈 땅 5(공사장 3·가림막·고물상), 벽 색 13 | 시설 2026-10-20: 5곳(센텀시티 centum_city_327 기단+탑 2, 잼존프라자 jamzone_plaza_327, 청담 더 마크 the_mark_327, 태강캐슬 taegang_castle_327 기단+탑 1, 시네마존 cinemazone_327) data/auto/8930e0af327ffff/facilities-spec.json, facilities.json 합침(facilities.py 부품 253·354·221·837·32), 중앙시장은 골목 상가라 뺌, 지붕 hand 12"
+   "note": "준비 2026-10-20(에이전트 하나): 1급(자동, 중앙시장 marketplace), 건물 175(대장 175, 중복 25), 거리뷰 cell done 새 파노라마 241, 판단 목록 3(59·59·57), 펼친 정면 147(트레이싱 목록 15), 운동장 0, 나무 20, 부천역 출구 이 칸 소유 0(3·4·2번 32f, 5번 65b, 1번 597), 고도 바뀐 이미 만든 칸 653·6cb·337·65b·323은 다시 안 지음(경계 턱 가능) | 판단·트레이싱 2026-10-20(에이전트 하나, 눈가림): 판단 175(묶음 175장 직접 보고 파이프 줄로 적은 뒤 기록, 판단을 다 쓴 뒤에만 대장 확인), floors null 22(공사 가림막·탑 위층 잘림·조각), high 불일치 10 중 다시 본 8동 대장값 override(사진이 반지하·간판 띠·잘린 꼭대기를 셈); 트레이싱 펼친 정면 147장 전부 봄: 답 18·통과 13·약함 5·못 씀 124·빈 땅 5(공사장 3·가림막·고물상), 벽 색 13 | 시설 2026-10-20: 5곳(센텀시티 centum_city_327 기단+탑 2, 잼존프라자 jamzone_plaza_327, 청담 더 마크 the_mark_327, 태강캐슬 taegang_castle_327 기단+탑 1, 시네마존 cinemazone_327) data/auto/8930e0af327ffff/facilities-spec.json, facilities.json 합침(facilities.py 부품 253·354·221·837·32), 중앙시장은 골목 상가라 뺌, 지붕 hand 12 | 생성·검증 2026-10-20: 부일로 way:1330680829 = 6, build_luau 부품 7348·건물 144(중복 25·빈 땅 6)·traced 13·Union 키트 100, G1 계산 처음 FAIL seam(부일로469번길 4.65 vs 6.0 m, 이웃 653·6cb 옛 chunks.json) → 이웃 chunks.json만 다시 써서 PASS(허용 안 넣음, Studio 이웃은 옛 폭); Studio 키트 100(실패 0), 지음 → 시설 5 → 다시 지음 created 6475·skipped_manual 873, 최대 덩어리 7.0 ms, verify true; G1 Studio PASS(0.14 m² 1), G2 major 0·minor 6, trace PASS(13), summary PASS, 고치기 0; 미니맵 95칸(심곡동), 칸 데이터 327만+고리, pack; FPS 무인 건너뜀 | 기록 → done(lessons 3)"
   },
   {
    "cell": "8930e0ac64bffff",

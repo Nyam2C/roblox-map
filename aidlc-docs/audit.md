@@ -2770,3 +2770,9 @@ facade.json: 다섯 시설의 동과 claims 어느 것도 트레이싱 통과 �
 - 정면: 거리뷰 1순위 크롭 방향의 반대 면(센텀 S, 잼존 S, 더 마크 S, 태강 N, 시네마존 E).
 - 부천역 출구: 이 칸 OSM 수집에 2·3·4·5번과 이름 없는 입구가 같이 오지만 H3로는 3·4·2번 32f, 5번·이름 없는 입구 65b, 1번 597 소유라 이 칸 출구 0. 역사·광장·옥상 주차 데크는 이 칸에 없음(철길과 역은 남쪽 32f).
 - 지붕 hand 12(8층 이상, 위성).
+
+## 2026-10-20 U8 칸 8930e0af327ffff 전체(에이전트 하나, 자동, 사용자 부재)
+**Timestamp**: 2026-10-20T13:05:00Z
+**User Request**: (메인) "expansion.json queued 첫 칸을 처음부터 끝까지 혼자 만들어라"(다른 에이전트 못 부름), 판단 눈가림·트레이싱 전부 보기, 부천역 둘레는 H3로 소유 확인, 이미 만든 칸 다시 안 짓기, FPS 건너뜀, 묻지 않음, 허용 목록은 측정 오류일 때만
+**AI Response**: 준비(1급 자동: 중앙시장 marketplace, 건물 175, Overpass 502 재시도 뒤 수집, 거리뷰 cell done 새 파노라마 241, 고도 collect·probe) → 판단 175(묶음 175장을 직접 보고 파이프 줄로 적은 뒤 기록, 판단을 다 쓴 뒤에만 대장 확인; 메모의 술 어휘 1건 고침; high 불일치 10 중 다시 본 8동 대장값 override) → 트레이싱 펼친 정면 147장 전부 봄(답 18, 통과 13, 약함 5, 못 씀 124, 빈 땅 5: 공사 가림막·공사장·고물상) → 시설 5 → 생성·게이트. 부일로 way:1330680829 = 6(region.toml, 323 구간 이어짐, 위성 약 19 m). G1 계산 처음 FAIL seam_widths(way:222718924 부일로469번길, 이 칸 4.65 m vs 이웃 6.0 m): 이웃 653·6cb의 chunks.json이 이 칸 건물이 DB에 없던 때(323 G5)에 쓰인 것이라, 그 두 칸의 chunks.json만 build_luau로 다시 쓰자(Studio는 안 건드림) PASS. 허용 목록·gate.toml 안 바꿈. Studio의 653·6cb는 옛 폭 6.0 m라 경계에서 골목 폭이 1.35 m 달라진다(사용자 지시대로 다시 안 지음; 땅 고도도 653·6cb·337·65b·323이 0.3 stud 넘게 바뀜, 경계 턱 가능). Studio: Union 키트 100(실패 0), 칸 지음 → 시설 5(facilities-new.json) → 다시 지음(skipped_manual 873, 최대 덩어리 7.0 ms, verify true, http false), 이웃 5칸 unpack 뒤 road-clear-check 1건 0.14 m²(기준 0.3 미만) → G1 Studio PASS, trace PASS(13), G2 조각 9장 답(major 0, minor 6: 고층 원근·칸 밖·센텀시티 탑 배치), summary PASS. 미니맵 95칸(327 심곡동, OSM addr:subdistrict 72/72), install-u6, 칸 데이터 327만(94칸은 고리 속성만), pack(Auto 58138·Manual 5990 제거, strays 0). FPS 무인이라 건너뜀(since_fps 13). 323의 33b 횡단보도 허용은 이 칸이 33b가 아니라 그대로.
+**Context**: U8 자동 확장 한 칸
