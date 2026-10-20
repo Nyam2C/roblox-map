@@ -65,6 +65,7 @@ DEFAULTS: dict[str, Any] = {
     "lane_width_m": 3.25,  # an OSM lanes tag (or road_lanes_by_name) sets the width to lanes x this
     "road_lanes_by_name": {},  # region.toml: both directions; a oneway=yes carriageway gets half (satellite, 2026-10-13)
     "road_lanes_by_way": {},  # region.toml: "way:<osm id>" -> lanes for one stretch whose width differs from the rest of its name (6c7 부천로, 2026-10-17)
+    "road_width_keep": [],  # region.toml: "way:<osm id>"s that fit_road_widths leaves at full width: a built neighbour drew them so (64b, 2026-10-20)
     "road_widths_m": {
         "motorway": 14, "trunk": 14, "primary": 12, "secondary": 11, "tertiary": 10, "unclassified": 6,
         "residential": 6, "service": 4, "living_street": 5, "road": 6, "link": 6,
@@ -119,7 +120,7 @@ RANGES: dict[str, tuple[float, float, bool]] = {
 
 # U7 B: keys that belong to one region (regions/<region>/region.toml), not to config.toml
 REGION_KEYS = ("school_polygons", "spawn_lat", "spawn_lon", "spawn_yaw_deg", "road_lanes_by_name", "road_lanes_by_way", "arc_buildings",
-               "gone_buildings")
+               "gone_buildings", "road_width_keep")
 
 RETRY_CODES = {429, 502, 504}
 MASK = "<KEY>"
@@ -216,6 +217,9 @@ def check_config(cfg: Mapping[str, Any]) -> None:
     by_way = cfg["road_lanes_by_way"]
     if not (isinstance(by_way, dict) and all(isinstance(k, str) and k.startswith("way:") and _is_number(v) and 1 <= v <= 20 for k, v in by_way.items())):
         errors.append('road_lanes_by_way must map "way:<id>" to lane counts from 1 to 20')
+    keep = cfg.get("road_width_keep", [])
+    if not (isinstance(keep, list) and all(isinstance(k, str) and k.startswith("way:") for k in keep)):
+        errors.append('road_width_keep must be a list of "way:<id>"')
     if errors:
         raise ValueError("config: " + "; ".join(errors))
 

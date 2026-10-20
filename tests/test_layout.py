@@ -319,6 +319,8 @@ def test_a_road_narrows_to_stop_at_the_buildings_beside_it_but_keeps_a_floor():
     assert layout.fit_road_widths([road], [house(-1, 1)], FRAME, CFG)["way:1"] == 3.6
     assert layout.fit_road_widths([road], [house(1.0, 12)], FRAME, CFG)["way:1"] == layout.FIT_MIN_M
     assert layout.fit_road_widths([road], [house(4, 12)], FRAME, CFG) == {}
+    # a way a built neighbour drew at full width is not fitted (64b 2026-10-20)
+    assert layout.fit_road_widths([road], [house(2.2, 12)], FRAME, {**CFG, "road_width_keep": ["way:1"]}) == {}
 
 
 def test_a_driveway_loses_the_part_inside_a_building():

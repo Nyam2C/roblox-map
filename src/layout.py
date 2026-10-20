@@ -379,9 +379,14 @@ def fit_road_widths(roads: Sequence[Mapping[str, Any]], buildings: Sequence[Mapp
     polys = building_polys(buildings, frame)
     tree = STRtree(polys)
     out: dict[str, float] = {}
+    # a road an already built cell drew at full width keeps it, so a new cell's houses step back from the road in Studio
+    # instead of narrowing it on paper (64b 2026-10-20: 65b built 부천로10번길 at 4 m, new 64b houses fitted it to 2.9 m)
+    keep = set(cfg.get("road_width_keep") or ())
     for f in roads:
         tags = f.get("tags") or {}
         if f.get("kind") != "road" or tags.get("bridge") in ("yes", "viaduct") or tags.get("tunnel"):
+            continue
+        if str(f.get("feature_id")).split("#")[0] in keep:
             continue
         pts = [to_meters(frame, p[0], p[1]) for p in f["geometry"] if _finite(p[0], p[1])]
         if len(pts) < 2:
