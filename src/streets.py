@@ -345,9 +345,13 @@ def street_items(streets: Sequence[Street], jcts: Sequence[Junction], frame: Fra
             u = ((q[0] - p[0]) / length, (q[1] - p[1]) / length)
             sign = 1.0 if side == "L" else -1.0
             whole = (s0 == 0.0 and s1 == length)
-            ext = sw if whole else 0.0
-            sidewalks.append(_segment_part(frame, "sidewalk", f"{fid}#{i}{side}.{k}", fid, 2 * i + (side == "R"), p, u, (s0 + s1) / 2,
-                                           sign * (w / 2 + sw / 2), top_side / 2, (s1 - s0 + ext, top_side, sw), y_studs=True))
+            # a whole piece reaches half a sidewalk past each end to close the corner, but not onto another road's carriageway
+            # (323, 2026-10-20: the end of a spike in 부천로1번길 poked 0.5 m² into the alleys meeting at its tip)
+            band = (sign * (w / 2 + 0.05), sign * (w / 2 + sw))
+            e0 = sw / 2 if whole and _clear_spans(p, u, -sw / 2, 0.0, *band, blocked) == [(-sw / 2, 0.0)] else 0.0
+            e1 = sw / 2 if whole and _clear_spans(p, u, length, length + sw / 2, *band, blocked) == [(length, length + sw / 2)] else 0.0
+            sidewalks.append(_segment_part(frame, "sidewalk", f"{fid}#{i}{side}.{k}", fid, 2 * i + (side == "R"), p, u, (s0 - e0 + s1 + e1) / 2,
+                                           sign * (w / 2 + sw / 2), top_side / 2, (s1 - s0 + e0 + e1, top_side, sw), y_studs=True))
             props.append(_segment_part(frame, "prop", f"{fid}#{i}#curb{side}{k}", fid, 10 * i + k, p, u, (s0 + s1) / 2, sign * (w / 2 + D["curb_in"]),
                                        D["curb_h_studs"] / 2, (s1 - s0, D["curb_h_studs"], D["curb_w"]), y_studs=True, material="Granite",
                                        color=R.PALETTE["curb"], color_name="curb"))

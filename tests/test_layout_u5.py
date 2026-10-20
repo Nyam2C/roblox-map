@@ -1253,6 +1253,28 @@ def test_a_neighbours_wide_road_this_cell_does_not_hold_still_keeps_sidewalks_an
     assert len(sw1) > 0  # the south side keeps its sidewalk
 
 
+def test_a_whole_sidewalk_does_not_reach_past_its_end_onto_another_road():
+    """323 (2026-10-20): a whole piece reaches half a sidewalk past each end; at the tip of a spike that end lay on the alleys there."""
+    own = [street("way:11", "residential", length=40.0)]
+    lines = ST.streets_of(own, FRAME, CELL, RES, CFG)
+    w, sw = lines[0].width, float(CFG["sidewalk_width_m"])
+    dy = w / 2 + sw / 2
+    other = {"feature_id": "way:99", "kind": "road", "highway_class": "residential", "tags": {},
+             "geometry": [list(offset(CENTER, 20.3, dy)), list(offset(CENTER, 60.0, dy))]}  # starts 0.3 m past the east end, on the north sidewalk
+    region = ST.carriageways(ST.streets_of([other], FRAME, CELL, RES, CFG))
+    jcts = ST.junctions(lines, FRAME, CELL, RES, CFG)
+    sidewalks, _ = ST.street_items(lines, jcts, FRAME, CFG, region_ways=region)
+    s = FRAME.studs_per_m
+    def ends(side):  # east-west road: the piece runs along x
+        (i,) = [i for i in sidewalks if f"{side}." in i.name]
+        return (i.cx - i.sx / 2) / s, (i.cx + i.sx / 2) / s
+    x0, x1 = lines[0].pts[0][0], lines[0].pts[-1][0]
+    west, east = ends("L")  # north side: the east end stops at the road's end, the west end still closes the corner
+    assert east == pytest.approx(x1, abs=0.01) and west == pytest.approx(x0 - sw / 2, abs=0.01)
+    west, east = ends("R")  # the clear south side keeps both ends
+    assert west == pytest.approx(x0 - sw / 2, abs=0.01) and east == pytest.approx(x1 + sw / 2, abs=0.01)
+
+
 def test_a_box_on_a_road_strip_is_trimmed_back_off_it():
     """2026-10-16 (45b, 687): simplified boxes of irregular outlines stood on the carriageway."""
     from shapely.geometry import LineString
