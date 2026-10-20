@@ -27645,6 +27645,573 @@
     "captures/8930e0af333ffff/sheets/gis_11185555.jpg"
    ],
    "seen": "Satellite: canopy edges, light-blue basin, pavilion, round sand playground. Street view: rock wall, hedges, stairs under a green arched canopy."
+  },
+  {
+   "key": "bcu_mongdang_hall_337",
+   "cell": "8930e0af337ffff",
+   "building_ids": [
+    "gis:11179993"
+   ],
+   "build": [
+    "gis:11179993"
+   ],
+   "claims": [],
+   "front": "E",
+   "road_clear_m": 1.0,
+   "floors": 6,
+   "height_m": 24.0,
+   "wall": {
+    "material": "Granite",
+    "rgb": [
+     196,
+     194,
+     188
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Glass",
+    "rgb": [
+     58,
+     66,
+     72
+    ]
+   },
+   "windows": {
+    "type": "curtain",
+    "w_m": 3.0,
+    "h_m": 3.2,
+    "pitch_m": 4.2,
+    "glass_rgb": [
+     92,
+     128,
+     156
+    ],
+    "frame_rgb": [
+     190,
+     190,
+     186
+    ]
+   },
+   "bands": {
+    "rgb": [
+     186,
+     184,
+     178
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fins",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 50.0,
+     "from_floor": 1,
+     "to_floor": 5,
+     "rgb": [
+      200,
+      198,
+      192
+     ],
+     "pitch_m": 4.2
+    },
+    {
+     "kind": "fins",
+     "face": "back",
+     "at": 0.0,
+     "width_m": 50.0,
+     "from_floor": 1,
+     "to_floor": 5,
+     "rgb": [
+      200,
+      198,
+      192
+     ],
+     "pitch_m": 4.2
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     170,
+     170,
+     166
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     196,
+     194,
+     188
+    ],
+    "top_rgb": [
+     176,
+     178,
+     176
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "College hall (OSM building=university, name in register; 6 floors, 3366 m2, the largest footprint of the cell). Granite piers between tall blue-grey glass bays on the upper floors, a darker glazed ground floor behind hedges. Height 24 m from 6 floors of about 4 m. Front E: the street-view crops that show it best face west. Satellite roof light grey.",
+   "sources": [
+    "captures/8930e0af337ffff/sheets/gis_11179993.jpg",
+    "data/satellite/8930e0af337ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천대학교+몽당기념관 (no clear exterior photo)"
+   ],
+   "seen": "Street view: grey granite piers and blue glass bays, low dark glass ground floor and hedge. Web: no clear exterior photo found."
+  },
+  {
+   "key": "bohun_hall_337",
+   "cell": "8930e0af337ffff",
+   "building_ids": [
+    "gis:11183648",
+    "gis:16224390"
+   ],
+   "build": [
+    "gis:11183648"
+   ],
+   "claims": [
+    "gis:16224390"
+   ],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 6,
+   "height_m": 22.1,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     184,
+     150,
+     112
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Granite",
+    "rgb": [
+     150,
+     150,
+     146
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.5,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     92,
+     108
+    ],
+    "frame_rgb": [
+     210,
+     210,
+     206
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 2.4,
+     "from_floor": 0,
+     "to_floor": 5,
+     "rgb": [
+      96,
+      140,
+      160
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     70,
+     150,
+     140
+    ],
+    "steps": true
+   },
+   "sign": {
+    "text": "부천시 보훈회관",
+    "face": "street",
+    "floor": 0,
+    "bg_rgb": [
+     150,
+     150,
+     146
+    ],
+    "ink_rgb": [
+     40,
+     42,
+     46
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     184,
+     150,
+     112
+    ],
+    "top_rgb": [
+     160,
+     160,
+     156
+    ],
+    "features": [
+     "stair_box",
+     "tank"
+    ],
+    "crown": null
+   },
+   "notes": "Public veterans hall (register 10000, 6 floors, 22.1 m); gis:16224390 is the duplicate outline (claimed). Tan brick walls over a grey stone ground floor, a glass stair strip, small side balconies, a teal canopy over the drive, an antenna frame on the roof. Front W: the best crops face east.",
+   "sources": [
+    "captures/8930e0af337ffff/sheets/gis_11183648.jpg",
+    "captures/8930e0af337ffff/sheets/gis_16224390.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천시보훈회관 (results were other cities' halls)"
+   ],
+   "seen": "Street view: tan brick six-floor block, grey stone base with glass doors, teal canopy. Web: no photo of this building."
+  },
+  {
+   "key": "simgok_fire_337",
+   "cell": "8930e0af337ffff",
+   "building_ids": [
+    "gis:11176992",
+    "gis:14955860"
+   ],
+   "build": [
+    "gis:11176992"
+   ],
+   "claims": [
+    "gis:14955860"
+   ],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 3,
+   "height_m": 11.0,
+   "wall": {
+    "material": "CeramicTiles",
+    "rgb": [
+     190,
+     190,
+     186
+    ]
+   },
+   "base": null,
+   "windows": {
+    "type": "grid",
+    "w_m": 1.8,
+    "h_m": 1.4,
+    "pitch_m": 3.0,
+    "glass_rgb": [
+     70,
+     90,
+     104
+    ],
+    "frame_rgb": [
+     200,
+     200,
+     196
+    ]
+   },
+   "bands": {
+    "rgb": [
+     170,
+     170,
+     166
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 9.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "material": "Metal",
+     "rgb": [
+      190,
+      40,
+      36
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.35,
+    "width_m": 2.5,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": {
+    "text": "심곡소방파출소",
+    "face": "street",
+    "floor": 1,
+    "bg_rgb": [
+     190,
+     190,
+     186
+    ],
+    "ink_rgb": [
+     180,
+     36,
+     32
+    ]
+   },
+   "roof": {
+    "parapet_rgb": [
+     190,
+     190,
+     186
+    ],
+    "top_rgb": [
+     150,
+     156,
+     160
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Fire substation (register 03000; V-World and OSM outlines, gis:14955860 claimed). Grey tile walls, tall vehicle bays with red shutters and red frames on the ground floor (the red panel), two rows of windows above, a small guard booth at the gate. Front N per the best crops (camera facing south).",
+   "sources": [
+    "captures/8930e0af337ffff/sheets/gis_11176992.jpg",
+    "captures/8930e0af337ffff/sheets/gis_14955860.jpg"
+   ],
+   "seen": "Street view: grey tiled three-floor station, red vehicle bay shutters. Web: not searched further (small public building)."
+  },
+  {
+   "key": "eden_eterno_14f_337",
+   "cell": "8930e0af337ffff",
+   "building_ids": [
+    "gis:15456001"
+   ],
+   "build": [
+    "gis:15456001"
+   ],
+   "claims": [],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 14,
+   "height_m": null,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     226,
+     222
+    ]
+   },
+   "base": {
+    "floors": 4,
+    "material": "Slate",
+    "rgb": [
+     62,
+     64,
+     68
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     72,
+     92,
+     104
+    ],
+    "frame_rgb": [
+     220,
+     220,
+     216
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.2,
+     "width_m": 2.4,
+     "from_floor": 4,
+     "to_floor": 13,
+     "rgb": [
+      96,
+      140,
+      160
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": -0.3,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     214,
+     120,
+     50
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     226,
+     222
+    ],
+    "top_rgb": [
+     176,
+     176,
+     172
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Tallest block of the cell (register 14 floors, apartment, no height). White upper floors over a four-floor dark granite podium with shops and orange awnings. Front W: the best crops face east. Name not written (brand).",
+   "sources": [
+    "captures/8930e0af337ffff/sheets/gis_15456001.jpg",
+    "data/satellite/8930e0af337ffff-z19.jpg"
+   ],
+   "seen": "Street view: dark granite podium with shops and orange awnings, white tower above."
+  },
+  {
+   "key": "gl_brick_5f_337",
+   "cell": "8930e0af337ffff",
+   "building_ids": [
+    "gis:11195499",
+    "gis:18540259"
+   ],
+   "build": [
+    "gis:11195499"
+   ],
+   "claims": [
+    "gis:18540259"
+   ],
+   "front": "E",
+   "road_clear_m": 1.0,
+   "floors": 5,
+   "height_m": 24.1,
+   "wall": {
+    "material": "Brick",
+    "rgb": [
+     150,
+     84,
+     66
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Glass",
+    "rgb": [
+     50,
+     58,
+     62
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 2.0,
+    "h_m": 2.0,
+    "pitch_m": 4.5,
+    "glass_rgb": [
+     96,
+     120,
+     136
+    ],
+    "frame_rgb": [
+     70,
+     72,
+     74
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.1,
+     "width_m": 1.2,
+     "from_floor": 1,
+     "to_floor": 4,
+     "material": "Brick",
+     "rgb": [
+      120,
+      64,
+      50
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 1.2,
+     "from_floor": 2,
+     "to_floor": 3,
+     "material": "Brick",
+     "rgb": [
+      120,
+      64,
+      50
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 8.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     62,
+     66
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     150,
+     84,
+     66
+    ],
+    "top_rgb": [
+     150,
+     150,
+     146
+    ],
+    "features": [],
+    "crown": null
+   },
+   "notes": "Modern red brick block (register 04000, 5 floors, 24.1 m tall floors); gis:18540259 duplicate (claimed). Plain red brick walls with a few deep punched windows and perforated brick vent panels (the darker brick panels), a full glass ground floor lobby under a thin dark flat canopy on one round column. Front E per the best crops (camera facing west).",
+   "sources": [
+    "captures/8930e0af337ffff/sheets/gis_11195499.jpg",
+    "captures/8930e0af337ffff/sheets/gis_18540259.jpg",
+    "data/facade/8930e0af337ffff/gis_11195499.jpg"
+   ],
+   "seen": "Street view: red brick with scattered deep windows and perforated brick panels, glass lobby under a flat canopy."
   }
  ]
 }
