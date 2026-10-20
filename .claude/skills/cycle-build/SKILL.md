@@ -98,7 +98,7 @@ sqlite3 data/map.db "select distinct json_extract(tags,'$.name') from street_fea
 uv run src/build_luau.py --cells <칸>      # 덩어리 파일, chunks.json, manifest.json
 ```
 경고(`warnings`)를 읽는다.
-G1 계산의 `seam_widths`(칸 경계 같은 길 폭)가 걸리면 먼저 그 이웃 칸들의 `chunks.json`만 `build_luau.py --cells <이웃...>`로 다시 쓰고(Studio는 안 건드림) `gate.py g1`을 다시 본다: 이웃 chunks가 새 칸 건물이 DB에 없던 때 쓰인 것이면 그것만으로 통과한다(2026-10-20, 327). 그래도 걸릴 때만 고치기·허용을 따진다.
+G1 계산의 `seam_widths`나 `buildings_on_road`가 이웃이 이미 지은 길에서 걸리면, 대개 이웃 chunks가 새 칸 건물이 DB에 없던 때 쓰인 탓이다(327·64b). 이미 지은 칸의 `chunks.json`은 다시 쓰지 않으므로(사용자, 2026-10-20) 그 길을 `region.toml`의 `road_width_keep`에 넣어 새 칸 건물로 좁히지 않게 하고 새 칸만 다시 생성한다. 그래도 남는 것은 이웃 옛 조각이 `centre_in_gap`으로 밀린 만큼이니, 지금 OSM 선의 같은 폭 띠와 평면 겹침을 재서 0이면 근거와 함께 허용한다.
 
 ### 7. Studio 반영
 1. `get_studio_state` → Edit인지. Play면 멈추고 기다린다.
