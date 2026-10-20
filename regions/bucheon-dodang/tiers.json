@@ -1361,6 +1361,23 @@
    "reason": "landmarks: station:부천시청",
    "tier": 1
   },
+  "8930e0af323ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way886151499"
+    ],
+    "pois": 3,
+    "share": {
+     "commercial": 0.056,
+     "industrial": 0.078,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way886151499",
+   "tier": 1
+  },
   "8930e0af333ffff": {
    "counts": {
     "landmarks": [
