@@ -28632,6 +28632,603 @@
     "captures/8930e0ac65bffff/sheets/gis_16252142.jpg"
    ],
    "seen": "Street view: beige-pink tiles, dark tile core, open pilotis parking with columns."
+  },
+  {
+   "key": "simgok_tower22_323",
+   "cell": "8930e0af323ffff",
+   "building_ids": [
+    "gis:17993973",
+    "gis:11171356",
+    "gis:11191251",
+    "gis:11193984",
+    "gis:11216657",
+    "gis:11218143"
+   ],
+   "build": [
+    "gis:17993973"
+   ],
+   "claims": [
+    "gis:11171356",
+    "gis:11191251",
+    "gis:11193984",
+    "gis:11216657",
+    "gis:11218143"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 22,
+   "height_m": 70.0,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     206,
+     206,
+     202
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Slate",
+    "rgb": [
+     68,
+     70,
+     74
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     84,
+     104,
+     118
+    ],
+    "frame_rgb": [
+     224,
+     224,
+     220
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.25,
+     "width_m": 6.0,
+     "from_floor": 3,
+     "to_floor": 21,
+     "material": "Concrete",
+     "rgb": [
+      214,
+      200,
+      172
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.3,
+     "width_m": 4.0,
+     "from_floor": 3,
+     "to_floor": 21,
+     "material": "Concrete",
+     "rgb": [
+      120,
+      122,
+      126
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": false,
+    "canopy_rgb": [
+     60,
+     62,
+     66
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     206,
+     206,
+     202
+    ],
+    "top_rgb": [
+     150,
+     150,
+     148
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "New residential tower (register 22 floors, no height; about 3.1 m a floor). It replaced five older buildings whose register outlines still lie inside its footprint (gis:11171356, 11191251, 11193984, 11216657, 11218143: street view shows only the new tower's pilotis there, satellite still shows the construction site), so they are claimed and not built. Dark granite base two to three floors high with tall pilotis columns and a planted forecourt, light gray upper floors with beige and darker gray vertical panel bays, dense punched windows. Front S: the best crop faces north. Name not written.",
+   "sources": [
+    "captures/8930e0af323ffff/sheets/gis_17993973.jpg",
+    "captures/8930e0af323ffff/sheets/gis_11216657.jpg",
+    "captures/8930e0af323ffff/sheets/gis_11218143.jpg",
+    "data/satellite/8930e0af323ffff-z19.jpg"
+   ],
+   "seen": "Street view: tall light gray tower with beige panel bays over a dark granite podium with two-floor pilotis and young trees in front."
+  },
+  {
+   "key": "gloria_20f_323",
+   "cell": "8930e0af323ffff",
+   "building_ids": [
+    "gis:11170088",
+    "gis:16191778"
+   ],
+   "build": [
+    "gis:11170088"
+   ],
+   "claims": [
+    "gis:16191778"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 20,
+   "height_m": 74.7,
+   "wall": {
+    "material": "Slate",
+    "rgb": [
+     104,
+     106,
+     110
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Glass",
+    "rgb": [
+     40,
+     44,
+     48
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.5,
+    "h_m": 1.4,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     70,
+     86,
+     98
+    ],
+    "frame_rgb": [
+     150,
+     152,
+     156
+    ]
+   },
+   "bands": {
+    "rgb": [
+     132,
+     134,
+     138
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 1,
+     "to_floor": 2,
+     "material": "Slate",
+     "rgb": [
+      118,
+      120,
+      124
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     62,
+     66
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     104,
+     106,
+     110
+    ],
+    "top_rgb": [
+     196,
+     196,
+     192
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Residential officetel tower by the railway (register 20 floors, 74.7 m; gis:16191778 duplicate outline, claimed). Dark gray granite skin with perforated stone panel bands at each floor, black glass shopfront ground floor with a railing. Satellite shows a light roof with two stepped masses. Front S: the best crop faces north. Name not written (brand).",
+   "sources": [
+    "captures/8930e0af323ffff/sheets/gis_11170088.jpg",
+    "captures/8930e0af323ffff/sheets/gis_16191778.jpg",
+    "data/satellite/8930e0af323ffff-z19.jpg"
+   ],
+   "seen": "Street view (close, steep): dark granite with rows of perforated panels, black glass ground floor."
+  },
+  {
+   "key": "harrison_17f_323",
+   "cell": "8930e0af323ffff",
+   "building_ids": [
+    "gis:11176423",
+    "gis:14413203"
+   ],
+   "build": [
+    "gis:11176423"
+   ],
+   "claims": [
+    "gis:14413203"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 17,
+   "height_m": 56.9,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     228,
+     228
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Limestone",
+    "rgb": [
+     150,
+     140,
+     132
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.5,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     80,
+     100,
+     116
+    ],
+    "frame_rgb": [
+     220,
+     220,
+     218
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": -0.3,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 16,
+     "material": "Concrete",
+     "rgb": [
+      70,
+      120,
+      160
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.3,
+     "width_m": 3.0,
+     "from_floor": 2,
+     "to_floor": 16,
+     "material": "Concrete",
+     "rgb": [
+      70,
+      120,
+      160
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      50,
+      60,
+      66
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": false,
+    "canopy_rgb": [
+     80,
+     80,
+     80
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     228,
+     228
+    ],
+    "top_rgb": [
+     210,
+     210,
+     206
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Residential officetel tower (register 17 floors, 56.9 m; gis:14413203 duplicate, claimed). White upper floors with blue vertical panel bays, small balconies with iron railings and AC racks; two-floor pinkish-brown granite podium with a full black glass shopfront ground floor. Front S: the best crop faces north. Name not written (brand).",
+   "sources": [
+    "captures/8930e0af323ffff/sheets/gis_11176423.jpg",
+    "captures/8930e0af323ffff/sheets/gis_14413203.jpg"
+   ],
+   "seen": "Street view: white and blue banded tower over a brown granite two-floor base with glass shops."
+  },
+  {
+   "key": "pinocchio_arcade_323",
+   "cell": "8930e0af323ffff",
+   "building_ids": [
+    "gis:12402345",
+    "gis:15953947"
+   ],
+   "build": [
+    "gis:12402345"
+   ],
+   "claims": [
+    "gis:15953947"
+   ],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 10,
+   "height_m": 51.8,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     190,
+     190,
+     186
+    ]
+   },
+   "base": {
+    "floors": 4,
+    "material": "Slate",
+    "rgb": [
+     74,
+     76,
+     80
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.6,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     96,
+     120,
+     132
+    ],
+    "frame_rgb": [
+     180,
+     182,
+     184
+    ]
+   },
+   "bands": {
+    "rgb": [
+     96,
+     98,
+     102
+    ],
+    "every_floor": true
+   },
+   "accents": [
+    {
+     "kind": "fins",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 1,
+     "to_floor": 3,
+     "rgb": [
+      150,
+      150,
+      150
+     ],
+     "pitch_m": 0.15
+    },
+    {
+     "kind": "glass_strip",
+     "face": "back",
+     "at": 0.1,
+     "width_m": 3.0,
+     "from_floor": 1,
+     "to_floor": 9,
+     "rgb": [
+      90,
+      140,
+      150
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 40.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      50,
+      58,
+      64
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     150,
+     110,
+     80
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     190,
+     190,
+     186
+    ],
+    "top_rgb": [
+     110,
+     140,
+     100
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Shopping arcade block (register 10 floors, 51.8 m; gis:15953947 duplicate, claimed). A four-floor dark granite 'street mall' podium whose upper floors are open terraced corridors behind iron railings (shown as railing fins) with a wood-slat ceiling over the walk-in entrance, shops all round the ground floor; above it a gray panel office block with ribbon windows and a vertical glass stair strip on the north side. Satellite shows a planted roof garden on the podium. Front N: the best crop faces south. Name not written.",
+   "sources": [
+    "captures/8930e0af323ffff/sheets/gis_12402345.jpg",
+    "captures/8930e0af323ffff/sheets/gis_15953947.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+심곡동+피노키오+상가 (viewed only)"
+   ],
+   "seen": "Street view and web photos: dark granite podium with open railing corridors on floors 2-4, wood-slat entrance, gray office floors above."
+  },
+  {
+   "key": "freezone_10f_323",
+   "cell": "8930e0af323ffff",
+   "building_ids": [
+    "gis:11196467"
+   ],
+   "build": [
+    "gis:11196467"
+   ],
+   "claims": [],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 10,
+   "height_m": 39.9,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     176,
+     178,
+     180
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Glass",
+    "rgb": [
+     60,
+     66,
+     70
+    ]
+   },
+   "windows": {
+    "type": "ribbon",
+    "w_m": 2.0,
+    "h_m": 1.6,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     96,
+     150,
+     140
+    ],
+    "frame_rgb": [
+     150,
+     152,
+     154
+    ]
+   },
+   "bands": {
+    "rgb": [
+     120,
+     122,
+     126
+    ],
+    "every_floor": true
+   },
+   "accents": [],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     120,
+     170
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     176,
+     178,
+     180
+    ],
+    "top_rgb": [
+     222,
+     222,
+     220
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Commercial block (register 10 floors, 39.9 m) on a street corner with a rounded east corner (satellite). Long green glass ribbon windows between gray bands on every floor, many shop and hall signs, shops and a fish market with blue awnings on the ground floor, a curved rooftop railing frame. Front N: the best crop faces south. Name not written.",
+   "sources": [
+    "captures/8930e0af323ffff/sheets/gis_11196467.jpg",
+    "data/satellite/8930e0af323ffff-z19.jpg"
+   ],
+   "seen": "Street view: ten floors of green glass ribbon windows with gray bands, rounded corner, sign-covered lower floors."
   }
  ]
 }

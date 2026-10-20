@@ -171,5 +171,32 @@
 "gis:18129466": "rtop_green",
 "gis:18327997": "rtop_brown",
 "gis:18413141": "rtop_dark"
+},
+"hand": {
+"gis:11177834": "rtop_green",
+"gis:11201131": "rtop_light",
+"gis:11171937": "rtop_green",
+"gis:16435084": "rtop_green",
+"gis:11216657": "rtop_dark",
+"gis:11196467": "rtop_white",
+"gis:11191338": "rtop_green",
+"gis:16909934": "rtop_green",
+"gis:11193298": "rtop_green",
+"gis:11181456": "rtop_green",
+"gis:12405998": "rtop_green",
+"gis:17817023": "rtop_green",
+"gis:11176423": "rtop_white",
+"gis:14413203": "rtop_white",
+"gis:12402345": "rtop_green",
+"gis:15953947": "rtop_green",
+"gis:11173403": "rtop_gray",
+"gis:11212765": "rtop_gray",
+"gis:11179205": "rtop_gray",
+"gis:11209877": "rtop_green",
+"gis:11170088": "rtop_light",
+"gis:16191778": "rtop_light",
+"gis:17993973": "rtop_gray",
+"gis:11209264": "rtop_green",
+"gis:17500107": "rtop_green"
 }
 }
