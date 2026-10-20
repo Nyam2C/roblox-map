@@ -28212,6 +28212,426 @@
     "data/facade/8930e0af337ffff/gis_11195499.jpg"
    ],
    "seen": "Street view: red brick with scattered deep windows and perforated brick panels, glass lobby under a flat canopy."
+  },
+  {
+   "key": "bukbu_plaza_65b",
+   "cell": "8930e0ac65bffff",
+   "custom": "pxpark",
+   "layout": "regions/bucheon-dodang/bukbu_plaza_65b.json",
+   "building_ids": [],
+   "build": [],
+   "claims": [],
+   "front": null,
+   "notes": "부천역 만남의 광장 / 북부 마루광장 (OSM leisure=park way:468649757, the cell's tier-1 landmark). Wooden deck strip inside the cell, the long flat steel and glass canopy (4 open segments, 6 m) and the roundabout grass island. Most of the deck is west of the cell edge (643, already built) and left out. Kiosks stay auto, trees stay trees.json.",
+   "sources": [
+    "data/satellite/8930e0ac65bffff-z19.jpg",
+    "OSM way 468649757 (overpass-api.de)",
+    "captures/8930e0ac65bffff/sheets/gis_17127421.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천역+북부광장+만남의광장 (viewed only)"
+   ],
+   "seen": "Satellite: planked deck, long glass canopy roof, grass roundabout island. Street view and web: weathered wood deck, flat steel canopy on round columns."
+  },
+  {
+   "key": "prugio_city_65b",
+   "cell": "8930e0ac65bffff",
+   "building_ids": [
+    "gis:11202964",
+    "gis:18094145"
+   ],
+   "build": [
+    "gis:11202964"
+   ],
+   "claims": [
+    "gis:18094145"
+   ],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 17,
+   "height_m": 57.75,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     196,
+     178,
+     170
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Limestone",
+    "rgb": [
+     196,
+     194,
+     188
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.5,
+    "pitch_m": 2.8,
+    "glass_rgb": [
+     84,
+     104,
+     116
+    ],
+    "frame_rgb": [
+     226,
+     224,
+     220
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 20.0,
+     "from_floor": 1,
+     "to_floor": 2,
+     "rgb": [
+      120,
+      150,
+      160
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": true,
+    "canopy_rgb": [
+     150,
+     150,
+     146
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     196,
+     178,
+     170
+    ],
+    "top_rgb": [
+     176,
+     176,
+     172
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Officetel (register 17 floors, 57.75 m; gis:18094145 is a duplicate outline, claimed). Two taupe-pink tiled tower masses with dense punched windows over a three-floor light stone podium with long glass window bands (academies, game rooms) and shops on the ground floor. Front N: the best crop faces south. Name not written (brand).",
+   "sources": [
+    "captures/8930e0ac65bffff/sheets/gis_11202964.jpg",
+    "captures/8930e0ac65bffff/sheets/gis_18094145.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천역+푸르지오시티 (mostly another tower of the same brand, viewed only)"
+   ],
+   "seen": "Street view: taupe tiled 17-floor tower with grid windows, light stone podium with glass bands, shops below."
+  },
+  {
+   "key": "the_one_lumiere_65b",
+   "cell": "8930e0ac65bffff",
+   "building_ids": [
+    "gis:11168471",
+    "gis:16911203"
+   ],
+   "build": [
+    "gis:11168471"
+   ],
+   "claims": [
+    "gis:16911203"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 15,
+   "height_m": 53.6,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     222,
+     222,
+     218
+    ]
+   },
+   "base": {
+    "floors": 4,
+    "material": "Limestone",
+    "rgb": [
+     206,
+     196,
+     176
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     80,
+     100,
+     116
+    ],
+    "frame_rgb": [
+     210,
+     210,
+     206
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 1.5,
+     "from_floor": 4,
+     "to_floor": 14,
+     "rgb": [
+      80,
+      120,
+      180
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 7.0,
+     "from_floor": 0,
+     "to_floor": 3,
+     "material": "Slate",
+     "rgb": [
+      70,
+      72,
+      76
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.1,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     40,
+     150,
+     140
+    ],
+    "steps": true
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     222,
+     222,
+     218
+    ],
+    "top_rgb": [
+     176,
+     176,
+     172
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Officetel (register 15 floors, 53.6 m; gis:16911203 duplicate, claimed). White and light grey tower with dense punched windows and a blue vertical strip, over a four-floor podium of beige limestone with a dark granite middle bay, teal shop awnings on the ground floor. Front S: the best crop faces north. Name not written.",
+   "sources": [
+    "captures/8930e0ac65bffff/sheets/gis_11168471.jpg",
+    "captures/8930e0ac65bffff/sheets/gis_16911203.jpg"
+   ],
+   "seen": "Street view: white tower with a blue strip, beige and dark stone podium, glass shop front, a drive-through pilotis on the back."
+  },
+  {
+   "key": "nalin_county_65b",
+   "cell": "8930e0ac65bffff",
+   "building_ids": [
+    "gis:11145554",
+    "gis:17218734"
+   ],
+   "build": [
+    "gis:11145554"
+   ],
+   "claims": [
+    "gis:17218734"
+   ],
+   "front": "W",
+   "road_clear_m": 1.0,
+   "floors": 14,
+   "height_m": 47.15,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     232,
+     232,
+     228
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     214,
+     214,
+     210
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     86,
+     104,
+     118
+    ],
+    "frame_rgb": [
+     226,
+     226,
+     222
+    ]
+   },
+   "bands": null,
+   "accents": [],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 7.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     232,
+     232,
+     228
+    ],
+    "top_rgb": [
+     176,
+     176,
+     172
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Officetel (register 14 floors, 47.15 m; gis:17218734 duplicate, claimed). Plain white concrete tower with small punched windows, an open pilotis drive-through car entrance on the ground floor. Front W: the entrance crop faces east. Name not written.",
+   "sources": [
+    "captures/8930e0ac65bffff/sheets/gis_11145554.jpg",
+    "captures/8930e0ac65bffff/sheets/gis_17218734.jpg"
+   ],
+   "seen": "Street view: white tower with grid windows, pilotis car entrance with a name plate; a construction hoarding next door."
+  },
+  {
+   "key": "goodmorning_tower_65b",
+   "cell": "8930e0ac65bffff",
+   "building_ids": [
+    "gis:11190174",
+    "gis:16252142"
+   ],
+   "build": [
+    "gis:11190174"
+   ],
+   "claims": [
+    "gis:16252142"
+   ],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 14,
+   "height_m": 44.45,
+   "wall": {
+    "material": "CeramicTiles",
+    "rgb": [
+     206,
+     186,
+     170
+    ]
+   },
+   "base": {
+    "floors": 1,
+    "material": "Concrete",
+    "rgb": [
+     190,
+     186,
+     180
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     84,
+     100,
+     112
+    ],
+    "frame_rgb": [
+     220,
+     218,
+     214
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "panel",
+     "face": "all",
+     "at": 0.3,
+     "width_m": 4.0,
+     "from_floor": 0,
+     "to_floor": 13,
+     "material": "Slate",
+     "rgb": [
+      66,
+      68,
+      72
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 10.0,
+    "canopy": false,
+    "canopy_rgb": null,
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     206,
+     186,
+     170
+    ],
+    "top_rgb": [
+     120,
+     150,
+     120
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Officetel (register 14 floors, 44.45 m; gis:16252142 duplicate, claimed). Beige-pink tiled tower with a dark grey tiled stair core and an open pilotis parking ground floor on square columns. Front N: the best crop faces south. Name not written.",
+   "sources": [
+    "captures/8930e0ac65bffff/sheets/gis_11190174.jpg",
+    "captures/8930e0ac65bffff/sheets/gis_16252142.jpg"
+   ],
+   "seen": "Street view: beige-pink tiles, dark tile core, open pilotis parking with columns."
   }
  ]
 }

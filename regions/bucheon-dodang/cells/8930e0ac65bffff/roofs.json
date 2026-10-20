@@ -126,5 +126,26 @@
 "gis:18134442": "rtop_green",
 "gis:18362944": "rtop_light",
 "gis:18479113": "rtop_teal"
+},
+"hand": {
+"gis:11207242": "rtop_light",
+"gis:11145554": "rtop_light",
+"gis:17218734": "rtop_light",
+"gis:11194959": "rtop_green",
+"gis:18445287": "rtop_green",
+"gis:11202964": "rtop_light",
+"gis:18094145": "rtop_light",
+"gis:11168471": "rtop_light",
+"gis:16911203": "rtop_light",
+"gis:11192994": "rtop_white",
+"gis:11154046": "rtop_light",
+"gis:15254796": "rtop_light",
+"gis:11174447": "rtop_light",
+"gis:11735364": "rtop_green",
+"gis:11177533": "rtop_light",
+"gis:14621244": "rtop_light",
+"gis:11190174": "rtop_green",
+"gis:16252142": "rtop_green",
+"gis:15789410": "rtop_light"
 }
 }

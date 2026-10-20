@@ -1,0 +1,221 @@
+{
+ "note": "부천역 만남의 광장 / 북부 마루광장 (OSM leisure=park way:468649757), cell 8930e0ac65bffff, the station's north plaza: a weathered wooden deck south of the roundabout with a long flat steel and glass canopy (about 22 x 62 m, satellite px 538-640 x 1388-1655) on round columns, street kiosks (V-World records, stay auto) and trees in planters (trees.json). Most of the deck is west of this cell's edge (8930e0ac643ffff, already built) and is left out; only the east strip, the deck under the canopy and the roundabout island are here. custom pxpark.",
+ "seen": "Satellite: grey-brown planked deck, a long glass roof with white frames (north half light, south half dark glass), a grass roundabout island. Street view: wooden deck, kiosks, a flat steel canopy on round columns about 5-6 m high with lights underneath. Web (Naver image search, viewed only): 마루광장 wooden deck with a tall steel canopy, planters and benches.",
+ "tile_x0": 446783,
+ "tile_y0": 203176,
+ "sources": [
+  "data/satellite/8930e0ac65bffff-z19.jpg (+json)",
+  "OSM way 468649757 (overpass-api.de)",
+  "captures/8930e0ac65bffff/sheets/gis_17127421.jpg",
+  "captures/8930e0ac65bffff/sheets/gis_18658529.jpg",
+  "https://m.search.naver.com/search.naver?where=m_image&query=부천역+북부광장+만남의광장 (viewed only)"
+ ],
+ "features": [
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     411,
+     1382
+    ],
+    [
+     546,
+     1382
+    ],
+    [
+     537,
+     1646
+    ],
+    [
+     516,
+     1646
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    140,
+    124,
+    104
+   ],
+   "material": "Wood",
+   "note": "east strip of the wooden deck plaza (마루광장) inside this cell; the rest of the deck lies west of the cell edge in 8930e0ac643ffff (already built, left out)"
+  },
+  {
+   "kind": "paving",
+   "shape": "poly",
+   "px": [
+    [
+     548,
+     1388
+    ],
+    [
+     640,
+     1400
+    ],
+    [
+     610,
+     1655
+    ],
+    [
+     538,
+     1645
+    ]
+   ],
+   "height_m": null,
+   "rgb": [
+    140,
+    124,
+    104
+   ],
+   "material": "Wood",
+   "note": "deck under the long steel and glass canopy"
+  },
+  {
+   "kind": "lawn",
+   "shape": "circle",
+   "px": [
+    [
+     522,
+     1295
+    ],
+    [
+     40,
+     0
+    ]
+   ],
+   "height_m": 0.2,
+   "rgb": [
+    104,
+    124,
+    74
+   ],
+   "material": "Grass",
+   "note": "grass island in the middle of the roundabout north of the plaza (~19 m across, kept inside the inner curb)"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "open": true,
+   "px": [
+    [
+     548.0,
+     1388.0
+    ],
+    [
+     640.0,
+     1400.0
+    ],
+    [
+     632.5,
+     1463.8
+    ],
+    [
+     545.5,
+     1452.2
+    ]
+   ],
+   "height_m": 6.0,
+   "rgb": [
+    176,
+    186,
+    192
+   ],
+   "material": "Metal",
+   "note": "long flat steel and glass canopy over the deck on round steel columns, about 6 m high, segment 1 of 4"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "open": true,
+   "px": [
+    [
+     545.5,
+     1452.2
+    ],
+    [
+     632.5,
+     1463.8
+    ],
+    [
+     625.0,
+     1527.5
+    ],
+    [
+     543.0,
+     1516.5
+    ]
+   ],
+   "height_m": 6.0,
+   "rgb": [
+    176,
+    186,
+    192
+   ],
+   "material": "Metal",
+   "note": "long flat steel and glass canopy over the deck on round steel columns, about 6 m high, segment 2 of 4"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "open": true,
+   "px": [
+    [
+     543.0,
+     1516.5
+    ],
+    [
+     625.0,
+     1527.5
+    ],
+    [
+     617.5,
+     1591.2
+    ],
+    [
+     540.5,
+     1580.8
+    ]
+   ],
+   "height_m": 6.0,
+   "rgb": [
+    176,
+    186,
+    192
+   ],
+   "material": "Metal",
+   "note": "long flat steel and glass canopy over the deck on round steel columns, about 6 m high, segment 3 of 4"
+  },
+  {
+   "kind": "pergola",
+   "shape": "poly",
+   "open": true,
+   "px": [
+    [
+     540.5,
+     1580.8
+    ],
+    [
+     617.5,
+     1591.2
+    ],
+    [
+     610.0,
+     1655.0
+    ],
+    [
+     538.0,
+     1645.0
+    ]
+   ],
+   "height_m": 6.0,
+   "rgb": [
+    176,
+    186,
+    192
+   ],
+   "material": "Metal",
+   "note": "long flat steel and glass canopy over the deck on round steel columns, about 6 m high, segment 4 of 4"
+  }
+ ]
+}
