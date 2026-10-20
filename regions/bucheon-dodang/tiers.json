@@ -1378,6 +1378,23 @@
    "reason": "landmarks: park:way886151499",
    "tier": 1
   },
+  "8930e0af327ffff": {
+   "counts": {
+    "landmarks": [
+     "marketplace:중앙시장"
+    ],
+    "pois": 35,
+    "share": {
+     "commercial": 0.628,
+     "industrial": 0.0,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: marketplace:중앙시장",
+   "tier": 1
+  },
   "8930e0af333ffff": {
    "counts": {
     "landmarks": [
