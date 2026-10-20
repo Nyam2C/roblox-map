@@ -3,7 +3,7 @@
  "made": "2026-10-17 U8: 가장 가까운 만든 칸 8930e0ac613ffff에서 역 칸까지의 H3 길목 + 역 칸의 두 바퀴 + 이웃 4개 이상인 빈틈, 지도 가장자리에서 가까운 순 그다음 역에 가까운 순 (u8-auto-expand-plan.md 6절)",
  "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 고치기 2번에도 실패면 held(2026-10-19, 전에는 3번)",
  "fps_every": 3,
- "since_fps": 9,
+ "since_fps": 10,
  "baseline": null,
  "stale": [
   "8930e0ac61bffff",
@@ -156,9 +156,9 @@
   },
   {
    "cell": "8930e0af337ffff",
-   "state": "specced",
+   "state": "done",
    "rounds": 0,
-   "note": "준비(2026-10-20): 1급(자동, 부천대 몽당기념관·공원 랜드마크), 건물 208, 파노라마 약 243(새 233), 판단 목록 3(200)+남은 8, 트레이싱 목록 20(펼친 193, 못 편 15), 지붕 hand 9(8층 이상), 운동장 없음, 지하철 출구 이 칸·이웃 없음, 고도 바뀐 이미 만든 칸 6d3·6c3·6db·653·6cb·333은 사용자 지시로 다시 안 지음(경계 턱 가능) | 판단·트레이싱(2026-10-20, 에이전트 혼자 직접): 판단 208 전부 기록(묶음 4), high 불일치 19 중 대장 높이가 대장 층수와 맞는 11동 override(대장값), 나머지는 사진값; 트레이싱 펼친 193 중 답 쓴 15·통과 14·약함 1·못 씀 178(직접 본 약 110동 중 대부분 가까움·잘림·격자 어긋남, 나머지 약 70동은 이번엔 안 봄 → 규칙판), 벽 색 14 | 시설 2026-10-20: 5곳(몽당기념관 bcu_mongdang_hall_337, 보훈회관 bohun_hall_337, 소방파출소 simgok_fire_337, 14층 eden_eterno_14f_337, 붉은 벽돌 5층 gl_brick_5f_337) data/auto/8930e0af337ffff/facilities-spec.json, facade.json에 시설 동 없음, 웹 사진 쓸 만한 것 없음"
+   "note": "준비(2026-10-20): 1급(자동, 부천대 몽당기념관·공원 랜드마크), 건물 208, 파노라마 약 243(새 233), 판단 목록 3(200)+남은 8, 트레이싱 목록 20(펼친 193, 못 편 15), 지붕 hand 9(8층 이상), 운동장 없음, 지하철 출구 이 칸·이웃 없음, 고도 바뀐 이미 만든 칸 6d3·6c3·6db·653·6cb·333은 사용자 지시로 다시 안 지음(경계 턱 가능) | 판단·트레이싱(2026-10-20, 에이전트 혼자 직접): 판단 208 전부 기록(묶음 4), high 불일치 19 중 대장 높이가 대장 층수와 맞는 11동 override(대장값), 나머지는 사진값; 트레이싱 펼친 193 중 답 쓴 15·통과 14·약함 1·못 씀 178(직접 본 약 110동 중 대부분 가까움·잘림·격자 어긋남, 나머지 약 70동은 이번엔 안 봄 → 규칙판), 벽 색 14 | 시설 2026-10-20: 5곳(몽당기념관 bcu_mongdang_hall_337, 보훈회관 bohun_hall_337, 소방파출소 simgok_fire_337, 14층 eden_eterno_14f_337, 붉은 벽돌 5층 gl_brick_5f_337) data/auto/8930e0af337ffff/facilities-spec.json, facade.json에 시설 동 없음, 웹 사진 쓸 만한 것 없음 | 생성 1(2026-10-20): 시설 5 합침, build_luau 부품 9509·traced 14·Union 키트 148, G1 계산 FAIL seam_widths 3(6cb·333 옛 폭 2, 조각 폭 중앙값 반폭 1) → 메인 허용 3, g1 PASS; Studio: facade-kits 148(실패 0), 시설 5 먼저 넣고 칸 지음 created 9254·skipped_manual 255, 최대 덩어리 5.4 ms, verify true, http false; G1 Studio FAIL 3 전봇대 = 기운 차도 투영 착시(밑동이 길 밖, 평면 겹침 0) → 메인 허용 3, studio PASS; trace PASS(14, 약함 0); G2 조각 9, 답 major 0·minor 4(몽당기념관 돔 지붕이 평평한 상자 등) PASS → summary PASS; 미니맵 92칸(심곡동), install-u6, 칸 데이터 337만(시설 5), pack(strays 0); FPS 건너뜀(무인) | 검증 2026-10-20: G1 PASS(허용 3), Studio PASS(허용 3), G2 PASS(minor 4), trace PASS(14) → summary PASS | 기록(lessons 5, 스킬 변경 없음) → done; FPS 못 잼(since_fps 10, 다음 칸도 차례)"
   },
   {
    "cell": "8930e0ac65bffff",
