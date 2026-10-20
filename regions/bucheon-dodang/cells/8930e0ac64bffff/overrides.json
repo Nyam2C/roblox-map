@@ -1,0 +1,1742 @@
+{
+  "cell_id": "8930e0ac64bffff",
+  "estimates": [
+    {
+      "building_id": "gis:10933201",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential high-rise on a granite podium with parking entrance, white and navy tower with balconies, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:10982371",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 35.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "hotel tower with vertical stone pilasters and dark glass strips, sign band podium, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11168472",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark granite tower, podium with louvered parking floors and a deep pilotis entrance, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11168508",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "beige stone podium with slot openings for parking floors, coin laundry shop, white tower with blue stripes above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11168552",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "villa with grilled windows, central glass stair strip, entrance porch with small pediment, green mansard roof edge",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11168833",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "apartment towers on a two floor granite shop podium, many offices and shops, towers top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11170779",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential high-rise, beige and maroon tiled tower with balconies, dark granite pilotis base with canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11172227",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old tiled shop building with small arched windows, church sign on second floor, shop ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11172798",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "villa over pilotis parking with granite columns, balconies with railings, dark vertical stripes on the gable wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11173734",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 18.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "small office block over pilotis parking with striped columns, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11174177",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 65.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential tower on a granite podium with louvered parking floors and seafood restaurant shops",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11177032",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential tower with red and yellow panels on a dark granite pilotis podium",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11177583",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "beige tiled villa with half basement and outside steps, glass bay windows stacked in the middle, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11177699",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "red brick guest house over pilotis parking, vertical glass stair strip, small entrance canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11177712",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 35.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential block on a dark granite podium with parking entrance and stacked dark balconies, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11177905",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "pink tiled villa block over pilotis parking, rounded bay corner, balconies with railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11178260",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray rendered villa over pilotis parking, small window railings, stone corner quoins",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11178967",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 14.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "granite clad block with louver bands, parking pilotis entrance, restaurant shops on ground floor, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11179595",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "container police box, one floor, blue and white panels",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "blue"
+    },
+    {
+      "building_id": "gis:11179913",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 25.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "small hotel with white brick tile front, dark glass entrance with marble frame, wood panels, parking on the side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11180019",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "pink granite clad shop building, restaurant and estate agent shops on ground floor, punched windows above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11180076",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "pink rendered villa block over pilotis parking, green awnings, balconies with railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11180206",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "small two floor brick shop house with laundry sign, white balcony band, rubble lot beside",
+      "roof_shape": "flat",
+      "views_used": [
+        3
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11180257",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "long apartment slab behind retaining wall, many floors with balconies, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11180316",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "low stone clad wall with lamps along the lane, construction hoarding next to it",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11180690",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "shop house: mart with red awning on ground floor, three floors of small windows above, tiled wall",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11180692",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "low brick shop with shutters and old signboards, upper floor band",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11180813",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old long apartment slab with window grilles and enclosed balconies, fence and trees in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11180826",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray brick garage shed with gable roof, open parking front",
+      "roof_shape": "gable",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11180835",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "one floor brick garage row with roll shutters, sign board on top",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11180907",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "narrow shop house with white tile upper floors, barber shop ground floor, sign bands",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11181017",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "beige tiled officetel tower with a deep double height pilotis canopy, dark granite corner base, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11181805",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark brick villa with white tile ground floor, white window frames, bay balcony on the corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11181811",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "small old two floor house with laundry shop below, blue tiled roof shop next to it",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11181812",
+      "confidence": "high",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "three floor dark brick building, boiler shop and roll shutter on ground floor, white window frames",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11181880",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "red painted brick house, small windows, tarp shed against the ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11182007",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "two floor white tile shop house, laundry shop with striped awning, small bay windows upstairs",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11182010",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "one floor cleaning shop with big window, blue tiled pitched roof behind the sign",
+      "roof_shape": "gable",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11182053",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "rank 1 shows an empty paved lot with garden, maybe demolished; rank 2 shows one floor shops",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11182110",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "glass lobby box in the dark granite podium of a high-rise, parking entrance next to it",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11182111",
+      "confidence": "low",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "shop glass store in the dark granite podium of a high-rise, big shop sign band",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11182173",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "one floor old shop row along the main road, shutters and sign boards, mart on the corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11182306",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "tiled block over pilotis parking, dark granite base on one side, convenience store corner, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11182325",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "pink rendered block with green bands and a teal shop front on the ground floor, white pilotis parking side, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11183075",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "stone veneer villa over pilotis parking, small windows, dong number on the gable",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11183574",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "long white officetel slab with navy stripe, balconies and AC units, pilotis parking and entrance canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11183799",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "construction hoarding all around, no building visible behind",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11183807",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "motel with ribbed metal panel wall and dark vertical strips, wood slat sign band and glass entrance, parking below",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11183831",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 15.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "motel with purple panel bands over a parking entrance, granite column, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "other"
+    },
+    {
+      "building_id": "gis:11183832",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 15.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "granite block over pilotis parking with columns, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11184007",
+      "confidence": "low",
+      "floors_seen": 7,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "officetel with green glass curtain strips between tile piers, restaurant shops and convenience store on ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11186155",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 25.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "motel with ribbed metal panel wall and dark vertical strips, red and black sign band over the parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11188661",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark slate clad villa over pilotis parking, balconies with railings and blue awnings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11188951",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray rendered villa over pilotis parking, glass stair strip, gabled entrance porch, window railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189596",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 25.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "motel with herringbone tile and dark vertical strip, dark wood canopy band over parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11189964",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "granite clad small officetel over pilotis parking, shutter garage door, band of louvers",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11190135",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray villa with stone corner quoins and carved stone band over pilotis parking, small window railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11191340",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "three floor shop building on the main road, orange brick top floor, door and hardware shops on ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:11191643",
+      "confidence": "medium",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "stone veneer villa with small windows, dong number on the wall, some wings over pilotis parking",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11192116",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "villa over pilotis parking, gray render with a blue gray panel, balconies with ornate railings, green awnings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11192468",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray rendered officetel with small window pediments over pilotis parking, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11192587",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 35.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark granite podium with louvered parking floors and a deep entrance, residential tower above, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11197434",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "one floor restaurant with glass front and dark sign band, low steps in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11200654",
+      "confidence": "low",
+      "floors_seen": 17,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "long apartment slab over a two floor shop podium along the main road, many sign bands, church on the side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11201026",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "tiled villa over pilotis parking, dark tile band on the first upper floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11204098",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "brick motel with a dark mansard roof and dormers, dark sign band over parking entrance",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11204496",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 20.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "stone clad officetel over pilotis parking, punched windows, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11204934",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "construction site behind hoarding with crane, no building yet",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:11207367",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "one floor red brick house with white parapet balustrade and plants on a roof terrace, shutter shop on the side",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:11207370",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "three floor shop building covered in ivy, small shops on ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "green"
+    },
+    {
+      "building_id": "gis:11207372",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "three floor tiled shop building on the main road, hardware shop with yellow awning, ribbon windows upstairs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208415",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 15.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "pink rendered block with green bands and a teal shop front, gray villa part over pilotis with carved band",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11208416",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "white and beige apartment tower with dong number, pilotis parking and a convenience store at the base",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11208450",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray panel residential tower on a dark granite base with parking entrance, balconies with railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11208707",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old dark brick building with white concrete frame, roll shutters on ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:11208969",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "pink rendered villa over pilotis parking seen from the lane, the street side crop shows a tiled block, floors not visible",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11209767",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "pink rendered villa block over pilotis parking with ramp, rounded bay corner, green awnings and railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "pink"
+    },
+    {
+      "building_id": "gis:11209791",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old two floor shop row along the main road, shutters and many sign boards",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11215434",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "beige stone tile villa over pilotis parking with stone columns, punched windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11215924",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray rendered villa over pilotis parking, balconies with ornate railings and green awnings, red brick base",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11216750",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "beige villa over pilotis parking with a horizontal louver band, stone corner quoins",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11216843",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 55.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential tower on a three floor shop podium with pink tile and glass, low beige tile wing at the back",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11217763",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 20.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "small hotel with gray brick tile, arched windows and a white front with awning entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11217764",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "small one floor service annex with navy canopy in front of an officetel slab, recycling area",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:11217930",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark panel motel with purple bands over a parking entrance, small windows in a vertical purple strip",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11218403",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark brick tile motel with a mansard roof and small dormers, glass stair tower, brick wall over parking",
+      "roof_shape": "other",
+      "views_used": [
+        1
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11738535",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 25.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "motel with ribbed metal panel wall and dark vertical window strips, white brick sign band over parking",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:11777625",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "three floor corner shop building, estate agent shop with big yellow sign, church upstairs with blue windows",
+      "roof_shape": "flat",
+      "views_used": [
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:11783855",
+      "confidence": "low",
+      "floors_seen": 14,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "officetel tower with beige striped tile and a vertical glass strip, two floor brown tile shop base on the main road",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:11855018",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 35.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark gray stone officetel with recessed balcony bands and railings, shops and parking entrance at the base",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:11881791",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "granite clad building with deep recessed openings on parking floors, convenience store and pilotis parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12398230",
+      "confidence": "low",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray villa over pilotis parking with a blue stripe, balconies with railings and blue awnings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:12445447",
+      "confidence": "low",
+      "floors_seen": 15,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "white and pink apartment tower with dong number on a podium with a convenience store and blue awning",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:14409344",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential high-rise, beige and maroon tiled tower with balconies, dark granite pilotis base with canopy",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:14428604",
+      "confidence": "high",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "one floor old shop on the main road with big green sign board, shutters next door",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:14924905",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 75.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "tall residential tower on a dark granite podium with glass shop corner and convenience store, many floors",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:15035555",
+      "confidence": "medium",
+      "floors_seen": 5,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "brick motel with a dark mansard roof and dormers, dark sign band over parking entrance",
+      "roof_shape": "other",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:15154782",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "tiled villa over pilotis parking, dark tile band on the first upper floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15157231",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "tiny one floor restaurant with brown tile front, awning and yellow sign",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "red_brick"
+    },
+    {
+      "building_id": "gis:15360840",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old brick building with white concrete bands, small restaurants and cafe on the ground floor, church sign upstairs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "brown"
+    },
+    {
+      "building_id": "gis:15463920",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 65.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential tower on a granite podium with louvered parking floors and seafood restaurant shops",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:15901961",
+      "confidence": "low",
+      "floors_seen": 4,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old concrete shop building on the main road, sign boards on every floor, estate agent on the corner",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16205466",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 80.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "tall white residential tower on a dark granite and glass shop podium with a big mart on the main road",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:16253591",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 80.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "tall white residential tower with dong number, gray stone and glass shop podium on the main road, old shop in front",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:16804092",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential high-rise on a granite podium with parking entrance, recessed balconies with railings, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:16805174",
+      "confidence": "low",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "only a low stone clad wall with lamps along the lane, empty lot behind it",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:16873816",
+      "confidence": null,
+      "floors_seen": null,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "construction hoarding all around with crane, no building visible",
+      "roof_shape": null,
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": null
+    },
+    {
+      "building_id": "gis:16930012",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 50.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "apartment towers on a two floor granite shop podium with many shops and offices, towers top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:17027895",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 25.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "motel with herringbone tile and dark vertical strip, dark wood canopy band over parking entrance, granite officetel next door",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17115653",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "beige tiled officetel tower with a deep double height pilotis canopy, dark granite corner base, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:17262325",
+      "confidence": "medium",
+      "floors_seen": 1,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "one floor open parking structure of a motel with a lit sign fascia, green floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17409609",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "gray panel residential tower on a dark granite base with parking entrance, balconies with railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:17491345",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "beige stone podium with slot openings for parking floors, coin laundry shop, white tower with blue stripes above",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:17587668",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 35.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark gray stone officetel with recessed balcony bands and railings, shops and parking entrance at the base",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        3
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:17750490",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "three floor shop building on the main road, orange brick top floor, door shop with big sign on ground floor",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "orange"
+    },
+    {
+      "building_id": "gis:17757565",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 45.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "residential tower with red and yellow panels on a dark granite pilotis podium",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "white"
+    },
+    {
+      "building_id": "gis:18163310",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 40.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark granite tower, podium with louvered parking floors and a deep pilotis entrance, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:18440239",
+      "confidence": "medium",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "three floor corner shop building, estate agent with big yellow sign, church upstairs with blue windows",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2,
+        3
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:18451067",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "granite clad building with deep recessed openings on parking floors, convenience store and pilotis parking entrance",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "light_gray"
+    },
+    {
+      "building_id": "gis:18467339",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 30.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "apartment block over pilotis parking, two floor dark granite band with recessed balconies, beige upper floors with railings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "beige"
+    },
+    {
+      "building_id": "gis:18483644",
+      "confidence": "low",
+      "floors_seen": 6,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark slate clad villa over pilotis parking, balconies with railings and blue awnings",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "gis:18550225",
+      "confidence": "medium",
+      "floors_seen": 2,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old two floor shop row on the main road, shutters and sign boards, windows with signs upstairs",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "cream"
+    },
+    {
+      "building_id": "gis:18600100",
+      "confidence": "low",
+      "floors_seen": null,
+      "height_est_m": 35.0,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "dark granite podium with louvered parking floors and a deep entrance, residential tower above, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1,
+        2
+      ],
+      "wall_color": "dark_gray"
+    },
+    {
+      "building_id": "osm:1518641748",
+      "confidence": "low",
+      "floors_seen": 3,
+      "height_est_m": null,
+      "judged_at": "2026-10-20T13:27:49+00:00",
+      "note": "old shop row, shutters on ground floor, signboards on upper floor windows, top cut off",
+      "roof_shape": "flat",
+      "views_used": [
+        1
+      ],
+      "wall_color": "cream"
+    }
+  ],
+  "overrides": [],
+  "version": 1
+}

@@ -1,0 +1,20 @@
+{
+ "walls": {
+  "gis:11172227": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    132,
+    136,
+    144
+   ]
+  },
+  "gis:11177583": {
+   "from": "facade trace (bare wall on the unfolded photo)",
+   "rgb": [
+    127,
+    130,
+    132
+   ]
+  }
+ }
+}
