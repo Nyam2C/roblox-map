@@ -2740,3 +2740,9 @@ facade.json: 다섯 시설의 동과 claims 어느 것도 트레이싱 통과 �
 - 정면: 거리뷰 1순위 크롭 방향의 반대 면(푸르지오 N, 루미에르 S, 나린 W, 굿모닝 N).
 - 부천역 출구: OSM 1~5번 + 지하도상가 입구가 칸 안에 있고 나무위키 출구 목록 1~5번과 같음(5/5, exits.json 안 만듦).
 - 고도: elevation probe·collect 뒤 이웃 643·653·6cb·333·337 땅이 0.3 stud 넘게 바뀜. 사용자 지시대로 다시 안 지음(경계 턱 가능).
+
+## 2026-10-20 U8 칸 8930e0ac65bffff 전체(에이전트 하나, 자동, 사용자 부재)
+**Timestamp**: 2026-10-20T10:50:00Z
+**User Request**: (메인) "expansion.json queued 첫 칸을 처음부터 끝까지 혼자 만들어라"(다른 에이전트 못 부름), 판단 눈가림·트레이싱 전부 보기, 이미 만든 칸 다시 안 짓기, FPS 건너뜀, 묻지 않음
+**AI Response**: 준비(1급: 부천역 만남의 광장·소신여객 정류장, 건물 167, 거리뷰 cell done 새 파노라마 238, Overpass 502 재시도 뒤 수집) → 판단 167(묶음 167장을 직접 보고 기록, 판단을 다 쓴 뒤에만 대장 확인; high 불일치 0, override 0; wall_color 'red' 표 밖이라 red_brick으로 고쳐 기록) → 트레이싱 펼친 정면 141장 전부 봄(답 16, 통과 13, 약함 3, 못 씀 123, 빈 땅 2) → 지붕 hand 19(8층 이상) → 시설 5 → 생성·게이트. G1 계산: seam_widths 1(way:783242923, 65b 건물이 좁힌 골목 3.47 m vs 643 옛 빌드 3.95 m) → 허용(메인 역할, 643 다시 안 지음). G1 Studio 첫 회 FAIL(광장 잔디섬 14.2 m², 지하도상가 입구 띠간판 0.33 m², 9층 상자 1.2 m²) → 고치기 1: 섬 반지름 47→28 px, gis:11196137 ground_use house(띠간판 없앰) → 그 대신 생긴 바닥 기단 `#pl` lip 0.33 m²를 규칙으로 고침(`layout_details` 기단 lip을 box_clear로 제한 + 테스트, 884 passed, G5 G1 실패 칸 49→46), 9층 상자는 평면 겹침 0.00 m²인 기운 차도 착시라 studio 허용. 다시: G1·G1 Studio·G2(major 0·minor 6)·trace PASS, summary PASS. stale에 643·653·657·6ab·6c3·6cb·6cf·6db·333·337 추가(기단 규칙·고도). cell-data는 65b 청크만 올리고 이미 만든 칸은 고리 속성만 갱신, pack 끝(장소 저장은 사용자). FPS 무인이라 건너뜀(since_fps 11). gate.toml 안 바꿈.
+**Context**: U8 자동 확장 한 칸

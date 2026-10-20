@@ -705,7 +705,9 @@ def body_items(body: Body, bi: int, frame: Frame, cfg: Mapping[str, Any], warnin
         items += pilotis_items(body, bi, frame, seq)
         seq += 100
     elif body.archetype in ("villa", "public") and not body.shop:
-        items.append(_box_part(frame, body, bi, "facade", f"pl{bi}", seq, 0.0, 0.0, 0.0, (w + lip, D["plinth_h"], d + lip),
+        # the lip stops at a carriageway the wall stands at (65b, 2026-10-20: 0.05 m lip over a service lane, 0.33 m² in G1 Studio)
+        pl = min(lip, 2 * max(0.0, body.box_clear[bi] if bi < len(body.box_clear) else math.inf))
+        items.append(_box_part(frame, body, bi, "facade", f"pl{bi}", seq, 0.0, 0.0, 0.0, (w + pl, D["plinth_h"], d + pl),
                                material="Granite", color=R.PALETTE["plinth"], color_name="plinth"))
         seq += 1
     # windows

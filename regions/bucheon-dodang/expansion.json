@@ -3,7 +3,7 @@
  "made": "2026-10-17 U8: 가장 가까운 만든 칸 8930e0ac613ffff에서 역 칸까지의 H3 길목 + 역 칸의 두 바퀴 + 이웃 4개 이상인 빈틈, 지도 가장자리에서 가까운 순 그다음 역에 가까운 순 (u8-auto-expand-plan.md 6절)",
  "states": "queued -> prepped -> judged -> specced -> built -> verified -> done, 고치기 2번에도 실패면 held(2026-10-19, 전에는 3번)",
  "fps_every": 3,
- "since_fps": 10,
+ "since_fps": 11,
  "baseline": null,
  "stale": [
   "8930e0ac61bffff",
@@ -79,7 +79,17 @@
   "8930e0af567ffff",
   "8930e0ac6d7ffff",
   "8930e0af10fffff",
-  "8930e0af56bffff"
+  "8930e0af56bffff",
+  "8930e0ac6abffff",
+  "8930e0ac657ffff",
+  "8930e0ac6c3ffff",
+  "8930e0ac6cfffff",
+  "8930e0ac6dbffff",
+  "8930e0ac643ffff",
+  "8930e0ac653ffff",
+  "8930e0ac6cbffff",
+  "8930e0af333ffff",
+  "8930e0af337ffff"
  ],
  "cells": [
   {
@@ -162,9 +172,9 @@
   },
   {
    "cell": "8930e0ac65bffff",
-   "state": "specced",
-   "rounds": 0,
-   "note": "준비 2026-10-20(에이전트 하나): 1급(부천역 북부 광장·버스 정류장), 건물 167, 거리뷰 cell done 새 파노라마 238, 판단 목록 3(56·56·55), 펼친 정면 141(트레이싱 목록 15), 부천역 출구 OSM 5/5, 고도 바뀐 이웃 643·653·6cb·333·337(다시 안 지음); 판단 167(눈가림, 묶음 167장 직접, floors null 27, high 불일치 0 → override 0), 트레이싱 펼친 정면 141장 전부 봄: 답 16·통과 13·약함 3·못 씀 123·빈 땅 2, 벽 색 13; 시설 5(북부 마루광장 pxpark 85, 푸르지오시티 161, 더원루미에르 152, 나린카운티 153, 굿모닝타워 104), 지붕 hand 19"
+   "state": "done",
+   "rounds": 1,
+   "note": "준비 2026-10-20(에이전트 하나): 1급(부천역 북부 광장·버스 정류장), 건물 167, 거리뷰 cell done 새 파노라마 238, 판단 목록 3(56·56·55), 펼친 정면 141(트레이싱 목록 15), 부천역 출구 OSM 5/5, 고도 바뀐 이웃 643·653·6cb·333·337(다시 안 지음); 판단 167(눈가림, 묶음 167장 직접, floors null 27, high 불일치 0 → override 0), 트레이싱 펼친 정면 141장 전부 봄: 답 16·통과 13·약함 3·못 씀 123·빈 땅 2, 벽 색 13; 시설 5(북부 마루광장 pxpark 85, 푸르지오시티 161, 더원루미에르 152, 나린카운티 153, 굿모닝타워 104), 지붕 hand 19; 생성·게이트 2026-10-20: G1 계산 허용 seam 1(643 옛 폭), 고치기 1(광장 섬 47→28 px, 지하도상가 입구 ground_use house, 기단 #pl lip box_clear 규칙+테스트 884, G5 49→46), studio 허용 1(gis:11154046 기운 차도 착시, 평면 0.00 m²), G2 major 0, trace PASS, summary PASS, FPS 건너뜀"
   },
   {
    "cell": "8930e0af323ffff",

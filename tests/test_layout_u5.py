@@ -1215,6 +1215,18 @@ def test_podium_eyebrow_stops_at_the_carriageway():
             assert pe and all(_out(b, it, tail(it)[3]) == pytest.approx(D["skin_out"] + min(D["eyebrow_d"], reach), abs=0.06) for it in pe)
 
 
+def test_plinth_lip_stops_at_the_carriageway():
+    """65b (U8 G1 Studio, 2026-10-20): a villa plinth's 0.05 m lip stood over the service lane its wall was clipped to."""
+    row, est, _ = villa(w=10.0, d=8.0)
+    detail = {"finish": "paint", "ground_use": "house", "stair": "none", "bay": 0, "balcony": 0, "roof_color": "dark", "rooftop": "none"}
+    body, eff = resolve(row, est, detail, features=[street()])
+    for gap, want in ((0.0, 0.0), (0.02, 0.04), (5.0, D["band_lip"])):
+        b = dataclasses.replace(body, box_clear=(gap,) * len(body.boxes))
+        pl = [it for it in all_items(b, row, eff)[0] if tail(it) == "pl0"]
+        assert len(pl) == 1
+        assert pl[0].sx == pytest.approx((b.boxes[0].width_m + want) * FRAME.studs_per_m, abs=0.01)
+
+
 def test_an_open_canopy_over_pumps_or_chargers_is_columns_and_a_roof():
     assert LD.canopy_kind({}, "gas station canopy over pumps, white and teal") == "fuel"
     assert LD.canopy_kind({}, "EV charging canopy, white columns and flat roof over chargers") == "ev"

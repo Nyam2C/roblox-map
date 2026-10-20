@@ -80,7 +80,7 @@
      1295
     ],
     [
-     40,
+     28,
      0
     ]
    ],
@@ -91,7 +91,7 @@
     74
    ],
    "material": "Grass",
-   "note": "grass island in the middle of the roundabout north of the plaza (~19 m across, kept inside the inner curb)"
+   "note": "grass island in the middle of the roundabout north of the plaza, kept well inside the drawn ring road (~13 m across; 2026-10-20 fix 1: 19 m overlapped the ring lane by 14 m2)"
   },
   {
    "kind": "pergola",

@@ -942,9 +942,9 @@
       "bay": 0,
       "building_id": "gis:11196137",
       "finish": "glass",
-      "ground_use": "shop",
-      "judged_at": "2026-10-20T10:08:37+00:00",
-      "note": "low glass entrance structure on a wooden plaza among street food stalls with red umbrellas",
+      "ground_use": "house",
+      "judged_at": "2026-10-20T10:32:27+00:00",
+      "note": "low glass entrance hut of the underground arcade on the wooden plaza; no shop sign band (fix 1: its band sign hung over the service lane)",
       "roof_color": "dark",
       "rooftop": "none",
       "stair": "none"
