@@ -1362,6 +1362,25 @@
    "reason": "landmarks: park:way490252542, place_of_worship:way886151502, place_of_worship:심곡성당",
    "tier": 1
   },
+  "8930e0af337ffff": {
+   "counts": {
+    "landmarks": [
+     "park:way486823903",
+     "park:way886151503",
+     "university:부천대학교"
+    ],
+    "pois": 6,
+    "share": {
+     "commercial": 0.175,
+     "industrial": 0.0,
+     "residential": 0.075,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: park:way486823903, park:way886151503, university:부천대학교",
+   "tier": 1
+  },
   "8930e0af547ffff": {
    "counts": {
     "landmarks": [
