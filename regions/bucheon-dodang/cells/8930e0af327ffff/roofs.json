@@ -149,5 +149,19 @@
 "gis:18171089": "rtop_blue",
 "gis:18431022": "rtop_teal",
 "gis:18452556": "rtop_dark"
+},
+"hand": {
+"gis:11330086": "rtop_light",
+"gis:11185301": "rtop_light",
+"gis:11214458": "rtop_dark",
+"gis:11181661": "rtop_light",
+"gis:11176871": "rtop_light",
+"gis:12397988": "rtop_gray",
+"gis:11999494": "rtop_gray",
+"gis:11330698": "rtop_light",
+"gis:11186104": "rtop_dark",
+"gis:12397126": "rtop_green",
+"gis:11177084": "rtop_light",
+"gis:11953109": "rtop_gray"
 }
 }

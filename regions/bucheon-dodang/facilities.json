@@ -29229,6 +29229,628 @@
     "data/satellite/8930e0af323ffff-z19.jpg"
    ],
    "seen": "Street view: ten floors of green glass ribbon windows with gray bands, rounded corner, sign-covered lower floors."
+  },
+  {
+   "key": "centum_city_327",
+   "cell": "8930e0af327ffff",
+   "building_ids": [
+    "gis:11181661",
+    "gis:16191890"
+   ],
+   "build": [
+    "gis:11181661"
+   ],
+   "claims": [
+    "gis:16191890"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 21,
+   "height_m": 72.8,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     226,
+     228,
+     230
+    ]
+   },
+   "base": {
+    "floors": 4,
+    "material": "Glass",
+    "rgb": [
+     70,
+     78,
+     86
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.6,
+    "h_m": 1.4,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     84,
+     104,
+     120
+    ],
+    "frame_rgb": [
+     220,
+     222,
+     224
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      62,
+      60,
+      58
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "all",
+     "at": 0.0,
+     "width_m": 50.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      44,
+      50,
+      56
+     ]
+    }
+   ],
+   "towers": {
+    "podium_floors": 4,
+    "count": 2,
+    "size_m": 20,
+    "gap_m": 8,
+    "podium_wall": {
+     "material": "Slate",
+     "rgb": [
+      64,
+      66,
+      70
+     ]
+    }
+   },
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 5.0,
+    "canopy": false,
+    "canopy_rgb": [
+     60,
+     62,
+     66
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     226,
+     228,
+     230
+    ],
+    "top_rgb": [
+     196,
+     198,
+     196
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "New mixed-use block (register 21 floors, 72.8 m, 2349 m2; gis:16191890 duplicate outline, claimed). Four-floor podium of dark gray glass curtain wall with dark granite bands and a stone-pattern band, shops all round the ground floor; white residential towers above. Satellite: two tower masses with roof gardens on the podium. Front S: best crop faces north. Name not written.",
+   "sources": [
+    "captures/8930e0af327ffff/sheets/gis_11181661.jpg",
+    "data/satellite/8930e0af327ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+센텀시티+심곡동 (viewed only, interiors only)"
+   ],
+   "seen": "Street view: dark glass and granite four-floor shop podium with white towers above."
+  },
+  {
+   "key": "jamzone_plaza_327",
+   "cell": "8930e0af327ffff",
+   "building_ids": [
+    "gis:11953109",
+    "gis:15883442"
+   ],
+   "build": [
+    "gis:11953109"
+   ],
+   "claims": [
+    "gis:15883442"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 18,
+   "height_m": 87.0,
+   "wall": {
+    "material": "Limestone",
+    "rgb": [
+     196,
+     190,
+     178
+    ]
+   },
+   "base": {
+    "floors": 2,
+    "material": "Glass",
+    "rgb": [
+     60,
+     70,
+     74
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.2,
+    "h_m": 1.4,
+    "pitch_m": 1.8,
+    "glass_rgb": [
+     120,
+     140,
+     150
+    ],
+    "frame_rgb": [
+     180,
+     176,
+     168
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": -0.3,
+     "width_m": 1.5,
+     "from_floor": 2,
+     "to_floor": 17,
+     "rgb": [
+      96,
+      160,
+      170
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.05,
+     "width_m": 1.5,
+     "from_floor": 2,
+     "to_floor": 17,
+     "rgb": [
+      96,
+      160,
+      170
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.2,
+     "width_m": 1.5,
+     "from_floor": 2,
+     "to_floor": 17,
+     "rgb": [
+      96,
+      160,
+      170
+     ]
+    },
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 2,
+     "to_floor": 2,
+     "rgb": [
+      190,
+      60,
+      60
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     62,
+     66
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     196,
+     190,
+     178
+    ],
+    "top_rgb": [
+     150,
+     146,
+     140
+    ],
+    "features": [
+     "crown"
+    ],
+    "crown": {
+     "height_m": 4.0,
+     "rgb": [
+      64,
+      60,
+      120
+     ]
+    }
+   },
+   "notes": "Commercial tower by the station (register 18 floors, 87 m; gis:15883442 duplicate, claimed). Beige stone tower with three slim teal glass vertical strips on the main face, sign-covered lower floors (cinema, games, restaurants), a navy blue cap at the top corner block. Front S: best crop faces north. Name not written.",
+   "sources": [
+    "captures/8930e0af327ffff/sheets/gis_11953109.jpg",
+    "data/satellite/8930e0af327ffff-z19.jpg",
+    "https://m.search.naver.com/search.naver?where=m_image&query=부천+잼존프라자 (viewed only)"
+   ],
+   "seen": "Street view and web photos: tall beige stone tower with teal glass strips and a navy crown, lower floors covered with signs."
+  },
+  {
+   "key": "the_mark_327",
+   "cell": "8930e0af327ffff",
+   "building_ids": [
+    "gis:11330086",
+    "gis:16367172"
+   ],
+   "build": [
+    "gis:11330086"
+   ],
+   "claims": [
+    "gis:16367172"
+   ],
+   "front": "S",
+   "road_clear_m": 1.0,
+   "floors": 19,
+   "height_m": 62.3,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     232,
+     232,
+     230
+    ]
+   },
+   "base": {
+    "floors": 3,
+    "material": "Slate",
+    "rgb": [
+     56,
+     58,
+     62
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.3,
+    "pitch_m": 2.6,
+    "glass_rgb": [
+     90,
+     106,
+     118
+    ],
+    "frame_rgb": [
+     226,
+     226,
+     224
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 1,
+     "rgb": [
+      50,
+      58,
+      64
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "back",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     56,
+     58,
+     62
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     232,
+     232,
+     230
+    ],
+    "top_rgb": [
+     210,
+     210,
+     206
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Residential officetel tower (register 19 floors, 62.3 m; gis:16367172 duplicate, claimed). White upper floors with small balconies and AC racks, three-floor dark polished granite podium with glass shopfronts and a tall white-lined car park entrance on the north side. Front S: best crop faces north. Name not written.",
+   "sources": [
+    "captures/8930e0af327ffff/sheets/gis_11330086.jpg"
+   ],
+   "seen": "Street view: white tower over a dark granite podium with a car ramp portal and a red restaurant front."
+  },
+  {
+   "key": "taegang_castle_327",
+   "cell": "8930e0af327ffff",
+   "building_ids": [
+    "gis:11177084",
+    "gis:18443199"
+   ],
+   "build": [
+    "gis:11177084"
+   ],
+   "claims": [
+    "gis:18443199"
+   ],
+   "front": "N",
+   "road_clear_m": 1.0,
+   "floors": 17,
+   "height_m": 58.7,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     234,
+     234,
+     232
+    ]
+   },
+   "base": {
+    "floors": 5,
+    "material": "Limestone",
+    "rgb": [
+     150,
+     152,
+     156
+    ]
+   },
+   "windows": {
+    "type": "grid",
+    "w_m": 1.4,
+    "h_m": 1.3,
+    "pitch_m": 2.4,
+    "glass_rgb": [
+     96,
+     112,
+     124
+    ],
+    "frame_rgb": [
+     226,
+     226,
+     224
+    ]
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "street",
+     "from_floor": 1,
+     "to_floor": 1,
+     "rgb": [
+      40,
+      60,
+      120
+     ]
+    },
+    {
+     "kind": "glass_strip",
+     "face": "street",
+     "at": 0.0,
+     "width_m": 30.0,
+     "from_floor": 0,
+     "to_floor": 0,
+     "rgb": [
+      60,
+      70,
+      76
+     ]
+    }
+   ],
+   "towers": {
+    "podium_floors": 5,
+    "count": 1,
+    "size_m": 22,
+    "gap_m": 0,
+    "podium_wall": {
+     "material": "Limestone",
+     "rgb": [
+      150,
+      152,
+      156
+     ]
+    }
+   },
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 4.0,
+    "canopy": false,
+    "canopy_rgb": [
+     80,
+     80,
+     80
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     234,
+     234,
+     232
+    ],
+    "top_rgb": [
+     210,
+     210,
+     208
+    ],
+    "features": [
+     "stair_box"
+    ],
+    "crown": null
+   },
+   "notes": "Apartment tower on a five-floor gray stone clinic and shop podium (register 17 floors, 58.7 m; gis:18443199 duplicate, claimed). Podium has long window bands and stacked clinic sign bands, a navy sign band at the second floor; white tower with balconies set back above. Satellite: podium roof with a single white tower mass. Front N: best crop faces south. Name not written.",
+   "sources": [
+    "captures/8930e0af327ffff/sheets/gis_11177084.jpg",
+    "data/satellite/8930e0af327ffff-z19.jpg"
+   ],
+   "seen": "Street view: white residential tower above a gray five-floor podium covered with clinic signs."
+  },
+  {
+   "key": "cinemazone_327",
+   "cell": "8930e0af327ffff",
+   "building_ids": [
+    "gis:12397126"
+   ],
+   "build": [
+    "gis:12397126"
+   ],
+   "claims": [],
+   "front": "E",
+   "road_clear_m": 1.0,
+   "floors": 11,
+   "height_m": 45.5,
+   "wall": {
+    "material": "Concrete",
+    "rgb": [
+     214,
+     206,
+     192
+    ]
+   },
+   "base": {
+    "floors": 4,
+    "material": "Glass",
+    "rgb": [
+     70,
+     80,
+     90
+    ]
+   },
+   "windows": {
+    "type": "none"
+   },
+   "bands": null,
+   "accents": [
+    {
+     "kind": "stripe",
+     "face": "all",
+     "from_floor": 3,
+     "to_floor": 3,
+     "rgb": [
+      200,
+      50,
+      50
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": -0.15,
+     "width_m": 6.0,
+     "from_floor": 6,
+     "to_floor": 8,
+     "material": "SmoothPlastic",
+     "rgb": [
+      200,
+      194,
+      182
+     ]
+    },
+    {
+     "kind": "panel",
+     "face": "street",
+     "at": 0.15,
+     "width_m": 6.0,
+     "from_floor": 6,
+     "to_floor": 8,
+     "material": "SmoothPlastic",
+     "rgb": [
+      200,
+      194,
+      182
+     ]
+    }
+   ],
+   "entrance": {
+    "face": "street",
+    "at": 0.0,
+    "width_m": 6.0,
+    "canopy": true,
+    "canopy_rgb": [
+     60,
+     60,
+     64
+    ],
+    "steps": false
+   },
+   "sign": null,
+   "roof": {
+    "parapet_rgb": [
+     214,
+     206,
+     192
+    ],
+    "top_rgb": [
+     120,
+     130,
+     100
+    ],
+    "features": [
+     "crown"
+    ],
+    "crown": {
+     "height_m": 1.5,
+     "rgb": [
+      190,
+      60,
+      60
+     ]
+    }
+   },
+   "notes": "Cinema and games building (register 11 floors, 45.5 m, 1317 m2). Windowless beige panel box on the upper floors (cinema halls) with two recessed light panels, a red spiked parapet edge, a four-floor base of glass and stacked colourful sign bands with a red awning band at the fourth floor. Satellite: roof garden with red-leaved trees. Front E: best crop faces west. Name not written.",
+   "sources": [
+    "captures/8930e0af327ffff/sheets/gis_12397126.jpg",
+    "data/satellite/8930e0af327ffff-z19.jpg"
+   ],
+   "seen": "Street view: blank beige upper box with red spiked top, sign-covered glass lower floors with cinema entrance."
   }
  ]
 }
