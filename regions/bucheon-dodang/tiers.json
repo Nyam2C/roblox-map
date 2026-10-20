@@ -130,6 +130,21 @@
    "reason": "U8 자동 확장 큐 칸: 주거지(자동 분류 2급)이나 트레이싱·판단 대상으로 1급, 건물 236",
    "tier": 1
   },
+  "8930e0ac64bffff": {
+   "counts": {
+    "landmarks": [],
+    "pois": 0,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.116,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": true,
+   "reason": "U8 자동 확장 큐 칸: 자동 분류 2급(주거)이나 대표 시설 상시·트레이싱·판단 대상으로 1급, 건물 124",
+   "tier": 1
+  },
   "8930e0ac653ffff": {
    "counts": {
     "landmarks": [
