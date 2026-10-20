@@ -1791,12 +1791,12 @@
     },
     {
       "balcony": 0,
-      "bay": 1,
+      "bay": 0,
       "building_id": "gis:11216422",
       "finish": "brick",
       "ground_use": "shop",
-      "judged_at": "2026-10-20T11:22:37+00:00",
-      "note": "dark brick three floor building with projecting box windows, granite ground floor with rolling shutters",
+      "judged_at": "2026-10-20T12:03:25+00:00",
+      "note": "dark brick three floor building with box windows over a granite shop floor; box windows come from the traced facade, no rule bay over the alley",
       "roof_color": "dark",
       "rooftop": "none",
       "stair": "none"
