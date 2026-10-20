@@ -164,6 +164,24 @@
    "reason": "landmarks: school:원미초등학교",
    "tier": 1
   },
+  "8930e0ac65bffff": {
+   "counts": {
+    "landmarks": [
+     "bus_station:소신여객 부천역북부",
+     "park:부천역 만남의 광장"
+    ],
+    "pois": 24,
+    "share": {
+     "commercial": 0.0,
+     "industrial": 0.141,
+     "residential": 0.0,
+     "rural": 0.0
+    }
+   },
+   "manual": false,
+   "reason": "landmarks: bus_station:소신여객 부천역북부, park:부천역 만남의 광장",
+   "tier": 1
+  },
   "8930e0ac683ffff": {
    "counts": {
     "landmarks": [],
